@@ -1,103 +1,145 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Shayan Smart Tools</title>
+  <title>Shayan Smart Tools - Image Compressor</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<style>
-body {
-    margin: 0;
-    padding: 5px 0;   /* Upar ka space kam */
-    font-family: 'Segoe UI', sans-serif;
-    background: linear-gradient(to bottom, #e6f2ff, #cce6ff);
-    text-align: center;
-}
+  <style>
+    body{
+      font-family: Arial;
+      background:#f4f6f9;
+      text-align:center;
+      margin:0;
+      padding:0;
+    }
 
-/* Logo */
-.logo {
-    margin-top: 0px;   /* Almost top */
-    margin-bottom: 15px;
-}
+    .container{
+      max-width:400px;
+      margin:40px auto;
+      background:white;
+      padding:20px;
+      border-radius:12px;
+      box-shadow:0 0 15px rgba(0,0,0,0.1);
+    }
 
-.logo img {
-    width: 120px;
-}
+    h1{
+      margin-bottom:20px;
+      font-size:22px;
+    }
 
-/* 3D Stylish Name */
-h1 {
-    font-size: 38px;
-    margin: 0 0 15px;
-    font-weight: 900;
-    letter-spacing: 2px;
-    color: #0a3d62;
+    input{
+      width:100%;
+      padding:10px;
+      margin:10px 0;
+      border-radius:8px;
+      border:1px solid #ccc;
+    }
 
-    text-shadow:
-        1px 1px 0 #08324f,
-        2px 2px 0 #072a42,
-        3px 3px 0 #061f33,
-        4px 4px 6px rgba(0,0,0,0.25);
-}
+    button{
+      width:100%;
+      padding:12px;
+      border:none;
+      border-radius:8px;
+      background:#007bff;
+      color:white;
+      font-size:16px;
+      cursor:pointer;
+      margin-top:10px;
+    }
 
-/* Tagline */
-.tagline {
-    color: #555;
-    margin-bottom: 30px;
-    font-size: 16px;
-}
+    button:hover{
+      opacity:0.9;
+    }
 
-/* Solid Blue Button */
-.tool-btn {
-    display: block;
-    width: 85%;
-    max-width: 420px;
-    margin: 14px auto;
-    padding: 16px;
-    font-size: 18px;
-    font-weight: 600;
-    border-radius: 15px;
-    text-decoration: none;
-    color: white;
-    background: #007bff;
-    box-shadow: 0 6px 15px rgba(0,0,0,0.2);
-    transition: all 0.3s ease;
-}
+    #downloadBtn{
+      display:none;
+      background:green;
+    }
 
-.tool-btn:hover {
-    transform: translateY(-3px);
-    background: #0056b3;
-}
+    #msg{
+      margin-top:15px;
+      font-weight:bold;
+    }
 
-footer {
-    margin-top: 35px;
-    padding: 15px;
-    font-size: 14px;
-    color: #333;
-}
-</style>
-
+    img{
+      max-width:100%;
+      margin-top:15px;
+      border-radius:8px;
+    }
+  </style>
 </head>
+
 <body>
 
-<div class="logo">
-    <img src="logo.png" alt="Logo">
+<div class="container">
+  <h1>Shayan Smart Tools</h1>
+
+  <input type="file" id="image" accept="image/*">
+
+  <input type="number" id="size" placeholder="Enter target size (KB)">
+
+  <button onclick="compress()">Compress Image</button>
+
+  <button id="downloadBtn" onclick="downloadImage()">Download Image</button>
+
+  <p id="msg"></p>
+
+  <img id="preview">
 </div>
 
-<h1>Shayan Smart Tools</h1>
-<p class="tagline">Free Online Calculators & Financial Utilities</p>
+<script>
+const backend = "https://shayan-smart-tools-backend.onrender.com";
 
-<a href="age.html" class="tool-btn">Age Calculator</a>
-<a href="emi.html" class="tool-btn">EMI Calculator</a>
-<a href="sip.html" class="tool-btn">SIP Calculator</a>
-<a href="gst.html" class="tool-btn">GST Calculator</a>
-<a href="bmi.html" class="tool-btn">BMI Calculator</a>
-<a href="percentage.html" class="tool-btn">Percentage Calculator</a>
-<a href="discount.html" class="tool-btn">Discount Calculator</a>
-<a href="currency.html" class="tool-btn">Currency Converter</a>
+let blobData;
 
-<footer>
-    © 2026 Shayan Smart Tools | All Rights Reserved
-</footer>
+// preview image
+document.getElementById("image").addEventListener("change", function(e){
+  const file = e.target.files[0];
+  if(file){
+    document.getElementById("preview").src = URL.createObjectURL(file);
+  }
+});
+
+async function compress(){
+
+  const file = document.getElementById("image").files[0];
+  const size = document.getElementById("size").value;
+
+  if(!file || !size){
+    alert("Select image and enter size");
+    return;
+  }
+
+  document.getElementById("msg").innerText="Processing... ⏳";
+  document.getElementById("downloadBtn").style.display="none";
+
+  const formData = new FormData();
+  formData.append("image", file);
+  formData.append("targetSize", size);
+
+  try{
+    const response = await fetch(backend + "/compress",{
+      method:"POST",
+      body:formData
+    });
+
+    blobData = await response.blob();
+
+    document.getElementById("msg").innerText="✅ Compression Done!";
+    document.getElementById("downloadBtn").style.display="block";
+
+  }catch(error){
+    document.getElementById("msg").innerText="❌ Server Error";
+  }
+}
+
+function downloadImage(){
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(blobData);
+  a.download = "compressed.jpg";
+  a.click();
+}
+</script>
 
 </body>
 </html>
