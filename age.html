@@ -3,7 +3,6 @@
 <head>
   <title>Advanced Age Calculator</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
 
   <style>
@@ -58,7 +57,7 @@
     .result{
       margin-top:10px;
       font-size:14px;
-      line-height:1.6;
+      line-height:1.8;
     }
 
     .back{
@@ -77,7 +76,8 @@
 <div class="card">
   <h2>Advanced Age Calculator</h2>
 
-  <input type="datetime-local" id="dob">
+  <!-- Only Date -->
+  <input type="date" id="dob">
   <button onclick="startAge()">Calculate Age</button>
 
   <div id="result" class="result"></div>
@@ -91,11 +91,11 @@ let interval;
 function startAge(){
   let dobValue = document.getElementById("dob").value;
   if(!dobValue){
-    alert("Please select your birth date & time");
+    alert("Please select your date of birth");
     return;
   }
 
-  let dob = new Date(dobValue);
+  let dob = new Date(dobValue + "T00:00:00");
 
   clearInterval(interval);
 
@@ -103,32 +103,35 @@ function startAge(){
     let now = new Date();
     let diff = now - dob;
 
-    let seconds = Math.floor(diff / 1000);
-    let minutes = Math.floor(seconds / 60);
-    let hours = Math.floor(minutes / 60);
-    let days = Math.floor(hours / 24);
-    let years = Math.floor(days / 365.25);
+    let totalSeconds = Math.floor(diff / 1000);
 
-    let remainingDays = days % 365;
-    let months = Math.floor(remainingDays / 30);
-    let finalDays = remainingDays % 30;
+    let years = Math.floor(totalSeconds / (365.25*24*60*60));
+    totalSeconds -= years * 365.25*24*60*60;
 
-    let finalHours = hours % 24;
-    let finalMinutes = minutes % 60;
-    let finalSeconds = seconds % 60;
+    let months = Math.floor(totalSeconds / (30*24*60*60));
+    totalSeconds -= months * 30*24*60*60;
+
+    let days = Math.floor(totalSeconds / (24*60*60));
+    totalSeconds -= days * 24*60*60;
+
+    let hours = Math.floor(totalSeconds / (60*60));
+    totalSeconds -= hours * 60*60;
+
+    let minutes = Math.floor(totalSeconds / 60);
+    let seconds = totalSeconds % 60;
 
     document.getElementById("result").innerHTML =
       "🎉 <b>Your Exact Age:</b><br><br>" +
       years + " Years<br>" +
       months + " Months<br>" +
-      finalDays + " Days<br>" +
-      finalHours + " Hours<br>" +
-      finalMinutes + " Minutes<br>" +
-      finalSeconds + " Seconds";
+      days + " Days<br>" +
+      hours + " Hours<br>" +
+      minutes + " Minutes<br>" +
+      seconds + " Seconds";
   }
 
   updateAge();
-  interval = setInterval(updateAge, 1000);
+  interval = setInterval(updateAge,1000);
 }
 </script>
 
