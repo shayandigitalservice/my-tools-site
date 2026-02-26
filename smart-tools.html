@@ -1,76 +1,121 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Shayan Smart Tools</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <style>
-        body{
-            font-family: Arial;
-            background:#0f172a;
-            color:white;
-            text-align:center;
-            padding:20px;
-        }
-        h1{
-            margin-bottom:20px;
-        }
-        .box{
-            background:#1e293b;
-            padding:20px;
-            border-radius:10px;
-            margin-bottom:20px;
-        }
-        input,select,button{
-            padding:10px;
-            margin:10px;
-            width:90%;
-            border-radius:5px;
-            border:none;
-        }
-        button{
-            background:#22c55e;
-            color:white;
-            font-weight:bold;
-        }
-    </style>
+<title>Shayan Smart Tools</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+body{
+  font-family: Arial;
+  background:#0f172a;
+  color:white;
+  text-align:center;
+  padding:20px;
+}
+h1{margin-bottom:20px;}
+.box{
+  background:#1e293b;
+  padding:20px;
+  border-radius:10px;
+  margin-bottom:20px;
+}
+input,button{
+  padding:10px;
+  margin:10px;
+  width:90%;
+  border-radius:5px;
+  border:none;
+}
+button{
+  background:#3b82f6;
+  color:white;
+  font-weight:bold;
+}
+</style>
 </head>
 <body>
 
 <h1>🛠 Shayan Smart Tools</h1>
 
+<!-- COMPRESS -->
 <div class="box">
-    <h3>📸 Image Compress</h3>
-    <input type="file" id="imageInput">
-    <button onclick="uploadImage()">Compress Image</button>
+<h3>📦 Exact Size Image Compress</h3>
+<input type="file" id="compressImage">
+<input type="number" id="targetSize" placeholder="Enter size in KB (Example 200)">
+<button onclick="compressImage()">Compress</button>
+</div>
+
+<!-- RESIZE -->
+<div class="box">
+<h3>📐 Image Resize</h3>
+<input type="file" id="resizeImage">
+<input type="number" id="width" placeholder="Width (px)">
+<input type="number" id="height" placeholder="Height (px)">
+<button onclick="resizeImage()">Resize</button>
 </div>
 
 <script>
-function uploadImage(){
-    const file = document.getElementById("imageInput").files[0];
-    if(!file){
-        alert("Select image first");
-        return;
-    }
 
-    const formData = new FormData();
-    formData.append("image", file);
+const backendURL = "https://shayan-smart-tools-backend.onrender.com";
 
-    fetch("https://shayan-smart-tools-backend.onrender.com/compress", {
-        method:"POST",
-        body:formData
-    })
-    .then(res=>res.blob())
-    .then(blob=>{
-        const url = window.URL.createObjectURL(blob);
-        const a = document.createElement("a");
-        a.href = url;
-        a.download = "compressed.jpg";
-        a.click();
-    })
-    .catch(err=>{
-        alert("Error connecting server");
-    });
+/* COMPRESS */
+async function compressImage(){
+  const file = document.getElementById("compressImage").files[0];
+  const size = document.getElementById("targetSize").value;
+
+  if(!file || !size){
+    alert("Select image and enter size");
+    return;
+  }
+
+  const formData = new FormData();
+  formData.append("image", file);
+  formData.append("targetSize", size);
+
+  const response = await fetch(backendURL + "/compress", {
+    method:"POST",
+    body:formData
+  });
+
+  const blob = await response.blob();
+  downloadFile(blob, "compressed.jpg");
 }
+
+/* RESIZE */
+async function resizeImage(){
+  const file = document.getElementById("resizeImage").files[0];
+  const width = document.getElementById("width").value;
+  const height = document.getElementById("height").value;
+
+  if(!file || !width || !height){
+    alert("Fill all resize fields");
+    return;
+  }
+
+  const formData = new FormData();
+  formData.append("image", file);
+  formData.append("width", width);
+  formData.append("height", height);
+
+  const response = await fetch(backendURL + "/resize", {
+    method:"POST",
+    body:formData
+  });
+
+  const blob = await response.blob();
+  downloadFile(blob, "resized.jpg");
+}
+
+/* DOWNLOAD HELPER */
+function downloadFile(blob, filename){
+  const url = window.URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = filename;
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+}
+
 </script>
 
 </body>
