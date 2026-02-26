@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Image Compressor</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      font-family: Arial;
+      text-align: center;
+      background: #0f172a;
+      color: white;
+      padding: 20px;
+    }
+    .box {
+      background: #1e293b;
+      padding: 20px;
+      border-radius: 12px;
+      max-width: 400px;
+      margin: auto;
+    }
+    input, button {
+      width: 100%;
+      padding: 12px;
+      margin: 10px 0;
+      border-radius: 8px;
+      border: none;
+    }
+    button {
+      background: #22c55e;
+      color: white;
+      font-weight: bold;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+
+<h2>Image Compressor 🚀</h2>
+
+<div class="box">
+  <input type="file" id="imageInput" accept="image/*">
+
+  <label>Quality (10 - 100)</label>
+  <input type="number" id="quality" value="70" min="10" max="100">
+
+  <button onclick="compressImage()">Compress Image</button>
+
+  <a id="downloadLink" style="display:none;">
+    <button>Download Image</button>
+  </a>
+</div>
+
+<script>
+function compressImage() {
+  const fileInput = document.getElementById("imageInput");
+  const quality = document.getElementById("quality").value / 100;
+
+  if (!fileInput.files[0]) {
+    alert("Please select an image first.");
+    return;
+  }
+
+  const reader = new FileReader();
+  reader.readAsDataURL(fileInput.files[0]);
+
+  reader.onload = function(event) {
+    const img = new Image();
+    img.src = event.target.result;
+
+    img.onload = function() {
+      const canvas = document.createElement("canvas");
+      const ctx = canvas.getContext("2d");
+
+      canvas.width = img.width;
+      canvas.height = img.height;
+
+      ctx.drawImage(img, 0, 0);
+
+      canvas.toBlob(function(blob) {
+        const link = document.getElementById("downloadLink");
+        link.href = URL.createObjectURL(blob);
+        link.download = "compressed.jpg";
+        link.style.display = "block";
+      }, "image/jpeg", quality);
+    };
+  };
+}
+</script>
+
+</body>
+</html>
