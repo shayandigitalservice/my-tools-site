@@ -3,48 +3,112 @@
 <head>
   <title>Age Calculator</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+
   <style>
+    *{
+      margin:0;
+      padding:0;
+      box-sizing:border-box;
+      font-family:'Poppins',sans-serif;
+    }
+
     body{
-      font-family:Arial;
-      text-align:center;
+      height:100vh;
+      display:flex;
+      justify-content:center;
+      align-items:center;
       background:linear-gradient(135deg,#667eea,#764ba2);
+    }
+
+    .card{
+      background:rgba(255,255,255,0.15);
+      backdrop-filter:blur(15px);
+      padding:30px;
+      border-radius:20px;
+      width:90%;
+      max-width:350px;
+      text-align:center;
       color:white;
-      padding:20px;
+      box-shadow:0 8px 25px rgba(0,0,0,0.3);
     }
-    .box{
-      background:white;
-      color:black;
-      padding:20px;
-      border-radius:10px;
-      max-width:300px;
-      margin:auto;
+
+    h2{
+      margin-bottom:20px;
+      font-weight:600;
     }
-    input,button{
-      padding:10px;
-      margin:10px 0;
+
+    input{
       width:100%;
-    }
-    button{
-      background:#667eea;
-      color:white;
+      padding:12px;
+      border-radius:10px;
       border:none;
-      cursor:pointer;
+      margin-bottom:15px;
+      font-size:14px;
     }
+
+    button{
+      width:100%;
+      padding:12px;
+      border-radius:10px;
+      border:none;
+      background:#ffd369;
+      font-weight:600;
+      cursor:pointer;
+      transition:0.3s;
+    }
+
+    button:hover{
+      transform:scale(1.05);
+      background:#ffb703;
+    }
+
+    .result{
+      margin-top:20px;
+      font-size:16px;
+      font-weight:600;
+      opacity:0;
+      transition:0.4s;
+    }
+
+    .show{
+      opacity:1;
+    }
+
+    .back{
+      display:block;
+      margin-top:20px;
+      font-size:13px;
+      color:#fff;
+      text-decoration:none;
+      opacity:0.8;
+    }
+
   </style>
 </head>
 <body>
 
-<h2>Age Calculator</h2>
+<div class="card">
+  <h2>Age Calculator</h2>
 
-<div class="box">
   <input type="date" id="dob">
   <button onclick="calculateAge()">Calculate Age</button>
-  <p id="result"></p>
+
+  <div id="result" class="result"></div>
+
+  <a href="index.html" class="back">⬅ Back to Home</a>
 </div>
 
 <script>
 function calculateAge(){
-  let dob = new Date(document.getElementById("dob").value);
+  let dobValue = document.getElementById("dob").value;
+  if(!dobValue){
+    alert("Please select your date of birth");
+    return;
+  }
+
+  let dob = new Date(dobValue);
   let today = new Date();
 
   let age = today.getFullYear() - dob.getFullYear();
@@ -54,7 +118,9 @@ function calculateAge(){
     age--;
   }
 
-  document.getElementById("result").innerHTML = "Your Age is: " + age + " years";
+  let result = document.getElementById("result");
+  result.innerHTML = "🎉 Your Age is: " + age + " years";
+  result.classList.add("show");
 }
 </script>
 
