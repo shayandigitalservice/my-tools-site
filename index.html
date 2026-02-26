@@ -1,102 +1,119 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Free Age Calculator Online</title>
+  <title>My Tools Site - Free Online Calculators</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Free online tools like Age Calculator and EMI Calculator. Simple and fast tools.">
+  
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      background: linear-gradient(135deg, #36d1dc, #5b86e5);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
 
-<style>
-body {
-    font-family: Arial, sans-serif;
-    background: linear-gradient(135deg, #4facfe, #00f2fe);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    margin: 0;
-}
+    .container {
+      background: white;
+      padding: 25px;
+      border-radius: 15px;
+      width: 340px;
+      text-align: center;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+    }
 
-.container {
-    background: white;
-    padding: 30px;
-    border-radius: 15px;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.2);
-    text-align: center;
-    width: 320px;
-}
+    h1 {
+      margin-bottom: 15px;
+    }
 
-h1 {
-    margin-bottom: 20px;
-}
+    input {
+      width: 90%;
+      padding: 8px;
+      margin: 8px 0;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+    }
 
-input {
-    padding: 10px;
-    width: 100%;
-    margin-bottom: 15px;
-    border-radius: 8px;
-    border: 1px solid #ccc;
-}
+    button {
+      width: 95%;
+      padding: 10px;
+      background: #36d1dc;
+      border: none;
+      border-radius: 10px;
+      color: white;
+      font-size: 16px;
+      cursor: pointer;
+    }
 
-button {
-    padding: 10px 20px;
-    border: none;
-    border-radius: 8px;
-    background: #4facfe;
-    color: white;
-    font-weight: bold;
-    cursor: pointer;
-    width: 100%;
-}
+    button:hover {
+      background: #2ab7c2;
+    }
 
-button:hover {
-    background: #00c6ff;
-}
+    #result {
+      margin-top: 15px;
+      font-weight: bold;
+    }
 
-.result {
-    margin-top: 15px;
-    font-weight: bold;
-    font-size: 18px;
-}
-</style>
+    .links {
+      margin-top: 20px;
+    }
 
+    .links a {
+      display: block;
+      margin: 8px 0;
+      text-decoration: none;
+      color: #5b86e5;
+      font-weight: bold;
+    }
+
+  </style>
 </head>
 <body>
 
 <div class="container">
-    <h1>Age Calculator</h1>
-    <input type="date" id="birthdate">
-    <button onclick="calculateAge()">Calculate Age</button>
-    <div class="result" id="result"></div>
+  <h1>Age Calculator</h1>
+
+  <input type="date" id="dob">
+  <button onclick="calculateAge()">Calculate Age</button>
+
+  <div id="result"></div>
+
+  <div class="links">
+    <h3>More Tools</h3>
+    <a href="emi.html">EMI Calculator</a>
+  </div>
 </div>
 
 <script>
 function calculateAge() {
-    let birthdate = document.getElementById("birthdate").value;
+  let dob = document.getElementById("dob").value;
+  if (!dob) {
+    document.getElementById("result").innerHTML = "Please select date";
+    return;
+  }
 
-    if (!birthdate) {
-        document.getElementById("result").innerHTML = "Please select your birth date!";
-        return;
-    }
+  let birthDate = new Date(dob);
+  let today = new Date();
 
-    let birthDateObj = new Date(birthdate);
-    let today = new Date();
+  let years = today.getFullYear() - birthDate.getFullYear();
+  let months = today.getMonth() - birthDate.getMonth();
+  let days = today.getDate() - birthDate.getDate();
 
-    let years = today.getFullYear() - birthDateObj.getFullYear();
-    let months = today.getMonth() - birthDateObj.getMonth();
-    let days = today.getDate() - birthDateObj.getDate();
+  if (days < 0) {
+    months--;
+    days += 30;
+  }
 
-    if (days < 0) {
-        months--;
-        days += new Date(today.getFullYear(), today.getMonth(), 0).getDate();
-    }
+  if (months < 0) {
+    years--;
+    months += 12;
+  }
 
-    if (months < 0) {
-        years--;
-        months += 12;
-    }
-
-    document.getElementById("result").innerHTML =
-        "Your Age is: " + years + " Years, " + months + " Months, " + days + " Days";
+  document.getElementById("result").innerHTML =
+    "Your Age is: " + years + " Years, " + months + " Months, " + days + " Days";
 }
 </script>
 
