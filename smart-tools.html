@@ -1,1 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Shayan Smart Tools</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body{
+            font-family: Arial;
+            background:#0f172a;
+            color:white;
+            text-align:center;
+            padding:20px;
+        }
+        h1{
+            margin-bottom:20px;
+        }
+        .box{
+            background:#1e293b;
+            padding:20px;
+            border-radius:10px;
+            margin-bottom:20px;
+        }
+        input,select,button{
+            padding:10px;
+            margin:10px;
+            width:90%;
+            border-radius:5px;
+            border:none;
+        }
+        button{
+            background:#22c55e;
+            color:white;
+            font-weight:bold;
+        }
+    </style>
+</head>
+<body>
 
+<h1>🛠 Shayan Smart Tools</h1>
+
+<div class="box">
+    <h3>📸 Image Compress</h3>
+    <input type="file" id="imageInput">
+    <button onclick="uploadImage()">Compress Image</button>
+</div>
+
+<script>
+function uploadImage(){
+    const file = document.getElementById("imageInput").files[0];
+    if(!file){
+        alert("Select image first");
+        return;
+    }
+
+    const formData = new FormData();
+    formData.append("image", file);
+
+    fetch("https://shayan-smart-tools-backend.onrender.com/compress", {
+        method:"POST",
+        body:formData
+    })
+    .then(res=>res.blob())
+    .then(blob=>{
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = "compressed.jpg";
+        a.click();
+    })
+    .catch(err=>{
+        alert("Error connecting server");
+    });
+}
+</script>
+
+</body>
+</html>
