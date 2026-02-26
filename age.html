@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Age Calculator</title>
+  <title>Advanced Age Calculator</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
@@ -25,19 +25,16 @@
     .card{
       background:rgba(255,255,255,0.15);
       backdrop-filter:blur(15px);
-      padding:30px;
+      padding:25px;
       border-radius:20px;
-      width:90%;
-      max-width:350px;
+      width:95%;
+      max-width:380px;
       text-align:center;
       color:white;
       box-shadow:0 8px 25px rgba(0,0,0,0.3);
     }
 
-    h2{
-      margin-bottom:20px;
-      font-weight:600;
-    }
+    h2{ margin-bottom:15px; }
 
     input{
       width:100%;
@@ -45,7 +42,6 @@
       border-radius:10px;
       border:none;
       margin-bottom:15px;
-      font-size:14px;
     }
 
     button{
@@ -53,34 +49,23 @@
       padding:12px;
       border-radius:10px;
       border:none;
-      background:#ffd369;
+      background:#ffb703;
       font-weight:600;
       cursor:pointer;
-      transition:0.3s;
-    }
-
-    button:hover{
-      transform:scale(1.05);
-      background:#ffb703;
+      margin-bottom:15px;
     }
 
     .result{
-      margin-top:20px;
-      font-size:16px;
-      font-weight:600;
-      opacity:0;
-      transition:0.4s;
-    }
-
-    .show{
-      opacity:1;
+      margin-top:10px;
+      font-size:14px;
+      line-height:1.6;
     }
 
     .back{
       display:block;
-      margin-top:20px;
+      margin-top:15px;
       font-size:13px;
-      color:#fff;
+      color:white;
       text-decoration:none;
       opacity:0.8;
     }
@@ -90,10 +75,10 @@
 <body>
 
 <div class="card">
-  <h2>Age Calculator</h2>
+  <h2>Advanced Age Calculator</h2>
 
-  <input type="date" id="dob">
-  <button onclick="calculateAge()">Calculate Age</button>
+  <input type="datetime-local" id="dob">
+  <button onclick="startAge()">Calculate Age</button>
 
   <div id="result" class="result"></div>
 
@@ -101,26 +86,49 @@
 </div>
 
 <script>
-function calculateAge(){
+let interval;
+
+function startAge(){
   let dobValue = document.getElementById("dob").value;
   if(!dobValue){
-    alert("Please select your date of birth");
+    alert("Please select your birth date & time");
     return;
   }
 
   let dob = new Date(dobValue);
-  let today = new Date();
 
-  let age = today.getFullYear() - dob.getFullYear();
-  let m = today.getMonth() - dob.getMonth();
+  clearInterval(interval);
 
-  if(m < 0 || (m === 0 && today.getDate() < dob.getDate())){
-    age--;
+  function updateAge(){
+    let now = new Date();
+    let diff = now - dob;
+
+    let seconds = Math.floor(diff / 1000);
+    let minutes = Math.floor(seconds / 60);
+    let hours = Math.floor(minutes / 60);
+    let days = Math.floor(hours / 24);
+    let years = Math.floor(days / 365.25);
+
+    let remainingDays = days % 365;
+    let months = Math.floor(remainingDays / 30);
+    let finalDays = remainingDays % 30;
+
+    let finalHours = hours % 24;
+    let finalMinutes = minutes % 60;
+    let finalSeconds = seconds % 60;
+
+    document.getElementById("result").innerHTML =
+      "🎉 <b>Your Exact Age:</b><br><br>" +
+      years + " Years<br>" +
+      months + " Months<br>" +
+      finalDays + " Days<br>" +
+      finalHours + " Hours<br>" +
+      finalMinutes + " Minutes<br>" +
+      finalSeconds + " Seconds";
   }
 
-  let result = document.getElementById("result");
-  result.innerHTML = "🎉 Your Age is: " + age + " years";
-  result.classList.add("show");
+  updateAge();
+  interval = setInterval(updateAge, 1000);
 }
 </script>
 
