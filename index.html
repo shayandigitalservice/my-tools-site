@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Free Age Calculator Online</title>
+
+<style>
+body {
+    font-family: Arial, sans-serif;
+    background: linear-gradient(135deg, #4facfe, #00f2fe);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+
+.container {
+    background: white;
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+    text-align: center;
+    width: 320px;
+}
+
+h1 {
+    margin-bottom: 20px;
+}
+
+input {
+    padding: 10px;
+    width: 100%;
+    margin-bottom: 15px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+}
+
+button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 8px;
+    background: #4facfe;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    width: 100%;
+}
+
+button:hover {
+    background: #00c6ff;
+}
+
+.result {
+    margin-top: 15px;
+    font-weight: bold;
+    font-size: 18px;
+}
+</style>
+
+</head>
+<body>
+
+<div class="container">
+    <h1>Age Calculator</h1>
+    <input type="date" id="birthdate">
+    <button onclick="calculateAge()">Calculate Age</button>
+    <div class="result" id="result"></div>
+</div>
+
+<script>
+function calculateAge() {
+    let birthdate = document.getElementById("birthdate").value;
+
+    if (!birthdate) {
+        document.getElementById("result").innerHTML = "Please select your birth date!";
+        return;
+    }
+
+    let birthDateObj = new Date(birthdate);
+    let today = new Date();
+
+    let years = today.getFullYear() - birthDateObj.getFullYear();
+    let months = today.getMonth() - birthDateObj.getMonth();
+    let days = today.getDate() - birthDateObj.getDate();
+
+    if (days < 0) {
+        months--;
+        days += new Date(today.getFullYear(), today.getMonth(), 0).getDate();
+    }
+
+    if (months < 0) {
+        years--;
+        months += 12;
+    }
+
+    document.getElementById("result").innerHTML =
+        "Your Age is: " + years + " Years, " + months + " Months, " + days + " Days";
+}
+</script>
+
+</body>
+</html>
