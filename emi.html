@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>EMI Calculator</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: linear-gradient(to right, #36d1dc, #5b86e5);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+
+    .box {
+      background: white;
+      padding: 20px;
+      border-radius: 15px;
+      width: 320px;
+      text-align: center;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    }
+
+    input {
+      width: 90%;
+      padding: 8px;
+      margin: 8px 0;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+    }
+
+    button {
+      width: 95%;
+      padding: 10px;
+      background: #36d1dc;
+      border: none;
+      border-radius: 10px;
+      color: white;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: #2ab7c2;
+    }
+
+    h2 {
+      margin-bottom: 10px;
+    }
+
+    #result {
+      margin-top: 15px;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+
+<div class="box">
+  <h2>EMI Calculator</h2>
+
+  <input type="number" id="loan" placeholder="Loan Amount">
+  <input type="number" id="rate" placeholder="Interest Rate (%)">
+  <input type="number" id="months" placeholder="Loan Tenure (Months)">
+
+  <button onclick="calculateEMI()">Calculate EMI</button>
+
+  <div id="result"></div>
+</div>
+
+<script>
+function calculateEMI() {
+  let loan = document.getElementById("loan").value;
+  let rate = document.getElementById("rate").value / 12 / 100;
+  let months = document.getElementById("months").value;
+
+  let emi = (loan * rate * Math.pow(1 + rate, months)) / 
+            (Math.pow(1 + rate, months) - 1);
+
+  if (emi) {
+    document.getElementById("result").innerHTML =
+      "Monthly EMI: ₹ " + emi.toFixed(2);
+  } else {
+    document.getElementById("result").innerHTML =
+      "Please enter valid details";
+  }
+}
+</script>
+
+</body>
+</html>
