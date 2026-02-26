@@ -1,143 +1,100 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Shayan Smart Tools - Image Compressor</title>
+  <title>Shayan Smart Image Compressor</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
   <style>
-    body{
+    body {
       font-family: Arial;
-      background:#f4f6f9;
-      text-align:center;
-      margin:0;
-      padding:0;
+      text-align: center;
+      background: #0f172a;
+      color: white;
+      padding: 20px;
     }
-
-    .container{
-      max-width:400px;
-      margin:40px auto;
-      background:white;
-      padding:20px;
-      border-radius:12px;
-      box-shadow:0 0 15px rgba(0,0,0,0.1);
+    .box {
+      background: #1e293b;
+      padding: 20px;
+      border-radius: 12px;
+      max-width: 400px;
+      margin: auto;
     }
-
-    h1{
-      margin-bottom:20px;
-      font-size:22px;
+    input, button {
+      width: 100%;
+      padding: 10px;
+      margin: 10px 0;
+      border-radius: 8px;
+      border: none;
     }
-
-    input{
-      width:100%;
-      padding:10px;
-      margin:10px 0;
-      border-radius:8px;
-      border:1px solid #ccc;
+    button {
+      background: #22c55e;
+      color: white;
+      font-weight: bold;
+      cursor: pointer;
     }
-
-    button{
-      width:100%;
-      padding:12px;
-      border:none;
-      border-radius:8px;
-      background:#007bff;
-      color:white;
-      font-size:16px;
-      cursor:pointer;
-      margin-top:10px;
-    }
-
-    button:hover{
-      opacity:0.9;
-    }
-
-    #downloadBtn{
-      display:none;
-      background:green;
-    }
-
-    #msg{
-      margin-top:15px;
-      font-weight:bold;
-    }
-
-    img{
-      max-width:100%;
-      margin-top:15px;
-      border-radius:8px;
+    button:hover {
+      background: #16a34a;
     }
   </style>
 </head>
-
 <body>
 
-<div class="container">
-  <h1>Shayan Smart Tools</h1>
+  <h2>Shayan Smart Image Compressor 🚀</h2>
 
-  <input type="file" id="image" accept="image/*">
+  <div class="box">
+    <input type="file" id="imageInput" accept="image/*">
 
-  <input type="number" id="size" placeholder="Enter target size (KB)">
+    <label>Quality (10 - 100)</label>
+    <input type="number" id="quality" value="70" min="10" max="100">
 
-  <button onclick="compress()">Compress Image</button>
+    <label>Width (optional)</label>
+    <input type="number" id="width">
 
-  <button id="downloadBtn" onclick="downloadImage()">Download Image</button>
+    <label>Height (optional)</label>
+    <input type="number" id="height">
 
-  <p id="msg"></p>
+    <button onclick="compressImage()">Compress Image</button>
 
-  <img id="preview">
-</div>
+    <a id="downloadLink" style="display:none;">
+      <button>Download Image</button>
+    </a>
+  </div>
 
 <script>
-const backend = "https://shayan-smart-tools-backend.onrender.com";
+function compressImage() {
+  const fileInput = document.getElementById("imageInput");
+  const quality = document.getElementById("quality").value / 100;
+  const width = document.getElementById("width").value;
+  const height = document.getElementById("height").value;
 
-let blobData;
-
-// preview image
-document.getElementById("image").addEventListener("change", function(e){
-  const file = e.target.files[0];
-  if(file){
-    document.getElementById("preview").src = URL.createObjectURL(file);
-  }
-});
-
-async function compress(){
-
-  const file = document.getElementById("image").files[0];
-  const size = document.getElementById("size").value;
-
-  if(!file || !size){
-    alert("Select image and enter size");
+  if (!fileInput.files[0]) {
+    alert("Please select an image first.");
     return;
   }
 
-  document.getElementById("msg").innerText="Processing... ⏳";
-  document.getElementById("downloadBtn").style.display="none";
+  const reader = new FileReader();
+  reader.readAsDataURL(fileInput.files[0]);
 
-  const formData = new FormData();
-  formData.append("image", file);
-  formData.append("targetSize", size);
+  reader.onload = function(event) {
+    const img = new Image();
+    img.src = event.target.result;
 
-  try{
-    const response = await fetch(backend + "/compress",{
-      method:"POST",
-      body:formData
-    });
+    img.onload = function() {
+      const canvas = document.createElement("canvas");
+      const ctx = canvas.getContext("2d");
 
-    blobData = await response.blob();
+      canvas.width = width || img.width;
+      canvas.height = height || img.height;
 
-    document.getElementById("msg").innerText="✅ Compression Done!";
-    document.getElementById("downloadBtn").style.display="block";
+      ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
 
-  }catch(error){
-    document.getElementById("msg").innerText="❌ Server Error";
-  }
-}
-
-function downloadImage(){
-  const a = document.createElement("a");
-  a.href = URL.createObjectURL(blobData);
-  a.download = "compressed.jpg";
-  a.click();
+      canvas.toBlob(function(blob) {
+        const link = document.getElementById("downloadLink");
+        link.href = URL.createObjectURL(blob);
+        link.download = "compressed.jpg";
+        link.style.display = "block";
+      }, "image/jpeg", quality);
+    };
+  };
 }
 </script>
 
