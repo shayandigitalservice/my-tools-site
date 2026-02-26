@@ -1,45 +1,95 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Shayan Smart Tools</title>
+
+<style>
+body{
+  font-family: Arial;
+  background:#0f172a;
+  color:white;
+  text-align:center;
+  padding:20px;
+}
+.box{
+  background:#1e293b;
+  padding:20px;
+  border-radius:10px;
+  max-width:400px;
+  margin:auto;
+}
+input,button{
+  width:100%;
+  padding:10px;
+  margin:8px 0;
+  border-radius:6px;
+  border:none;
+}
+button{
+  background:#2563eb;
+  color:white;
+  font-weight:bold;
+}
+#downloadBtn{
+  display:none;
+  background:#22c55e;
+}
+</style>
+</head>
+
+<body>
+
+<h2>Shayan Smart Tools</h2>
+
+<div class="box">
+<input type="file" id="image">
+<input type="number" id="size" placeholder="Enter size in KB">
+<button onclick="compress()">Compress</button>
+
+<p id="msg"></p>
+
+<button id="downloadBtn" onclick="downloadFile()">Download</button>
+</div>
+
 <script>
-const backendURL = "https://shayan-smart-tools-backend.onrender.com";
+const backend = "https://shayan-smart-tools-backend.onrender.com";
+let blobData;
 
-let compressedBlob = null;
-
-/* COMPRESS */
-async function compressImage(){
-  const file = document.getElementById("compressImage").files[0];
-  const size = document.getElementById("targetSize").value;
+async function compress(){
+  const file = document.getElementById("image").files[0];
+  const size = document.getElementById("size").value;
 
   if(!file || !size){
     alert("Select image and enter size");
     return;
   }
 
-  document.getElementById("status").innerText = "Processing... Please wait ⏳";
+  document.getElementById("msg").innerText="Processing...";
 
   const formData = new FormData();
-  formData.append("image", file);
-  formData.append("targetSize", size);
+  formData.append("image",file);
+  formData.append("targetSize",size);
 
-  const response = await fetch(backendURL + "/compress", {
+  const res = await fetch(backend+"/compress",{
     method:"POST",
     body:formData
   });
 
-  compressedBlob = await response.blob();
+  blobData = await res.blob();
 
-  document.getElementById("status").innerText = "✅ Compression Complete!";
-  document.getElementById("downloadBtn").style.display = "block";
+  document.getElementById("msg").innerText="Done! Click Download.";
+  document.getElementById("downloadBtn").style.display="block";
 }
 
-/* DOWNLOAD */
-function downloadCompressed(){
-  if(!compressedBlob) return;
-
-  const url = window.URL.createObjectURL(compressedBlob);
-  const a = document.createElement("a");
-  a.href = url;
-  a.download = "compressed.jpg";
-  document.body.appendChild(a);
+function downloadFile(){
+  const url = window.URL.createObjectURL(blobData);
+  const a=document.createElement("a");
+  a.href=url;
+  a.download="compressed.jpg";
   a.click();
-  a.remove();
 }
 </script>
+
+</body>
+</html>
