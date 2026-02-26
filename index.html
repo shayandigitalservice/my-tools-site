@@ -7,176 +7,55 @@
     body {
       font-family: Arial;
       margin: 0;
-      background: #0f172a;
-      color: white;
+      background: #e6ecf3;
       text-align: center;
     }
 
-    header {
-      background: #1e293b;
-      padding: 15px;
-      font-size: 20px;
-      font-weight: bold;
+    h1 {
+      margin-top: 40px;
+      color: #123;
     }
 
     .container {
+      margin-top: 30px;
       padding: 20px;
+    }
+
+    .btn {
+      display: block;
+      background: #1976d2;
+      color: white;
+      padding: 18px;
+      margin: 15px auto;
+      width: 85%;
       max-width: 400px;
-      margin: auto;
+      border-radius: 15px;
+      text-decoration: none;
+      font-size: 18px;
+      box-shadow: 0 6px 15px rgba(0,0,0,0.2);
     }
 
-    button {
-      width: 100%;
-      padding: 12px;
-      margin: 10px 0;
-      border-radius: 8px;
-      border: none;
-      font-weight: bold;
-      cursor: pointer;
+    .btn:hover {
+      background: #0d47a1;
     }
-
-    .tool-btn {
-      background: #3b82f6;
-      color: white;
-    }
-
-    .action-btn {
-      background: #22c55e;
-      color: white;
-    }
-
-    input {
-      width: 100%;
-      padding: 10px;
-      margin: 8px 0;
-      border-radius: 6px;
-      border: none;
-    }
-
-    .tool-box {
-      display: none;
-      background: #1e293b;
-      padding: 15px;
-      border-radius: 10px;
-      margin-top: 20px;
-    }
-
   </style>
 </head>
+
 <body>
 
-<header>Shayan Smart Tools 🚀</header>
+<h1>Shayan Smart Tools</h1>
 
 <div class="container">
 
-  <!-- Tool Buttons -->
-  <button class="tool-btn" onclick="showTool('compress')">Image Compressor</button>
-  <button class="tool-btn" onclick="showTool('resize')">Image Resizer</button>
-
-  <!-- Compressor -->
-  <div id="compress" class="tool-box">
-    <h3>Image Compressor</h3>
-    <input type="file" id="compressInput" accept="image/*">
-    <label>Quality (10-100)</label>
-    <input type="number" id="quality" value="70" min="10" max="100">
-    <button class="action-btn" onclick="compressImage()">Compress</button>
-    <a id="compressDownload" style="display:none;">
-      <button class="action-btn">Download</button>
-    </a>
-  </div>
-
-  <!-- Resizer -->
-  <div id="resize" class="tool-box">
-    <h3>Image Resizer</h3>
-    <input type="file" id="resizeInput" accept="image/*">
-    <label>Width</label>
-    <input type="number" id="resizeWidth">
-    <label>Height</label>
-    <input type="number" id="resizeHeight">
-    <button class="action-btn" onclick="resizeImage()">Resize</button>
-    <a id="resizeDownload" style="display:none;">
-      <button class="action-btn">Download</button>
-    </a>
-  </div>
+  <a class="btn" href="age.html">Age Calculator</a>
+  <a class="btn" href="emi.html">EMI Calculator</a>
+  <a class="btn" href="sip.html">SIP Calculator</a>
+  <a class="btn" href="gst.html">GST Calculator</a>
+  <a class="btn" href="bmi.html">BMI Calculator</a>
+  <a class="btn" href="percentage.html">Percentage Calculator</a>
+  <a class="btn" href="smart-tools.html">Image Compressor 🚀</a>
 
 </div>
-
-<script>
-
-function showTool(id) {
-  document.getElementById("compress").style.display = "none";
-  document.getElementById("resize").style.display = "none";
-  document.getElementById(id).style.display = "block";
-}
-
-function compressImage() {
-  const file = document.getElementById("compressInput").files[0];
-  const quality = document.getElementById("quality").value / 100;
-
-  if (!file) {
-    alert("Select image first");
-    return;
-  }
-
-  const reader = new FileReader();
-  reader.readAsDataURL(file);
-
-  reader.onload = function(e) {
-    const img = new Image();
-    img.src = e.target.result;
-
-    img.onload = function() {
-      const canvas = document.createElement("canvas");
-      const ctx = canvas.getContext("2d");
-      canvas.width = img.width;
-      canvas.height = img.height;
-      ctx.drawImage(img, 0, 0);
-
-      canvas.toBlob(function(blob) {
-        const link = document.getElementById("compressDownload");
-        link.href = URL.createObjectURL(blob);
-        link.download = "compressed.jpg";
-        link.style.display = "block";
-      }, "image/jpeg", quality);
-    };
-  };
-}
-
-function resizeImage() {
-  const file = document.getElementById("resizeInput").files[0];
-  const width = document.getElementById("resizeWidth").value;
-  const height = document.getElementById("resizeHeight").value;
-
-  if (!file || !width || !height) {
-    alert("Fill all fields");
-    return;
-  }
-
-  const reader = new FileReader();
-  reader.readAsDataURL(file);
-
-  reader.onload = function(e) {
-    const img = new Image();
-    img.src = e.target.result;
-
-    img.onload = function() {
-      const canvas = document.createElement("canvas");
-      const ctx = canvas.getContext("2d");
-      canvas.width = width;
-      canvas.height = height;
-      ctx.drawImage(img, 0, 0, width, height);
-
-      canvas.toBlob(function(blob) {
-        const link = document.getElementById("resizeDownload");
-        link.href = URL.createObjectURL(blob);
-        link.download = "resized.jpg";
-        link.style.display = "block";
-      }, "image/jpeg", 0.9);
-    };
-  };
-}
-
-</script>
 
 </body>
 </html>
