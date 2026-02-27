@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<title>Image to PDF Converter</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+<style>
+
+body{
+font-family:Arial;
+background:#f1f5f9;
+text-align:center;
+padding:20px;
+}
+
+.container{
+background:white;
+max-width:420px;
+margin:auto;
+padding:25px;
+border-radius:15px;
+box-shadow:0 10px 25px rgba(0,0,0,0.08);
+}
+
+h2{
+margin-bottom:15px;
+}
+
+.upload-box{
+border:2px dashed #2563eb;
+padding:20px;
+border-radius:10px;
+cursor:pointer;
+margin-bottom:15px;
+}
+
+.preview img{
+width:90px;
+margin:5px;
+border-radius:8px;
+}
+
+button{
+width:100%;
+padding:14px;
+margin-top:10px;
+font-size:16px;
+border:none;
+border-radius:10px;
+background:#2563eb;
+color:white;
+cursor:pointer;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<h2>Image to PDF Converter</h2>
+
+<div class="container">
+
+<div class="upload-box">
+<input type="file" id="images" multiple accept="image/*">
+</div>
+
+<div class="preview" id="preview"></div>
+
+<button onclick="createPDF()">Convert to PDF</button>
+
+<button onclick="downloadPDF()">Download PDF</button>
+
+</div>
+
+<script>
+
+const { jsPDF } = window.jspdf
+
+let images=[]
+let pdf
+
+document.getElementById("images").addEventListener("change",function(e){
+
+images=[]
+document.getElementById("preview").innerHTML=""
+
+let files=e.target.files
+
+for(let i=0;i<files.length;i++){
+
+let file=files[i]
+
+let reader=new FileReader()
+
+reader.onload=function(event){
+
+let img=new Image()
+
+img.src=event.target.result
+
+img.onload=function(){
+
+images.push(img)
+
+let preview=document.createElement("img")
+
+preview.src=img.src
+
+document.getElementById("preview").appendChild(preview)
+
+}
+
+}
+
+reader.readAsDataURL(file)
+
+}
+
+})
+
+function createPDF(){
+
+pdf=new jsPDF()
+
+images.forEach((img,index)=>{
+
+let width=210
+let height=(img.height/img.width)*210
+
+if(index>0) pdf.addPage()
+
+pdf.addImage(img,"JPEG",0,0,width,height)
+
+})
+
+alert("PDF Ready")
+
+}
+
+function downloadPDF(){
+
+if(pdf){
+pdf.save("images.pdf")
+}
+
+}
+
+</script>
+
+</body>
+</html>
