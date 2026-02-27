@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<title>Passport Photo Maker</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+
+body{
+font-family:Arial;
+background:#f1f5f9;
+text-align:center;
+padding:20px;
+}
+
+.container{
+background:white;
+padding:25px;
+border-radius:16px;
+max-width:420px;
+margin:auto;
+box-shadow:0 10px 25px rgba(0,0,0,0.08);
+}
+
+.preview-box{
+position:relative;
+width:100%;
+margin-top:15px;
+}
+
+.preview-box img{
+width:100%;
+border-radius:10px;
+}
+
+.guide{
+position:absolute;
+top:10%;
+left:20%;
+width:60%;
+height:70%;
+border:2px dashed red;
+pointer-events:none;
+}
+
+canvas{
+width:100%;
+margin-top:15px;
+}
+
+button{
+width:100%;
+padding:14px;
+margin-top:12px;
+font-size:16px;
+border:none;
+border-radius:10px;
+background:#2563eb;
+color:white;
+cursor:pointer;
+}
+
+select{
+width:100%;
+padding:12px;
+margin-top:10px;
+font-size:16px;
+border-radius:8px;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<h2>Passport Photo Maker</h2>
+
+<div class="container">
+
+<input type="file" id="upload">
+
+<select id="size">
+
+<option value="passport">Passport (35×45 mm)</option>
+<option value="visa">Visa (50×50 mm)</option>
+<option value="2x2">2×2 inch</option>
+<option value="1x1">1×1 inch</option>
+<option value="4x6">4×6 cm</option>
+
+</select>
+
+<select id="copies">
+
+<option value="1">1 Photo</option>
+<option value="2">2 Photos</option>
+<option value="4">4 Photos</option>
+<option value="8">8 Photos</option>
+
+</select>
+
+<div class="preview-box">
+
+<img id="preview">
+
+<div class="guide"></div>
+
+</div>
+
+<button onclick="generate()">Generate Photos</button>
+
+<canvas id="canvas"></canvas>
+
+<button onclick="download()">Download</button>
+
+</div>
+
+<script>
+
+let preview=document.getElementById("preview")
+
+let canvas=document.getElementById("canvas")
+
+let ctx=canvas.getContext("2d")
+
+let img=new Image()
+
+document.getElementById("upload").addEventListener("change",function(e){
+
+let file=e.target.files[0]
+
+preview.src=URL.createObjectURL(file)
+
+let reader=new FileReader()
+
+reader.onload=function(event){
+
+img.src=event.target.result
+
+}
+
+reader.readAsDataURL(file)
+
+})
+
+function getSize(){
+
+let size=document.getElementById("size").value
+
+if(size==="passport") return [140,180]
+
+if(size==="visa") return [200,200]
+
+if(size==="2x2") return [200,200]
+
+if(size==="1x1") return [120,120]
+
+if(size==="4x6") return [160,240]
+
+}
+
+function generate(){
+
+let copies=parseInt(document.getElementById("copies").value)
+
+let [photoW,photoH]=getSize()
+
+let cols=2
+
+let rows=Math.ceil(copies/2)
+
+canvas.width=cols*photoW
+
+canvas.height=rows*photoH
+
+ctx.clearRect(0,0,canvas.width,canvas.height)
+
+let count=0
+
+for(let r=0;r<rows;r++){
+
+for(let c=0;c<cols;c++){
+
+if(count>=copies) return
+
+ctx.drawImage(img,c*photoW,r*photoH,photoW,photoH)
+
+count++
+
+}
+
+}
+
+}
+
+function download(){
+
+let link=document.createElement("a")
+
+link.download="passport-photo.png"
+
+link.href=canvas.toDataURL()
+
+link.click()
+
+}
+
+</script>
+
+</body>
+</html>
