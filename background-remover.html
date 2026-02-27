@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<title>Photo Background Remover</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+
+body{
+font-family:Arial;
+background:#f1f5f9;
+text-align:center;
+padding:20px;
+}
+
+.container{
+background:white;
+padding:20px;
+border-radius:15px;
+max-width:420px;
+margin:auto;
+box-shadow:0 5px 20px rgba(0,0,0,0.1);
+}
+
+canvas{
+max-width:100%;
+margin-top:15px;
+border-radius:10px;
+}
+
+button{
+width:100%;
+padding:14px;
+margin-top:15px;
+font-size:16px;
+border:none;
+border-radius:10px;
+background:#2563eb;
+color:white;
+}
+
+.drop{
+border:2px dashed #2563eb;
+padding:25px;
+border-radius:10px;
+margin-bottom:15px;
+cursor:pointer;
+}
+
+.colors{
+margin-top:15px;
+}
+
+.color{
+width:40px;
+height:40px;
+border-radius:50%;
+display:inline-block;
+margin:5px;
+border:2px solid #ddd;
+cursor:pointer;
+}
+
+.info{
+margin-top:10px;
+font-size:14px;
+color:gray;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<h2>Photo Background Remover</h2>
+
+<div class="container">
+
+<div class="drop" onclick="fileInput.click()">
+Drag & Drop Photo<br>or Click to Upload
+</div>
+
+<input type="file" id="fileInput" hidden>
+
+<div class="info" id="fileInfo"></div>
+
+<canvas id="canvas"></canvas>
+
+<button onclick="removeBackground()">Remove Background</button>
+
+<div class="colors">
+
+<div class="color" style="background:white" onclick="changeBG('white')"></div>
+<div class="color" style="background:#87CEEB" onclick="changeBG('#87CEEB')"></div>
+<div class="color" style="background:#60a5fa" onclick="changeBG('#60a5fa')"></div>
+<div class="color" style="background:#93c5fd" onclick="changeBG('#93c5fd')"></div>
+<div class="color" style="background:#f87171" onclick="changeBG('#f87171')"></div>
+<div class="color" style="background:#22c55e" onclick="changeBG('#22c55e')"></div>
+<div class="color" style="background:#fde047" onclick="changeBG('#fde047')"></div>
+<div class="color" style="background:#a855f7" onclick="changeBG('#a855f7')"></div>
+
+</div>
+
+<button onclick="download()">Download</button>
+
+</div>
+
+<script>
+
+let canvas=document.getElementById("canvas")
+let ctx=canvas.getContext("2d")
+let img=new Image()
+
+let fileInput=document.getElementById("fileInput")
+
+fileInput.addEventListener("change",function(e){
+
+let file=e.target.files[0]
+
+document.getElementById("fileInfo").innerText=
+"File Size: "+(file.size/1024).toFixed(1)+" KB"
+
+let reader=new FileReader()
+
+reader.onload=function(event){
+
+img.onload=function(){
+
+canvas.width=img.width
+canvas.height=img.height
+
+ctx.drawImage(img,0,0)
+
+}
+
+img.src=event.target.result
+
+}
+
+reader.readAsDataURL(file)
+
+})
+
+function removeBackground(){
+
+let imageData=ctx.getImageData(0,0,canvas.width,canvas.height)
+
+let data=imageData.data
+
+for(let i=0;i<data.length;i+=4){
+
+let r=data[i]
+let g=data[i+1]
+let b=data[i+2]
+
+if(r>200 && g>200 && b>200){
+
+data[i+3]=0
+
+}
+
+}
+
+ctx.putImageData(imageData,0,0)
+
+}
+
+function changeBG(color){
+
+ctx.globalCompositeOperation="destination-over"
+
+ctx.fillStyle=color
+ctx.fillRect(0,0,canvas.width,canvas.height)
+
+}
+
+function download(){
+
+let link=document.createElement("a")
+
+link.download="photo.png"
+
+link.href=canvas.toDataURL()
+
+link.click()
+
+}
+
+</script>
+
+</body>
+</html>
