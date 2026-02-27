@@ -15,19 +15,27 @@ text-align:center;
 padding:20px;
 }
 
+h2{
+margin-bottom:20px;
+}
+
 .container{
 background:white;
-padding:20px;
-border-radius:15px;
+padding:25px;
+border-radius:16px;
 max-width:420px;
 margin:auto;
-box-shadow:0 5px 20px rgba(0,0,0,0.1);
+box-shadow:0 10px 30px rgba(0,0,0,0.08);
+}
+
+input{
+margin-bottom:10px;
 }
 
 img{
-max-width:100%;
-border-radius:10px;
-margin-top:10px;
+width:100%;
+margin-top:15px;
+border-radius:12px;
 }
 
 button{
@@ -39,20 +47,32 @@ border:none;
 border-radius:10px;
 background:#2563eb;
 color:white;
+cursor:pointer;
 }
 
-.colors{
-margin-top:15px;
+button:hover{
+background:#1e4fd8;
+}
+
+.color-grid{
+display:grid;
+grid-template-columns:repeat(6,1fr);
+gap:10px;
+margin-top:20px;
 }
 
 .color{
-width:40px;
-height:40px;
+width:38px;
+height:38px;
 border-radius:50%;
-display:inline-block;
-margin:5px;
-border:2px solid #ddd;
+border:3px solid #eee;
 cursor:pointer;
+}
+
+.size{
+font-size:14px;
+color:#666;
+margin-top:5px;
 }
 
 </style>
@@ -61,30 +81,59 @@ cursor:pointer;
 
 <body>
 
-<h2>Photo Background Remover</h2>
+<h2>AI Photo Background Remover</h2>
 
 <div class="container">
 
 <input type="file" id="fileInput">
 
+<div class="size" id="sizeInfo"></div>
+
 <img id="preview">
 
 <button onclick="removeBG()">Remove Background</button>
 
-<div class="colors">
+<div class="color-grid">
 
 <div class="color" style="background:white" onclick="setBG('white')"></div>
+
 <div class="color" style="background:#87CEEB" onclick="setBG('#87CEEB')"></div>
+
 <div class="color" style="background:#60a5fa" onclick="setBG('#60a5fa')"></div>
+
 <div class="color" style="background:#93c5fd" onclick="setBG('#93c5fd')"></div>
-<div class="color" style="background:#f87171" onclick="setBG('#f87171')"></div>
+
+<div class="color" style="background:#0ea5e9" onclick="setBG('#0ea5e9')"></div>
+
+<div class="color" style="background:#2563eb" onclick="setBG('#2563eb')"></div>
+
 <div class="color" style="background:#22c55e" onclick="setBG('#22c55e')"></div>
+
+<div class="color" style="background:#16a34a" onclick="setBG('#16a34a')"></div>
+
 <div class="color" style="background:#fde047" onclick="setBG('#fde047')"></div>
+
+<div class="color" style="background:#facc15" onclick="setBG('#facc15')"></div>
+
+<div class="color" style="background:#f87171" onclick="setBG('#f87171')"></div>
+
+<div class="color" style="background:#ef4444" onclick="setBG('#ef4444')"></div>
+
+<div class="color" style="background:#9333ea" onclick="setBG('#9333ea')"></div>
+
 <div class="color" style="background:#a855f7" onclick="setBG('#a855f7')"></div>
+
+<div class="color" style="background:#f472b6" onclick="setBG('#f472b6')"></div>
+
+<div class="color" style="background:#fb923c" onclick="setBG('#fb923c')"></div>
+
+<div class="color" style="background:#94a3b8" onclick="setBG('#94a3b8')"></div>
+
+<div class="color" style="background:black" onclick="setBG('black')"></div>
 
 </div>
 
-<button onclick="download()">Download</button>
+<button onclick="download()">Download Image</button>
 
 </div>
 
@@ -94,14 +143,22 @@ let preview=document.getElementById("preview")
 let selectedFile
 
 document.getElementById("fileInput").onchange=function(e){
+
 selectedFile=e.target.files[0]
+
 preview.src=URL.createObjectURL(selectedFile)
+
+document.getElementById("sizeInfo").innerText=
+"Original Size: "+(selectedFile.size/1024).toFixed(2)+" KB"
+
 }
 
 async function removeBG(){
 
 let formData=new FormData()
+
 formData.append("image_file",selectedFile)
+
 formData.append("size","auto")
 
 let response=await fetch("https://api.remove.bg/v1.0/removebg",{
@@ -117,19 +174,27 @@ body:formData
 })
 
 let blob=await response.blob()
+
 preview.src=URL.createObjectURL(blob)
 
 }
 
 function setBG(color){
+
 preview.style.background=color
+
 }
 
 function download(){
+
 let a=document.createElement("a")
+
 a.href=preview.src
+
 a.download="photo.png"
+
 a.click()
+
 }
 
 </script>
