@@ -1,54 +1,63 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Photo Resize</title>
+<title>Photo Resize Tool</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
 
 body{
 font-family:Arial;
-text-align:center;
 background:#f1f5f9;
+text-align:center;
 padding:20px;
 }
 
-h1{
-margin-bottom:5px;
-}
-
-.box{
+.container{
 background:white;
 padding:20px;
-border-radius:10px;
+border-radius:12px;
 max-width:420px;
 margin:auto;
-box-shadow:0 0 10px rgba(0,0,0,0.1);
+box-shadow:0 5px 15px rgba(0,0,0,0.1);
 }
 
-input,button{
+.drop{
+border:2px dashed #2563eb;
+padding:30px;
+margin-bottom:15px;
+border-radius:10px;
+color:#2563eb;
+}
+
+input{
 width:90%;
 padding:12px;
-margin:10px 0;
+margin:8px;
 font-size:16px;
 }
 
 button{
+width:90%;
+padding:14px;
+margin-top:10px;
 background:#2563eb;
 color:white;
 border:none;
 border-radius:8px;
-cursor:pointer;
-}
-
-.preview{
-margin-top:15px;
+font-size:16px;
 }
 
 img{
 max-width:100%;
-border-radius:8px;
 margin-top:10px;
+border-radius:8px;
+}
+
+.info{
+margin-top:10px;
+font-size:14px;
+color:#555;
 }
 
 </style>
@@ -58,78 +67,119 @@ margin-top:10px;
 
 <h1>Photo Resize Tool</h1>
 
-<div class="box">
+<div class="container">
 
+<div class="drop" id="drop">
+Drag & Drop Image Here
+<br><br>
 <input type="file" id="upload">
+</div>
 
 <input type="number" id="width" placeholder="Width (px)">
 <input type="number" id="height" placeholder="Height (px)">
 
 <button onclick="resizeImage()">Resize Image</button>
 
-<div class="preview">
-<p><b>Original Image</b></p>
+<div class="info" id="beforeSize"></div>
+<div class="info" id="afterSize"></div>
+
+<h3>Original Image</h3>
 <img id="original">
-</div>
 
-<div class="preview">
-<p><b>Resized Preview</b></p>
+<h3>Preview</h3>
 <img id="preview">
-</div>
 
-<a id="download">
-<button>Download Image</button>
-</a>
+<button onclick="downloadImage()">Download Image</button>
 
 </div>
 
 <script>
 
-let originalImage;
+let canvas=document.createElement("canvas")
+let ctx=canvas.getContext("2d")
 
-document.getElementById("upload").onchange=function(e){
+let img=new Image()
+let originalSize=0
 
-let file=e.target.files[0];
-let reader=new FileReader();
+let upload=document.getElementById("upload")
+let drop=document.getElementById("drop")
+
+upload.addEventListener("change",loadImage)
+
+drop.addEventListener("dragover",e=>{
+e.preventDefault()
+})
+
+drop.addEventListener("drop",e=>{
+e.preventDefault()
+let file=e.dataTransfer.files[0]
+handleFile(file)
+})
+
+function loadImage(e){
+let file=e.target.files[0]
+handleFile(file)
+}
+
+function handleFile(file){
+
+originalSize=(file.size/1024).toFixed(2)
+
+document.getElementById("beforeSize").innerHTML=
+"Original Size: "+originalSize+" KB"
+
+let reader=new FileReader()
 
 reader.onload=function(event){
 
-document.getElementById("original").src=event.target.result;
-
-let img=new Image();
-img.src=event.target.result;
+img.src=event.target.result
+document.getElementById("original").src=img.src
 
 img.onload=function(){
-originalImage=img;
-}
+
+document.getElementById("width").value=img.width
+document.getElementById("height").value=img.height
 
 }
 
-reader.readAsDataURL(file);
+}
+
+reader.readAsDataURL(file)
 
 }
 
 function resizeImage(){
 
-let width=document.getElementById("width").value;
-let height=document.getElementById("height").value;
+let w=document.getElementById("width").value
+let h=document.getElementById("height").value
 
-if(!originalImage){ alert("Upload image first"); return; }
+canvas.width=w
+canvas.height=h
 
-let canvas=document.createElement("canvas");
-let ctx=canvas.getContext("2d");
+ctx.imageSmoothingEnabled=true
+ctx.imageSmoothingQuality="high"
 
-canvas.width=width;
-canvas.height=height;
+ctx.drawImage(img,0,0,w,h)
 
-ctx.drawImage(originalImage,0,0,width,height);
+let data=canvas.toDataURL("image/jpeg",1)
 
-let resized=canvas.toDataURL("image/jpeg");
+document.getElementById("preview").src=data
 
-document.getElementById("preview").src=resized;
+let after=(data.length*0.75/1024).toFixed(2)
 
-document.getElementById("download").href=resized;
-document.getElementById("download").download="resized-image.jpg";
+document.getElementById("afterSize").innerHTML=
+"Resized Size: "+after+" KB"
+
+}
+
+function downloadImage(){
+
+let link=document.createElement("a")
+
+link.download="resized-image.jpg"
+link.href=canvas.toDataURL("image/jpeg",1)
+
+link.click()
 
 }
 
