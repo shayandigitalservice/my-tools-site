@@ -2,46 +2,58 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>PDF to Image Converter</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.14.305/pdf.min.js"></script>
+<title>PDF to Image Converter</title>
 
 <style>
 
+*{
+box-sizing:border-box;
+font-family:Arial;
+}
+
 body{
-font-family:Arial, Helvetica, sans-serif;
-background:linear-gradient(135deg,#4facfe,#00f2fe);
+margin:0;
 height:100vh;
 display:flex;
 justify-content:center;
 align-items:center;
-margin:0;
+background:linear-gradient(135deg,#36d1dc,#5b86e5);
 }
 
-.container{
+.card{
 background:white;
-padding:35px;
-width:380px;
-border-radius:15px;
+padding:30px;
+width:90%;
+max-width:420px;
+border-radius:14px;
 box-shadow:0 10px 30px rgba(0,0,0,0.2);
 text-align:center;
 }
 
 h2{
 margin-bottom:20px;
-color:#333;
 }
 
-input{
+.upload-box{
+border:2px dashed #ccc;
+padding:25px;
+border-radius:10px;
 margin-bottom:15px;
+background:#fafafa;
+}
+
+.upload-box input{
+margin-top:10px;
 }
 
 select{
 width:100%;
 padding:10px;
-border-radius:8px;
+margin:15px 0;
+border-radius:6px;
 border:1px solid #ccc;
-margin-bottom:15px;
 }
 
 button{
@@ -49,35 +61,24 @@ width:100%;
 padding:12px;
 border:none;
 border-radius:8px;
-background:#007bff;
+background:#2f6edb;
 color:white;
 font-size:16px;
 cursor:pointer;
-transition:0.3s;
 }
 
 button:hover{
-background:#0056b3;
+background:#214fb3;
 }
 
-canvas{
+.preview{
 margin-top:20px;
-max-width:100%;
-border-radius:8px;
 }
 
-.download{
-display:block;
-margin-top:15px;
-padding:10px;
-background:#28a745;
-color:white;
-text-decoration:none;
-border-radius:8px;
-}
-
-.download:hover{
-background:#1e7e34;
+.preview img{
+width:100%;
+margin-top:10px;
+border-radius:6px;
 }
 
 </style>
@@ -85,42 +86,41 @@ background:#1e7e34;
 
 <body>
 
-<div class="container">
+<div class="card">
 
-<h2>PDF to Image Converter</h2>
+<h2>📄 PDF to Image Converter</h2>
 
+<div class="upload-box">
+Drag & Drop PDF Here
+<br><br>
 <input type="file" id="pdfFile" accept="application/pdf">
+</div>
 
 <select id="format">
-<option value="image/jpeg">JPG</option>
-<option value="image/jpeg">JPEG</option>
-<option value="image/png">PNG</option>
+<option value="jpeg">JPG</option>
+<option value="png">PNG</option>
 </select>
 
 <button onclick="convertPDF()">Convert PDF</button>
 
-<canvas id="canvas"></canvas>
-
-<a id="downloadLink" class="download" style="display:none">Download Image</a>
+<div class="preview" id="preview"></div>
 
 </div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
 
 <script>
 
 async function convertPDF(){
 
 const file = document.getElementById("pdfFile").files[0];
-
-if(!file){
-alert("Please upload PDF");
-return;
-}
+if(!file) return alert("Upload PDF first");
 
 const format = document.getElementById("format").value;
 
-const reader = new FileReader();
+const fileReader = new FileReader();
 
-reader.onload = async function(){
+fileReader.onload = async function(){
 
 const typedarray = new Uint8Array(this.result);
 
@@ -130,28 +130,41 @@ const page = await pdf.getPage(1);
 
 const viewport = page.getViewport({scale:2});
 
-const canvas = document.getElementById("canvas");
+const canvas = document.createElement("canvas");
+
 const context = canvas.getContext("2d");
 
-canvas.width = viewport.width;
 canvas.height = viewport.height;
+canvas.width = viewport.width;
 
 await page.render({
 canvasContext:context,
 viewport:viewport
 }).promise;
 
-const image = canvas.toDataURL(format);
+const imgData = canvas.toDataURL("image/"+format);
 
-const link = document.getElementById("downloadLink");
+const img = document.createElement("img");
+img.src = imgData;
 
-link.href = image;
-link.download = "converted-image";
+const link = document.createElement("a");
+link.href = imgData;
+link.download = "converted."+format;
+link.innerText="Download Image";
+
 link.style.display="block";
+link.style.marginTop="10px";
+link.style.color="#2f6edb";
+
+const preview = document.getElementById("preview");
+
+preview.innerHTML="";
+preview.appendChild(img);
+preview.appendChild(link);
 
 };
 
-reader.readAsArrayBuffer(file);
+fileReader.readAsArrayBuffer(file);
 
 }
 
