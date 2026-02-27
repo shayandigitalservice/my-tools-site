@@ -2,47 +2,62 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Image Converter (JPG / JPEG / PNG)</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Image Converter</title>
+
 <style>
+
 body{
-font-family:Arial;
-background:#f2f2f2;
-text-align:center;
-padding:40px;
+font-family: Arial, sans-serif;
+background: linear-gradient(135deg,#4facfe,#00f2fe);
+display:flex;
+justify-content:center;
+align-items:center;
+height:100vh;
+margin:0;
 }
 
 .container{
-background:white;
+background:#fff;
 padding:30px;
-border-radius:10px;
-max-width:500px;
-margin:auto;
-box-shadow:0 0 10px rgba(0,0,0,0.1);
+border-radius:12px;
+box-shadow:0 10px 25px rgba(0,0,0,0.15);
+text-align:center;
+width:90%;
+max-width:420px;
+}
+
+h2{
+margin-bottom:20px;
+color:#333;
+}
+
+input[type=file]{
+margin-bottom:15px;
+}
+
+select{
+padding:8px;
+border-radius:6px;
+border:1px solid #ccc;
+margin-bottom:15px;
 }
 
 button{
-padding:10px 20px;
-margin-top:15px;
 background:#007bff;
 color:white;
 border:none;
-border-radius:5px;
+padding:10px 20px;
+border-radius:6px;
 cursor:pointer;
+font-size:16px;
+transition:0.3s;
 }
 
 button:hover{
 background:#0056b3;
 }
 
-select{
-padding:8px;
-margin-top:10px;
-}
-
-img{
-max-width:100%;
-margin-top:20px;
-}
 </style>
 </head>
 
@@ -52,9 +67,9 @@ margin-top:20px;
 
 <h2>Image to JPG / JPEG / PNG Converter</h2>
 
-<input type="file" id="imageInput" accept="image/*">
+<input type="file" id="imageInput">
 
-<br><br>
+<br>
 
 <select id="format">
 <option value="image/jpeg">JPG</option>
@@ -66,66 +81,51 @@ margin-top:20px;
 
 <button onclick="convertImage()">Convert</button>
 
-<br>
-
-<img id="preview">
-
-<br>
-
-<a id="downloadLink" style="display:none;">
-<button>Download Image</button>
-</a>
-
 </div>
 
 <script>
 
 function convertImage(){
 
-let file=document.getElementById("imageInput").files[0];
+const file=document.getElementById("imageInput").files[0];
+const format=document.getElementById("format").value;
 
 if(!file){
-alert("Upload Image First");
+alert("Please select image");
 return;
 }
 
-let format=document.getElementById("format").value;
-
-let reader=new FileReader();
+const reader=new FileReader();
 
 reader.onload=function(e){
 
-let img=new Image();
+const img=new Image();
 
 img.onload=function(){
 
-let canvas=document.createElement("canvas");
+const canvas=document.createElement("canvas");
 canvas.width=img.width;
 canvas.height=img.height;
 
-let ctx=canvas.getContext("2d");
+const ctx=canvas.getContext("2d");
 ctx.drawImage(img,0,0);
 
-let converted=canvas.toDataURL(format);
+const link=document.createElement("a");
 
-document.getElementById("preview").src=converted;
-
-let link=document.getElementById("downloadLink");
-link.href=converted;
-
-if(format=="image/png"){
+if(format==="image/png"){
 link.download="converted.png";
 }else{
 link.download="converted.jpg";
 }
 
-link.style.display="inline";
+link.href=canvas.toDataURL(format);
+link.click();
 
-}
+};
 
 img.src=e.target.result;
 
-}
+};
 
 reader.readAsDataURL(file);
 
