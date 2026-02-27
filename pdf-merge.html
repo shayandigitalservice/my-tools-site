@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<title>PDF Merge Tool</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script src="https://unpkg.com/pdf-lib/dist/pdf-lib.min.js"></script>
+
+<style>
+
+body{
+font-family:Arial;
+background:#f1f5f9;
+text-align:center;
+padding:20px;
+}
+
+.container{
+background:white;
+max-width:420px;
+margin:auto;
+padding:25px;
+border-radius:15px;
+box-shadow:0 10px 25px rgba(0,0,0,0.08);
+}
+
+h2{
+margin-bottom:15px;
+}
+
+.preview{
+margin-top:10px;
+font-size:14px;
+color:gray;
+}
+
+button{
+width:100%;
+padding:14px;
+margin-top:12px;
+font-size:16px;
+border:none;
+border-radius:10px;
+background:#2563eb;
+color:white;
+cursor:pointer;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<h2>PDF Merge Tool</h2>
+
+<div class="container">
+
+<input type="file" id="pdfFiles" multiple accept="application/pdf">
+
+<div class="preview" id="preview"></div>
+
+<button onclick="mergePDFs()">Merge PDFs</button>
+
+<button onclick="downloadPDF()">Download Merged PDF</button>
+
+</div>
+
+<script>
+
+let mergedPdfBytes
+
+document.getElementById("pdfFiles").addEventListener("change",function(e){
+
+let files=e.target.files
+
+let list="Selected Files:<br>"
+
+for(let i=0;i<files.length;i++){
+list+=files[i].name+"<br>"
+}
+
+document.getElementById("preview").innerHTML=list
+
+})
+
+async function mergePDFs(){
+
+const { PDFDocument } = PDFLib
+
+const mergedPdf = await PDFDocument.create()
+
+const files=document.getElementById("pdfFiles").files
+
+for(let i=0;i<files.length;i++){
+
+let arrayBuffer=await files[i].arrayBuffer()
+
+let pdf=await PDFDocument.load(arrayBuffer)
+
+let pages=await mergedPdf.copyPages(pdf,pdf.getPageIndices())
+
+pages.forEach(page=>mergedPdf.addPage(page))
+
+}
+
+mergedPdfBytes=await mergedPdf.save()
+
+alert("PDF merged successfully")
+
+}
+
+function downloadPDF(){
+
+if(!mergedPdfBytes) return
+
+let blob=new Blob([mergedPdfBytes],{type:"application/pdf"})
+
+let link=document.createElement("a")
+
+link.href=URL.createObjectURL(blob)
+
+link.download="merged.pdf"
+
+link.click()
+
+}
+
+</script>
+
+</body>
+</html>
