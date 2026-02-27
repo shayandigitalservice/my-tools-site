@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Photo Background Remover</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@3.20.0"></script>
+<script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/body-pix"></script>
+
+<style>
+
+body{
+font-family:Arial;
+background:#f1f5f9;
+text-align:center;
+padding:20px;
+}
+
+.container{
+background:white;
+padding:20px;
+border-radius:12px;
+max-width:420px;
+margin:auto;
+box-shadow:0 5px 15px rgba(0,0,0,0.1);
+}
+
+canvas,img{
+max-width:100%;
+margin-top:10px;
+border-radius:10px;
+}
+
+button{
+width:100%;
+padding:12px;
+margin-top:10px;
+background:#2563eb;
+color:white;
+border:none;
+border-radius:8px;
+font-size:16px;
+}
+
+select{
+width:100%;
+padding:10px;
+margin-top:10px;
+}
+
+.info{
+font-size:14px;
+color:gray;
+margin-top:5px;
+}
+
+</style>
+</head>
+
+<body>
+
+<h1>Photo Background Remover</h1>
+
+<div class="container">
+
+<input type="file" id="upload">
+
+<div class="info" id="beforeSize"></div>
+
+<button onclick="removeBackground()">Remove Background</button>
+
+<select id="bgcolor">
+<option value="transparent">Transparent</option>
+<option value="white">White</option>
+<option value="black">Black</option>
+<option value="blue">Blue</option>
+<option value="green">Green</option>
+<option value="red">Red</option>
+</select>
+
+<h3>Preview</h3>
+
+<canvas id="canvas"></canvas>
+
+<div class="info" id="afterSize"></div>
+
+<button onclick="download()">Download Image</button>
+
+</div>
+
+<script>
+
+let net;
+let img=new Image();
+let originalSize=0;
+
+async function loadModel(){
+net=await bodyPix.load();
+}
+
+loadModel();
+
+document.getElementById("upload").addEventListener("change",function(e){
+
+let file=e.target.files[0];
+
+originalSize=(file.size/1024).toFixed(2);
+
+document.getElementById("beforeSize").innerHTML=
+"Original Size: "+originalSize+" KB";
+
+let reader=new FileReader();
+
+reader.onload=function(event){
+img.src=event.target.result;
+}
+
+reader.readAsDataURL(file);
+
+});
+
+
+async function removeBackground(){
+
+const segmentation=await net.segmentPerson(img);
+
+const canvas=document.getElementById("canvas");
+const ctx=canvas.getContext("2d");
+
+canvas.width=img.width;
+canvas.height=img.height;
+
+ctx.drawImage(img,0,0);
+
+const imageData=ctx.getImageData(0,0,canvas.width,canvas.height);
+
+for(let i=0;i<segmentation.data.length;i++){
+
+if(segmentation.data[i]===0){
+
+imageData.data[i*4+3]=0;
+
+}
+
+}
+
+ctx.putImageData(imageData,0,0);
+
+let data=canvas.toDataURL("image/png");
+
+let after=(data.length*0.75/1024).toFixed(2);
+
+document.getElementById("afterSize").innerHTML=
+"Processed Size: "+after+" KB";
+
+}
+
+
+document.getElementById("bgcolor").addEventListener("change",function(){
+
+let color=this.value;
+let canvas=document.getElementById("canvas");
+
+if(color==="transparent"){
+canvas.style.background="transparent";
+}else{
+canvas.style.background=color;
+}
+
+});
+
+
+function download(){
+
+let canvas=document.getElementById("canvas");
+
+let link=document.createElement("a");
+
+link.download="background-removed.png";
+
+link.href=canvas.toDataURL();
+
+link.click();
+
+}
+
+</script>
+
+</body>
+</html>
