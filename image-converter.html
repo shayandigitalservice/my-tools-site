@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Image Converter (JPG / JPEG / PNG)</title>
+<style>
+body{
+font-family:Arial;
+background:#f2f2f2;
+text-align:center;
+padding:40px;
+}
+
+.container{
+background:white;
+padding:30px;
+border-radius:10px;
+max-width:500px;
+margin:auto;
+box-shadow:0 0 10px rgba(0,0,0,0.1);
+}
+
+button{
+padding:10px 20px;
+margin-top:15px;
+background:#007bff;
+color:white;
+border:none;
+border-radius:5px;
+cursor:pointer;
+}
+
+button:hover{
+background:#0056b3;
+}
+
+select{
+padding:8px;
+margin-top:10px;
+}
+
+img{
+max-width:100%;
+margin-top:20px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<h2>Image to JPG / JPEG / PNG Converter</h2>
+
+<input type="file" id="imageInput" accept="image/*">
+
+<br><br>
+
+<select id="format">
+<option value="image/jpeg">JPG</option>
+<option value="image/jpeg">JPEG</option>
+<option value="image/png">PNG</option>
+</select>
+
+<br>
+
+<button onclick="convertImage()">Convert</button>
+
+<br>
+
+<img id="preview">
+
+<br>
+
+<a id="downloadLink" style="display:none;">
+<button>Download Image</button>
+</a>
+
+</div>
+
+<script>
+
+function convertImage(){
+
+let file=document.getElementById("imageInput").files[0];
+
+if(!file){
+alert("Upload Image First");
+return;
+}
+
+let format=document.getElementById("format").value;
+
+let reader=new FileReader();
+
+reader.onload=function(e){
+
+let img=new Image();
+
+img.onload=function(){
+
+let canvas=document.createElement("canvas");
+canvas.width=img.width;
+canvas.height=img.height;
+
+let ctx=canvas.getContext("2d");
+ctx.drawImage(img,0,0);
+
+let converted=canvas.toDataURL(format);
+
+document.getElementById("preview").src=converted;
+
+let link=document.getElementById("downloadLink");
+link.href=converted;
+
+if(format=="image/png"){
+link.download="converted.png";
+}else{
+link.download="converted.jpg";
+}
+
+link.style.display="inline";
+
+}
+
+img.src=e.target.result;
+
+}
+
+reader.readAsDataURL(file);
+
+}
+
+</script>
+
+</body>
+</html>
