@@ -1,136 +1,79 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-<meta charset="UTF-8">
-<title>PDF Lock / Unlock Tool</title>
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PDF Lock / Unlock</title>
 
 <style>
+
 body{
 font-family:Arial;
-text-align:center;
-background:#f4f4f4;
-padding:40px;
+margin:0;
+background:linear-gradient(135deg,#4facfe,#00f2fe);
+display:flex;
+justify-content:center;
+align-items:center;
+height:100vh;
 }
 
-.container{
+.box{
 background:white;
-padding:30px;
-border-radius:10px;
-max-width:400px;
-margin:auto;
-box-shadow:0 0 10px rgba(0,0,0,0.1);
+padding:40px;
+border-radius:15px;
+width:90%;
+max-width:420px;
+text-align:center;
+box-shadow:0 10px 30px rgba(0,0,0,0.2);
 }
 
-button{
-padding:10px 20px;
-margin:10px;
-border:none;
-background:#007bff;
-color:white;
-border-radius:5px;
-cursor:pointer;
+h2{
+margin-bottom:20px;
 }
 
 input{
-padding:10px;
-margin:10px;
-width:90%;
+width:100%;
+padding:12px;
+margin:10px 0;
+border-radius:6px;
+border:1px solid #ccc;
 }
+
+.btn{
+padding:12px 20px;
+border:none;
+border-radius:6px;
+margin:8px;
+color:white;
+font-size:15px;
+cursor:pointer;
+}
+
+.lock{
+background:#1e88e5;
+}
+
+.unlock{
+background:#43a047;
+}
+
 </style>
 </head>
 
 <body>
 
-<div class="container">
+<div class="box">
 
-<h2>PDF Lock / Unlock</h2>
+<h2>🔐 PDF Lock / Unlock</h2>
 
-<input type="file" id="pdfFile" accept="application/pdf">
+<input type="file">
 
-<input type="password" id="password" placeholder="Enter Password">
+<input type="password" placeholder="Enter Password">
 
-<br>
+<button class="btn lock">Lock PDF</button>
 
-<button onclick="lockPDF()">Lock PDF</button>
-
-<button onclick="unlockPDF()">Unlock PDF</button>
+<button class="btn unlock">Unlock PDF</button>
 
 </div>
-
-<script>
-
-async function lockPDF(){
-
-const file = document.getElementById("pdfFile").files[0]
-const password = document.getElementById("password").value
-
-if(!file || !password){
-alert("Select PDF and Enter Password")
-return
-}
-
-const bytes = await file.arrayBuffer()
-
-const pdfDoc = await PDFLib.PDFDocument.load(bytes)
-
-await pdfDoc.encrypt({
-userPassword: password,
-ownerPassword: password,
-permissions: {
-printing: "highResolution",
-modifying: false,
-copying: false
-}
-})
-
-const pdfBytes = await pdfDoc.save()
-
-download(pdfBytes,"locked.pdf")
-
-}
-
-async function unlockPDF(){
-
-const file = document.getElementById("pdfFile").files[0]
-const password = document.getElementById("password").value
-
-if(!file){
-alert("Select PDF")
-return
-}
-
-try{
-
-const bytes = await file.arrayBuffer()
-
-const pdfDoc = await PDFLib.PDFDocument.load(bytes,{
-password:password
-})
-
-const pdfBytes = await pdfDoc.save()
-
-download(pdfBytes,"unlocked.pdf")
-
-}catch{
-alert("Wrong Password")
-}
-
-}
-
-function download(bytes,name){
-
-const blob = new Blob([bytes],{type:"application/pdf"})
-const link = document.createElement("a")
-
-link.href = URL.createObjectURL(blob)
-link.download = name
-link.click()
-
-}
-
-</script>
 
 </body>
 </html>
