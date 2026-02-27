@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>PDF Compressor Tool</title>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js"></script>
+
+<style>
+
+body{
+font-family:Arial;
+background:linear-gradient(135deg,#4facfe,#00f2fe);
+text-align:center;
+padding:40px;
+color:white;
+}
+
+.container{
+background:white;
+color:black;
+padding:30px;
+border-radius:10px;
+max-width:500px;
+margin:auto;
+box-shadow:0 0 10px rgba(0,0,0,0.2);
+}
+
+h2{
+margin-bottom:20px;
+}
+
+input{
+margin:15px 0;
+}
+
+button{
+padding:10px 20px;
+border:none;
+background:#ff4b2b;
+color:white;
+font-size:16px;
+border-radius:5px;
+cursor:pointer;
+}
+
+button:hover{
+background:#ff416c;
+}
+
+#download{
+display:none;
+margin-top:20px;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<h2>📦 PDF Compressor</h2>
+
+<input type="file" id="pdfFile" accept="application/pdf">
+
+<br>
+
+<button onclick="compressPDF()">Compress PDF</button>
+
+<br>
+
+<a id="download" download="compressed.pdf">
+<button>Download Compressed PDF</button>
+</a>
+
+</div>
+
+<script>
+
+async function compressPDF(){
+
+const fileInput=document.getElementById("pdfFile");
+
+if(fileInput.files.length==0){
+alert("Please upload PDF");
+return;
+}
+
+const file=fileInput.files[0];
+const arrayBuffer=await file.arrayBuffer();
+
+const pdfDoc=await PDFLib.PDFDocument.load(arrayBuffer);
+
+const pages=pdfDoc.getPages();
+
+pages.forEach(page=>{
+page.setSize(
+page.getWidth()*0.9,
+page.getHeight()*0.9
+);
+});
+
+const pdfBytes=await pdfDoc.save({
+useObjectStreams:true
+});
+
+const blob=new Blob([pdfBytes],{type:"application/pdf"});
+
+const url=URL.createObjectURL(blob);
+
+const download=document.getElementById("download");
+download.href=url;
+download.style.display="inline-block";
+
+}
+
+</script>
+
+</body>
+</html>
