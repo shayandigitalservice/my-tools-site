@@ -1,79 +1,178 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Shayan Smart Tools</title>
+<title>Photo Background Remover - Shayan Smart Tools</title>
+
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs"></script>
+<script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/body-pix"></script>
 
 <style>
 
 body{
 font-family:Arial;
-text-align:center;
 background:#f1f5f9;
+text-align:center;
 padding:20px;
-}
-
-.logo{
-width:80px;
-margin-bottom:10px;
 }
 
 h1{
 margin-bottom:5px;
 }
 
-p{
-color:gray;
-margin-bottom:30px;
+.container{
+background:white;
+padding:20px;
+border-radius:12px;
+max-width:500px;
+margin:auto;
+box-shadow:0 5px 15px rgba(0,0,0,0.1);
 }
 
-.btn{
-display:block;
-width:90%;
-max-width:400px;
-margin:15px auto;
-padding:15px;
+input{
+margin:15px 0;
+}
+
+canvas{
+max-width:100%;
+margin-top:15px;
+border-radius:10px;
+}
+
+.colors{
+margin-top:15px;
+}
+
+.color{
+width:30px;
+height:30px;
+display:inline-block;
+border-radius:50%;
+margin:5px;
+cursor:pointer;
+border:2px solid #ddd;
+}
+
+button{
+margin-top:15px;
+padding:12px 20px;
+border:none;
 background:#2563eb;
 color:white;
-text-decoration:none;
-border-radius:12px;
-font-size:18px;
+font-size:16px;
+border-radius:10px;
+cursor:pointer;
 }
 
 </style>
-
 </head>
 
 <body>
 
-<img src="logo.png" class="logo">
+<h1>AI Photo Background Remover</h1>
 
-<h1>Shayan Smart Tools</h1>
-<p>Free Online Calculators & Image Tools</p>
+<div class="container">
 
-<a class="btn" href="age.html">Age Calculator</a>
+<input type="file" id="upload">
 
-<a class="btn" href="emi.html">EMI Calculator</a>
+<br>
 
-<a class="btn" href="sip.html">SIP Calculator</a>
+<canvas id="canvas"></canvas>
 
-<a class="btn" href="gst.html">GST Calculator</a>
+<div class="colors">
 
-<a class="btn" href="bmi.html">BMI Calculator</a>
+<div class="color" style="background:white" onclick="setColor('white')"></div>
+<div class="color" style="background:#3b82f6" onclick="setColor('#3b82f6')"></div>
+<div class="color" style="background:#60a5fa" onclick="setColor('#60a5fa')"></div>
+<div class="color" style="background:#93c5fd" onclick="setColor('#93c5fd')"></div>
+<div class="color" style="background:red" onclick="setColor('red')"></div>
+<div class="color" style="background:green" onclick="setColor('green')"></div>
+<div class="color" style="background:yellow" onclick="setColor('yellow')"></div>
 
-<a class="btn" href="percentage.html">Percentage Calculator</a>
+</div>
 
-<a class="btn" href="discount.html">Discount Calculator</a>
+<button onclick="download()">Download</button>
 
-<a class="btn" href="currency.html">Currency Converter</a>
+</div>
 
-<a class="btn" href="image.html">Image Compressor 🚀</a>
+<script>
 
-<a class="btn" href="resize.html">Photo Resize Tool</a>
+let net;
+let img = new Image();
+let canvas = document.getElementById("canvas");
+let ctx = canvas.getContext("2d");
+let currentColor="white";
 
-<a class="btn" href="crop.html">Image Crop Tool ✂️</a>
+async function loadModel(){
 
-<a class="btn" href="background-remover.html">Photo Background Remover</a>
+net = await bodyPix.load();
+
+}
+
+loadModel();
+
+document.getElementById("upload").addEventListener("change",function(e){
+
+let reader = new FileReader();
+
+reader.onload=function(event){
+
+img.src = event.target.result;
+
+}
+
+reader.readAsDataURL(e.target.files[0]);
+
+});
+
+img.onload = async function(){
+
+canvas.width = img.width;
+canvas.height = img.height;
+
+ctx.drawImage(img,0,0);
+
+let segmentation = await net.segmentPerson(img);
+
+let mask = bodyPix.toMask(segmentation);
+
+let background = currentColor;
+
+bodyPix.drawMask(
+canvas,
+img,
+mask,
+0.7,
+0,
+false
+);
+
+}
+
+function setColor(color){
+
+currentColor=color;
+
+ctx.fillStyle=color;
+ctx.fillRect(0,0,canvas.width,canvas.height);
+ctx.drawImage(img,0,0);
+
+}
+
+function download(){
+
+let link=document.createElement("a");
+
+link.download="background-removed.png";
+
+link.href=canvas.toDataURL();
+
+link.click();
+
+}
+
+</script>
 
 </body>
 </html>
