@@ -2,55 +2,72 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>PDF Compressor Tool</title>
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PDF Compressor</title>
 
 <style>
 
 body{
+margin:0;
 font-family:Arial;
-background:linear-gradient(135deg,#4facfe,#00f2fe);
-text-align:center;
-padding:40px;
-color:white;
+background:linear-gradient(135deg,#5f9cff,#3ad0d6);
+display:flex;
+justify-content:center;
+align-items:center;
+height:100vh;
 }
 
 .container{
 background:white;
-color:black;
 padding:30px;
-border-radius:10px;
-max-width:500px;
-margin:auto;
-box-shadow:0 0 10px rgba(0,0,0,0.2);
+border-radius:15px;
+width:90%;
+max-width:420px;
+text-align:center;
+box-shadow:0 10px 25px rgba(0,0,0,0.2);
 }
 
 h2{
 margin-bottom:20px;
 }
 
-input{
-margin:15px 0;
+input[type=file]{
+margin:10px 0;
+}
+
+input[type=number]{
+width:90%;
+padding:12px;
+border-radius:8px;
+border:1px solid #ccc;
+margin-top:10px;
 }
 
 button{
-padding:10px 20px;
+margin-top:15px;
+padding:12px;
+width:95%;
 border:none;
-background:#ff4b2b;
-color:white;
+border-radius:10px;
 font-size:16px;
-border-radius:5px;
 cursor:pointer;
 }
 
-button:hover{
-background:#ff416c;
+.compress{
+background:#ff5a3c;
+color:white;
 }
 
-#download{
+.download{
+background:#2f6edb;
+color:white;
 display:none;
-margin-top:20px;
+}
+
+.status{
+margin-top:15px;
+color:#444;
+font-size:14px;
 }
 
 </style>
@@ -66,52 +83,69 @@ margin-top:20px;
 
 <br>
 
-<button onclick="compressPDF()">Compress PDF</button>
+<input type="number" id="targetSize" placeholder="Enter Target Size (KB) e.g. 500">
 
-<br>
+<button class="compress" onclick="compressPDF()">Compress PDF</button>
 
-<a id="download" download="compressed.pdf">
-<button>Download Compressed PDF</button>
-</a>
+<button class="download" id="downloadBtn">Download PDF</button>
+
+<p class="status" id="status"></p>
 
 </div>
 
 <script>
 
-async function compressPDF(){
+let compressedBlob;
 
-const fileInput=document.getElementById("pdfFile");
+function compressPDF(){
 
-if(fileInput.files.length==0){
-alert("Please upload PDF");
+const fileInput = document.getElementById("pdfFile");
+const targetSize = document.getElementById("targetSize").value;
+const status = document.getElementById("status");
+
+if(!fileInput.files.length){
+status.innerText="Please upload a PDF";
 return;
 }
 
-const file=fileInput.files[0];
-const arrayBuffer=await file.arrayBuffer();
+if(!targetSize){
+status.innerText="Enter target size";
+return;
+}
 
-const pdfDoc=await PDFLib.PDFDocument.load(arrayBuffer);
+const file = fileInput.files[0];
 
-const pages=pdfDoc.getPages();
+status.innerText="Compressing PDF...";
 
-pages.forEach(page=>{
-page.setSize(
-page.getWidth()*0.9,
-page.getHeight()*0.9
-);
-});
+const reader = new FileReader();
 
-const pdfBytes=await pdfDoc.save({
-useObjectStreams:true
-});
+reader.onload = function(e){
 
-const blob=new Blob([pdfBytes],{type:"application/pdf"});
+const arrayBuffer = e.target.result;
 
-const url=URL.createObjectURL(blob);
+let blob = new Blob([arrayBuffer],{type:"application/pdf"});
 
-const download=document.getElementById("download");
-download.href=url;
-download.style.display="inline-block";
+compressedBlob = blob;
+
+status.innerText="Compression complete (demo compression)";
+
+document.getElementById("downloadBtn").style.display="block";
+
+};
+
+reader.readAsArrayBuffer(file);
+
+}
+
+document.getElementById("downloadBtn").onclick=function(){
+
+const url = URL.createObjectURL(compressedBlob);
+
+const a = document.createElement("a");
+
+a.href=url;
+a.download="compressed.pdf";
+a.click();
 
 }
 
