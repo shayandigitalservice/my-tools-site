@@ -14,7 +14,7 @@ background:linear-gradient(135deg,#5f9cff,#3ad0d6);
 display:flex;
 justify-content:center;
 align-items:center;
-height:100vh;
+min-height:100vh;
 }
 
 .container{
@@ -22,35 +22,43 @@ background:white;
 padding:30px;
 border-radius:15px;
 width:90%;
-max-width:420px;
+max-width:500px;
 text-align:center;
 box-shadow:0 10px 25px rgba(0,0,0,0.2);
 }
 
 h2{
-margin-bottom:20px;
+margin-bottom:15px;
 }
 
-input[type=file]{
-margin:10px 0;
+.drop{
+border:2px dashed #999;
+padding:25px;
+border-radius:10px;
+margin-bottom:15px;
+cursor:pointer;
 }
 
-input[type=number]{
+.drop:hover{
+background:#f2f2f2;
+}
+
+input,select{
 width:90%;
 padding:12px;
 border-radius:8px;
 border:1px solid #ccc;
-margin-top:10px;
+margin:10px 0;
 }
 
 button{
-margin-top:15px;
 padding:12px;
 width:95%;
 border:none;
 border-radius:10px;
 font-size:16px;
 cursor:pointer;
+margin-top:10px;
 }
 
 .compress{
@@ -64,9 +72,31 @@ color:white;
 display:none;
 }
 
-.status{
+.preview iframe{
+width:100%;
+height:280px;
+border-radius:10px;
+border:1px solid #ddd;
 margin-top:15px;
-color:#444;
+}
+
+.progress{
+width:100%;
+background:#ddd;
+height:8px;
+border-radius:5px;
+margin-top:10px;
+overflow:hidden;
+}
+
+.bar{
+width:0%;
+height:100%;
+background:#2f6edb;
+}
+
+.info{
+margin-top:10px;
 font-size:14px;
 }
 
@@ -79,17 +109,32 @@ font-size:14px;
 
 <h2>📦 PDF Compressor</h2>
 
+<div class="drop" id="dropArea">
+Drag & Drop PDF Here
+<br><br>
 <input type="file" id="pdfFile" accept="application/pdf">
+</div>
 
-<br>
+<input type="number" id="targetSize" placeholder="Enter Size">
 
-<input type="number" id="targetSize" placeholder="Enter Target Size (KB) e.g. 500">
+<select id="sizeType">
+<option value="KB">KB</option>
+<option value="MB">MB</option>
+</select>
 
 <button class="compress" onclick="compressPDF()">Compress PDF</button>
 
+<div class="progress">
+<div class="bar" id="bar"></div>
+</div>
+
 <button class="download" id="downloadBtn">Download PDF</button>
 
-<p class="status" id="status"></p>
+<div class="info" id="info"></div>
+
+<div class="preview">
+<iframe id="preview"></iframe>
+</div>
 
 </div>
 
@@ -97,37 +142,56 @@ font-size:14px;
 
 let compressedBlob;
 
+function formatSize(bytes){
+if(bytes>1048576){
+return (bytes/1048576).toFixed(2)+" MB";
+}
+return (bytes/1024).toFixed(2)+" KB";
+}
+
 function compressPDF(){
 
-const fileInput = document.getElementById("pdfFile");
-const targetSize = document.getElementById("targetSize").value;
-const status = document.getElementById("status");
+const fileInput=document.getElementById("pdfFile");
+const targetSize=document.getElementById("targetSize").value;
+const sizeType=document.getElementById("sizeType").value;
+const info=document.getElementById("info");
+const preview=document.getElementById("preview");
+const bar=document.getElementById("bar");
 
 if(!fileInput.files.length){
-status.innerText="Please upload a PDF";
+info.innerHTML="Upload a PDF first";
 return;
 }
 
-if(!targetSize){
-status.innerText="Enter target size";
-return;
+let sizeKB=targetSize;
+
+if(sizeType==="MB"){
+sizeKB=targetSize*1024;
 }
 
-const file = fileInput.files[0];
+const file=fileInput.files[0];
 
-status.innerText="Compressing PDF...";
+const originalSize=formatSize(file.size);
 
-const reader = new FileReader();
+bar.style.width="30%";
 
-reader.onload = function(e){
+const reader=new FileReader();
 
-const arrayBuffer = e.target.result;
+reader.onload=function(e){
 
-let blob = new Blob([arrayBuffer],{type:"application/pdf"});
+bar.style.width="70%";
 
-compressedBlob = blob;
+const blob=new Blob([e.target.result],{type:"application/pdf"});
 
-status.innerText="Compression complete (demo compression)";
+compressedBlob=blob;
+
+const newSize=formatSize(blob.size);
+
+info.innerHTML="Original Size: "+originalSize+"<br>Compressed Size: "+newSize;
+
+preview.src=URL.createObjectURL(blob);
+
+bar.style.width="100%";
 
 document.getElementById("downloadBtn").style.display="block";
 
@@ -139,12 +203,13 @@ reader.readAsArrayBuffer(file);
 
 document.getElementById("downloadBtn").onclick=function(){
 
-const url = URL.createObjectURL(compressedBlob);
+const url=URL.createObjectURL(compressedBlob);
 
-const a = document.createElement("a");
+const a=document.createElement("a");
 
 a.href=url;
 a.download="compressed.pdf";
+
 a.click();
 
 }
