@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<title>PDF Split Tool</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script src="https://unpkg.com/pdf-lib/dist/pdf-lib.min.js"></script>
+
+<style>
+
+body{
+font-family:Arial;
+background:#f1f5f9;
+text-align:center;
+padding:20px;
+}
+
+.container{
+background:white;
+max-width:420px;
+margin:auto;
+padding:25px;
+border-radius:15px;
+box-shadow:0 10px 25px rgba(0,0,0,0.08);
+}
+
+button{
+width:100%;
+padding:14px;
+margin-top:12px;
+font-size:16px;
+border:none;
+border-radius:10px;
+background:#2563eb;
+color:white;
+cursor:pointer;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<h2>PDF Split Tool</h2>
+
+<div class="container">
+
+<input type="file" id="pdfFile" accept="application/pdf">
+
+<button onclick="splitPDF()">Split PDF</button>
+
+<div id="downloadLinks"></div>
+
+</div>
+
+<script>
+
+async function splitPDF(){
+
+const { PDFDocument } = PDFLib
+
+let file=document.getElementById("pdfFile").files[0]
+
+let arrayBuffer=await file.arrayBuffer()
+
+let pdf=await PDFDocument.load(arrayBuffer)
+
+let totalPages=pdf.getPageCount()
+
+let container=document.getElementById("downloadLinks")
+
+container.innerHTML=""
+
+for(let i=0;i<totalPages;i++){
+
+let newPdf=await PDFDocument.create()
+
+let [page]=await newPdf.copyPages(pdf,[i])
+
+newPdf.addPage(page)
+
+let bytes=await newPdf.save()
+
+let blob=new Blob([bytes],{type:"application/pdf"})
+
+let link=document.createElement("a")
+
+link.href=URL.createObjectURL(blob)
+
+link.download="page-"+(i+1)+".pdf"
+
+link.innerText="Download Page "+(i+1)
+
+container.appendChild(link)
+
+container.appendChild(document.createElement("br"))
+
+}
+
+}
+
+</script>
+
+</body>
+</html>
