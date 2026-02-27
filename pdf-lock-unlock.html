@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>PDF Lock / Unlock Tool</title>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js"></script>
+
+<style>
+body{
+font-family:Arial;
+text-align:center;
+background:#f4f4f4;
+padding:40px;
+}
+
+.container{
+background:white;
+padding:30px;
+border-radius:10px;
+max-width:400px;
+margin:auto;
+box-shadow:0 0 10px rgba(0,0,0,0.1);
+}
+
+button{
+padding:10px 20px;
+margin:10px;
+border:none;
+background:#007bff;
+color:white;
+border-radius:5px;
+cursor:pointer;
+}
+
+input{
+padding:10px;
+margin:10px;
+width:90%;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<h2>PDF Lock / Unlock</h2>
+
+<input type="file" id="pdfFile" accept="application/pdf">
+
+<input type="password" id="password" placeholder="Enter Password">
+
+<br>
+
+<button onclick="lockPDF()">Lock PDF</button>
+
+<button onclick="unlockPDF()">Unlock PDF</button>
+
+</div>
+
+<script>
+
+async function lockPDF(){
+
+const file = document.getElementById("pdfFile").files[0]
+const password = document.getElementById("password").value
+
+if(!file || !password){
+alert("Select PDF and Enter Password")
+return
+}
+
+const bytes = await file.arrayBuffer()
+
+const pdfDoc = await PDFLib.PDFDocument.load(bytes)
+
+await pdfDoc.encrypt({
+userPassword: password,
+ownerPassword: password,
+permissions: {
+printing: "highResolution",
+modifying: false,
+copying: false
+}
+})
+
+const pdfBytes = await pdfDoc.save()
+
+download(pdfBytes,"locked.pdf")
+
+}
+
+async function unlockPDF(){
+
+const file = document.getElementById("pdfFile").files[0]
+const password = document.getElementById("password").value
+
+if(!file){
+alert("Select PDF")
+return
+}
+
+try{
+
+const bytes = await file.arrayBuffer()
+
+const pdfDoc = await PDFLib.PDFDocument.load(bytes,{
+password:password
+})
+
+const pdfBytes = await pdfDoc.save()
+
+download(pdfBytes,"unlocked.pdf")
+
+}catch{
+alert("Wrong Password")
+}
+
+}
+
+function download(bytes,name){
+
+const blob = new Blob([bytes],{type:"application/pdf"})
+const link = document.createElement("a")
+
+link.href = URL.createObjectURL(blob)
+link.download = name
+link.click()
+
+}
+
+</script>
+
+</body>
+</html>
