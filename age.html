@@ -1,137 +1,186 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Advanced Age Calculator</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
 
-  <style>
-    *{
-      margin:0;
-      padding:0;
-      box-sizing:border-box;
-      font-family:'Poppins',sans-serif;
-    }
+<title>Advanced Age Calculator | Shayan Smart Tools</title>
 
-    body{
-      height:100vh;
-      display:flex;
-      justify-content:center;
-      align-items:center;
-      background:linear-gradient(135deg,#667eea,#764ba2);
-    }
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    .card{
-      background:rgba(255,255,255,0.15);
-      backdrop-filter:blur(15px);
-      padding:25px;
-      border-radius:20px;
-      width:95%;
-      max-width:380px;
-      text-align:center;
-      color:white;
-      box-shadow:0 8px 25px rgba(0,0,0,0.3);
-    }
+<meta name="description" content="Free advanced age calculator to calculate your exact age in years, months, days, hours, minutes and seconds instantly.">
 
-    h2{ margin-bottom:15px; }
+<meta name="keywords" content="age calculator, calculate age online, exact age calculator, birthday calculator, age in years months days">
 
-    input{
-      width:100%;
-      padding:12px;
-      border-radius:10px;
-      border:none;
-      margin-bottom:15px;
-    }
+<meta name="author" content="Shayan Smart Tools">
 
-    button{
-      width:100%;
-      padding:12px;
-      border-radius:10px;
-      border:none;
-      background:#ffb703;
-      font-weight:600;
-      cursor:pointer;
-      margin-bottom:15px;
-    }
+<meta name="robots" content="index, follow">
 
-    .result{
-      margin-top:10px;
-      font-size:14px;
-      line-height:1.8;
-    }
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
 
-    .back{
-      display:block;
-      margin-top:15px;
-      font-size:13px;
-      color:white;
-      text-decoration:none;
-      opacity:0.8;
-    }
+<style>
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Poppins',sans-serif;
+}
 
-  </style>
+body{
+height:100vh;
+display:flex;
+justify-content:center;
+align-items:center;
+background:linear-gradient(135deg,#667eea,#764ba2);
+flex-direction:column;
+}
+
+.card{
+background:rgba(255,255,255,0.15);
+backdrop-filter:blur(15px);
+padding:25px;
+border-radius:20px;
+width:95%;
+max-width:380px;
+text-align:center;
+color:white;
+box-shadow:0 8px 25px rgba(0,0,0,0.3);
+}
+
+h2{ margin-bottom:15px; }
+
+input{
+width:100%;
+padding:12px;
+border-radius:10px;
+border:none;
+margin-bottom:15px;
+}
+
+button{
+width:100%;
+padding:12px;
+border-radius:10px;
+border:none;
+background:#ffb703;
+font-weight:600;
+cursor:pointer;
+margin-bottom:15px;
+}
+
+.result{
+margin-top:10px;
+font-size:14px;
+line-height:1.8;
+}
+
+.back{
+display:block;
+margin-top:15px;
+font-size:13px;
+color:white;
+text-decoration:none;
+opacity:0.8;
+}
+
+.info{
+max-width:500px;
+margin-top:25px;
+color:white;
+font-size:14px;
+line-height:1.6;
+text-align:center;
+padding:0 20px;
+}
+</style>
+
 </head>
+
 <body>
 
 <div class="card">
-  <h2>Advanced Age Calculator</h2>
 
-  <!-- Only Date -->
-  <input type="date" id="dob">
-  <button onclick="startAge()">Calculate Age</button>
+<h2>Advanced Age Calculator</h2>
 
-  <div id="result" class="result"></div>
+<input type="date" id="dob">
 
-  <a href="index.html" class="back">⬅ Back to Home</a>
+<button onclick="startAge()">Calculate Age</button>
+
+<div id="result" class="result"></div>
+
+<a href="index.html" class="back">⬅ Back to Home</a>
+
+</div>
+
+<div class="info">
+<h3>About This Age Calculator</h3>
+<p>
+This advanced age calculator helps you calculate your exact age instantly.
+Simply enter your date of birth and the tool will calculate your age in
+years, months, days, hours, minutes and seconds. This free online calculator
+is useful for students, job applications, official forms and birthday tracking.
+The tool works on mobile phones, tablets and desktop devices and provides
+fast and accurate results directly in your browser without installing any software.
+</p>
 </div>
 
 <script>
 let interval;
 
 function startAge(){
-  let dobValue = document.getElementById("dob").value;
-  if(!dobValue){
-    alert("Please select your date of birth");
-    return;
-  }
 
-  let dob = new Date(dobValue + "T00:00:00");
+let dobValue = document.getElementById("dob").value;
 
-  clearInterval(interval);
+if(!dobValue){
+alert("Please select your date of birth");
+return;
+}
 
-  function updateAge(){
-    let now = new Date();
-    let diff = now - dob;
+let dob = new Date(dobValue + "T00:00:00");
 
-    let totalSeconds = Math.floor(diff / 1000);
+clearInterval(interval);
 
-    let years = Math.floor(totalSeconds / (365.25*24*60*60));
-    totalSeconds -= years * 365.25*24*60*60;
+function updateAge(){
 
-    let months = Math.floor(totalSeconds / (30*24*60*60));
-    totalSeconds -= months * 30*24*60*60;
+let now = new Date();
 
-    let days = Math.floor(totalSeconds / (24*60*60));
-    totalSeconds -= days * 24*60*60;
+let diff = now - dob;
 
-    let hours = Math.floor(totalSeconds / (60*60));
-    totalSeconds -= hours * 60*60;
+let totalSeconds = Math.floor(diff / 1000);
 
-    let minutes = Math.floor(totalSeconds / 60);
-    let seconds = totalSeconds % 60;
+let years = Math.floor(totalSeconds / (365.25*24*60*60));
 
-    document.getElementById("result").innerHTML =
-      "🎉 <b>Your Exact Age:</b><br><br>" +
-      years + " Years<br>" +
-      months + " Months<br>" +
-      days + " Days<br>" +
-      hours + " Hours<br>" +
-      minutes + " Minutes<br>" +
-      seconds + " Seconds";
-  }
+totalSeconds -= years * 365.25*24*60*60;
 
-  updateAge();
-  interval = setInterval(updateAge,1000);
+let months = Math.floor(totalSeconds / (30*24*60*60));
+
+totalSeconds -= months * 30*24*60*60;
+
+let days = Math.floor(totalSeconds / (24*60*60));
+
+totalSeconds -= days * 24*60*60;
+
+let hours = Math.floor(totalSeconds / (60*60));
+
+totalSeconds -= hours * 60*60;
+
+let minutes = Math.floor(totalSeconds / 60);
+
+let seconds = totalSeconds % 60;
+
+document.getElementById("result").innerHTML =
+"🎉 <b>Your Exact Age:</b><br><br>" +
+years + " Years<br>" +
+months + " Months<br>" +
+days + " Days<br>" +
+hours + " Hours<br>" +
+minutes + " Minutes<br>" +
+seconds + " Seconds";
+
+}
+
+updateAge();
+
+interval = setInterval(updateAge,1000);
+
 }
 </script>
 
