@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<title>PDF to Image Converter</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
+
+<style>
+
+body{
+font-family:Arial;
+background:#f1f5f9;
+text-align:center;
+padding:20px;
+}
+
+.container{
+background:white;
+max-width:420px;
+margin:auto;
+padding:25px;
+border-radius:15px;
+box-shadow:0 10px 25px rgba(0,0,0,0.08);
+}
+
+h2{
+margin-bottom:15px;
+}
+
+.preview canvas{
+width:100%;
+margin-top:10px;
+border-radius:10px;
+}
+
+button{
+width:100%;
+padding:14px;
+margin-top:12px;
+font-size:16px;
+border:none;
+border-radius:10px;
+background:#2563eb;
+color:white;
+cursor:pointer;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<h2>PDF to Image Converter</h2>
+
+<div class="container">
+
+<input type="file" id="pdfUpload" accept="application/pdf">
+
+<div class="preview" id="preview"></div>
+
+<button onclick="downloadImages()">Download Images</button>
+
+</div>
+
+<script>
+
+let images=[]
+
+document.getElementById("pdfUpload").addEventListener("change",function(e){
+
+let file=e.target.files[0]
+
+let reader=new FileReader()
+
+reader.onload=function(){
+
+let typedarray=new Uint8Array(this.result)
+
+pdfjsLib.getDocument(typedarray).promise.then(function(pdf){
+
+images=[]
+document.getElementById("preview").innerHTML=""
+
+for(let i=1;i<=pdf.numPages;i++){
+
+pdf.getPage(i).then(function(page){
+
+let viewport=page.getViewport({scale:2})
+
+let canvas=document.createElement("canvas")
+
+let context=canvas.getContext("2d")
+
+canvas.height=viewport.height
+canvas.width=viewport.width
+
+page.render({
+canvasContext:context,
+viewport:viewport
+}).promise.then(function(){
+
+images.push(canvas)
+
+document.getElementById("preview").appendChild(canvas)
+
+})
+
+})
+
+}
+
+})
+
+}
+
+reader.readAsArrayBuffer(file)
+
+})
+
+function downloadImages(){
+
+images.forEach((canvas,index)=>{
+
+let link=document.createElement("a")
+
+link.download="page-"+(index+1)+".png"
+
+link.href=canvas.toDataURL()
+
+link.click()
+
+})
+
+}
+
+</script>
+
+</body>
+</html>
