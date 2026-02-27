@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Image Crop Tool</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+
+body{
+font-family:Arial;
+background:#f1f5f9;
+text-align:center;
+padding:20px;
+}
+
+.container{
+background:white;
+padding:20px;
+border-radius:12px;
+max-width:420px;
+margin:auto;
+box-shadow:0 5px 15px rgba(0,0,0,0.1);
+}
+
+input{
+margin:10px;
+}
+
+button{
+width:90%;
+padding:14px;
+margin-top:10px;
+background:#2563eb;
+color:white;
+border:none;
+border-radius:8px;
+font-size:16px;
+}
+
+img{
+max-width:100%;
+margin-top:10px;
+border-radius:10px;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<h1>Image Crop Tool</h1>
+
+<div class="container">
+
+<input type="file" id="upload">
+
+<br>
+
+<input type="number" id="x" placeholder="Start X">
+<input type="number" id="y" placeholder="Start Y">
+
+<input type="number" id="w" placeholder="Crop Width">
+<input type="number" id="h" placeholder="Crop Height">
+
+<button onclick="cropImage()">Crop Image</button>
+
+<h3>Preview</h3>
+
+<img id="preview">
+
+<br>
+
+<button onclick="downloadImage()">Download Image</button>
+
+</div>
+
+<script>
+
+let img=new Image()
+let canvas=document.createElement("canvas")
+let ctx=canvas.getContext("2d")
+
+document.getElementById("upload").addEventListener("change",function(e){
+
+let file=e.target.files[0]
+let reader=new FileReader()
+
+reader.onload=function(event){
+
+img.src=event.target.result
+
+}
+
+reader.readAsDataURL(file)
+
+})
+
+function cropImage(){
+
+let x=document.getElementById("x").value
+let y=document.getElementById("y").value
+let w=document.getElementById("w").value
+let h=document.getElementById("h").value
+
+canvas.width=w
+canvas.height=h
+
+ctx.drawImage(img,x,y,w,h,0,0,w,h)
+
+let data=canvas.toDataURL("image/png")
+
+document.getElementById("preview").src=data
+
+}
+
+function downloadImage(){
+
+let link=document.createElement("a")
+
+link.download="cropped-image.png"
+link.href=canvas.toDataURL()
+
+link.click()
+
+}
+
+</script>
+
+</body>
+</html>
