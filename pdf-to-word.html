@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>PDF to Word Converter</title>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.10.377/pdf.min.js"></script>
+
+<style>
+
+body{
+font-family:Arial;
+background:#f2f2f2;
+text-align:center;
+padding:20px;
+}
+
+.container{
+max-width:700px;
+margin:auto;
+background:white;
+padding:20px;
+border-radius:12px;
+box-shadow:0 5px 20px rgba(0,0,0,0.2);
+}
+
+textarea{
+width:100%;
+height:300px;
+margin-top:15px;
+padding:10px;
+border-radius:8px;
+border:1px solid #ccc;
+font-size:16px;
+}
+
+input,button{
+padding:12px;
+margin-top:10px;
+border-radius:8px;
+border:1px solid #ccc;
+}
+
+button{
+background:#2f6edb;
+color:white;
+cursor:pointer;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<h2>PDF to Word Converter</h2>
+
+<input type="file" id="upload" accept="application/pdf">
+
+<textarea id="editor" placeholder="PDF text will appear here..."></textarea>
+
+<button onclick="downloadDoc()">Download Word File</button>
+
+</div>
+
+<script>
+
+document.getElementById("upload").addEventListener("change",function(e){
+
+let file=e.target.files[0];
+
+let reader=new FileReader();
+
+reader.onload=function(){
+
+let typedarray=new Uint8Array(this.result);
+
+pdfjsLib.getDocument(typedarray).promise.then(async function(pdf){
+
+let text="";
+
+for(let i=1;i<=pdf.numPages;i++){
+
+let page=await pdf.getPage(i);
+
+let content=await page.getTextContent();
+
+content.items.forEach(function(item){
+
+text+=item.str+" ";
+
+});
+
+text+="\n\n";
+
+}
+
+document.getElementById("editor").value=text;
+
+});
+
+};
+
+reader.readAsArrayBuffer(file);
+
+});
+
+function downloadDoc(){
+
+let text=document.getElementById("editor").value;
+
+let blob=new Blob([text],{type:"application/msword"});
+
+let link=document.createElement("a");
+
+link.href=URL.createObjectURL(blob);
+
+link.download="edited.doc";
+
+link.click();
+
+}
+
+</script>
+
+</body>
+</html>
