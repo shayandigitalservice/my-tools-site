@@ -1,98 +1,83 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Image Resize Tool</title>
+<title>Photo Resize</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
 
 body{
-font-family:Arial, sans-serif;
-background:#f3f4f6;
-margin:0;
-padding:20px;
+font-family:Arial;
 text-align:center;
+background:#f1f5f9;
+padding:20px;
 }
 
 h1{
 margin-bottom:5px;
 }
 
-.card{
+.box{
 background:white;
-padding:25px;
+padding:20px;
+border-radius:10px;
 max-width:420px;
 margin:auto;
-border-radius:12px;
-box-shadow:0 4px 15px rgba(0,0,0,0.1);
+box-shadow:0 0 10px rgba(0,0,0,0.1);
 }
 
-input{
+input,button{
 width:90%;
 padding:12px;
 margin:10px 0;
-border-radius:8px;
-border:1px solid #ddd;
-font-size:15px;
+font-size:16px;
 }
 
 button{
 background:#2563eb;
 color:white;
 border:none;
-padding:12px 20px;
 border-radius:8px;
-font-size:16px;
 cursor:pointer;
-margin-top:10px;
 }
 
-button:hover{
-background:#1d4ed8;
-}
-
-.preview-box{
-margin-top:20px;
+.preview{
+margin-top:15px;
 }
 
 img{
 max-width:100%;
-border-radius:10px;
-box-shadow:0 3px 10px rgba(0,0,0,0.1);
-}
-
-.download-btn{
-margin-top:15px;
-display:inline-block;
-text-decoration:none;
+border-radius:8px;
+margin-top:10px;
 }
 
 </style>
-
 </head>
 
 <body>
 
-<h1>Image Resize Tool</h1>
-<p>Resize images to exact width and height</p>
+<h1>Photo Resize Tool</h1>
 
-<div class="card">
+<div class="box">
 
 <input type="file" id="upload">
 
-<input type="number" id="width" placeholder="Enter Width (px)">
-
-<input type="number" id="height" placeholder="Enter Height (px)">
+<input type="number" id="width" placeholder="Width (px)">
+<input type="number" id="height" placeholder="Height (px)">
 
 <button onclick="resizeImage()">Resize Image</button>
 
-<canvas id="canvas" style="display:none;"></canvas>
+<div class="preview">
+<p><b>Original Image</b></p>
+<img id="original">
+</div>
 
-<div class="preview-box">
+<div class="preview">
+<p><b>Resized Preview</b></p>
 <img id="preview">
 </div>
 
-<a id="download" class="download-btn" download="resized-image.png">
+<a id="download">
 <button>Download Image</button>
 </a>
 
@@ -100,46 +85,51 @@ text-decoration:none;
 
 <script>
 
-function resizeImage(){
+let originalImage;
 
-const file=document.getElementById("upload").files[0];
+document.getElementById("upload").onchange=function(e){
 
-if(!file){
-alert("Please select an image");
-return;
-}
+let file=e.target.files[0];
+let reader=new FileReader();
 
-const width=document.getElementById("width").value;
-const height=document.getElementById("height").value;
+reader.onload=function(event){
 
-const reader=new FileReader();
+document.getElementById("original").src=event.target.result;
 
-reader.onload=function(e){
-
-const img=new Image();
+let img=new Image();
+img.src=event.target.result;
 
 img.onload=function(){
-
-const canvas=document.getElementById("canvas");
-const ctx=canvas.getContext("2d");
-
-canvas.width=width;
-canvas.height=height;
-
-ctx.drawImage(img,0,0,width,height);
-
-const data=canvas.toDataURL("image/png");
-
-document.getElementById("preview").src=data;
-document.getElementById("download").href=data;
-
+originalImage=img;
 }
-
-img.src=e.target.result;
 
 }
 
 reader.readAsDataURL(file);
+
+}
+
+function resizeImage(){
+
+let width=document.getElementById("width").value;
+let height=document.getElementById("height").value;
+
+if(!originalImage){ alert("Upload image first"); return; }
+
+let canvas=document.createElement("canvas");
+let ctx=canvas.getContext("2d");
+
+canvas.width=width;
+canvas.height=height;
+
+ctx.drawImage(originalImage,0,0,width,height);
+
+let resized=canvas.toDataURL("image/jpeg");
+
+document.getElementById("preview").src=resized;
+
+document.getElementById("download").href=resized;
+document.getElementById("download").download="resized-image.jpg";
 
 }
 
