@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Image Resize Tool</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+
+body{
+font-family:Arial, sans-serif;
+background:#f3f4f6;
+margin:0;
+padding:20px;
+text-align:center;
+}
+
+h1{
+margin-bottom:5px;
+}
+
+.card{
+background:white;
+padding:25px;
+max-width:420px;
+margin:auto;
+border-radius:12px;
+box-shadow:0 4px 15px rgba(0,0,0,0.1);
+}
+
+input{
+width:90%;
+padding:12px;
+margin:10px 0;
+border-radius:8px;
+border:1px solid #ddd;
+font-size:15px;
+}
+
+button{
+background:#2563eb;
+color:white;
+border:none;
+padding:12px 20px;
+border-radius:8px;
+font-size:16px;
+cursor:pointer;
+margin-top:10px;
+}
+
+button:hover{
+background:#1d4ed8;
+}
+
+.preview-box{
+margin-top:20px;
+}
+
+img{
+max-width:100%;
+border-radius:10px;
+box-shadow:0 3px 10px rgba(0,0,0,0.1);
+}
+
+.download-btn{
+margin-top:15px;
+display:inline-block;
+text-decoration:none;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<h1>Image Resize Tool</h1>
+<p>Resize images to exact width and height</p>
+
+<div class="card">
+
+<input type="file" id="upload">
+
+<input type="number" id="width" placeholder="Enter Width (px)">
+
+<input type="number" id="height" placeholder="Enter Height (px)">
+
+<button onclick="resizeImage()">Resize Image</button>
+
+<canvas id="canvas" style="display:none;"></canvas>
+
+<div class="preview-box">
+<img id="preview">
+</div>
+
+<a id="download" class="download-btn" download="resized-image.png">
+<button>Download Image</button>
+</a>
+
+</div>
+
+<script>
+
+function resizeImage(){
+
+const file=document.getElementById("upload").files[0];
+
+if(!file){
+alert("Please select an image");
+return;
+}
+
+const width=document.getElementById("width").value;
+const height=document.getElementById("height").value;
+
+const reader=new FileReader();
+
+reader.onload=function(e){
+
+const img=new Image();
+
+img.onload=function(){
+
+const canvas=document.getElementById("canvas");
+const ctx=canvas.getContext("2d");
+
+canvas.width=width;
+canvas.height=height;
+
+ctx.drawImage(img,0,0,width,height);
+
+const data=canvas.toDataURL("image/png");
+
+document.getElementById("preview").src=data;
+document.getElementById("download").href=data;
+
+}
+
+img.src=e.target.result;
+
+}
+
+reader.readAsDataURL(file);
+
+}
+
+</script>
+
+</body>
+</html>
