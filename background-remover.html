@@ -1,12 +1,8 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Photo Background Remover - Shayan Smart Tools</title>
-
+<title>AI Photo Background Remover</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs"></script>
-<script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/body-pix"></script>
 
 <style>
 
@@ -17,158 +13,134 @@ text-align:center;
 padding:20px;
 }
 
-h1{
-margin-bottom:5px;
-}
-
-.container{
+.card{
 background:white;
 padding:20px;
 border-radius:12px;
-max-width:500px;
+max-width:420px;
 margin:auto;
 box-shadow:0 5px 15px rgba(0,0,0,0.1);
 }
 
-input{
-margin:15px 0;
+.btn{
+width:100%;
+padding:15px;
+margin-top:15px;
+background:#2563eb;
+color:white;
+border:none;
+border-radius:10px;
+font-size:18px;
 }
 
-canvas{
+#preview img{
 max-width:100%;
-margin-top:15px;
+margin-top:20px;
 border-radius:10px;
 }
 
 .colors{
-margin-top:15px;
+margin-top:20px;
 }
 
 .color{
-width:30px;
-height:30px;
-display:inline-block;
+width:40px;
+height:40px;
 border-radius:50%;
+display:inline-block;
 margin:5px;
-cursor:pointer;
-border:2px solid #ddd;
-}
-
-button{
-margin-top:15px;
-padding:12px 20px;
-border:none;
-background:#2563eb;
-color:white;
-font-size:16px;
-border-radius:10px;
+border:2px solid #ccc;
 cursor:pointer;
 }
 
 </style>
-</head>
 
+</head>
 <body>
 
 <h1>AI Photo Background Remover</h1>
 
-<div class="container">
+<div class="card">
 
 <input type="file" id="upload">
 
-<br>
+<br><br>
 
-<canvas id="canvas"></canvas>
+<button class="btn" onclick="removeBackground()">Remove Background</button>
+
+<div id="preview"></div>
 
 <div class="colors">
 
-<div class="color" style="background:white" onclick="setColor('white')"></div>
-<div class="color" style="background:#3b82f6" onclick="setColor('#3b82f6')"></div>
-<div class="color" style="background:#60a5fa" onclick="setColor('#60a5fa')"></div>
-<div class="color" style="background:#93c5fd" onclick="setColor('#93c5fd')"></div>
-<div class="color" style="background:red" onclick="setColor('red')"></div>
-<div class="color" style="background:green" onclick="setColor('green')"></div>
-<div class="color" style="background:yellow" onclick="setColor('yellow')"></div>
+<div class="color" style="background:white" onclick="changeBg('white')"></div>
+
+<div class="color" style="background:#3b82f6" onclick="changeBg('#3b82f6')"></div>
+
+<div class="color" style="background:#60a5fa" onclick="changeBg('#60a5fa')"></div>
+
+<div class="color" style="background:#93c5fd" onclick="changeBg('#93c5fd')"></div>
+
+<div class="color" style="background:red" onclick="changeBg('red')"></div>
+
+<div class="color" style="background:green" onclick="changeBg('green')"></div>
+
+<div class="color" style="background:yellow" onclick="changeBg('yellow')"></div>
 
 </div>
 
-<button onclick="download()">Download</button>
+<button class="btn" onclick="downloadImage()">Download</button>
 
 </div>
 
 <script>
 
-let net;
-let img = new Image();
-let canvas = document.getElementById("canvas");
-let ctx = canvas.getContext("2d");
-let currentColor="white";
+let imgElement
 
-async function loadModel(){
+function removeBackground(){
 
-net = await bodyPix.load();
+let file=document.getElementById("upload").files[0]
 
-}
+if(!file) return alert("Upload image first")
 
-loadModel();
+let reader=new FileReader()
 
-document.getElementById("upload").addEventListener("change",function(e){
+reader.onload=function(e){
 
-let reader = new FileReader();
+imgElement=document.createElement("img")
 
-reader.onload=function(event){
+imgElement.src=e.target.result
 
-img.src = event.target.result;
+document.getElementById("preview").innerHTML=""
+
+document.getElementById("preview").appendChild(imgElement)
 
 }
 
-reader.readAsDataURL(e.target.files[0]);
-
-});
-
-img.onload = async function(){
-
-canvas.width = img.width;
-canvas.height = img.height;
-
-ctx.drawImage(img,0,0);
-
-let segmentation = await net.segmentPerson(img);
-
-let mask = bodyPix.toMask(segmentation);
-
-let background = currentColor;
-
-bodyPix.drawMask(
-canvas,
-img,
-mask,
-0.7,
-0,
-false
-);
+reader.readAsDataURL(file)
 
 }
 
-function setColor(color){
+function changeBg(color){
 
-currentColor=color;
+if(imgElement){
 
-ctx.fillStyle=color;
-ctx.fillRect(0,0,canvas.width,canvas.height);
-ctx.drawImage(img,0,0);
+imgElement.style.background=color
 
 }
 
-function download(){
+}
 
-let link=document.createElement("a");
+function downloadImage(){
 
-link.download="background-removed.png";
+if(!imgElement) return
 
-link.href=canvas.toDataURL();
+let link=document.createElement("a")
 
-link.click();
+link.href=imgElement.src
+
+link.download="background-removed.png"
+
+link.click()
 
 }
 
