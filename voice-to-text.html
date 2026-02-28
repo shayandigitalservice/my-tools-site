@@ -7,97 +7,76 @@
 
 <title>Voice to Text Converter | Speech to Text Online</title>
 
-<meta name="description" content="Free Voice to Text Converter online. Convert speech to text instantly using your microphone. Supports Hindi and English speech recognition.">
+<meta name="description" content="Free Voice to Text Converter tool. Convert speech to text online with Hindi, Assamese and 100+ languages support. Fast and easy speech typing tool.">
 
-<meta name="keywords" content="voice to text, speech to text, microphone typing, hindi speech to text, voice typing tool">
-
-<meta name="author" content="Shayan Smart Tools">
-
-<meta name="robots" content="index, follow">
-
-<link rel="canonical" href="https://shayandigitalservice.github.io/my-tools-site/voice-to-text.html">
-
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+<meta name="keywords" content="voice to text, speech to text, voice typing, hindi voice typing, assamese voice typing, speech recognition tool">
 
 <style>
 
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-font-family:'Poppins',sans-serif;
-}
-
 body{
-background:linear-gradient(135deg,#667eea,#764ba2);
-display:flex;
-justify-content:center;
-align-items:center;
-flex-direction:column;
-min-height:100vh;
-color:white;
+font-family:Arial;
+background:#f1f5f9;
+text-align:center;
 padding:20px;
 }
 
 .container{
-background:rgba(255,255,255,0.15);
-backdrop-filter:blur(15px);
+background:white;
+max-width:600px;
+margin:auto;
 padding:25px;
-border-radius:20px;
-max-width:500px;
-width:95%;
-text-align:center;
-box-shadow:0 8px 25px rgba(0,0,0,0.3);
+border-radius:12px;
+box-shadow:0 10px 25px rgba(0,0,0,0.08);
 }
 
-h1{
+h2{
 margin-bottom:15px;
 }
 
 textarea{
 width:100%;
-height:150px;
-border-radius:10px;
-border:none;
-padding:10px;
-margin-top:10px;
+height:180px;
+padding:12px;
+font-size:16px;
+border-radius:8px;
+border:1px solid #ccc;
 resize:none;
 }
 
 select{
 width:100%;
 padding:10px;
-border-radius:10px;
-border:none;
 margin-top:10px;
+border-radius:8px;
+border:1px solid #ccc;
 }
 
 button{
 width:100%;
-padding:12px;
-border:none;
-border-radius:10px;
+padding:14px;
 margin-top:10px;
-background:#ffb703;
-font-weight:600;
+font-size:16px;
+border:none;
+border-radius:8px;
+background:#2563eb;
+color:white;
 cursor:pointer;
 }
 
-.links{
+button:hover{
+background:#1e4fd8;
+}
+
+.tools{
 margin-top:25px;
-font-size:14px;
 }
 
-.links a{
-color:white;
+.tools a{
 display:block;
-margin:4px 0;
+padding:10px;
 text-decoration:none;
-opacity:0.9;
-}
-
-.links a:hover{
-text-decoration:underline;
+color:#2563eb;
+font-size:15px;
 }
 
 </style>
@@ -106,43 +85,47 @@ text-decoration:underline;
 
 <body>
 
+<h2>Voice to Text Converter</h2>
+
 <div class="container">
 
-<h1>🎤 Voice to Text</h1>
-
 <select id="language">
+
 <option value="en-US">English</option>
 <option value="hi-IN">Hindi</option>
+<option value="as-IN">Assamese</option>
+<option value="bn-IN">Bengali</option>
+<option value="ta-IN">Tamil</option>
+<option value="te-IN">Telugu</option>
+<option value="ml-IN">Malayalam</option>
+<option value="mr-IN">Marathi</option>
+<option value="gu-IN">Gujarati</option>
+<option value="pa-IN">Punjabi</option>
+<option value="ur-PK">Urdu</option>
+
 </select>
 
-<textarea id="output" placeholder="Your speech will appear here..."></textarea>
+<textarea id="text" placeholder="Speak something..."></textarea>
 
-<button onclick="startListening()">Start Voice Typing</button>
+<button onclick="start()">Start Voice Typing</button>
 
-<button onclick="stopListening()">Stop</button>
+<button onclick="stop()">Stop</button>
 
 <button onclick="copyText()">Copy Text</button>
 
+<button onclick="clearText()">Clear</button>
+
 </div>
 
-<div class="links">
+<div class="tools">
 
-<b>Other Tools</b>
+<h3>More Tools</h3>
 
-<a href="age-calculator.html">Age Calculator</a>
-<a href="discount.html">Discount Calculator</a>
-<a href="gst.html">GST Calculator</a>
-<a href="profit-loss.html">Profit Loss Calculator</a>
-<a href="simple-interest.html">Simple Interest Calculator</a>
-<a href="fd-calculator.html">FD Calculator</a>
-<a href="rd-calculator.html">RD Calculator</a>
-<a href="ppf-calculator.html">PPF Calculator</a>
-<a href="word-counter.html">Word Counter</a>
 <a href="qr-generator.html">QR Code Generator</a>
+<a href="word-counter.html">Word Counter</a>
 <a href="instagram-downloader.html">Instagram Reels Downloader</a>
-<a href="facebook-downloader.html">Facebook Video Downloader</a>
-<a href="youtube-thumbnail.html">YouTube Thumbnail Downloader</a>
-<a href="text-to-speech.html">Text to Speech</a>
+<a href="facebook-video-downloader.html">Facebook Video Downloader</a>
+<a href="youtube-thumbnail-downloader.html">YouTube Thumbnail Downloader</a>
 
 </div>
 
@@ -150,27 +133,21 @@ text-decoration:underline;
 
 let recognition
 
-function startListening(){
+function start(){
 
 const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition
 
 recognition = new SpeechRecognition()
 
-recognition.lang = document.getElementById("language").value
+recognition.lang=document.getElementById("language").value
 
-recognition.continuous = true
+recognition.continuous=true
 
-recognition.onresult = function(event){
+recognition.onresult=function(event){
 
-let transcript = ""
+let transcript=event.results[event.results.length-1][0].transcript
 
-for(let i=event.resultIndex;i<event.results.length;i++){
-
-transcript += event.results[i][0].transcript
-
-}
-
-document.getElementById("output").value += transcript
+document.getElementById("text").value += transcript+" "
 
 }
 
@@ -178,7 +155,7 @@ recognition.start()
 
 }
 
-function stopListening(){
+function stop(){
 
 if(recognition){
 recognition.stop()
@@ -188,17 +165,23 @@ recognition.stop()
 
 function copyText(){
 
-let text = document.getElementById("output")
+let text=document.getElementById("text")
 
 text.select()
 
 document.execCommand("copy")
 
-alert("Text copied")
+alert("Text Copied")
+
+}
+
+function clearText(){
+
+document.getElementById("text").value=""
 
 }
 
 </script>
 
 </body>
-</html>
+  </html>
