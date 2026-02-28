@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Ringtone Maker Online - Cut MP3 & Create Ringtone</title>
+
+<meta name="description" content="Free online ringtone maker tool to cut MP3 and create ringtone easily. Upload audio, select time and download ringtone instantly.">
+
+<meta name="keywords" content="ringtone maker, mp3 cutter, ringtone maker online, cut ringtone online, audio cutter">
+
+<meta name="robots" content="index, follow">
+
+<link rel="canonical" href="https://shayandigitalservice.github.io/my-tools-site/ringtone-maker.html">
+
+<style>
+
+body{
+font-family:Arial;
+background:#f1f5f9;
+margin:0;
+padding:20px;
+text-align:center;
+}
+
+h1{
+margin-bottom:20px;
+}
+
+.container{
+background:white;
+max-width:450px;
+margin:auto;
+padding:25px;
+border-radius:12px;
+box-shadow:0 10px 25px rgba(0,0,0,0.08);
+}
+
+input{
+width:100%;
+padding:10px;
+margin:10px 0;
+border-radius:6px;
+border:1px solid #ccc;
+}
+
+button{
+width:100%;
+padding:12px;
+margin-top:10px;
+border:none;
+border-radius:6px;
+background:#2563eb;
+color:white;
+font-size:16px;
+cursor:pointer;
+}
+
+button:hover{
+background:#1e4fd8;
+}
+
+audio{
+margin-top:15px;
+width:100%;
+}
+
+.tools{
+margin-top:30px;
+}
+
+.tools a{
+display:inline-block;
+margin:5px;
+padding:8px 12px;
+background:#e2e8f0;
+border-radius:6px;
+text-decoration:none;
+color:#333;
+font-size:14px;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<h1>Ringtone Maker</h1>
+
+<div class="container">
+
+<input type="file" id="audioFile" accept="audio/*">
+
+<audio id="audioPlayer" controls></audio>
+
+<input type="number" id="startTime" placeholder="Start Time (seconds)">
+
+<input type="number" id="endTime" placeholder="End Time (seconds)">
+
+<button onclick="cutAudio()">Cut Ringtone</button>
+
+<audio id="resultAudio" controls></audio>
+
+<button id="downloadBtn" style="display:none">Download Ringtone</button>
+
+</div>
+
+
+<div class="tools">
+
+<h3>Other Tools</h3>
+
+<a href="gst.html">GST Calculator</a>
+<a href="profit-loss.html">Profit Loss</a>
+<a href="simple-interest.html">Simple Interest</a>
+<a href="fd-calculator.html">FD Calculator</a>
+<a href="rd-calculator.html">RD Calculator</a>
+<a href="ppf-calculator.html">PPF Calculator</a>
+<a href="word-counter.html">Word Counter</a>
+<a href="qr-generator.html">QR Generator</a>
+<a href="image-converter.html">Image Converter</a>
+<a href="image-to-pdf.html">Image to PDF</a>
+<a href="pdf-merge.html">PDF Merge</a>
+<a href="resume-maker.html">Resume Maker</a>
+<a href="youtube-thumbnail.html">YouTube Thumbnail</a>
+
+</div>
+
+
+<script>
+
+let audioFile=document.getElementById("audioFile")
+let audioPlayer=document.getElementById("audioPlayer")
+
+audioFile.onchange=function(){
+
+let file=this.files[0]
+audioPlayer.src=URL.createObjectURL(file)
+
+}
+
+function cutAudio(){
+
+let start=parseFloat(document.getElementById("startTime").value)
+let end=parseFloat(document.getElementById("endTime").value)
+
+let audio=audioPlayer
+
+if(!audio.src){
+alert("Upload audio first")
+return
+}
+
+let context=new AudioContext()
+
+fetch(audio.src)
+.then(r=>r.arrayBuffer())
+.then(buffer=>context.decodeAudioData(buffer))
+.then(data=>{
+
+let length=end-start
+
+let newBuffer=context.createBuffer(
+data.numberOfChannels,
+data.sampleRate*length,
+data.sampleRate
+)
+
+for(let i=0;i<data.numberOfChannels;i++){
+
+let channel=data.getChannelData(i).slice(
+start*data.sampleRate,
+end*data.sampleRate
+)
+
+newBuffer.copyToChannel(channel,0)
+
+}
+
+let dest=context.createMediaStreamDestination()
+let source=context.createBufferSource()
+
+source.buffer=newBuffer
+source.connect(dest)
+
+let recorder=new MediaRecorder(dest.stream)
+
+let chunks=[]
+
+recorder.ondataavailable=e=>chunks.push(e.data)
+
+recorder.onstop=function(){
+
+let blob=new Blob(chunks)
+
+let url=URL.createObjectURL(blob)
+
+document.getElementById("resultAudio").src=url
+
+let btn=document.getElementById("downloadBtn")
+
+btn.style.display="block"
+
+btn.onclick=function(){
+
+let a=document.createElement("a")
+a.href=url
+a.download="ringtone.mp3"
+a.click()
+
+}
+
+}
+
+recorder.start()
+
+source.start()
+
+setTimeout(()=>{
+recorder.stop()
+},length*1000)
+
+})
+
+}
+
+</script>
+
+</body>
+</html>
