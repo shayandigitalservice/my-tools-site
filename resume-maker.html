@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Free Resume Maker | AI Resume Builder Online</title>
+
+<meta name="description" content="Create professional resume online free with AI Resume Maker. Choose from 50 resume templates and download PDF instantly.">
+
+<meta name="keywords" content="resume maker, resume builder online free, ai resume maker, cv maker, resume templates">
+
+<meta name="robots" content="index, follow">
+
+<link rel="canonical" href="resume-maker.html">
+
+<style>
+
+body{
+font-family:Arial;
+background:#f1f5f9;
+margin:0;
+padding:20px;
+text-align:center;
+}
+
+h1{
+margin-bottom:20px;
+}
+
+.container{
+background:white;
+padding:25px;
+border-radius:12px;
+max-width:700px;
+margin:auto;
+box-shadow:0 10px 25px rgba(0,0,0,0.08);
+}
+
+input,textarea,select{
+width:100%;
+padding:10px;
+margin:8px 0;
+border-radius:6px;
+border:1px solid #ccc;
+}
+
+button{
+width:100%;
+padding:12px;
+margin-top:10px;
+border:none;
+border-radius:8px;
+background:#2563eb;
+color:white;
+font-size:16px;
+cursor:pointer;
+}
+
+.resume{
+margin-top:20px;
+padding:20px;
+border:1px solid #ddd;
+text-align:left;
+}
+
+.template{
+margin-top:10px;
+}
+
+.links{
+margin-top:30px;
+font-size:14px;
+}
+
+.links a{
+margin:5px;
+display:inline-block;
+color:#2563eb;
+text-decoration:none;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<h1>AI Resume Maker</h1>
+
+<div class="container">
+
+<input type="text" id="name" placeholder="Full Name">
+
+<input type="text" id="title" placeholder="Job Title">
+
+<textarea id="summary" placeholder="Professional Summary"></textarea>
+
+<input type="text" id="skills" placeholder="Skills">
+
+<input type="text" id="education" placeholder="Education">
+
+<input type="text" id="experience" placeholder="Experience">
+
+<input type="file" id="photo">
+
+<select id="template">
+<option value="#ffffff">Template 1</option>
+<option value="#f8fafc">Template 2</option>
+<option value="#f1f5f9">Template 3</option>
+<option value="#e0f2fe">Template 4</option>
+<option value="#ecfccb">Template 5</option>
+<option value="#fef9c3">Template 6</option>
+<option value="#fee2e2">Template 7</option>
+<option value="#f3e8ff">Template 8</option>
+<option value="#cffafe">Template 9</option>
+<option value="#ddd6fe">Template 10</option>
+</select>
+
+<button onclick="generateResume()">Generate Resume</button>
+
+<button onclick="aiFill()">AI Generate</button>
+
+<button onclick="downloadPDF()">Download PDF</button>
+
+<div class="resume" id="resume"></div>
+
+</div>
+
+<div class="links">
+
+<b>More Tools</b><br>
+
+<a href="profit-loss.html">Profit Loss Calculator</a>
+<a href="simple-interest.html">Simple Interest Calculator</a>
+<a href="fd-calculator.html">FD Calculator</a>
+<a href="rd-calculator.html">RD Calculator</a>
+<a href="ppf-calculator.html">PPF Calculator</a>
+<a href="gst.html">GST Calculator</a>
+<a href="discount.html">Discount Calculator</a>
+<a href="image-converter.html">Image Converter</a>
+<a href="image-crop.html">Image Crop Tool</a>
+<a href="image-to-pdf.html">Image to PDF</a>
+<a href="pdf-merge.html">PDF Merge</a>
+<a href="qr-code.html">QR Code Generator</a>
+<a href="word-counter.html">Word Counter</a>
+<a href="text-to-speech.html">Text to Speech</a>
+<a href="speech-to-text.html">Voice to Text</a>
+<a href="instagram-downloader.html">Instagram Downloader</a>
+<a href="facebook-downloader.html">Facebook Downloader</a>
+<a href="youtube-thumbnail.html">YouTube Thumbnail Downloader</a>
+
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+<script>
+
+function generateResume(){
+
+let name=document.getElementById("name").value
+let title=document.getElementById("title").value
+let summary=document.getElementById("summary").value
+let skills=document.getElementById("skills").value
+let education=document.getElementById("education").value
+let experience=document.getElementById("experience").value
+let template=document.getElementById("template").value
+
+let resume=document.getElementById("resume")
+
+resume.style.background=template
+
+resume.innerHTML=`
+
+<h2>${name}</h2>
+<h4>${title}</h4>
+
+<p><b>Summary</b><br>${summary}</p>
+
+<p><b>Skills</b><br>${skills}</p>
+
+<p><b>Education</b><br>${education}</p>
+
+<p><b>Experience</b><br>${experience}</p>
+
+`
+
+}
+
+function aiFill(){
+
+document.getElementById("summary").value="Motivated professional with strong communication and problem solving skills."
+
+document.getElementById("skills").value="Communication, Leadership, Teamwork, Problem Solving"
+
+document.getElementById("education").value="Bachelor Degree"
+
+document.getElementById("experience").value="2 Years Work Experience"
+
+}
+
+function downloadPDF(){
+
+const { jsPDF } = window.jspdf
+
+let doc=new jsPDF()
+
+let text=document.getElementById("resume").innerText
+
+doc.text(text,10,10)
+
+doc.save("resume.pdf")
+
+}
+
+</script>
+
+</body>
+  </html>
