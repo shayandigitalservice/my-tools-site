@@ -5,99 +5,89 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Typing Speed Test | Check WPM & Accuracy Online</title>
+<title>Typing Speed Test Online | Check WPM & Accuracy</title>
 
-<meta name="description" content="Free typing speed test tool to check your typing speed in WPM with accuracy. Improve typing skills using this online typing test tool.">
-
-<meta name="keywords" content="typing speed test, typing test online, check typing speed, wpm typing test, typing practice tool">
-
-<meta name="author" content="Shayan Smart Tools">
+<meta name="description" content="Free online typing speed test tool. Check typing speed WPM, accuracy and improve your typing skills instantly.">
+<meta name="keywords" content="typing speed test, wpm test, typing practice online, typing test free">
 <meta name="robots" content="index, follow">
-
-<link rel="canonical" href="https://shayandigitalservice.github.io/my-tools-site/typing-speed-test.html">
-
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
 
 <style>
 
-*{
+body{
+font-family:Arial;
+background:linear-gradient(135deg,#6a8cff,#a777e3);
 margin:0;
 padding:0;
-box-sizing:border-box;
-font-family:'Poppins',sans-serif;
+text-align:center;
 }
 
-body{
-background:linear-gradient(135deg,#667eea,#764ba2);
-display:flex;
-justify-content:center;
-align-items:center;
-min-height:100vh;
+.container{
+max-width:700px;
+margin:auto;
 padding:20px;
 }
 
-.card{
-background:rgba(255,255,255,0.15);
-backdrop-filter:blur(15px);
-padding:25px;
-border-radius:18px;
-width:100%;
-max-width:600px;
+h1{
 color:white;
-text-align:center;
-box-shadow:0 10px 30px rgba(0,0,0,0.3);
 }
 
-h2{
-margin-bottom:15px;
-}
-
-.text-box{
+.box{
 background:white;
-color:black;
-padding:15px;
+padding:20px;
 border-radius:10px;
-margin-bottom:15px;
-font-size:15px;
+margin:20px 0;
+font-size:18px;
 }
 
 textarea{
 width:100%;
 height:120px;
-border:none;
+padding:15px;
+font-size:16px;
 border-radius:10px;
-padding:10px;
-margin-top:10px;
-resize:none;
+border:3px solid #333;
 }
 
 button{
-margin-top:15px;
-padding:12px;
+padding:12px 25px;
 border:none;
+background:#ffb300;
+font-size:16px;
 border-radius:10px;
-background:#ffb703;
-font-weight:600;
 cursor:pointer;
-width:100%;
+margin:5px;
 }
 
-.result{
-margin-top:15px;
-line-height:1.7;
+button:hover{
+background:#ffa000;
 }
 
-.links{
-margin-top:20px;
-font-size:14px;
+select{
+padding:10px;
+border-radius:8px;
 }
 
-.links a{
+#timer{
+font-size:18px;
 color:white;
+}
+
+#result{
+font-size:20px;
+color:white;
+margin-top:20px;
+}
+
+.tools{
+margin-top:40px;
+color:white;
+}
+
+.tools a{
 display:block;
-margin:3px;
+color:white;
 text-decoration:none;
-opacity:0.9;
+margin:5px;
 }
 
 </style>
@@ -106,31 +96,46 @@ opacity:0.9;
 
 <body>
 
-<div class="card">
+<div class="container">
 
-<h2>Typing Speed Test</h2>
+<h1>Typing Speed Test</h1>
 
-<div class="text-box" id="text">
-The quick brown fox jumps over the lazy dog. This sentence contains every letter of the alphabet and is commonly used for typing practice.
+<div>
+
+<label style="color:white;">Select Time:</label>
+
+<select id="timeSelect">
+<option value="30">30 sec</option>
+<option value="60" selected>60 sec</option>
+<option value="120">120 sec</option>
+</select>
+
 </div>
+
+<div class="box" id="text"></div>
+
+<p id="timer">Time: 60</p>
 
 <textarea id="input" placeholder="Start typing here..."></textarea>
 
-<button onclick="startTest()">Start Test</button>
+<br>
 
-<div class="result" id="result"></div>
+<button onclick="startTest()">Start</button>
+<button onclick="restartTest()">Restart</button>
 
-<div class="links">
+<div id="result"></div>
 
-<b>Other Tools</b>
+<div class="tools">
+
+<h3>Other Tools</h3>
 
 <a href="word-counter.html">Word Counter</a>
 <a href="qr-generator.html">QR Code Generator</a>
 <a href="image-to-pdf.html">Image to PDF</a>
 <a href="pdf-merge.html">PDF Merge</a>
-<a href="youtube-thumbnail.html">YouTube Thumbnail Downloader</a>
-<a href="instagram-reels.html">Instagram Reels Downloader</a>
-<a href="facebook-video.html">Facebook Video Downloader</a>
+<a href="youtube-thumbnail-downloader.html">YouTube Thumbnail Downloader</a>
+<a href="instagram-downloader.html">Instagram Reels Downloader</a>
+<a href="facebook-downloader.html">Facebook Video Downloader</a>
 <a href="text-to-speech.html">Text to Speech</a>
 <a href="voice-to-text.html">Voice to Text</a>
 <a href="resume-maker.html">Resume Maker</a>
@@ -141,56 +146,99 @@ The quick brown fox jumps over the lazy dog. This sentence contains every letter
 
 <script>
 
-let startTime
+let paragraphs=[
+
+"The quick brown fox jumps over the lazy dog. This sentence contains every letter of the alphabet.",
+
+"Typing practice improves speed and accuracy. Regular typing practice helps increase productivity.",
+
+"Online typing tests help people check their typing speed in words per minute and improve keyboard skills.",
+
+"Practice typing daily to improve your typing speed and accuracy. Consistency is the key to improvement."
+
+]
+
+let timer
+let timeLeft
+let selectedText=""
 
 function startTest(){
 
-startTime = new Date().getTime()
+let time=document.getElementById("timeSelect").value
 
-let inputBox = document.getElementById("input")
+timeLeft=parseInt(time)
 
-inputBox.value=""
+document.getElementById("timer").innerText="Time: "+timeLeft
 
-inputBox.focus()
+selectedText=paragraphs[Math.floor(Math.random()*paragraphs.length)]
 
-inputBox.oninput = checkTyping
+document.getElementById("text").innerText=selectedText
+
+document.getElementById("input").value=""
+
+document.getElementById("input").focus()
+
+document.getElementById("result").innerHTML=""
+
+timer=setInterval(updateTimer,1000)
 
 }
 
-function checkTyping(){
+function updateTimer(){
 
-let text=document.getElementById("text").innerText
+timeLeft--
+
+document.getElementById("timer").innerText="Time: "+timeLeft
+
+if(timeLeft<=0){
+
+clearInterval(timer)
+
+finishTest()
+
+}
+
+}
+
+function finishTest(){
+
 let typed=document.getElementById("input").value
 
-if(typed.length >= text.length){
+let words=typed.trim().split(/\s+/).length
 
-let endTime = new Date().getTime()
+let time=document.getElementById("timeSelect").value/60
 
-let timeTaken=(endTime-startTime)/1000
-
-let words=text.split(" ").length
-
-let wpm=Math.round((words/timeTaken)*60)
+let wpm=Math.round(words/time)
 
 let correct=0
 
-for(let i=0;i<text.length;i++){
-if(typed[i]===text[i]) correct++
+for(let i=0;i<typed.length;i++){
+
+if(typed[i]===selectedText[i]) correct++
+
 }
 
-let accuracy=Math.round((correct/text.length)*100)
+let accuracy=Math.round((correct/selectedText.length)*100)
 
 document.getElementById("result").innerHTML=
 
-"Typing Speed: "+wpm+" WPM <br>" +
-"Accuracy: "+accuracy+"% <br>" +
-"Time Taken: "+timeTaken.toFixed(2)+" sec"
+"Speed: "+wpm+" WPM <br> Accuracy: "+accuracy+"%"
 
 }
+
+function restartTest(){
+
+clearInterval(timer)
+
+document.getElementById("input").value=""
+
+document.getElementById("result").innerHTML=""
+
+document.getElementById("timer").innerText="Time: "+document.getElementById("timeSelect").value
 
 }
 
 </script>
 
 </body>
-  </html>
+</html>
