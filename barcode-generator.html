@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<title>Barcode Generator Online - Create Barcode Free</title>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<meta name="description" content="Free online barcode generator tool. Create barcode instantly for products, inventory and business. Download barcode image easily.">
+
+<meta name="keywords" content="barcode generator, generate barcode online, free barcode maker, product barcode generator, barcode tool">
+
+<meta name="author" content="My Tools Site">
+<meta name="robots" content="index, follow">
+
+<link rel="canonical" href="barcode-generator.html">
+
+<script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.5/dist/JsBarcode.all.min.js"></script>
+
+<style>
+
+body{
+font-family:Arial;
+background:linear-gradient(135deg,#4facfe,#00f2fe);
+display:flex;
+justify-content:center;
+align-items:center;
+height:100vh;
+margin:0;
+}
+
+.container{
+background:white;
+padding:30px;
+border-radius:15px;
+box-shadow:0 10px 30px rgba(0,0,0,0.2);
+width:90%;
+max-width:420px;
+text-align:center;
+}
+
+h2{
+margin-bottom:20px;
+}
+
+input{
+width:100%;
+padding:12px;
+margin:10px 0;
+border-radius:8px;
+border:1px solid #ccc;
+}
+
+button{
+width:100%;
+padding:12px;
+margin-top:10px;
+border:none;
+border-radius:8px;
+background:#2563eb;
+color:white;
+font-size:16px;
+cursor:pointer;
+}
+
+button:hover{
+background:#1e40af;
+}
+
+svg{
+margin-top:20px;
+}
+
+.back{
+display:block;
+margin-top:15px;
+font-size:14px;
+text-decoration:none;
+color:#333;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<h2>Barcode Generator</h2>
+
+<input type="text" id="barcodeText" placeholder="Enter Text or Number">
+
+<button onclick="generateBarcode()">Generate Barcode</button>
+
+<svg id="barcode"></svg>
+
+<button onclick="downloadBarcode()">Download Barcode</button>
+
+<a href="index.html" class="back">⬅ Back to Home</a>
+
+</div>
+
+<script>
+
+function generateBarcode(){
+
+let text=document.getElementById("barcodeText").value
+
+if(text==""){
+alert("Please enter text")
+return
+}
+
+JsBarcode("#barcode", text,{
+format:"CODE128",
+displayValue:true
+})
+
+}
+
+function downloadBarcode(){
+
+let svg=document.getElementById("barcode")
+
+let serializer=new XMLSerializer()
+
+let source=serializer.serializeToString(svg)
+
+let url="data:image/svg+xml;charset=utf-8,"+encodeURIComponent(source)
+
+let link=document.createElement("a")
+
+link.href=url
+
+link.download="barcode.svg"
+
+link.click()
+
+}
+
+</script>
+
+</body>
+</html>
