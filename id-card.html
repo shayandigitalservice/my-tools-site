@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <title>School ID Card Generator</title>
@@ -11,60 +11,71 @@
 
 body{
 font-family:Arial;
-background:#f0f0f0;
+background:#f2f2f2;
 padding:20px;
 }
 
+.container{
+max-width:900px;
+margin:auto;
+background:white;
+padding:20px;
+border-radius:8px;
+}
+
 input{
-display:block;
-margin:8px 0;
+width:100%;
 padding:8px;
-width:250px;
+margin:6px 0;
 }
 
 button{
-padding:10px;
-margin:5px;
+padding:10px 15px;
 background:#1976d2;
 color:white;
 border:none;
+margin:5px;
 cursor:pointer;
 }
+
+/* CARD */
 
 #card{
 width:340px;
 height:214px;
 background:white;
-border-radius:10px;
+border-radius:6px;
 overflow:hidden;
 position:relative;
-box-shadow:0 5px 15px rgba(0,0,0,0.2);
+margin-top:20px;
+box-shadow:0 5px 10px rgba(0,0,0,0.2);
 }
 
-/* header */
+/* HEADER */
 
 .header{
 background:#c89c2b;
 color:white;
-height:60px;
+height:55px;
 display:flex;
 align-items:center;
-padding:5px 10px;
+padding:5px;
 }
 
 .logo{
-width:45px;
-height:45px;
+width:40px;
+height:40px;
 border-radius:50%;
 background:white;
+display:flex;
+align-items:center;
+justify-content:center;
 overflow:hidden;
-margin-right:10px;
+margin-right:8px;
 }
 
 .logo img{
 width:100%;
-height:100%;
-object-fit:cover;
 }
 
 .school{
@@ -78,11 +89,20 @@ margin:0;
 }
 
 .school p{
-font-size:11px;
+font-size:10px;
 margin:0;
 }
 
-/* body */
+/* TITLE */
+
+.title{
+text-align:center;
+font-weight:bold;
+font-size:16px;
+margin-top:4px;
+}
+
+/* BODY */
 
 .content{
 display:flex;
@@ -91,9 +111,8 @@ padding:10px;
 
 .photo{
 width:80px;
-height:100px;
-border:2px solid #c89c2b;
-overflow:hidden;
+height:95px;
+border:3px solid #c89c2b;
 }
 
 .photo img{
@@ -105,19 +124,16 @@ object-fit:cover;
 .year{
 text-align:center;
 font-size:12px;
-margin-top:3px;
+margin-top:5px;
 }
 
 .details{
 font-size:12px;
 margin-left:10px;
+line-height:16px;
 }
 
-.details div{
-margin-bottom:3px;
-}
-
-/* bottom wave */
+/* WAVE */
 
 .wave{
 position:absolute;
@@ -125,19 +141,27 @@ bottom:0;
 width:100%;
 height:60px;
 background:linear-gradient(45deg,#8b0000,#c62828);
-border-top-left-radius:60% 40%;
+border-top-left-radius:100% 60%;
 }
+
+/* SIGNATURE */
 
 .signature{
 position:absolute;
-bottom:10px;
-right:10px;
-text-align:center;
-font-size:10px;
+bottom:12px;
+right:20px;
 }
 
-.signature img{
-height:25px;
+.signbox{
+width:110px;
+height:20px;
+background:white;
+}
+
+.signtxt{
+font-size:10px;
+text-align:center;
+color:white;
 }
 
 </style>
@@ -145,16 +169,19 @@ height:25px;
 
 <body>
 
+<div class="container">
+
 <h2>School ID Card Generator</h2>
 
-<input id="school" placeholder="School Name">
-<input id="address" placeholder="School Address">
-<input id="name" placeholder="Student Name">
-<input id="father" placeholder="Father Name">
+<input id="schoolName" placeholder="School Name">
+<input id="schoolAddress" placeholder="School Address">
+
+<input id="studentName" placeholder="Student Name">
+<input id="fatherName" placeholder="Father Name">
 <input id="dob" placeholder="DOB">
 <input id="class" placeholder="Class">
-<input id="sec" placeholder="Section">
-<input id="roll" placeholder="Roll">
+<input id="section" placeholder="Section">
+<input id="roll" placeholder="Roll No">
 <input id="mobile" placeholder="Mobile">
 <input id="year" placeholder="Year">
 
@@ -169,11 +196,12 @@ height:25px;
 
 <br>
 
-<button onclick="preview()">Preview</button>
+<button onclick="previewCard()">Preview</button>
 <button onclick="downloadPNG()">Download PNG</button>
-<button onclick="downloadPDF()">Download PVC PDF</button>
+<button onclick="downloadPDF()">Download PDF</button>
 
-<br><br>
+
+<!-- CARD -->
 
 <div id="card">
 
@@ -184,24 +212,21 @@ height:25px;
 </div>
 
 <div class="school">
-<h2 id="schoolPreview">School Name</h2>
-<p id="addressPreview">Address</p>
+<h2 id="schoolNamePreview">School Name</h2>
+<p id="schoolAddressPreview">Address</p>
 </div>
 
 </div>
+
+<div class="title">IDENTITY CARD</div>
 
 <div class="content">
 
 <div>
-
 <div class="photo">
 <img id="photoPreview">
 </div>
-
-<div class="year" id="yearPreview">
-2024-25
-</div>
-
+<div class="year" id="yearPreview">2024</div>
 </div>
 
 <div class="details">
@@ -210,7 +235,7 @@ height:25px;
 <div>Father : <span id="fatherPreview"></span></div>
 <div>DOB : <span id="dobPreview"></span></div>
 <div>Class : <span id="classPreview"></span></div>
-<div>Sec : <span id="secPreview"></span></div>
+<div>Sec : <span id="sectionPreview"></span></div>
 <div>Roll : <span id="rollPreview"></span></div>
 <div>Mobile : <span id="mobilePreview"></span></div>
 
@@ -221,79 +246,95 @@ height:25px;
 <div class="wave"></div>
 
 <div class="signature">
-<img id="signPreview"><br>
-Principal
+
+<div class="signbox">
+<img id="signPreview" style="width:100%;height:100%">
+</div>
+
+<div class="signtxt">Signature of principal</div>
+
+</div>
+
 </div>
 
 </div>
 
 <script>
 
-function preview(){
+function previewCard(){
 
-document.getElementById("schoolPreview").innerText=document.getElementById("school").value
-document.getElementById("addressPreview").innerText=document.getElementById("address").value
-document.getElementById("namePreview").innerText=document.getElementById("name").value
-document.getElementById("fatherPreview").innerText=document.getElementById("father").value
-document.getElementById("dobPreview").innerText=document.getElementById("dob").value
-document.getElementById("classPreview").innerText=document.getElementById("class").value
-document.getElementById("secPreview").innerText=document.getElementById("sec").value
-document.getElementById("rollPreview").innerText=document.getElementById("roll").value
-document.getElementById("mobilePreview").innerText=document.getElementById("mobile").value
-document.getElementById("yearPreview").innerText=document.getElementById("year").value
+document.getElementById("schoolNamePreview").innerText=document.getElementById("schoolName").value;
+document.getElementById("schoolAddressPreview").innerText=document.getElementById("schoolAddress").value;
+
+document.getElementById("namePreview").innerText=document.getElementById("studentName").value;
+document.getElementById("fatherPreview").innerText=document.getElementById("fatherName").value;
+document.getElementById("dobPreview").innerText=document.getElementById("dob").value;
+document.getElementById("classPreview").innerText=document.getElementById("class").value;
+document.getElementById("sectionPreview").innerText=document.getElementById("section").value;
+document.getElementById("rollPreview").innerText=document.getElementById("roll").value;
+document.getElementById("mobilePreview").innerText=document.getElementById("mobile").value;
+
+document.getElementById("yearPreview").innerText=document.getElementById("year").value;
+
+loadImage("photo","photoPreview");
+loadImage("logo","logoPreview");
+loadImage("sign","signPreview");
 
 }
 
-/* image preview */
+function loadImage(input,id){
 
-photo.onchange=e=>{
-photoPreview.src=URL.createObjectURL(e.target.files[0])
+const file=document.getElementById(input).files[0];
+
+if(file){
+
+const reader=new FileReader();
+
+reader.onload=function(e){
+document.getElementById(id).src=e.target.result;
 }
 
-logo.onchange=e=>{
-logoPreview.src=URL.createObjectURL(e.target.files[0])
+reader.readAsDataURL(file);
+
 }
 
-sign.onchange=e=>{
-signPreview.src=URL.createObjectURL(e.target.files[0])
 }
 
-/* PNG download */
+/* PNG */
 
 function downloadPNG(){
 
 html2canvas(document.getElementById("card")).then(canvas=>{
 
-let link=document.createElement("a")
-link.download="school-id-card.png"
-link.href=canvas.toDataURL()
-link.click()
+const link=document.createElement("a");
 
-})
+link.download="school-id.png";
+
+link.href=canvas.toDataURL();
+
+link.click();
+
+});
 
 }
 
-/* PDF PVC size */
+/* PDF */
 
 async function downloadPDF(){
 
-const { jsPDF } = window.jspdf
+const {jsPDF}=window.jspdf;
 
 html2canvas(document.getElementById("card")).then(canvas=>{
 
-let img=canvas.toDataURL("image/png")
+const img=canvas.toDataURL("image/png");
 
-let pdf=new jsPDF({
-orientation:"landscape",
-unit:"mm",
-format:[86,54]
-})
+const pdf=new jsPDF("landscape","mm",[85.6,54]);
 
-pdf.addImage(img,"PNG",0,0,86,54)
+pdf.addImage(img,"PNG",0,0,85.6,54);
 
-pdf.save("school-id-card.pdf")
+pdf.save("school-id-card.pdf");
 
-})
+});
 
 }
 
