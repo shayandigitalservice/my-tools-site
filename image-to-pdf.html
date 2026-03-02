@@ -1,16 +1,15 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
 
 <meta charset="UTF-8">
-
-<title>Image to PDF Converter</title>
-
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<meta name="description" content="Free online Image to PDF converter. Convert multiple images to a single PDF file instantly. Fast, secure and easy to use tool.">
+<title>Image to PDF Converter | Free JPG PNG to PDF Tool</title>
 
-<meta name="keywords" content="image to pdf converter, jpg to pdf, png to pdf, convert images to pdf online, free image to pdf tool">
+<meta name="description" content="Convert images to PDF online for free. Upload JPG, JPEG, PNG images and create a single PDF instantly. Fast, secure and mobile friendly tool.">
+
+<meta name="keywords" content="image to pdf converter, jpg to pdf, png to pdf, convert image to pdf online, free pdf tool">
 
 <meta name="author" content="Shayan Smart Tools">
 
@@ -22,38 +21,56 @@
 
 <style>
 
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Arial, sans-serif;
+}
+
 body{
-font-family:Arial;
 background:#f1f5f9;
-text-align:center;
 padding:20px;
+text-align:center;
+}
+
+h1{
+margin-bottom:20px;
 }
 
 .container{
 background:white;
-max-width:420px;
+max-width:450px;
 margin:auto;
 padding:25px;
 border-radius:15px;
 box-shadow:0 10px 25px rgba(0,0,0,0.08);
 }
 
-h2{
-margin-bottom:15px;
-}
-
-.upload-box{
+.upload{
 border:2px dashed #2563eb;
-padding:20px;
+padding:25px;
 border-radius:10px;
 cursor:pointer;
 margin-bottom:15px;
 }
 
+.upload:hover{
+background:#f8fafc;
+}
+
+.preview{
+display:flex;
+flex-wrap:wrap;
+justify-content:center;
+margin-top:10px;
+}
+
 .preview img{
-width:90px;
+width:80px;
 margin:5px;
 border-radius:8px;
+box-shadow:0 3px 8px rgba(0,0,0,0.1);
 }
 
 button{
@@ -68,8 +85,16 @@ color:white;
 cursor:pointer;
 }
 
+button:hover{
+background:#1e40af;
+}
+
 .tools{
 margin-top:30px;
+}
+
+.tools h3{
+margin-bottom:10px;
 }
 
 .tools a{
@@ -80,31 +105,49 @@ color:#2563eb;
 font-size:14px;
 }
 
+.info{
+max-width:700px;
+margin:40px auto;
+text-align:left;
+background:white;
+padding:25px;
+border-radius:15px;
+line-height:1.6;
+box-shadow:0 10px 25px rgba(0,0,0,0.05);
+}
+
+footer{
+margin-top:30px;
+font-size:13px;
+color:#555;
+}
+
 </style>
 
 </head>
 
 <body>
 
-<h2>Image to PDF Converter</h2>
+<h1>Image to PDF Converter</h1>
 
 <div class="container">
 
-<div class="upload-box">
+<div class="upload">
 <input type="file" id="images" multiple accept="image/*">
 </div>
 
 <div class="preview" id="preview"></div>
 
-<button onclick="createPDF()">Convert to PDF</button>
+<button onclick="createPDF()">Create PDF</button>
 
 <button onclick="downloadPDF()">Download PDF</button>
 
 </div>
 
+
 <div class="tools">
 
-<h3>More Tools</h3>
+<h3>More Free Tools</h3>
 
 <a href="age.html">Age Calculator</a>
 <a href="currency.html">Currency Converter</a>
@@ -114,9 +157,42 @@ font-size:14px;
 <a href="image-crop.html">Image Crop Tool</a>
 <a href="image-converter.html">Image Converter</a>
 <a href="pdf-merge.html">PDF Merge Tool</a>
-<a href="background-remover.html">Photo Background Remover</a>
+<a href="background-remover.html">Background Remover</a>
 
 </div>
+
+
+<div class="info">
+
+<h2>About Image to PDF Converter</h2>
+
+<p>
+This free online tool allows you to convert multiple images into a single PDF file instantly. It supports JPG, JPEG and PNG images and works directly inside your browser without uploading files to any server.
+</p>
+
+<h2>How to Use</h2>
+
+<p>
+1. Upload one or multiple images from your device.<br>
+2. Click the "Create PDF" button.<br>
+3. After the PDF is generated click "Download PDF".
+</p>
+
+<h2>Features</h2>
+
+<p>
+✔ Works on mobile and desktop<br>
+✔ No software installation required<br>
+✔ Fast conversion<br>
+✔ Secure browser-based processing
+</p>
+
+</div>
+
+<footer>
+© Shayan Smart Tools
+</footer>
+
 
 <script>
 
@@ -166,28 +242,36 @@ reader.readAsDataURL(file)
 
 function createPDF(){
 
+if(images.length==0){
+alert("Please upload images")
+return
+}
+
 pdf=new jsPDF()
 
 images.forEach((img,index)=>{
 
-let width=210
-let height=(img.height/img.width)*210
+let pdfWidth=210
+let pdfHeight=(img.height/img.width)*210
 
 if(index>0) pdf.addPage()
 
-pdf.addImage(img,"JPEG",0,0,width,height)
+pdf.addImage(img,"JPEG",0,0,pdfWidth,pdfHeight)
 
 })
 
-alert("PDF Ready")
+alert("PDF Ready to Download")
 
 }
 
 function downloadPDF(){
 
-if(pdf){
-pdf.save("images.pdf")
+if(!pdf){
+alert("Please create PDF first")
+return
 }
+
+pdf.save("images.pdf")
 
 }
 
