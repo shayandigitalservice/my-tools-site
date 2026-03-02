@@ -1,10 +1,7 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>School ID Card Generator</title>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
@@ -14,71 +11,133 @@
 
 body{
 font-family:Arial;
-background:#f2f2f2;
+background:#f0f0f0;
 padding:20px;
 }
 
 input{
-width:100%;
-padding:10px;
-margin:6px 0;
+display:block;
+margin:8px 0;
+padding:8px;
+width:250px;
 }
 
 button{
-width:100%;
 padding:10px;
-margin-top:8px;
+margin:5px;
 background:#1976d2;
 color:white;
 border:none;
 cursor:pointer;
 }
 
-.container{
-max-width:500px;
-}
-
-.card{
+#card{
 width:340px;
-height:210px;
-background:#0fb9b1;
-border-radius:12px;
-padding:10px;
-color:#000;
-box-shadow:0 0 10px rgba(0,0,0,0.2);
+height:214px;
+background:white;
+border-radius:10px;
+overflow:hidden;
+position:relative;
+box-shadow:0 5px 15px rgba(0,0,0,0.2);
 }
 
-.card h3{
+/* header */
+
+.header{
+background:#c89c2b;
+color:white;
+height:60px;
+display:flex;
+align-items:center;
+padding:5px 10px;
+}
+
+.logo{
+width:45px;
+height:45px;
+border-radius:50%;
+background:white;
+overflow:hidden;
+margin-right:10px;
+}
+
+.logo img{
+width:100%;
+height:100%;
+object-fit:cover;
+}
+
+.school{
 text-align:center;
-margin:5px 0;
+flex:1;
+}
+
+.school h2{
+font-size:16px;
+margin:0;
+}
+
+.school p{
+font-size:11px;
+margin:0;
+}
+
+/* body */
+
+.content{
+display:flex;
+padding:10px;
 }
 
 .photo{
 width:80px;
 height:100px;
-border:2px solid #000;
+border:2px solid #c89c2b;
+overflow:hidden;
+}
+
+.photo img{
+width:100%;
+height:100%;
 object-fit:cover;
 }
 
-.logo{
-width:40px;
-height:40px;
-object-fit:cover;
+.year{
+text-align:center;
+font-size:12px;
+margin-top:3px;
 }
 
-.row{
-display:flex;
-gap:10px;
-align-items:center;
+.details{
+font-size:12px;
+margin-left:10px;
 }
 
-.back{
-width:340px;
-height:210px;
-background:#0fb9b1;
-border-radius:12px;
-padding:10px;
-margin-top:10px;
+.details div{
+margin-bottom:3px;
+}
+
+/* bottom wave */
+
+.wave{
+position:absolute;
+bottom:0;
+width:100%;
+height:60px;
+background:linear-gradient(45deg,#8b0000,#c62828);
+border-top-left-radius:60% 40%;
+}
+
+.signature{
+position:absolute;
+bottom:10px;
+right:10px;
+text-align:center;
+font-size:10px;
+}
+
+.signature img{
+height:25px;
 }
 
 </style>
@@ -88,25 +147,16 @@ margin-top:10px;
 
 <h2>School ID Card Generator</h2>
 
-<div class="container">
-
 <input id="school" placeholder="School Name">
-
-<input id="student" placeholder="Student Name">
-
-<input id="parent" placeholder="Parent Name">
-
-<input id="class" placeholder="Class">
-
-<input id="section" placeholder="Section">
-
-<input id="roll" placeholder="Roll No">
-
-<input id="year" placeholder="Year">
-
 <input id="address" placeholder="School Address">
-
-<input id="contact" placeholder="Contact Number">
+<input id="name" placeholder="Student Name">
+<input id="father" placeholder="Father Name">
+<input id="dob" placeholder="DOB">
+<input id="class" placeholder="Class">
+<input id="sec" placeholder="Section">
+<input id="roll" placeholder="Roll">
+<input id="mobile" placeholder="Mobile">
+<input id="year" placeholder="Year">
 
 <label>Student Photo</label>
 <input type="file" id="photo">
@@ -117,196 +167,137 @@ margin-top:10px;
 <label>Principal Signature</label>
 <input type="file" id="sign">
 
-<button onclick="previewCard()">Preview Card</button>
+<br>
 
+<button onclick="preview()">Preview</button>
 <button onclick="downloadPNG()">Download PNG</button>
-
 <button onclick="downloadPDF()">Download PVC PDF</button>
-
-<button onclick="printCard()">Print PVC</button>
-
-</div>
 
 <br><br>
 
-<div id="cardArea">
+<div id="card">
 
-<div class="card" id="cardFront">
+<div class="header">
 
-<div class="row">
-<img id="logo1" class="logo">
-<h3 id="schoolText"></h3>
-<img id="logo2" class="logo">
+<div class="logo">
+<img id="logoPreview">
 </div>
 
-<div class="row">
+<div class="school">
+<h2 id="schoolPreview">School Name</h2>
+<p id="addressPreview">Address</p>
+</div>
 
-<img id="photoPreview" class="photo">
+</div>
+
+<div class="content">
 
 <div>
 
-<div id="nameText"></div>
-<div id="parentText"></div>
-<div id="classText"></div>
-<div id="yearText"></div>
+<div class="photo">
+<img id="photoPreview">
+</div>
+
+<div class="year" id="yearPreview">
+2024-25
+</div>
+
+</div>
+
+<div class="details">
+
+<div>Name : <span id="namePreview"></span></div>
+<div>Father : <span id="fatherPreview"></span></div>
+<div>DOB : <span id="dobPreview"></span></div>
+<div>Class : <span id="classPreview"></span></div>
+<div>Sec : <span id="secPreview"></span></div>
+<div>Roll : <span id="rollPreview"></span></div>
+<div>Mobile : <span id="mobilePreview"></span></div>
 
 </div>
 
 </div>
 
-<br>
+<div class="wave"></div>
 
-<img id="signPreview" style="width:80px">
-
-</div>
-
-<div class="back" id="cardBack">
-
-<h4>School Address</h4>
-<div id="addressText"></div>
-
-<h4>Contact</h4>
-<div id="contactText"></div>
-
+<div class="signature">
+<img id="signPreview"><br>
+Principal
 </div>
 
 </div>
 
 <script>
 
-function previewCard(){
+function preview(){
 
-document.getElementById("schoolText").innerText=document.getElementById("school").value;
-
-document.getElementById("nameText").innerText="Name: "+document.getElementById("student").value;
-
-document.getElementById("parentText").innerText="Parent: "+document.getElementById("parent").value;
-
-document.getElementById("classText").innerText="Class: "+document.getElementById("class").value+
-" | Section: "+document.getElementById("section").value+
-" | Roll: "+document.getElementById("roll").value;
-
-document.getElementById("yearText").innerText="Year: "+document.getElementById("year").value;
-
-document.getElementById("addressText").innerText=document.getElementById("address").value;
-
-document.getElementById("contactText").innerText=document.getElementById("contact").value;
-
-let photo=document.getElementById("photo").files[0];
-let logo=document.getElementById("logo").files[0];
-let sign=document.getElementById("sign").files[0];
-
-if(photo){
-document.getElementById("photoPreview").src=URL.createObjectURL(photo);
-}
-
-if(logo){
-document.getElementById("logo1").src=URL.createObjectURL(logo);
-document.getElementById("logo2").src=URL.createObjectURL(logo);
-}
-
-if(sign){
-document.getElementById("signPreview").src=URL.createObjectURL(sign);
-}
+document.getElementById("schoolPreview").innerText=document.getElementById("school").value
+document.getElementById("addressPreview").innerText=document.getElementById("address").value
+document.getElementById("namePreview").innerText=document.getElementById("name").value
+document.getElementById("fatherPreview").innerText=document.getElementById("father").value
+document.getElementById("dobPreview").innerText=document.getElementById("dob").value
+document.getElementById("classPreview").innerText=document.getElementById("class").value
+document.getElementById("secPreview").innerText=document.getElementById("sec").value
+document.getElementById("rollPreview").innerText=document.getElementById("roll").value
+document.getElementById("mobilePreview").innerText=document.getElementById("mobile").value
+document.getElementById("yearPreview").innerText=document.getElementById("year").value
 
 }
+
+/* image preview */
+
+photo.onchange=e=>{
+photoPreview.src=URL.createObjectURL(e.target.files[0])
+}
+
+logo.onchange=e=>{
+logoPreview.src=URL.createObjectURL(e.target.files[0])
+}
+
+sign.onchange=e=>{
+signPreview.src=URL.createObjectURL(e.target.files[0])
+}
+
+/* PNG download */
 
 function downloadPNG(){
 
-html2canvas(document.getElementById("cardArea")).then(canvas=>{
+html2canvas(document.getElementById("card")).then(canvas=>{
 
-let link=document.createElement("a");
-link.download="school-id.png";
-link.href=canvas.toDataURL();
-link.click();
+let link=document.createElement("a")
+link.download="school-id-card.png"
+link.href=canvas.toDataURL()
+link.click()
 
-});
+})
 
 }
 
-function downloadPDF(){
+/* PDF PVC size */
 
-html2canvas(document.getElementById("cardArea")).then(canvas=>{
+async function downloadPDF(){
 
-const { jsPDF } = window.jspdf;
+const { jsPDF } = window.jspdf
 
-let img=canvas.toDataURL("image/png");
+html2canvas(document.getElementById("card")).then(canvas=>{
+
+let img=canvas.toDataURL("image/png")
 
 let pdf=new jsPDF({
 orientation:"landscape",
 unit:"mm",
-format:[85.6,54]
-});
+format:[86,54]
+})
 
-pdf.addImage(img,"PNG",0,0,85.6,54);
+pdf.addImage(img,"PNG",0,0,86,54)
 
-pdf.save("school-id.pdf");
+pdf.save("school-id-card.pdf")
 
-});
-
-}
-
-function printCard(){
-
-let printContent=document.getElementById("cardArea").outerHTML;
-
-let win=window.open("");
-
-win.document.write(printContent);
-
-win.print();
+})
 
 }
 
 </script>
 
-
-<br><br>
-
-<div style="background:#fff;padding:20px;border-radius:10px">
-
-<h2>About School ID Card Generator</h2>
-
-<p>
-School ID Card Generator is a free online tool designed to help schools create professional PVC style student ID cards quickly and easily. With this tool, school administrators can generate ATM-size identity cards that include student name, class, section, roll number, academic year, and parent information. Users can also upload a student photo, school logo, and principal signature to create a professional looking ID card.
-</p>
-
-<h2>How to Use</h2>
-
-<p>
-To create an ID card, simply enter the school name and student details in the form fields. Upload the student photo, school logo, and principal signature if required. Click the Preview Card button to generate the ID card layout. Once the card looks correct, you can download the card as a PNG image or export it as a PVC print-ready PDF. You can also use the print option to directly print the card.
-</p>
-
-<h2>Features</h2>
-
-<ul>
-<li>PVC size ID card design</li>
-<li>Front and back card layout</li>
-<li>Upload student photo</li>
-<li>Add school logo</li>
-<li>Add principal signature</li>
-<li>Download PNG</li>
-<li>Download PVC PDF</li>
-<li>Direct print option</li>
-</ul>
-
-<h2>FAQ</h2>
-
-<p><b>Is this tool free?</b><br>
-Yes, the School ID Card Generator is completely free to use.</p>
-
-<p><b>Can I print PVC cards?</b><br>
-Yes, you can export the card as a PVC size PDF and print it using a PVC card printer.</p>
-
-<h2>Related Tools</h2>
-
-<ul>
-<li>Resume Maker</li>
-<li>QR Code Generator</li>
-<li>Image to PDF Converter</li>
-</ul>
-
-</div>
-
 </body>
-</html>
+  </html>
