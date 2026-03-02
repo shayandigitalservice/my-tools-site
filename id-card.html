@@ -1,144 +1,118 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
 
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>School ID Card Generator</title>
 
-<meta name="description" content="Free School ID Card Generator. Create PVC size ATM style school ID cards online and download PDF instantly.">
-
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
 <style>
 
 body{
 font-family:Arial;
-background:#f3f3f3;
+background:#f2f2f2;
 text-align:center;
-padding:20px;
-}
-
-.container{
-display:grid;
-grid-template-columns:1fr 1fr;
-gap:20px;
-max-width:1000px;
-margin:auto;
 }
 
 input{
-width:95%;
-padding:10px;
+padding:8px;
 margin:5px;
+width:250px;
 }
 
 button{
 padding:10px 20px;
-margin:5px;
-background:#2563eb;
-color:white;
-border:none;
-cursor:pointer;
+margin:10px;
 }
 
 .card{
+
 width:340px;
 height:215px;
-background:#1e3a8a;
-color:white;
+background:white;
 border-radius:12px;
-padding:10px;
+box-shadow:0 0 10px rgba(0,0,0,0.2);
+margin:auto;
 position:relative;
 overflow:hidden;
+
 }
 
-.bglogo{
-position:absolute;
-width:250px;
-opacity:0.08;
-left:40px;
-top:10px;
+.top{
+
+background:#1e3a8a;
+color:white;
+padding:8px;
+text-align:center;
+
 }
 
 .school{
-font-size:20px;
+
+font-size:18px;
 font-weight:bold;
-text-align:center;
+
 }
 
 .address{
-font-size:11px;
-text-align:center;
+
+font-size:10px;
+
 }
 
-.identity{
-text-align:center;
-font-weight:bold;
-margin-top:5px;
+.logo{
+
+position:absolute;
+top:10px;
+left:10px;
+width:40px;
+
 }
 
 .details{
+
 position:absolute;
-left:15px;
-top:80px;
-font-size:13px;
+left:25px;
+top:90px;
+font-size:14px;
+line-height:24px;
 font-weight:bold;
-line-height:20px;
+
 }
 
 .photo{
+
 position:absolute;
-right:15px;
-top:80px;
-width:80px;
-height:95px;
-border:2px solid white;
+right:25px;
+top:85px;
+width:90px;
+height:105px;
+border:2px solid black;
 object-fit:cover;
+
 }
 
 .sign{
+
 position:absolute;
-right:25px;
-top:180px;
-width:70px;
+right:40px;
+top:190px;
+width:60px;
+
 }
 
 .session{
+
 position:absolute;
 bottom:0;
-left:0;
 width:100%;
-background:#0ea5e9;
+background:#1e3a8a;
+color:white;
+font-size:13px;
 padding:4px;
-font-size:12px;
-}
 
-.templates{
-display:grid;
-grid-template-columns:repeat(5,1fr);
-gap:5px;
-margin-top:10px;
-}
-
-.temp{
-height:30px;
-cursor:pointer;
-border-radius:5px;
-}
-
-.seo{
-max-width:800px;
-margin:auto;
-margin-top:40px;
-text-align:left;
-background:white;
-padding:20px;
 }
 
 </style>
@@ -149,85 +123,79 @@ padding:20px;
 
 <h2>School ID Card Generator</h2>
 
-<div class="container">
+<input id="school" placeholder="School Name"><br>
 
-<div>
+<input id="address" placeholder="School Address"><br>
 
-<input id="school" placeholder="School Name">
+<input id="phone" placeholder="School Phone"><br>
 
-<input id="address" placeholder="School Address">
+<input id="session" placeholder="Session"><br>
 
-<input id="phone" placeholder="School Phone">
+<input id="name" placeholder="Student Name"><br>
 
-<input id="session" placeholder="Session">
+<input id="class" placeholder="Class"><br>
 
-<input id="name" value="Radhika">
+<input id="section" placeholder="Section"><br>
 
-<input id="parent" value="Shyam">
+<input id="roll" placeholder="Roll No"><br>
 
-<input id="class" value="VI">
-
-<input id="section" value="A">
-
-<input id="phno" value="99765656">
-
-<label>Student Photo</label>
-<input type="file" id="photo">
-
-<label>School Logo</label>
-<input type="file" id="logo">
-
-<label>Principal Signature</label>
-<input type="file" id="sign">
+<input id="phno" placeholder="Phone Number"><br>
 
 <br>
+
+Student Photo  
+<input type="file" id="photo"><br>
+
+School Logo  
+<input type="file" id="logo"><br>
+
+Principal Signature  
+<input type="file" id="sign"><br>
 
 <button onclick="preview()">Preview</button>
 
 <button onclick="downloadPDF()">Download PDF</button>
 
-<h3>Choose Template</h3>
-
-<div class="templates" id="templates"></div>
-
-</div>
-
-<div>
+<br><br>
 
 <div class="card" id="card">
 
-<img id="bglogo" class="bglogo">
+<img id="logoP" class="logo">
+
+<div class="top">
 
 <div class="school" id="schoolP">School Name</div>
 
 <div class="address">
+
 <span id="addressP"></span><br>
 <span id="phoneP"></span>
+
 </div>
 
-<div class="identity">IDENTITY CARD</div>
-
-<img id="photoP" class="photo">
+</div>
 
 <div class="details">
 
-Name : <span id="nameP"></span><br>
+Name        : <span id="nameP"></span><br>
 
-S/O D/O : <span id="parentP"></span><br>
+Class       : <span id="classP"></span><br>
 
-Class : <span id="classP"></span><br>
+Section     : <span id="sectionP"></span><br>
 
-Section : <span id="sectionP"></span><br>
+Roll No     : <span id="rollP"></span><br>
 
-Ph No : <span id="phnoP"></span>
+Ph No       : <span id="phnoP"></span>
 
 </div>
+
+<img id="photoP" class="photo">
 
 <img id="signP" class="sign">
 
-<div class="session" id="sessionP">SESSION</div>
+<div class="session" id="sessionP">
 
-</div>
+SESSION
 
 </div>
 
@@ -235,15 +203,13 @@ Ph No : <span id="phnoP"></span>
 
 <script>
 
-function readURL(input,preview){
-
-if(input.files && input.files[0]){
+function read(input,target){
 
 let reader=new FileReader()
 
 reader.onload=function(e){
 
-preview.src=e.target.result
+target.src=e.target.result
 
 }
 
@@ -251,24 +217,25 @@ reader.readAsDataURL(input.files[0])
 
 }
 
-}
+photo.onchange=()=>read(photo,photoP)
 
-photo.onchange=function(){readURL(this,photoP)}
-logo.onchange=function(){readURL(this,bglogo)}
-sign.onchange=function(){readURL(this,signP)}
+logo.onchange=()=>read(logo,logoP)
+
+sign.onchange=()=>read(sign,signP)
 
 function preview(){
 
 schoolP.innerText=school.value
 addressP.innerText=address.value
 phoneP.innerText=phone.value
-sessionP.innerText=session.value
 
 nameP.innerText=name.value
-parentP.innerText=parent.value
 classP.innerText=class.value
 sectionP.innerText=section.value
+rollP.innerText=roll.value
 phnoP.innerText=phno.value
+
+sessionP.innerText="SESSION "+session.value
 
 }
 
@@ -290,69 +257,7 @@ pdf.save("school-id-card.pdf")
 
 }
 
-for(let i=0;i<15;i++){
-
-let t=document.createElement("div")
-
-t.className="temp"
-
-t.style.background="hsl("+(i*20)+",70%,40%)"
-
-t.onclick=function(){
-
-card.style.background=this.style.background
-
-}
-
-templates.appendChild(t)
-
-}
-
 </script>
-
-<div class="seo">
-
-<h2>About School ID Card Generator</h2>
-
-<p>
-This free School ID Card Generator helps schools create professional PVC style ID cards instantly. The tool is designed for teachers, school administrators, coaching centers, and institutes that need a fast way to generate identity cards for students. Instead of using complex software, this simple web tool allows users to fill student information, upload a photo, and instantly preview a realistic ATM-size ID card.
-</p>
-
-<h2>How to Use</h2>
-
-<p>
-Enter the school name, address, phone number and session. Then fill in the student details including name, parent name, class, section and phone number. Upload the student photo, school logo and principal signature. After entering the details click the preview button to generate the ID card instantly. You can also choose from multiple color templates to change the design. Finally click the download PDF button to save the ID card ready for printing.
-</p>
-
-<h2>Features</h2>
-
-<ul>
-<li>ATM size PVC ID card layout</li>
-<li>Professional school style design</li>
-<li>Background school logo watermark</li>
-<li>Student photo and principal signature</li>
-<li>15 color templates</li>
-<li>Instant preview</li>
-<li>PDF download for printing</li>
-</ul>
-
-<h2>FAQ</h2>
-
-<p><b>Is this tool free?</b><br>Yes, it is completely free to use.</p>
-
-<p><b>Can I print PVC cards?</b><br>Yes, download the PDF and print on PVC card printers.</p>
-
-<h2>Related Tools</h2>
-
-<p>
-
-<a href="id-card.html">School ID Card Generator</a> |
-<a href="tip-calculator.html">Tip Calculator</a> |
-<a href="unit-converter.html">Unit Converter</a>
-
-</p>
-
-</div>
 
 </body>
 </html>
