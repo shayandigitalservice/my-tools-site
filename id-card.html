@@ -4,10 +4,10 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>School ID Card Generator</title>
+<title>School PVC ID Card Generator</title>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
 <style>
 
@@ -18,70 +18,111 @@ padding:20px;
 }
 
 .container{
-max-width:1100px;
+max-width:1000px;
 margin:auto;
-display:grid;
-grid-template-columns:1fr 1fr;
-gap:20px;
+display:flex;
+flex-wrap:wrap;
+gap:30px;
 }
 
-input,button{
+.form{
+flex:1;
+min-width:300px;
+}
+
+.preview{
+flex:1;
+min-width:300px;
+}
+
+input{
 width:100%;
 padding:10px;
-margin:5px 0;
+margin:6px 0;
 }
 
 button{
-background:#2d6cdf;
+width:100%;
+padding:12px;
+margin-top:8px;
+background:#2c6ed5;
 color:white;
 border:none;
 cursor:pointer;
 }
 
 .card{
-width:320px;
-height:200px;
+width:340px;
+height:210px;
 background:white;
 border-radius:10px;
-box-shadow:0 0 10px rgba(0,0,0,0.2);
 padding:10px;
-position:relative;
+box-shadow:0 0 10px rgba(0,0,0,0.2);
+margin-bottom:20px;
 }
 
 .logo{
 width:40px;
 height:40px;
+object-fit:cover;
 }
 
 .photo{
-width:70px;
-height:80px;
+width:80px;
+height:100px;
 object-fit:cover;
 border:2px solid #000;
 }
 
+.row{
+display:flex;
+gap:10px;
+}
+
 .back{
-margin-top:20px;
+font-size:14px;
 }
 
 .templates{
 display:grid;
 grid-template-columns:repeat(5,1fr);
-gap:5px;
+gap:10px;
 margin-top:10px;
 }
 
 .template{
-height:40px;
+height:30px;
 cursor:pointer;
-border-radius:5px;
+border-radius:4px;
 }
 
+.t1{background:#1abc9c}
+.t2{background:#3498db}
+.t3{background:#9b59b6}
+.t4{background:#e74c3c}
+.t5{background:#f39c12}
+.t6{background:#16a085}
+.t7{background:#2980b9}
+.t8{background:#8e44ad}
+.t9{background:#c0392b}
+.t10{background:#d35400}
+.t11{background:#2ecc71}
+.t12{background:#27ae60}
+.t13{background:#34495e}
+.t14{background:#7f8c8d}
+.t15{background:#95a5a6}
+.t16{background:#ff7675}
+.t17{background:#fd79a8}
+.t18{background:#6c5ce7}
+.t19{background:#00cec9}
+.t20{background:#e84393}
+
 .seo{
-margin-top:40px;
 background:white;
-padding:20px;
+padding:25px;
+margin-top:40px;
 border-radius:10px;
+line-height:1.7;
 }
 
 </style>
@@ -89,21 +130,24 @@ border-radius:10px;
 
 <body>
 
-<h2>School ID Card Generator</h2>
+<h2>School PVC ID Card Generator</h2>
 
 <div class="container">
 
-<div>
+<div class="form">
 
 <input id="school" placeholder="School Name">
 <input id="student" placeholder="Student Name">
-<input id="parent" placeholder="Parent Name">
+<input id="parent" placeholder="Parents Name">
+
 <input id="class" placeholder="Class">
 <input id="section" placeholder="Section">
 <input id="roll" placeholder="Roll No">
+
 <input id="year" placeholder="Year">
-<input id="address" placeholder="School Address (Back)">
-<input id="contact" placeholder="Contact Number (Back)">
+
+<input id="address" placeholder="School Address (Back Side)">
+<input id="contact" placeholder="Contact Number (Back Side)">
 
 <label>Student Photo</label>
 <input type="file" id="photo">
@@ -112,53 +156,66 @@ border-radius:10px;
 <input type="file" id="logo">
 
 <button onclick="preview()">Preview ID</button>
-<button onclick="download()">Download PVC Card</button>
-<button onclick="printCard()">Print PVC</button>
-
-<h3>Excel Upload (Bulk)</h3>
-
-<input type="file" id="excel">
-<button onclick="bulkPrint()">Bulk Print PVC</button>
+<button onclick="downloadPDF()">Download PVC PDF</button>
 
 <h3>Choose Template</h3>
 
-<div class="templates" id="templates"></div>
+<div class="templates">
+<div class="template t1" onclick="setColor('#1abc9c')"></div>
+<div class="template t2" onclick="setColor('#3498db')"></div>
+<div class="template t3" onclick="setColor('#9b59b6')"></div>
+<div class="template t4" onclick="setColor('#e74c3c')"></div>
+<div class="template t5" onclick="setColor('#f39c12')"></div>
+<div class="template t6" onclick="setColor('#16a085')"></div>
+<div class="template t7" onclick="setColor('#2980b9')"></div>
+<div class="template t8" onclick="setColor('#8e44ad')"></div>
+<div class="template t9" onclick="setColor('#c0392b')"></div>
+<div class="template t10" onclick="setColor('#d35400')"></div>
+<div class="template t11" onclick="setColor('#2ecc71')"></div>
+<div class="template t12" onclick="setColor('#27ae60')"></div>
+<div class="template t13" onclick="setColor('#34495e')"></div>
+<div class="template t14" onclick="setColor('#7f8c8d')"></div>
+<div class="template t15" onclick="setColor('#95a5a6')"></div>
+<div class="template t16" onclick="setColor('#ff7675')"></div>
+<div class="template t17" onclick="setColor('#fd79a8')"></div>
+<div class="template t18" onclick="setColor('#6c5ce7')"></div>
+<div class="template t19" onclick="setColor('#00cec9')"></div>
+<div class="template t20" onclick="setColor('#e84393')"></div>
+</div>
 
 </div>
 
-
-<div>
+<div class="preview">
 
 <div id="cardFront" class="card">
 
+<div class="row">
 <img id="logoPreview" class="logo">
-
 <h4 id="schoolPreview"></h4>
+</div>
 
+<div class="row">
 <img id="photoPreview" class="photo">
 
 <div>
-
-Name : <span id="namePreview"></span><br>
-Parent : <span id="parentPreview"></span><br>
-Class : <span id="classPreview"></span><br>
-Section : <span id="sectionPreview"></span><br>
-Roll : <span id="rollPreview"></span><br>
-Year : <span id="yearPreview"></span>
-
+<p>Name: <span id="namePreview"></span></p>
+<p>Parent: <span id="parentPreview"></span></p>
+<p>Class: <span id="classPreview"></span></p>
+<p>Section: <span id="sectionPreview"></span></p>
+<p>Roll: <span id="rollPreview"></span></p>
+<p>Year: <span id="yearPreview"></span></p>
 </div>
 
 </div>
 
+</div>
 
 <div id="cardBack" class="card back">
 
-<h4>School Address</h4>
-
+<p><b>School Address</b></p>
 <p id="addressPreview"></p>
 
-<h4>Contact</h4>
-
+<p><b>Contact</b></p>
 <p id="contactPreview"></p>
 
 </div>
@@ -169,108 +226,55 @@ Year : <span id="yearPreview"></span>
 
 <script>
 
-function readURL(input,preview){
-
-if(input.files && input.files[0]){
-
-let reader=new FileReader()
-
-reader.onload=function(e){
-
-preview.src=e.target.result
-
-}
-
-reader.readAsDataURL(input.files[0])
-
-}
-
-}
-
-photo.onchange=function(){
-readURL(this,photoPreview)
-}
-
-logo.onchange=function(){
-readURL(this,logoPreview)
-}
-
 function preview(){
 
-schoolPreview.innerText=school.value
-namePreview.innerText=student.value
-parentPreview.innerText=parent.value
-classPreview.innerText=class.value
-sectionPreview.innerText=section.value
-rollPreview.innerText=roll.value
-yearPreview.innerText=year.value
+document.getElementById("schoolPreview").innerText=document.getElementById("school").value
+document.getElementById("namePreview").innerText=document.getElementById("student").value
+document.getElementById("parentPreview").innerText=document.getElementById("parent").value
+document.getElementById("classPreview").innerText=document.getElementById("class").value
+document.getElementById("sectionPreview").innerText=document.getElementById("section").value
+document.getElementById("rollPreview").innerText=document.getElementById("roll").value
+document.getElementById("yearPreview").innerText=document.getElementById("year").value
 
-addressPreview.innerText=address.value
-contactPreview.innerText=contact.value
+document.getElementById("addressPreview").innerText=document.getElementById("address").value
+document.getElementById("contactPreview").innerText=document.getElementById("contact").value
+
+let photo=document.getElementById("photo").files[0]
+let logo=document.getElementById("logo").files[0]
+
+if(photo){
+document.getElementById("photoPreview").src=URL.createObjectURL(photo)
+}
+
+if(logo){
+document.getElementById("logoPreview").src=URL.createObjectURL(logo)
+}
 
 }
 
-function download(){
+function setColor(color){
 
-html2canvas(cardFront).then(canvas=>{
+document.getElementById("cardFront").style.background=color
+document.getElementById("cardBack").style.background=color
 
-let a=document.createElement("a")
-a.href=canvas.toDataURL()
-a.download="pvc-id-card.png"
-a.click()
+}
 
+async function downloadPDF(){
+
+const { jsPDF } = window.jspdf
+
+let canvas=await html2canvas(document.getElementById("cardFront"))
+let img=canvas.toDataURL("image/png")
+
+let pdf=new jsPDF({
+orientation:"landscape",
+unit:"mm",
+format:[85.6,54]
 })
 
-}
+pdf.addImage(img,"PNG",0,0,85.6,54)
 
-function printCard(){
-
-window.print()
-
-}
-
-excel.onchange=function(e){
-
-let reader=new FileReader()
-
-reader.onload=function(e){
-
-let data=new Uint8Array(e.target.result)
-
-let workbook=XLSX.read(data,{type:'array'})
-
-let sheet=workbook.Sheets[workbook.SheetNames[0]]
-
-let json=XLSX.utils.sheet_to_json(sheet)
-
-alert("Loaded "+json.length+" Students")
-
-}
-
-reader.readAsArrayBuffer(e.target.files[0])
-
-}
-
-function bulkPrint(){
-alert("Bulk Print Ready")
-}
-
-for(let i=1;i<=20;i++){
-
-let t=document.createElement("div")
-
-t.className="template"
-
-t.style.background="hsl("+i*18+",70%,70%)"
-
-t.onclick=function(){
-
-cardFront.style.background=this.style.background
-cardBack.style.background=this.style.background
-
-}
-
-templates.appendChild(t)
+pdf.save("PVC_ID_CARD.pdf")
 
 }
 
@@ -282,42 +286,42 @@ templates.appendChild(t)
 <h2>About School ID Card Generator</h2>
 
 <p>
-School ID Card Generator is a free online tool designed to help schools quickly create professional student ID cards. This tool allows administrators and teachers to generate PVC style identification cards similar to ATM cards used in many institutions. Users can enter student details such as name, class, roll number, section, and academic year. The tool also allows uploading a student photo and school logo to create a complete and professional ID design.
+School PVC ID Card Generator is a free online tool designed to help schools quickly create professional student identity cards. This tool allows administrators and teachers to generate PVC style identification cards similar to ATM cards used in many institutions. Users can enter student details such as name, class, roll number, section, and academic year. The tool also allows uploading a student photo and school logo to create a complete and professional ID design.
 </p>
 
 <h2>How to Use</h2>
 
 <p>
-To create a student ID card, first enter the school name and student information in the form fields. Upload the student photo and school logo if required. After filling all details, click on the preview button to generate the front and back design of the ID card. You can choose a template color to customize the appearance. Once the card looks correct, download the PVC card or print it directly. If you need to generate many ID cards at once, upload an Excel file containing student information.
+To create a student ID card, first enter the school name and student information in the form fields. Upload the student photo and school logo if available. After filling all details, click the preview button to generate the front and back design of the ID card. You can choose from multiple templates to customize the appearance. Once the design looks correct, download the PVC card as a print ready PDF file.
 </p>
 
 <h2>Features</h2>
 
 <ul>
-<li>PVC style ATM size ID card</li>
-<li>Front and back card design</li>
-<li>Student photo and school logo support</li>
-<li>20 customizable templates</li>
-<li>Excel bulk upload</li>
-<li>Bulk PVC print option</li>
-<li>Instant preview and download</li>
+<li>PVC ATM size ID card</li>
+<li>Front and back side design</li>
+<li>20 professional templates</li>
+<li>Student photo upload</li>
+<li>School logo support</li>
+<li>Instant preview</li>
+<li>PDF download for printing</li>
 </ul>
 
 <h2>FAQ</h2>
 
-<p><b>Can I create bulk ID cards?</b><br>
-Yes, you can upload an Excel file to generate multiple student cards.</p>
-
 <p><b>Is this tool free?</b><br>
-Yes, the School ID Card Generator is completely free to use.</p>
+Yes, this school ID generator is completely free to use.</p>
+
+<p><b>Can I print the card?</b><br>
+Yes, you can download the card as a PVC size PDF and print it.</p>
 
 <h2>Related Tools</h2>
 
-<ul>
-<li><a href="qr-code-generator.html">QR Code Generator</a></li>
-<li><a href="barcode-generator.html">Barcode Generator</a></li>
-<li><a href="image-to-pdf.html">Image to PDF</a></li>
-</ul>
+<p>
+<a href="qr-code-generator.html">QR Code Generator</a> |
+<a href="barcode-generator.html">Barcode Generator</a> |
+<a href="image-to-pdf.html">Image to PDF</a>
+</p>
 
 </div>
 
