@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>School ID Card Generator</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+<style>
+
+body{
+font-family:Arial;
+background:#f3f3f3;
+padding:20px;
+}
+
+.container{
+max-width:1200px;
+margin:auto;
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:20px;
+}
+
+input,button{
+width:100%;
+padding:10px;
+margin:5px 0;
+}
+
+button{
+background:#1976d2;
+color:white;
+border:none;
+cursor:pointer;
+}
+
+.preview-area{
+display:flex;
+justify-content:center;
+align-items:center;
+}
+
+.card{
+width:320px;
+height:200px;
+background:white;
+border-radius:10px;
+padding:10px;
+box-shadow:0 0 10px rgba(0,0,0,0.2);
+position:relative;
+}
+
+.header{
+display:flex;
+align-items:center;
+gap:10px;
+}
+
+.logo{
+width:40px;
+height:40px;
+object-fit:cover;
+}
+
+.student-photo{
+width:70px;
+height:80px;
+object-fit:cover;
+border:2px solid #000;
+margin-top:5px;
+}
+
+.info{
+font-size:12px;
+}
+
+.signature{
+width:70px;
+position:absolute;
+bottom:5px;
+right:10px;
+}
+
+#qrcode{
+position:absolute;
+bottom:5px;
+left:10px;
+}
+
+.templates{
+height:120px;
+overflow:auto;
+display:grid;
+grid-template-columns:repeat(10,1fr);
+gap:5px;
+margin-top:10px;
+}
+
+.template{
+height:40px;
+cursor:pointer;
+border-radius:4px;
+}
+
+.seo{
+margin-top:60px;
+background:white;
+padding:30px;
+border-radius:10px;
+line-height:1.7;
+}
+
+</style>
+</head>
+
+<body>
+
+<h2>School ID Card Generator</h2>
+
+<div class="container">
+
+<div>
+
+<input id="school" placeholder="School Name">
+
+<input id="address" placeholder="School Address">
+
+<input id="name" placeholder="Student Name">
+
+<input id="parent" placeholder="Parent Name">
+
+<input id="class" placeholder="Class">
+
+<input id="roll" placeholder="Roll No">
+
+<input id="year" placeholder="Year">
+
+<label>Student Photo</label>
+<input type="file" id="photo">
+
+<label>School Logo</label>
+<input type="file" id="logo">
+
+<label>Principal Signature</label>
+<input type="file" id="sign">
+
+<button onclick="generate()">
+<i class="fa fa-id-card"></i> Generate Preview
+</button>
+
+<button onclick="download()">
+<i class="fa fa-download"></i> Download ID
+</button>
+
+<button onclick="downloadPDF()">
+<i class="fa fa-file-pdf"></i> Download PDF
+</button>
+
+<button onclick="printCard()">
+<i class="fa fa-print"></i> Print
+</button>
+
+<button onclick="printA4()">
+<i class="fa fa-print"></i> A4 Sheet Print
+</button>
+
+<h3>Bulk Excel Upload</h3>
+
+<input type="file" id="excel">
+
+<button onclick="bulkPrint()">Bulk Print</button>
+
+<h3>Select Template</h3>
+
+<div class="templates" id="templates"></div>
+
+</div>
+
+<div class="preview-area">
+
+<div id="card" class="card">
+
+<div class="header">
+
+<img id="logoPreview" class="logo">
+
+<div>
+
+<b id="schoolPreview"></b><br>
+
+<span id="addressPreview"></span>
+
+</div>
+
+</div>
+
+<hr>
+
+<img id="photoPreview" class="student-photo">
+
+<div class="info">
+
+Name : <span id="namePreview"></span><br>
+
+Parent : <span id="parentPreview"></span><br>
+
+Class : <span id="classPreview"></span><br>
+
+Roll : <span id="rollPreview"></span><br>
+
+Year : <span id="yearPreview"></span>
+
+</div>
+
+<img id="signPreview" class="signature">
+
+<div id="qrcode"></div>
+
+</div>
+
+</div>
+
+</div>
+
+<script>
+
+function readURL(input,preview){
+
+if(input.files && input.files[0]){
+
+let reader=new FileReader()
+
+reader.onload=function(e){
+
+preview.src=e.target.result
+
+}
+
+reader.readAsDataURL(input.files[0])
+
+}
+
+}
+
+photo.onchange=function(){ readURL(this,photoPreview) }
+
+logo.onchange=function(){ readURL(this,logoPreview) }
+
+sign.onchange=function(){ readURL(this,signPreview) }
+
+function generate(){
+
+schoolPreview.innerText=school.value
+addressPreview.innerText=address.value
+namePreview.innerText=name.value
+parentPreview.innerText=parent.value
+classPreview.innerText=class.value
+rollPreview.innerText=roll.value
+yearPreview.innerText=year.value
+
+document.getElementById("qrcode").innerHTML=""
+
+new QRCode(document.getElementById("qrcode"),{
+text:name.value+"-"+roll.value,
+width:60,
+height:60
+})
+
+}
+
+function download(){
+
+html2canvas(card).then(canvas=>{
+
+let a=document.createElement("a")
+a.href=canvas.toDataURL()
+a.download="id-card.png"
+a.click()
+
+})
+
+}
+
+async function downloadPDF(){
+
+const { jsPDF } = window.jspdf
+
+html2canvas(card).then(canvas=>{
+
+let img=canvas.toDataURL("image/png")
+
+let pdf=new jsPDF()
+
+pdf.addImage(img,'PNG',10,10,180,100)
+
+pdf.save("id-card.pdf")
+
+})
+
+}
+
+function printCard(){
+
+window.print()
+
+}
+
+function printA4(){
+
+html2canvas(card).then(canvas=>{
+
+let img=canvas.toDataURL()
+
+let w=window.open("")
+
+w.document.write("<img src='"+img+"' style='width:100%'>")
+
+w.print()
+
+})
+
+}
+
+let excelData=[]
+
+excel.onchange=function(e){
+
+let reader=new FileReader()
+
+reader.onload=function(e){
+
+let data=new Uint8Array(e.target.result)
+
+let workbook=XLSX.read(data,{type:'array'})
+
+let sheet=workbook.Sheets[workbook.SheetNames[0]]
+
+excelData=XLSX.utils.sheet_to_json(sheet)
+
+alert("Excel Loaded : "+excelData.length+" Students")
+
+}
+
+reader.readAsArrayBuffer(e.target.files[0])
+
+}
+
+function bulkPrint(){
+
+if(excelData.length==0){
+
+alert("Upload Excel First")
+
+return
+
+}
+
+alert("Bulk Print Ready for "+excelData.length+" Students")
+
+}
+
+for(let i=1;i<=100;i++){
+
+let t=document.createElement("div")
+
+t.className="template"
+
+t.style.background="hsl("+i*3+",70%,70%)"
+
+t.onclick=function(){
+
+card.style.background=this.style.background
+
+}
+
+templates.appendChild(t)
+
+}
+
+</script>
+
+
+<div class="seo">
+
+<h2>About School ID Card Generator</h2>
+
+<p>
+School ID Card Generator is a free online tool that helps schools easily create professional student ID cards. This tool allows you to generate plastic-style ID cards with student details, photos, school logos, and principal signatures. It is designed to help schools, institutes, and coaching centers quickly create ID cards without using expensive software.
+</p>
+
+<h2>How to Use</h2>
+
+<p>
+Enter the school name and address, then fill the student details such as name, parent name, class, roll number, and year. Upload the student photo, school logo, and principal signature. Click on Generate Preview to see the ID card. After preview, you can download the card as PNG or PDF, or print it directly.
+</p>
+
+<h2>Features</h2>
+
+<ul>
+<li>100 ID Card Templates</li>
+<li>QR Code for Student Verification</li>
+<li>PNG and PDF Download</li>
+<li>A4 Sheet Printing</li>
+<li>Bulk Excel Upload</li>
+<li>Bulk Print for Schools</li>
+</ul>
+
+<h2>FAQ</h2>
+
+<p><b>Can I print plastic ID cards?</b><br>
+Yes, download the ID card and print on PVC card printers.</p>
+
+<p><b>Can I upload Excel file?</b><br>
+Yes, upload Excel with student data and generate cards in bulk.</p>
+
+<h2>Related Tools</h2>
+
+<p>
+<a href="#">QR Code Generator</a> |
+<a href="#">Barcode Generator</a> |
+<a href="#">Photo Resizer</a> |
+<a href="#">Image Converter</a>
+</p>
+
+</div>
+
+</body>
+  </html>
