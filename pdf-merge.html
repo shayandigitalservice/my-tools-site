@@ -2,11 +2,12 @@
 <html lang="en">
 <head>
 
-<title>PDF Merge Tool Online - Combine PDFs Free | Shayan Smart Tools</title>
-
+<meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<meta name="description" content="Free online PDF merge tool to combine multiple PDF files into one PDF instantly. Fast and secure PDF combiner.">
+<title>PDF Merge Tool Online - Combine PDFs Free | Shayan Smart Tools</title>
+
+<meta name="description" content="Free online PDF merge tool to combine multiple PDF files into one PDF instantly. Fast, secure and easy to use PDF combiner.">
 
 <meta name="keywords" content="pdf merge tool, combine pdf online, merge pdf files, pdf combiner, free pdf merge">
 
@@ -20,30 +21,45 @@
 
 <style>
 
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Arial, sans-serif;
+}
+
 body{
-font-family:Arial;
 background:#f1f5f9;
 text-align:center;
 padding:20px;
 }
 
+h1{
+margin-bottom:20px;
+}
+
 .container{
 background:white;
-max-width:420px;
+max-width:450px;
 margin:auto;
 padding:25px;
 border-radius:15px;
 box-shadow:0 10px 25px rgba(0,0,0,0.08);
 }
 
-h2{
-margin-bottom:15px;
+input{
+margin-bottom:10px;
 }
 
 .preview{
 margin-top:10px;
 font-size:14px;
-color:gray;
+color:#555;
+text-align:left;
+}
+
+.preview p{
+margin:4px 0;
 }
 
 button{
@@ -58,9 +74,17 @@ color:white;
 cursor:pointer;
 }
 
+button:hover{
+background:#1e40af;
+}
+
 .tools{
 margin-top:30px;
 font-size:14px;
+}
+
+.tools h3{
+margin-bottom:10px;
 }
 
 .tools a{
@@ -70,13 +94,30 @@ color:#2563eb;
 text-decoration:none;
 }
 
+.info{
+max-width:700px;
+margin:40px auto;
+background:white;
+padding:25px;
+border-radius:15px;
+line-height:1.6;
+text-align:left;
+box-shadow:0 10px 25px rgba(0,0,0,0.05);
+}
+
+footer{
+margin-top:30px;
+font-size:13px;
+color:#555;
+}
+
 </style>
 
 </head>
 
 <body>
 
-<h2>PDF Merge Tool</h2>
+<h1>PDF Merge Tool</h1>
 
 <div class="container">
 
@@ -90,6 +131,7 @@ text-decoration:none;
 
 </div>
 
+
 <div class="tools">
 
 <h3>More Free Tools</h3>
@@ -101,34 +143,83 @@ text-decoration:none;
 <a href="percentage.html">Percentage Calculator</a>
 <a href="image-crop.html">Image Crop Tool</a>
 <a href="image-converter.html">Image Converter</a>
+<a href="image-to-pdf.html">Image to PDF</a>
 
 </div>
 
+
+<div class="info">
+
+<h2>About PDF Merge Tool</h2>
+
+<p>
+This free online PDF merge tool allows you to combine multiple PDF files into a single PDF document quickly and securely. The tool works directly in your browser, which means your files are never uploaded to any server.
+</p>
+
+<h2>How to Use</h2>
+
+<p>
+1. Select two or more PDF files.<br>
+2. Click the "Merge PDFs" button.<br>
+3. After merging is complete, click "Download Merged PDF".
+</p>
+
+<h2>Features</h2>
+
+<p>
+✔ Free and fast PDF merging<br>
+✔ Works on mobile and desktop<br>
+✔ No installation required<br>
+✔ Secure browser processing
+</p>
+
+</div>
+
+
+<footer>
+© Shayan Smart Tools
+</footer>
+
+
 <script>
 
-let mergedPdfBytes
+let mergedPdfBytes = null
 
-document.getElementById("pdfFiles").addEventListener("change",function(e){
+document.getElementById("pdfFiles").addEventListener("change", function(e){
 
-let files=e.target.files
+let files = e.target.files
+let preview = document.getElementById("preview")
 
-let list="Selected Files:<br>"
+preview.innerHTML=""
 
-for(let i=0;i<files.length;i++){
-list+=files[i].name+"<br>"
+if(files.length==0){
+preview.innerHTML="No files selected"
+return
 }
 
-document.getElementById("preview").innerHTML=list
+for(let i=0;i<files.length;i++){
+
+let p=document.createElement("p")
+p.textContent=(i+1)+". "+files[i].name
+preview.appendChild(p)
+
+}
 
 })
+
 
 async function mergePDFs(){
 
 const { PDFDocument } = PDFLib
 
-const mergedPdf = await PDFDocument.create()
-
 const files=document.getElementById("pdfFiles").files
+
+if(files.length<2){
+alert("Please select at least 2 PDF files")
+return
+}
+
+const mergedPdf = await PDFDocument.create()
 
 for(let i=0;i<files.length;i++){
 
@@ -136,9 +227,11 @@ let arrayBuffer=await files[i].arrayBuffer()
 
 let pdf=await PDFDocument.load(arrayBuffer)
 
-let pages=await mergedPdf.copyPages(pdf,pdf.getPageIndices())
+let copiedPages=await mergedPdf.copyPages(pdf,pdf.getPageIndices())
 
-pages.forEach(page=>mergedPdf.addPage(page))
+copiedPages.forEach(page=>{
+mergedPdf.addPage(page)
+})
 
 }
 
@@ -148,9 +241,16 @@ alert("PDF merged successfully")
 
 }
 
+
 function downloadPDF(){
 
-if(!mergedPdfBytes) return
+if(!mergedPdfBytes){
+
+alert("Please merge PDFs first")
+
+return
+
+}
 
 let blob=new Blob([mergedPdfBytes],{type:"application/pdf"})
 
