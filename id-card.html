@@ -1,262 +1,358 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>School ID Card Generator</title>
 
+<meta name="description" content="Free School ID Card Generator. Create PVC size ATM style school ID cards online and download PDF instantly.">
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
 <style>
 
 body{
 font-family:Arial;
-background:#f2f2f2;
+background:#f3f3f3;
 text-align:center;
 padding:20px;
 }
 
-input,select{
-width:260px;
-padding:8px;
+.container{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:20px;
+max-width:1000px;
+margin:auto;
+}
+
+input{
+width:95%;
+padding:10px;
 margin:5px;
 }
 
 button{
-padding:8px 15px;
-margin:10px;
+padding:10px 20px;
+margin:5px;
+background:#2563eb;
+color:white;
+border:none;
 cursor:pointer;
 }
 
-.id-card{
-width:360px;
-background:white;
-border-radius:10px;
-overflow:hidden;
-box-shadow:0 3px 10px rgba(0,0,0,0.2);
-margin:auto;
-}
-
-.header{
+.card{
+width:340px;
+height:215px;
 background:#1e3a8a;
 color:white;
+border-radius:12px;
 padding:10px;
+position:relative;
+overflow:hidden;
 }
 
-.school-name{
-font-size:22px;
+.bglogo{
+position:absolute;
+width:250px;
+opacity:0.08;
+left:40px;
+top:10px;
+}
+
+.school{
+font-size:20px;
 font-weight:bold;
-}
-
-.address{
-font-size:12px;
-}
-
-.phone{
-font-size:12px;
-}
-
-.title{
-font-weight:bold;
-margin:10px;
-}
-
-.content{
-display:flex;
-justify-content:space-between;
-padding:15px 20px;
-}
-
-.details{
-text-align:left;
-font-size:15px;
-font-weight:bold;
-line-height:30px;
-}
-
-.photoBox{
 text-align:center;
 }
 
+.address{
+font-size:11px;
+text-align:center;
+}
+
+.identity{
+text-align:center;
+font-weight:bold;
+margin-top:5px;
+}
+
+.details{
+position:absolute;
+left:15px;
+top:80px;
+font-size:13px;
+font-weight:bold;
+line-height:20px;
+}
+
 .photo{
-width:110px;
-height:130px;
-border:2px solid black;
+position:absolute;
+right:15px;
+top:80px;
+width:80px;
+height:95px;
+border:2px solid white;
 object-fit:cover;
 }
 
 .sign{
-width:90px;
-margin-top:5px;
+position:absolute;
+right:25px;
+top:180px;
+width:70px;
 }
 
-.footer{
-background:#1e3a8a;
-color:white;
-font-weight:bold;
-padding:8px;
+.session{
+position:absolute;
+bottom:0;
+left:0;
+width:100%;
+background:#0ea5e9;
+padding:4px;
+font-size:12px;
+}
+
+.templates{
+display:grid;
+grid-template-columns:repeat(5,1fr);
+gap:5px;
 margin-top:10px;
 }
 
+.temp{
+height:30px;
+cursor:pointer;
+border-radius:5px;
+}
+
+.seo{
+max-width:800px;
+margin:auto;
+margin-top:40px;
+text-align:left;
+background:white;
+padding:20px;
+}
+
 </style>
+
 </head>
 
 <body>
 
 <h2>School ID Card Generator</h2>
 
-<input id="school" placeholder="School Name"><br>
-<input id="address" placeholder="School Address"><br>
-<input id="phone" placeholder="School Phone"><br>
-<input id="session" placeholder="Session"><br>
-<input id="name" placeholder="Student Name"><br>
-<input id="father" placeholder="Father Name"><br>
-<input id="class" placeholder="Class"><br>
-<input id="section" placeholder="Section"><br>
-<input id="ph" placeholder="Phone Number"><br>
+<div class="container">
+
+<div>
+
+<input id="school" placeholder="School Name">
+
+<input id="address" placeholder="School Address">
+
+<input id="phone" placeholder="School Phone">
+
+<input id="session" placeholder="Session">
+
+<input id="name" value="Radhika">
+
+<input id="parent" value="Shyam">
+
+<input id="class" value="VI">
+
+<input id="section" value="A">
+
+<input id="phno" value="99765656">
+
+<label>Student Photo</label>
+<input type="file" id="photo">
+
+<label>School Logo</label>
+<input type="file" id="logo">
+
+<label>Principal Signature</label>
+<input type="file" id="sign">
 
 <br>
 
-Student Photo  
-<input type="file" id="photo"><br>
+<button onclick="preview()">Preview</button>
 
-School Logo  
-<input type="file" id="logo"><br>
+<button onclick="downloadPDF()">Download PDF</button>
 
-Principal Signature  
-<input type="file" id="sign"><br>
+<h3>Choose Template</h3>
 
-<br>
-
-Color Template
-<select id="color">
-<option value="#1e3a8a">Blue</option>
-<option value="#7c3aed">Purple</option>
-<option value="#047857">Green</option>
-<option value="#b91c1c">Red</option>
-<option value="#d97706">Orange</option>
-<option value="#be185d">Pink</option>
-<option value="#374151">Dark Grey</option>
-<option value="#0f766e">Teal</option>
-<option value="#9333ea">Violet</option>
-<option value="#2563eb">Royal Blue</option>
-</select>
-
-<br>
-
-<button onclick="generate()">Preview</button>
-<button onclick="download()">Download PNG</button>
-
-<br><br>
-
-<div id="card" class="id-card">
-
-<div class="header" id="headerColor">
-
-<div class="school-name" id="schoolPreview">School Name</div>
-<div class="address" id="addressPreview">School Address</div>
-<div class="phone" id="phonePreview">Phone</div>
+<div class="templates" id="templates"></div>
 
 </div>
 
-<div class="title">IDENTITY CARD</div>
+<div>
 
-<div class="content">
+<div class="card" id="card">
+
+<img id="bglogo" class="bglogo">
+
+<div class="school" id="schoolP">School Name</div>
+
+<div class="address">
+<span id="addressP"></span><br>
+<span id="phoneP"></span>
+</div>
+
+<div class="identity">IDENTITY CARD</div>
+
+<img id="photoP" class="photo">
 
 <div class="details">
-<div>Name : <span id="namePreview"></span></div>
-<div>S/O D/O : <span id="fatherPreview"></span></div>
-<div>Class : <span id="classPreview"></span></div>
-<div>Section : <span id="sectionPreview"></span></div>
-<div>Ph No : <span id="phPreview"></span></div>
-</div>
 
-<div class="photoBox">
-<img id="photoPreview" class="photo">
-<br>
-<img id="signPreview" class="sign">
-<div>Principal</div>
-</div>
+Name : <span id="nameP"></span><br>
+
+S/O D/O : <span id="parentP"></span><br>
+
+Class : <span id="classP"></span><br>
+
+Section : <span id="sectionP"></span><br>
+
+Ph No : <span id="phnoP"></span>
 
 </div>
 
-<div class="footer" id="footerColor">
-SESSION <span id="sessionPreview"></span>
+<img id="signP" class="sign">
+
+<div class="session" id="sessionP">SESSION</div>
+
+</div>
+
 </div>
 
 </div>
 
 <script>
 
-function generate(){
+function readURL(input,preview){
 
-document.getElementById("schoolPreview").innerText =
-document.getElementById("school").value;
+if(input.files && input.files[0]){
 
-document.getElementById("addressPreview").innerText =
-document.getElementById("address").value;
+let reader=new FileReader()
 
-document.getElementById("phonePreview").innerText =
-document.getElementById("phone").value;
-
-document.getElementById("sessionPreview").innerText =
-document.getElementById("session").value;
-
-document.getElementById("namePreview").innerText =
-document.getElementById("name").value;
-
-document.getElementById("fatherPreview").innerText =
-document.getElementById("father").value;
-
-document.getElementById("classPreview").innerText =
-document.getElementById("class").value;
-
-document.getElementById("sectionPreview").innerText =
-document.getElementById("section").value;
-
-document.getElementById("phPreview").innerText =
-document.getElementById("ph").value;
-
-let color=document.getElementById("color").value;
-
-document.getElementById("headerColor").style.background=color;
-document.getElementById("footerColor").style.background=color;
-
-let photo=document.getElementById("photo").files[0];
-let reader=new FileReader();
 reader.onload=function(e){
-document.getElementById("photoPreview").src=e.target.result;
-}
-if(photo) reader.readAsDataURL(photo);
 
-let logo=document.getElementById("logo").files[0];
-let reader2=new FileReader();
-reader2.onload=function(e){
-}
-if(logo) reader2.readAsDataURL(logo);
-
-let sign=document.getElementById("sign").files[0];
-let reader3=new FileReader();
-reader3.onload=function(e){
-document.getElementById("signPreview").src=e.target.result;
-}
-if(sign) reader3.readAsDataURL(sign);
+preview.src=e.target.result
 
 }
 
-function download(){
+reader.readAsDataURL(input.files[0])
 
-html2canvas(document.getElementById("card")).then(canvas=>{
+}
 
-let link=document.createElement("a");
-link.download="school-id.png";
-link.href=canvas.toDataURL();
-link.click();
+}
 
-});
+photo.onchange=function(){readURL(this,photoP)}
+logo.onchange=function(){readURL(this,bglogo)}
+sign.onchange=function(){readURL(this,signP)}
+
+function preview(){
+
+schoolP.innerText=school.value
+addressP.innerText=address.value
+phoneP.innerText=phone.value
+sessionP.innerText=session.value
+
+nameP.innerText=name.value
+parentP.innerText=parent.value
+classP.innerText=class.value
+sectionP.innerText=section.value
+phnoP.innerText=phno.value
+
+}
+
+async function downloadPDF(){
+
+const { jsPDF } = window.jspdf;
+
+html2canvas(card).then(canvas=>{
+
+let img=canvas.toDataURL("image/png")
+
+let pdf=new jsPDF('landscape','px',[340,215])
+
+pdf.addImage(img,'PNG',0,0,340,215)
+
+pdf.save("school-id-card.pdf")
+
+})
+
+}
+
+for(let i=0;i<15;i++){
+
+let t=document.createElement("div")
+
+t.className="temp"
+
+t.style.background="hsl("+(i*20)+",70%,40%)"
+
+t.onclick=function(){
+
+card.style.background=this.style.background
+
+}
+
+templates.appendChild(t)
 
 }
 
 </script>
+
+<div class="seo">
+
+<h2>About School ID Card Generator</h2>
+
+<p>
+This free School ID Card Generator helps schools create professional PVC style ID cards instantly. The tool is designed for teachers, school administrators, coaching centers, and institutes that need a fast way to generate identity cards for students. Instead of using complex software, this simple web tool allows users to fill student information, upload a photo, and instantly preview a realistic ATM-size ID card.
+</p>
+
+<h2>How to Use</h2>
+
+<p>
+Enter the school name, address, phone number and session. Then fill in the student details including name, parent name, class, section and phone number. Upload the student photo, school logo and principal signature. After entering the details click the preview button to generate the ID card instantly. You can also choose from multiple color templates to change the design. Finally click the download PDF button to save the ID card ready for printing.
+</p>
+
+<h2>Features</h2>
+
+<ul>
+<li>ATM size PVC ID card layout</li>
+<li>Professional school style design</li>
+<li>Background school logo watermark</li>
+<li>Student photo and principal signature</li>
+<li>15 color templates</li>
+<li>Instant preview</li>
+<li>PDF download for printing</li>
+</ul>
+
+<h2>FAQ</h2>
+
+<p><b>Is this tool free?</b><br>Yes, it is completely free to use.</p>
+
+<p><b>Can I print PVC cards?</b><br>Yes, download the PDF and print on PVC card printers.</p>
+
+<h2>Related Tools</h2>
+
+<p>
+
+<a href="id-card.html">School ID Card Generator</a> |
+<a href="tip-calculator.html">Tip Calculator</a> |
+<a href="unit-converter.html">Unit Converter</a>
+
+</p>
+
+</div>
 
 </body>
 </html>
