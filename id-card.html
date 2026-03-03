@@ -306,14 +306,22 @@ let file=document.getElementById(inputId).files[0];
 if(file){
 let reader=new FileReader();
 reader.onload=function(e){
-document.getElementById(imgId).src=e.target.result;
-}
+let img=document.getElementById(imgId);
+img.onload=function(){
+img.style.display="block";
+};
+img.src=e.target.result;
+};
 reader.readAsDataURL(file);
 }
 }
 
 function downloadCard(){
-html2canvas(document.getElementById("card"),{scale:3})
+html2canvas(document.getElementById("card"),{
+scale:3,
+useCORS:true,
+allowTaint:true
+})
 .then(function(canvas){
 let img=canvas.toDataURL("image/png");
 let win=window.open();
