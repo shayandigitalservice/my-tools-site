@@ -3,13 +3,13 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>School ID Card Generator</title>
+<title>Premium School ID Card Generator</title>
 
 <style>
 
 body{
 font-family:Arial;
-background:#f2f2f2;
+background:linear-gradient(135deg,#e0e7ff,#f5f3ff);
 text-align:center;
 padding:20px;
 }
@@ -17,23 +17,27 @@ padding:20px;
 .container{
 max-width:420px;
 margin:auto;
+background:white;
+padding:20px;
+border-radius:15px;
+box-shadow:0 10px 25px rgba(0,0,0,0.1);
 }
 
-input{
+input,select{
 width:100%;
 padding:10px;
 margin:6px 0;
 border:1px solid #ccc;
-border-radius:6px;
+border-radius:8px;
 }
 
 button{
 padding:10px 18px;
 margin:10px;
 border:none;
-background:#2d6cdf;
+background:#2563eb;
 color:white;
-border-radius:6px;
+border-radius:8px;
 cursor:pointer;
 }
 
@@ -42,38 +46,52 @@ cursor:pointer;
 #card{
 width:350px;
 height:210px;
-background:white;
-border-radius:14px;
-box-shadow:0 4px 10px rgba(0,0,0,0.2);
+border-radius:18px;
 margin:30px auto;
 position:relative;
 overflow:hidden;
+backdrop-filter: blur(15px);
+background:rgba(255,255,255,0.25);
+box-shadow:0 10px 30px rgba(0,0,0,0.25);
+border:1px solid rgba(255,255,255,0.4);
 }
 
-/* TOP BAR SMALL */
+/* WATERMARK */
+
+#card::before{
+content:"";
+position:absolute;
+width:170px;
+height:170px;
+background-size:contain;
+background-repeat:no-repeat;
+background-position:center;
+opacity:0.06;
+top:50%;
+left:50%;
+transform:translate(-50%,-50%);
+pointer-events:none;
+}
+
+/* TOP BAR */
 
 .topbar{
-background:#6b4a3a;
-color:white;
 padding:6px 0;
 text-align:center;
+color:white;
+font-weight:bold;
 }
 
 .school{
 font-size:18px;
-font-weight:bold;
-margin:0;
 }
 
 .address{
 font-size:11px;
-margin:0;
 }
 
-/* TITLE BELOW BAR */
-
 .title{
-margin:10px 0 0 0;
+margin:8px 0 0 0;
 font-weight:bold;
 font-size:16px;
 }
@@ -106,6 +124,7 @@ width:90px;
 height:100px;
 border:2px solid #ccc;
 overflow:hidden;
+border-radius:8px;
 }
 
 .photo img{
@@ -119,13 +138,13 @@ object-fit:cover;
 .details{
 position:absolute;
 left:130px;
-top:75px;
+top:70px;
 text-align:left;
 font-size:13px;
 }
 
 .details p{
-margin:4px 0;
+margin:2px 0;
 }
 
 /* SIGNATURE */
@@ -144,16 +163,16 @@ height:25px;
 object-fit:contain;
 }
 
-/* SMALL BOTTOM BAR */
+/* BOTTOM BAR */
 
 .bottombar{
 position:absolute;
 bottom:0;
 width:100%;
-background:#6b4a3a;
-color:white;
 padding:5px 0;
+color:white;
 font-size:12px;
+text-align:center;
 }
 
 </style>
@@ -163,19 +182,34 @@ font-size:12px;
 
 <div class="container">
 
-<h2>School ID Card Generator</h2>
+<h2>Premium School ID Card Generator</h2>
+
+<select onchange="changeTemplate(this.value)">
+<option value="linear-gradient(45deg,#6b4a3a,#8b5e3c)">Brown Gold</option>
+<option value="linear-gradient(45deg,#1e3a8a,#2563eb)">Royal Blue</option>
+<option value="linear-gradient(45deg,#065f46,#10b981)">Green</option>
+<option value="linear-gradient(45deg,#7c2d12,#dc2626)">Red</option>
+<option value="linear-gradient(45deg,#4c1d95,#9333ea)">Purple</option>
+<option value="linear-gradient(45deg,#0f172a,#334155)">Dark Navy</option>
+<option value="linear-gradient(45deg,#ea580c,#f97316)">Orange</option>
+<option value="linear-gradient(45deg,#15803d,#22c55e)">Emerald</option>
+<option value="linear-gradient(45deg,#7f1d1d,#ef4444)">Crimson</option>
+<option value="linear-gradient(45deg,#312e81,#6366f1)">Indigo</option>
+<option value="linear-gradient(45deg,#111827,#374151)">Black Gray</option>
+<option value="linear-gradient(45deg,#92400e,#f59e0b)">Golden</option>
+<option value="linear-gradient(45deg,#0d9488,#06b6d4)">Teal</option>
+<option value="linear-gradient(45deg,#db2777,#f472b6)">Pink</option>
+<option value="linear-gradient(45deg,#1d4ed8,#60a5fa)">Sky Blue</option>
+</select>
 
 <input id="school" placeholder="School Name">
 <input id="address" placeholder="School Address">
-
 <input id="name" placeholder="Student Name">
 <input id="father" placeholder="Father Name">
 <input id="class" placeholder="Class">
 <input id="section" placeholder="Section">
 <input id="roll" placeholder="Roll No">
 <input id="phone" placeholder="Phone Number">
-
-<br>
 
 <label>School Logo</label>
 <input type="file" id="logoUpload">
@@ -186,18 +220,14 @@ font-size:12px;
 <label>Principal Signature</label>
 <input type="file" id="signUpload">
 
-<br>
-
 <button onclick="preview()">Preview</button>
 <button onclick="download()">Download</button>
 
 </div>
 
-<!-- CARD PREVIEW -->
-
 <div id="card">
 
-<div class="topbar">
+<div class="topbar" id="topbar">
 <div class="school" id="schoolPreview">School Name</div>
 <div class="address" id="addressPreview">School Address</div>
 </div>
@@ -213,14 +243,12 @@ font-size:12px;
 </div>
 
 <div class="details">
-
 <p><b>Name :</b> <span id="namePreview"></span></p>
 <p><b>S/O D/O :</b> <span id="fatherPreview"></span></p>
 <p><b>Class :</b> <span id="classPreview"></span></p>
 <p><b>Section :</b> <span id="sectionPreview"></span></p>
 <p><b>Roll No :</b> <span id="rollPreview"></span></p>
 <p><b>PH No :</b> <span id="phonePreview"></span></p>
-
 </div>
 
 <div class="signature">
@@ -228,7 +256,7 @@ font-size:12px;
 Principal Signature
 </div>
 
-<div class="bottombar">
+<div class="bottombar" id="bottombar">
 SESSION 2024-2025
 </div>
 
@@ -236,120 +264,113 @@ SESSION 2024-2025
 
 <script>
 
+function changeTemplate(gradient){
+document.getElementById("topbar").style.background=gradient;
+document.getElementById("bottombar").style.background=gradient;
+}
+
 function preview(){
 
-document.getElementById("schoolPreview").innerText =
-document.getElementById("school").value;
+schoolPreview.innerText=school.value;
+addressPreview.innerText=address.value;
+namePreview.innerText=name.value;
+fatherPreview.innerText=father.value;
+classPreview.innerText=class.value;
+sectionPreview.innerText=section.value;
+rollPreview.innerText=roll.value;
+phonePreview.innerText=phone.value;
 
-document.getElementById("addressPreview").innerText =
-document.getElementById("address").value;
-
-document.getElementById("namePreview").innerText =
-document.getElementById("name").value;
-
-document.getElementById("fatherPreview").innerText =
-document.getElementById("father").value;
-
-document.getElementById("classPreview").innerText =
-document.getElementById("class").value;
-
-document.getElementById("sectionPreview").innerText =
-document.getElementById("section").value;
-
-document.getElementById("rollPreview").innerText =
-document.getElementById("roll").value;
-
-document.getElementById("phonePreview").innerText =
-document.getElementById("phone").value;
-
-let logo = document.getElementById("logoUpload").files[0];
-let photo = document.getElementById("photoUpload").files[0];
-let sign = document.getElementById("signUpload").files[0];
+let logo=logoUpload.files[0];
+let photo=photoUpload.files[0];
+let sign=signUpload.files[0];
 
 if(logo){
-let reader = new FileReader();
-reader.onload = e=> document.getElementById("logoPreview").src = e.target.result;
+let reader=new FileReader();
+reader.onload=function(e){
+logoPreview.src=e.target.result;
+document.querySelector("#card::before");
+document.getElementById("card").style.setProperty("background-image",`url(${e.target.result})`);
+};
 reader.readAsDataURL(logo);
 }
 
 if(photo){
-let reader = new FileReader();
-reader.onload = e=> document.getElementById("photoPreview").src = e.target.result;
+let reader=new FileReader();
+reader.onload=e=>photoPreview.src=e.target.result;
 reader.readAsDataURL(photo);
 }
 
 if(sign){
-let reader = new FileReader();
-reader.onload = e=> document.getElementById("signPreview").src = e.target.result;
+let reader=new FileReader();
+reader.onload=e=>signPreview.src=e.target.result;
 reader.readAsDataURL(sign);
 }
 
 }
 
 function download(){
-
 html2canvas(document.querySelector("#card")).then(canvas=>{
 let link=document.createElement("a");
-link.download="school-id-card.png";
+link.download="premium-id-card.png";
 link.href=canvas.toDataURL();
 link.click();
 });
-
 }
 
 </script>
 
 <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
-<!-- SEO Content Section -->
-<section style="max-width:900px;margin:60px auto;padding:30px;background:#ffffff;border-radius:10px;box-shadow:0 4px 10px rgba(0,0,0,0.08);text-align:left;font-family:Arial, sans-serif;line-height:1.7">
+<!-- SEO Section Start -->
+<section style="max-width:1000px;margin:60px auto;padding:40px;background:#ffffff;border-radius:12px;box-shadow:0 8px 25px rgba(0,0,0,0.08);font-family:Arial, sans-serif;line-height:1.8;color:#333;">
 
 <h2>About School ID Card Generator</h2>
 <p>
-The <strong>School ID Card Generator</strong> is a simple and free online tool that helps schools, teachers, and administrators quickly create professional student identity cards. Instead of using complicated software like Photoshop or CorelDRAW, this tool allows you to generate a clean and printable ID card directly in your browser. You only need to enter student details, upload the student photo, school logo, and principal signature to instantly preview the ID card.
+The <strong>School ID Card Generator</strong> is a free and easy-to-use online tool designed to help schools create professional student identity cards instantly. This tool eliminates the need for complex design software and allows users to generate clean, printable ID cards directly from their browser. Schools can quickly enter student details, upload a photo, add the school logo, and include the principal’s signature to create a ready-to-download ID card.
 </p>
 
 <p>
-This tool is especially useful for small schools, coaching institutes, and educational organizations that need a fast solution for creating ID cards. The generated card follows a standard PVC card style layout, making it suitable for printing or digital use. Because everything works directly inside the browser, there is no need to install any software.
+Whether you are running a small private school, coaching institute, or educational academy, this tool provides a simple solution for designing PVC-style student ID cards. The system works smoothly on both desktop and mobile devices, making it accessible anytime and anywhere.
 </p>
 
-<h2>How to Use the Tool</h2>
+<h2>How to Use This Tool</h2>
 <p>
-Using this ID card generator is very easy. First, enter the school name and school address. After that, fill in the student information such as name, father’s name, class, section, roll number, and phone number. Then upload the required images including the school logo, student photo, and principal signature. Once all details are filled in, click the <strong>Preview</strong> button to see the generated ID card. If everything looks correct, you can download the card image and use it for printing.
+Using this ID card generator is very simple. First, enter the school name and address. Then fill in the student details such as name, father’s name, class, section, roll number, and phone number. Upload the school logo, student photo, and principal signature. Click on the Preview button to see the final ID card layout. If everything looks correct, download the card image and use it for printing or digital sharing.
 </p>
 
-<h2>Features of This ID Card Generator</h2>
+<h2>Features of the Tool</h2>
 <ul>
-<li>Easy and fast student ID card creation</li>
+<li>Instant student ID card generation</li>
 <li>Upload student photo and school logo</li>
-<li>Principal signature support</li>
-<li>Clean PVC style ID card layout</li>
-<li>Instant preview before download</li>
-<li>Works on mobile and desktop devices</li>
-<li>No software installation required</li>
+<li>Add principal signature support</li>
+<li>Clean and professional PVC card layout</li>
+<li>Mobile-friendly and responsive design</li>
+<li>Fast preview and easy download option</li>
+<li>No design skills required</li>
 </ul>
 
 <h2>Frequently Asked Questions</h2>
 
 <p><strong>Is this School ID Card Generator free?</strong><br>
-Yes, this tool is completely free to use. You can generate unlimited ID cards without paying anything.</p>
+Yes, this tool is completely free and does not require any subscription.</p>
 
-<p><strong>Can I use this tool on mobile?</strong><br>
-Yes. The tool works on both mobile phones and desktop browsers.</p>
+<p><strong>Can I use it on mobile?</strong><br>
+Yes, the tool is fully responsive and works on smartphones and tablets.</p>
 
-<p><strong>Do I need any design software?</strong><br>
-No. Everything works directly in the browser, so there is no need for Photoshop or other software.</p>
+<p><strong>Do I need to install any software?</strong><br>
+No installation is required. Everything works directly inside your web browser.</p>
 
-<p><strong>Can schools use this for printing ID cards?</strong><br>
-Yes. The generated ID cards follow a standard layout that can easily be printed on PVC cards or paper cards.</p>
+<p><strong>Can I print the generated ID card?</strong><br>
+Yes, the downloaded image can be printed on PVC cards or standard card paper.</p>
 
 <h2>Related Tools</h2>
 <ul>
-<li><a href="#">Student Certificate Generator</a></li>
-<li><a href="#">School Fee Receipt Generator</a></li>
-<li><a href="#">Student Marksheet Generator</a></li>
-<li><a href="#">School Leaving Certificate Generator</a></li>
+<li><a href="/student-certificate-generator">Student Certificate Generator</a></li>
+<li><a href="/school-fee-receipt-generator">School Fee Receipt Generator</a></li>
+<li><a href="/marksheet-generator">Student Marksheet Generator</a></li>
+<li><a href="/leaving-certificate-generator">School Leaving Certificate Generator</a></li>
 </ul>
 
 </section>
+<!-- SEO Section End -->
 </body>
-</html>
+  </html>
