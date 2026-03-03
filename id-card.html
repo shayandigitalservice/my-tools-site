@@ -66,10 +66,14 @@ background:linear-gradient(45deg,#6b4a3a,#8b5e3c);
 .school{font-size:18px;}
 .address{font-size:11px;}
 
+/* IDENTITY TITLE FIXED */
+
 .title{
-margin:8px 0 0 0;
+position:relative;
+top:-3px;
 font-weight:bold;
 font-size:16px;
+margin:5px 0 0 0;
 }
 
 /* LOGO */
@@ -124,7 +128,7 @@ margin:3px 0;
 }
 
 .ph{
-margin-top:6px;   /* PH No थोड़ा नीचे */
+margin-top:6px;
 }
 
 /* SIGNATURE */
@@ -230,38 +234,49 @@ Principal Signature
 
 function preview(){
 
-schoolPreview.innerText=school.value;
-addressPreview.innerText=address.value;
-namePreview.innerText=name.value;
-fatherPreview.innerText=father.value;
-classPreview.innerText=class.value;
-sectionPreview.innerText=section.value;
-rollPreview.innerText=roll.value;
-phonePreview.innerText=phone.value;
-sessionPreview.innerText="SESSION " + session.value;
+document.getElementById("schoolPreview").innerText =
+document.getElementById("school").value;
 
-let logo=logoUpload.files[0];
-let photo=photoUpload.files[0];
-let sign=signUpload.files[0];
+document.getElementById("addressPreview").innerText =
+document.getElementById("address").value;
 
-if(logo){
-let reader=new FileReader();
-reader.onload=e=>logoPreview.src=e.target.result;
-reader.readAsDataURL(logo);
+document.getElementById("namePreview").innerText =
+document.getElementById("name").value;
+
+document.getElementById("fatherPreview").innerText =
+document.getElementById("father").value;
+
+document.getElementById("classPreview").innerText =
+document.getElementById("class").value;
+
+document.getElementById("sectionPreview").innerText =
+document.getElementById("section").value;
+
+document.getElementById("rollPreview").innerText =
+document.getElementById("roll").value;
+
+document.getElementById("phonePreview").innerText =
+document.getElementById("phone").value;
+
+document.getElementById("sessionPreview").innerText =
+"SESSION " + document.getElementById("session").value;
+
+// Image preview
+previewImage("logoUpload","logoPreview");
+previewImage("photoUpload","photoPreview");
+previewImage("signUpload","signPreview");
+
 }
 
-if(photo){
-let reader=new FileReader();
-reader.onload=e=>photoPreview.src=e.target.result;
-reader.readAsDataURL(photo);
+function previewImage(inputId, imgId){
+let file = document.getElementById(inputId).files[0];
+if(file){
+let reader = new FileReader();
+reader.onload = function(e){
+document.getElementById(imgId).src = e.target.result;
 }
-
-if(sign){
-let reader=new FileReader();
-reader.onload=e=>signPreview.src=e.target.result;
-reader.readAsDataURL(sign);
+reader.readAsDataURL(file);
 }
-
 }
 
 function downloadCard(){
@@ -274,9 +289,11 @@ useCORS:true
 }).then(function(canvas){
 
 let link=document.createElement("a");
-link.download="school-id-card.png";
 link.href=canvas.toDataURL("image/png");
+link.download="school-id-card.png";
+document.body.appendChild(link);
 link.click();
+document.body.removeChild(link);
 
 });
 
@@ -287,6 +304,57 @@ link.click();
 </script>
 
 <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+<!-- SEO Section Start -->
+<section style="max-width:1000px;margin:60px auto;padding:40px;background:#ffffff;border-radius:12px;box-shadow:0 8px 25px rgba(0,0,0,0.08);font-family:Arial, sans-serif;line-height:1.8;color:#333;">
 
+<h2>About School ID Card Generator</h2>
+<p>
+The <strong>School ID Card Generator</strong> is a free and easy-to-use online tool designed to help schools create professional student identity cards instantly. This tool eliminates the need for complex design software and allows users to generate clean, printable ID cards directly from their browser. Schools can quickly enter student details, upload a photo, add the school logo, and include the principal’s signature to create a ready-to-download ID card.
+</p>
+
+<p>
+Whether you are running a small private school, coaching institute, or educational academy, this tool provides a simple solution for designing PVC-style student ID cards. The system works smoothly on both desktop and mobile devices, making it accessible anytime and anywhere.
+</p>
+
+<h2>How to Use This Tool</h2>
+<p>
+Using this ID card generator is very simple. First, enter the school name and address. Then fill in the student details such as name, father’s name, class, section, roll number, and phone number. Upload the school logo, student photo, and principal signature. Click on the Preview button to see the final ID card layout. If everything looks correct, download the card image and use it for printing or digital sharing.
+</p>
+
+<h2>Features of the Tool</h2>
+<ul>
+<li>Instant student ID card generation</li>
+<li>Upload student photo and school logo</li>
+<li>Add principal signature support</li>
+<li>Clean and professional PVC card layout</li>
+<li>Mobile-friendly and responsive design</li>
+<li>Fast preview and easy download option</li>
+<li>No design skills required</li>
+</ul>
+
+<h2>Frequently Asked Questions</h2>
+
+<p><strong>Is this School ID Card Generator free?</strong><br>
+Yes, this tool is completely free and does not require any subscription.</p>
+
+<p><strong>Can I use it on mobile?</strong><br>
+Yes, the tool is fully responsive and works on smartphones and tablets.</p>
+
+<p><strong>Do I need to install any software?</strong><br>
+No installation is required. Everything works directly inside your web browser.</p>
+
+<p><strong>Can I print the generated ID card?</strong><br>
+Yes, the downloaded image can be printed on PVC cards or standard card paper.</p>
+
+<h2>Related Tools</h2>
+<ul>
+<li><a href="/student-certificate-generator">Student Certificate Generator</a></li>
+<li><a href="/school-fee-receipt-generator">School Fee Receipt Generator</a></li>
+<li><a href="/marksheet-generator">Student Marksheet Generator</a></li>
+<li><a href="/leaving-certificate-generator">School Leaving Certificate Generator</a></li>
+</ul>
+
+</section>
+<!-- SEO Section End -->
 </body>
 </html>
