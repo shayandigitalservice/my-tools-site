@@ -25,7 +25,7 @@ border-radius:20px;
 box-shadow:0 15px 40px rgba(0,0,0,0.15);
 }
 
-input{
+input,select{
 width:100%;
 padding:10px;
 margin:6px 0;
@@ -46,7 +46,7 @@ font-weight:600;
 
 #card{
 width:420px;
-height:260px;
+height:280px;
 border-radius:20px;
 margin:30px auto;
 position:relative;
@@ -64,27 +64,55 @@ transform:translate(-50%,-50%);
 opacity:0.06;
 pointer-events:none;
 }
-.watermark img{
-width:200px;
-}
+.watermark img{width:200px;}
 
 /* Top Bar */
 .topbar{
-background:#2563eb;
 color:white;
 padding:10px;
 font-weight:bold;
+position:relative;
+text-align:center;
 }
 
-.school-name{
-font-size:18px;
+.school-name{font-size:18px;}
+.school-address{font-size:12px;}
+
+/* Left Logo */
+.logo-left{
+position:absolute;
+left:15px;
+top:10px;
+width:45px;
+height:45px;
+border-radius:50%;
+background:white;
+overflow:hidden;
+}
+.logo-left img{
+width:100%;
+height:100%;
+object-fit:cover;
 }
 
-.school-address{
-font-size:12px;
+/* Right Logo */
+.logo-right{
+position:absolute;
+right:15px;
+top:10px;
+width:45px;
+height:45px;
+border-radius:50%;
+background:white;
+overflow:hidden;
+}
+.logo-right img{
+width:100%;
+height:100%;
+object-fit:cover;
 }
 
-/* Title Below Blue Bar */
+/* Title */
 .title{
 text-align:center;
 font-weight:bold;
@@ -92,11 +120,12 @@ font-size:18px;
 margin-top:8px;
 }
 
-/* Photo */
+/* Center Photo */
 .photo{
 position:absolute;
-left:25px;
 top:105px;
+left:50%;
+transform:translateX(-50%);
 width:100px;
 height:115px;
 border:2px solid #ccc;
@@ -112,25 +141,18 @@ object-fit:cover;
 /* Details */
 .details{
 position:absolute;
-left:150px;
 top:105px;
-text-align:left;
+left:20px;
 font-size:14px;
+text-align:left;
 }
 
-.details p{
-margin:4px 0;
-}
+.details p{margin:4px 0;}
 
-.details strong{
-font-weight:bold;
-}
-
-/* Signature */
 .signature{
 position:absolute;
 right:15px;
-bottom:45px;
+bottom:50px;
 text-align:center;
 font-size:11px;
 }
@@ -140,15 +162,14 @@ height:30px;
 object-fit:contain;
 }
 
-/* Bottom Bar */
 .bottombar{
 position:absolute;
 bottom:0;
 width:100%;
-background:#2563eb;
 color:white;
 padding:6px;
 font-size:13px;
+text-align:center;
 }
 
 </style>
@@ -159,6 +180,10 @@ font-size:13px;
 <div class="container">
 
 <h2>School ID Card Generator</h2>
+
+<select id="templateSelect">
+<option value="">Select Template Color</option>
+</select>
 
 <input id="school" placeholder="School Name">
 <input id="address" placeholder="School Address">
@@ -190,9 +215,19 @@ font-size:13px;
 <img id="watermarkLogo">
 </div>
 
-<div class="topbar">
+<div class="topbar" id="topbar">
+
+<div class="logo-left">
+<img id="logoLeftPreview">
+</div>
+
+<div class="logo-right">
+<img id="logoRightPreview">
+</div>
+
 <div class="school-name" id="schoolPreview">School Name</div>
 <div class="school-address" id="addressPreview">School Address</div>
+
 </div>
 
 <div class="title">IDENTITY CARD</div>
@@ -214,7 +249,7 @@ font-size:13px;
 <img id="signPreview"><br>Principal Signature
 </div>
 
-<div class="bottombar">
+<div class="bottombar" id="bottombar">
 <span id="sessionPreview">SESSION 2024-2025</span>
 </div>
 
@@ -222,47 +257,39 @@ font-size:13px;
 
 <script>
 
-/* 15 Color Templates */
+/* 15 Templates */
 const colors=[
 "#1e40af","#b91c1c","#047857","#7c3aed","#be185d",
 "#0f172a","#78350f","#065f46","#111827","#991b1b",
 "#0ea5e9","#f97316","#16a34a","#9333ea","#e11d48"
 ];
 
+const select=document.getElementById("templateSelect");
+colors.forEach(color=>{
+let option=document.createElement("option");
+option.value=color;
+option.textContent=color;
+select.appendChild(option);
+});
+
 function preview(){
 
-document.getElementById("schoolPreview").innerText=
-document.getElementById("school").value;
+let selectedColor=select.value || colors[0];
+document.getElementById("topbar").style.background=selectedColor;
+document.getElementById("bottombar").style.background=selectedColor;
 
-document.getElementById("addressPreview").innerText=
-document.getElementById("address").value;
+schoolPreview.innerText=school.value;
+addressPreview.innerText=address.value;
+namePreview.innerText=name.value;
+fatherPreview.innerText=father.value;
+classPreview.innerText=class.value;
+sectionPreview.innerText=section.value;
+rollPreview.innerText=roll.value;
+phonePreview.innerText=phone.value;
+sessionPreview.innerText="SESSION "+session.value;
 
-document.getElementById("namePreview").innerText=
-document.getElementById("name").value;
-
-document.getElementById("fatherPreview").innerText=
-document.getElementById("father").value;
-
-document.getElementById("classPreview").innerText=
-document.getElementById("class").value;
-
-document.getElementById("sectionPreview").innerText=
-document.getElementById("section").value;
-
-document.getElementById("rollPreview").innerText=
-document.getElementById("roll").value;
-
-document.getElementById("phonePreview").innerText=
-document.getElementById("phone").value;
-
-document.getElementById("sessionPreview").innerText=
-"SESSION "+document.getElementById("session").value;
-
-/* Random Color Apply */
-let randomColor=colors[Math.floor(Math.random()*colors.length)];
-document.querySelector(".topbar").style.background=randomColor;
-document.querySelector(".bottombar").style.background=randomColor;
-
+loadImage("logoUpload","logoLeftPreview");
+loadImage("logoUpload","logoRightPreview");
 loadImage("logoUpload","watermarkLogo");
 loadImage("photoUpload","photoPreview");
 loadImage("signUpload","signPreview");
@@ -289,6 +316,61 @@ win.document.write("<img src='"+img+"' style='width:100%'>");
 }
 
 </script>
+<!-- ================= SEO SECTION START ================= -->
 
+<section style="max-width:900px;margin:60px auto 20px auto;padding:30px;background:#ffffff;border-radius:20px;box-shadow:0 10px 30px rgba(0,0,0,0.08);font-family:Segoe UI;line-height:1.7;">
+
+<h2>About School ID Card Generator</h2>
+<p>
+Our <strong>School ID Card Generator Tool</strong> helps schools, teachers, and institutions create professional student identity cards instantly. 
+You can easily design and preview ID cards online without using any complicated software. 
+This tool allows you to customize student details, upload photos, add school logos, and generate printable ID cards within seconds.
+It is fast, simple, and completely browser-based.
+</p>
+
+<h2>How to Use</h2>
+<p>
+Using this ID card maker is very simple. Enter the school name, address, and student details like name, class, section, roll number, and phone number. 
+Upload the student photo and principal signature if required. 
+Choose your preferred template color, click on <strong>Preview</strong>, and then download the ID card image. 
+The generated card can be printed on PVC cards or normal paper.
+</p>
+
+<h2>Features</h2>
+<ul>
+<li>Easy student data entry form</li>
+<li>Upload student photo and school logo</li>
+<li>Multiple template colors</li>
+<li>High-quality preview and download option</li>
+<li>Printable PVC card size layout</li>
+<li>Mobile and desktop friendly design</li>
+</ul>
+
+<h2>Frequently Asked Questions (FAQ)</h2>
+
+<h4>1. Is this ID card generator free?</h4>
+<p>Yes, this tool is completely free to use online.</p>
+
+<h4>2. Can I print the ID card?</h4>
+<p>Yes, after downloading the card image, you can print it on PVC or laminated paper.</p>
+
+<h4>3. Does this tool store student data?</h4>
+<p>No, all processing happens in your browser. No data is stored on any server.</p>
+
+<h4>4. Can I use this for college or office ID cards?</h4>
+<p>Yes, you can customize it for schools, colleges, coaching centers, or office ID cards.</p>
+
+<h2>Related Tools</h2>
+<p>
+You may also like our 
+<a href="#">Student Marksheet Generator</a>, 
+<a href="#">Fee Receipt Generator</a>, and 
+<a href="#">Certificate Maker Tool</a> 
+to manage your school documentation easily.
+</p>
+
+</section>
+
+<!-- ================= SEO SECTION END ================= -->
 </body>
-</html>
+                                </html>
