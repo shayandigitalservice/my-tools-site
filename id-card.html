@@ -3,12 +3,15 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>School ID Card Generator</title>
+<title>Professional School ID Card Generator</title>
+
+<script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
 
 <style>
+
 body{
-font-family:Arial;
-background:#f3f4f6;
+font-family: 'Segoe UI', sans-serif;
+background:linear-gradient(135deg,#e0e7ff,#f1f5f9);
 text-align:center;
 padding:20px;
 }
@@ -18,8 +21,8 @@ max-width:420px;
 margin:auto;
 background:white;
 padding:20px;
-border-radius:15px;
-box-shadow:0 10px 25px rgba(0,0,0,0.1);
+border-radius:20px;
+box-shadow:0 20px 40px rgba(0,0,0,0.15);
 }
 
 input,select{
@@ -27,7 +30,7 @@ width:100%;
 padding:10px;
 margin:6px 0;
 border:1px solid #ccc;
-border-radius:8px;
+border-radius:10px;
 }
 
 button{
@@ -36,91 +39,84 @@ margin:10px;
 border:none;
 background:#2563eb;
 color:white;
-border-radius:8px;
+border-radius:10px;
 cursor:pointer;
+font-weight:600;
 }
 
-/* CARD */
-
 #card{
-width:400px;
-height:240px;
-border-radius:18px;
+width:420px;
+height:250px;
+border-radius:20px;
 margin:30px auto;
 position:relative;
 overflow:hidden;
 background:white;
-box-shadow:0 15px 35px rgba(0,0,0,0.3);
+box-shadow:0 20px 50px rgba(0,0,0,0.3);
 }
 
-/* PREMIUM GLASS MODE */
 .glass{
-background:rgba(255,255,255,0.15) !important;
-backdrop-filter:blur(18px);
-border:1px solid rgba(255,255,255,0.5);
+background:rgba(255,255,255,0.15)!important;
+backdrop-filter:blur(20px);
+border:1px solid rgba(255,255,255,0.4);
 }
 
-/* WATERMARK (LOGO) */
+/* Watermark Logo */
 .watermark{
 position:absolute;
 top:50%;
 left:50%;
 transform:translate(-50%,-50%);
-opacity:0.08;
+opacity:0.06;
 pointer-events:none;
+z-index:0;
 }
-
 .watermark img{
-width:180px;
-height:180px;
+width:200px;
+height:200px;
 object-fit:contain;
 }
 
-/* TOP BAR */
-
 .topbar{
-padding:8px 0;
-text-align:center;
+padding:10px;
 color:white;
 font-weight:bold;
-background:linear-gradient(45deg,#6b4a3a,#8b5e3c);
+text-align:center;
+z-index:2;
+position:relative;
 }
 
 .school{font-size:20px;}
 .address{font-size:12px;}
 
 .title{
-position:relative;
-top:-8px;
+margin-top:12px;
 font-weight:bold;
 font-size:18px;
-margin:5px 0 0 0;
 }
 
 .logo{
 position:absolute;
-left:12px;
-top:8px;
-width:40px;
-height:40px;
+left:15px;
+top:15px;
+width:45px;
+height:45px;
 border-radius:50%;
 background:white;
 overflow:hidden;
 }
-
 .logo img{width:100%;height:100%;}
 
 .photo{
 position:absolute;
 left:25px;
-top:85px;
+top:95px;
 width:100px;
-height:110px;
-border:2px solid #ccc;
+height:115px;
+border:2px solid #ddd;
+border-radius:12px;
 overflow:hidden;
-border-radius:10px;
 }
-
 .photo img{
 width:100%;
 height:100%;
@@ -129,26 +125,24 @@ object-fit:cover;
 
 .details{
 position:absolute;
-left:145px;
-top:80px;
+left:150px;
+top:95px;
 text-align:left;
 font-size:14px;
+z-index:2;
 }
-
 .details p{margin:4px 0;}
-.ph{margin-top:6px;}
 
 .signature{
 position:absolute;
 right:15px;
-bottom:38px;
+bottom:40px;
 text-align:center;
 font-size:11px;
 }
-
 .signature img{
-width:75px;
-height:28px;
+width:80px;
+height:30px;
 object-fit:contain;
 }
 
@@ -156,12 +150,12 @@ object-fit:contain;
 position:absolute;
 bottom:0;
 width:100%;
-padding:6px 0;
+padding:8px 0;
 color:white;
 font-size:13px;
 text-align:center;
-background:linear-gradient(45deg,#6b4a3a,#8b5e3c);
 }
+
 </style>
 </head>
 
@@ -169,7 +163,7 @@ background:linear-gradient(45deg,#6b4a3a,#8b5e3c);
 
 <div class="container">
 
-<h2>School ID Card Generator</h2>
+<h2>Professional School ID Card Generator</h2>
 
 <select id="templateSelect" onchange="changeTemplate()">
 <option value="gradient">Gradient Templates</option>
@@ -196,8 +190,8 @@ background:linear-gradient(45deg,#6b4a3a,#8b5e3c);
 <label>Principal Signature</label>
 <input type="file" id="signUpload">
 
-<button type="button" onclick="preview()">Preview</button>
-<button type="button" onclick="downloadCard()">Download</button>
+<button onclick="preview()">Preview</button>
+<button onclick="downloadCard()">Download</button>
 
 </div>
 
@@ -210,9 +204,8 @@ background:linear-gradient(45deg,#6b4a3a,#8b5e3c);
 <div class="topbar" id="topbar">
 <div class="school" id="schoolPreview">School Name</div>
 <div class="address" id="addressPreview">School Address</div>
-</div>
-
 <div class="title">IDENTITY CARD</div>
+</div>
 
 <div class="logo"><img id="logoPreview"></div>
 <div class="photo"><img id="photoPreview"></div>
@@ -223,7 +216,7 @@ background:linear-gradient(45deg,#6b4a3a,#8b5e3c);
 <p><b>Class :</b> <span id="classPreview"></span></p>
 <p><b>Section :</b> <span id="sectionPreview"></span></p>
 <p><b>Roll No :</b> <span id="rollPreview"></span></p>
-<p class="ph"><b>PH No :</b> <span id="phonePreview"></span></p>
+<p><b>PH No :</b> <span id="phonePreview"></span></p>
 </div>
 
 <div class="signature">
@@ -243,37 +236,38 @@ const gradients=[
 "linear-gradient(45deg,#ff512f,#dd2476)",
 "linear-gradient(45deg,#11998e,#38ef7d)",
 "linear-gradient(45deg,#8e2de2,#4a00e0)",
-"linear-gradient(45deg,#f7971e,#ffd200)"
+"linear-gradient(45deg,#f7971e,#ffd200)",
+"linear-gradient(45deg,#0f2027,#203a43,#2c5364)",
+"linear-gradient(45deg,#ff416c,#ff4b2b)",
+"linear-gradient(45deg,#56ab2f,#a8e063)",
+"linear-gradient(45deg,#614385,#516395)",
+"linear-gradient(45deg,#e65c00,#f9d423)"
 ];
 
 const solids=[
 "#1e40af","#b91c1c","#047857","#7c3aed","#be185d",
-"#0f172a","#78350f","#065f46","#111827","#991b1b",
-"#0e7490","#4c1d95","#374151","#92400e","#134e4a",
-"#7f1d1d","#1f2937","#14532d","#831843","#312e81"
+"#0f172a","#78350f","#065f46","#111827","#991b1b"
 ];
 
 function changeTemplate(){
 let value=document.getElementById("templateSelect").value;
-let card=document.getElementById("card");
 let topbar=document.getElementById("topbar");
 let bottombar=document.getElementById("bottombar");
+let card=document.getElementById("card");
 
 card.classList.remove("glass");
 
 if(value==="gradient"){
-let random=gradients[Math.floor(Math.random()*gradients.length)];
-topbar.style.background=random;
-bottombar.style.background=random;
-card.style.background="white";
+let bg=gradients[Math.floor(Math.random()*gradients.length)];
+topbar.style.background=bg;
+bottombar.style.background=bg;
 }
 else if(value==="solid"){
-let random=solids[Math.floor(Math.random()*solids.length)];
-topbar.style.background=random;
-bottombar.style.background=random;
-card.style.background="white";
+let bg=solids[Math.floor(Math.random()*solids.length)];
+topbar.style.background=bg;
+bottombar.style.background=bg;
 }
-else if(value==="glass"){
+else{
 card.classList.add("glass");
 topbar.style.background="rgba(0,0,0,0.6)";
 bottombar.style.background="rgba(0,0,0,0.6)";
@@ -292,7 +286,7 @@ phonePreview.innerText=phone.value;
 sessionPreview.innerText="SESSION "+session.value;
 
 previewImage("logoUpload","logoPreview");
-previewImage("logoUpload","watermarkLogo");  // watermark logo
+previewImage("logoUpload","watermarkLogo");
 previewImage("photoUpload","photoPreview");
 previewImage("signUpload","signPreview");
 }
@@ -307,115 +301,16 @@ reader.readAsDataURL(file);
 }
 
 function downloadCard(){
-<script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
-
-<script>
-
-document.addEventListener("DOMContentLoaded", function(){
-
-const gradients=[
-"linear-gradient(45deg,#1e3c72,#2a5298)",
-"linear-gradient(45deg,#ff512f,#dd2476)",
-"linear-gradient(45deg,#11998e,#38ef7d)",
-"linear-gradient(45deg,#8e2de2,#4a00e0)",
-"linear-gradient(45deg,#f7971e,#ffd200)"
-];
-
-const solids=[
-"#1e40af","#b91c1c","#047857","#7c3aed","#be185d",
-"#0f172a","#78350f","#065f46","#111827","#991b1b",
-"#0e7490","#4c1d95","#374151","#92400e","#134e4a",
-"#7f1d1d","#1f2937","#14532d","#831843","#312e81"
-];
-
-window.changeTemplate=function(){
-let value=document.getElementById("templateSelect").value;
-let card=document.getElementById("card");
-let topbar=document.getElementById("topbar");
-let bottombar=document.getElementById("bottombar");
-
-card.classList.remove("glass");
-
-if(value==="gradient"){
-let random=gradients[Math.floor(Math.random()*gradients.length)];
-topbar.style.background=random;
-bottombar.style.background=random;
-card.style.background="white";
-}
-else if(value==="solid"){
-let random=solids[Math.floor(Math.random()*solids.length)];
-topbar.style.background=random;
-bottombar.style.background=random;
-card.style.background="white";
-}
-else if(value==="glass"){
-card.classList.add("glass");
-topbar.style.background="rgba(0,0,0,0.5)";
-bottombar.style.background="rgba(0,0,0,0.5)";
-}
-}
-
-window.preview=function(){
-
-document.getElementById("schoolPreview").innerText=document.getElementById("school").value;
-document.getElementById("addressPreview").innerText=document.getElementById("address").value;
-document.getElementById("namePreview").innerText=document.getElementById("name").value;
-document.getElementById("fatherPreview").innerText=document.getElementById("father").value;
-document.getElementById("classPreview").innerText=document.getElementById("class").value;
-document.getElementById("sectionPreview").innerText=document.getElementById("section").value;
-document.getElementById("rollPreview").innerText=document.getElementById("roll").value;
-document.getElementById("phonePreview").innerText=document.getElementById("phone").value;
-document.getElementById("sessionPreview").innerText="SESSION "+document.getElementById("session").value;
-
-previewImage("logoUpload","logoPreview");
-previewImage("photoUpload","photoPreview");
-previewImage("signUpload","signPreview");
-}
-
-function previewImage(inputId,imgId){
-let file=document.getElementById(inputId).files[0];
-if(file){
-let reader=new FileReader();
-reader.onload=function(e){
-document.getElementById(imgId).src=e.target.result;
-};
-reader.readAsDataURL(file);
-}
-}
-
-window.downloadCard=function(){
-
-let card=document.getElementById("card");
-
-html2canvas(card,{
-scale:2,
-useCORS:true
-}).then(function(canvas){
-
+html2canvas(document.getElementById("card"),{scale:2,useCORS:true})
+.then(canvas=>{
 let link=document.createElement("a");
 link.download="school-id-card.png";
-link.href=canvas.toDataURL("image/png");
-document.body.appendChild(link);
+link.href=canvas.toDataURL();
 link.click();
-document.body.removeChild(link);
-
-});
-}
-
-});
-</script>
-let link=document.createElement("a");
-link.href=canvas.toDataURL("image/png");
-link.download="school-id-card.png";
-document.body.appendChild(link);
-link.click();
-document.body.removeChild(link);
 });
 }
 
 </script>
-
-<script src="https://html2canvas.hertzen.com/dist/html2canvas.mi
 
 </body>
 </html>
