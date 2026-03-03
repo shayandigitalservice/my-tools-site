@@ -307,7 +307,103 @@ reader.readAsDataURL(file);
 }
 
 function downloadCard(){
-html2canvas(document.getElementById("card"),{scale:2}).then(canvas=>{
+<script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+
+<script>
+
+document.addEventListener("DOMContentLoaded", function(){
+
+const gradients=[
+"linear-gradient(45deg,#1e3c72,#2a5298)",
+"linear-gradient(45deg,#ff512f,#dd2476)",
+"linear-gradient(45deg,#11998e,#38ef7d)",
+"linear-gradient(45deg,#8e2de2,#4a00e0)",
+"linear-gradient(45deg,#f7971e,#ffd200)"
+];
+
+const solids=[
+"#1e40af","#b91c1c","#047857","#7c3aed","#be185d",
+"#0f172a","#78350f","#065f46","#111827","#991b1b",
+"#0e7490","#4c1d95","#374151","#92400e","#134e4a",
+"#7f1d1d","#1f2937","#14532d","#831843","#312e81"
+];
+
+window.changeTemplate=function(){
+let value=document.getElementById("templateSelect").value;
+let card=document.getElementById("card");
+let topbar=document.getElementById("topbar");
+let bottombar=document.getElementById("bottombar");
+
+card.classList.remove("glass");
+
+if(value==="gradient"){
+let random=gradients[Math.floor(Math.random()*gradients.length)];
+topbar.style.background=random;
+bottombar.style.background=random;
+card.style.background="white";
+}
+else if(value==="solid"){
+let random=solids[Math.floor(Math.random()*solids.length)];
+topbar.style.background=random;
+bottombar.style.background=random;
+card.style.background="white";
+}
+else if(value==="glass"){
+card.classList.add("glass");
+topbar.style.background="rgba(0,0,0,0.5)";
+bottombar.style.background="rgba(0,0,0,0.5)";
+}
+}
+
+window.preview=function(){
+
+document.getElementById("schoolPreview").innerText=document.getElementById("school").value;
+document.getElementById("addressPreview").innerText=document.getElementById("address").value;
+document.getElementById("namePreview").innerText=document.getElementById("name").value;
+document.getElementById("fatherPreview").innerText=document.getElementById("father").value;
+document.getElementById("classPreview").innerText=document.getElementById("class").value;
+document.getElementById("sectionPreview").innerText=document.getElementById("section").value;
+document.getElementById("rollPreview").innerText=document.getElementById("roll").value;
+document.getElementById("phonePreview").innerText=document.getElementById("phone").value;
+document.getElementById("sessionPreview").innerText="SESSION "+document.getElementById("session").value;
+
+previewImage("logoUpload","logoPreview");
+previewImage("photoUpload","photoPreview");
+previewImage("signUpload","signPreview");
+}
+
+function previewImage(inputId,imgId){
+let file=document.getElementById(inputId).files[0];
+if(file){
+let reader=new FileReader();
+reader.onload=function(e){
+document.getElementById(imgId).src=e.target.result;
+};
+reader.readAsDataURL(file);
+}
+}
+
+window.downloadCard=function(){
+
+let card=document.getElementById("card");
+
+html2canvas(card,{
+scale:2,
+useCORS:true
+}).then(function(canvas){
+
+let link=document.createElement("a");
+link.download="school-id-card.png";
+link.href=canvas.toDataURL("image/png");
+document.body.appendChild(link);
+link.click();
+document.body.removeChild(link);
+
+});
+}
+
+});
+</script>
 let link=document.createElement("a");
 link.href=canvas.toDataURL("image/png");
 link.download="school-id-card.png";
@@ -319,7 +415,7 @@ document.body.removeChild(link);
 
 </script>
 
-<script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+<script src="https://html2canvas.hertzen.com/dist/html2canvas.mi
 
 </body>
 </html>
