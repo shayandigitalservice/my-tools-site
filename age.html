@@ -208,7 +208,7 @@ function updateAge(){
 
 let now = new Date();
 
-/* ===== EXACT AGE CALCULATION ===== */
+/* ================= AGE CALCULATION ================= */
 
 let years = now.getFullYear() - dob.getFullYear();
 let months = now.getMonth() - dob.getMonth();
@@ -230,7 +230,7 @@ let minutes = now.getMinutes();
 let seconds = now.getSeconds();
 
 
-/* ===== NEXT BIRTHDAY WITH MONTHS ===== */
+/* ================= NEXT BIRTHDAY ================= */
 
 let nextBirthday = new Date(now.getFullYear(), dob.getMonth(), dob.getDate());
 
@@ -238,27 +238,61 @@ if(nextBirthday <= now){
 nextBirthday.setFullYear(now.getFullYear() + 1);
 }
 
-let bYears = nextBirthday.getFullYear() - now.getFullYear();
-let bMonths = nextBirthday.getMonth() - now.getMonth();
-let bDays = nextBirthday.getDate() - now.getDate();
+/* Birthday Day Name */
+let dayNames = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
+let birthdayDayName = dayNames[nextBirthday.getDay()];
 
-if(bDays < 0){
-bMonths--;
-let prevMonth = new Date(nextBirthday.getFullYear(), nextBirthday.getMonth(), 0);
-bDays += prevMonth.getDate();
+/* Birthday Months & Days Accurate */
+
+let tempDate = new Date(now);
+let bMonths = 0;
+
+while(new Date(tempDate.getFullYear(), tempDate.getMonth()+1, tempDate.getDate()) <= nextBirthday){
+tempDate.setMonth(tempDate.getMonth()+1);
+bMonths++;
 }
 
-if(bMonths < 0){
-bYears--;
-bMonths += 12;
+let remainingTime = nextBirthday - tempDate;
+let bDays = Math.floor(remainingTime / (1000*60*60*24));
+
+/* Remaining Hours Minutes Seconds */
+
+let totalDiff = nextBirthday - now;
+
+let bHours = Math.floor((totalDiff / (1000*60*60)) % 24);
+let bMinutes = Math.floor((totalDiff / (1000*60)) % 60);
+let bSeconds = Math.floor((totalDiff / 1000) % 60);
+
+
+/* ================= OUTPUT ================= */
+
+document.getElementById("result").innerHTML =
+
+"🎉 <b>Your Exact Age:</b><br><br>" +
+years + " Years<br>" +
+months + " Months<br>" +
+days + " Days<br>" +
+hours + " Hours<br>" +
+minutes + " Minutes<br>" +
+seconds + " Seconds<br><br>" +
+
+"🎂 <b>Next Birthday On:</b> " + birthdayDayName + "<br><br>" +
+
+"🎂 <b>Time Left Until Next Birthday:</b><br><br>" +
+bMonths + " Months<br>" +
+bDays + " Days<br>" +
+bHours + " Hours<br>" +
+bMinutes + " Minutes<br>" +
+bSeconds + " Seconds";
+
 }
 
-let diff = nextBirthday - now;
+updateAge();
+interval = setInterval(updateAge,1000);
 
-let bHours = Math.floor((diff / (1000*60*60)) % 24);
-let bMinutes = Math.floor((diff / (1000*60)) % 60
+}
 
-  </script>
+</script>
 
 </body>
 </html>
