@@ -166,18 +166,25 @@ saveHistory(text)
 function downloadQR(){
 
 let img=document.querySelector("#qrcode img")
+let canvas=document.querySelector("#qrcode canvas")
 
-if(!img){
-alert("Generate QR Code first")
+if(img){
+let link=document.createElement("a")
+link.href=img.src
+link.download="qrcode.png"
+link.click()
 return
 }
 
+if(canvas){
 let link=document.createElement("a")
-
-link.href=img.src
+link.href=canvas.toDataURL("image/png")
 link.download="qrcode.png"
-
 link.click()
+return
+}
+
+alert("Generate QR Code first")
 
 }
 
