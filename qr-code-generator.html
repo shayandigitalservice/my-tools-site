@@ -1,13 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>QR Code Generator 2026 – Free QR Code Maker Online</title>
-
-<meta name="description" content="Free online QR Code Generator. Create QR codes for links, WhatsApp, WiFi, email, phone and download high quality QR codes instantly.">
+<title>QR Code Generator</title>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 
@@ -15,75 +10,68 @@
 
 body{
 font-family:Arial;
-background:#f5f7fb;
-margin:0;
-padding:20px;
+background:#f4f4f4;
+text-align:center;
+padding:30px;
 }
 
 .container{
-max-width:900px;
-margin:auto;
-}
-
-.tool-card{
 background:white;
-padding:25px;
-border-radius:14px;
-max-width:420px;
+padding:20px;
+border-radius:10px;
+max-width:500px;
 margin:auto;
-text-align:center;
-box-shadow:0 8px 25px rgba(0,0,0,0.1);
+box-shadow:0 0 10px rgba(0,0,0,0.1);
 }
 
 input,select{
-width:100%;
-padding:12px;
-border-radius:10px;
+width:90%;
+padding:10px;
+margin:5px;
 border:1px solid #ccc;
-margin-bottom:10px;
+border-radius:5px;
 }
 
 button{
-width:100%;
-padding:12px;
-margin-top:10px;
+padding:10px 20px;
+margin:10px;
 border:none;
-border-radius:10px;
-background:#2563eb;
+background:#007bff;
 color:white;
-font-size:16px;
+border-radius:5px;
 cursor:pointer;
 }
 
 button:hover{
-background:#1e40af;
+background:#0056b3;
 }
 
 #qrcode{
 margin-top:20px;
-position:relative;
-display:inline-block;
 }
 
 .history{
 margin-top:20px;
-font-size:13px;
-color:#555;
+text-align:left;
+}
+
+.history div{
+background:#eee;
+padding:5px;
+margin:3px;
+border-radius:3px;
 }
 
 </style>
-
 </head>
 
 <body>
 
 <div class="container">
 
-<h1 style="text-align:center;">QR Code Generator</h1>
+<h2>QR Code Generator</h2>
 
-<div class="tool-card">
-
-<select id="qrType">
+<select id="type">
 <option value="text">Text / URL</option>
 <option value="whatsapp">WhatsApp</option>
 <option value="wifi">WiFi</option>
@@ -92,25 +80,25 @@ color:#555;
 <option value="social">Social Media</option>
 </select>
 
-<input type="text" id="text" placeholder="Enter text or URL">
+<input id="data" placeholder="Enter data">
 
-<input type="color" id="qrColor" value="#000000">
+<input type="color" id="color" value="#000000">
 
-<input type="range" id="qrSize" min="150" max="350" value="200">
+<label>Size</label>
+<input type="range" id="size" min="150" max="400" value="250">
 
-<input type="file" id="logoUpload" accept="image/*">
+<input type="file" id="logo">
 
-<button onclick="generateQR()">Generate QR Code</button>
+<br>
+
+<button onclick="generateQR()">Generate QR</button>
+<button onclick="downloadQR()">Download QR</button>
 
 <div id="qrcode"></div>
 
-<button onclick="downloadQR()">Download QR Code</button>
-
 <div class="history">
-<b>QR History:</b>
-<ul id="historyList"></ul>
-</div>
-
+<h3>QR History</h3>
+<div id="history"></div>
 </div>
 
 </div>
@@ -121,157 +109,123 @@ let qr
 
 function generateQR(){
 
-let text=document.getElementById("text").value
-let type=document.getElementById("qrType").value
-let color=document.getElementById("qrColor").value
-let size=document.getElementById("qrSize").value
+let type=document.getElementById("type").value
+let data=document.getElementById("data").value
+let color=document.getElementById("color").value
+let size=document.getElementById("size").value
 
-if(text===""){
-alert("Enter text or URL")
-return
+let finalData=data
+
+if(type=="whatsapp"){
+finalData="https://wa.me/"+data
 }
 
-if(type==="whatsapp"){
-text="https://wa.me/"+text
+if(type=="email"){
+finalData="mailto:"+data
 }
 
-if(type==="email"){
-text="mailto:"+text
+if(type=="phone"){
+finalData="tel:"+data
 }
 
-if(type==="phone"){
-text="tel:"+text
+if(type=="wifi"){
+finalData="WIFI:T:WPA;S:"+data+";;"
 }
 
-if(type==="wifi"){
-text="WIFI:T:WPA;S:"+text+";;"
+if(type=="social"){
+finalData=data
 }
 
 document.getElementById("qrcode").innerHTML=""
 
 qr=new QRCode(document.getElementById("qrcode"),{
-text:text,
+text:finalData,
 width:size,
 height:size,
 colorDark:color,
-colorLight:"#ffffff"
+colorLight:"#ffffff",
+correctLevel:QRCode.CorrectLevel.H
 })
 
-setTimeout(addLogo,200)
+saveHistory(finalData)
 
-saveHistory(text)
-
-}
-function downloadQR(){
-
-let canvas = document.querySelector("#qrcode canvas");
-
-if(!canvas){
-alert("Generate QR Code first");
-return;
-}
-
-let finalCanvas = document.createElement("canvas");
-let ctx = finalCanvas.getContext("2d");
-
-let size = canvas.width;
-finalCanvas.width = size;
-finalCanvas.height = size;
-
-/* white background */
-ctx.fillStyle = "#ffffff";
-ctx.fillRect(0,0,size,size);
-
-/* draw QR */
-ctx.drawImage(canvas,0,0);
-
-/* add logo if uploaded */
-let logoInput = document.getElementById("logoInput");
-
-if(logoInput && logoInput.files[0]){
-
-let reader = new FileReader();
-
-reader.onload=function(e){
-
-let logo = new Image();
-
-logo.onload=function(){
-
-let logoSize = size * 0.2;
-let x = (size-logoSize)/2;
-let y = (size-logoSize)/2;
-
-ctx.drawImage(logo,x,y,logoSize,logoSize);
-
-saveImage();
-
-}
-
-logo.src = e.target.result;
-
-}
-
-reader.readAsDataURL(logoInput.files[0]);
-
-}else{
-
-saveImage();
-
-}
-
-function saveImage(){
-
-let link=document.createElement("a");
-link.href=finalCanvas.toDataURL("image/png");
-link.download="qr-code.png";
-document.body.appendChild(link);
-link.click();
-document.body.removeChild(link);
+setTimeout(addLogo,500)
 
 }
 
 function addLogo(){
 
-let logoInput=document.getElementById("logoUpload")
+let logoInput=document.getElementById("logo")
 
 if(logoInput.files.length==0) return
 
-let reader=new FileReader()
+let img=document.createElement("img")
+img.src=URL.createObjectURL(logoInput.files[0])
 
-reader.onload=function(e){
+img.style.width="50px"
+img.style.position="absolute"
+img.style.left="50%"
+img.style.top="50%"
+img.style.transform="translate(-50%,-50%)"
 
-let logo=document.createElement("img")
+let qrDiv=document.getElementById("qrcode")
+qrDiv.style.position="relative"
 
-logo.src=e.target.result
-
-logo.style.width="50px"
-logo.style.height="50px"
-logo.style.position="absolute"
-logo.style.left="50%"
-logo.style.top="50%"
-logo.style.transform="translate(-50%,-50%)"
-logo.style.borderRadius="8px"
-
-document.getElementById("qrcode").appendChild(logo)
+qrDiv.appendChild(img)
 
 }
 
-reader.readAsDataURL(logoInput.files[0])
+function downloadQR(){
+
+let canvas=document.querySelector("#qrcode canvas")
+
+if(!canvas){
+alert("Generate QR first")
+return
+}
+
+let link=document.createElement("a")
+
+link.href=canvas.toDataURL("image/png")
+link.download="qr-code.png"
+
+link.click()
 
 }
 
-function saveHistory(text){
+function saveHistory(data){
 
-let list=document.getElementById("historyList")
+let history=JSON.parse(localStorage.getItem("qrHistory")) || []
 
-let li=document.createElement("li")
+history.unshift(data)
 
-li.innerText=text
+if(history.length>10){
+history.pop()
+}
 
-list.prepend(li)
+localStorage.setItem("qrHistory",JSON.stringify(history))
+
+showHistory()
 
 }
+
+function showHistory(){
+
+let history=JSON.parse(localStorage.getItem("qrHistory")) || []
+
+let div=document.getElementById("history")
+
+div.innerHTML=""
+
+history.forEach(item=>{
+let d=document.createElement("div")
+d.innerText=item
+div.appendChild(d)
+})
+
+}
+
+showHistory()
 
 </script>
 
