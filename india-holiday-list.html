@@ -1,21 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>India Holiday List 2026-2040</title>
-
-<meta name="description" content="Check India national and state wise holiday list from 2026 to 2040 with day name.">
+<title>India Holiday List 2026</title>
 
 <style>
 
 body{
 font-family:Arial;
-background:#f5f7fb;
-margin:0;
+background:#f4f6fb;
 padding:20px;
 }
 
@@ -25,37 +18,30 @@ margin:auto;
 background:white;
 padding:25px;
 border-radius:10px;
-box-shadow:0 6px 20px rgba(0,0,0,0.1);
+box-shadow:0 0 10px rgba(0,0,0,0.1);
 }
 
 h1{
 text-align:center;
+}
+
+input,select{
+width:100%;
+padding:10px;
+margin-top:10px;
 margin-bottom:20px;
-}
-
-select,input{
-width:100%;
-padding:10px;
-margin:8px 0;
 border:1px solid #ccc;
-border-radius:6px;
-font-size:15px;
+border-radius:5px;
 }
 
-table{
-width:100%;
-border-collapse:collapse;
-margin-top:20px;
+ul{
+list-style:none;
+padding:0;
 }
 
-th,td{
-padding:10px;
-border-bottom:1px solid #ddd;
-}
-
-th{
-background:#2563eb;
-color:white;
+li{
+padding:8px;
+border-bottom:1px solid #eee;
 }
 
 </style>
@@ -66,26 +52,21 @@ color:white;
 
 <div class="container">
 
-<h1>India Holiday List</h1>
+<h1>India Holiday List 2026</h1>
 
-<label>Select Year</label>
+<input type="text" id="searchHoliday" placeholder="Search Holiday...">
 
-<select id="year">
+<h2>Indian Government Major Holidays 2026</h2>
 
-<option>2026</option>
-<option>2027</option>
-<option>2028</option>
+<ul id="nationalHolidayList"></ul>
 
-</select>
+<h2>Select State</h2>
 
+<select id="stateSelect">
 
-<label>Select State</label>
+<option value="">Select State</option>
 
-<select id="state">
-
-<option value="all">All India</option>
-
-<option>Andhra Pradesh</option>
+option>Andhra Pradesh</option>
 <option>Arunachal Pradesh</option>
 <option>Assam</option>
 <option>Bihar</option>
@@ -121,264 +102,123 @@ color:white;
 <option>Lakshadweep</option>
 <option>Puducherry</option>
 <option>Ladakh</option>
-
 </select>
-
-
-<label>Search Holiday</label>
-
-<input type="text" id="search" placeholder="Search holiday name">
-
-
-<label>Filter Month</label>
-
-<select id="month">
-
-<option value="">All Months</option>
-<option value="01">January</option>
-<option value="02">February</option>
-<option value="03">March</option>
-<option value="04">April</option>
-<option value="05">May</option>
-<option value="06">June</option>
-<option value="07">July</option>
-<option value="08">August</option>
-<option value="09">September</option>
-<option value="10">October</option>
-<option value="11">November</option>
-<option value="12">December</option>
-
-</select>
-
-
-<table>
-
-<thead>
-
-<tr>
-<th>Date</th>
-<th>Day</th>
-<th>Holiday</th>
-</tr>
-
-</thead>
-
-<tbody id="holidayList"></tbody>
-
-</table>
+<ul id="stateHolidayList"></ul>
 
 </div>
 
-
 <script>
 
-/* NATIONAL HOLIDAYS */
+function getDayName(date){
+const days=["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
+return days[new Date(date).getDay()];
+}
 
-const national = [
 
-{date:"2026-01-01",name:"New Year's Day"},
-{date:"2026-01-14",name:"Makar Sankranti"},
+const national2026=[
+
 {date:"2026-01-26",name:"Republic Day"},
-{date:"2026-02-15",name:"Vasant Panchami"},
-{date:"2026-03-04",name:"Maha Shivaratri"},
-{date:"2026-03-06",name:"Holi"},
-{date:"2026-03-31",name:"Eid ul-Fitr"},
-{date:"2026-04-02",name:"Ram Navami"},
-{date:"2026-04-14",name:"Ambedkar Jayanti"},
-{date:"2026-04-18",name:"Good Friday"},
+{date:"2026-03-14",name:"Holi"},
+{date:"2026-03-30",name:"Ram Navami"},
+{date:"2026-04-03",name:"Good Friday"},
 {date:"2026-05-01",name:"Labour Day"},
-{date:"2026-05-12",name:"Buddha Purnima"},
-{date:"2026-06-07",name:"Bakrid / Eid al-Adha"},
-{date:"2026-07-06",name:"Muharram"},
 {date:"2026-08-15",name:"Independence Day"},
-{date:"2026-08-28",name:"Janmashtami"},
-{date:"2026-09-17",name:"Ganesh Chaturthi"},
 {date:"2026-10-02",name:"Gandhi Jayanti"},
-{date:"2026-10-20",name:"Dussehra"},
-{date:"2026-11-08",name:"Diwali"},
-{date:"2026-11-15",name:"Guru Nanak Jayanti"},
-{date:"2026-12-25",name:"Christmas Day"},
+{date:"2026-10-24",name:"Diwali"},
+{date:"2026-12-25",name:"Christmas"}
 
-{date:"2027-01-01",name:"New Year's Day"},
-{date:"2027-01-14",name:"Makar Sankranti"},
-{date:"2027-01-26",name:"Republic Day"},
-{date:"2027-02-10",name:"Vasant Panchami"},
-{date:"2027-02-26",name:"Maha Shivaratri"},
-{date:"2027-03-24",name:"Holi"},
-{date:"2027-04-10",name:"Eid ul-Fitr"},
-{date:"2027-04-15",name:"Ram Navami"},
-{date:"2027-04-14",name:"Ambedkar Jayanti"},
-{date:"2027-04-23",name:"Good Friday"},
-{date:"2027-05-01",name:"Labour Day"},
-{date:"2027-05-21",name:"Buddha Purnima"},
-{date:"2027-06-28",name:"Bakrid / Eid al-Adha"},
-{date:"2027-07-17",name:"Muharram"},
-{date:"2027-08-15",name:"Independence Day"},
-{date:"2027-08-16",name:"Janmashtami"},
-{date:"2027-09-05",name:"Ganesh Chaturthi"},
-{date:"2027-10-02",name:"Gandhi Jayanti"},
-{date:"2027-10-12",name:"Dussehra"},
-{date:"2027-10-31",name:"Diwali"},
-{date:"2027-11-05",name:"Guru Nanak Jayanti"},
-{date:"2027-12-25",name:"Christmas Day"}
+]
 
-];
 
-/* STATE HOLIDAYS */
+const nationalList=document.getElementById("nationalHolidayList");
+
+national2026.forEach(h=>{
+
+let li=document.createElement("li")
+
+li.innerHTML=`${h.date} - ${getDayName(h.date)} - ${h.name}`
+
+nationalList.appendChild(li)
+
+})
+
 
 const states={
 
 AndhraPradesh:[
 
-{date:"01-01",name:"New Year's Day"},
-{date:"01-14",name:"Makara Sankranti"},
-{date:"01-15",name:"Kanuma"},
-{date:"01-26",name:"Republic Day"},
-{date:"03-14",name:"Holi"},
-{date:"03-30",name:"Ugadi (Telugu New Year)"},
-{date:"04-03",name:"Good Friday"},
-{date:"04-06",name:"Sri Rama Navami"},
-{date:"04-14",name:"Dr. B. R. Ambedkar Jayanti"},
-{date:"05-01",name:"May Day"},
-{date:"05-23",name:"Buddha Purnima"},
-{date:"06-17",name:"Bakrid (Eid al-Adha)"},
-{date:"07-06",name:"Muharram"},
-{date:"08-15",name:"Independence Day"},
-{date:"08-28",name:"Sri Krishna Janmashtami"},
-{date:"09-17",name:"Milad-un-Nabi"},
-{date:"10-02",name:"Gandhi Jayanti"},
-{date:"10-20",name:"Vijaya Dashami (Dussehra)"},
-{date:"10-24",name:"Diwali"},
-{date:"12-25",name:"Christmas Day"},
+{date:"2026-01-14",name:"Makara Sankranti"},
+{date:"2026-03-30",name:"Ugadi"},
+{date:"2026-08-28",name:"Janmashtami"}
 
-{date:"01-01",name:"New Year's Day"},
-{date:"01-14",name:"Makara Sankranti"},
-{date:"01-15",name:"Kanuma"},
-{date:"01-26",name:"Republic Day"},
-{date:"03-03",name:"Holi"},
-{date:"03-20",name:"Ugadi (Telugu New Year)"},
-{date:"03-26",name:"Good Friday"},
-{date:"04-04",name:"Sri Rama Navami"},
-{date:"04-14",name:"Dr. B. R. Ambedkar Jayanti"},
-{date:"05-01",name:"May Day"},
-{date:"05-12",name:"Buddha Purnima"},
-{date:"06-07",name:"Bakrid (Eid al-Adha)"},
-{date:"06-26",name:"Muharram"},
-{date:"08-15",name:"Independence Day"},
-{date:"08-18",name:"Sri Krishna Janmashtami"},
-{date:"09-06",name:"Milad-un-Nabi"},
-{date:"10-02",name:"Gandhi Jayanti"},
-{date:"10-10",name:"Vijaya Dashami (Dussehra)"},
-{date:"11-04",name:"Diwali"},
-{date:"12-25",name:"Christmas Day"}
+],
+
+Gujarat:[
+
+{date:"2026-01-14",name:"Uttarayan"},
+{date:"2026-08-19",name:"Janmashtami"}
 
 ],
 
 Maharashtra:[
-{date:"05-01",name:"Maharashtra Day"},
-{date:"04-14",name:"Ambedkar Jayanti"}
+
+{date:"2026-04-14",name:"Ambedkar Jayanti"},
+{date:"2026-09-17",name:"Ganesh Chaturthi"}
+
 ],
 
-Punjab:[
-{date:"04-13",name:"Baisakhi"}
-],
+TamilNadu:[
 
-Rajasthan:[
-{date:"03-07",name:"Gangaur"}
-],
+{date:"2026-01-15",name:"Pongal"},
+{date:"2026-04-14",name:"Tamil New Year"}
 
-Delhi:[
-{date:"11-12",name:"Diwali"}
-],
-
-"Uttar Pradesh":[
-{date:"11-03",name:"Govardhan Puja"}
-],
-
-"Tamil Nadu":[
-{date:"01-15",name:"Pongal"}
 ],
 
 Karnataka:[
-{date:"11-01",name:"Karnataka Rajyotsava"}
-],
 
-Kerala:[
-{date:"08-28",name:"Onam"}
+{date:"2026-11-01",name:"Karnataka Rajyotsava"},
+{date:"2026-08-15",name:"Independence Day"}
+
 ]
 
 }
 
 
-/* GET DAY NAME */
+document.getElementById("stateSelect").addEventListener("change",function(){
 
-function getDay(date){
+let state=this.value
+let list=document.getElementById("stateHolidayList")
 
-let year=document.getElementById("year").value
+list.innerHTML=""
 
-let d=new Date(year+"-"+date)
+if(!states[state]) return
 
-return d.toLocaleDateString("en-US",{weekday:"long"})
+states[state].forEach(h=>{
 
-}
+let li=document.createElement("li")
 
+li.innerHTML=`${h.date} - ${getDayName(h.date)} - ${h.name}`
 
-/* SHOW HOLIDAYS */
-
-function show(){
-
-let state=document.getElementById("state").value
-let search=document.getElementById("search").value.toLowerCase()
-let month=document.getElementById("month").value
-let year=document.getElementById("year").value
-
-let table=document.getElementById("holidayList")
-
-table.innerHTML=""
-
-let list=[...national]
-
-if(state!="all" && states[state]){
-
-list=list.concat(states[state])
-
-}
-
-list.forEach(h=>{
-
-if(search && !h.name.toLowerCase().includes(search)) return
-
-if(month && !h.date.startsWith(month)) return
-
-let row=document.createElement("tr")
-
-row.innerHTML=`
-
-<td>${h.date}-${year}</td>
-<td>${getDay(h.date)}</td>
-<td>${h.name}</td>
-
-`
-
-table.appendChild(row)
+list.appendChild(li)
 
 })
 
-}
+})
 
 
-/* EVENTS */
+document.getElementById("searchHoliday").addEventListener("keyup",function(){
 
-document.getElementById("state").addEventListener("change",show)
+let value=this.value.toLowerCase()
 
-document.getElementById("year").addEventListener("change",show)
+let items=document.querySelectorAll("li")
 
-document.getElementById("search").addEventListener("input",show)
+items.forEach(i=>{
 
-document.getElementById("month").addEventListener("change",show)
+i.style.display=i.textContent.toLowerCase().includes(value)?"block":"none"
 
+})
 
-show()
+})
 
 </script>
 
