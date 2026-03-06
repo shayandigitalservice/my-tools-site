@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Income Tax Calculator 2026 India</title>
+
+<meta name="description" content="Calculate your Income Tax for 2026 in India. Supports Old and New Tax Regime with deductions like 80C, HRA and Standard Deduction.">
+
+<style>
+
+body{
+font-family:Arial;
+background:#eef2f7;
+margin:0;
+padding:20px;
+}
+
+.container{
+max-width:600px;
+margin:auto;
+background:white;
+padding:25px;
+border-radius:10px;
+box-shadow:0 5px 20px rgba(0,0,0,0.1);
+}
+
+h1{
+text-align:center;
+}
+
+label{
+font-weight:bold;
+}
+
+input,select{
+width:100%;
+padding:10px;
+margin-top:6px;
+margin-bottom:15px;
+border:1px solid #ccc;
+border-radius:6px;
+}
+
+button{
+width:100%;
+padding:12px;
+background:#007bff;
+color:white;
+border:none;
+font-size:16px;
+border-radius:6px;
+cursor:pointer;
+}
+
+button:hover{
+background:#0056b3;
+}
+
+.result{
+margin-top:20px;
+background:#f6f8fb;
+padding:15px;
+border-radius:6px;
+}
+
+.suggestion{
+margin-top:20px;
+background:#eaf7ea;
+padding:15px;
+border-radius:6px;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<h1>Income Tax Calculator 2026</h1>
+
+<label>Annual Income (₹)</label>
+<input type="number" id="income">
+
+<label>Tax Regime</label>
+<select id="regime">
+<option value="new">New Regime</option>
+<option value="old">Old Regime</option>
+</select>
+
+<label>80C Deduction (Max ₹150000)</label>
+<input type="number" id="deduction80c">
+
+<label>HRA Exemption</label>
+<input type="number" id="hra">
+
+<label>Standard Deduction</label>
+<input type="number" id="standard" value="50000">
+
+<button onclick="calculateTax()">Calculate Tax</button>
+
+<div class="result" id="result"></div>
+
+<div class="suggestion" id="suggestion"></div>
+
+</div>
+
+<script>
+
+function calculateTax(){
+
+let income=parseFloat(document.getElementById("income").value)||0
+let regime=document.getElementById("regime").value
+let d80c=parseFloat(document.getElementById("deduction80c").value)||0
+let hra=parseFloat(document.getElementById("hra").value)||0
+let standard=parseFloat(document.getElementById("standard").value)||0
+
+let taxable=income
+let tax=0
+
+if(regime==="old"){
+
+taxable=income-d80c-hra-standard
+if(taxable<0) taxable=0
+
+if(taxable<=250000) tax=0
+
+else if(taxable<=500000)
+tax=(taxable-250000)*0.05
+
+else if(taxable<=1000000)
+tax=12500+(taxable-500000)*0.20
+
+else
+tax=112500+(taxable-1000000)*0.30
+
+}
+
+else{
+
+if(income<=300000) tax=0
+
+else if(income<=600000)
+tax=(income-300000)*0.05
+
+else if(income<=900000)
+tax=15000+(income-600000)*0.10
+
+else if(income<=1200000)
+tax=45000+(income-900000)*0.15
+
+else if(income<=1500000)
+tax=90000+(income-1200000)*0.20
+
+else
+tax=150000+(income-1500000)*0.30
+
+}
+
+let cess=tax*0.04
+let total=tax+cess
+let monthly=income/12
+
+document.getElementById("result").innerHTML=
+
+"<b>Taxable Income:</b> ₹"+taxable.toFixed(2)+"<br>"+
+"<b>Tax:</b> ₹"+tax.toFixed(2)+"<br>"+
+"<b>4% Cess:</b> ₹"+cess.toFixed(2)+"<br>"+
+"<b>Total Tax:</b> ₹"+total.toFixed(2)+"<br>"+
+"<b>Monthly Income:</b> ₹"+monthly.toFixed(2)
+
+let tip=""
+
+if(regime==="old"){
+tip="You can reduce tax by investing in 80C options like PPF, ELSS, LIC or Tax Saver FD."
+}
+
+else{
+tip="New regime has lower tax rates but fewer deductions. Compare both regimes to save more."
+}
+
+document.getElementById("suggestion").innerHTML="<b>Tax Saving Tip:</b> "+tip
+
+}
+
+</script>
+
+</body>
+  <section class="seo-content">
+
+<h2>Income Tax Calculator 2026 – Calculate Your Tax Easily</h2>
+
+<p>
+The Income Tax Calculator 2026 is a simple online tool that helps individuals estimate their annual income tax liability in India. 
+By entering your yearly income and selecting the appropriate tax regime, you can quickly calculate the amount of tax you need to pay. 
+This tool is designed for salaried employees, freelancers, and business owners who want a quick overview of their income tax for the financial year 2025-26 and assessment year 2026-27.
+</p>
+
+<p>
+With the help of this calculator, you can compare both the old tax regime and the new tax regime to determine which option is more beneficial for you. 
+It also allows deductions such as Section 80C investments, HRA exemption, and standard deduction to calculate the final taxable income accurately.
+</p>
+
+<h2>What is Income Tax in India?</h2>
+
+<p>
+Income tax is a direct tax imposed by the government on the income earned by individuals and businesses. 
+The amount of tax payable depends on your income slab and the tax regime you choose. 
+In India, taxpayers can choose between two tax systems: the old tax regime and the new tax regime. 
+Each system has different tax rates and deduction rules.
+</p>
+
+<p>
+The old tax regime allows several deductions and exemptions such as Section 80C investments, house rent allowance (HRA), medical insurance deductions, and other tax-saving benefits. 
+The new tax regime, introduced by the government, offers lower tax rates but removes most deductions and exemptions.
+</p>
+
+<h2>Benefits of Using an Income Tax Calculator</h2>
+
+<p>
+Using an online income tax calculator provides several advantages. 
+First, it helps you estimate your tax liability instantly without complicated manual calculations. 
+Second, it allows you to compare tax payable under both regimes so you can choose the most beneficial option. 
+Third, it helps you plan your tax-saving investments in advance.
+</p>
+
+<p>
+For example, if you know how much tax you will pay at the end of the financial year, you can invest in tax-saving instruments such as Public Provident Fund (PPF), ELSS mutual funds, National Savings Certificate (NSC), or tax-saving fixed deposits to reduce your taxable income.
+</p>
+
+<h2>How to Use the Income Tax Calculator 2026</h2>
+
+<p>
+Using this calculator is extremely simple and takes only a few seconds. Follow the steps below:
+</p>
+
+<ul>
+<li>Enter your annual income.</li>
+<li>Select the tax regime (Old Regime or New Regime).</li>
+<li>Enter deductions such as Section 80C, HRA, and standard deduction if applicable.</li>
+<li>Click the Calculate Tax button.</li>
+<li>The calculator will instantly show your taxable income, tax amount, and total tax payable including cess.</li>
+</ul>
+
+<p>
+This tool automatically calculates the health and education cess of 4% which is applicable on the total tax amount in India.
+</p>
+
+<h2>Old Tax Regime vs New Tax Regime</h2>
+
+<p>
+Choosing between the old tax regime and the new tax regime is an important decision for taxpayers. 
+The old tax regime allows multiple deductions and exemptions which can significantly reduce your taxable income if you invest in tax-saving instruments.
+</p>
+
+<p>
+On the other hand, the new tax regime offers lower tax rates but removes most deductions. 
+This system is beneficial for taxpayers who do not claim many deductions or prefer a simple tax structure without investment requirements.
+</p>
+
+<p>
+Using the income tax calculator helps you compare both systems easily so you can make an informed decision based on your financial situation.
+</p>
+
+<h2>Common Tax Saving Options</h2>
+
+<p>
+There are several ways to legally reduce your income tax liability in India. Some popular tax-saving options include investments under Section 80C such as PPF, ELSS, life insurance premiums, employee provident fund contributions, and tax-saving fixed deposits.
+</p>
+
+<p>
+You can also claim deductions for health insurance premiums under Section 80D, home loan interest under Section 24, and HRA exemption if you live in a rented house. 
+Planning these deductions early in the financial year can significantly reduce your tax burden.
+</p>
+
+<h2>Why Use Our Online Tax Calculator?</h2>
+
+<p>
+Our Income Tax Calculator 2026 is fast, accurate, and completely free to use. 
+It works on both desktop and mobile devices and does not require any registration. 
+The calculator is designed with a simple user interface so anyone can easily calculate their income tax within seconds.
+</p>
+
+<p>
+Whether you are a salaried employee, freelancer, or small business owner, this tool helps you understand your tax liability and plan your finances better. 
+Using a tax calculator regularly can help you stay financially prepared and avoid last-minute tax surprises.
+</p>
+
+<h2>Conclusion</h2>
+
+<p>
+Income tax planning is an important part of personal finance management. 
+Using the Income Tax Calculator 2026 helps you estimate your taxes quickly and choose the most beneficial tax regime. 
+It also helps you identify opportunities to save tax through legal deductions and investments.
+</p>
+
+<p>
+Start using this calculator today to plan your taxes smarter and manage your finances more efficiently.
+</p>
+
+  </section>
+</html>
