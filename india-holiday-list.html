@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>India Holiday List 2026-2040</title>
+
+<meta name="description" content="Check India national and state wise holiday list from 2026 to 2040 with day name.">
+
+<style>
+
+body{
+font-family:Arial;
+background:#f5f7fb;
+margin:0;
+padding:20px;
+}
+
+.container{
+max-width:900px;
+margin:auto;
+background:white;
+padding:25px;
+border-radius:10px;
+box-shadow:0 6px 20px rgba(0,0,0,0.1);
+}
+
+h1{
+text-align:center;
+margin-bottom:20px;
+}
+
+select,input{
+width:100%;
+padding:10px;
+margin:8px 0;
+border:1px solid #ccc;
+border-radius:6px;
+font-size:15px;
+}
+
+table{
+width:100%;
+border-collapse:collapse;
+margin-top:20px;
+}
+
+th,td{
+padding:10px;
+border-bottom:1px solid #ddd;
+}
+
+th{
+background:#2563eb;
+color:white;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<h1>India Holiday List</h1>
+
+<label>Select Year</label>
+
+<select id="year">
+
+<option>2026</option>
+<option>2027</option>
+<option>2028</option>
+<option>2029</option>
+<option>2030</option>
+<option>2031</option>
+<option>2032</option>
+<option>2033</option>
+<option>2034</option>
+<option>2035</option>
+<option>2036</option>
+<option>2037</option>
+<option>2038</option>
+<option>2039</option>
+<option>2040</option>
+
+</select>
+
+
+<label>Select State</label>
+
+<select id="state">
+
+<option value="all">All India</option>
+
+<option>Gujarat</option>
+<option>Maharashtra</option>
+<option>Punjab</option>
+<option>Rajasthan</option>
+<option>Delhi</option>
+<option>Uttar Pradesh</option>
+<option>Tamil Nadu</option>
+<option>Karnataka</option>
+<option>Kerala</option>
+
+</select>
+
+
+<label>Search Holiday</label>
+
+<input type="text" id="search" placeholder="Search holiday name">
+
+
+<label>Filter Month</label>
+
+<select id="month">
+
+<option value="">All Months</option>
+<option value="01">January</option>
+<option value="02">February</option>
+<option value="03">March</option>
+<option value="04">April</option>
+<option value="05">May</option>
+<option value="06">June</option>
+<option value="07">July</option>
+<option value="08">August</option>
+<option value="09">September</option>
+<option value="10">October</option>
+<option value="11">November</option>
+<option value="12">December</option>
+
+</select>
+
+
+<table>
+
+<thead>
+
+<tr>
+<th>Date</th>
+<th>Day</th>
+<th>Holiday</th>
+</tr>
+
+</thead>
+
+<tbody id="holidayList"></tbody>
+
+</table>
+
+</div>
+
+
+<script>
+
+/* NATIONAL HOLIDAYS */
+
+const national=[
+
+{date:"01-26",name:"Republic Day"},
+{date:"08-15",name:"Independence Day"},
+{date:"10-02",name:"Gandhi Jayanti"}
+
+]
+
+/* STATE HOLIDAYS */
+
+const states={
+
+Gujarat:[
+{date:"01-14",name:"Uttarayan"},
+{date:"08-19",name:"Janmashtami"}
+],
+
+Maharashtra:[
+{date:"05-01",name:"Maharashtra Day"},
+{date:"04-14",name:"Ambedkar Jayanti"}
+],
+
+Punjab:[
+{date:"04-13",name:"Baisakhi"}
+],
+
+Rajasthan:[
+{date:"03-07",name:"Gangaur"}
+],
+
+Delhi:[
+{date:"11-12",name:"Diwali"}
+],
+
+"Uttar Pradesh":[
+{date:"11-03",name:"Govardhan Puja"}
+],
+
+"Tamil Nadu":[
+{date:"01-15",name:"Pongal"}
+],
+
+Karnataka:[
+{date:"11-01",name:"Karnataka Rajyotsava"}
+],
+
+Kerala:[
+{date:"08-28",name:"Onam"}
+]
+
+}
+
+
+/* GET DAY NAME */
+
+function getDay(date){
+
+let year=document.getElementById("year").value
+
+let d=new Date(year+"-"+date)
+
+return d.toLocaleDateString("en-US",{weekday:"long"})
+
+}
+
+
+/* SHOW HOLIDAYS */
+
+function show(){
+
+let state=document.getElementById("state").value
+let search=document.getElementById("search").value.toLowerCase()
+let month=document.getElementById("month").value
+let year=document.getElementById("year").value
+
+let table=document.getElementById("holidayList")
+
+table.innerHTML=""
+
+let list=[...national]
+
+if(state!="all" && states[state]){
+
+list=list.concat(states[state])
+
+}
+
+list.forEach(h=>{
+
+if(search && !h.name.toLowerCase().includes(search)) return
+
+if(month && !h.date.startsWith(month)) return
+
+let row=document.createElement("tr")
+
+row.innerHTML=`
+
+<td>${h.date}-${year}</td>
+<td>${getDay(h.date)}</td>
+<td>${h.name}</td>
+
+`
+
+table.appendChild(row)
+
+})
+
+}
+
+
+/* EVENTS */
+
+document.getElementById("state").addEventListener("change",show)
+
+document.getElementById("year").addEventListener("change",show)
+
+document.getElementById("search").addEventListener("input",show)
+
+document.getElementById("month").addEventListener("change",show)
+
+
+show()
+
+</script>
+
+</body>
+</html>
