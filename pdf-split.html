@@ -1,91 +1,41 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>PDF Split Tool</title>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script src="https://unpkg.com/pdf-lib/dist/pdf-lib.min.js"></script>
 
 <style>
 
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-font-family:Arial;
-}
-
 body{
-background:linear-gradient(135deg,#4facfe,#00f2fe);
-min-height:100vh;
-display:flex;
-align-items:center;
-justify-content:center;
-padding:15px;
+font-family:Arial;
+background:#f1f5f9;
+text-align:center;
+padding:20px;
 }
 
 .container{
 background:white;
+max-width:420px;
+margin:auto;
 padding:25px;
 border-radius:15px;
-width:100%;
-max-width:420px;
-box-shadow:0 10px 25px rgba(0,0,0,0.2);
-text-align:center;
-}
-
-h1{
-color:#333;
-margin-bottom:15px;
-font-size:22px;
-}
-
-.upload-box{
-border:2px dashed #4facfe;
-padding:20px;
-border-radius:10px;
-margin-bottom:15px;
-cursor:pointer;
-}
-
-.upload-box input{
-display:none;
-}
-
-.range{
-display:flex;
-gap:10px;
-margin-bottom:15px;
-}
-
-.range input{
-flex:1;
-padding:10px;
-border-radius:6px;
-border:1px solid #ccc;
+box-shadow:0 10px 25px rgba(0,0,0,0.08);
 }
 
 button{
 width:100%;
-padding:12px;
-background:#4facfe;
-border:none;
-color:white;
+padding:14px;
+margin-top:12px;
 font-size:16px;
-border-radius:8px;
+border:none;
+border-radius:10px;
+background:#2563eb;
+color:white;
 cursor:pointer;
-transition:0.3s;
-}
-
-button:hover{
-background:#2d8df7;
-}
-
-.footer{
-margin-top:10px;
-font-size:12px;
-color:#777;
 }
 
 </style>
@@ -94,25 +44,15 @@ color:#777;
 
 <body>
 
+<h2>PDF Split Tool</h2>
+
 <div class="container">
 
-<h1>📄 PDF Split Tool</h1>
-
-<label class="upload-box">
-Click to Upload PDF
 <input type="file" id="pdfFile" accept="application/pdf">
-</label>
 
-<div class="range">
-<input type="number" id="startPage" placeholder="Start Page">
-<input type="number" id="endPage" placeholder="End Page">
-</div>
+<button onclick="splitPDF()">Split PDF</button>
 
-<button onclick="splitPDF()">Split & Download</button>
-
-<div class="footer">
-Fast • Secure • Mobile Friendly
-</div>
+<div id="downloadLinks"></div>
 
 </div>
 
@@ -120,40 +60,45 @@ Fast • Secure • Mobile Friendly
 
 async function splitPDF(){
 
-const file = document.getElementById("pdfFile").files[0];
+const { PDFDocument } = PDFLib
 
-if(!file){
-alert("Please upload PDF");
-return;
+let file=document.getElementById("pdfFile").files[0]
+
+let arrayBuffer=await file.arrayBuffer()
+
+let pdf=await PDFDocument.load(arrayBuffer)
+
+let totalPages=pdf.getPageCount()
+
+let container=document.getElementById("downloadLinks")
+
+container.innerHTML=""
+
+for(let i=0;i<totalPages;i++){
+
+let newPdf=await PDFDocument.create()
+
+let [page]=await newPdf.copyPages(pdf,[i])
+
+newPdf.addPage(page)
+
+let bytes=await newPdf.save()
+
+let blob=new Blob([bytes],{type:"application/pdf"})
+
+let link=document.createElement("a")
+
+link.href=URL.createObjectURL(blob)
+
+link.download="page-"+(i+1)+".pdf"
+
+link.innerText="Download Page "+(i+1)
+
+container.appendChild(link)
+
+container.appendChild(document.createElement("br"))
+
 }
-
-const start = parseInt(document.getElementById("startPage").value);
-const end = parseInt(document.getElementById("endPage").value);
-
-const arrayBuffer = await file.arrayBuffer();
-
-const pdfDoc = await PDFLib.PDFDocument.load(arrayBuffer);
-
-const newPdf = await PDFLib.PDFDocument.create();
-
-const pages = await newPdf.copyPages(
-pdfDoc,
-Array.from({length:end-start+1},(_,i)=>i+start-1)
-);
-
-pages.forEach(page => newPdf.addPage(page));
-
-const pdfBytes = await newPdf.save();
-
-const blob = new Blob([pdfBytes],{type:"application/pdf"});
-
-const link = document.createElement("a");
-
-link.href = URL.createObjectURL(blob);
-
-link.download = "split.pdf";
-
-link.click();
 
 }
 
