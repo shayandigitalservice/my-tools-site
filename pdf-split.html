@@ -1,41 +1,91 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>PDF Split Tool</title>
 
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<script src="https://unpkg.com/pdf-lib/dist/pdf-lib.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js"></script>
 
 <style>
 
-body{
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
 font-family:Arial;
-background:#f1f5f9;
-text-align:center;
-padding:20px;
+}
+
+body{
+background:linear-gradient(135deg,#4facfe,#00f2fe);
+min-height:100vh;
+display:flex;
+align-items:center;
+justify-content:center;
+padding:15px;
 }
 
 .container{
 background:white;
-max-width:420px;
-margin:auto;
 padding:25px;
 border-radius:15px;
-box-shadow:0 10px 25px rgba(0,0,0,0.08);
+width:100%;
+max-width:420px;
+box-shadow:0 10px 25px rgba(0,0,0,0.2);
+text-align:center;
+}
+
+h1{
+color:#333;
+margin-bottom:15px;
+font-size:22px;
+}
+
+.upload-box{
+border:2px dashed #4facfe;
+padding:20px;
+border-radius:10px;
+margin-bottom:15px;
+cursor:pointer;
+}
+
+.upload-box input{
+display:none;
+}
+
+.range{
+display:flex;
+gap:10px;
+margin-bottom:15px;
+}
+
+.range input{
+flex:1;
+padding:10px;
+border-radius:6px;
+border:1px solid #ccc;
 }
 
 button{
 width:100%;
-padding:14px;
-margin-top:12px;
-font-size:16px;
+padding:12px;
+background:#4facfe;
 border:none;
-border-radius:10px;
-background:#2563eb;
 color:white;
+font-size:16px;
+border-radius:8px;
 cursor:pointer;
+transition:0.3s;
+}
+
+button:hover{
+background:#2d8df7;
+}
+
+.footer{
+margin-top:10px;
+font-size:12px;
+color:#777;
 }
 
 </style>
@@ -44,15 +94,25 @@ cursor:pointer;
 
 <body>
 
-<h2>PDF Split Tool</h2>
-
 <div class="container">
 
+<h1>📄 PDF Split Tool</h1>
+
+<label class="upload-box">
+Click to Upload PDF
 <input type="file" id="pdfFile" accept="application/pdf">
+</label>
 
-<button onclick="splitPDF()">Split PDF</button>
+<div class="range">
+<input type="number" id="startPage" placeholder="Start Page">
+<input type="number" id="endPage" placeholder="End Page">
+</div>
 
-<div id="downloadLinks"></div>
+<button onclick="splitPDF()">Split & Download</button>
+
+<div class="footer">
+Fast • Secure • Mobile Friendly
+</div>
 
 </div>
 
@@ -60,49 +120,183 @@ cursor:pointer;
 
 async function splitPDF(){
 
-const { PDFDocument } = PDFLib
+const file = document.getElementById("pdfFile").files[0];
 
-let file=document.getElementById("pdfFile").files[0]
-
-let arrayBuffer=await file.arrayBuffer()
-
-let pdf=await PDFDocument.load(arrayBuffer)
-
-let totalPages=pdf.getPageCount()
-
-let container=document.getElementById("downloadLinks")
-
-container.innerHTML=""
-
-for(let i=0;i<totalPages;i++){
-
-let newPdf=await PDFDocument.create()
-
-let [page]=await newPdf.copyPages(pdf,[i])
-
-newPdf.addPage(page)
-
-let bytes=await newPdf.save()
-
-let blob=new Blob([bytes],{type:"application/pdf"})
-
-let link=document.createElement("a")
-
-link.href=URL.createObjectURL(blob)
-
-link.download="page-"+(i+1)+".pdf"
-
-link.innerText="Download Page "+(i+1)
-
-container.appendChild(link)
-
-container.appendChild(document.createElement("br"))
-
+if(!file){
+alert("Please upload PDF");
+return;
 }
+
+const start = parseInt(document.getElementById("startPage").value);
+const end = parseInt(document.getElementById("endPage").value);
+
+const arrayBuffer = await file.arrayBuffer();
+
+const pdfDoc = await PDFLib.PDFDocument.load(arrayBuffer);
+
+const newPdf = await PDFLib.PDFDocument.create();
+
+const pages = await newPdf.copyPages(
+pdfDoc,
+Array.from({length:end-start+1},(_,i)=>i+start-1)
+);
+
+pages.forEach(page => newPdf.addPage(page));
+
+const pdfBytes = await newPdf.save();
+
+const blob = new Blob([pdfBytes],{type:"application/pdf"});
+
+const link = document.createElement("a");
+
+link.href = URL.createObjectURL(blob);
+
+link.download = "split.pdf";
+
+link.click();
 
 }
 
 </script>
+<section class="seo-content" style="max-width:1000px;margin:auto;padding:30px 20px;font-family:Arial,Helvetica,sans-serif;line-height:1.7;color:#333;">
 
+<h2>Free Online PDF Split Tool</h2>
+
+<p>
+Our <strong>PDF Split Tool</strong> allows you to quickly split large PDF files into smaller documents. 
+Many users often need to extract specific pages from a PDF document instead of downloading or sharing the entire file. 
+This free online tool makes that process simple, fast, and secure.
+</p>
+
+<p>
+Whether you are a student, teacher, office worker, or freelancer, managing PDF documents can sometimes be difficult. 
+Large PDF files may contain many pages, but you may only need a few specific pages. 
+With this PDF Split tool, you can easily select a page range and download a new PDF file containing only those pages.
+</p>
+
+<h2>What is a PDF Split Tool?</h2>
+
+<p>
+A PDF Split tool is an online utility designed to divide a large PDF document into smaller files. 
+Instead of editing the entire document, users can extract specific pages from the original file. 
+This is extremely helpful when sharing documents through email or organizing files for work or study.
+</p>
+
+<p>
+For example, if you have a 100-page PDF document but only need pages 20 to 30, you can use this tool 
+to extract those pages instantly. This saves time and reduces file size when sharing documents online.
+</p>
+
+<h2>Main Features of Our PDF Split Tool</h2>
+
+<ul>
+<li>Split PDF files quickly and easily</li>
+<li>Extract specific page ranges</li>
+<li>Mobile-friendly design</li>
+<li>No software installation required</li>
+<li>Works on all browsers</li>
+<li>100% free to use</li>
+</ul>
+
+<p>
+Our tool is designed to provide a smooth user experience on both desktop and mobile devices. 
+The interface is simple and easy to use, so anyone can split PDF files without technical knowledge.
+</p>
+
+<h2>How to Split a PDF File Online</h2>
+
+<p>
+Using our PDF Split tool is very easy. Follow the steps below:
+</p>
+
+<ol>
+<li>Upload your PDF file using the upload button.</li>
+<li>Enter the starting page number.</li>
+<li>Enter the ending page number.</li>
+<li>Click the <strong>Split PDF</strong> button.</li>
+<li>Download your new PDF file instantly.</li>
+</ol>
+
+<p>
+The process takes only a few seconds depending on the file size. 
+Everything happens directly in your browser for faster performance.
+</p>
+
+<h2>Why Split PDF Files?</h2>
+
+<p>
+Splitting PDF files offers many advantages. Large documents can be difficult to manage, especially when 
+you only need a small portion of the file. By splitting the document, you can focus on the exact pages you need.
+</p>
+
+<ul>
+<li>Share only the important pages</li>
+<li>Reduce PDF file size</li>
+<li>Organize documents better</li>
+<li>Save storage space</li>
+<li>Improve productivity</li>
+</ul>
+
+<p>
+Many professionals use PDF splitting tools daily for document management and file sharing.
+</p>
+
+<h2>Who Can Use This Tool?</h2>
+
+<p>
+This tool is useful for a wide range of users. Anyone who works with PDF documents can benefit from 
+a reliable and fast PDF splitting tool.
+</p>
+
+<ul>
+<li><strong>Students:</strong> Extract chapters from PDF books.</li>
+<li><strong>Teachers:</strong> Share selected pages with students.</li>
+<li><strong>Office Workers:</strong> Manage reports and documents.</li>
+<li><strong>Freelancers:</strong> Send specific document pages to clients.</li>
+<li><strong>Researchers:</strong> Organize academic documents.</li>
+</ul>
+
+<h2>Advantages of Using an Online PDF Split Tool</h2>
+
+<p>
+Online PDF tools have become extremely popular because they allow users to work directly in the browser 
+without installing software. This makes them faster and more convenient.
+</p>
+
+<p>
+Our PDF Split tool works on Windows, Mac, Android, and iOS devices. 
+You only need a web browser and an internet connection to split your PDF files instantly.
+</p>
+
+<h2>Explore More Free PDF Tools</h2>
+
+<p>
+If you frequently work with PDF documents, you might also find these tools helpful:
+</p>
+
+<ul>
+<li><a href="pdf-merge.html">Merge PDF Files</a></li>
+<li><a href="pdf-compress.html">Compress PDF</a></li>
+<li><a href="image-to-pdf.html">Convert Image to PDF</a></li>
+<li><a href="pdf-to-image.html">Convert PDF to Image</a></li>
+<li><a href="pdf-unlock.html">Unlock PDF</a></li>
+</ul>
+
+<p>
+These tools help improve productivity when managing digital documents online.
+</p>
+
+<h2>Start Splitting Your PDF Files Now</h2>
+
+<p>
+Large PDF files can sometimes be difficult to manage and share. 
+Our free PDF Split tool allows you to quickly extract the pages you need and create smaller documents instantly.
+</p>
+
+<p>
+Upload your PDF file above, choose the page range, and split your PDF file in seconds using our free online tool.
+</p>
+
+</section>
 </body>
 </html>
