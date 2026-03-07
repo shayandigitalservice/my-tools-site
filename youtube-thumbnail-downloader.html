@@ -135,22 +135,20 @@ var html = `
 <h3>HD Thumbnail</h3>
 <img src="https://img.youtube.com/vi/${videoId}/maxresdefault.jpg">
 <br>
-<a class="download" href="https://img.youtube.com/vi/${videoId}/maxresdefault.jpg" download>Download HD</a>
-
+<button class="download" onclick="downloadThumbnail('https://img.youtube.com/vi/${videoId}/maxresdefault.jpg')">Download</button>
 <h3>High Quality</h3>
 <img src="https://img.youtube.com/vi/${videoId}/hqdefault.jpg">
 <br>
-<a class="download" href="https://img.youtube.com/vi/${videoId}/hqdefault.jpg" download>Download HQ</a>
+<button class="download" onclick="downloadThumbnail('https://img.youtube.com/vi/${videoId}/hqdefault.jpg')">Download</button>
 
 <h3>Medium Quality</h3>
 <img src="https://img.youtube.com/vi/${videoId}/mqdefault.jpg">
 <br>
-<a class="download" href="https://img.youtube.com/vi/${videoId}/mqdefault.jpg" download>Download MQ</a>
-
+<button class="download" onclick="downloadThumbnail('https://img.youtube.com/vi/${videoId}/mqdefault.jpg')">Download</button>
 <h3>Standard Quality</h3>
 <img src="https://img.youtube.com/vi/${videoId}/sddefault.jpg">
 <br>
-<a class="download" href="https://img.youtube.com/vi/${videoId}/sddefault.jpg" download>Download SD</a>
+<button class="download" onclick="downloadThumbnail('https://img.youtube.com/vi/${videoId}/sddefault.jpg')">Download</button>
 
 </div>
 `;
@@ -158,7 +156,20 @@ var html = `
 document.getElementById("result").innerHTML=html;
 
 }
+function downloadThumbnail(url){
 
+fetch(url)
+.then(response => response.blob())
+.then(blob => {
+
+var link=document.createElement("a");
+link.href=URL.createObjectURL(blob);
+link.download="youtube-thumbnail.jpg";
+link.click();
+
+});
+
+}
 </script>
 
 <div class="disclaimer">
