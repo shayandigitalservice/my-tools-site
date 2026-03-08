@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PDF Rotator Tool</title>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js"></script>
+
+<style>
+
+body{
+font-family:Arial, sans-serif;
+background:#f4f6fb;
+display:flex;
+justify-content:center;
+align-items:center;
+min-height:100vh;
+margin:0;
+}
+
+.container{
+background:#fff;
+padding:30px;
+border-radius:12px;
+box-shadow:0 0 15px rgba(0,0,0,0.1);
+max-width:420px;
+width:90%;
+text-align:center;
+}
+
+h1{
+color:#2b7cff;
+margin-bottom:20px;
+}
+
+input{
+margin:10px 0;
+padding:10px;
+width:100%;
+}
+
+select{
+padding:10px;
+width:100%;
+margin:10px 0;
+}
+
+button{
+background:#2b7cff;
+color:#fff;
+border:none;
+padding:12px;
+width:100%;
+border-radius:8px;
+font-size:16px;
+cursor:pointer;
+}
+
+button:hover{
+background:#1a5fd1;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<h1>🔄 PDF Rotator</h1>
+
+<input type="file" id="pdfFile" accept="application/pdf">
+
+<select id="rotation">
+<option value="90">Rotate 90°</option>
+<option value="180">Rotate 180°</option>
+<option value="270">Rotate 270°</option>
+</select>
+
+<button onclick="rotatePDF()">Rotate & Download</button>
+
+</div>
+
+<script>
+
+async function rotatePDF(){
+
+const fileInput = document.getElementById("pdfFile");
+
+if(fileInput.files.length === 0){
+alert("Please upload a PDF file");
+return;
+}
+
+const angle = parseInt(document.getElementById("rotation").value);
+
+const file = fileInput.files[0];
+
+const arrayBuffer = await file.arrayBuffer();
+
+const pdfDoc = await PDFLib.PDFDocument.load(arrayBuffer);
+
+const pages = pdfDoc.getPages();
+
+pages.forEach(page => {
+page.setRotation(PDFLib.degrees(angle));
+});
+
+const pdfBytes = await pdfDoc.save();
+
+const blob = new Blob([pdfBytes], {type:"application/pdf"});
+
+const link = document.createElement("a");
+
+link.href = URL.createObjectURL(blob);
+
+link.download = "rotated.pdf";
+
+link.click();
+
+}
+
+</script>
+<section class="seo-content">
+
+<h2>Free Online PDF Rotator Tool</h2>
+
+<p>
+Our Free Online PDF Rotator Tool helps you rotate PDF pages quickly and easily without installing any software. 
+Many times when we scan documents or download PDF files, the pages appear sideways or upside down. 
+This makes reading difficult and uncomfortable. With this simple PDF rotation tool, you can rotate your PDF pages 
+by 90°, 180°, or 270° in just a few seconds. The process is fast, secure, and completely free.
+</p>
+
+<p>
+This tool is designed to work directly in your browser, which means your files are processed instantly 
+without uploading them to external servers. Your privacy is important, and this tool ensures that your 
+PDF files remain secure on your device. Whether you are using a computer, tablet, or smartphone, 
+our PDF rotator works smoothly on all devices.
+</p>
+
+<h2>Why You Need a PDF Rotator</h2>
+
+<p>
+PDF documents are widely used for sharing reports, assignments, contracts, and many other types of files. 
+However, sometimes the orientation of the pages is incorrect due to scanning errors or formatting issues. 
+This can make documents look unprofessional and difficult to read.
+</p>
+
+<p>
+A PDF rotator tool helps you quickly correct the page orientation so that your document appears properly aligned. 
+Instead of re-scanning or editing the entire document, you can simply rotate the pages using this tool and download 
+the corrected version instantly.
+</p>
+
+<h2>Features of Our PDF Rotation Tool</h2>
+
+<ul>
+<li>Rotate PDF pages by 90°, 180°, or 270°</li>
+<li>Completely free to use</li>
+<li>No software installation required</li>
+<li>Works on all devices including mobile phones</li>
+<li>Secure processing inside your browser</li>
+<li>Fast and easy user interface</li>
+</ul>
+
+<p>
+These features make the tool extremely convenient for students, professionals, teachers, and anyone who works 
+with PDF documents regularly.
+</p>
+
+<h2>How to Rotate PDF Pages Online</h2>
+
+<p>
+Using this PDF rotator is very simple and requires only a few steps. You don't need any technical knowledge. 
+Follow these instructions to rotate your PDF file quickly.
+</p>
+
+<ol>
+<li>Click the upload button and select your PDF file.</li>
+<li>Choose the rotation angle such as 90°, 180°, or 270°.</li>
+<li>Click the rotate button to process the file.</li>
+<li>Download the rotated PDF instantly.</li>
+</ol>
+
+<p>
+The entire process takes only a few seconds depending on the size of your PDF file.
+</p>
+
+<h2>Benefits of Using an Online PDF Rotator</h2>
+
+<p>
+Online tools are becoming more popular because they save time and eliminate the need for heavy software installations. 
+Our PDF rotator tool offers several benefits compared to traditional desktop applications.
+</p>
+
+<p>
+First, it works directly in your browser, which means you can use it anytime and anywhere. 
+Second, it supports multiple devices including Windows computers, Mac devices, Android phones, and iPhones. 
+Third, it is lightweight and loads quickly even on slower internet connections.
+</p>
+
+<p>
+Another important advantage is security. Since the tool processes files locally in the browser, 
+your documents are not stored on remote servers. This ensures your private documents remain safe.
+</p>
+
+<h2>Who Can Use This Tool</h2>
+
+<p>
+This tool is useful for a wide range of users. Students can rotate scanned assignments and study materials. 
+Office workers can fix orientation issues in reports and documents before sharing them with colleagues. 
+Teachers can adjust PDF worksheets or exam papers easily. Even casual users can rotate personal documents 
+like scanned receipts, certificates, and forms.
+</p>
+
+<p>
+Anyone who deals with PDF files can benefit from using this simple and efficient tool.
+</p>
+
+<h2>Compatible With All Devices</h2>
+
+<p>
+Our PDF rotator tool is fully responsive and works perfectly on desktops, laptops, tablets, and smartphones. 
+You can rotate PDF files using popular browsers such as Chrome, Firefox, Edge, and Safari. 
+There is no need to install any additional plugins or extensions.
+</p>
+
+<p>
+This cross-platform compatibility ensures that you can access the tool whenever you need it, 
+whether you are working from home, in the office, or on the go.
+</p>
+
+<h2>Conclusion</h2>
+
+<p>
+If you are looking for a simple and reliable way to rotate PDF pages online, this free PDF rotator tool 
+is the perfect solution. It is fast, secure, and easy to use. In just a few clicks, you can fix the orientation 
+of your PDF documents and download the corrected file instantly.
+</p>
+
+<p>
+Try our PDF rotation tool today and make your PDF documents easier to read and share.
+</p>
+
+</section>
+</body>
+</html>
