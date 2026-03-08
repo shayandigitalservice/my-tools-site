@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Land Area Calculator</title>
+
+<style>
+
+body{
+font-family:Arial;
+background:#f4f6fb;
+margin:0;
+}
+
+header{
+background:#2b7cff;
+color:white;
+text-align:center;
+padding:18px;
+font-size:24px;
+font-weight:bold;
+}
+
+.container{
+max-width:450px;
+margin:30px auto;
+background:white;
+padding:25px;
+border-radius:12px;
+box-shadow:0 0 12px rgba(0,0,0,0.1);
+text-align:center;
+}
+
+input,select{
+width:100%;
+padding:10px;
+margin:10px 0;
+}
+
+button{
+background:#2b7cff;
+color:white;
+border:none;
+padding:12px;
+width:100%;
+border-radius:8px;
+font-size:16px;
+cursor:pointer;
+}
+
+button:hover{
+background:#1a5fd1;
+}
+
+.result{
+margin-top:20px;
+font-size:17px;
+line-height:1.8;
+text-align:left;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<header>
+Land Area Calculator
+</header>
+
+<div class="container">
+
+<h2>Calculate Land Area</h2>
+
+<select id="shape">
+<option value="rectangle">Rectangle Land</option>
+<option value="triangle">Triangle Land</option>
+</select>
+
+<input type="number" id="length" placeholder="Enter Length / Base">
+
+<input type="number" id="width" placeholder="Enter Width / Height">
+
+<select id="unit">
+<option value="feet">Feet</option>
+<option value="meter">Meter</option>
+<option value="yard">Yard</option>
+</select>
+
+<button onclick="calculate()">Calculate Area</button>
+
+<div class="result" id="result"></div>
+
+</div>
+
+<script>
+
+function calculate(){
+
+let shape=document.getElementById("shape").value;
+let length=document.getElementById("length").value;
+let width=document.getElementById("width").value;
+let unit=document.getElementById("unit").value;
+
+if(length=="" || width==""){
+alert("Please enter values");
+return;
+}
+
+let area;
+
+if(shape=="rectangle"){
+area=length*width;
+}
+
+if(shape=="triangle"){
+area=(length*width)/2;
+}
+
+let sqft;
+
+if(unit=="feet"){
+sqft=area;
+}
+
+if(unit=="meter"){
+sqft=area*10.7639;
+}
+
+if(unit=="yard"){
+sqft=area*9;
+}
+
+let sqm=sqft*0.092903;
+
+let acre=sqft/43560;
+
+let hectare=sqft/107639;
+
+let katha=sqft/720;
+
+let bigha=sqft/14400;
+
+document.getElementById("result").innerHTML=
+
+"<b>Square Feet:</b> "+sqft.toFixed(2)+"<br>"+
+"<b>Square Meter:</b> "+sqm.toFixed(2)+"<br>"+
+"<b>Katha:</b> "+katha.toFixed(2)+"<br>"+
+"<b>Bigha:</b> "+bigha.toFixed(2)+"<br>"+
+"<b>Acre:</b> "+acre.toFixed(4)+"<br>"+
+"<b>Hectare:</b> "+hectare.toFixed(4);
+
+}
+
+</script>
+
+</body>
+</html>
