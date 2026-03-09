@@ -2,96 +2,87 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Ultimate CSV Converter</title>
+<title>Ultimate Editable CSV Converter</title>
 
 <style>
-
 body{
-font-family:Arial;
-background:#eef1f5;
-margin:0;
-padding:20px;
-transition:0.3s;
+    font-family:Arial;
+    background:#eef1f5;
+    margin:0;
+    padding:20px;
+    transition:0.3s;
 }
-
 .dark{
-background:#1e1e1e;
-color:white;
+    background:#1e1e1e;
+    color:white;
 }
-
 .container{
-max-width:1100px;
-margin:auto;
-background:white;
-padding:25px;
-border-radius:10px;
-box-shadow:0 0 15px rgba(0,0,0,0.1);
+    max-width:1100px;
+    margin:auto;
+    background:white;
+    padding:25px;
+    border-radius:10px;
+    box-shadow:0 0 15px rgba(0,0,0,0.1);
 }
-
 .dark .container{
-background:#2b2b2b;
+    background:#2b2b2b;
 }
-
 h2{
-text-align:center;
+    text-align:center;
 }
-
 textarea{
-width:100%;
-height:160px;
-padding:10px;
-margin-top:10px;
-font-size:14px;
+    width:100%;
+    height:160px;
+    padding:10px;
+    margin-top:10px;
+    font-size:14px;
 }
-
 button{
-padding:10px 18px;
-margin:6px;
-border:none;
-background:#2d7ef7;
-color:white;
-border-radius:6px;
-cursor:pointer;
+    padding:10px 18px;
+    margin:6px;
+    border:none;
+    background:#2d7ef7;
+    color:white;
+    border-radius:6px;
+    cursor:pointer;
 }
-
 button:hover{
-background:#1c5ed6;
+    background:#1c5ed6;
 }
-
 #dropZone{
-border:2px dashed #aaa;
-padding:30px;
-text-align:center;
-margin-top:10px;
-border-radius:8px;
+    border:2px dashed #aaa;
+    padding:30px;
+    text-align:center;
+    margin-top:10px;
+    border-radius:8px;
 }
-
 table{
-width:100%;
-border-collapse:collapse;
-margin-top:20px;
-font-size:13px;
+    width:100%;
+    border-collapse:collapse;
+    margin-top:20px;
+    font-size:13px;
 }
-
 th,td{
-border:1px solid #ccc;
-padding:6px;
+    border:1px solid #ccc;
+    padding:6px;
+    min-width:60px;
 }
-
 input{
-padding:8px;
-margin-top:10px;
-width:200px;
+    padding:8px;
+    margin-top:10px;
+    width:200px;
 }
-
+.icon{
+    display:inline-block;
+    width:25px;
+}
 </style>
 </head>
-
 <body>
 
 <div class="container">
 
-<h2>Ultimate Text / CSV / JSON Converter</h2>
+<h2>Ultimate Editable CSV / Text / JSON Converter</h2>
 
 <button onclick="toggleDark()">Toggle Dark Mode</button>
 
@@ -99,7 +90,7 @@ width:200px;
 
 <input type="file" id="fileInput">
 
-<div id="dropZone">Drag & Drop File Here</div>
+<div id="dropZone">Drag & Drop File Here (TXT, CSV, JSON)</div>
 
 <textarea id="textInput" placeholder="Paste text / CSV / JSON here"></textarea>
 
@@ -120,210 +111,153 @@ width:200px;
 </div>
 
 <script>
-
 let parsedRows=[];
 let delimiter=",";
 
-document.getElementById("textInput").addEventListener("input",function(){
-preview();
+// Auto preview on paste/type
+document.getElementById("textInput").addEventListener("input", function(){
+    preview();
 });
 
+// Detect best delimiter
 function detectDelimiter(text){
-
-let list=[",",";","|","\t"," "];
-let best=" ";
-let max=0;
-
-list.forEach(d=>{
-let count=(text.split(d).length-1);
-if(count>max){
-max=count;
-best=d;
+    let list=[",",";","|","\t"," "];
+    let best=" ";
+    let max=0;
+    list.forEach(d=>{
+        let count = (text.split(d).length - 1);
+        if(count>max){max=count;best=d;}
+    });
+    return best;
 }
+
+// File upload
+document.getElementById("fileInput").addEventListener("change", function(e){
+    let file=e.target.files[0];
+    let reader=new FileReader();
+    reader.onload=function(ev){
+        document.getElementById("textInput").value = ev.target.result;
+        preview();
+    }
+    reader.readAsText(file,"UTF-8");
 });
 
-return best;
-
-}
-
-document.getElementById("fileInput").addEventListener("change",function(e){
-
-let file=e.target.files[0];
-let reader=new FileReader();
-
-reader.onload=function(ev){
-document.getElementById("textInput").value=ev.target.result;
-preview();
-}
-
-reader.readAsText(file,"UTF-8");
-
-});
-
+// Drag & drop
 let drop=document.getElementById("dropZone");
-
-drop.addEventListener("dragover",e=>{
-e.preventDefault();
+drop.addEventListener("dragover", e=>e.preventDefault());
+drop.addEventListener("drop", function(e){
+    e.preventDefault();
+    let file=e.dataTransfer.files[0];
+    let reader=new FileReader();
+    reader.onload=function(ev){
+        document.getElementById("textInput").value = ev.target.result;
+        preview();
+    }
+    reader.readAsText(file,"UTF-8");
 });
 
-drop.addEventListener("drop",e=>{
-e.preventDefault();
-
-let file=e.dataTransfer.files[0];
-
-let reader=new FileReader();
-
-reader.onload=function(ev){
-document.getElementById("textInput").value=ev.target.result;
-preview();
-}
-
-reader.readAsText(file,"UTF-8");
-
-});
-
+// Preview table
 function preview(){
-
-let text=document.getElementById("textInput").value.trim();
-
-if(!text) return;
-
-delimiter=detectDelimiter(text);
-
-let rows=text.split(/\r?\n/);
-
-parsedRows=rows.map(r=>{
-
-if(delimiter===" ")
-return r.trim().split(/\s+/);
-
-return r.split(delimiter);
-
-});
-
-renderTable(parsedRows);
-
+    let text=document.getElementById("textInput").value.trim();
+    if(!text) return;
+    delimiter=detectDelimiter(text);
+    let rows=text.split(/\r?\n/);
+    parsedRows=rows.map(r=>{
+        if(delimiter===" ") return r.trim().split(/\s+/);
+        return r.split(delimiter);
+    });
+    renderTable(parsedRows);
 }
 
+// Render editable table
 function renderTable(data){
-
-let html="<table>";
-
-data.forEach((row,i)=>{
-
-html+="<tr>";
-
-row.forEach(col=>{
-
-if(i==0)
-html+="<th>"+col+"</th>";
-else
-html+="<td>"+col+"</td>";
-
-});
-
-html+="</tr>";
-
-});
-
-html+="</table>";
-
-document.getElementById("tablePreview").innerHTML=html;
-
+    let html="<table>";
+    data.forEach((row,i)=>{
+        html+="<tr>";
+        row.forEach(col=>{
+            if(i==0)
+                html+="<th contenteditable='true'>"+col+"</th>";
+            else
+                html+="<td contenteditable='true'>"+col+"</td>";
+        });
+        html+="</tr>";
+    });
+    html+="</table>";
+    document.getElementById("tablePreview").innerHTML=html;
 }
 
+// Download CSV with UTF-8
 function downloadCSV(){
-
-let csv=parsedRows.map(r=>r.join(",")).join("\n");
-
-let BOM="\uFEFF";
-
-let blob=new Blob([BOM+csv],{type:"text/csv;charset=utf-8;"});
-
-let a=document.createElement("a");
-
-a.href=URL.createObjectURL(blob);
-
-a.download="converted_utf8.csv";
-
-a.click();
-
+    let table=document.querySelector("#tablePreview table");
+    let rows=Array.from(table.rows);
+    let csvData=rows.map(r=>{
+        let cols=Array.from(r.cells);
+        return cols.map(c=>c.innerText).join(",");
+    }).join("\n");
+    let BOM="\uFEFF";
+    let blob=new Blob([BOM+csvData], {type:"text/csv;charset=utf-8;"});
+    let a=document.createElement("a");
+    a.href=URL.createObjectURL(blob);
+    a.download="edited_data.csv";
+    a.click();
 }
 
+// Download Excel
 function downloadExcel(){
-
-let csv=parsedRows.map(r=>r.join(",")).join("\n");
-
-let BOM="\uFEFF";
-
-let blob=new Blob([BOM+csv],{type:"application/vnd.ms-excel;charset=utf-8;"});
-
-let a=document.createElement("a");
-
-a.href=URL.createObjectURL(blob);
-
-a.download="converted.xls";
-
-a.click();
-
+    let table=document.querySelector("#tablePreview table");
+    let rows=Array.from(table.rows);
+    let csvData=rows.map(r=>{
+        let cols=Array.from(r.cells);
+        return cols.map(c=>c.innerText).join(",");
+    }).join("\n");
+    let BOM="\uFEFF";
+    let blob=new Blob([BOM+csvData], {type:"application/vnd.ms-excel;charset=utf-8;"});
+    let a=document.createElement("a");
+    a.href=URL.createObjectURL(blob);
+    a.download="edited_data.xls";
+    a.click();
 }
 
+// JSON to CSV
 function jsonToCSV(){
-
-let text=document.getElementById("textInput").value;
-
-let json=JSON.parse(text);
-
-let keys=Object.keys(json[0]);
-
-let rows=[keys];
-
-json.forEach(obj=>{
-rows.push(keys.map(k=>obj[k]));
-});
-
-parsedRows=rows;
-
-renderTable(rows);
-
+    let text=document.getElementById("textInput").value;
+    try{
+        let json=JSON.parse(text);
+        let keys=Object.keys(json[0]);
+        let rows=[keys];
+        json.forEach(obj=>{
+            rows.push(keys.map(k=>obj[k]));
+        });
+        parsedRows=rows;
+        renderTable(rows);
+    }catch(e){
+        alert("Invalid JSON!");
+    }
 }
 
+// Remove duplicate rows
 function removeDuplicates(){
-
-let seen=new Set();
-
-parsedRows=parsedRows.filter(r=>{
-
-let s=r.join("|");
-
-if(seen.has(s)) return false;
-
-seen.add(s);
-
-return true;
-
-});
-
-renderTable(parsedRows);
-
+    let seen=new Set();
+    parsedRows=parsedRows.filter(r=>{
+        let s=r.join("|");
+        if(seen.has(s)) return false;
+        seen.add(s);
+        return true;
+    });
+    renderTable(parsedRows);
 }
 
+// Search rows
 function searchRows(){
-
-let term=document.getElementById("searchBox").value.toLowerCase();
-
-let filtered=parsedRows.filter(r=>r.join(" ").toLowerCase().includes(term));
-
-renderTable(filtered);
-
+    let term=document.getElementById("searchBox").value.toLowerCase();
+    let filtered=parsedRows.filter(r=>r.join(" ").toLowerCase().includes(term));
+    renderTable(filtered);
 }
 
+// Dark mode toggle
 function toggleDark(){
-
-document.body.classList.toggle("dark");
-
+    document.body.classList.toggle("dark");
 }
-
 </script>
 
 </body>
