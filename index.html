@@ -469,99 +469,256 @@ tool.style.display = "none";
 });
 });
 </script>
-      <!-- AI Assistant Start -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-<div id="ai-assistant" style="position:fixed;bottom:20px;right:20px;width:360px;max-width:95%;background:white;border-radius:20px;box-shadow:0 12px 30px rgba(0,0,0,0.25);z-index:1000;display:none;flex-direction:column;font-family:Arial,sans-serif;overflow:hidden;animation:slideIn 0.4s ease;">
-    <div style="background:linear-gradient(135deg,#2b7cff,#4facfe);color:white;padding:12px 15px;font-weight:bold;display:flex;justify-content:space-between;align-items:center;">
-        <span><i class="fa-solid fa-robot"></i> Shayan AI Assistant</span>
-        <span id="close-assistant" style="cursor:pointer;font-weight:normal;">✖</span>
-    </div>
-    <div id="assistant-chat" style="padding:10px;height:300px;overflow-y:auto;font-size:14px;color:#333;display:flex;flex-direction:column;gap:8px;">
-        <div style="background:#f0f4ff;padding:10px;border-radius:12px;font-weight:bold;">
-            👋 Welcome to Shayan Smart Tools AI Assistant! Ask me how to use any tool and I will guide you step-by-step.
-        </div>
-    </div>
-    <div style="display:flex;border-top:1px solid #eee;">
-        <input id="assistant-input" type="text" placeholder="Type your question..." style="flex:1;border:none;padding:12px;border-radius:0 0 0 20px;outline:none;font-size:14px;">
-        <button id="assistant-send" style="background:#2b7cff;color:white;border:none;padding:12px 18px;border-radius:0 0 20px 0;cursor:pointer;font-weight:bold;"><i class="fa-solid fa-paper-plane"></i></button>
-    </div>
-</div>
+              <!-- ================= AI ASSISTANT START ================= -->
 
-<button id="open-assistant" style="position:fixed;bottom:20px;right:20px;width:60px;height:60px;border-radius:50%;border:none;background:linear-gradient(135deg,#2b7cff,#4facfe);color:white;font-size:28px;cursor:pointer;box-shadow:0 10px 25px rgba(0,0,0,0.3);z-index:1001;">
-    <i class="fa-solid fa-robot"></i>
-</button>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
 <style>
-@keyframes slideIn {from {transform: translateY(50px); opacity:0;} to {transform: translateY(0); opacity:1;}}
-#assistant-chat div.ai-msg { background:#f0f4ff; padding:10px; border-radius:12px; font-size:14px; text-align:left;}
-#assistant-chat div.user-msg { background:#dfe9ff; padding:10px; border-radius:12px; font-size:14px; text-align:right;}
-.quick-btn {background:#2b7cff;color:white;padding:5px 10px;margin:4px;border-radius:12px;cursor:pointer;font-size:12px;text-decoration:none;display:inline-block;}
-.quick-btn:hover {opacity:0.85;}
+
+#ai-assistant-box{
+position:fixed;
+bottom:90px;
+right:20px;
+width:360px;
+max-width:95%;
+background:white;
+border-radius:18px;
+box-shadow:0 15px 40px rgba(0,0,0,0.25);
+display:none;
+flex-direction:column;
+font-family:Arial;
+z-index:9999;
+overflow:hidden;
+}
+
+#ai-header{
+background:linear-gradient(135deg,#2b7cff,#4facfe);
+color:white;
+padding:12px;
+display:flex;
+justify-content:space-between;
+align-items:center;
+font-weight:bold;
+}
+
+#ai-chat{
+height:320px;
+overflow-y:auto;
+padding:10px;
+background:#f6f8ff;
+}
+
+.ai-msg{
+background:#eef2ff;
+padding:10px;
+border-radius:12px;
+margin:6px 0;
+font-size:14px;
+}
+
+.user-msg{
+background:#dfe6ff;
+padding:10px;
+border-radius:12px;
+margin:6px 0;
+font-size:14px;
+text-align:right;
+}
+
+#ai-input-box{
+display:flex;
+border-top:1px solid #ddd;
+}
+
+#ai-input{
+flex:1;
+padding:12px;
+border:none;
+outline:none;
+font-size:14px;
+}
+
+#ai-send{
+background:#2b7cff;
+color:white;
+border:none;
+padding:12px 18px;
+cursor:pointer;
+}
+
+.quick-btn{
+display:inline-block;
+margin-top:6px;
+padding:5px 10px;
+background:#2b7cff;
+color:white;
+border-radius:10px;
+font-size:12px;
+text-decoration:none;
+}
+
+#ai-open-btn{
+position:fixed;
+bottom:20px;
+right:20px;
+width:60px;
+height:60px;
+border-radius:50%;
+border:none;
+background:linear-gradient(135deg,#4facfe,#2b7cff);
+color:white;
+font-size:24px;
+cursor:pointer;
+box-shadow:0 10px 25px rgba(0,0,0,0.3);
+z-index:9999;
+}
+
 </style>
 
+
+<div id="ai-assistant-box">
+
+<div id="ai-header">
+<span><i class="fa-solid fa-headset"></i> Smart Tools Assistant</span>
+<span id="ai-close" style="cursor:pointer;">✖</span>
+</div>
+
+<div id="ai-chat">
+
+<div class="ai-msg">
+👋 Welcome to <b>Shayan Smart Tools AI Assistant</b><br><br>
+
+Aap mujhse kisi bhi tool ke bare me pooch sakte ho.<br><br>
+
+Example:<br>
+• EMI calculator kaise use kare<br>
+• Image merge kaise kare<br>
+• GST calculator kaise use kare<br>
+• PDF merge kaise kare
+</div>
+
+</div>
+
+<div id="ai-input-box">
+<input id="ai-input" placeholder="Ask about any tool...">
+<button id="ai-send"><i class="fa-solid fa-paper-plane"></i></button>
+</div>
+
+</div>
+
+
+<button id="ai-open-btn">
+<i class="fa-solid fa-headset"></i>
+</button>
+
+
 <script>
-const openBtn = document.getElementById("open-assistant");
-const closeBtn = document.getElementById("close-assistant");
-const assistant = document.getElementById("ai-assistant");
-const chat = document.getElementById("assistant-chat");
-const input = document.getElementById("assistant-input");
-const sendBtn = document.getElementById("assistant-send");
 
-// Open/Close assistant
-openBtn.addEventListener("click", () => assistant.style.display = "flex");
-closeBtn.addEventListener("click", () => assistant.style.display = "none");
+const aiOpen=document.getElementById("ai-open-btn");
+const aiClose=document.getElementById("ai-close");
+const aiBox=document.getElementById("ai-assistant-box");
+const aiChat=document.getElementById("ai-chat");
+const aiInput=document.getElementById("ai-input");
+const aiSend=document.getElementById("ai-send");
 
-// Send message
-sendBtn.addEventListener("click", sendMessage);
-input.addEventListener("keyup", function(e){ if(e.key === "Enter") sendMessage(); });
+aiOpen.onclick=()=> aiBox.style.display="flex";
+aiClose.onclick=()=> aiBox.style.display="none";
+
+aiSend.onclick=sendMessage;
+
+aiInput.addEventListener("keyup",e=>{
+if(e.key==="Enter") sendMessage();
+});
+
 
 function sendMessage(){
-    const userMsg = input.value.trim();
-    if(!userMsg) return;
 
-    chat.innerHTML += `<div class="user-msg"><b>You:</b> ${userMsg}</div>`;
-    let aiMsg = getAIResponse(userMsg);
-    chat.innerHTML += `<div class="ai-msg">${aiMsg}</div>`;
-    input.value = "";
-    chat.scrollTop = chat.scrollHeight;
+let msg=aiInput.value.trim();
+
+if(!msg) return;
+
+aiChat.innerHTML+=`<div class="user-msg">${msg}</div>`;
+
+let reply=getAIReply(msg);
+
+aiChat.innerHTML+=`<div class="ai-msg">${reply}</div>`;
+
+aiInput.value="";
+
+aiChat.scrollTop=aiChat.scrollHeight;
+
 }
 
-// AI Response with Quick Action Buttons
-function getAIResponse(msg){
-    msg = msg.toLowerCase();
 
-    if(msg.includes("emi")){
-        return `📊 <b>EMI Calculator:</b><br>1️⃣ Enter Loan Amount<br>2️⃣ Enter Interest Rate<br>3️⃣ Select Tenure<br>4️⃣ Click "Calculate"<br>✅ Your EMI appears.<br>
-        <a class="quick-btn" href="emi.html" target="_blank">Open EMI Calculator</a>`;
-    }
-    if(msg.includes("sip")){
-        return `📈 <b>SIP Calculator:</b><br>1️⃣ Enter Monthly Investment<br>2️⃣ Interest Rate<br>3️⃣ Duration<br>4️⃣ Click "Calculate"<br>✅ Result shows corpus.<br>
-        <a class="quick-btn" href="sip.html" target="_blank">Open SIP Calculator</a>`;
-    }
-    if(msg.includes("gst")){
-        return `🧾 <b>GST Calculator:</b><br>1️⃣ Enter Product Price<br>2️⃣ GST %<br>3️⃣ Click "Calculate"<br>✅ GST & Total Price shown.<br>
-        <a class="quick-btn" href="gst.html" target="_blank">Open GST Calculator</a>`;
-    }
-    if(msg.includes("loan")){
-        return `💰 <b>Loan Calculator:</b><br>1️⃣ Enter Principal<br>2️⃣ Interest Rate<br>3️⃣ Duration<br>4️⃣ Calculate<br>✅ EMI & Total Payment shown.<br>
-        <a class="quick-btn" href="loan-calculator.html" target="_blank">Open Loan Calculator</a>`;
-    }
-    if(msg.includes("land") || msg.includes("bigha")){
-        return `📏 <b>Land Area Calculator:</b><br>• Enter dimensions<br>• Select type<br>• Click "Calculate"<br>✅ Area shown.<br>
-        <a class="quick-btn" href="land-area-calculator.html" target="_blank">Open Land Calculator</a>`;
-    }
-    if(msg.includes("image merge") || msg.includes("merge")){
-        return `🖼️ <b>Image Merge Tool:</b><br>1️⃣ Upload Images<br>2️⃣ Select order<br>3️⃣ Click Merge<br>✅ Download merged image.<br>
-        <a class="quick-btn" href="image-merge.html" target="_blank">Open Image Merge</a>`;
-    }
-    if(msg.includes("quiz")){
-        return `📝 <b>Daily Mini Quiz:</b><br>1️⃣ Open Quiz<br>2️⃣ Answer questions<br>3️⃣ Check Score & Streak<br>
-        <a class="quick-btn" href="mini-quiz.html" target="_blank">Open Daily Mini Quiz</a>`;
-    }
+function getAIReply(msg){
 
-    return '🤖 I can guide you step-by-step for any tool. Ask like "How to use EMI Calculator?"';
+msg=msg.toLowerCase();
+
+if(msg.includes("emi"))
+return `📊 <b>EMI Calculator</b><br>
+1️⃣ Loan amount enter kare<br>
+2️⃣ Interest rate enter kare<br>
+3️⃣ Loan tenure enter kare<br>
+4️⃣ Calculate button press kare<br>
+✅ EMI result show ho jayega<br>
+<a class="quick-btn" href="emi.html">Open Tool</a>`;
+
+if(msg.includes("sip"))
+return `📈 <b>SIP Calculator</b><br>
+1️⃣ Monthly investment enter kare<br>
+2️⃣ Interest rate enter kare<br>
+3️⃣ Investment duration enter kare<br>
+4️⃣ Calculate click kare<br>
+<a class="quick-btn" href="sip.html">Open Tool</a>`;
+
+if(msg.includes("gst"))
+return `🧾 <b>GST Calculator</b><br>
+1️⃣ Product price enter kare<br>
+2️⃣ GST percent enter kare<br>
+3️⃣ Calculate press kare<br>
+<a class="quick-btn" href="gst.html">Open Tool</a>`;
+
+if(msg.includes("image merge") || msg.includes("merge"))
+return `🖼 <b>Image Merge Tool</b><br>
+1️⃣ Multiple images upload kare<br>
+2️⃣ Order select kare<br>
+3️⃣ Merge button press kare<br>
+4️⃣ Download merged image<br>
+<a class="quick-btn" href="image-merge.html">Open Tool</a>`;
+
+if(msg.includes("compress"))
+return `📦 <b>Image Compressor</b><br>
+1️⃣ Image upload kare<br>
+2️⃣ Compression select kare<br>
+3️⃣ Compress click kare<br>
+4️⃣ Download image<br>
+<a class="quick-btn" href="image.html">Open Tool</a>`;
+
+if(msg.includes("pdf merge"))
+return `📄 <b>PDF Merge Tool</b><br>
+1️⃣ Multiple PDFs upload kare<br>
+2️⃣ Order arrange kare<br>
+3️⃣ Merge press kare<br>
+4️⃣ Download merged PDF<br>
+<a class="quick-btn" href="pdf-merge.html">Open Tool</a>`;
+
+if(msg.includes("quiz"))
+return `📝 <b>Daily Mini Quiz</b><br>
+1️⃣ Quiz open kare<br>
+2️⃣ Questions solve kare<br>
+3️⃣ Score check kare<br>
+<a class="quick-btn" href="mini-quiz.html">Open Tool</a>`;
+
+return `🤖 Main sirf <b>Shayan Smart Tools</b> ke tools ke bare me help karta hoon.<br><br>
+Example questions:<br>
+• EMI calculator kaise use kare<br>
+• Image merge kaise kare<br>
+• GST calculator kaise use kare`;
+
 }
+
 </script>
-<!-- AI Assistant End -->
+
+<!-- ================= AI ASSISTANT END ================= -->
 </body>
 </html>
