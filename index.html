@@ -469,20 +469,35 @@ tool.style.display = "none";
 });
 });
 </script>
-  <!-- AI Assistant Start -->
-<div id="ai-assistant" style="position:fixed;bottom:20px;right:20px;width:350px;max-width:90%;background:white;border-radius:15px;box-shadow:0 8px 25px rgba(0,0,0,0.2);z-index:1000;display:none;flex-direction:column;font-family:Arial,sans-serif;">
-    <div style="background:#2b7cff;color:white;padding:12px 15px;border-top-left-radius:15px;border-top-right-radius:15px;font-weight:bold;">
-        🤖 Shayan AI Assistant
-        <span id="close-assistant" style="float:right;cursor:pointer;font-weight:normal;">✖</span>
+      <!-- AI Assistant Start -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<div id="ai-assistant" style="position:fixed;bottom:20px;right:20px;width:360px;max-width:95%;background:white;border-radius:20px;box-shadow:0 12px 30px rgba(0,0,0,0.25);z-index:1000;display:none;flex-direction:column;font-family:Arial,sans-serif;overflow:hidden;animation:slideIn 0.4s ease;">
+    <div style="background:linear-gradient(135deg,#2b7cff,#4facfe);color:white;padding:12px 15px;font-weight:bold;display:flex;justify-content:space-between;align-items:center;">
+        <span><i class="fa-solid fa-robot"></i> Shayan AI Assistant</span>
+        <span id="close-assistant" style="cursor:pointer;font-weight:normal;">✖</span>
     </div>
-    <div id="assistant-chat" style="padding:10px;height:300px;overflow-y:auto;font-size:14px;color:#333;"></div>
+    <div id="assistant-chat" style="padding:10px;height:300px;overflow-y:auto;font-size:14px;color:#333;display:flex;flex-direction:column;gap:8px;">
+        <div style="background:#f0f4ff;padding:10px;border-radius:12px;font-weight:bold;">
+            👋 Welcome to Shayan Smart Tools AI Assistant! Ask me how to use any tool and I will guide you step-by-step.
+        </div>
+    </div>
     <div style="display:flex;border-top:1px solid #eee;">
-        <input id="assistant-input" type="text" placeholder="Type your question..." style="flex:1;border:none;padding:10px;border-radius:0 0 0 15px;outline:none;">
-        <button id="assistant-send" style="background:#2b7cff;color:white;border:none;padding:10px 15px;border-radius:0 0 15px 0;cursor:pointer;">Send</button>
+        <input id="assistant-input" type="text" placeholder="Type your question..." style="flex:1;border:none;padding:12px;border-radius:0 0 0 20px;outline:none;font-size:14px;">
+        <button id="assistant-send" style="background:#2b7cff;color:white;border:none;padding:12px 18px;border-radius:0 0 20px 0;cursor:pointer;font-weight:bold;"><i class="fa-solid fa-paper-plane"></i></button>
     </div>
 </div>
 
-<button id="open-assistant" style="position:fixed;bottom:20px;right:20px;width:60px;height:60px;border-radius:50%;border:none;background:#2b7cff;color:white;font-size:30px;cursor:pointer;box-shadow:0 8px 20px rgba(0,0,0,0.3);z-index:1001;">🤖</button>
+<button id="open-assistant" style="position:fixed;bottom:20px;right:20px;width:60px;height:60px;border-radius:50%;border:none;background:linear-gradient(135deg,#2b7cff,#4facfe);color:white;font-size:28px;cursor:pointer;box-shadow:0 10px 25px rgba(0,0,0,0.3);z-index:1001;">
+    <i class="fa-solid fa-robot"></i>
+</button>
+
+<style>
+@keyframes slideIn {from {transform: translateY(50px); opacity:0;} to {transform: translateY(0); opacity:1;}}
+#assistant-chat div.ai-msg { background:#f0f4ff; padding:10px; border-radius:12px; font-size:14px; text-align:left;}
+#assistant-chat div.user-msg { background:#dfe9ff; padding:10px; border-radius:12px; font-size:14px; text-align:right;}
+.quick-btn {background:#2b7cff;color:white;padding:5px 10px;margin:4px;border-radius:12px;cursor:pointer;font-size:12px;text-decoration:none;display:inline-block;}
+.quick-btn:hover {opacity:0.85;}
+</style>
 
 <script>
 const openBtn = document.getElementById("open-assistant");
@@ -504,55 +519,47 @@ function sendMessage(){
     const userMsg = input.value.trim();
     if(!userMsg) return;
 
-    // Display user message
-    chat.innerHTML += `<div style="text-align:right;margin:5px;"><b>You:</b> ${userMsg}</div>`;
-
-    // AI response
+    chat.innerHTML += `<div class="user-msg"><b>You:</b> ${userMsg}</div>`;
     let aiMsg = getAIResponse(userMsg);
-    chat.innerHTML += `<div style="text-align:left;margin:5px;"><b>AI:</b> ${aiMsg}</div>`;
-
+    chat.innerHTML += `<div class="ai-msg">${aiMsg}</div>`;
     input.value = "";
     chat.scrollTop = chat.scrollHeight;
 }
 
-// Advanced AI logic for website tools
+// AI Response with Quick Action Buttons
 function getAIResponse(msg){
     msg = msg.toLowerCase();
 
-    // Calculator Tools
-    if(msg.includes("emi")) return '📊 <b>EMI Calculator:</b> Estimate your monthly EMI easily! Try <a href="emi.html">EMI Calculator</a>.';
-    if(msg.includes("sip")) return '📈 <b>SIP Calculator:</b> Plan your investment and see future returns: <a href="sip.html">SIP Calculator</a>.';
-    if(msg.includes("gst")) return '🧾 <b>GST Calculator:</b> Calculate GST on products and services with <a href="gst.html">GST Calculator</a>.';
-    if(msg.includes("loan")) return '💰 <b>Loan Calculator:</b> Check loan details and EMI schedule: <a href="loan-calculator.html">Loan Calculator</a>.';
-    if(msg.includes("bmi")) return '❤️ <b>BMI Calculator:</b> Calculate your BMI and check health status: <a href="bmi.html">BMI Calculator</a>.';
+    if(msg.includes("emi")){
+        return `📊 <b>EMI Calculator:</b><br>1️⃣ Enter Loan Amount<br>2️⃣ Enter Interest Rate<br>3️⃣ Select Tenure<br>4️⃣ Click "Calculate"<br>✅ Your EMI appears.<br>
+        <a class="quick-btn" href="emi.html" target="_blank">Open EMI Calculator</a>`;
+    }
+    if(msg.includes("sip")){
+        return `📈 <b>SIP Calculator:</b><br>1️⃣ Enter Monthly Investment<br>2️⃣ Interest Rate<br>3️⃣ Duration<br>4️⃣ Click "Calculate"<br>✅ Result shows corpus.<br>
+        <a class="quick-btn" href="sip.html" target="_blank">Open SIP Calculator</a>`;
+    }
+    if(msg.includes("gst")){
+        return `🧾 <b>GST Calculator:</b><br>1️⃣ Enter Product Price<br>2️⃣ GST %<br>3️⃣ Click "Calculate"<br>✅ GST & Total Price shown.<br>
+        <a class="quick-btn" href="gst.html" target="_blank">Open GST Calculator</a>`;
+    }
+    if(msg.includes("loan")){
+        return `💰 <b>Loan Calculator:</b><br>1️⃣ Enter Principal<br>2️⃣ Interest Rate<br>3️⃣ Duration<br>4️⃣ Calculate<br>✅ EMI & Total Payment shown.<br>
+        <a class="quick-btn" href="loan-calculator.html" target="_blank">Open Loan Calculator</a>`;
+    }
+    if(msg.includes("land") || msg.includes("bigha")){
+        return `📏 <b>Land Area Calculator:</b><br>• Enter dimensions<br>• Select type<br>• Click "Calculate"<br>✅ Area shown.<br>
+        <a class="quick-btn" href="land-area-calculator.html" target="_blank">Open Land Calculator</a>`;
+    }
+    if(msg.includes("image merge") || msg.includes("merge")){
+        return `🖼️ <b>Image Merge Tool:</b><br>1️⃣ Upload Images<br>2️⃣ Select order<br>3️⃣ Click Merge<br>✅ Download merged image.<br>
+        <a class="quick-btn" href="image-merge.html" target="_blank">Open Image Merge</a>`;
+    }
+    if(msg.includes("quiz")){
+        return `📝 <b>Daily Mini Quiz:</b><br>1️⃣ Open Quiz<br>2️⃣ Answer questions<br>3️⃣ Check Score & Streak<br>
+        <a class="quick-btn" href="mini-quiz.html" target="_blank">Open Daily Mini Quiz</a>`;
+    }
 
-    // Land Tools
-    if(msg.includes("land area")) return '📏 <b>Land Area Calculator:</b> Calculate plot area easily: <a href="land-area-calculator.html">Land Area Calculator</a>.';
-    if(msg.includes("bigha")) return '🌾 Convert land units using <a href="bigha-to-acre.html">Bigha to Acre Converter</a>.';
-    if(msg.includes("plot")) return '📐 Measure plot sizes accurately with <a href="plot-area-calculator.html">Plot Area Calculator</a>.';
-
-    // Image Tools
-    if(msg.includes("image merge")) return '🖼️ Merge images effortlessly: <a href="image-merge.html">Image Merge Tool</a>.';
-    if(msg.includes("compress")) return '⚡ Reduce image size without losing quality: <a href="image.html">Image Compressor</a>.';
-    if(msg.includes("resize")) return '📐 Resize your images easily using <a href="resize.html">Image Resize Tool</a>.';
-    if(msg.includes("crop")) return '✂️ Crop images accurately with <a href="crop.html">Image Crop Tool</a>.';
-    if(msg.includes("background")) return '🪄 Remove image background easily: <a href="background-remover.html">Background Remover</a>.';
-
-    // PDF Tools
-    if(msg.includes("pdf merge")) return '📑 Merge PDF files quickly: <a href="pdf-merge.html">PDF Merge Tool</a>.';
-    if(msg.includes("pdf compress")) return '🗜️ Compress PDF files here: <a href="pdf-compress.html">PDF Compressor</a>.';
-
-    // Utility Tools
-    if(msg.includes("qr")) return '🔳 Generate QR codes instantly: <a href="qr-code-generator.html">QR Code Generator</a>.';
-    if(msg.includes("password")) return '🔒 Create strong passwords: <a href="password-generator.html">Password Generator</a>.';
-    if(msg.includes("typing")) return '⌨️ Test your typing speed: <a href="typing-speed-test.html">Typing Speed Test</a>.';
-    if(msg.includes("resume")) return '📄 Make professional resumes: <a href="resume-maker.html">Resume Maker</a>.';
-
-    // Mini Quiz
-    if(msg.includes("quiz")) return '📝 Play Daily Mini Quiz here: <a href="mini-quiz.html">Daily Mini Quiz</a>.';
-
-    // Default response
-    return '🤖 I am here to help! Ask me anything about Shayan Smart Tools website (Calculators, Land, Image, PDF, Utility Tools, etc.)';
+    return '🤖 I can guide you step-by-step for any tool. Ask like "How to use EMI Calculator?"';
 }
 </script>
 <!-- AI Assistant End -->
