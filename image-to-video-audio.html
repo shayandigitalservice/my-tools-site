@@ -2,158 +2,94 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Image to Video with Audio - Shayan Smart Tools</title>
-<meta name="description" content="Create video from images and add audio easily.">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Image to Video + Audio | Shayan Smart Tools</title>
 <style>
-body {
-  font-family: Arial, sans-serif;
-  background: #f1f5f9;
-  margin: 0;
-  padding: 20px;
-  text-align: center;
-}
-
-h1 { margin-bottom: 20px; color:#2b7cff; }
-
-.container {
-  background: white;
-  max-width: 500px;
-  margin: auto;
-  padding: 25px;
-  border-radius: 12px;
-  box-shadow: 0 10px 25px rgba(0,0,0,0.08);
-}
-
-input[type="file"], input[type="number"] {
-  width: 100%;
-  padding: 10px;
-  margin: 10px 0;
-  border-radius: 6px;
-  border: 1px solid #ccc;
-}
-
-button {
-  width: 100%;
-  padding: 12px;
-  margin-top: 10px;
-  border: none;
-  border-radius: 6px;
-  background: #2563eb;
-  color: white;
-  font-size: 16px;
-  cursor: pointer;
-}
-
-button:hover { background: #1e4fd8; }
-
-video { margin-top: 15px; width: 100%; }
+body { font-family: Arial, sans-serif; background:#f1f5f9; text-align:center; padding:20px;}
+.container{ max-width:550px; margin:auto; background:#fff; padding:20px; border-radius:10px;
+ box-shadow:0 10px 20px rgba(0,0,0,0.1);}
+input, button{ width:100%; padding:12px; margin:8px 0; border-radius:6px; border:1px solid #ccc;}
+button{ background:#2563eb; color:#fff; border:none; cursor:pointer;}
+button:hover{ background:#1e4fd8;}
+video{ width:100%; margin-top:15px;}
 </style>
 </head>
 <body>
 
-<h1>Image to Video + Audio</h1>
+<h2>Image to Video with Audio</h2>
 
 <div class="container">
-  <input type="file" id="images" multiple accept="image/*">
-  <input type="number" id="duration" placeholder="Seconds per image" value="2" min="1">
-  <input type="file" id="audioFile" accept="audio/*">
-  <button onclick="generateVideo()">Generate Video</button>
-  <video id="videoPlayer" controls></video>
-  <a id="downloadBtn" style="display:none" download="video.mp4">Download Video</a>
+
+<input type="file" id="images" accept="image/*" multiple>
+<input type="number" id="duration" placeholder="Seconds per image" value="2" min="1">
+<input type="file" id="audioFile" accept="audio/*">
+<button id="genBtn">Generate & Merge</button>
+
+<video id="player" controls></video>
+<a id="download" style="display:none; margin-top:15px; background:#2563eb; color:#fff; padding:12px 15px; border-radius:6px;">Download Video</a>
+
+<p id="status"></p>
+
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/whammy@0.0.9/whammy.js"></script>
-<script>
-async function generateVideo() {
-  const imagesInput = document.getElementById('images');
-  const audioInput = document.getElementById('audioFile');
-  const duration = parseFloat(document.getElementById('duration').value) || 2;
-  const videoPlayer = document.getElementById('videoPlayer');
-  const downloadBtn = document.getElementById('downloadBtn');
+<script type="module">
+import { FFmpeg } from 'https://cdn.jsdelivr.net/npm/@ffmpeg/ffmpeg@0.12.10/dist/esm/index.js';
+import { fetchFile } from 'https://cdn.jsdelivr.net/npm/@ffmpeg/util@0.12.1/dist/esm/index.js';
 
-  if (!imagesInput.files.length) {
-    alert("Please upload at least one image");
-    return;
+const ffmpeg = FFmpeg.createFFmpeg({ log:true });
+const imagesEl = document.getElementById('images');
+const audioEl = document.getElementById('audioFile');
+const durationEl = document.getElementById('duration');
+const btn = document.getElementById('genBtn');
+const statusP = document.getElementById('status');
+const player = document.getElementById('player');
+const downloadLink = document.getElementById('download');
+
+btn.addEventListener('click', async ()=>{
+  if(!imagesEl.files.length){ alert('Select images!'); return; }
+  if(!audioEl.files.length){ alert('Select audio!'); return; }
+
+  statusP.textContent = 'Loading FFmpeg... please wait';
+  await ffmpeg.load();
+
+  // write images
+  const duration = parseFloat(durationEl.value) || 2;
+  let txt = '';
+  for(let i=0;i<imagesEl.files.length;i++){
+    const img = imagesEl.files[i];
+    await ffmpeg.writeFile(`img${i}.jpg`, await fetchFile(img));
+    txt += `file 'img${i}.jpg'\nduration ${duration}\n`;
   }
+  // list
+  await ffmpeg.writeFile('list.txt', txt + `file 'img${imagesEl.files.length-1}.jpg'`);
 
-  // Load images
-  const images = [];
-  for (let file of imagesInput.files) {
-    const img = new Image();
-    img.src = URL.createObjectURL(file);
-    await img.decode();
-    images.push(img);
-  }
+  // encode images to video
+  statusP.textContent = 'Creating video…';
+  await ffmpeg.exec([
+    '-f','concat','-safe','0','-i','list.txt','-vsync','vfr','-pix_fmt','yuv420p','video.mp4'
+  ]);
 
-  // Create video using Whammy
-  const width = images[0].naturalWidth;
-  const height = images[0].naturalHeight;
-  const encoder = new Whammy.Video(30); // 30 fps
+  // write audio
+  const audioFile = audioEl.files[0];
+  await ffmpeg.writeFile('audio.mp3', await fetchFile(audioFile));
 
-  for (let img of images) {
-    encoder.add(img, duration * 1000); // duration in ms
-  }
+  // merge audio + video
+  statusP.textContent = 'Merging with audio…';
+  await ffmpeg.exec([
+    '-i','video.mp4','-i','audio.mp3','-c:v','copy','-c:a','aac','-shortest','output.mp4'
+  ]);
 
-  const output = encoder.compile();
-  const videoBlob = new Blob([output], { type: 'video/webm' });
+  // get output
+  const data = ffmpeg.readFile('output.mp4');
+  const url = URL.createObjectURL(new Blob([data.buffer], {type:'video/mp4'}));
+  player.src = url;
 
-  // If audio uploaded, merge audio using MediaSource
-  if (audioInput.files.length) {
-    const audioFile = audioInput.files[0];
-    const audioUrl = URL.createObjectURL(audioFile);
-    const videoUrl = URL.createObjectURL(videoBlob);
-    const finalBlob = await mergeAudioVideo(videoUrl, audioUrl);
-    videoPlayer.src = URL.createObjectURL(finalBlob);
-    downloadBtn.href = videoPlayer.src;
-  } else {
-    videoPlayer.src = URL.createObjectURL(videoBlob);
-    downloadBtn.href = videoPlayer.src;
-  }
+  downloadLink.href = url;
+  downloadLink.download = 'image-audio-video.mp4';
+  downloadLink.style.display = 'block';
 
-  downloadBtn.style.display = "block";
-}
-
-async function mergeAudioVideo(videoUrl, audioUrl) {
-  return new Promise(async (resolve) => {
-    const video = document.createElement('video');
-    video.src = videoUrl;
-    await video.play().catch(()=>{}); // load metadata
-    video.pause();
-
-    const audio = document.createElement('audio');
-    audio.src = audioUrl;
-    await audio.play().catch(()=>{});
-    audio.pause();
-
-    const canvas = document.createElement('canvas');
-    canvas.width = video.videoWidth;
-    canvas.height = video.videoHeight;
-    const ctx = canvas.getContext('2d');
-
-    const stream = canvas.captureStream(30); // fps
-    const audioStream = audio.captureStream();
-    const combinedStream = new MediaStream([...stream.getTracks(), ...audioStream.getTracks()]);
-
-    const recorder = new MediaRecorder(combinedStream);
-    const chunks = [];
-    recorder.ondataavailable = e => chunks.push(e.data);
-    recorder.onstop = () => resolve(new Blob(chunks, { type: 'video/webm' }));
-    recorder.start();
-
-    video.play();
-    audio.play();
-
-    const draw = () => {
-      if (video.paused || video.ended) return;
-      ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
-      requestAnimationFrame(draw);
-    };
-    draw();
-
-    setTimeout(() => recorder.stop(), Math.max(video.duration * 1000, audio.duration * 1000));
-  });
-}
+  statusP.textContent = '🎉 Video Ready!';
+});
 </script>
 
 </body>
