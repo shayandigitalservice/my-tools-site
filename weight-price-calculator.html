@@ -139,7 +139,7 @@ button:hover{
   <option value="pound">Pound (lb)</option>
 </select>
 <input type="number" id="pricePerKg" placeholder="Price per Kg" min="0">
-
+<input type="number" id="pricePerQt" placeholder="Price per Quintal (Qt)" min="0">
 <button onclick="calculatePrice()">Calculate Price</button>
 
 <div class="result" id="result">Total Price will appear here</div>
@@ -300,7 +300,13 @@ function calculatePrice(){
 
   const totalPrice = weightInKg * pricePerKg;
   document.getElementById('result').innerHTML = `<b>Total Price:</b> ₹ ${totalPrice.toFixed(2)}`;
+// Quintal based calculation
+const pricePerQt = parseFloat(document.getElementById('pricePerQt').value);
 
+if(!isNaN(pricePerQt)){
+  const totalPriceQt = (weightInKg / 100) * pricePerQt; // 1 Quintal = 100 Kg
+  document.getElementById('result').innerHTML += `<br><b>Total Price (using 1 Qt price):</b> ₹ ${totalPriceQt.toFixed(2)}`;
+}
   const now = new Date();
   historyData.push({
     date: now.toLocaleString(),
