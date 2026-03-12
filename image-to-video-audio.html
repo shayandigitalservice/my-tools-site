@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Image to Video with Audio - Shayan Smart Tools</title>
+<style>
+body{
+  font-family: Arial, sans-serif;
+  background:#f1f5f9;
+  text-align:center;
+  margin:0;
+  padding:20px;
+}
+h1{margin-bottom:20px;}
+.container{
+  background:white;
+  max-width:500px;
+  margin:auto;
+  padding:25px;
+  border-radius:12px;
+  box-shadow:0 10px 25px rgba(0,0,0,0.08);
+}
+input, button{
+  width:100%;
+  padding:10px;
+  margin:10px 0;
+  border-radius:6px;
+  border:1px solid #ccc;
+  font-size:14px;
+}
+button{
+  border:none;
+  background:#2563eb;
+  color:white;
+  cursor:pointer;
+}
+button:hover{background:#1e4fd8;}
+video{margin-top:15px; width:100%;}
+</style>
+</head>
+<body>
+
+<h1>Image to Video with Audio</h1>
+
+<div class="container">
+  <input type="file" id="images" accept="image/*" multiple>
+  <input type="file" id="audioFile" accept="audio/*">
+  <input type="number" id="duration" placeholder="Each image duration (seconds)" min="1" value="2">
+  <select id="animation">
+    <option value="fade">Fade</option>
+    <option value="slide">Slide</option>
+    <option value="zoom">Zoom</option>
+  </select>
+  <button onclick="createVideo()">Create Video</button>
+  <video id="preview" controls></video>
+  <a id="downloadBtn" style="display:none; margin-top:10px; display:block; padding:10px; background:#2563eb; color:white; border-radius:6px;">Download Video</a>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/ffmpeg.js/ffmpeg.min.js"></script>
+<script>
+let ffmpegLoaded = false;
+
+async function loadFFMPEG() {
+  if (!ffmpegLoaded) {
+    await FFmpeg.createFFmpeg({ log: true }).load();
+    ffmpegLoaded = true;
+  }
+}
+
+async function createVideo() {
+  const images = document.getElementById("images").files;
+  const audioFile = document.getElementById("audioFile").files[0];
+  const duration = parseFloat(document.getElementById("duration").value) || 2;
+  const animation = document.getElementById("animation").value;
+
+  if(images.length === 0){
+    alert("Please select images");
+    return;
+  }
+
+  // Create video frames using canvas
+  const canvas = document.createElement("canvas");
+  const ctx = canvas.getContext("2d");
+  canvas.width = 720;
+  canvas.height = 480;
+
+  const frames = [];
+  for(let i=0;i<images.length;i++){
+    const img = new Image();
+    img.src = URL.createObjectURL(images[i]);
+    await new Promise(res=>img.onload=res);
+
+    // Animation effect
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    if(animation==="fade"){
+      ctx.globalAlpha = 0.5;
+    } else if(animation==="zoom"){
+      ctx.drawImage(img, 50, 50, canvas.width-100, canvas.height-100);
+    } else { // slide
+      ctx.drawImage(img, i*10, 0, canvas.width, canvas.height);
+    }
+    if(animation!=="zoom" && animation!=="slide") ctx.drawImage(img,0,0,canvas.width,canvas.height);
+
+    frames.push(canvas.toDataURL("image/png"));
+  }
+
+  // Use Whammy to create video from frames
+  const videoBlob = await new Promise(async (resolve)=>{
+    const webm = new Whammy.Video(duration);
+    frames.forEach(f=>webm.add(f));
+    const output = webm.compile();
+    resolve(output);
+  });
+
+  if(!audioFile){
+    const url = URL.createObjectURL(videoBlob);
+    document.getElementById("preview").src = url;
+    const dl = document.getElementById("downloadBtn");
+    dl.href = url;
+    dl.download = "video.webm";
+    dl.style.display="block";
+    return;
+  }
+
+  // Merge audio using ffmpeg.js
+  const readerAudio = new FileReader();
+  readerAudio.readAsArrayBuffer(audioFile);
+  readerAudio.onload = async ()=>{
+    const audioData = new Uint8Array(readerAudio.result);
+
+    const ffmpeg = FFmpeg.createFFmpeg({ log:true });
+    await ffmpeg.load();
+
+    const readerVideo = new FileReader();
+    readerVideo.readAsArrayBuffer(videoBlob);
+    readerVideo.onload = async ()=>{
+      const videoData = new Uint8Array(readerVideo.result);
+      ffmpeg.FS('writeFile','video.webm', videoData);
+      ffmpeg.FS('writeFile','audio.mp3', audioData);
+
+      await ffmpeg.run('-i','video.webm','-i','audio.mp3','-c:v','copy','-c:a','aac','output.mp4');
+      const data = ffmpeg.FS('readFile','output.mp4');
+      const finalBlob = new Blob([data.buffer],{type:'video/mp4'});
+      const url = URL.createObjectURL(finalBlob);
+
+      document.getElementById("preview").src = url;
+      const dl = document.getElementById("downloadBtn");
+      dl.href = url;
+      dl.download = "video.mp4";
+      dl.style.display="block";
+    };
+  };
+}
+</script>
+
+<!-- Include Whammy.js library for simple webm creation -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/whammy/0.2.0/whammy.min.js"></script>
+
+</body>
+</html>
