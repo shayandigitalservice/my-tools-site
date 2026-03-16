@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Personal Loan Calculator 2026 – Shayan Digital Service</title>
+<meta name="description" content="Calculate your Personal Loan EMI and total payable amount in India 2026. Free Personal Loan Calculator with interest, tenure, and income-based eligibility.">
+<meta name="keywords" content="personal loan calculator, EMI calculator, personal loan India 2026, loan planner, monthly income, financial planning">
+<link rel="canonical" href="https://shayandigitalservice.github.io/my-tools-site/personal-loan-calculator.html">
+
+<style>
+body{font-family:Arial;background:#eef2f7;margin:0;padding:20px;}
+.container{max-width:600px;margin:auto;background:white;padding:25px;border-radius:10px;box-shadow:0 5px 20px rgba(0,0,0,0.1);}
+h1{text-align:center;}
+label{font-weight:bold;}
+input{width:100%;padding:10px;margin-top:6px;margin-bottom:15px;border:1px solid #ccc;border-radius:6px;}
+button{width:100%;padding:12px;background:#007bff;color:white;border:none;font-size:16px;border-radius:6px;cursor:pointer;}
+button:hover{background:#0056b3;}
+.result{margin-top:20px;background:#f6f8fb;padding:15px;border-radius:6px;}
+.suggestion{margin-top:20px;background:#eaf7ea;padding:15px;border-radius:6px;}
+footer{margin-top:20px;text-align:center;color:#555;}
+</style>
+
+<!-- Copy Protection -->
+<script>
+document.addEventListener('contextmenu', e => e.preventDefault());
+document.addEventListener('selectstart', e => e.preventDefault());
+document.addEventListener('copy', e => e.preventDefault());
+document.addEventListener('cut', e => e.preventDefault());
+</script>
+
+</head>
+<body>
+
+<div class="container">
+<h1>Personal Loan Calculator 2026</h1>
+
+<label>Loan Amount (₹)</label>
+<input type="number" id="loanAmount">
+
+<label>Interest Rate (% p.a.)</label>
+<input type="number" id="interestRate" step="0.01">
+
+<label>Tenure (Years)</label>
+<input type="number" id="tenure">
+
+<label>Monthly Income (₹)</label>
+<input type="number" id="income">
+
+<button onclick="calculatePersonalLoan()">Calculate EMI</button>
+
+<div class="result" id="result"></div>
+<div class="suggestion" id="suggestion"></div>
+
+<!-- SEO Content Starts -->
+<section class="seo-content">
+
+<h2>Personal Loan Calculator 2026 – Plan Your Loan Efficiently</h2>
+<p>
+The Personal Loan Calculator 2026 is a free online tool for individuals in India to calculate their personal loan EMI, total interest, and total repayment amount. 
+By using this calculator, you can plan your personal loan responsibly and ensure monthly repayments fit your budget.
+</p>
+
+<h2>How to Use the Personal Loan Calculator</h2>
+<ul>
+<li>Enter your desired loan amount.</li>
+<li>Provide the annual interest rate.</li>
+<li>Select the loan tenure in years.</li>
+<li>Enter your monthly income to check eligibility.</li>
+<li>Click “Calculate EMI” to see monthly payment and total interest.</li>
+</ul>
+
+<h2>Benefits of Using the Personal Loan Calculator</h2>
+<ul>
+<li>Instant EMI calculation for personal loans</li>
+<li>Plan monthly budgets and avoid over-borrowing</li>
+<li>Compare different interest rates and tenure options</li>
+<li>Understand total interest and total repayment</li>
+<li>Free and user-friendly online tool</li>
+</ul>
+
+<h2>FAQs</h2>
+<h3>1. What is EMI?</h3>
+<p>EMI (Equated Monthly Installment) is the fixed monthly payment for repaying the personal loan.</p>
+
+<h3>2. How is eligibility determined?</h3>
+<p>Eligibility is generally based on income, existing debts, and repayment capacity. This calculator helps estimate feasible loan amounts based on monthly income.</p>
+
+<h3>3. Can I use it for home or car loans?</h3>
+<p>This calculator is specifically for personal loans. For home or car loans, use the respective calculator for accurate EMI and interest calculations.</p>
+
+<h2>Conclusion</h2>
+<p>
+Using a Personal Loan Calculator helps you borrow responsibly by showing EMI, total interest, and total repayment. 
+It ensures you do not overcommit and helps in financial planning. Start using this tool today to calculate your personal loan efficiently.
+</p>
+
+</section>
+
+</div>
+
+<footer>
+&copy; 2026 Shayan Digital Service. All Rights Reserved.
+</footer>
+
+<script>
+function calculatePersonalLoan(){
+  let principal = parseFloat(document.getElementById("loanAmount").value)||0;
+  let rate = parseFloat(document.getElementById("interestRate").value)||0;
+  let tenure = parseFloat(document.getElementById("tenure").value)||0;
+  let income = parseFloat(document.getElementById("income").value)||0;
+
+  // EMI Calculation
+  let monthlyRate = rate/(12*100);
+  let n = tenure*12;
+  let emi = principal*monthlyRate*Math.pow(1+monthlyRate,n)/(Math.pow(1+monthlyRate,n)-1);
+  let totalPayment = emi*n;
+  let totalInterest = totalPayment - principal;
+
+  // Eligibility check (max 50% of income)
+  let maxEmi = income*0.5;
+  let eligibleLoan = principal;
+  if(emi > maxEmi){
+    eligibleLoan = maxEmi*(Math.pow(1+monthlyRate,n)-1)/(monthlyRate*Math.pow(1+monthlyRate,n));
+  }
+
+  document.getElementById("result").innerHTML=
+    "<b>EMI:</b> ₹"+emi.toFixed(2)+"<br>"+
+    "<b>Total Interest:</b> ₹"+totalInterest.toFixed(2)+"<br>"+
+    "<b>Total Payment:</b> ₹"+totalPayment.toFixed(2)+"<br>"+
+    "<b>Eligible Loan Amount:</b> ₹"+eligibleLoan.toFixed(2);
+
+  document.getElementById("suggestion").innerHTML=
+    "<b>Tip:</b> Ensure your EMI does not exceed 50% of your monthly income for safe repayment.";
+}
+</script>
+
+</body>
+</html>
