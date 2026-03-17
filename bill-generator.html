@@ -1,7 +1,7 @@
 <!DOCTYPE html><html>
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Shop Bill Generator</title><script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script><style>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Shop Bill Generator</title><style>
 
 body{
 font-family:Arial;
@@ -54,12 +54,12 @@ font-size:14px;
 text-align:center;
 }
 
-.bill{
-margin-top:20px;
-}
-
 .totalRow td{
 font-weight:bold;
+}
+
+.bill{
+margin-top:20px;
 }
 
 </style></head><body><div class="container"><h2>🧾 Bill Generator</h2><input id="shop" placeholder="Shop Name">
@@ -79,7 +79,7 @@ font-weight:bold;
 <th>Total</th>
 </tr>
 </table><button onclick="generateBill()">Generate Bill</button>
-<button onclick="downloadPDF()">Download PDF</button>
+<button onclick="printBill()">Print Bill</button>
 <button onclick="sendWhatsApp()">Send WhatsApp</button>
 
 <div id="bill" class="bill"></div><button onclick="downloadHistory()">Download History</button>
@@ -165,7 +165,6 @@ html+=`
 </tr>`;
 });
 
-/* GRAND TOTAL ROW */
 html+=`
 <tr class="totalRow">
 <td colspan="4">Grand Total</td>
@@ -188,19 +187,39 @@ showTotalDay();
 
 }
 
-/* PDF */
+/* PRINT */
 
-function downloadPDF(){
-html2pdf().from(bill).save("bill.pdf");
+function printBill(){
+
+let content = document.getElementById("bill").innerHTML;
+
+let win = window.open('', '', 'width=400,height=600');
+
+win.document.write(`
+<html>
+<head>
+<title>Print Bill</title>
+<style>
+body{font-family:monospace;padding:10px;}
+table{width:100%;border-collapse:collapse;}
+td,th{border:1px solid #000;padding:5px;text-align:center;}
+</style></head>
+<body>
+${content}
+</body>
+</html>
+`);win.document.close();
+win.print();
+
 }
 
 /* WHATSAPP */
 
 function sendWhatsApp(){
 
-let text=bill.innerText;
+let text = "🧾 BILL RECEIPT\n\n" + bill.innerText;
 
-let url="https://wa.me/?text="+encodeURIComponent(text);
+let url = "https://wa.me/?text=" + encodeURIComponent(text);
 
 window.open(url);
 
