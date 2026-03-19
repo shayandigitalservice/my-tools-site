@@ -240,8 +240,39 @@ function printData(){
   let content = document.getElementById("profile").cloneNode(true);
   let btns = content.querySelectorAll("button");
   btns.forEach(b => b.remove());
+
+  let shopName = localStorage.getItem("shop") || "";
+  let shopAddress = localStorage.getItem("address") || "";
+  let shopPhone = localStorage.getItem("phone") || "";
+
+  let shopInfoHTML = `
+    <h2>${shopName}</h2>
+    <p>${shopAddress}</p>
+    <p>${shopPhone}</p>
+    <hr>
+  `;
+
   let win = window.open('','','width=400,height=600');
+
   win.document.write(`
+  <html>
+  <head>
+  <style>
+  body{font-family:Arial;padding:10px;}
+  table{width:100%;border-collapse:collapse;}
+  td,th{border:1px solid #000;padding:6px;text-align:center;}
+  </style>
+  </head>
+  <body>
+  ${shopInfoHTML}
+  ${content.innerHTML}
+  </body>
+  </html>
+  `);
+
+  win.document.close();
+  win.print();
+}
 <html>
 <head>
 <style>
