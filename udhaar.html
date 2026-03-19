@@ -17,6 +17,7 @@ button{background:#2563eb;color:white;border:none;}
 .card{border:1px solid #ccc;padding:10px;margin:6px 0;border-radius:6px;cursor:pointer;}
 table{width:100%;border-collapse:collapse;margin-top:10px;}
 td,th{border:1px solid #000;padding:6px;text-align:center;}
+.dashboard{background:#e6f2ff;padding:10px;border-radius:6px;margin-bottom:10px;}
 </style>
 </head>
 
@@ -33,6 +34,9 @@ td,th{border:1px solid #000;padding:6px;text-align:center;}
 <button onclick="saveShop()">Save Shop</button>
 
 <hr>
+
+<!-- DASHBOARD -->
+<div id="grandTotalBox" class="dashboard"></div>
 
 <!-- CUSTOMER -->
 <input id="cname" placeholder="Customer Name">
@@ -71,17 +75,41 @@ localStorage.setItem("phone",phone.value);
 alert("Saved");
 }
 
+/* SAVE */
+function save(){
+localStorage.setItem("udhaarData",JSON.stringify(data));
+updateDashboard();
+}
+
+/* DASHBOARD */
+function updateDashboard(){
+
+let total=0,paid=0;
+let totalCustomers = data.length;
+
+data.forEach(c=>{
+c.history.forEach(t=>{
+if(t.type=="credit") total+=t.amount;
+else paid+=t.amount;
+});
+});
+
+let balance = total - paid;
+
+document.getElementById("grandTotalBox").innerHTML = `
+<b>👥 Total Customers: ${totalCustomers}</b><br>
+<b>💰 Total Udhaar: ₹${total}</b><br>
+<b>💸 Total Paid: ₹${paid}</b><br>
+<b>🧾 Balance: ₹${balance}</b>
+`;
+}
+
 /* ADD CUSTOMER */
 function addCustomer(){
 if(!cname.value){alert("Enter name");return;}
 data.push({name:cname.value,mobile:cmobile.value,history:[]});
 save(); cname.value=""; cmobile.value="";
 showCustomers();
-}
-
-/* SAVE */
-function save(){
-localStorage.setItem("udhaarData",JSON.stringify(data));
 }
 
 /* SHOW CUSTOMERS */
@@ -225,10 +253,30 @@ let url="https://wa.me/"+(c.mobile||"")+"?text="+encodeURIComponent(msg);
 window.open(url);
 }
 
-/* PRINT */
+/* PRINT CLEAN */
 function printData(){
-let win=window.open('','','width=400,height=600');
-win.document.write(`<html><body>${profile.innerHTML}</body></html>`);
+let content = document.getElementById("profile").cloneNode(true);
+let btns = content.querySelectorAll("button");
+btns.forEach(b => b.remove());
+
+let win = window.open('','','width=400,height=600');
+
+win.document.write(`
+<html>
+<head>
+<style>
+body{font-family:Arial;padding:10px;}
+table{width:100%;border-collapse:collapse;}
+td,th{border:1px solid #000;padding:6px;text-align:center;}
+</style>
+</head>
+<body>
+${content.innerHTML}
+</body>
+</html>
+`);
+
+win.document.close();
 win.print();
 }
 
@@ -259,8 +307,9 @@ a.click();
 
 /* INIT */
 showCustomers();
+updateDashboard();
 
-/* APP INSTALL */
+/* INSTALL APP */
 let deferredPrompt;
 
 window.addEventListener('beforeinstallprompt', (e) => {
