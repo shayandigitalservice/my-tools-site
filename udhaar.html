@@ -3,21 +3,20 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Udhaar Manager App</title>
+<title>Udhaar Manager PRO</title>
 
 <link rel="manifest" href="manifest.json">
 <meta name="theme-color" content="#2563eb">
 
 <style>
 body{font-family:Arial;background:#f4f4f4;margin:0;padding:10px;}
-.container{max-width:700px;margin:auto;background:white;padding:15px;border-radius:10px;}
+.container{max-width:800px;margin:auto;background:white;padding:15px;border-radius:10px;}
 h2{text-align:center;}
 input,select,button{width:100%;padding:10px;margin:6px 0;border-radius:6px;}
 button{background:#2563eb;color:white;border:none;}
-.card{padding:10px;margin:6px 0;border-radius:6px;}
-.red{background:#ffcccc;}
-.orange{background:#ffe0b3;}
-.green{background:#ccffcc;}
+.card{border:1px solid #ccc;padding:10px;margin:6px 0;border-radius:6px;cursor:pointer;}
+table{width:100%;border-collapse:collapse;margin-top:10px;}
+td,th{border:1px solid #000;padding:6px;text-align:center;}
 </style>
 </head>
 
@@ -25,169 +24,200 @@ button{background:#2563eb;color:white;border:none;}
 
 <div class="container">
 
-<h2>💰 Udhaar Manager</h2>
+<h2>💰 Udhaar Manager PRO</h2>
 
-<input id="shopName" placeholder="Shop Name">
+<!-- SHOP -->
+<input id="shop" placeholder="Shop Name">
+<input id="address" placeholder="Address">
+<input id="phone" placeholder="Mobile Number">
 <button onclick="saveShop()">Save Shop</button>
 
-<div id="dashboard"></div>
+<hr>
 
-<input id="name" placeholder="Customer Name">
-<input id="mobile" placeholder="Mobile">
+<!-- CUSTOMER -->
+<input id="cname" placeholder="Customer Name">
+<input id="cmobile" placeholder="Mobile Number">
 <button onclick="addCustomer()">Add Customer</button>
 
-<select id="customerSelect"></select>
-<input id="amount" type="number" placeholder="Amount">
+<input id="search" placeholder="Search Customer" onkeyup="showCustomers()">
 
-<button onclick="addUdhaar()">Add Udhaar</button>
-<button onclick="addPayment()">Add Payment</button>
+<button onclick="downloadExcel()">📊 Download All Data</button>
 
 <div id="customerList"></div>
+
+<hr>
+
+<!-- PROFILE -->
+<div id="profile"></div>
 
 </div>
 
 <!-- INSTALL -->
 <div style="text-align:center;margin-top:20px;">
-<button id="installBtn" style="display:none;">📱 Install App</button>
+<h3>📱 Install App</h3>
+<button id="installBtn" style="display:none;">Download App</button>
 </div>
 
 <script>
 
 let data = JSON.parse(localStorage.getItem("udhaarData")) || [];
+let current = null;
 
-function save(){
-localStorage.setItem("udhaarData", JSON.stringify(data));
-updateDashboard();
-}
-
+/* SAVE SHOP */
 function saveShop(){
-localStorage.setItem("shopName", shopName.value);
+localStorage.setItem("shop",shop.value);
+localStorage.setItem("address",address.value);
+localStorage.setItem("phone",phone.value);
 alert("Saved");
 }
-shopName.value = localStorage.getItem("shopName")||"";
 
+/* ADD CUSTOMER */
 function addCustomer(){
-if(!name.value){alert("Enter name");return;}
-data.push({name:name.value,mobile:mobile.value,history:[]});
-save(); name.value=""; mobile.value="";
+if(!cname.value){alert("Enter name");return;}
+data.push({name:cname.value,mobile:cmobile.value,history:[]});
+save(); cname.value=""; cmobile.value="";
 showCustomers();
 }
 
-function addUdhaar(){
-let i=customerSelect.value;
-let amt=+amount.value;
-if(!amt){alert("Enter amount");return;}
-
-data[i].history.push({
-type:"credit",
-amt:amt,
-date:new Date().toLocaleString()
-});
-
-save(); showCustomers();
+/* SAVE */
+function save(){
+localStorage.setItem("udhaarData",JSON.stringify(data));
 }
 
-function addPayment(){
-let i=customerSelect.value;
-let amt=+amount.value;
-if(!amt){alert("Enter amount");return;}
-
-data[i].history.push({
-type:"paid",
-amt:amt,
-date:new Date().toLocaleString()
-});
-
-save(); showCustomers();
-}
-
-function calc(h){
-let c=0,p=0;
-h.forEach(t=> t.type=="credit"?c+=t.amt:p+=t.amt);
-return {c,p,b:c-p};
-}
-
-/* DASHBOARD */
-function updateDashboard(){
-let total=0,paid=0;
-data.forEach(c=>{
-let r=calc(c.history);
-total+=r.c; paid+=r.p;
-});
-dashboard.innerHTML=`<b>Total:</b> ₹${total}<br>
-<b>Paid:</b> ₹${paid}<br>
-<b>Balance:</b> ₹${total-paid}`;
-}
-
-/* SHOW */
+/* SHOW CUSTOMERS */
 function showCustomers(){
+let s=search.value.toLowerCase();
 let html="";
-let select="";
 
 data.forEach((c,i)=>{
-let r=calc(c.history);
+if(!c.name.toLowerCase().includes(s)) return;
 
-let color="green";
-if(r.b>1000) color="red";
-else if(r.b>0) color="orange";
-
-html+=`<div class="card ${color}">
-<b>${c.name}</b><br>
-Balance: ₹${r.b}<br>
-
-<button onclick="printReceipt(${i})">🖨 Print</button>
-<button onclick="sendWhatsApp(${i})">📲 WhatsApp</button>
-
+html+=`<div class="card" onclick="openProfile(${i})">
+<b>${c.name}</b><br>${c.mobile}
 </div>`;
-
-select+=`<option value="${i}">${c.name}</option>`;
 });
 
 customerList.innerHTML=html;
-customerSelect.innerHTML=select;
 }
 
-/* PRINT RECEIPT */
-function printReceipt(i){
+/* OPEN PROFILE */
+function openProfile(i){
+current=i;
 let c=data[i];
-let shop=localStorage.getItem("shopName")||"My Shop";
 
-let credit=0,paid=0;
+let total=0,paid=0;
+
 c.history.forEach(t=>{
-if(t.type=="credit") credit+=t.amt;
-else paid+=t.amt;
+if(t.type=="credit") total+=t.amount;
+else paid+=t.amount;
 });
 
-let bal=credit-paid;
+let balance=total-paid;
 
 let html=`
-<h2>${shop}</h2>
-<h3>Udhaar Receipt</h3>
-<b>${c.name}</b><br>
-<b>${c.mobile||""}</b>
+<h3>${c.name}</h3>
+Mobile: ${c.mobile}<br>
+
+<b>Total Udhaar:</b> ₹${total}<br>
+<b>Paid:</b> ₹${paid}<br>
+<b>Unpaid:</b> ₹${balance}
+
 <hr>
-Total: ₹${credit}<br>
-Paid: ₹${paid}<br>
-<b>Balance: ₹${bal}</b>
-<br><br>
-Signature: ______
+
+<input id="amt" type="number" placeholder="Enter Amount">
+
+<button onclick="addUdhaar()">Add Udhaar</button>
+<button onclick="addPayment()">Add Payment</button>
+<button onclick="sendReminder()">📲 WhatsApp</button>
+
+<select id="filter">
+<option value="all">Full</option>
+<option value="today">Today</option>
+<option value="week">Last Week</option>
+<option value="month">Last Month</option>
+</select>
+
+<button onclick="printData()">🖨 Print</button>
+<button onclick="deleteCustomer()" style="background:red;">Delete Customer</button>
+
+<h4>History</h4>
+<table>
+<tr><th>Date</th><th>Type</th><th>Amount</th></tr>
 `;
 
-let win=window.open('','','width=400,height=600');
-win.document.write(`<html><body>${html}</body></html>`);
-win.document.close();
-win.print();
+let now=new Date();
+
+c.history.forEach(t=>{
+let d=new Date(t.date);
+
+let show=true;
+let f=document.getElementById("filter")?.value || "all";
+
+if(f=="today" && d.toDateString()!=now.toDateString()) show=false;
+if(f=="week" && (now-d)>7*86400000) show=false;
+if(f=="month" && d.getMonth()!=now.getMonth()) show=false;
+
+if(show){
+html+=`<tr>
+<td>${t.date}</td>
+<td>${t.type}</td>
+<td>₹${t.amount}</td>
+</tr>`;
+}
+});
+
+html+=`</table>`;
+profile.innerHTML=html;
+}
+
+/* ADD UDHAAR */
+function addUdhaar(){
+let amt=+document.getElementById("amt").value;
+if(!amt){alert("Enter amount");return;}
+
+data[current].history.push({
+type:"credit",
+amount:amt,
+date:new Date().toLocaleString()
+});
+
+save();
+openProfile(current);
+}
+
+/* ADD PAYMENT */
+function addPayment(){
+let amt=+document.getElementById("amt").value;
+if(!amt){alert("Enter amount");return;}
+
+data[current].history.push({
+type:"paid",
+amount:amt,
+date:new Date().toLocaleString()
+});
+
+save();
+openProfile(current);
 }
 
 /* WHATSAPP */
-function sendWhatsApp(i){
-let c=data[i];
-let r=calc(c.history);
+function sendReminder(){
+let c=data[current];
 
-let msg=`🧾 Udhaar Details
+let total=0,paid=0;
+c.history.forEach(t=>{
+if(t.type=="credit") total+=t.amount;
+else paid+=t.amount;
+});
+
+let bal=total-paid;
+
+let msg=`🧾 Udhaar Reminder
 
 Name: ${c.name}
-Balance: ₹${r.b}
+Total: ₹${total}
+Paid: ₹${paid}
+Balance: ₹${bal}
 
 Please pay soon 🙏`;
 
@@ -195,25 +225,56 @@ let url="https://wa.me/"+(c.mobile||"")+"?text="+encodeURIComponent(msg);
 window.open(url);
 }
 
+/* PRINT */
+function printData(){
+let win=window.open('','','width=400,height=600');
+win.document.write(`<html><body>${profile.innerHTML}</body></html>`);
+win.print();
+}
+
+/* DELETE */
+function deleteCustomer(){
+if(confirm("Delete?")){
+data.splice(current,1);
+save();
+profile.innerHTML="";
+showCustomers();
+}
+}
+
+/* EXCEL */
+function downloadExcel(){
+let csv="Name,Mobile,Type,Amount,Date\n";
+data.forEach(c=>{
+c.history.forEach(h=>{
+csv+=`${c.name},${c.mobile},${h.type},${h.amount},${h.date}\n`;
+});
+});
+let blob=new Blob([csv]);
+let a=document.createElement("a");
+a.href=URL.createObjectURL(blob);
+a.download="udhaar_data.csv";
+a.click();
+}
+
 /* INIT */
 showCustomers();
-updateDashboard();
 
-/* INSTALL APP */
+/* APP INSTALL */
 let deferredPrompt;
 
 window.addEventListener('beforeinstallprompt', (e) => {
 e.preventDefault();
 deferredPrompt = e;
-installBtn.style.display = "block";
+document.getElementById("installBtn").style.display = "block";
 });
 
-installBtn.onclick = async () => {
+document.getElementById("installBtn").addEventListener("click", async () => {
 if(deferredPrompt){
 deferredPrompt.prompt();
 await deferredPrompt.userChoice;
 }
-};
+});
 
 if ('serviceWorker' in navigator) {
 navigator.serviceWorker.register('sw.js');
