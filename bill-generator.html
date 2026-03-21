@@ -36,14 +36,16 @@ button{font-size:13px;padding:8px;}
 <input id="address" placeholder="Address">
 <input id="phone" placeholder="Phone">
 <button onclick="saveShop()">Save Shop Details</button>
-
 <!-- Customer & Items -->
 <input id="customer" placeholder="Customer Name">
-<input id="product" placeholder="Product Name">
+
+<!-- Dropdown + Search -->
+<select id="productDropdown"></select>
+<input id="productSearch" placeholder="Search Product">
+
 <input id="qty" type="number" placeholder="Qty">
 <input id="price" type="number" placeholder="Price">
 <button onclick="addItem()">Add Item</button>
-
 <table id="table">
 <tr><th>No</th><th>Product</th><th>Qty</th><th>Price</th><th>Total</th></tr>
 </table>
@@ -87,6 +89,26 @@ button{font-size:13px;padding:8px;}
 </div>
 
 <script>
+  function renderProductDropdown(){
+    let dropdown = document.getElementById("productDropdown");
+    dropdown.innerHTML = "";
+    let productList = [...new Set(items.map(i=>i.p))]; // unique product names from added items
+    productList.forEach(p=>{
+        let option = document.createElement("option");
+        option.value = p;
+        option.text = p;
+        dropdown.appendChild(option);
+    });
+}
+renderProductDropdown();
+  let productSearch = document.getElementById("productSearch");
+productSearch.addEventListener("input", function(){
+    let val = this.value.toLowerCase();
+    let dropdown = document.getElementById("productDropdown");
+    let options = Array.from(dropdown.options);
+    let match = options.find(o=>o.value.toLowerCase().includes(val));
+    if(match) dropdown.value = match.value; // auto select first match
+});
   // ===== STOCK LOGIC =====
 let stock = JSON.parse(localStorage.getItem("stock"))||{};
 let stockHistory = JSON.parse(localStorage.getItem("stockHistory"))||[];
@@ -202,7 +224,8 @@ let productInput = document.getElementById("product");
 productInput.addEventListener("input", function(){
     let val = this.value.toLowerCase();
     let suggestions = Object.keys(stock).filter(p=>p.toLowerCase().includes(val));
-    if(suggestions.length>0) this.value = suggestions[0]; // simple auto-fill
+    if(suggestions.length>0) this.value = suggestions[0]; 
+  let p = document.getElementById("productDropdown").value.trim(); // dropdown value// simple auto-fill
 });
 /* GET INVOICE NUMBER */
 function getInvoiceNumber(){
