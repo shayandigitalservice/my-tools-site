@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Shop Bill Generator – Free Online Invoice & Mini POS Tool</title>
+<title>Shop Bill Generator – Functional POS</title>
 <style>
 body{font-family:Arial;background:#f4f4f4;margin:0;padding:10px;}
 .container{max-width:800px;margin:auto;background:white;padding:15px;border-radius:10px;box-shadow:0 0 10px rgba(0,0,0,0.1);}
@@ -35,7 +35,7 @@ th,td{border:1px solid #000;padding:8px;font-size:14px;text-align:center;}
 <input id="shop" placeholder="Shop Name">
 <input id="address" placeholder="Address">
 <input id="phone" placeholder="Phone">
-<button onclick="saveShop()">Save Shop Details</button>
+<button id="saveShopBtn">Save Shop Details</button>
 
 <!-- Customer & Items -->
 <input id="customer" placeholder="Customer Name">
@@ -46,7 +46,7 @@ th,td{border:1px solid #000;padding:8px;font-size:14px;text-align:center;}
 
 <input id="qty" type="number" placeholder="Qty">
 <input id="price" type="number" placeholder="Price">
-<button onclick="addItem()">Add Item</button>
+<button id="addItemBtn">Add Item</button>
 
 <table id="table">
 <tr><th>No</th><th>Product</th><th>Qty</th><th>Price</th><th>Total</th></tr>
@@ -60,18 +60,18 @@ th,td{border:1px solid #000;padding:8px;font-size:14px;text-align:center;}
 </select>
 
 <!-- Generate & Print -->
-<button onclick="generateBill()">Generate Bill</button>
+<button id="generateBillBtn">Generate Bill</button>
 <select id="printMode">
 <option value="A4">Print A4</option>
 <option value="Receipt" selected>Print Receipt</option>
 <option value="Custom">Custom Width</option>
 </select>
-<button onclick="printBill()">Print Bill</button>
-<button onclick="sendWhatsApp()">Send WhatsApp</button>
+<button id="printBillBtn">Print Bill</button>
+<button id="sendWhatsAppBtn">Send WhatsApp</button>
 
 <!-- Bill Display -->
 <div id="bill" class="bill"></div>
-<button onclick="downloadHistory()">Download History</button>
+<button id="downloadHistoryBtn">Download History</button>
 <div id="totalDay"></div>
 
 <hr>
@@ -80,7 +80,7 @@ th,td{border:1px solid #000;padding:8px;font-size:14px;text-align:center;}
 <!-- Add Stock -->
 <input id="stockProduct" placeholder="Product Name">
 <input id="stockQty" type="number" placeholder="Quantity to Add">
-<button onclick="addStock()">Add Stock</button>
+<button id="addStockBtn">Add Stock</button>
 
 <!-- Stock Table -->
 <div style="overflow-x:auto;">
@@ -90,60 +90,51 @@ th,td{border:1px solid #000;padding:8px;font-size:14px;text-align:center;}
 </div>
 
 <!-- Stock Download -->
-<button onclick="downloadStockExcel()">Download Stock Excel</button>
+<button id="downloadStockBtn">Download Stock Excel</button>
 
 <hr>
 </div>
 
 <script>
-window.onload = function(){
+document.addEventListener("DOMContentLoaded", function(){
 
-// ================== GLOBAL DATA ==================
+// ===== GLOBAL =====
 let items=[];
 let total=0;
-let invoiceCounter = localStorage.getItem("invoiceCounter")||1;
-
-// Stock
+let invoiceCounter = parseInt(localStorage.getItem("invoiceCounter"))||1;
 let stock = JSON.parse(localStorage.getItem("stock"))||{};
 let stockHistory = JSON.parse(localStorage.getItem("stockHistory"))||[];
 
-// ================== SHOP DETAILS ==================
-function saveShop(){
-    localStorage.setItem("shop",shop.value);
-    localStorage.setItem("address",address.value);
-    localStorage.setItem("phone",phone.value);
-    alert("Saved");
-}
-shop.value=localStorage.getItem("shop")||"";
-address.value=localStorage.getItem("address")||"";
-phone.value=localStorage.getItem("phone")||"";
+// ===== SHOP DETAILS =====
+const shopInput = document.getElementById("shop");
+const addressInput = document.getElementById("address");
+const phoneInput = document.getElementById("phone");
+const saveShopBtn = document.getElementById("saveShopBtn");
 
-// ================== STOCK MANAGEMENT ==================
-function addStock(){
-    let p = stockProduct.value.trim();
-    let q = +stockQty.value;
-    if(!p || !q){ alert("Fill all fields"); return; }
+shopInput.value = localStorage.getItem("shop")||"";
+addressInput.value = localStorage.getItem("address")||"";
+phoneInput.value = localStorage.getItem("phone")||"";
 
-    if(stock[p]) stock[p] += q;
-    else stock[p] = q;
+saveShopBtn.addEventListener("click", function(){
+    localStorage.setItem("shop", shopInput.value);
+    localStorage.setItem("address", addressInput.value);
+    localStorage.setItem("phone", phoneInput.value);
+    alert("Shop details saved!");
+});
 
-    stockHistory.push({product:p, qtyAdded:q, type:"Added", date:new Date().toISOString()});
-    localStorage.setItem("stock", JSON.stringify(stock));
-    localStorage.setItem("stockHistory", JSON.stringify(stockHistory));
-
-    stockProduct.value=""; stockQty.value="";
-    renderStock();
-    renderProductDropdown();
-}
+// ===== STOCK MANAGEMENT =====
+const stockProductInput = document.getElementById("stockProduct");
+const stockQtyInput = document.getElementById("stockQty");
+const addStockBtn = document.getElementById("addStockBtn");
+const stockTable = document.getElementById("stockTable");
 
 function renderStock(){
-    let table = document.getElementById("stockTable");
-    table.innerHTML = `<tr><th>Product</th><th>Available Qty</th><th>Last Updated</th></tr>`;
+    stockTable.innerHTML = `<tr><th>Product</th><th>Available Qty</th><th>Last Updated</th></tr>`;
     for(let p in stock){
         let updates = stockHistory.filter(h=>h.product===p);
-        let lastUpdate = updates[updates.length-1]?.date||"";
+        let lastUpdate = updates[updates.length-1]?.date || "";
         let color = stock[p]<=5 ? "red" : "green";
-        let row = table.insertRow();
+        let row = stockTable.insertRow();
         row.insertCell(0).innerHTML = p + (stock[p]<=5 ? " ⚠ Low Stock" : "");
         row.insertCell(1).innerHTML = `<span style="color:${color}">${stock[p]}</span>`;
         row.insertCell(2).innerText = new Date(lastUpdate).toLocaleString();
@@ -151,40 +142,50 @@ function renderStock(){
 }
 renderStock();
 
-// ================== PRODUCT DROPDOWN + SEARCH ==================
+addStockBtn.addEventListener("click", function(){
+    let p = stockProductInput.value.trim();
+    let q = +stockQtyInput.value;
+    if(!p || !q){ alert("Fill all fields"); return; }
+    stock[p] = (stock[p] || 0) + q;
+    stockHistory.push({product:p, qtyAdded:q, type:"Added", date:new Date().toISOString()});
+    localStorage.setItem("stock", JSON.stringify(stock));
+    localStorage.setItem("stockHistory", JSON.stringify(stockHistory));
+    stockProductInput.value=""; stockQtyInput.value="";
+    renderStock();
+    renderProductDropdown();
+});
+
+// ===== PRODUCT DROPDOWN + SEARCH =====
+const productDropdown = document.getElementById("productDropdown");
+const productSearch = document.getElementById("productSearch");
+
 function renderProductDropdown(){
-    let dropdown = document.getElementById("productDropdown");
-    dropdown.innerHTML = "";
-    let productList = [...new Set(Object.keys(stock))]; // stock keys
+    productDropdown.innerHTML = "";
+    let productList = [...new Set(Object.keys(stock))];
     productList.forEach(p=>{
         let option = document.createElement("option");
-        option.value = p;
-        option.text = p;
-        dropdown.appendChild(option);
+        option.value = p; option.text = p;
+        productDropdown.appendChild(option);
     });
 }
 renderProductDropdown();
 
-let productSearch = document.getElementById("productSearch");
 productSearch.addEventListener("input", function(){
     let val = this.value.toLowerCase();
-    let dropdown = document.getElementById("productDropdown");
-    let options = Array.from(dropdown.options);
+    let options = Array.from(productDropdown.options);
     let match = options.find(o=>o.value.toLowerCase().includes(val));
-    if(match) dropdown.value = match.value;
+    if(match) productDropdown.value = match.value;
 });
 
-// ================== DOWNLOAD STOCK EXCEL ==================
-function downloadStockExcel(){
+// ===== DOWNLOAD STOCK =====
+document.getElementById("downloadStockBtn").addEventListener("click", function(){
     let html = `<table border="1">
     <tr><th>Product</th><th>Available Qty</th><th>Last Updated</th></tr>`;
     for(let p in stock){
         let updates = stockHistory.filter(h=>h.product===p);
         let lastUpdate = updates[updates.length-1]?.date||"";
         html += `<tr>
-        <td>${p}</td>
-        <td>${stock[p]}</td>
-        <td>${new Date(lastUpdate).toLocaleString()}</td>
+        <td>${p}</td><td>${stock[p]}</td><td>${new Date(lastUpdate).toLocaleString()}</td>
         </tr>`;
     }
     html += `</table>`;
@@ -193,26 +194,28 @@ function downloadStockExcel(){
     a.href = URL.createObjectURL(blob);
     a.download = "stock.xlsx";
     a.click();
-}
+});
 
-// ================== BILLING SYSTEM ==================
-function addItem(){
-    let p = document.getElementById("productDropdown").value.trim();
-    let q = +qty.value;
-    let pr = +price.value;
-    if(!p || !q || !pr){alert("Fill all fields"); return;}
+// ===== BILLING =====
+const qtyInput = document.getElementById("qty");
+const priceInput = document.getElementById("price");
+const addItemBtn = document.getElementById("addItemBtn");
+const table = document.getElementById("table");
 
+addItemBtn.addEventListener("click", function(){
+    let p = productDropdown.value.trim();
+    let q = +qtyInput.value;
+    let pr = +priceInput.value;
+    if(!p || !q || !pr){ alert("Fill all fields"); return; }
     if(stock[p]===undefined){ alert("Product not in stock"); return; }
     if(q>stock[p]){ alert(`Stock not sufficient for ${p}. Available: ${stock[p]}`); return; }
 
-    // Reduce stock automatically
-    stock[p] -= q;
+    stock[p]-=q;
     stockHistory.push({product:p, qtyAdded:-q, type:"Sold", date:new Date().toISOString()});
     localStorage.setItem("stock", JSON.stringify(stock));
     localStorage.setItem("stockHistory", JSON.stringify(stockHistory));
     renderStock();
 
-    // Add to items table
     let t = q*pr;
     items.push({p,q,pr,t});
     let row=table.insertRow();
@@ -221,18 +224,13 @@ function addItem(){
     row.insertCell(2).innerText=q;
     row.insertCell(3).innerText=pr;
     row.insertCell(4).innerText=t;
-    productSearch.value=""; qty.value=""; price.value="";
-}
+    productSearch.value=""; qtyInput.value=""; priceInput.value="";
+});
 
-// ================== INVOICE ==================
-function getInvoiceNumber(){
-    let num = invoiceCounter;
-    invoiceCounter++;
-    localStorage.setItem("invoiceCounter", invoiceCounter);
-    return num;
-}
+// ===== INVOICE =====
+function getInvoiceNumber(){ let num = invoiceCounter; invoiceCounter++; localStorage.setItem("invoiceCounter", invoiceCounter); return num; }
 
-function generateBill(){
+document.getElementById("generateBillBtn").addEventListener("click", function(){
     if(items.length===0){ alert("Add items first"); return; }
     let bill = document.getElementById("bill");
     total=0; items.forEach(i=> total+=i.t);
@@ -241,83 +239,55 @@ function generateBill(){
     let paymentMode = document.getElementById("payment").value;
 
     let html=`<div class="invoice">Invoice No: ${invoiceNo}</div><div class="clear"></div>
-    <b>${shop.value}</b><br>${address.value}<br>Phone: ${phone.value}<br>
+    <b>${shopInput.value}</b><br>${addressInput.value}<br>Phone: ${phoneInput.value}<br>
     Date: ${new Date(dateISO).toLocaleString()}<br>
-    Customer: ${customer.value}<br>
+    Customer: ${document.getElementById("customer").value}<br>
     Payment Mode: ${paymentMode}<hr>
     <table>
     <tr><th>No</th><th>Item</th><th>Qty</th><th>Price</th><th>Total</th></tr>`;
-
     items.forEach((i,index)=>{
-        html+=`<tr>
-        <td>${index+1}</td>
-        <td>${i.p}</td>
-        <td>${i.q}</td>
-        <td>${i.pr}</td>
-        <td>${i.t}</td>
-        </tr>`;
+        html+=`<tr><td>${index+1}</td><td>${i.p}</td><td>${i.q}</td><td>${i.pr}</td><td>${i.t}</td></tr>`;
     });
-    html+=`<tr class="totalRow">
-    <td colspan="4">Grand Total</td>
-    <td>₹${total}</td>
-    </tr>
-    </table>`;
+    html+=`<tr class="totalRow"><td colspan="4">Grand Total</td><td>₹${total}</td></tr></table>`;
     bill.innerHTML = html;
 
-    // Save history
     let history = JSON.parse(localStorage.getItem("history"))||[];
     history.push({total:total,date:dateISO,invoice:invoiceNo,payment:paymentMode});
     localStorage.setItem("history",JSON.stringify(history));
     updateSaleReports();
-}
+});
 
-// ================== PRINT BILL ==================
-function printBill(){
+// ===== PRINT BILL =====
+document.getElementById("printBillBtn").addEventListener("click", function(){
     let content = document.getElementById("bill").innerHTML;
     let mode = document.getElementById("printMode").value;
     let width=400, height=600;
     if(mode=="A4"){width=800;height=1100;}
-    else if(mode=="Custom"){
-        width = parseInt(prompt("Enter width px","400"))||400;
-        height = parseInt(prompt("Enter height px","600"))||600;
-    }
+    else if(mode=="Custom"){ width = parseInt(prompt("Enter width px","400"))||400; height = parseInt(prompt("Enter height px","600"))||600; }
     let win = window.open('','',`width=${width},height=${height}`);
-    win.document.write(`<html><head><title>Print Bill</title>
-    <style>
-    body{font-family:monospace;padding:10px;}
-    table{width:100%;border-collapse:collapse;}
-    td,th{border:1px solid #000;padding:5px;text-align:center;}
-    .totalRow td{font-weight:bold;}
-    .invoice{float:right;}
-    .clear{clear:both;}
-    </style>
-    </head><body>${content}</body></html>`);
-    win.document.close();
-    win.print();
-}
+    win.document.write(`<html><head><title>Print Bill</title><style>
+    body{font-family:monospace;padding:10px;} table{width:100%;border-collapse:collapse;} td,th{border:1px solid #000;padding:5px;text-align:center;} .totalRow td{font-weight:bold;} .invoice{float:right;} .clear{clear:both;}
+    </style></head><body>${content}</body></html>`);
+    win.document.close(); win.print();
+});
 
-// ================== WHATSAPP ==================
-function sendWhatsApp(){
-    let text="🧾 BILL RECEIPT\n\n"+bill.innerText;
+// ===== WHATSAPP =====
+document.getElementById("sendWhatsAppBtn").addEventListener("click", function(){
+    let text="🧾 BILL RECEIPT\n\n"+document.getElementById("bill").innerText;
     let url="https://wa.me/?text="+encodeURIComponent(text);
     window.open(url);
-}
+});
 
-// ================== HISTORY ==================
-function downloadHistory(){
+// ===== HISTORY =====
+document.getElementById("downloadHistoryBtn").addEventListener("click", function(){
     let history=JSON.parse(localStorage.getItem("history"))||[];
     let csv="Invoice,Payment,Total,Date\n";
-    history.forEach(h=>{
-        csv+=h.invoice+","+h.payment+","+h.total+","+h.date+"\n";
-    });
-    let blob = new Blob([csv]);
-    let a=document.createElement("a");
-    a.href = URL.createObjectURL(blob);
-    a.download="history.csv";
-    a.click();
-}
+    history.forEach(h=> csv+=h.invoice+","+h.payment+","+h.total+","+h.date+"\n");
+    let blob = new Blob([csv]); let a=document.createElement("a");
+    a.href = URL.createObjectURL(blob); a.download="history.csv"; a.click();
+});
 
-// ================== SALES REPORT ==================
+// ===== SALES REPORT =====
 function updateSaleReports(){
     let history=JSON.parse(localStorage.getItem("history"))||[];
     let today=new Date();
@@ -329,11 +299,12 @@ function updateSaleReports(){
         if(diffDays<=7) weekly += h.total;
         if(today.getMonth()===d.getMonth() && today.getFullYear()===d.getFullYear()) monthly += h.total;
     });
-    document.getElementById("totalDay").innerHTML=`<b>Daily: ₹${daily} | Weekly: ₹${weekly} | Monthly: ₹${monthly}</b>`;
+    document.getElementById("totalDay").innerHTML=`<b>Daily: ₹${daily} | Weekly: ₹weekly | Monthly: ₹${monthly}</b>`;
 }
 updateSaleReports();
 
-} // window.onload end
+}); // DOMContentLoaded
 </script>
 </body>
+</html></body>
 </html>
