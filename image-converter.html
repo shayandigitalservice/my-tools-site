@@ -4,8 +4,6 @@
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>Image Converter Online - JPG PNG JPEG Converter | Shayan Smart Tools</title>
 <meta name="description" content="Free Image Converter Online to convert JPG, PNG, JPEG instantly. Fast, secure and mobile-friendly image format converter tool. No upload required.">
 
 <meta name="keywords" content="image converter, convert image online, jpg converter, png converter, jpeg converter, image format changer, online image tool, free image converter">
@@ -15,152 +13,105 @@
 <meta name="robots" content="index, follow">
 
 <link rel="canonical" href="https://shayandigitalservice.github.io/my-tools-site/image-converter.html">
-<meta name="description" content="Free online image converter to convert images to JPG, JPEG and PNG instantly. Fast, secure and mobile-friendly image converter tool.">
+<title>Image Converter Online - JPG PNG Converter</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
 
 <style>
 
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-font-family:'Poppins',sans-serif;
-}
-
 body{
+margin:0;
+font-family:'Poppins',sans-serif;
 background:linear-gradient(135deg,#667eea,#764ba2);
-min-height:100vh;
-display:flex;
-flex-direction:column;
-align-items:center;
-padding:15px;
-color:white;
 }
 
-/* HEADER */
-
-header{
-font-size:24px;
-font-weight:600;
-margin-bottom:15px;
-text-align:center;
-}
-
-/* CARD */
+/* MAIN CONTAINER */
 
 .container{
+max-width:900px;
+margin:40px auto;
 background:white;
-color:#333;
-padding:20px;
-border-radius:16px;
-width:100%;
-max-width:420px;
-text-align:center;
-box-shadow:0 10px 30px rgba(0,0,0,0.2);
+padding:30px;
+border-radius:20px;
+box-shadow:0 15px 40px rgba(0,0,0,0.2);
 }
 
-/* INPUTS */
+/* TITLE */
 
-input, select{
+h1{
+text-align:center;
+margin-bottom:20px;
+}
+
+/* INPUT */
+
+input, select, button{
 width:100%;
 padding:12px;
 margin:10px 0;
 border-radius:10px;
-border:1px solid #ddd;
-font-size:15px;
-}
-
-/* IMAGE PREVIEW */
-
-.preview{
-width:100%;
-max-height:220px;
-object-fit:contain;
-margin-top:10px;
-border-radius:10px;
-display:none;
+border:1px solid #ccc;
+font-size:16px;
 }
 
 /* BUTTON */
 
 button{
-width:100%;
-padding:12px;
-border:none;
-border-radius:10px;
 background:#667eea;
 color:white;
-font-weight:600;
+border:none;
 cursor:pointer;
-margin-top:10px;
+font-weight:600;
 }
 
 button:hover{
 background:#5a67d8;
 }
 
-/* TOOL LINKS */
+/* IMAGE PREVIEW */
 
-.tools{
-margin-top:20px;
+.preview{
 width:100%;
-max-width:420px;
-background:white;
-color:#333;
-padding:15px;
-border-radius:12px;
+max-height:300px;
+object-fit:contain;
+border-radius:10px;
+display:none;
+margin-top:10px;
 }
 
-.tools h3{
-margin-bottom:10px;
-}
+/* RESULT BOX */
 
-.tools a{
-display:block;
-text-decoration:none;
-color:#667eea;
-margin:4px 0;
-font-size:14px;
-}
-
-/* INFO SECTION */
-
-.info{
+.result{
 margin-top:20px;
-background:white;
-color:#333;
 padding:20px;
-border-radius:12px;
-max-width:800px;
-line-height:1.6;
-}
-
-.info h2{
-margin-bottom:10px;
-}
-
-/* FOOTER */
-
-footer{
-margin-top:25px;
-font-size:13px;
-opacity:0.9;
+background:#f3f4f6;
+border-radius:15px;
 text-align:center;
 }
 
-/* MOBILE FIX */
+/* SEO SECTIONS */
 
-@media(max-width:480px){
-
-header{
-font-size:20px;
+.section{
+margin-top:40px;
+line-height:1.7;
 }
 
+.section h2{
+margin-bottom:10px;
+}
+
+.section a{
+color:#667eea;
+text-decoration:none;
+}
+
+/* MOBILE */
+
+@media(max-width:500px){
 .container{
-padding:15px;
+margin:20px;
+padding:20px;
 }
-
 }
 
 </style>
@@ -169,11 +120,9 @@ padding:15px;
 
 <body>
 
-<header>Image Converter</header>
-
 <div class="container">
 
-<h2>Convert Image to JPG / PNG</h2>
+<h1>Image Converter Online</h1>
 
 <input type="file" id="imageInput" accept="image/*">
 
@@ -187,23 +136,9 @@ padding:15px;
 
 <button onclick="convertImage()">Convert & Download</button>
 
-</div>
+<div class="result" id="result"></div>
 
-<!-- TOOLS -->
-
-<div class="tools">
-
-<h3>More Free Tools</h3>
-
-<a href="image-crop.html">Image Crop Tool</a>
-<a href="currency.html">Currency Converter</a>
-<a href="discount.html">Discount Calculator</a>
-<a href="percentage.html">Percentage Calculator</a>
-<a href="emi.html">EMI Calculator</a>
-
-</div>
-
-
+<!-- SEO CONTENT -->
 
 <div class="seo-content">
 
@@ -436,7 +371,6 @@ const img = new Image();
 img.onload = function(){
 
 const canvas = document.createElement("canvas");
-
 canvas.width = img.width;
 canvas.height = img.height;
 
@@ -454,6 +388,9 @@ link.download = "converted.jpg";
 link.href = canvas.toDataURL(format);
 link.click();
 
+document.getElementById("result").innerHTML =
+"✅ Image Converted Successfully";
+
 };
 
 img.src = e.target.result;
@@ -467,4 +404,4 @@ reader.readAsDataURL(file);
 </script>
 
 </body>
-  </html>
+</html>
