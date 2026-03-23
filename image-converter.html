@@ -6,16 +6,16 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>Image Converter Online - JPG PNG JPEG Converter | Shayan Smart Tools</title>
+<meta name="description" content="Free Image Converter Online to convert JPG, PNG, JPEG instantly. Fast, secure and mobile-friendly image format converter tool. No upload required.">
 
-<meta name="description" content="Free online image converter to convert images to JPG, JPEG and PNG instantly. Fast and simple image format converter tool.">
-
-<meta name="keywords" content="image converter, convert image to jpg, jpg converter, png converter, jpeg converter, online image converter">
+<meta name="keywords" content="image converter, convert image online, jpg converter, png converter, jpeg converter, image format changer, online image tool, free image converter">
 
 <meta name="author" content="Shayan Smart Tools">
 
 <meta name="robots" content="index, follow">
 
 <link rel="canonical" href="https://shayandigitalservice.github.io/my-tools-site/image-converter.html">
+<meta name="description" content="Free online image converter to convert images to JPG, JPEG and PNG instantly. Fast, secure and mobile-friendly image converter tool.">
 
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
 
@@ -34,102 +34,137 @@ min-height:100vh;
 display:flex;
 flex-direction:column;
 align-items:center;
-padding:20px;
+padding:15px;
 color:white;
 }
 
+/* HEADER */
+
 header{
-font-size:26px;
+font-size:24px;
 font-weight:600;
-margin-bottom:20px;
+margin-bottom:15px;
+text-align:center;
 }
+
+/* CARD */
 
 .container{
-background:rgba(255,255,255,0.15);
-backdrop-filter:blur(15px);
-padding:30px;
-border-radius:20px;
-box-shadow:0 10px 25px rgba(0,0,0,0.3);
-text-align:center;
-width:95%;
+background:white;
+color:#333;
+padding:20px;
+border-radius:16px;
+width:100%;
 max-width:420px;
+text-align:center;
+box-shadow:0 10px 30px rgba(0,0,0,0.2);
 }
 
-h2{
-margin-bottom:20px;
-}
+/* INPUTS */
 
-input[type=file]{
-margin-bottom:15px;
+input, select{
 width:100%;
-}
-
-select{
-width:100%;
-padding:10px;
+padding:12px;
+margin:10px 0;
 border-radius:10px;
-border:none;
-margin-bottom:15px;
+border:1px solid #ddd;
+font-size:15px;
 }
+
+/* IMAGE PREVIEW */
+
+.preview{
+width:100%;
+max-height:220px;
+object-fit:contain;
+margin-top:10px;
+border-radius:10px;
+display:none;
+}
+
+/* BUTTON */
 
 button{
-background:#ffb703;
-color:black;
-border:none;
-padding:12px;
-border-radius:10px;
-cursor:pointer;
-font-size:16px;
 width:100%;
+padding:12px;
+border:none;
+border-radius:10px;
+background:#667eea;
+color:white;
 font-weight:600;
+cursor:pointer;
+margin-top:10px;
 }
 
+button:hover{
+background:#5a67d8;
+}
+
+/* TOOL LINKS */
+
 .tools{
-margin-top:25px;
-background:rgba(255,255,255,0.15);
-backdrop-filter:blur(15px);
-padding:20px;
-border-radius:20px;
-width:95%;
+margin-top:20px;
+width:100%;
 max-width:420px;
-text-align:center;
+background:white;
+color:#333;
+padding:15px;
+border-radius:12px;
+}
+
+.tools h3{
+margin-bottom:10px;
 }
 
 .tools a{
 display:block;
 text-decoration:none;
-color:white;
-padding:6px;
-opacity:0.9;
+color:#667eea;
+margin:4px 0;
+font-size:14px;
 }
 
-.tools a:hover{
-opacity:1;
-}
+/* INFO SECTION */
 
 .info{
-margin-top:25px;
-max-width:700px;
-background:rgba(255,255,255,0.15);
-backdrop-filter:blur(15px);
-padding:25px;
-border-radius:20px;
-line-height:1.7;
-font-size:15px;
+margin-top:20px;
+background:white;
+color:#333;
+padding:20px;
+border-radius:12px;
+max-width:800px;
+line-height:1.6;
 }
 
 .info h2{
-margin-top:20px;
 margin-bottom:10px;
 }
 
+/* FOOTER */
+
 footer{
-margin-top:30px;
+margin-top:25px;
 font-size:13px;
-opacity:0.8;
+opacity:0.9;
+text-align:center;
+}
+
+/* MOBILE FIX */
+
+@media(max-width:480px){
+
+header{
+font-size:20px;
+}
+
+.container{
+padding:15px;
+}
+
 }
 
 </style>
+
 </head>
 
 <body>
@@ -138,9 +173,11 @@ opacity:0.8;
 
 <div class="container">
 
-<h2>Image to JPG / JPEG / PNG Converter</h2>
+<h2>Convert Image to JPG / PNG</h2>
 
-<input type="file" id="imageInput">
+<input type="file" id="imageInput" accept="image/*">
+
+<img id="preview" class="preview">
 
 <select id="format">
 <option value="image/jpeg">JPG</option>
@@ -148,131 +185,278 @@ opacity:0.8;
 <option value="image/png">PNG</option>
 </select>
 
-<button onclick="convertImage()">Convert</button>
+<button onclick="convertImage()">Convert & Download</button>
 
 </div>
+
+<!-- TOOLS -->
 
 <div class="tools">
 
-<h3>More Free Online Tools</h3>
+<h3>More Free Tools</h3>
 
+<a href="image-crop.html">Image Crop Tool</a>
 <a href="currency.html">Currency Converter</a>
 <a href="discount.html">Discount Calculator</a>
-<a href="gst.html">GST Calculator</a>
-<a href="age.html">Age Calculator</a>
-<a href="image-crop.html">Image Crop Tool</a>
-<a href="background-remover.html">Background Remover</a>
 <a href="percentage.html">Percentage Calculator</a>
+<a href="emi.html">EMI Calculator</a>
 
 </div>
 
-<div class="info">
 
-<h2>About Image Converter</h2>
+
+<div class="seo-content">
+
+<h1>Image Converter Online – Free JPG, PNG, JPEG Converter Tool</h1>
 
 <p>
-The Image Converter tool allows users to easily convert images into popular formats such as JPG, JPEG, and PNG directly from their browser. Many websites and platforms require specific image formats for uploads, which can make conversion necessary. This free online tool helps you quickly change your image format without installing any software or using complicated programs.
+The Image Converter Online is a powerful and easy-to-use tool that allows you to convert images into different formats such as JPG, PNG, and JPEG instantly. Whether you are a student, designer, blogger, or business owner, this tool helps you quickly change image formats without installing any software.
 </p>
 
 <p>
-With this tool, you can upload your image, choose the format you want, and download the converted image instantly. The entire process takes only a few seconds and works smoothly on both desktop and mobile devices. Because the conversion happens directly in your browser, your images remain private and secure.
+In today’s digital world, image formats play an important role in website performance, social media uploads, and file compatibility. Different platforms require different formats, and converting images manually can be time-consuming. This free online image converter solves that problem by providing fast and secure conversion directly in your browser.
 </p>
 
-<h2>How to Use This Tool</h2>
+<h2>What is an Image Converter?</h2>
 
 <p>
-Using the image converter is very simple. First, click the file upload option and select an image from your device. After uploading the image, choose the format you want to convert it into such as JPG, JPEG, or PNG. Once you select the desired format, click the convert button and the tool will instantly generate a downloadable image.
-</p>
-
-<p>
-You can then save the converted image directly to your device and use it anywhere you need, including websites, documents, or social media platforms.
-</p>
-
-<h2>Features of the Image Converter</h2>
-
-<p>
-This tool offers several helpful features for users. It works directly in your web browser, which means there is no need to upload files to external servers. This improves both speed and privacy. The interface is clean and easy to understand, making it suitable for beginners as well as advanced users.
+An image converter is an online tool that allows you to change the format of an image file. For example, you can convert a PNG image into JPG format or change JPEG to PNG depending on your needs.
 </p>
 
 <p>
-The converter supports popular image formats like JPG, JPEG, and PNG. It also works smoothly on mobile phones, tablets, and computers, allowing users to convert images from anywhere without installing any apps.
+Different image formats serve different purposes. JPG is best for smaller file sizes, PNG is ideal for transparency, and JPEG is widely used for photography. Using the right format can improve website speed, SEO ranking, and user experience.
+</p>
+
+<h2>Why Use Our Image Converter Tool?</h2>
+
+<p>
+Our Image Converter is designed to be fast, simple, and secure. Unlike many other tools, it works directly inside your browser, which means your images are not uploaded to any server. This ensures complete privacy and faster processing.
+</p>
+
+<ul>
+<li>Instant image conversion</li>
+<li>No upload required (privacy safe)</li>
+<li>Works on mobile and desktop</li>
+<li>Supports JPG, JPEG, PNG formats</li>
+<li>Completely free to use</li>
+</ul>
+
+<h2>How to Convert Image Online</h2>
+
+<h3>Step-by-Step Guide</h3>
+
+<ul>
+<li>Select an image from your device</li>
+<li>Choose the output format (JPG, PNG, JPEG)</li>
+<li>Click on the Convert button</li>
+<li>Download the converted image instantly</li>
+</ul>
+
+<p>
+The entire process takes only a few seconds and does not require any technical knowledge.
+</p>
+
+<h2>Supported Image Formats</h2>
+
+<h3>1. JPG (Joint Photographic Experts Group)</h3>
+
+<p>
+JPG is one of the most commonly used image formats. It is best for photographs and images with many colors. It provides good quality with smaller file size, making it ideal for websites.
+</p>
+
+<h3>2. PNG (Portable Network Graphics)</h3>
+
+<p>
+PNG is perfect for images that require transparency. It is commonly used for logos, icons, and graphics. PNG files are higher quality but larger in size compared to JPG.
+</p>
+
+<h3>3. JPEG</h3>
+
+<p>
+JPEG is similar to JPG and is widely used for digital images. It offers a balance between quality and compression.
+</p>
+
+<h2>Benefits of Using Image Converter</h2>
+
+<h3>1. Save Storage Space</h3>
+<p>
+Converting images to JPG can significantly reduce file size, helping you save storage space on your device.
+</p>
+
+<h3>2. Improve Website Speed</h3>
+<p>
+Smaller images load faster, which improves website performance and SEO ranking.
+</p>
+
+<h3>3. Better Compatibility</h3>
+<p>
+Different platforms support different formats. Converting images ensures compatibility across devices and websites.
+</p>
+
+<h3>4. Easy Social Media Uploads</h3>
+<p>
+Many social media platforms require specific formats. This tool helps you convert images quickly for upload.
+</p>
+
+<h2>Mobile Friendly Image Converter</h2>
+
+<p>
+Our tool is fully responsive and works smoothly on smartphones, tablets, and desktops. You can convert images anytime, anywhere without installing any app.
+</p>
+
+<h2>Privacy & Security</h2>
+
+<p>
+Your privacy is important to us. This tool processes images directly in your browser, which means your files are never uploaded to any server. This ensures maximum security and faster performance.
+</p>
+
+<h2>Who Can Use This Tool?</h2>
+
+<ul>
+<li>Students for assignments</li>
+<li>Bloggers for website images</li>
+<li>Designers for graphics work</li>
+<li>Business owners for product images</li>
+<li>Social media users for quick uploads</li>
+</ul>
+
+<h2>Common Use Cases</h2>
+
+<h3>Website Optimization</h3>
+<p>
+Convert large PNG images into JPG to improve loading speed.
+</p>
+
+<h3>Profile Pictures</h3>
+<p>
+Crop and convert images for social media profiles.
+</p>
+
+<h3>Online Forms</h3>
+<p>
+Many websites require JPG format for uploads. This tool makes it easy.
 </p>
 
 <h2>Frequently Asked Questions (FAQ)</h2>
 
+<h3>Is this image converter free?</h3>
 <p>
-<strong>Is this image converter free?</strong><br>
-Yes, the tool is completely free to use and does not require registration.
+Yes, it is completely free to use.
+</p>
+
+<h3>Do I need to install anything?</h3>
+<p>
+No, the tool works directly in your browser.
+</p>
+
+<h3>Is it safe?</h3>
+<p>
+Yes, your images are processed locally and not uploaded anywhere.
+</p>
+
+<h3>Can I use it on mobile?</h3>
+<p>
+Yes, it is fully mobile-friendly.
+</p>
+
+<h3>Which format is best?</h3>
+<p>
+JPG for smaller size, PNG for transparency, JPEG for general use.
+</p>
+
+<h2>Internal Tools (Explore More)</h2>
+
+<p>
+You can also try our other useful tools:
+</p>
+
+<ul>
+<li><a href="image-crop.html">Image Crop Tool</a></li>
+<li><a href="background-remover.html">Background Remover</a></li>
+<li><a href="percentage.html">Percentage Calculator</a></li>
+<li><a href="discount.html">Discount Calculator</a></li>
+<li><a href="emi.html">EMI Calculator</a></li>
+<li><a href="currency.html">Currency Converter</a></li>
+</ul>
+
+<h2>SEO Benefits of Using Correct Image Format</h2>
+
+<p>
+Using optimized image formats improves page speed, reduces bounce rate, and enhances user experience. Google considers page speed as a ranking factor, so converting images properly can help your website rank higher.
+</p>
+
+<h2>Conclusion</h2>
+
+<p>
+The Image Converter Online tool is a fast, reliable, and secure way to convert images into different formats. Whether you need JPG, PNG, or JPEG, this tool provides instant results without compromising quality or privacy.
 </p>
 
 <p>
-<strong>Do my images get uploaded to a server?</strong><br>
-No. All processing happens directly in your browser, which means your images remain private.
+Start using this free tool today and make your image conversion process faster and easier.
 </p>
 
-<p>
-<strong>Can I use this tool on mobile?</strong><br>
-Yes, the tool is fully responsive and works perfectly on smartphones and tablets.
+<p style="margin-top:30px;font-size:14px;">
+© 2026 Shayan Smart Tools. All Rights Reserved.
+Unauthorized copying, reproduction or distribution of this content is strictly prohibited.
 </p>
 
-<h2>Related Tools</h2>
-
-<p>
-You may also find these tools useful:
-<a href="image-crop.html">Image Crop Tool</a>,
-<a href="background-remover.html">Background Remover</a>,
-<a href="percentage.html">Percentage Calculator</a>,
-<a href="gst.html">GST Calculator</a>, and
-<a href="age.html">Age Calculator</a>.
-</p>
-
-</div>
-
-<footer>
-© Shayan Smart Tools
-</footer>
-
+  </div>
 <script>
+
+const input = document.getElementById("imageInput");
+const preview = document.getElementById("preview");
+
+input.addEventListener("change", function(){
+
+const file = this.files[0];
+
+if(file){
+preview.style.display = "block";
+preview.src = URL.createObjectURL(file);
+}
+
+});
 
 function convertImage(){
 
-const file=document.getElementById("imageInput").files[0];
-const format=document.getElementById("format").value;
+const file = input.files[0];
+const format = document.getElementById("format").value;
 
 if(!file){
 alert("Please select image");
 return;
 }
 
-const reader=new FileReader();
+const reader = new FileReader();
 
-reader.onload=function(e){
+reader.onload = function(e){
 
-const img=new Image();
+const img = new Image();
 
-img.onload=function(){
+img.onload = function(){
 
-const canvas=document.createElement("canvas");
-canvas.width=img.width;
-canvas.height=img.height;
+const canvas = document.createElement("canvas");
 
-const ctx=canvas.getContext("2d");
+canvas.width = img.width;
+canvas.height = img.height;
+
+const ctx = canvas.getContext("2d");
 ctx.drawImage(img,0,0);
 
-const link=document.createElement("a");
+const link = document.createElement("a");
 
-if(format==="image/png"){
-link.download="converted.png";
+if(format === "image/png"){
+link.download = "converted.png";
 }else{
-link.download="converted.jpg";
+link.download = "converted.jpg";
 }
 
-link.href=canvas.toDataURL(format);
+link.href = canvas.toDataURL(format);
 link.click();
 
 };
 
-img.src=e.target.result;
+img.src = e.target.result;
 
 };
 
@@ -283,4 +467,4 @@ reader.readAsDataURL(file);
 </script>
 
 </body>
-</html>
+  </html>
