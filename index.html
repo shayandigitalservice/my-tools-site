@@ -1,252 +1,208 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Shayan Smart Tools</title>
-<style>
-/* 1. Global Styles (Exact Image Style) */
-body {
-    font-family: 'Segoe UI', Arial, sans-serif;
-    background: #ffffff;
-    margin: 0;
-    padding: 0;
-    text-align: center;
-    color: #333;
-}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shayan Smart Tools | Professional Utility Hub</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
+        body { background-color: #fcfcfc; color: #101828; }
 
-/* 2. Header / Navbar (TIBCO Style) */
-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 15px 5%;
-    background: white;
-    border-bottom: 1px solid #eee;
-    position: sticky;
-    top: 0;
-    z-index: 1000;
-}
+        /* 1. Header (Links Upar Ek Saath) */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 6%;
+            background: #fff;
+            border-bottom: 1px solid #f2f4f7;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        .logo { font-size: 22px; font-weight: 800; color: #101828; text-transform: uppercase; }
+        .logo span { color: #45cafd; }
+        
+        .nav-links { display: flex; gap: 20px; align-items: center; }
+        .nav-links a { text-decoration: none; color: #667085; font-size: 14px; font-weight: 500; transition: 0.3s; }
+        .nav-links a:hover { color: #45cafd; }
+        
+        .login-btn { background: #45cafd; color: white !important; padding: 8px 22px; border-radius: 25px; font-weight: 600 !important; }
 
-.logo {
-    font-size: 24px;
-    font-weight: bold;
-    color: #101828;
-}
+        /* 2. Hero Section (Image ke saath) */
+        .hero {
+            position: relative;
+            height: 500px;
+            background: url('https://images.unsplash.com/photo-1497366216548-37526070297c?q=80&w=1600') no-repeat center center/cover;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            color: white;
+            padding: 0 20px;
+        }
+        /* Dark Overlay for Image visibility */
+        .hero::before {
+            content: "";
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(16, 24, 40, 0.7); /* Professional dark tint */
+            z-index: 1;
+        }
+        .hero-content { position: relative; z-index: 2; max-width: 800px; }
+        .hero h1 { font-size: 42px; margin-bottom: 15px; font-weight: 700; }
+        .hero h1 span { color: #45cafd; }
+        .hero p { font-size: 18px; opacity: 0.9; margin-bottom: 30px; }
 
-.logo span { color: #45cafd; }
+        .search-container { position: relative; width: 100%; max-width: 550px; margin: 0 auto; }
+        .search-box {
+            width: 100%;
+            padding: 16px 25px;
+            border-radius: 30px;
+            border: none;
+            font-size: 16px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+            outline: none;
+        }
 
-.nav-links a {
-    margin: 0 15px;
-    text-decoration: none;
-    color: #667085;
-    font-size: 14px;
-    font-weight: 500;
-}
+        /* 3. Grid & Cards (TIBCO Exact Design) */
+        .container { max-width: 1100px; margin: 60px auto; padding: 0 20px; }
+        .section-title { text-align: center; margin-bottom: 40px; }
+        .section-title h2 { font-size: 28px; color: #101828; }
+        .section-title span { color: #45cafd; }
 
-.auth-btns .login {
-    background: #45cafd;
-    color: white;
-    padding: 8px 20px;
-    border-radius: 20px;
-    text-decoration: none;
-    margin-right: 10px;
-}
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 25px;
+        }
+        .btn {
+            background: #fff;
+            text-decoration: none;
+            padding: 40px 25px;
+            border-radius: 12px;
+            border: 1px solid #f2f4f7;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            transition: all 0.3s ease;
+        }
+        .btn:hover { transform: translateY(-8px); box-shadow: 0 12px 24px rgba(0,0,0,0.08); border-color: #45cafd; }
+        
+        .icon {
+            font-size: 30px;
+            margin-bottom: 20px;
+            width: 65px; height: 65px;
+            background: #f0fbff;
+            color: #45cafd;
+            display: flex; align-items: center; justify-content: center;
+            border-radius: 50%;
+        }
+        .btn-title { font-size: 18px; font-weight: 600; color: #101828; margin-bottom: 10px; }
+        .btn-desc { font-size: 14px; color: #667085; text-align: center; line-height: 1.5; }
 
-/* 3. Hero Section */
-.hero {
-    background: #0f172a; /* Dark background like image */
-    color: white;
-    padding: 60px 20px 100px 20px;
-}
+        /* Footer */
+        footer { background: #101828; color: #98a2b3; padding: 60px 20px; text-align: center; margin-top: 100px; }
+        footer h3 { color: white; margin-bottom: 15px; }
+        .footer-bottom { margin-top: 30px; border-top: 1px solid #1d2939; padding-top: 20px; font-size: 14px; }
 
-.hero h1 {
-    font-size: 36px;
-    margin-bottom: 10px;
-}
-
-.hero h1 span { color: #45cafd; }
-
-.search-box {
-    width: 90%;
-    max-width: 500px;
-    padding: 15px 25px;
-    border-radius: 30px;
-    border: none;
-    margin-top: 30px;
-    font-size: 16px;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-}
-
-/* 4. Grid Layout (Feature Card Style) */
-.container {
-    max-width: 1100px;
-    margin: -50px auto 50px auto;
-    padding: 0 20px;
-}
-
-.section-title {
-    text-align: center;
-    margin: 60px 0 30px 0;
-}
-
-.section-title h2 {
-    font-size: 28px;
-    margin-bottom: 5px;
-}
-
-.section-title span { color: #45cafd; }
-
-.grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 25px;
-}
-
-/* 5. Tool Card (Exact Box Design) */
-.btn {
-    background: #ffffff;
-    color: #101828;
-    text-decoration: none;
-    padding: 35px 20px;
-    border-radius: 15px;
-    border: 1px solid #f2f4f7;
-    box-shadow: 0 10px 20px rgba(0,0,0,0.05); /* Soft shadow like image */
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    transition: 0.3s;
-}
-
-.btn:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 15px 30px rgba(0,0,0,0.1);
-}
-
-.icon {
-    font-size: 32px;
-    margin-bottom: 15px;
-    color: #45cafd;
-    background: #f0fbff;
-    width: 60px;
-    height: 60px;
-    line-height: 60px;
-    border-radius: 50%;
-}
-
-.btn-text {
-    font-weight: 600;
-    font-size: 17px;
-}
-
-/* 6. Footer Styles */
-footer {
-    background: #f9fafb;
-    padding: 50px 20px;
-    border-top: 1px solid #eee;
-}
-
-.footer-btn {
-    background: #45cafd;
-    color: white;
-    padding: 10px 20px;
-    border-radius: 20px;
-    text-decoration: none;
-    display: inline-block;
-    margin: 5px;
-}
-
-/* AI Floating Button */
-#ai-open-btn {
-    position: fixed;
-    bottom: 25px;
-    right: 25px;
-    width: 60px;
-    height: 60px;
-    border-radius: 50%;
-    background: #45cafd;
-    color: white;
-    border: none;
-    cursor: pointer;
-    box-shadow: 0 8px 20px rgba(69, 202, 253, 0.4);
-}
-</style>
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 30px; }
+            .nav-links { display: none; } /* Mobile par links hide honge, ya burger menu chahiye? */
+        }
+    </style>
 </head>
 <body>
 
 <header>
-    <div class="logo">SHAYAN <span>SMART TOOLS</span></div>
+    <div class="logo">SHAYAN <span>TOOLS</span></div>
     <div class="nav-links">
         <a href="all-articles.html">Articles</a>
         <a href="blogs.html">Blogs</a>
+        <a href="about.html">About</a>
         <a href="contact.html">Contact</a>
-    </div>
-    <div class="auth-btns">
-        <a href="#" class="login">Login</a>
+        <a href="terms.html">Terms</a>
+        <a href="privacy-policy.html">Privacy</a>
+        <a href="#" class="login-btn">Login</a>
     </div>
 </header>
 
 <section class="hero">
-    <h1>All <span>Smart Tools</span> for Your Business</h1>
-    <p>Simple, Easy & Free Online Calculators</p>
-    <input class="search-box" type="text" placeholder="🔎 Search tools...">
+    <div class="hero-content">
+        <h1>Softing <span>building Software</span> for Your Business</h1>
+        <p>Your one-stop destination for all digital utility tools and calculators.</p>
+        <div class="search-container">
+            <input class="search-box" type="text" placeholder="🔎 Search for tools (EMI, Land, PDF)...">
+        </div>
+    </div>
 </section>
 
 <div class="container">
+    <div class="section-title">
+        <h2>Our <span>General Tools</span></h2>
+    </div>
     
-    <div class="section-title">
-        <h2>General <span>Calculator Tools</span></h2>
-    </div>
     <div class="grid">
-        <a class="btn" href="age.html"><div class="icon">📅</div><span class="btn-text">Age Calculator</span></a>
-        <a class="btn" href="bmi.html"><div class="icon">❤️</div><span class="btn-text">BMI Calculator</span></a>
-        <a class="btn" href="unit-converter.html"><div class="icon">📏</div><span class="btn-text">Unit Converter</span></a>
-        <a class="btn" href="currency.html"><div class="icon">💱</div><span class="btn-text">Currency Converter</span></a>
-    </div>
+        <a class="btn" href="age.html">
+            <div class="icon">📅</div>
+            <div class="btn-title">Age Calculator</div>
+            <p class="btn-desc">Calculate your exact age in years, months, and days instantly.</p>
+        </a>
 
-    <div class="section-title">
-        <h2>Finance <span>Calculators</span></h2>
-    </div>
-    <div class="grid">
-        <a class="btn" href="emi.html"><div class="icon">🧮</div><span class="btn-text">EMI Calculator</span></a>
-        <a class="btn" href="sip.html"><div class="icon">📈</div><span class="btn-text">SIP Calculator</span></a>
-        <a class="btn" href="gst.html"><div class="icon">🧾</div><span class="btn-text">GST Calculator</span></a>
-        <a class="btn" href="loan-calculator.html"><div class="icon">💰</div><span class="btn-text">Loan Calculator</span></a>
-    </div>
+        <a class="btn" href="emi.html">
+            <div class="icon">🧮</div>
+            <div class="btn-title">EMI Calculator</div>
+            <p class="btn-desc">Plan your loans easily with our professional EMI calculation tool.</p>
+        </a>
 
-    <div class="section-title">
-        <h2>PDF & <span>Image Tools</span></h2>
-    </div>
-    <div class="grid">
-        <a class="btn" href="image-to-pdf.html"><div class="icon">📄</div><span class="btn-text">Image to PDF</span></a>
-        <a class="btn" href="background-remover.html"><div class="icon">🪄</div><span class="btn-text">Background Remover</span></a>
-        <a class="btn" href="word-counter.html"><div class="icon">📝</div><span class="btn-text">Word Counter</span></a>
-        <a class="btn" href="qr-code-generator.html"><div class="icon">🔳</div><span class="btn-text">QR Generator</span></a>
-    </div>
+        <a class="btn" href="land-area-calculator.html">
+            <div class="icon">📐</div>
+            <div class="btn-title">Land Area Calculator</div>
+            <p class="btn-desc">Accurate land measurement tools for farmers and professionals.</p>
+        </a>
 
+        <a class="btn" href="pdf-merge.html">
+            <div class="icon">📑</div>
+            <div class="btn-title">PDF Merge</div>
+            <p class="btn-desc">Combine multiple PDF files into one high-quality document.</p>
+        </a>
+
+        <a class="btn" href="background-remover.html">
+            <div class="icon">🪄</div>
+            <div class="btn-title">Background Remover</div>
+            <p class="btn-desc">Remove image backgrounds automatically with AI technology.</p>
+        </a>
+
+        <a class="btn" href="word-counter.html">
+            <div class="icon">📝</div>
+            <div class="btn-title">Word Counter</div>
+            <p class="btn-desc">Analyze your text length, characters, and word count in real-time.</p>
+        </a>
+    </div>
 </div>
 
 <footer>
     <h3>Shayan Smart Tools</h3>
-    <div style="margin: 20px 0;">
-        <a class="footer-btn" href="about.html">About</a>
-        <a class="footer-btn" href="privacy-policy.html">Privacy</a>
-        <a class="footer-btn" href="terms.html">Terms</a>
+    <p>Efficient, fast, and free online tools for everyone.</p>
+    <div class="footer-bottom">
+        <p>© 2026 Shayan Smart Tools | All Rights Reserved</p>
+        <p>Tezpur, Assam, India</p>
     </div>
-    <p>© 2026 Shayan Smart Tools | All Rights Reserved</p>
 </footer>
 
-<button id="ai-open-btn">💬</button>
-
 <script>
-    // Search Filter
+    // Search Functionality
     const search = document.querySelector(".search-box");
-    const tools = document.querySelectorAll(".btn");
+    const cards = document.querySelectorAll(".btn");
+
     search.addEventListener("keyup", function(){
         let value = search.value.toLowerCase();
-        tools.forEach(tool => {
-            let text = tool.textContent.toLowerCase();
-            tool.style.display = text.includes(value) ? "flex" : "none";
+        cards.forEach(card => {
+            let text = card.querySelector(".btn-title").textContent.toLowerCase();
+            card.style.display = text.includes(value) ? "flex" : "none";
         });
     });
 </script>
