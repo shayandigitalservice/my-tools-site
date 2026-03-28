@@ -4,10 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Shayan Smart Tools | Professional Utility Hub</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
+        /* 1. Font Setting (Arial) */
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: Arial, Helvetica, sans-serif; }
         body { background-color: #fcfcfc; color: #101828; }
 
         header {
@@ -15,24 +15,28 @@
             padding: 15px 6%; background: #fff; border-bottom: 1px solid #f2f4f7;
             position: sticky; top: 0; z-index: 1000;
         }
-        .logo { font-size: 20px; font-weight: 800; color: #101828; text-transform: uppercase; text-decoration: none; }
+        .logo { font-size: 20px; font-weight: bold; color: #101828; text-transform: uppercase; text-decoration: none; }
         .logo span { color: #45cafd; }
         
         .nav-links { display: flex; gap: 15px; align-items: center; }
         .nav-links a { text-decoration: none; color: #667085; font-size: 13px; font-weight: 600; transition: 0.3s; }
         .nav-links a:hover { color: #45cafd; }
-        .login-btn { background: #45cafd; color: white !important; padding: 8px 18px; border-radius: 25px; }
+
+        /* Login & Sign Up Options */
+        .auth-group { display: flex; gap: 10px; align-items: center; margin-left: 10px; }
+        .btn-login { text-decoration: none; color: #45cafd; font-size: 13px; font-weight: bold; padding: 8px 15px; border: 1px solid #45cafd; border-radius: 20px; }
+        .btn-signup { text-decoration: none; background: #45cafd; color: white; font-size: 13px; font-weight: bold; padding: 8px 18px; border-radius: 20px; }
 
         .menu-toggle { display: none; font-size: 22px; cursor: pointer; }
 
         .hero {
-            position: relative; height: 450px;
+            position: relative; height: 400px;
             background: url('https://images.unsplash.com/photo-1497366216548-37526070297c?q=80&w=1600') no-repeat center center/cover;
             display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; color: white; padding: 0 20px;
         }
         .hero::before { content: ""; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(16, 24, 40, 0.75); z-index: 1; }
         .hero-content { position: relative; z-index: 2; max-width: 800px; width: 100%; }
-        .hero h1 { font-size: 36px; margin-bottom: 10px; font-weight: 700; }
+        .hero h1 { font-size: 36px; margin-bottom: 10px; font-weight: bold; }
         .hero h1 span { color: #45cafd; }
         .hero p { font-size: 16px; opacity: 0.9; margin-bottom: 25px; }
 
@@ -51,7 +55,18 @@
         }
         .btn:hover { transform: translateY(-5px); border-color: #45cafd; box-shadow: 0 8px 18px rgba(0,0,0,0.06); }
         .icon { font-size: 26px; margin-bottom: 12px; color: #45cafd; background: #f0fbff; width: 55px; height: 55px; display: flex; align-items: center; justify-content: center; border-radius: 50%; }
-        .btn-title { font-size: 15px; font-weight: 600; color: #101828; text-align: center; }
+        .btn-title { font-size: 15px; font-weight: bold; color: #101828; text-align: center; }
+
+        /* More Tools Button Style */
+        .more-tools-wrapper { text-align: center; margin: 50px 0; }
+        .btn-more { 
+            background: #101828; color: white; padding: 15px 40px; border-radius: 30px; 
+            text-decoration: none; font-weight: bold; cursor: pointer; border: none; font-size: 16px;
+            transition: 0.3s;
+        }
+        .btn-more:hover { background: #45cafd; }
+
+        #hidden-tools { display: none; } /* Hidden by default */
 
         footer { background: #101828; color: #98a2b3; padding: 40px 20px; text-align: center; margin-top: 60px; }
         
@@ -61,6 +76,7 @@
             .nav-links.active { display: flex; }
             .grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
             .hero h1 { font-size: 26px; }
+            .auth-group { flex-direction: column; width: 100%; margin-left: 0; margin-top: 10px; }
         }
     </style>
 </head>
@@ -77,14 +93,17 @@
         <a href="terms.html">Terms</a>
         <a href="privacy-policy.html">Privacy</a>
         <a href="disclaimer.html">Disclaimer</a>
-        <a href="#" class="login-btn">Login</a>
+        <div class="auth-group">
+            <a href="login.html" class="btn-login">Login</a>
+            <a href="signup.html" class="btn-signup">Sign Up</a>
+        </div>
     </div>
 </header>
 
 <section class="hero">
     <div class="hero-content">
         <h1>Softing <span>building Software</span> for Your Business</h1>
-        <p>Your Complete Collection of Free PDF, Image & Calculator Tools</p>
+        <p>Premium Collection of PDF, Image & Calculator Tools</p>
         <input class="search-box" type="text" id="toolSearch" placeholder="🔎 Search tools (Merge, Resize, EMI)...">
     </div>
 </section>
@@ -99,9 +118,6 @@
         <a class="btn" href="excel-to-pdf.html"><div class="icon">📊</div><span class="btn-title">Excel to PDF</span></a>
         <a class="btn" href="pdf-lock-unlock.html"><div class="icon">🔐</div><span class="btn-title">PDF Lock/Unlock</span></a>
         <a class="btn" href="pdf-to-image.html"><div class="icon">🖼️</div><span class="btn-title">PDF to Image</span></a>
-        <a class="btn" href="pdf-split.html"><div class="icon">✂️</div><span class="btn-title">PDF Split</span></a>
-        <a class="btn" href="pdf-page-extractor.html"><div class="icon">📑</div><span class="btn-title">Page Extractor</span></a>
-        <a class="btn" href="pdf-rotate.html"><div class="icon">🔄</div><span class="btn-title">PDF Rotate</span></a>
     </div>
 
     <div class="section-title"><h2>🖼️ Smart Image Utilities</h2></div>
@@ -110,9 +126,8 @@
         <a class="btn" href="background-remover.html"><div class="icon">🪄</div><span class="btn-title">BG Remover</span></a>
         <a class="btn" href="passport-photo.html"><div class="icon">🪪</div><span class="btn-title">Passport Photo</span></a>
         <a class="btn" href="image-converter.html"><div class="icon">🔄</div><span class="btn-title">Image Converter</span></a>
-        <a class="btn" href="image-merge.html"><div class="icon">🖼️</div><span class="btn-title">Image Merge Tool</span></a>
+        <a class="btn" href="image-merge.html"><div class="icon">🖼️</div><span class="btn-title">Image Merge</span></a>
         <a class="btn" href="resize.html"><div class="icon">📐</div><span class="btn-title">Image Resize</span></a>
-        <a class="btn" href="crop.html"><div class="icon">✂️</div><span class="btn-title">Image Crop</span></a>
     </div>
 
     <div class="section-title"><h2>🧮 Smart Calculators</h2></div>
@@ -123,21 +138,25 @@
         <a class="btn" href="gst.html"><div class="icon">%</div><span class="btn-title">GST Calculator</span></a>
         <a class="btn" href="income-tax-calculator.html"><div class="icon">💰</div><span class="btn-title">Income Tax</span></a>
         <a class="btn" href="bmi.html"><div class="icon">❤️</div><span class="btn-title">BMI Calculator</span></a>
-        <a class="btn" href="percentage.html"><div class="icon">%</div><span class="btn-title">Percentage Calc</span></a>
-        <a class="btn" href="discount.html"><div class="icon">🏷️</div><span class="btn-title">Discount Calc</span></a>
-        <a class="btn" href="currency.html"><div class="icon">💱</div><span class="btn-title">Currency Converter</span></a>
-        <a class="btn" href="fd-calculator.html"><div class="icon">🏦</div><span class="btn-title">FD Calculator</span></a>
     </div>
 
-    <div class="section-title"><h2>🧰 More Utility Tools</h2></div>
-    <div class="grid">
-        <a class="btn" href="land-area-calculator.html"><div class="icon">📏</div><span class="btn-title">Land Area Calc</span></a>
-        <a class="btn" href="bill-generator.html"><div class="icon">🧾</div><span class="btn-title">Bill Generator</span></a>
-        <a class="btn" href="word-counter.html"><div class="icon">📝</div><span class="btn-title">Word Counter</span></a>
-        <a class="btn" href="qr-code-generator.html"><div class="icon">🔳</div><span class="btn-title">QR Generator</span></a>
-        <a class="btn" href="resume-maker.html"><div class="icon">📄</div><span class="btn-title">Resume Maker</span></a>
-        <a class="btn" href="typing-speed-test.html"><div class="icon">⌨️</div><span class="btn-title">Typing Test</span></a>
-        <a class="btn" href="udhaar.html"><div class="icon">📓</div><span class="btn-title">Udhaar Manager</span></a>
+    <div class="more-tools-wrapper">
+        <button class="btn-more" id="moreToolsBtn">Click for More Tools ↓</button>
+    </div>
+
+    <div id="hidden-tools">
+        <div class="section-title"><h2>🧰 More Utility Tools</h2></div>
+        <div class="grid">
+            <a class="btn" href="land-area-calculator.html"><div class="icon">📏</div><span class="btn-title">Land Area Calc</span></a>
+            <a class="btn" href="bill-generator.html"><div class="icon">🧾</div><span class="btn-title">Bill Generator</span></a>
+            <a class="btn" href="word-counter.html"><div class="icon">📝</div><span class="btn-title">Word Counter</span></a>
+            <a class="btn" href="qr-code-generator.html"><div class="icon">🔳</div><span class="btn-title">QR Generator</span></a>
+            <a class="btn" href="resume-maker.html"><div class="icon">📄</div><span class="btn-title">Resume Maker</span></a>
+            <a class="btn" href="typing-speed-test.html"><div class="icon">⌨️</div><span class="btn-title">Typing Test</span></a>
+            <a class="btn" href="udhaar.html"><div class="icon">📓</div><span class="btn-title">Udhaar Manager</span></a>
+            <a class="btn" href="currency.html"><div class="icon">💱</div><span class="btn-title">Currency Conv</span></a>
+            <a class="btn" href="discount.html"><div class="icon">🏷️</div><span class="btn-title">Discount Calc</span></a>
+        </div>
     </div>
 
 </div>
@@ -148,7 +167,23 @@
 </footer>
 
 <script>
-    // Menu
+    // 1. More Tools Toggle
+    const moreBtn = document.getElementById('moreToolsBtn');
+    const hiddenSection = document.getElementById('hidden-tools');
+    
+    moreBtn.onclick = function() {
+        if(hiddenSection.style.display === "block") {
+            hiddenSection.style.display = "none";
+            moreBtn.innerText = "Click for More Tools ↓";
+        } else {
+            hiddenSection.style.display = "block";
+            moreBtn.innerText = "Show Less Tools ↑";
+            // Scroll to tools
+            hiddenSection.scrollIntoView({ behavior: 'smooth' });
+        }
+    };
+
+    // 2. Mobile Menu Toggle
     const menuBtn = document.getElementById('mobile-menu');
     const navList = document.getElementById('nav-list');
     menuBtn.onclick = () => {
@@ -157,11 +192,14 @@
         menuBtn.querySelector('i').classList.toggle('fa-xmark');
     };
 
-    // Search
+    // 3. Search (Puri grid mein search karega)
     const toolSearch = document.getElementById('toolSearch');
     const cards = document.querySelectorAll('.btn');
     toolSearch.addEventListener('keyup', () => {
         let val = toolSearch.value.toLowerCase();
+        // More tools ko automatically show kar dega agar user search kar raha hai
+        if(val.length > 0) hiddenSection.style.display = "block"; 
+        
         cards.forEach(c => {
             c.style.display = c.innerText.toLowerCase().includes(val) ? "flex" : "none";
         });
