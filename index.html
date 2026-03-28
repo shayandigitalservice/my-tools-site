@@ -8,9 +8,8 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
-        body { background-color: #fcfcfc; color: #101828; overflow-x: hidden; }
+        body { background-color: #fcfcfc; color: #101828; }
 
-        /* --- Header & Navigation --- */
         header {
             display: flex;
             justify-content: space-between;
@@ -22,22 +21,21 @@
             top: 0;
             z-index: 1000;
         }
-        .logo { font-size: 20px; font-weight: 800; color: #101828; text-decoration: none; }
+        .logo { font-size: 22px; font-weight: 800; color: #101828; text-transform: uppercase; text-decoration: none; }
         .logo span { color: #45cafd; }
-
-        /* Desktop Menu */
-        .nav-links { display: flex; gap: 15px; align-items: center; }
+        
+        /* Desktop Links */
+        .nav-links { display: flex; gap: 20px; align-items: center; }
         .nav-links a { text-decoration: none; color: #667085; font-size: 14px; font-weight: 500; transition: 0.3s; }
         .nav-links a:hover { color: #45cafd; }
-        .login-btn { background: #45cafd; color: white !important; padding: 8px 18px; border-radius: 25px; font-weight: 600 !important; }
+        .login-btn { background: #45cafd; color: white !important; padding: 8px 22px; border-radius: 25px; font-weight: 600 !important; }
 
-        /* Mobile Menu Button (Hidden on Desktop) */
+        /* Menu Toggle Button (Mobile) */
         .menu-toggle { display: none; font-size: 24px; cursor: pointer; color: #101828; }
 
-        /* --- Hero Section --- */
         .hero {
             position: relative;
-            height: 450px;
+            height: 500px;
             background: url('https://images.unsplash.com/photo-1497366216548-37526070297c?q=80&w=1600') no-repeat center center/cover;
             display: flex;
             flex-direction: column;
@@ -48,64 +46,102 @@
             padding: 0 20px;
         }
         .hero::before {
-            content: ""; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(16, 24, 40, 0.75); z-index: 1;
+            content: "";
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(16, 24, 40, 0.7);
+            z-index: 1;
         }
         .hero-content { position: relative; z-index: 2; max-width: 800px; width: 100%; }
-        .hero h1 { font-size: 36px; margin-bottom: 15px; font-weight: 700; line-height: 1.2; }
+        .hero h1 { font-size: 42px; margin-bottom: 15px; font-weight: 700; }
         .hero h1 span { color: #45cafd; }
-        .hero p { font-size: 16px; opacity: 0.9; margin-bottom: 25px; }
+        .hero p { font-size: 18px; opacity: 0.9; margin-bottom: 30px; }
 
+        .search-container { position: relative; width: 100%; max-width: 550px; margin: 0 auto; }
         .search-box {
-            width: 100%; max-width: 500px; padding: 15px 25px; border-radius: 30px;
-            border: none; font-size: 16px; box-shadow: 0 10px 25px rgba(0,0,0,0.2); outline: none;
+            width: 100%;
+            padding: 16px 25px;
+            border-radius: 30px;
+            border: none;
+            font-size: 16px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+            outline: none;
         }
 
-        /* --- Responsive Grid --- */
-        .container { max-width: 1100px; margin: 40px auto; padding: 0 20px; }
+        .container { max-width: 1100px; margin: 60px auto; padding: 0 20px; }
+        .section-title { text-align: center; margin-bottom: 40px; }
+        .section-title h2 { font-size: 28px; color: #101828; }
+        .section-title span { color: #45cafd; }
+
         .grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 20px;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 25px;
         }
         .btn {
-            background: #fff; text-decoration: none; padding: 30px 20px; border-radius: 12px;
-            border: 1px solid #f2f4f7; box-shadow: 0 4px 10px rgba(0,0,0,0.02);
-            display: flex; flex-direction: column; align-items: center; transition: 0.3s;
+            background: #fff;
+            text-decoration: none;
+            padding: 40px 25px;
+            border-radius: 12px;
+            border: 1px solid #f2f4f7;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            transition: all 0.3s ease;
         }
-        .btn:hover { transform: translateY(-5px); border-color: #45cafd; box-shadow: 0 10px 20px rgba(0,0,0,0.06); }
+        .btn:hover { transform: translateY(-8px); box-shadow: 0 12px 24px rgba(0,0,0,0.08); border-color: #45cafd; }
+        
         .icon {
-            font-size: 28px; margin-bottom: 15px; width: 60px; height: 60px;
-            background: #f0fbff; color: #45cafd; display: flex; align-items: center; justify-content: center; border-radius: 50%;
+            font-size: 30px;
+            margin-bottom: 20px;
+            width: 65px; height: 65px;
+            background: #f0fbff;
+            color: #45cafd;
+            display: flex; align-items: center; justify-content: center;
+            border-radius: 50%;
         }
-        .btn-title { font-size: 17px; font-weight: 600; color: #101828; margin-bottom: 8px; }
-        .btn-desc { font-size: 13px; color: #667085; text-align: center; line-height: 1.4; }
+        .btn-title { font-size: 18px; font-weight: 600; color: #101828; margin-bottom: 10px; }
+        .btn-desc { font-size: 14px; color: #667085; text-align: center; line-height: 1.5; }
 
-        /* --- Mobile Responsive Rules --- */
-        @media (max-width: 992px) {
-            .menu-toggle { display: block; }
+        footer { background: #101828; color: #98a2b3; padding: 60px 20px; text-align: center; margin-top: 100px; }
+        footer h3 { color: white; margin-bottom: 15px; }
+        .footer-bottom { margin-top: 30px; border-top: 1px solid #1d2939; padding-top: 20px; font-size: 14px; }
+
+        /* --- MOBILE RESPONSIVE FIXES --- */
+        @media (max-width: 900px) {
+            .menu-toggle { display: block; } /* Show Hamburger */
+            
             .nav-links {
-                display: none; /* Hide by default on mobile */
+                display: none; /* Hide links by default */
                 flex-direction: column;
                 position: absolute;
                 top: 65px; left: 0; width: 100%;
                 background: white;
                 padding: 20px;
-                border-bottom: 2px solid #45cafd;
                 box-shadow: 0 10px 15px rgba(0,0,0,0.1);
+                border-bottom: 2px solid #45cafd;
             }
-            .nav-links.active { display: flex; } /* Show when toggled */
-            .nav-links a { width: 100%; text-align: center; padding: 10px 0; border-bottom: 1px solid #f9f9f9; }
-            .login-btn { margin-top: 10px; width: 200px; }
+            .nav-links.active { display: flex; } /* Show when button clicked */
             
+            .nav-links a { width: 100%; text-align: center; padding: 10px 0; border-bottom: 1px solid #f2f4f7; }
+            .login-btn { margin-top: 10px; width: 150px; }
+
+            .hero { height: 400px; }
             .hero h1 { font-size: 28px; }
-            .grid { grid-template-columns: repeat(2, 1fr); gap: 12px; } /* Mobile par 2 columns */
-            .btn { padding: 20px 10px; }
+            .hero p { font-size: 15px; }
+
+            /* Mobile par 2 tools ek line mein */
+            .grid { grid-template-columns: repeat(2, 1fr); gap: 15px; }
+            .btn { padding: 25px 15px; }
             .btn-title { font-size: 15px; }
+            .btn-desc { display: none; } /* Space bachane ke liye description hide kiya mobile par */
+            .icon { width: 50px; height: 50px; font-size: 24px; }
         }
 
         @media (max-width: 480px) {
-            .grid { grid-template-columns: 1fr; } /* Chote phone par 1 column */
+            /* Ekdum chote screen par single column */
+            /* .grid { grid-template-columns: 1fr; } */
         }
     </style>
 </head>
@@ -132,52 +168,77 @@
 <section class="hero">
     <div class="hero-content">
         <h1>Softing <span>building Software</span> for Your Business</h1>
-        <p>Free, fast, and secure online calculators for everyone.</p>
-        <input class="search-box" type="text" placeholder="🔎 Search tools...">
+        <p>Your one-stop destination for all digital utility tools and calculators.</p>
+        <div class="search-container">
+            <input class="search-box" type="text" placeholder="🔎 Search for tools...">
+        </div>
     </div>
 </section>
 
 <div class="container">
+    <div class="section-title">
+        <h2>Our <span>General Tools</span></h2>
+    </div>
+    
     <div class="grid">
         <a class="btn" href="age.html">
             <div class="icon">📅</div>
             <div class="btn-title">Age Calculator</div>
-            <p class="btn-desc">Find your exact age in days and months.</p>
+            <p class="btn-desc">Calculate your exact age in years, months, and days instantly.</p>
         </a>
         <a class="btn" href="emi.html">
             <div class="icon">🧮</div>
             <div class="btn-title">EMI Calculator</div>
-            <p class="btn-desc">Calculate your monthly loan installments.</p>
+            <p class="btn-desc">Plan your loans easily with our professional EMI calculation tool.</p>
         </a>
         <a class="btn" href="land-area-calculator.html">
             <div class="icon">📐</div>
-            <div class="btn-title">Area Calculator</div>
-            <p class="btn-desc">Measure land in Bigha, Acre, and Sq Ft.</p>
+            <div class="btn-title">Land Area Calculator</div>
+            <p class="btn-desc">Accurate land measurement tools for farmers and professionals.</p>
         </a>
         <a class="btn" href="pdf-merge.html">
             <div class="icon">📑</div>
             <div class="btn-title">PDF Merge</div>
-            <p class="btn-desc">Combine multiple PDFs into one file.</p>
+            <p class="btn-desc">Combine multiple PDF files into one high-quality document.</p>
+        </a>
+        <a class="btn" href="background-remover.html">
+            <div class="icon">🪄</div>
+            <div class="btn-title">Background Remover</div>
+            <p class="btn-desc">Remove image backgrounds automatically with AI technology.</p>
+        </a>
+        <a class="btn" href="word-counter.html">
+            <div class="icon">📝</div>
+            <div class="btn-title">Word Counter</div>
+            <p class="btn-desc">Analyze your text length, characters, and word count in real-time.</p>
         </a>
     </div>
 </div>
 
+<footer>
+    <h3>Shayan Smart Tools</h3>
+    <p>Efficient, fast, and free online tools for everyone.</p>
+    <div class="footer-bottom">
+        <p>© 2026 Shayan Smart Tools | All Rights Reserved</p>
+        <p>Tezpur, Assam, India</p>
+    </div>
+</footer>
+
 <script>
-    // --- Mobile Menu Toggle Script ---
+    // Mobile Menu Toggle
     const menuBtn = document.getElementById('mobile-menu');
     const navList = document.getElementById('nav-list');
 
     menuBtn.onclick = function() {
         navList.classList.toggle('active');
-        // Icon change (Bars to X)
         const icon = menuBtn.querySelector('i');
         icon.classList.toggle('fa-bars');
-        icon.classList.toggle('fa-xmark');
+        icon.classList.toggle('fa-xmark'); // Cross icon jab menu khula ho
     };
 
-    // --- Search Script ---
+    // Search Functionality
     const search = document.querySelector(".search-box");
     const cards = document.querySelectorAll(".btn");
+
     search.addEventListener("keyup", function(){
         let value = search.value.toLowerCase();
         cards.forEach(card => {
