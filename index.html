@@ -3,177 +3,171 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Shayan Smart Tools | Free Online Calculators & PDF Tools</title>
-    <meta name="description" content="Free online calculators, PDF tools, and image utilities for daily tasks.">
+    <title>Shayan Smart Tools | Professional Utility Hub</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        * { box-sizing: border-box; }
-        body { font-family: Arial, sans-serif; background: #e9e9e9; margin: 0; padding: 0; text-align: center; }
-        
-        /* Navigation Bar (Mobile Friendly) */
-        .top-nav {
-            background: #2b7cff;
-            padding: 10px;
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
+        body { background-color: #fcfcfc; color: #101828; }
+
+        /* 1. Header */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 6%;
+            background: #fff;
+            border-bottom: 1px solid #f2f4f7;
             position: sticky;
             top: 0;
             z-index: 1000;
-            display: flex;
-            justify-content: center;
-            overflow-x: auto;
-            white-space: nowrap;
         }
-        .top-nav a {
-            color: white;
-            text-decoration: none;
-            padding: 8px 15px;
-            font-size: 14px;
-            font-weight: 600;
+        .logo { font-size: 22px; font-weight: 800; color: #101828; text-transform: uppercase; text-decoration: none; }
+        .logo span { color: #45cafd; }
+        
+        .nav-links { display: flex; gap: 20px; align-items: center; }
+        .nav-links a { text-decoration: none; color: #667085; font-size: 14px; font-weight: 500; transition: 0.3s; }
+        .nav-links a:hover { color: #45cafd; }
+        .login-btn { background: #45cafd; color: white !important; padding: 8px 22px; border-radius: 25px; font-weight: 600 !important; }
+
+        .menu-toggle { display: none; font-size: 24px; cursor: pointer; }
+
+        /* 2. Hero Section */
+        .hero {
+            position: relative;
+            height: 480px;
+            background: url('https://images.unsplash.com/photo-1497366216548-37526070297c?q=80&w=1600') no-repeat center center/cover;
+            display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; color: white; padding: 0 20px;
+        }
+        .hero::before { content: ""; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(16, 24, 40, 0.7); z-index: 1; }
+        .hero-content { position: relative; z-index: 2; max-width: 800px; width: 100%; }
+        .hero h1 { font-size: 40px; margin-bottom: 15px; font-weight: 700; }
+        .hero h1 span { color: #45cafd; }
+        .hero p { font-size: 18px; opacity: 0.9; margin-bottom: 30px; }
+
+        .search-box {
+            width: 100%; max-width: 550px; padding: 16px 25px; border-radius: 30px; border: none; font-size: 16px; box-shadow: 0 10px 25px rgba(0,0,0,0.2); outline: none;
         }
 
-        .container { max-width: 800px; margin: auto; padding: 20px; }
-        h1 { color: #2b7cff; margin-top: 20px; font-size: 28px; }
-        h2 { text-align: left; color: #2b7cff; margin-top: 40px; border-left: 5px solid #2b7cff; padding-left: 10px; font-size: 20px; }
-        
-        .search {
-            width: 90%; max-width: 500px; padding: 15px; border-radius: 30px; border: none;
-            margin: 20px auto 30px auto; font-size: 16px; box-shadow: 0 6px 12px rgba(0,0,0,0.15); display: block;
-        }
+        /* 3. Grid & Cards */
+        .container { max-width: 1200px; margin: 60px auto; padding: 0 20px; }
+        .section-title { text-align: left; margin: 50px 0 25px 0; border-left: 5px solid #45cafd; padding-left: 15px; }
+        .section-title h2 { font-size: 24px; color: #101828; }
 
-        .grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; }
-        
+        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; }
         .btn {
-            background: linear-gradient(180deg, #3a6fe0, #2b5ccf);
-            color: white; text-decoration: none; padding: 20px 10px; border-radius: 15px;
-            font-size: 14px; box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-            display: flex; flex-direction: column; align-items: center; justify-content: center;
-            transition: 0.3s;
+            background: #fff; text-decoration: none; padding: 30px 20px; border-radius: 12px; border: 1px solid #f2f4f7;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.03); display: flex; flex-direction: column; align-items: center; transition: 0.3s;
         }
-        .btn:hover { transform: translateY(-3px); box-shadow: 0 6px 15px rgba(0,0,0,0.3); }
-        .icon { font-size: 24px; margin-bottom: 8px; }
-
-        /* Mobile Adjustments */
-        @media(max-width: 600px) {
-            .grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
-            .btn { font-size: 13px; padding: 15px 5px; }
-            h1 { font-size: 22px; }
+        .btn:hover { transform: translateY(-5px); border-color: #45cafd; box-shadow: 0 10px 20px rgba(0,0,0,0.08); }
+        
+        .icon {
+            font-size: 28px; margin-bottom: 15px; width: 60px; height: 60px; background: #f0fbff; color: #45cafd;
+            display: flex; align-items: center; justify-content: center; border-radius: 50%;
         }
+        .btn-title { font-size: 17px; font-weight: 600; color: #101828; }
 
-        /* SEO & Footer Style (Aapke original code se) */
-        .seo-section { max-width: 1000px; margin: 50px auto; padding: 25px; background: white; border-radius: 20px; text-align: left; line-height: 1.8; }
-        .highlight-box { background: linear-gradient(135deg, #2b7cff, #4facfe); color: white; padding: 15px; border-radius: 12px; margin: 20px 0; }
-        footer { margin-top: 40px; padding: 30px 15px; background: #222; color: #fff; }
-        .footer-btn { background: #fff; color: #2b5ccf; padding: 8px 15px; border-radius: 20px; text-decoration: none; font-size: 13px; margin: 5px; display: inline-block; font-weight: bold; }
+        /* Footer */
+        footer { background: #101828; color: #98a2b3; padding: 60px 20px; text-align: center; }
+        footer h3 { color: white; margin-bottom: 20px; }
+
+        /* Mobile Responsive */
+        @media (max-width: 900px) {
+            .menu-toggle { display: block; }
+            .nav-links { display: none; flex-direction: column; position: absolute; top: 65px; left: 0; width: 100%; background: white; padding: 20px; box-shadow: 0 10px 15px rgba(0,0,0,0.1); }
+            .nav-links.active { display: flex; }
+            .grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+            .btn { padding: 20px 10px; }
+            .btn-title { font-size: 14px; }
+            .hero h1 { font-size: 28px; }
+        }
     </style>
 </head>
 <body>
 
-<nav class="top-nav">
-    <a href="all-articles.html">Articles</a>
-    <a href="blogs.html">Blogs</a>
-    <a href="about.html">About</a>
-    <a href="contact.html">Contact</a>
-    <a href="terms.html">Terms</a>
-    <a href="privacy-policy.html">Privacy</a>
-</nav>
+<header>
+    <a href="#" class="logo">SHAYAN <span>TOOLS</span></a>
+    <div class="menu-toggle" id="mobile-menu"><i class="fa-solid fa-bars"></i></div>
+    <div class="nav-links" id="nav-list">
+        <a href="all-articles.html">Articles</a>
+        <a href="blogs.html">Blogs</a>
+        <a href="about.html">About</a>
+        <a href="contact.html">Contact</a>
+        <a href="terms.html">Terms</a>
+        <a href="privacy-policy.html">Privacy</a>
+        <a href="#" class="login-btn">Login</a>
+    </div>
+</header>
+
+<section class="hero">
+    <div class="hero-content">
+        <h1>Softing <span>building Software</span> for Your Business</h1>
+        <p>50+ Free Professional Online Calculators & Utility Tools</p>
+        <input class="search-box" type="text" placeholder="🔎 Search for any tool (EMI, PDF, Land)...">
+    </div>
+</section>
 
 <div class="container">
-    <h1>Shayan Smart Tools</h1>
-    <p style="color:#555; font-size:14px;">All Professional Online Tools in One Place - Simple & Free</p>
     
-    <input class="search" type="text" placeholder="🔎 Search for any tool...">
-
-    <h2>🧮 General Calculator Tools</h2>
+    <div class="section-title"><h2>📄 Professional PDF Tools</h2></div>
     <div class="grid">
-        <a class="btn" href="age.html"><div class="icon">📅</div>Age Calculator</a>
-        <a class="btn" href="age-difference-calculator-2026.html"><div class="icon">📊</div>Age Difference 2026</a>
-        <a class="btn" href="bmi.html"><div class="icon">❤️</div>BMI Calculator</a>
-        <a class="btn" href="percentage.html"><div class="icon">%</div>Percentage Calculator</a>
-        <a class="btn" href="unit-converter.html"><div class="icon">📏</div>Unit Converter</a>
-        <a class="btn" href="currency.html"><div class="icon">💱</div>Currency Converter</a>
-        <a class="btn" href="average-calculator-2026.html"><div class="icon">📊</div>Average Calculator</a>
-        <a class="btn" href="electricity-calculator.html"><div class="icon">⚡</div>Electricity Calc</a>
+        <a class="btn" href="image-to-pdf.html"><div class="icon">📄</div><span class="btn-title">Image to PDF</span></a>
+        <a class="btn" href="pdf-merge.html"><div class="icon">📑</div><span class="btn-title">PDF Merge</span></a>
+        <a class="btn" href="pdf-compress.html"><div class="icon">🗜️</div><span class="btn-title">PDF Compressor</span></a>
+        <a class="btn" href="excel-to-pdf.html"><div class="icon">📊</div><span class="btn-title">Excel to PDF</span></a>
+        <a class="btn" href="pdf-to-image.html"><div class="icon">🖼️</div><span class="btn-title">PDF to Image</span></a>
+        <a class="btn" href="pdf-split.html"><div class="icon">✂️</div><span class="btn-title">PDF Split</span></a>
     </div>
 
-    <h2>📄 Professional PDF Tools</h2>
+    <div class="section-title"><h2>🧮 Smart Calculators</h2></div>
     <div class="grid">
-        <a class="btn" href="image-to-pdf.html"><div class="icon">📄</div>Image to PDF</a>
-        <a class="btn" href="pdf-merge.html"><div class="icon">📑</div>PDF Merge</a>
-        <a class="btn" href="pdf-compress.html"><div class="icon">🗜️</div>PDF Compressor</a>
-        <a class="btn" href="excel-to-pdf.html"><div class="icon">📊</div>Excel to PDF</a>
-        <a class="btn" href="pdf-lock-unlock.html"><div class="icon">🔐</div>PDF Lock/Unlock</a>
-        <a class="btn" href="pdf-to-image.html"><div class="icon">🖼️</div>PDF to Image</a>
-        <a class="btn" href="pdf-split.html"><div class="icon">✂️</div>PDF Split</a>
-        <a class="btn" href="pdf-page-extractor.html"><div class="icon">📑</div>Page Extractor</a>
+        <a class="btn" href="age.html"><div class="icon">📅</div><span class="btn-title">Age Calculator</span></a>
+        <a class="btn" href="emi.html"><div class="icon">🧮</div><span class="btn-title">EMI Calculator</span></a>
+        <a class="btn" href="sip.html"><div class="icon">📈</div><span class="btn-title">SIP Calculator</span></a>
+        <a class="btn" href="gst.html"><div class="icon">%</div><span class="btn-title">GST Calculator</span></a>
+        <a class="btn" href="bmi.html"><div class="icon">❤️</div><span class="btn-title">BMI Calculator</span></a>
+        <a class="btn" href="income-tax-calculator.html"><div class="icon">💰</div><span class="btn-title">Income Tax</span></a>
     </div>
 
-    <h2>🖼️ Smart Image Tools</h2>
+    <div class="section-title"><h2>🖼️ Image Utilities</h2></div>
     <div class="grid">
-        <a class="btn" href="image.html"><div class="icon">🖼️</div>Image Compressor</a>
-        <a class="btn" href="background-remover.html"><div class="icon">🪄</div>BG Remover</a>
-        <a class="btn" href="passport-photo.html"><div class="icon">🪪</div>Passport Photo Maker</a>
-        <a class="btn" href="image-converter.html"><div class="icon">🔄</div>Image Converter</a>
-        <a class="btn" href="resize.html"><div class="icon">📐</div>Resize Image</a>
-        <a class="btn" href="crop.html"><div class="icon">✂️</div>Crop Image</a>
-        <a class="btn" href="image-merge.html"><div class="icon">🖼️</div>Image Merge</a>
+        <a class="btn" href="image.html"><div class="icon">🖼️</div><span class="btn-title">Image Compressor</span></a>
+        <a class="btn" href="background-remover.html"><div class="icon">🪄</div><span class="btn-title">BG Remover</span></a>
+        <a class="btn" href="passport-photo.html"><div class="icon">🪪</div><span class="btn-title">Passport Photo</span></a>
+        <a class="btn" href="image-merge.html"><div class="icon">🖼️</div><span class="btn-title">Image Merge</span></a>
     </div>
 
-    <h2>💰 Finance & Investment Tools</h2>
+    <div class="section-title"><h2>📏 Land Measurement</h2></div>
     <div class="grid">
-        <a class="btn" href="emi.html"><div class="icon">🧮</div>EMI Calculator</a>
-        <a class="btn" href="sip.html"><div class="icon">📈</div>SIP Calculator</a>
-        <a class="btn" href="gst.html"><div class="icon">%</div>GST Calculator</a>
-        <a class="btn" href="income-tax-calculator.html"><div class="icon">💰</div>Income Tax Calc</a>
-        <a class="btn" href="loan-calculator.html"><div class="icon">💰</div>Loan Calculator</a>
-        <a class="btn" href="fd-calculator.html"><div class="icon">🏦</div>FD Calculator</a>
-        <a class="btn" href="rd-calculator.html"><div class="icon">🐷</div>RD Calculator</a>
-        <a class="btn" href="ppf-calculator.html"><div class="icon">👛</div>PPF Calculator</a>
+        <a class="btn" href="land-area-calculator.html"><div class="icon">📏</div><span class="btn-title">Area Calculator</span></a>
+        <a class="btn" href="bigha-to-acre.html"><div class="icon">📐</div><span class="btn-title">Bigha to Acre</span></a>
+        <a class="btn" href="land-cost-calculator.html"><div class="icon">💰</div><span class="btn-title">Land Cost Calc</span></a>
     </div>
 
-    <h2>📏 Land Measurement Tools</h2>
-    <div class="grid">
-        <a class="btn" href="land-area-calculator.html"><div class="icon">📏</div>Land Area Calc</a>
-        <a class="btn" href="bigha-to-acre.html"><div class="icon">📐</div>Bigha to Acre</a>
-        <a class="btn" href="land-unit-converter.html"><div class="icon">🌍</div>Unit Converter</a>
-        <a class="btn" href="land-cost-calculator.html"><div class="icon">💰</div>Land Cost Calc</a>
-    </div>
-
-    <h2>🧰 Everyday Utility Tools</h2>
-    <div class="grid">
-        <a class="btn" href="word-counter.html"><div class="icon">📝</div>Word Counter</a>
-        <a class="btn" href="qr-code-generator.html"><div class="icon">🔳</div>QR Generator</a>
-        <a class="btn" href="password-generator.html"><div class="icon">🔒</div>Password Gen</a>
-        <a class="btn" href="resume-maker.html"><div class="icon">📄</div>Resume Maker</a>
-        <a class="btn" href="text-to-speech.html"><div class="icon">🔊</div>Text to Speech</a>
-        <a class="btn" href="typing-speed-test.html"><div class="icon">⌨️</div>Typing Test</a>
-    </div>
 </div>
-
-<section class="seo-section">
-    <h2>Free Online Tools & Calculators – Shayan Smart Tools</h2>
-    <p>Shayan Smart Tools is a powerful platform providing 50+ free online calculators and utilities. Our priority is accuracy, speed, and mobile compatibility.</p>
-    <div class="highlight-box">🚀 Instant Results • 📱 Mobile Friendly • 🔒 100% Secure</div>
-</section>
 
 <footer>
     <h3>Shayan Smart Tools</h3>
-    <div class="footer-links">
-        <a class="footer-btn" href="about.html">About</a>
-        <a class="footer-btn" href="contact.html">Contact</a>
-        <a class="footer-btn" href="privacy-policy.html">Privacy Policy</a>
-    </div>
-    <div class="footer-bottom" style="margin-top:20px;">
-        <p>© 2026 Shayan Smart Tools | All Rights Reserved</p>
-        <p>📧 shayandigitalservice99@gmail.com</p>
-    </div>
+    <p>© 2026 Shayan Smart Tools | All Rights Reserved</p>
 </footer>
 
 <script>
-    const search = document.querySelector(".search");
-    const tools = document.querySelectorAll(".btn");
-    search.addEventListener("keyup", function(){
-        let value = search.value.toLowerCase();
-        tools.forEach(tool => {
-            let text = tool.textContent.toLowerCase();
-            tool.style.display = text.includes(value) ? "flex" : "none";
+    // Menu Toggle
+    const menuBtn = document.getElementById('mobile-menu');
+    const navList = document.getElementById('nav-list');
+    menuBtn.onclick = () => {
+        navList.classList.toggle('active');
+        menuBtn.querySelector('i').classList.toggle('fa-bars');
+        menuBtn.querySelector('i').classList.toggle('fa-xmark');
+    };
+
+    // Search
+    const search = document.querySelector(".search-box");
+    const cards = document.querySelectorAll(".btn");
+    search.addEventListener("keyup", () => {
+        let val = search.value.toLowerCase();
+        cards.forEach(c => {
+            c.style.display = c.innerText.toLowerCase().includes(val) ? "flex" : "none";
         });
     });
 </script>
