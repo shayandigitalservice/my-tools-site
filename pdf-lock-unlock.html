@@ -3,11 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>PDF Lock / Unlock Tool Online – Secure or Remove PDF Password Free</title>
-<meta name="description" content="Protect your PDF with password or unlock PDF files instantly using our free PDF Lock and Unlock tool. 100% secure, fast, and works on mobile and desktop.">
-<meta name="keywords" content="pdf lock tool, pdf unlock tool, protect pdf online, remove pdf password, secure pdf free, unlock pdf online, pdf security tool">
-<meta name="author" content="Shayan Smart Tools">
-<meta name="robots" content="index, follow">
+<title>PDF Lock / Unlock Tool Online – Shayan Smart Tools</title>
 
 <script src="https://unpkg.com/pdf-lib/dist/pdf-lib.min.js"></script>
 
@@ -24,7 +20,7 @@ background:#f1f5f9;
 color:#222;
 }
 
-/* HEADER SAME */
+/* HEADER */
 .header{
 background:#2563eb;
 color:white;
@@ -34,7 +30,7 @@ font-size:26px;
 font-weight:600;
 }
 
-/* MAIN CONTAINER SAME */
+/* MAIN CONTAINER */
 .container{
 max-width:700px;
 margin:30px auto;
@@ -42,9 +38,16 @@ padding:20px;
 background:white;
 border-radius:10px;
 border:1px solid #ddd;
+box-shadow: 0 4px 10px rgba(0,0,0,0.05);
 }
 
-/* INPUT SAME */
+h2{
+margin-bottom:15px;
+color:#1e3a8a;
+text-align: center;
+}
+
+/* INPUT */
 input{
 width:100%;
 padding:12px;
@@ -52,9 +55,14 @@ margin:10px 0;
 border-radius:6px;
 border:1px solid #ccc;
 font-size:14px;
+outline: none;
 }
 
-/* BUTTON SAME */
+input:focus {
+    border-color: #2563eb;
+}
+
+/* BUTTONS */
 button{
 background:#2563eb;
 color:white;
@@ -64,23 +72,50 @@ border-radius:6px;
 cursor:pointer;
 width:100%;
 font-size:15px;
+font-weight: bold;
+transition: 0.3s;
 }
 
 button:hover{
 background:#1e40af;
 }
 
-/* RESULT STYLE SAME */
+.btn-lock {
+    background: #1e293b;
+}
+
+.btn-lock:hover {
+    background: #000;
+}
+
+/* RESULT BOX */
 .result{
 margin-top:20px;
 padding:20px;
 background:#eff6ff;
 border:1px solid #2563eb;
 border-radius:8px;
-display: none; /* Default hidden */
+text-align: center;
+display: none;
 }
 
-/* SECTION SAME */
+#dl-btn {
+    display: inline-block;
+    margin-top: 15px;
+    background: #10b981;
+    color: white;
+    text-decoration: none;
+    padding: 10px 25px;
+    border-radius: 6px;
+    font-weight: bold;
+    transition: 0.3s;
+}
+
+#dl-btn:hover {
+    background: #059669;
+}
+
+/* SEO SECTION */
 .section{
 max-width:900px;
 margin:30px auto;
@@ -88,35 +123,23 @@ padding:25px;
 background:white;
 border-radius:10px;
 border:1px solid #ddd;
+line-height: 1.8;
 }
 
-h2{
-margin-bottom:10px;
-color:#1e3a8a;
-}
-
-a{
-color:#2563eb;
-text-decoration:none;
-}
-
-footer{
-text-align: center;
-padding: 20px;
-font-size: 14px;
-color: #666;
-}
-
-/* Download Button Styling */
-#dl-btn {
+a.back-home {
     display: block;
-    margin-top: 15px;
-    background: #10b981;
-    color: white;
     text-align: center;
-    padding: 10px;
-    border-radius: 6px;
+    margin-top: 20px;
+    color: #2563eb;
+    text-decoration: none;
     font-weight: bold;
+}
+
+footer {
+    text-align: center;
+    padding: 30px;
+    color: #64748b;
+    font-size: 14px;
 }
 </style>
 </head>
@@ -128,42 +151,43 @@ color: #666;
 </div>
 
 <div class="container">
-<h2>Secure Your PDF</h2>
+    <h2>Secure Your PDF Documents</h2>
 
-<input type="file" id="pdf-input" accept="application/pdf">
-<input type="password" id="pdf-pass" placeholder="Enter Password">
+    <input type="file" id="pdf-input" accept="application/pdf">
+    <input type="text" id="pdf-pass" placeholder="Enter Password (e.g. 1234)">
 
-<button onclick="handlePdf('lock')">Lock PDF</button>
-<button style="margin-top:10px;" onclick="handlePdf('unlock')">Unlock PDF</button>
+    <button class="btn-lock" onclick="handlePdf('lock')">🔒 Lock PDF (Add Password)</button>
+    <button style="margin-top:10px;" onclick="handlePdf('unlock')">🔓 Unlock PDF (Remove Password)</button>
 
-<div class="result" id="result">
-    <p id="status-msg">Processing...</p>
-    <a id="dl-btn" href="#" style="display:none;">Download PDF Now</a>
+    <div class="result" id="result-box">
+        <p id="status-msg" style="font-weight: bold; color: #1e3a8a;"></p>
+        <a id="dl-btn" href="#">Download Ready PDF</a>
+    </div>
+
+    <a href="index.html" class="back-home">⬅ Back to Home</a>
 </div>
 
-<br>
-<a href="index.html">⬅ Back to Home</a>
-</div>
-
-<section style="max-width:900px;margin:auto;padding:20px;line-height:1.8;font-family:Poppins;">
+<div class="section">
     <h1>PDF Lock / Unlock Tool – Secure or Remove PDF Password Online</h1>
-    <p>The <strong>PDF Lock / Unlock Tool</strong> is a powerful and easy-to-use online utility...</p>
-    </section>
+    <p>
+    The <strong>PDF Lock / Unlock Tool</strong> is a powerful and easy-to-use online utility that allows users to protect PDF files with a password or remove existing password protection instantly...
+    </p>
+    </div>
 
 <script>
 async function handlePdf(action) {
     const fileInput = document.getElementById('pdf-input');
     const password = document.getElementById('pdf-pass').value;
-    const resultDiv = document.getElementById('result');
+    const resultBox = document.getElementById('result-box');
     const statusMsg = document.getElementById('status-msg');
     const dlBtn = document.getElementById('dl-btn');
 
     if (!fileInput.files[0]) return alert("Please select a PDF file!");
     if (!password) return alert("Please enter a password!");
 
-    // Show result box with processing message
-    resultDiv.style.display = "block";
-    statusMsg.innerText = "Processing... Please wait.";
+    // Show processing
+    resultBox.style.display = "block";
+    statusMsg.innerText = "⏳ Processing... Please wait.";
     dlBtn.style.display = "none";
 
     try {
@@ -171,30 +195,38 @@ async function handlePdf(action) {
         const arrayBuffer = await file.arrayBuffer();
         
         let pdfDoc;
+        
         if (action === 'unlock') {
-            // Unlock: Load with password, save without
-            pdfDoc = await PDFLib.PDFDocument.load(arrayBuffer, { password });
+            // UNLOCK: Password ke saath load karna padega
+            pdfDoc = await PDFLib.PDFDocument.load(arrayBuffer, { password: password });
         } else {
-            // Lock: Load normally
+            // LOCK: Normal load karke save karte waqt password lagana
             pdfDoc = await PDFLib.PDFDocument.load(arrayBuffer);
         }
 
+        // --- ASLI LOCKING LOGIC ---
         const pdfBytes = await pdfDoc.save({
             userPassword: action === 'lock' ? password : null,
-            ownerPassword: action === 'lock' ? password : null
+            ownerPassword: action === 'lock' ? password : null,
+            permissions: {
+                printing: 'highResolution',
+                modifying: true,
+                copying: true
+            }
         });
 
         const blob = new Blob([pdfBytes], { type: "application/pdf" });
         const url = URL.createObjectURL(blob);
 
         dlBtn.href = url;
-        dlBtn.download = action === 'lock' ? "Protected_ShayanTools.pdf" : "Unlocked_ShayanTools.pdf";
-        dlBtn.style.display = "block";
+        dlBtn.download = action === 'lock' ? "Locked_By_Shayan.pdf" : "Unlocked_By_Shayan.pdf";
+        dlBtn.style.display = "inline-block";
         statusMsg.innerText = action === 'lock' ? "✅ PDF Locked Successfully!" : "✅ Password Removed Successfully!";
 
     } catch (e) {
-        statusMsg.innerText = "❌ Error: Invalid password or file issue.";
         console.error(e);
+        statusMsg.innerText = "❌ Error: Wrong password or file is already encrypted.";
+        alert("Galti: Shayad aapne galat password dala hai ya file corrupt hai.");
     }
 }
 </script>
@@ -202,5 +234,6 @@ async function handlePdf(action) {
 <footer>
 © 2026 Shayan Smart Tools. All Rights Reserved.
 </footer>
+
 </body>
 </html>
