@@ -6,76 +6,152 @@
     <title>Sign Up | Shayan Smart Tools</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
+        /* Global Reset */
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: Arial, sans-serif; }
-        body { 
-            background: #f4f7f9; 
-            display: flex; justify-content: center; align-items: center; 
-            min-height: 100vh; padding: 20px;
-        }
-        .signup-card {
+        
+        body {
             background: #fff;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Main Wrapper - Full Screen Split Layout */
+        .signup-wrapper {
+            display: flex;
             width: 100%;
-            max-width: 450px; /* Thoda wide rakha hai signup ke liye */
-            padding: 40px;
-            border-radius: 20px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+            min-height: 100vh;
+            background: #fff;
+        }
+
+        /* Left Side Branding (Desktop Only) */
+        .signup-side-info {
+            flex: 1;
+            background: linear-gradient(rgba(69, 202, 253, 0.9), rgba(43, 124, 255, 0.8)), 
+                        url('https://images.unsplash.com/photo-1497366216548-37526070297c?q=80&w=1600') no-repeat center center/cover;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            padding: 50px;
             text-align: center;
         }
-        .logo { display: flex; justify-content: center; align-items: center; text-decoration: none; margin-bottom: 25px; }
-        .logo img { height: 45px; width: 45px; border-radius: 8px; margin-right: 10px; }
-        .logo span { color: #101828; font-size: 20px; font-weight: bold; }
+        .signup-side-info h1 { font-size: 42px; margin-bottom: 20px; font-weight: 800; text-transform: uppercase; }
+        .signup-side-info p { font-size: 19px; line-height: 1.6; max-width: 450px; opacity: 0.95; }
+
+        /* Right Side Form Area */
+        .signup-form-area {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 40px;
+        }
+
+        .signup-card {
+            width: 100%;
+            max-width: 480px; /* Desktop par professional look ke liye */
+            text-align: center;
+        }
+
+        /* Logo Branding */
+        .logo { 
+            display: flex; justify-content: center; align-items: center; 
+            text-decoration: none; margin-bottom: 35px; 
+        }
+        .logo img { height: 60px; width: 60px; border-radius: 12px; margin-right: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
+        .logo span { color: #101828; font-size: 26px; font-weight: bold; }
         .logo b { color: #45cafd; }
         
-        h2 { font-size: 22px; color: #101828; margin-bottom: 8px; }
-        p { color: #667085; font-size: 14px; margin-bottom: 25px; }
+        h2 { font-size: 30px; color: #101828; margin-bottom: 12px; }
+        p.subtitle { color: #667085; font-size: 16px; margin-bottom: 35px; }
 
-        .input-group { text-align: left; margin-bottom: 18px; }
-        .input-group label { display: block; font-size: 13px; font-weight: 600; margin-bottom: 8px; color: #344054; }
+        /* Form Inputs Styling */
+        .input-group { text-align: left; margin-bottom: 22px; }
+        .input-group label { display: block; font-size: 14px; font-weight: 600; margin-bottom: 8px; color: #344054; }
         .input-box { position: relative; }
-        .input-box i { position: absolute; left: 15px; top: 13px; color: #98a2b3; }
+        .input-box i { position: absolute; left: 15px; top: 16px; color: #98a2b3; }
         .input-box input { 
-            width: 100%; padding: 12px 15px 12px 40px; 
-            border: 1px solid #d0d5dd; border-radius: 10px; outline: none; transition: 0.3s;
+            width: 100%; padding: 15px 15px 15px 48px; 
+            border: 1px solid #d0d5dd; border-radius: 14px; font-size: 16px; outline: none; transition: 0.3s;
         }
         .input-box input:focus { border-color: #45cafd; box-shadow: 0 0 0 4px rgba(69,202,253,0.1); }
 
-        .btn-submit { 
+        .btn-signup { 
             width: 100%; background: #45cafd; color: white; border: none; 
-            padding: 13px; border-radius: 10px; font-size: 16px; font-weight: bold; 
-            cursor: pointer; transition: 0.3s; margin-top: 10px;
+            padding: 16px; border-radius: 14px; font-size: 18px; font-weight: bold; 
+            cursor: pointer; transition: 0.3s; margin-top: 15px;
         }
-        .btn-submit:hover { background: #2b7cff; }
+        .btn-signup:hover { background: #2b7cff; transform: translateY(-2px); box-shadow: 0 8px 20px rgba(43, 124, 255, 0.2); }
 
-        .footer-text { margin-top: 25px; font-size: 14px; color: #667085; }
+        .footer-text { margin-top: 35px; font-size: 15px; color: #667085; }
         .footer-text a { color: #45cafd; text-decoration: none; font-weight: bold; }
-        .back-home { display: block; margin-top: 20px; font-size: 13px; color: #98a2b3; text-decoration: none; }
+        .back-home { display: block; margin-top: 30px; font-size: 14px; color: #98a2b3; text-decoration: none; }
+        .back-home:hover { color: #101828; }
+
+        /* Responsive - Tablet & Mobile */
+        @media (max-width: 1024px) {
+            .signup-side-info { padding: 30px; }
+            .signup-side-info h1 { font-size: 32px; }
+        }
+
+        @media (max-width: 900px) {
+            .signup-side-info { display: none; } /* Mobile par image hat jayegi */
+            .signup-form-area { padding: 25px; width: 100%; }
+            .signup-wrapper { min-height: 100vh; align-items: center; }
+        }
     </style>
 </head>
 <body>
-    <div class="signup-card">
-        <a href="index.html" class="logo">
-            <img src="1000040753.png" alt="Logo">
-            <span>SHAYAN <b>TOOLS</b></span>
-        </a>
-        <h2>Create Account</h2>
-        <p>Join India's fastest tools platform</p>
-        <form>
-            <div class="input-group">
-                <label>Full Name</label>
-                <div class="input-box"><i class="fa-solid fa-user"></i><input type="text" placeholder="Your Name"></div>
+
+    <div class="signup-wrapper">
+        <div class="signup-side-info">
+            <h1>Create Account</h1>
+            <p>Join thousands of users in Tezpur and globally. Get access to 50+ free professional tools instantly.</p>
+        </div>
+
+        <div class="signup-form-area">
+            <div class="signup-card">
+                <a href="index.html" class="logo">
+                    <img src="1000040753.png" alt="Shayan Tools Logo">
+                    <span>SHAYAN <b>TOOLS</b></span>
+                </a>
+                <h2>Join Shayan Tools</h2>
+                <p class="subtitle">Quick and free registration for all digital utilities</p>
+
+                <form>
+                    <div class="input-group">
+                        <label>Full Name</label>
+                        <div class="input-box">
+                            <i class="fa-solid fa-user"></i>
+                            <input type="text" placeholder="Your full name" required>
+                        </div>
+                    </div>
+                    <div class="input-group">
+                        <label>Email Address</label>
+                        <div class="input-box">
+                            <i class="fa-solid fa-envelope"></i>
+                            <input type="email" placeholder="name@company.com" required>
+                        </div>
+                    </div>
+                    <div class="input-group">
+                        <label>Create Password</label>
+                        <div class="input-box">
+                            <i class="fa-solid fa-lock"></i>
+                            <input type="password" placeholder="Min. 8 characters" required>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn-signup">Register Now</button>
+                </form>
+
+                <div class="footer-text">Already have an account? <a href="login.html">Login Here</a></div>
+                <a href="index.html" class="back-home">← Return to Home Page</a>
             </div>
-            <div class="input-group">
-                <label>Email</label>
-                <div class="input-box"><i class="fa-solid fa-envelope"></i><input type="email" placeholder="Email address"></div>
-            </div>
-            <div class="input-group">
-                <label>Password</label>
-                <div class="input-box"><i class="fa-solid fa-lock"></i><input type="password" placeholder="Create Password"></div>
-            </div>
-            <button type="submit" class="btn-submit">Sign Up</button>
-        </form>
-        <div class="footer-text">Pehle se account hai? <a href="login.html">Login</a></div>
-        <a href="index.html" class="back-home">← Back to Home</a>
+        </div>
     </div>
+
 </body>
 </html>
