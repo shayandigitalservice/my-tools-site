@@ -1,22 +1,17 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>PDF Lock / Unlock Tool Online – Secure or Remove PDF Password Free</title>
-
 <meta name="description" content="Protect your PDF with password or unlock PDF files instantly using our free PDF Lock and Unlock tool. 100% secure, fast, and works on mobile and desktop.">
-
 <meta name="keywords" content="pdf lock tool, pdf unlock tool, protect pdf online, remove pdf password, secure pdf free, unlock pdf online, pdf security tool">
-
 <meta name="author" content="Shayan Smart Tools">
 <meta name="robots" content="index, follow">
 
-<link rel="canonical" href="https://https://shayandigitalservice.github.io/my-tools-site//pdf-lock-unlock.html">
+<script src="https://unpkg.com/pdf-lib/dist/pdf-lib.min.js"></script>
 
 <style>
-
 *{
 margin:0;
 padding:0;
@@ -75,13 +70,14 @@ button:hover{
 background:#1e40af;
 }
 
-/* RESULT STYLE SAME (OPTIONAL USE) */
+/* RESULT STYLE SAME */
 .result{
 margin-top:20px;
 padding:20px;
 background:#eff6ff;
 border:1px solid #2563eb;
 border-radius:8px;
+display: none; /* Default hidden */
 }
 
 /* SECTION SAME */
@@ -104,8 +100,25 @@ color:#2563eb;
 text-decoration:none;
 }
 
-</style>
+footer{
+text-align: center;
+padding: 20px;
+font-size: 14px;
+color: #666;
+}
 
+/* Download Button Styling */
+#dl-btn {
+    display: block;
+    margin-top: 15px;
+    background: #10b981;
+    color: white;
+    text-align: center;
+    padding: 10px;
+    border-radius: 6px;
+    font-weight: bold;
+}
+</style>
 </head>
 
 <body>
@@ -115,221 +128,79 @@ text-decoration:none;
 </div>
 
 <div class="container">
-
 <h2>Secure Your PDF</h2>
 
-<input type="file" accept="application/pdf">
+<input type="file" id="pdf-input" accept="application/pdf">
+<input type="password" id="pdf-pass" placeholder="Enter Password">
 
-<input type="password" placeholder="Enter Password">
-
-<button>Lock PDF</button>
-<button style="margin-top:10px;">Unlock PDF</button>
+<button onclick="handlePdf('lock')">Lock PDF</button>
+<button style="margin-top:10px;" onclick="handlePdf('unlock')">Unlock PDF</button>
 
 <div class="result" id="result">
-<p>Upload a PDF file and choose an action.</p>
+    <p id="status-msg">Processing...</p>
+    <a id="dl-btn" href="#" style="display:none;">Download PDF Now</a>
 </div>
 
 <br>
 <a href="index.html">⬅ Back to Home</a>
-
 </div>
 
-<!-- OPTIONAL SEO SECTION -->
 <section style="max-width:900px;margin:auto;padding:20px;line-height:1.8;font-family:Poppins;">
+    <h1>PDF Lock / Unlock Tool – Secure or Remove PDF Password Online</h1>
+    <p>The <strong>PDF Lock / Unlock Tool</strong> is a powerful and easy-to-use online utility...</p>
+    </section>
 
-<h1>PDF Lock / Unlock Tool – Secure or Remove PDF Password Online</h1>
+<script>
+async function handlePdf(action) {
+    const fileInput = document.getElementById('pdf-input');
+    const password = document.getElementById('pdf-pass').value;
+    const resultDiv = document.getElementById('result');
+    const statusMsg = document.getElementById('status-msg');
+    const dlBtn = document.getElementById('dl-btn');
 
-<p>
-The <strong>PDF Lock / Unlock Tool</strong> is a powerful and easy-to-use online utility that allows users to protect PDF files with a password or remove existing password protection instantly. In today’s digital world, PDF documents are widely used for sharing sensitive information such as business reports, invoices, academic documents, and personal files. Ensuring the security of these documents is extremely important.
-</p>
+    if (!fileInput.files[0]) return alert("Please select a PDF file!");
+    if (!password) return alert("Please enter a password!");
 
-<p>
-With this free tool, you can add a password to your PDF file to prevent unauthorized access or remove the password from a protected PDF when you have permission. The best part is that everything works directly in your browser, ensuring complete privacy and security.
-</p>
+    // Show result box with processing message
+    resultDiv.style.display = "block";
+    statusMsg.innerText = "Processing... Please wait.";
+    dlBtn.style.display = "none";
 
-<h2>Why Use a PDF Lock / Unlock Tool?</h2>
+    try {
+        const file = fileInput.files[0];
+        const arrayBuffer = await file.arrayBuffer();
+        
+        let pdfDoc;
+        if (action === 'unlock') {
+            // Unlock: Load with password, save without
+            pdfDoc = await PDFLib.PDFDocument.load(arrayBuffer, { password });
+        } else {
+            // Lock: Load normally
+            pdfDoc = await PDFLib.PDFDocument.load(arrayBuffer);
+        }
 
-<p>
-PDF files often contain confidential data that should not be accessed by unauthorized users. By using a PDF locking tool, you can add an extra layer of protection. On the other hand, if you have a password-protected file and want easier access, the unlock feature can help remove restrictions.
-</p>
+        const pdfBytes = await pdfDoc.save({
+            userPassword: action === 'lock' ? password : null,
+            ownerPassword: action === 'lock' ? password : null
+        });
 
-<ul>
-<li>Protect sensitive documents with passwords</li>
-<li>Remove password from authorized PDFs</li>
-<li>Ensure privacy and data security</li>
-<li>Save time with instant processing</li>
-<li>No need to install software</li>
-</ul>
+        const blob = new Blob([pdfBytes], { type: "application/pdf" });
+        const url = URL.createObjectURL(blob);
 
-<h2>How to Lock a PDF File</h2>
+        dlBtn.href = url;
+        dlBtn.download = action === 'lock' ? "Protected_ShayanTools.pdf" : "Unlocked_ShayanTools.pdf";
+        dlBtn.style.display = "block";
+        statusMsg.innerText = action === 'lock' ? "✅ PDF Locked Successfully!" : "✅ Password Removed Successfully!";
 
-<h3>Step-by-Step Guide</h3>
+    } catch (e) {
+        statusMsg.innerText = "❌ Error: Invalid password or file issue.";
+        console.error(e);
+    }
+}
+</script>
 
-<p>
-Locking a PDF file is very simple using this tool. Follow these steps:
-</p>
-
-<ol>
-<li>Upload your PDF file from your device.</li>
-<li>Enter a strong password in the password field.</li>
-<li>Click on the <strong>Lock PDF</strong> button.</li>
-<li>Your file will be processed instantly.</li>
-<li>Download your password-protected PDF file.</li>
-</ol>
-
-<p>
-Make sure to use a strong password that includes a combination of letters, numbers, and symbols to enhance security.
-</p>
-
-<h2>How to Unlock a PDF File</h2>
-
-<h3>Step-by-Step Guide</h3>
-
-<p>
-If you already have a password-protected PDF and want to remove the password, follow these steps:
-</p>
-
-<ol>
-<li>Upload your locked PDF file.</li>
-<li>Enter the correct password.</li>
-<li>Click on the <strong>Unlock PDF</strong> button.</li>
-<li>The tool will remove the password.</li>
-<li>Download the unlocked PDF file instantly.</li>
-</ol>
-
-<p>
-Note: You must have permission to unlock the PDF file before removing its password.
-</p>
-
-<h2>Key Features of PDF Lock / Unlock Tool</h2>
-
-<h3>1. 100% Free to Use</h3>
-<p>
-This tool is completely free. You can lock and unlock unlimited PDF files without paying any charges.
-</p>
-
-<h3>2. Secure Processing</h3>
-<p>
-All processing happens directly in your browser. Your files are never uploaded to any server, ensuring maximum privacy and security.
-</p>
-
-<h3>3. Fast Performance</h3>
-<p>
-The tool processes files instantly, saving you time and effort.
-</p>
-
-<h3>4. Mobile Friendly</h3>
-<p>
-You can use this tool on smartphones, tablets, and desktops without any compatibility issues.
-</p>
-
-<h3>5. Easy to Use Interface</h3>
-<p>
-The simple design makes it easy for beginners and professionals alike.
-</p>
-
-<h2>Benefits of Using This Tool</h2>
-
-<p>
-Using this PDF Lock and Unlock tool offers several advantages:
-</p>
-
-<ul>
-<li>Protect confidential business documents</li>
-<li>Secure personal files from unauthorized access</li>
-<li>Quickly remove passwords when needed</li>
-<li>No technical knowledge required</li>
-<li>Access anytime from any device</li>
-</ul>
-
-<h2>Common Use Cases</h2>
-
-<h3>Business Documents</h3>
-<p>
-Companies often use password protection to secure sensitive documents such as contracts, reports, and financial statements.
-</p>
-
-<h3>Academic Files</h3>
-<p>
-Students and teachers can protect research papers, assignments, and exam papers using this tool.
-</p>
-
-<h3>Personal Documents</h3>
-<p>
-Users can secure personal files like ID proofs, certificates, and private documents.
-</p>
-
-<h3>Freelancers and Designers</h3>
-<p>
-Professionals can protect their work before sharing it with clients.
-</p>
-
-<h2>Tips for Better Security</h2>
-
-<ul>
-<li>Use a strong and unique password</li>
-<li>Avoid sharing passwords publicly</li>
-<li>Store passwords securely</li>
-<li>Always verify before unlocking files</li>
-</ul>
-
-<h2>Frequently Asked Questions (FAQ)</h2>
-
-<h3>Is this PDF Lock / Unlock Tool free?</h3>
-<p>
-Yes, the tool is completely free to use without any hidden charges.
-</p>
-
-<h3>Is my data safe?</h3>
-<p>
-Yes, all processing happens locally in your browser, ensuring complete data privacy.
-</p>
-
-<h3>Can I use it on mobile devices?</h3>
-<p>
-Yes, the tool works perfectly on smartphones and tablets.
-</p>
-
-<h3>Do I need to install software?</h3>
-<p>
-No, everything works online in your browser.
-</p>
-
-<h3>Can I unlock any PDF?</h3>
-<p>
-You can unlock PDFs only if you have the correct password and permission.
-</p>
-
-<h2>Related Tools</h2>
-
-<p>
-You can also use these helpful tools:
-</p>
-
-<ul>
-<li><a href="pdf-merge.html">PDF Merge Tool</a></li>
-<li><a href="image-to-pdf.html">Image to PDF Converter</a></li>
-<li><a href="image-compress.html">Image Compressor</a></li>
-<li><a href="image-resize.html">Image Resize Tool</a></li>
-<li><a href="image-crop.html">Image Crop Tool</a></li>
-<li><a href="percentage.html">Percentage Calculator</a></li>
-<li><a href="gst.html">GST Calculator</a></li>
-<li><a href="age.html">Age Calculator</a></li>
-</ul>
-
-<h2>Conclusion</h2>
-
-<p>
-The <strong>PDF Lock / Unlock Tool</strong> is an essential utility for anyone who wants to manage PDF security efficiently. Whether you need to protect sensitive documents or remove restrictions for easier access, this tool provides a fast, secure, and user-friendly solution. With no installation required and complete privacy, it is the perfect choice for students, professionals, and everyday users.
-</p>
-
-<p>
-Start using this tool today and take full control of your PDF files with ease and confidence.
-</p>
-
-</div>
 <footer>
-© 2026 Shayan Smart Tools. All Rights Reserved. Unauthorized copying, reproduction, or distribution of this content without permission is strictly prohibited.
+© 2026 Shayan Smart Tools. All Rights Reserved.
 </footer>
 </body>
 </html>
