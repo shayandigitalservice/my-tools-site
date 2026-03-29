@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Magic PDF Editor Pro | Shayan Smart Tools</title>
+    <script src="https://unpkg.com/pdf-lib/dist/pdf-lib.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Arial, sans-serif; }
+        body { background: #0f172a; color: white; padding: 15px; }
+        .editor-wrapper { max-width: 1300px; margin: auto; background: #1e293b; padding: 20px; border-radius: 15px; box-shadow: 0 15px 50px rgba(0,0,0,0.5); }
+        
+        /* Toolbar Grid */
+        .toolbar { 
+            background: #334155; padding: 15px; border-radius: 12px; margin-bottom: 20px; 
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 15px; align-items: end;
+        }
+        .tool-item { display: flex; flex-direction: column; gap: 5px; }
+        .tool-item label { font-size: 11px; color: #38bdf8; font-weight: bold; text-transform: uppercase; }
+        
+        input, select { padding: 10px; border-radius: 6px; border: 1px solid #38bdf8; outline: none; font-size: 14px; background: #fff; color: #000; width: 100%; }
+        
+        .btn-group { display: flex; gap: 10px; }
+        .btn-dl { background: #38bdf8; color: #0f172a; padding: 12px; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; flex: 2; transition: 0.2s; }
+        .btn-dl:hover { background: #0ea5e9; color: white; transform: scale(1.02); }
+        .btn-reset { background: #ef4444; color: white; padding: 12px; border: none; border-radius: 8px; cursor: pointer; flex: 1; }
+
+        /* PDF Viewer Area */
+        .pdf-display { background: #475569; padding: 15px; border-radius: 10px; overflow: auto; max-height: 75vh; border: 2px solid #334155; position: relative; }
+        canvas { background: white; cursor: crosshair; display: block; margin: 0 auto; box-shadow: 0 0 20px rgba(0,0,0,0.4); }
+        
+        .tip { font-size: 12px; color: #94a3b8; margin-top: 10px; text-align: center; }
+    </style>
+</head>
+<body>
+
+<div class="editor-wrapper">
+    <h3 style="margin-bottom:20px; text-align: center;"><i class="fa-solid fa-wand-magic-sparkles"></i> SHAYAN <span>PDF MAGIC EDITOR</span></h3>
+    
+    <div class="toolbar">
+        <div class="tool-item">
+            <label>1. Upload PDF</label>
+            <input type="file" id="pdf-upload" accept="application/pdf">
+        </div>
+        <div class="tool-item">
+            <label>2. New Text</label>
+            <input type="text" id="input-text" placeholder="Enter name...">
+        </div>
+        <div class="tool-item">
+            <label>3. Font Style</label>
+            <select id="font-select">
+                <optgroup label="Modern (Sans-Serif)">
+                    <option value="Helvetica">Helvetica (Standard)</option>
+                    <option value="Helvetica-Bold">Helvetica Bold (Mota)</option>
+                    <option value="Helvetica-Oblique">Helvetica Italic</option>
+                </optgroup>
+                <optgroup label="Classic (Official/Legal)">
+                    <option value="Times-Roman">Times Roman (Serif)</option>
+                    <option value="Times-Bold">Times Bold</option>
+                    <option value="Times-Italic">Times Italic</option>
+                </optgroup>
+                <optgroup label="Bills (Typewriter)">
+                    <option value="Courier">Courier (Monospace)</option>
+                    <option value="Courier-Bold">Courier Bold</option>
+                </optgroup>
+            </select>
+        </div>
+        <div class="tool-item" style="max-width: 80px;">
+            <label>Size</label>
+            <input type="number" id="input-size" value="12">
+        </div>
+        <div class="tool-item">
+            <label>Text Color</label>
+            <input type="color" id="text-color" value="#000000">
+        </div>
+        <div class="tool-item">
+            <label>Paper Match</label>
+            <input type="color" id="paper-color" value="#ffffff">
+        </div>
+        <div class="btn-group">
+            <button class="btn-dl" onclick="finalProcess()"><i class="fa-solid fa-download"></i> Save</button>
+            <button class="btn-reset" onclick="location.reload()"><i class="fa-solid fa-trash"></i></button>
+        </div>
+    </div>
+
+    <p class="tip">Instructions: Set text & font -> Use Paper Color to match background -> Click on PDF to replace -> Download</p>
+
+    <div class="pdf-display">
+        <canvas id="pdf-canvas"></canvas>
+    </div>
+</div>
+
+<script>
+    const { PDFDocument, rgb } = PDFLib;
+    let originalData = null;
+    let edits = [];
+    const canvas = document.getElementById('pdf-canvas');
+    const ctx = canvas.getContext('2d');
+
+    // 1. PDF Upload & Preview Rendering
+    document.getElementById('pdf-upload').addEventListener('change', async (e) => {
+        const file = e.target.files[0];
+        if (!file) return;
+        originalData = await file.arrayBuffer();
+        
+        const pdfjsLib = window['pdfjs-dist/build/pdf'];
+        pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.worker.min.js';
+        
+        const pdf = await pdfjsLib.getDocument({data: originalData}).promise;
+        const page = await pdf.getPage(1);
+        const viewport = page.getViewport({scale: 2.0}); // High scale for crisp editing
+        
+        canvas.height = viewport.height;
+        canvas.width = viewport.width;
+        await page.render({canvasContext: ctx, viewport: viewport}).promise;
+    });
+
+    // 2. Click to Edit Logic (Same-to-Same)
+    canvas.addEventListener('mousedown', (e) => {
+        if (!originalData) return alert("Pehle PDF upload karein!");
+        
+        const rect = canvas.getBoundingClientRect();
+        const scaleX = canvas.width / rect.width;
+        const scaleY = canvas.height / rect.height;
+        const x = (e.clientX - rect.left) * scaleX;
+        const y = (e.clientY - rect.top) * scaleY;
+        
+        const text = document.getElementById('input-text').value;
+        const size = parseInt(document.getElementById('input-size').value);
+        const font = document.getElementById('font-select').value;
+        const textColor = document.getElementById('text-color').value;
+        const paperColor = document.getElementById('paper-color').value;
+
+        if(!text) return alert("Naya naam box mein likhein!");
+
+        // --- Live Preview on Canvas ---
+        // Hide Old (Paper color matching)
+        ctx.fillStyle = paperColor;
+        ctx.fillRect(x - 5, y - (size * 2), text.length * (size * 1.2), size * 3);
+        
+        // Write New
+        ctx.fillStyle = textColor;
+        ctx.font = font.includes('Bold') ? `bold ${size * 2}px Arial` : `${size * 2}px Arial`;
+        ctx.fillText(text, x, y);
+
+        edits.push({ x, y, text, size, font, textColor, paperColor });
+    });
+
+    // Helper: Hex to PDF-LIB RGB conversion
+    function hexToRgb(hex) {
+        const r = parseInt(hex.slice(1, 3), 16) / 255;
+        const g = parseInt(hex.slice(3, 5), 16) / 255;
+        const b = parseInt(hex.slice(5, 7), 16) / 255;
+        return { r, g, b };
+    }
+
+    // 3. Final PDF Generation
+    async function finalProcess() {
+        if (!originalData) return;
+        const pdfDoc = await PDFDocument.load(originalData);
+        const firstPage = pdfDoc.getPages()[0];
+        const { width, height } = firstPage.getSize();
+
+        for (const edit of edits) {
+            const pdfX = (edit.x / canvas.width) * width;
+            const pdfY = height - ((edit.y / canvas.height) * height);
+            
+            const paperRgb = hexToRgb(edit.paperColor);
+            const textRgb = hexToRgb(edit.textColor);
+
+            // Hide old text with exact paper color
+            firstPage.drawRectangle({
+                x: pdfX - 2,
+                y: pdfY - (edit.size * 0.4),
+                width: edit.text.length * (edit.size * 0.6) + 10,
+                height: edit.size + 4,
+                color: rgb(paperRgb.r, paperRgb.g, paperRgb.b),
+            });
+
+            // Embed selected font and Draw new text
+            const embeddedFont = await pdfDoc.embedFont(edit.font);
+            firstPage.drawText(edit.text, {
+                x: pdfX,
+                y: pdfY,
+                size: edit.size,
+                font: embeddedFont,
+                color: rgb(textRgb.r, textRgb.g, textRgb.b),
+            });
+        }
+
+        const finalBytes = await pdfDoc.save();
+        const blob = new Blob([finalBytes], { type: "application/pdf" });
+        const link = document.createElement('a');
+        link.href = URL.createObjectURL(blob);
+        link.download = "Edited_Shayan_Tools.pdf";
+        link.click();
+    }
+</script>
+</body>
+</html>
