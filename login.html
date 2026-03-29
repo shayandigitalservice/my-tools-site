@@ -6,72 +6,140 @@
     <title>Login | Shayan Smart Tools</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
+        /* Global Reset */
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: Arial, sans-serif; }
-        body { 
-            background: #f4f7f9; 
-            display: flex; justify-content: center; align-items: center; 
-            min-height: 100vh; padding: 20px;
+        
+        body {
+            background: #fff; /* Full screen ke liye white background */
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
-        .login-card {
-            background: #fff;
+
+        /* Main Wrapper - Full Screen on Desktop */
+        .login-wrapper {
+            display: flex;
             width: 100%;
-            max-width: 400px; /* Desktop par box chota aur sundar dikhega */
+            min-height: 100vh;
+            background: #fff;
+        }
+
+        /* Left Side Image/Branding (Only for Desktop) */
+        .login-side-image {
+            flex: 1;
+            background: linear-gradient(rgba(16, 24, 40, 0.8), rgba(16, 24, 40, 0.8)), 
+                        url('https://images.unsplash.com/photo-1497215728101-856f4ea42174?q=80&w=1600') no-repeat center center/cover;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: white;
             padding: 40px;
-            border-radius: 20px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.05);
             text-align: center;
         }
-        .logo { display: flex; justify-content: center; align-items: center; text-decoration: none; margin-bottom: 25px; }
-        .logo img { height: 45px; width: 45px; border-radius: 8px; margin-right: 10px; }
-        .logo span { color: #101828; font-size: 20px; font-weight: bold; }
+        .login-side-image h1 { font-size: 40px; margin-bottom: 15px; }
+        .login-side-image p { font-size: 18px; opacity: 0.9; }
+
+        /* Right Side Form */
+        .login-form-area {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 40px;
+        }
+
+        .login-card {
+            width: 100%;
+            max-width: 450px; /* Form ko readable rakhne ke liye limit */
+            text-align: center;
+        }
+
+        /* Logo Area */
+        .logo { 
+            display: flex; justify-content: center; align-items: center; 
+            text-decoration: none; margin-bottom: 30px; 
+        }
+        .logo img { height: 60px; width: 60px; border-radius: 12px; margin-right: 15px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+        .logo span { color: #101828; font-size: 24px; font-weight: bold; }
         .logo b { color: #45cafd; }
         
-        h2 { font-size: 22px; color: #101828; margin-bottom: 8px; }
-        p { color: #667085; font-size: 14px; margin-bottom: 25px; }
+        h2 { font-size: 28px; color: #101828; margin-bottom: 10px; }
+        p.subtitle { color: #667085; font-size: 15px; margin-bottom: 30px; }
 
-        .input-group { text-align: left; margin-bottom: 18px; }
-        .input-group label { display: block; font-size: 13px; font-weight: 600; margin-bottom: 8px; color: #344054; }
+        /* Input Styling */
+        .input-group { text-align: left; margin-bottom: 20px; }
+        .input-group label { display: block; font-size: 14px; font-weight: 600; margin-bottom: 8px; color: #344054; }
         .input-box { position: relative; }
-        .input-box i { position: absolute; left: 15px; top: 13px; color: #98a2b3; }
+        .input-box i { position: absolute; left: 15px; top: 15px; color: #98a2b3; }
         .input-box input { 
-            width: 100%; padding: 12px 15px 12px 40px; 
-            border: 1px solid #d0d5dd; border-radius: 10px; outline: none; transition: 0.3s;
+            width: 100%; padding: 14px 15px 14px 45px; 
+            border: 1px solid #d0d5dd; border-radius: 12px; font-size: 16px; outline: none; transition: 0.3s;
         }
         .input-box input:focus { border-color: #45cafd; box-shadow: 0 0 0 4px rgba(69,202,253,0.1); }
 
         .btn-submit { 
             width: 100%; background: #45cafd; color: white; border: none; 
-            padding: 13px; border-radius: 10px; font-size: 16px; font-weight: bold; 
-            cursor: pointer; transition: 0.3s; margin-top: 10px;
+            padding: 15px; border-radius: 12px; font-size: 18px; font-weight: bold; 
+            cursor: pointer; transition: 0.3s; margin-top: 15px;
         }
-        .btn-submit:hover { background: #2b7cff; }
+        .btn-submit:hover { background: #2b7cff; transform: translateY(-2px); }
 
-        .footer-text { margin-top: 25px; font-size: 14px; color: #667085; }
+        .footer-text { margin-top: 30px; font-size: 15px; color: #667085; }
         .footer-text a { color: #45cafd; text-decoration: none; font-weight: bold; }
-        .back-home { display: block; margin-top: 20px; font-size: 13px; color: #98a2b3; text-decoration: none; }
+        .back-home { display: block; margin-top: 25px; font-size: 14px; color: #98a2b3; text-decoration: none; }
+        .back-home:hover { color: #101828; }
+
+        /* Mobile Adjustments */
+        @media (max-width: 900px) {
+            .login-side-image { display: none; } /* Mobile par image hide ho jayegi */
+            .login-wrapper { min-height: 100vh; align-items: center; }
+            .login-form-area { padding: 20px; width: 100%; }
+        }
     </style>
 </head>
 <body>
-    <div class="login-card">
-        <a href="index.html" class="logo">
-            <img src="1000040753.png" alt="Logo">
-            <span>SHAYAN <b>TOOLS</b></span>
-        </a>
-        <h2>Welcome Back</h2>
-        <p>Login to access pro features</p>
-        <form>
-            <div class="input-group">
-                <label>Email</label>
-                <div class="input-box"><i class="fa-solid fa-envelope"></i><input type="email" placeholder="Email address"></div>
+
+    <div class="login-wrapper">
+        <div class="login-side-image">
+            <h1>SHAYAN SMART TOOLS</h1>
+            <p>India's fastest platform for all your professional digital needs. All tools, one place.</p>
+        </div>
+
+        <div class="login-form-area">
+            <div class="login-card">
+                <a href="index.html" class="logo">
+                    <img src="1000040753.png" alt="Shayan Tools Logo">
+                    <span>SHAYAN <b>TOOLS</b></span>
+                </a>
+                <h2>Welcome Back</h2>
+                <p class="subtitle">Enter your credentials to access pro features</p>
+
+                <form>
+                    <div class="input-group">
+                        <label>Email Address</label>
+                        <div class="input-box">
+                            <i class="fa-solid fa-envelope"></i>
+                            <input type="email" placeholder="name@company.com" required>
+                        </div>
+                    </div>
+                    <div class="input-group">
+                        <label>Password</label>
+                        <div class="input-box">
+                            <i class="fa-solid fa-lock"></i>
+                            <input type="password" placeholder="••••••••" required>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn-submit">Sign In</button>
+                </form>
+
+                <div class="footer-text">Don't have an account? <a href="signup.html">Create Account</a></div>
+                <a href="index.html" class="back-home">← Back to Home Page</a>
             </div>
-            <div class="input-group">
-                <label>Password</label>
-                <div class="input-box"><i class="fa-solid fa-lock"></i><input type="password" placeholder="Password"></div>
-            </div>
-            <button type="submit" class="btn-submit">Login</button>
-        </form>
-        <div class="footer-text">Naye hain? <a href="signup.html">Create Account</a></div>
-        <a href="index.html" class="back-home">← Back to Home</a>
+        </div>
     </div>
+
 </body>
 </html>
