@@ -2,144 +2,155 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Shayan Smart PDF Editor</title>
+    <title>Shayan Sejda Style Editor</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.min.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
     <style>
-        * { margin:0; padding:0; box-sizing:border-box; font-family:'Poppins',sans-serif; }
-        body { background: #525659; overflow-x: hidden; }
-        .nav { background: #2563eb; color: white; padding: 15px; text-align: center; font-weight: 700; position: fixed; top: 0; width: 100%; z-index: 100; }
+        * { margin:0; padding:0; box-sizing:border-box; font-family: sans-serif; }
+        body { background: #525659; display: flex; flex-direction: column; align-items: center; }
+        .nav { background: #2563eb; color: white; width: 100%; padding: 15px; text-align: center; font-weight: bold; position: sticky; top: 0; z-index: 1000; }
         
-        .upload-bar { background: white; padding: 20px; margin-top: 55px; text-align: center; }
+        .upload-section { background: white; width: 100%; padding: 20px; text-align: center; border-bottom: 2px solid #ddd; }
         
-        #viewer-container { display: flex; justify-content: center; padding: 10px; margin-bottom: 100px; }
-        canvas { background: white; box-shadow: 0 0 20px rgba(0,0,0,0.4); max-width: 100%; height: auto; cursor: pointer; }
-
-        /* Bottom Sheet Style Editor */
-        #editor-sheet { 
-            position: fixed; bottom: -100%; left: 0; width: 100%; 
-            background: white; border-radius: 20px 20px 0 0; 
-            padding: 20px; box-shadow: 0 -10px 30px rgba(0,0,0,0.3); 
-            transition: 0.4s; z-index: 1000;
+        #editor-container { 
+            position: relative; 
+            margin: 20px 0; 
+            background: white; 
+            box-shadow: 0 0 30px rgba(0,0,0,0.5);
+            display: none;
         }
-        #editor-sheet.active { bottom: 0; }
+        canvas { display: block; }
         
-        .sheet-header { display: flex; justify-content: space-between; margin-bottom: 15px; }
-        .sheet-header b { color: #2563eb; }
-        
-        input#edit-input { width: 100%; padding: 15px; border: 2px solid #ddd; border-radius: 10px; font-size: 16px; outline: none; margin-bottom: 15px; }
-        input#edit-input:focus { border-color: #2563eb; }
+        /* The Secret Sauce: Absolute Text Layer */
+        .text-layer {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            pointer-events: none; /* Allows clicks to pass if needed */
+        }
+        .editable-word {
+            position: absolute;
+            background: rgba(37, 99, 235, 0.08); /* Light blue highlight */
+            border: 1px solid transparent;
+            cursor: text;
+            pointer-events: auto;
+            outline: none;
+            color: transparent; /* Hide browser text, show PDF canvas text */
+            caret-color: black;
+        }
+        .editable-word:focus {
+            background: white;
+            color: black;
+            border: 1px solid #2563eb;
+            z-index: 1000;
+        }
 
-        .btn-group { display: flex; gap: 10px; }
-        .btn { flex: 1; padding: 15px; border: none; border-radius: 10px; font-weight: 700; cursor: pointer; }
-        .btn-save { background: #16a34a; color: white; }
-        .btn-cancel { background: #ef4444; color: white; }
-
-        #loading-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); z-index: 2000; color: white; justify-content: center; align-items: center; font-size: 20px; }
+        .save-btn {
+            position: fixed; bottom: 20px; right: 20px;
+            background: #16a34a; color: white; border: none;
+            padding: 15px 30px; border-radius: 50px; font-weight: bold;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3); cursor: pointer;
+            display: none; z-index: 2000;
+        }
     </style>
 </head>
 <body>
 
-<div class="nav">SHAYAN PDF SMART EDITOR</div>
+<div class="nav">SHAYAN DIGITAL | SEJDA MODE</div>
 
-<div class="upload-bar">
-    <input type="file" id="pdf-file" accept=".pdf">
-    <p style="font-size: 12px; color: #666; margin-top: 5px;">Click on any text in the PDF to edit</p>
+<div class="upload-section">
+    <input type="file" id="file-picker" accept=".pdf">
+    <p style="font-size: 12px; color: #666; margin-top: 5px;">PDF upload karein aur seedha text par click karke likhein.</p>
 </div>
 
-<div id="viewer-container">
+<div id="editor-container">
     <canvas id="pdf-canvas"></canvas>
+    <div id="text-layer" class="text-layer"></div>
 </div>
 
-<div id="editor-sheet">
-    <div class="sheet-header">
-        <b>Edit Selected Text</b>
-        <span onclick="closeSheet()" style="color:red; font-weight:bold; cursor:pointer;">Close</span>
-    </div>
-    <input type="text" id="edit-input">
-    <div class="btn-group">
-        <button class="btn btn-save" onclick="applyAndDownload()">Done & Download</button>
-    </div>
-</div>
-
-<div id="loading-overlay">⚙️ Processing...</div>
+<button id="save-btn" class="save-btn" onclick="applyChanges()">Download Edited PDF</button>
 
 <script>
     pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.worker.min.js';
     const API = 'https://shayan-pdf-api-1.onrender.com/api/smart-replace';
     
-    let pdfDoc = null, scale = 1.5, fileRaw = null, currentData = { old: "", new: "" };
-    const canvas = document.getElementById('pdf-canvas');
+    let pdfDoc = null, scale = 1.5, fileRaw = null, edits = { old: "", new: "" };
 
-    document.getElementById('pdf-file').onchange = e => {
+    document.getElementById('file-picker').onchange = e => {
         fileRaw = e.target.files[0];
         const reader = new FileReader();
         reader.onload = async function() {
             const data = new Uint8Array(this.result);
             pdfDoc = await pdfjsLib.getDocument(data).promise;
-            renderPage();
+            renderAll();
         };
         reader.readAsArrayBuffer(fileRaw);
     };
 
-    async function renderPage() {
+    async function renderAll() {
         const page = await pdfDoc.getPage(1);
         const vp = page.getViewport({ scale: scale });
-        canvas.height = vp.height; canvas.width = vp.width;
+        
+        const container = document.getElementById('editor-container');
+        const canvas = document.getElementById('pdf-canvas');
+        const layer = document.getElementById('text-layer');
+        
+        container.style.display = 'block';
+        container.style.width = vp.width + 'px';
+        container.style.height = vp.height + 'px';
+        canvas.width = vp.width; canvas.height = vp.height;
+        document.getElementById('save-btn').style.display = 'block';
+
         const ctx = canvas.getContext('2d');
         await page.render({ canvasContext: ctx, viewport: vp }).promise;
-    }
 
-    canvas.onclick = async e => {
-        const rect = canvas.getBoundingClientRect();
-        const x = e.clientX - rect.left;
-        const y = e.clientY - rect.top;
-
-        const page = await pdfDoc.getPage(1);
+        // Build Interaction Layer
         const textContent = await page.getTextContent();
-        const vp = page.getViewport({ scale: scale });
-
+        layer.innerHTML = "";
+        
         textContent.items.forEach(item => {
             const tx = pdfjsLib.Util.transform(vp.transform, item.transform);
-            if (x >= tx[4] && x <= tx[4] + item.width && y >= vp.height - tx[5] - item.height && y <= vp.height - tx[5]) {
-                currentData.old = item.str;
-                openSheet(item.str);
-            }
+            const div = document.createElement('div');
+            div.className = 'editable-word';
+            div.contentEditable = "true";
+            div.innerText = item.str;
+
+            // Accurate Alignment
+            const fSize = Math.sqrt(tx[0]*tx[0] + tx[1]*tx[1]);
+            div.style.fontSize = fSize + 'px';
+            div.style.left = tx[4] + 'px';
+            div.style.top = (vp.height - tx[5] - fSize) + 'px';
+            div.style.width = (item.width * scale) + 'px';
+            div.style.height = (fSize * 1.2) + 'px';
+            
+            const original = item.str;
+            div.oninput = () => {
+                edits.old = original;
+                edits.new = div.innerText;
+            };
+
+            layer.appendChild(div);
         });
-    };
-
-    function openSheet(val) {
-        document.getElementById('edit-input').value = val;
-        document.getElementById('editor-sheet').classList.add('active');
-        document.getElementById('edit-input').focus();
     }
 
-    function closeSheet() {
-        document.getElementById('editor-sheet').classList.remove('active');
-    }
-
-    async function applyAndDownload() {
-        currentData.new = document.getElementById('edit-input').value;
-        document.getElementById('loading-overlay').style.display = 'flex';
-        closeSheet();
-
+    async function applyChanges() {
+        if(!edits.old) { alert("Pehle kuch edit karein!"); return; }
+        document.getElementById('save-btn').innerText = "⏳ Saving...";
+        
         const fd = new FormData();
         fd.append('file', fileRaw);
-        fd.append('search_text', currentData.old);
-        fd.append('replace_text', currentData.new);
+        fd.append('search_text', edits.old);
+        fd.append('replace_text', edits.new);
 
-        try {
-            const res = await fetch(API, { method: 'POST', body: fd });
-            if(res.ok) {
-                const blob = await res.blob();
-                const url = URL.createObjectURL(blob);
-                const a = document.createElement('a');
-                a.href = url; a.download = "shayan_edited.pdf";
-                a.click();
-            } else { alert("Error connecting to API."); }
-        } catch(e) { alert("Server is busy."); }
-        document.getElementById('loading-overlay').style.display = 'none';
+        const res = await fetch(API, { method: 'POST', body: fd });
+        if(res.ok) {
+            const blob = await res.blob();
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url; a.download = "shayan_edited.pdf";
+            a.click();
+        }
+        document.getElementById('save-btn').innerText = "Download Edited PDF";
     }
 </script>
 </body>
