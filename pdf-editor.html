@@ -2,69 +2,77 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Shayan Digital | Pro PDF Editor</title>
+    <title>Shayan Smart PDF Editor</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.min.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
     <style>
         * { margin:0; padding:0; box-sizing:border-box; font-family:'Poppins',sans-serif; }
-        body { background: #525659; color: white; text-align: center; }
-        .nav { background: #2563eb; padding: 15px; font-weight: 700; position: sticky; top: 0; z-index: 1000; }
+        body { background: #525659; overflow-x: hidden; }
+        .nav { background: #2563eb; color: white; padding: 15px; text-align: center; font-weight: 700; position: fixed; top: 0; width: 100%; z-index: 100; }
         
-        .upload-section { background: white; color: #333; padding: 20px; margin-bottom: 20px; }
+        .upload-bar { background: white; padding: 20px; margin-top: 55px; text-align: center; }
         
-        #editor-container { 
-            position: relative; 
-            display: inline-block; 
-            margin: 20px auto; 
-            background: white; 
-            box-shadow: 0 0 50px rgba(0,0,0,0.5); 
-        }
-        canvas { display: block; z-index: 1; }
-        
-        /* Floating Edit Input - Sejda Style */
-        #floating-input { 
-            position: absolute; 
-            display: none; 
-            z-index: 1000; 
-            border: 2px solid #2563eb; 
-            background: white; 
-            color: black; 
-            padding: 5px; 
-            border-radius: 4px; 
-            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-            outline: none;
-            font-size: 14px;
-        }
+        #viewer-container { display: flex; justify-content: center; padding: 10px; margin-bottom: 100px; }
+        canvas { background: white; box-shadow: 0 0 20px rgba(0,0,0,0.4); max-width: 100%; height: auto; cursor: pointer; }
 
-        .btn-action { background: #16a34a; color: white; padding: 12px 25px; border-radius: 8px; border: none; font-weight: 700; cursor: pointer; margin: 10px; }
-        #loading { display: none; margin: 10px; color: #ffeb3b; }
+        /* Bottom Sheet Style Editor */
+        #editor-sheet { 
+            position: fixed; bottom: -100%; left: 0; width: 100%; 
+            background: white; border-radius: 20px 20px 0 0; 
+            padding: 20px; box-shadow: 0 -10px 30px rgba(0,0,0,0.3); 
+            transition: 0.4s; z-index: 1000;
+        }
+        #editor-sheet.active { bottom: 0; }
+        
+        .sheet-header { display: flex; justify-content: space-between; margin-bottom: 15px; }
+        .sheet-header b { color: #2563eb; }
+        
+        input#edit-input { width: 100%; padding: 15px; border: 2px solid #ddd; border-radius: 10px; font-size: 16px; outline: none; margin-bottom: 15px; }
+        input#edit-input:focus { border-color: #2563eb; }
+
+        .btn-group { display: flex; gap: 10px; }
+        .btn { flex: 1; padding: 15px; border: none; border-radius: 10px; font-weight: 700; cursor: pointer; }
+        .btn-save { background: #16a34a; color: white; }
+        .btn-cancel { background: #ef4444; color: white; }
+
+        #loading-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); z-index: 2000; color: white; justify-content: center; align-items: center; font-size: 20px; }
     </style>
 </head>
 <body>
 
-<div class="nav">SHAYAN SMART PDF EDITOR</div>
+<div class="nav">SHAYAN PDF SMART EDITOR</div>
 
-<div class="upload-section">
-    <input type="file" id="file-selector" accept=".pdf">
-    <div id="loading">🚀 Processing... Please wait.</div>
-    <button id="dl-btn" class="btn-action" style="display:none;" onclick="applyAndDownload()">Apply & Download PDF</button>
+<div class="upload-bar">
+    <input type="file" id="pdf-file" accept=".pdf">
+    <p style="font-size: 12px; color: #666; margin-top: 5px;">Click on any text in the PDF to edit</p>
 </div>
 
-<div id="editor-container">
+<div id="viewer-container">
     <canvas id="pdf-canvas"></canvas>
-    <input type="text" id="floating-input" onblur="saveChanges()">
 </div>
+
+<div id="editor-sheet">
+    <div class="sheet-header">
+        <b>Edit Selected Text</b>
+        <span onclick="closeSheet()" style="color:red; font-weight:bold; cursor:pointer;">Close</span>
+    </div>
+    <input type="text" id="edit-input">
+    <div class="btn-group">
+        <button class="btn btn-save" onclick="applyAndDownload()">Done & Download</button>
+    </div>
+</div>
+
+<div id="loading-overlay">⚙️ Processing...</div>
 
 <script>
     pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.worker.min.js';
     const API = 'https://shayan-pdf-api-1.onrender.com/api/smart-replace';
     
-    let pdfDoc = null, scale = 1.5, fileRaw = null, currentEdit = { old: "", new: "" };
+    let pdfDoc = null, scale = 1.5, fileRaw = null, currentData = { old: "", new: "" };
     const canvas = document.getElementById('pdf-canvas');
-    const input = document.getElementById('floating-input');
 
-    document.getElementById('file-selector').onchange = e => {
+    document.getElementById('pdf-file').onchange = e => {
         fileRaw = e.target.files[0];
         const reader = new FileReader();
         reader.onload = async function() {
@@ -79,15 +87,10 @@
         const page = await pdfDoc.getPage(1);
         const vp = page.getViewport({ scale: scale });
         canvas.height = vp.height; canvas.width = vp.width;
-        
         const ctx = canvas.getContext('2d');
         await page.render({ canvasContext: ctx, viewport: vp }).promise;
-        
-        document.getElementById('dl-btn').style.display = 'inline-block';
-        document.getElementById('editor-container').style.width = vp.width + 'px';
     }
 
-    // CLICK DETECTION (The smart part)
     canvas.onclick = async e => {
         const rect = canvas.getBoundingClientRect();
         const x = e.clientX - rect.left;
@@ -99,34 +102,32 @@
 
         textContent.items.forEach(item => {
             const tx = pdfjsLib.Util.transform(vp.transform, item.transform);
-            // Coordinate check
             if (x >= tx[4] && x <= tx[4] + item.width && y >= vp.height - tx[5] - item.height && y <= vp.height - tx[5]) {
-                currentEdit.old = item.str;
-                
-                // Show floating input exactly on the word
-                input.style.display = 'block';
-                input.style.left = tx[4] + 'px';
-                input.style.top = (vp.height - tx[5] - item.height) + 'px';
-                input.style.width = (item.width + 20) + 'px';
-                input.value = item.str;
-                input.focus();
+                currentData.old = item.str;
+                openSheet(item.str);
             }
         });
     };
 
-    function saveChanges() {
-        currentEdit.new = input.value;
-        // Input ko hide nahi karenge taaki user ko dikhe kya likha hai
+    function openSheet(val) {
+        document.getElementById('edit-input').value = val;
+        document.getElementById('editor-sheet').classList.add('active');
+        document.getElementById('edit-input').focus();
+    }
+
+    function closeSheet() {
+        document.getElementById('editor-sheet').classList.remove('active');
     }
 
     async function applyAndDownload() {
-        if(!currentEdit.old) { alert("Pehle kisi word par click karke use edit karein!"); return; }
-        
-        document.getElementById('loading').style.display = 'block';
+        currentData.new = document.getElementById('edit-input').value;
+        document.getElementById('loading-overlay').style.display = 'flex';
+        closeSheet();
+
         const fd = new FormData();
         fd.append('file', fileRaw);
-        fd.append('search_text', currentEdit.old);
-        fd.append('replace_text', currentEdit.new);
+        fd.append('search_text', currentData.old);
+        fd.append('replace_text', currentData.new);
 
         try {
             const res = await fetch(API, { method: 'POST', body: fd });
@@ -136,9 +137,9 @@
                 const a = document.createElement('a');
                 a.href = url; a.download = "shayan_edited.pdf";
                 a.click();
-            } else { alert("API Error! Render ko check karein."); }
-        } catch(e) { alert("Connection Error!"); }
-        document.getElementById('loading').style.display = 'none';
+            } else { alert("Error connecting to API."); }
+        } catch(e) { alert("Server is busy."); }
+        document.getElementById('loading-overlay').style.display = 'none';
     }
 </script>
 </body>
