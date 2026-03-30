@@ -2,135 +2,131 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Shayan Direct PDF Editor</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shayan Digital | Pro PDF Editor</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.min.js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf_viewer.min.css">
     <style>
         * { margin:0; padding:0; box-sizing:border-box; font-family: sans-serif; }
-        body { background: #525659; }
-        .nav { background: #2563eb; color: white; padding: 15px; text-align: center; font-weight: bold; position: sticky; top: 0; z-index: 1000; }
-        .upload-section { background: white; padding: 15px; text-align: center; border-bottom: 1px solid #ddd; }
+        body { background: #f0f2f5; text-align: center; }
+        .nav { background: #2563eb; color: white; padding: 15px; font-weight: bold; }
         
-        /* Viewer Container */
-        #page-container { 
-            position: relative; 
-            margin: 20px auto; 
-            background: white; 
-            box-shadow: 0 0 20px rgba(0,0,0,0.5); 
+        .upload-card { background: white; margin: 20px; padding: 30px; border-radius: 12px; border: 2px dashed #2563eb; cursor: pointer; }
+        
+        #editor-container { position: relative; display: inline-block; margin-top: 20px; background: white; box-shadow: 0 10px 40px rgba(0,0,0,0.2); }
+        canvas { display: block; z-index: 1; }
+        
+        /* Floating Editor Box */
+        #edit-modal { 
+            position: fixed; bottom: 0; left: 0; width: 100%; 
+            background: white; padding: 25px; border-radius: 20px 20px 0 0; 
+            box-shadow: 0 -10px 30px rgba(0,0,0,0.3); z-index: 2000; 
+            display: none; animation: slideUp 0.3s ease;
         }
-
-        /* Standard PDF.js Text Layer - Isko humne editable banaya hai */
-        .textLayer { 
-            opacity: 1 !important; 
-            mix-blend-mode: multiply; /* Isse background saaf dikhega */
-        }
-        .textLayer span {
-            cursor: text;
-            background: rgba(37, 99, 235, 0.05);
-            transition: 0.2s;
-        }
-        .textLayer span:focus {
-            background: white !important;
-            color: black !important;
-            outline: 2px solid #2563eb;
-            z-index: 1000;
-        }
-
-        .save-btn {
-            position: fixed; bottom: 20px; right: 20px;
-            background: #16a34a; color: white; border: none;
-            padding: 15px 30px; border-radius: 50px; font-weight: bold;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.3); cursor: pointer;
-            z-index: 2000; display: none;
-        }
+        @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
+        
+        input { width: 100%; padding: 15px; border: 2px solid #ddd; border-radius: 10px; font-size: 16px; margin-bottom: 15px; outline: none; }
+        .btn-done { background: #16a34a; color: white; width: 100%; padding: 15px; border: none; border-radius: 10px; font-weight: bold; font-size: 18px; }
+        
+        #status { display: none; color: #2563eb; font-weight: bold; margin-top: 10px; }
     </style>
 </head>
 <body>
 
 <div class="nav">SHAYAN SMART PDF EDITOR</div>
 
-<div class="upload-section">
-    <input type="file" id="pdf-upload" accept=".pdf">
-    <p style="font-size: 11px; color: #666; margin-top: 5px;">Text par click karein aur seedha badlein.</p>
+<div id="upload-box" class="upload-card" onclick="document.getElementById('pdf-file').click()">
+    <p>📁 Select PDF File</p>
+    <input type="file" id="pdf-file" accept=".pdf" style="display:none">
 </div>
 
-<div id="page-container">
-    <canvas id="pdf-canvas"></canvas>
-    <div id="text-layer" class="textLayer"></div>
+<div id="status">⚙️ Magic is happening...</div>
+
+<div id="editor-container">
+    <canvas id="pdf-render"></canvas>
 </div>
 
-<button id="save-btn" class="save-btn" onclick="savePDF()">Apply & Download</button>
+<div id="edit-modal">
+    <p style="color: #666; font-size: 12px; margin-bottom: 8px;">Edit Text Below:</p>
+    <input type="text" id="new-val">
+    <button class="btn-done" onclick="submitToBackend()">Apply & Download PDF</button>
+    <p onclick="closeModal()" style="margin-top: 15px; color: red; cursor: pointer;">Cancel</p>
+</div>
 
 <script>
     pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.worker.min.js';
     const API = 'https://shayan-pdf-api-1.onrender.com/api/smart-replace';
     
-    let fileRaw = null, lastEdit = { old: "", new: "" };
+    let pdfDoc = null, scale = 1.5, fileData = null, oldWord = "";
+    const canvas = document.getElementById('pdf-render');
 
-    document.getElementById('pdf-upload').onchange = e => {
-        fileRaw = e.target.files[0];
+    document.getElementById('pdf-file').onchange = e => {
+        fileData = e.target.files[0];
         const reader = new FileReader();
-        reader.onload = function() { renderPDF(new Uint8Array(this.result)); };
-        reader.readAsArrayBuffer(fileRaw);
+        reader.onload = async function() {
+            pdfDoc = await pdfjsLib.getDocument(new Uint8Array(this.result)).promise;
+            renderPage();
+        };
+        reader.readAsArrayBuffer(fileData);
     };
 
-    async function renderPDF(data) {
-        const pdf = await pdfjsLib.getDocument(data).promise;
-        const page = await pdf.getPage(1);
-        const scale = 1.5;
-        const vp = page.getViewport({ scale });
-
-        const container = document.getElementById('page-container');
-        const canvas = document.getElementById('pdf-canvas');
-        const textLayerDiv = document.getElementById('text-layer');
-
-        container.style.width = vp.width + 'px';
-        container.style.height = vp.height + 'px';
-        canvas.width = vp.width; canvas.height = vp.height;
-
-        const ctx = canvas.getContext('2d');
-        await page.render({ canvasContext: ctx, viewport: vp }).promise;
-
-        // Build Official Text Layer
-        const textContent = await page.getTextContent();
-        textLayerDiv.innerHTML = "";
-        pdfjsLib.renderTextLayer({
-            textContent: textContent,
-            container: textLayerDiv,
-            viewport: vp,
-            textDivs: []
-        }).promise.then(() => {
-            // Har span ko editable banao
-            const spans = textLayerDiv.querySelectorAll('span');
-            spans.forEach(span => {
-                const originalText = span.innerText;
-                span.contentEditable = true;
-                span.onblur = () => {
-                    if(span.innerText !== originalText) {
-                        lastEdit.old = originalText;
-                        lastEdit.new = span.innerText;
-                        document.getElementById('save-btn').style.display = 'block';
-                    }
-                };
-            });
-        });
+    async function renderPage() {
+        document.getElementById('upload-box').style.display = 'none';
+        const page = await pdfDoc.getPage(1);
+        const vp = page.getViewport({ scale: scale });
+        canvas.height = vp.height; canvas.width = vp.width;
+        await page.render({ canvasContext: canvas.getContext('2d'), viewport: vp }).promise;
     }
 
-    async function savePDF() {
-        const fd = new FormData();
-        fd.append('file', fileRaw);
-        fd.append('search_text', lastEdit.old);
-        fd.append('replace_text', lastEdit.new);
+    // Direct Click on Canvas
+    canvas.onclick = async e => {
+        const rect = canvas.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
 
-        const res = await fetch(API, { method: 'POST', body: fd });
-        if(res.ok) {
-            const blob = await res.blob();
-            const a = document.createElement('a');
-            a.href = URL.createObjectURL(blob);
-            a.download = "edited.pdf";
-            a.click();
-        }
+        const page = await pdfDoc.getPage(1);
+        const textContent = await page.getTextContent();
+        const vp = page.getViewport({ scale: scale });
+
+        textContent.items.forEach(item => {
+            const tx = pdfjsLib.Util.transform(vp.transform, item.transform);
+            // Check if click is inside word box
+            if (x >= tx[4] && x <= tx[4] + (item.width * scale) && y >= vp.height - tx[5] - (item.height * scale) && y <= vp.height - tx[5]) {
+                oldWord = item.str;
+                openModal(item.str);
+            }
+        });
+    };
+
+    function openModal(val) {
+        document.getElementById('new-val').value = val;
+        document.getElementById('edit-modal').style.display = 'block';
+    }
+
+    function closeModal() {
+        document.getElementById('edit-modal').style.display = 'none';
+    }
+
+    async function submitToBackend() {
+        const newVal = document.getElementById('new-val').value;
+        closeModal();
+        document.getElementById('status').style.display = 'block';
+
+        const fd = new FormData();
+        fd.append('file', fileData);
+        fd.append('search_text', oldWord);
+        fd.append('replace_text', newVal);
+
+        try {
+            const res = await fetch(API, { method: 'POST', body: fd });
+            if(res.ok) {
+                const blob = await res.blob();
+                const a = document.createElement('a');
+                a.href = URL.createObjectURL(blob);
+                a.download = "shayan_edited.pdf";
+                a.click();
+            } else { alert("Backend Error!"); }
+        } catch(e) { alert("API Connection Failed!"); }
+        document.getElementById('status').style.display = 'none';
     }
 </script>
 </body>
