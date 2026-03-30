@@ -2,46 +2,38 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Shayan Sejda Style Editor</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Shayan Direct PDF Editor</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf_viewer.min.css">
     <style>
         * { margin:0; padding:0; box-sizing:border-box; font-family: sans-serif; }
-        body { background: #525659; display: flex; flex-direction: column; align-items: center; }
-        .nav { background: #2563eb; color: white; width: 100%; padding: 15px; text-align: center; font-weight: bold; position: sticky; top: 0; z-index: 1000; }
+        body { background: #525659; }
+        .nav { background: #2563eb; color: white; padding: 15px; text-align: center; font-weight: bold; position: sticky; top: 0; z-index: 1000; }
+        .upload-section { background: white; padding: 15px; text-align: center; border-bottom: 1px solid #ddd; }
         
-        .upload-section { background: white; width: 100%; padding: 20px; text-align: center; border-bottom: 2px solid #ddd; }
-        
-        #editor-container { 
+        /* Viewer Container */
+        #page-container { 
             position: relative; 
-            margin: 20px 0; 
+            margin: 20px auto; 
             background: white; 
-            box-shadow: 0 0 30px rgba(0,0,0,0.5);
-            display: none;
+            box-shadow: 0 0 20px rgba(0,0,0,0.5); 
         }
-        canvas { display: block; }
-        
-        /* The Secret Sauce: Absolute Text Layer */
-        .text-layer {
-            position: absolute;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
-            pointer-events: none; /* Allows clicks to pass if needed */
+
+        /* Standard PDF.js Text Layer - Isko humne editable banaya hai */
+        .textLayer { 
+            opacity: 1 !important; 
+            mix-blend-mode: multiply; /* Isse background saaf dikhega */
         }
-        .editable-word {
-            position: absolute;
-            background: rgba(37, 99, 235, 0.08); /* Light blue highlight */
-            border: 1px solid transparent;
+        .textLayer span {
             cursor: text;
-            pointer-events: auto;
-            outline: none;
-            color: transparent; /* Hide browser text, show PDF canvas text */
-            caret-color: black;
+            background: rgba(37, 99, 235, 0.05);
+            transition: 0.2s;
         }
-        .editable-word:focus {
-            background: white;
-            color: black;
-            border: 1px solid #2563eb;
+        .textLayer span:focus {
+            background: white !important;
+            color: black !important;
+            outline: 2px solid #2563eb;
             z-index: 1000;
         }
 
@@ -50,107 +42,95 @@
             background: #16a34a; color: white; border: none;
             padding: 15px 30px; border-radius: 50px; font-weight: bold;
             box-shadow: 0 4px 15px rgba(0,0,0,0.3); cursor: pointer;
-            display: none; z-index: 2000;
+            z-index: 2000; display: none;
         }
     </style>
 </head>
 <body>
 
-<div class="nav">SHAYAN DIGITAL | SEJDA MODE</div>
+<div class="nav">SHAYAN SMART PDF EDITOR</div>
 
 <div class="upload-section">
-    <input type="file" id="file-picker" accept=".pdf">
-    <p style="font-size: 12px; color: #666; margin-top: 5px;">PDF upload karein aur seedha text par click karke likhein.</p>
+    <input type="file" id="pdf-upload" accept=".pdf">
+    <p style="font-size: 11px; color: #666; margin-top: 5px;">Text par click karein aur seedha badlein.</p>
 </div>
 
-<div id="editor-container">
+<div id="page-container">
     <canvas id="pdf-canvas"></canvas>
-    <div id="text-layer" class="text-layer"></div>
+    <div id="text-layer" class="textLayer"></div>
 </div>
 
-<button id="save-btn" class="save-btn" onclick="applyChanges()">Download Edited PDF</button>
+<button id="save-btn" class="save-btn" onclick="savePDF()">Apply & Download</button>
 
 <script>
     pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.worker.min.js';
     const API = 'https://shayan-pdf-api-1.onrender.com/api/smart-replace';
     
-    let pdfDoc = null, scale = 1.5, fileRaw = null, edits = { old: "", new: "" };
+    let fileRaw = null, lastEdit = { old: "", new: "" };
 
-    document.getElementById('file-picker').onchange = e => {
+    document.getElementById('pdf-upload').onchange = e => {
         fileRaw = e.target.files[0];
         const reader = new FileReader();
-        reader.onload = async function() {
-            const data = new Uint8Array(this.result);
-            pdfDoc = await pdfjsLib.getDocument(data).promise;
-            renderAll();
-        };
+        reader.onload = function() { renderPDF(new Uint8Array(this.result)); };
         reader.readAsArrayBuffer(fileRaw);
     };
 
-    async function renderAll() {
-        const page = await pdfDoc.getPage(1);
-        const vp = page.getViewport({ scale: scale });
-        
-        const container = document.getElementById('editor-container');
+    async function renderPDF(data) {
+        const pdf = await pdfjsLib.getDocument(data).promise;
+        const page = await pdf.getPage(1);
+        const scale = 1.5;
+        const vp = page.getViewport({ scale });
+
+        const container = document.getElementById('page-container');
         const canvas = document.getElementById('pdf-canvas');
-        const layer = document.getElementById('text-layer');
-        
-        container.style.display = 'block';
+        const textLayerDiv = document.getElementById('text-layer');
+
         container.style.width = vp.width + 'px';
         container.style.height = vp.height + 'px';
         canvas.width = vp.width; canvas.height = vp.height;
-        document.getElementById('save-btn').style.display = 'block';
 
         const ctx = canvas.getContext('2d');
         await page.render({ canvasContext: ctx, viewport: vp }).promise;
 
-        // Build Interaction Layer
+        // Build Official Text Layer
         const textContent = await page.getTextContent();
-        layer.innerHTML = "";
-        
-        textContent.items.forEach(item => {
-            const tx = pdfjsLib.Util.transform(vp.transform, item.transform);
-            const div = document.createElement('div');
-            div.className = 'editable-word';
-            div.contentEditable = "true";
-            div.innerText = item.str;
-
-            // Accurate Alignment
-            const fSize = Math.sqrt(tx[0]*tx[0] + tx[1]*tx[1]);
-            div.style.fontSize = fSize + 'px';
-            div.style.left = tx[4] + 'px';
-            div.style.top = (vp.height - tx[5] - fSize) + 'px';
-            div.style.width = (item.width * scale) + 'px';
-            div.style.height = (fSize * 1.2) + 'px';
-            
-            const original = item.str;
-            div.oninput = () => {
-                edits.old = original;
-                edits.new = div.innerText;
-            };
-
-            layer.appendChild(div);
+        textLayerDiv.innerHTML = "";
+        pdfjsLib.renderTextLayer({
+            textContent: textContent,
+            container: textLayerDiv,
+            viewport: vp,
+            textDivs: []
+        }).promise.then(() => {
+            // Har span ko editable banao
+            const spans = textLayerDiv.querySelectorAll('span');
+            spans.forEach(span => {
+                const originalText = span.innerText;
+                span.contentEditable = true;
+                span.onblur = () => {
+                    if(span.innerText !== originalText) {
+                        lastEdit.old = originalText;
+                        lastEdit.new = span.innerText;
+                        document.getElementById('save-btn').style.display = 'block';
+                    }
+                };
+            });
         });
     }
 
-    async function applyChanges() {
-        if(!edits.old) { alert("Pehle kuch edit karein!"); return; }
-        document.getElementById('save-btn').innerText = "⏳ Saving...";
-        
+    async function savePDF() {
         const fd = new FormData();
         fd.append('file', fileRaw);
-        fd.append('search_text', edits.old);
-        fd.append('replace_text', edits.new);
+        fd.append('search_text', lastEdit.old);
+        fd.append('replace_text', lastEdit.new);
 
         const res = await fetch(API, { method: 'POST', body: fd });
         if(res.ok) {
             const blob = await res.blob();
-            const url = URL.createObjectURL(blob);
             const a = document.createElement('a');
-            a.href = url; a.download = "shayan_edited.pdf";
+            a.href = URL.createObjectURL(blob);
+            a.download = "edited.pdf";
             a.click();
         }
-        document.getElementById('save-btn').innerText = "Download Edited PDF";
     }
 </script>
 </body>
