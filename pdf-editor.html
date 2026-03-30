@@ -2,137 +2,108 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Advanced Click-to-Edit PDF 2026 – Shayan Digital Service</title>
+    <title>Smart PDF Editor with Preview – Shayan Digital</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.min.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
     <style>
         * { margin:0; padding:0; box-sizing:border-box; font-family:'Poppins',sans-serif; }
-        body { background:#f1f5f9; color:#222; }
-        .header { background:#2563eb; color:white; text-align:center; padding:20px; font-size:24px; font-weight:600; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+        body { background:#f1f5f9; padding-bottom: 50px; }
+        .header { background:#2563eb; color:white; text-align:center; padding:20px; font-size:24px; font-weight:600; }
         
-        /* PDF Viewer Styles */
-        #pdf-container { 
-            max-width: 900px; margin: 20px auto; background: #525659; 
-            border: 2px solid #ddd; border-radius: 8px; overflow: auto; 
-            position: relative; box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-            min-height: 500px; padding: 20px;
-        }
-        canvas { display: block; margin: 0 auto; cursor: crosshair; background: white; box-shadow: 0 0 10px rgba(0,0,0,0.5); }
+        .container { max-width: 900px; margin: 20px auto; padding: 0 15px; }
+        #pdf-container { background: #525659; border-radius: 8px; overflow: auto; position: relative; min-height: 400px; padding: 20px; border: 2px solid #ddd; }
+        canvas { display: block; margin: 0 auto; background: white; cursor: crosshair; }
 
         /* Floating Edit Box */
-        #edit-box { 
-            position: fixed; display: none; background: white; 
-            border: 2px solid #2563eb; padding: 15px; border-radius: 12px; 
-            box-shadow: 0 10px 25px rgba(0,0,0,0.3); z-index: 1000;
-            width: 300px;
-        }
-        #edit-box h4 { font-size: 14px; margin-bottom: 8px; color: #1e3a8a; }
-        #edit-box input { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 6px; margin-bottom: 10px; outline: none; }
-        #edit-box .btns { display: flex; gap: 10px; }
-        #edit-box button { flex: 1; padding: 10px; border: none; border-radius: 6px; cursor: pointer; font-weight: 600; }
-        .btn-apply { background: #2563eb; color: white; }
-        .btn-cancel { background: #ef4444; color: white; }
+        #edit-box { position: fixed; display: none; background: white; border: 2px solid #2563eb; padding: 15px; border-radius: 12px; box-shadow: 0 10px 25px rgba(0,0,0,0.3); z-index: 1000; width: 280px; }
+        #edit-box input { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 6px; margin-bottom: 10px; }
+        .btn-apply { background: #2563eb; color: white; width: 100%; padding: 10px; border: none; border-radius: 6px; cursor: pointer; font-weight: 600; }
 
-        .upload-section { text-align: center; margin: 20px auto; padding: 30px; background: white; border-radius: 12px; max-width: 700px; border: 1px solid #ddd; }
-        .upload-btn { background: #2563eb; color: white; padding: 12px 25px; border-radius: 8px; cursor: pointer; display: inline-block; margin-top: 10px; font-weight: 600; }
-        #pdf-upload { display: none; }
-        .loading { display: none; color: #2563eb; font-weight: 600; margin-top: 10px; }
+        /* Preview Section */
+        #preview-section { display: none; margin-top: 30px; background: white; padding: 20px; border-radius: 12px; border: 1px solid #2563eb; text-align: center; }
+        #preview-frame { width: 100%; height: 500px; border: 1px solid #ddd; margin-top: 15px; }
+        .btn-download { background: #22c55e; color: white; padding: 12px 25px; border-radius: 8px; text-decoration: none; display: inline-block; margin-top: 15px; font-weight: 600; }
+
+        .upload-section { text-align: center; margin-bottom: 20px; background: white; padding: 20px; border-radius: 12px; border: 1px solid #ddd; }
+        #loader { display: none; color: #2563eb; font-weight: 600; margin: 10px 0; }
     </style>
 </head>
 <body>
 
-<div class="header">📄 Shayan Smart Click-to-Edit PDF</div>
+<div class="header">📄 Shayan Smart PDF Editor (Preview Mode)</div>
 
-<div class="upload-section">
-    <h2>Step 1: Upload PDF File</h2>
-    <label for="pdf-upload" class="upload-btn">📁 Choose PDF File</label>
-    <input type="file" id="pdf-upload" accept=".pdf">
-    <p id="file-name" style="margin-top:10px; font-size:14px; color:#555;"></p>
-    <div id="loader" class="loading">⏳ Processing PDF... Please Wait.</div>
-    <p style="font-size: 13px; color: #666; margin-top: 15px;">Tip: PDF load hone ke baad, kisi bhi text par click karein use badalne ke liye.</p>
-</div>
-
-<div id="edit-box">
-    <h4>Edit Text:</h4>
-    <input type="text" id="new-text" placeholder="Type new text here...">
-    <div class="btns">
-        <button class="btn-apply" onclick="applyChanges()">Apply & Download</button>
-        <button class="btn-cancel" onclick="closeEditBox()">Cancel</button>
+<div class="container">
+    <div class="upload-section">
+        <input type="file" id="pdf-upload" accept=".pdf">
+        <div id="loader">Processing...</div>
     </div>
-</div>
 
-<div id="pdf-container">
-    <canvas id="pdf-render"></canvas>
+    <div id="pdf-container">
+        <canvas id="pdf-render"></canvas>
+    </div>
+
+    <div id="edit-box">
+        <h4 style="margin-bottom:10px; font-size:14px;">Change Text:</h4>
+        <input type="text" id="new-text">
+        <button class="btn-apply" onclick="applyChanges()">Apply & Preview</button>
+    </div>
+
+    <div id="preview-section">
+        <h3 style="color:#2563eb;">✅ Preview Ready</h3>
+        <p style="font-size:14px; color:#666;">Check the changes below before downloading.</p>
+        <iframe id="preview-frame"></iframe>
+        <br>
+        <a id="download-link" class="btn-download" download="edited_pdf.pdf">📥 Download Final PDF</a>
+    </div>
 </div>
 
 <script>
     pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.worker.min.js';
-
     const API_URL = 'https://shayan-pdf-api-1.onrender.com/api/smart-replace';
-    let pdfDoc = null, pageNum = 1, canvas = document.getElementById('pdf-render'), ctx = canvas.getContext('2d'), selectedText = "", currentFile = null;
+    let pdfDoc = null, canvas = document.getElementById('pdf-render'), ctx = canvas.getContext('2d'), selectedText = "", currentFile = null, scale = 1.5;
 
-    // 1. PDF Upload and Render
     document.getElementById('pdf-upload').addEventListener('change', async (e) => {
         currentFile = e.target.files[0];
-        if(!currentFile) return;
-        
-        document.getElementById('file-name').innerText = "Selected: " + currentFile.name;
-        document.getElementById('loader').style.display = "block";
-
         const reader = new FileReader();
         reader.onload = async function() {
             const typedarray = new Uint8Array(this.result);
             pdfDoc = await pdfjsLib.getDocument(typedarray).promise;
-            await renderPage(pageNum);
-            document.getElementById('loader').style.display = "none";
+            renderPage(1);
         };
         reader.readAsArrayBuffer(currentFile);
     });
 
     async function renderPage(num) {
         const page = await pdfDoc.getPage(num);
-        const viewport = page.getViewport({ scale: 1.5 });
+        const viewport = page.getViewport({ scale: scale });
         canvas.height = viewport.height;
         canvas.width = viewport.width;
         await page.render({ canvasContext: ctx, viewport: viewport }).promise;
     }
 
-    // 2. Click detection on PDF
     canvas.addEventListener('click', async (e) => {
         const rect = canvas.getBoundingClientRect();
         const x = e.clientX - rect.left;
         const y = e.clientY - rect.top;
 
-        const page = await pdfDoc.getPage(pageNum);
+        const page = await pdfDoc.getPage(1);
         const textContent = await page.getTextContent();
-        const viewport = page.getViewport({ scale: 1.5 });
+        const viewport = page.getViewport({ scale: scale });
 
-        let found = false;
         textContent.items.forEach(item => {
             const tx = pdfjsLib.Util.transform(viewport.transform, item.transform);
-            // Coordinate matching
             if (x >= tx[4] && x <= tx[4] + item.width && y >= viewport.height - tx[5] - item.height && y <= viewport.height - tx[5]) {
                 selectedText = item.str;
-                showEditBox(e.clientX, e.clientY, selectedText);
-                found = true;
+                const box = document.getElementById('edit-box');
+                box.style.display = 'block';
+                box.style.left = e.clientX + 'px';
+                box.style.top = e.clientY + 'px';
+                document.getElementById('new-text').value = selectedText;
             }
         });
     });
 
-    function showEditBox(x, y, text) {
-        const box = document.getElementById('edit-box');
-        box.style.display = 'block';
-        box.style.left = (x > window.innerWidth - 320 ? x - 300 : x) + 'px';
-        box.style.top = y + 'px';
-        document.getElementById('new-text').value = text;
-    }
-
-    function closeEditBox() {
-        document.getElementById('edit-box').style.display = 'none';
-    }
-
-    // 3. Send to Backend
     async function applyChanges() {
         const replaceText = document.getElementById('new-text').value;
         const formData = new FormData();
@@ -140,31 +111,26 @@
         formData.append('search_text', selectedText);
         formData.append('replace_text', replaceText);
 
-        closeEditBox();
-        document.getElementById('loader').innerText = "🚀 Finalizing Magic... Downloading Soon!";
-        document.getElementById('loader').style.display = "block";
+        document.getElementById('edit-box').style.display = 'none';
+        document.getElementById('loader').style.display = 'block';
 
-        try {
-            const response = await fetch(API_URL, { method: 'POST', body: formData });
-            if (response.ok) {
-                const blob = await response.blob();
-                const downloadUrl = window.URL.createObjectURL(blob);
-                const a = document.createElement('a');
-                a.href = downloadUrl;
-                a.download = "edited_by_shayan.pdf";
-                document.body.appendChild(a);
-                a.click();
-                document.getElementById('loader').innerText = "✅ Done! PDF Downloaded.";
-            } else {
-                alert("Backend Error! Please check Render Logs.");
-            }
-        } catch (err) {
-            alert("Connection Error! API might be sleeping.");
-        } finally {
-            setTimeout(() => { document.getElementById('loader').style.display = "none"; }, 3000);
+        const response = await fetch(API_URL, { method: 'POST', body: formData });
+        if (response.ok) {
+            const blob = await response.blob();
+            const blobUrl = window.URL.createObjectURL(blob);
+            
+            // Show Preview Section
+            document.getElementById('preview-section').style.display = 'block';
+            document.getElementById('preview-frame').src = blobUrl;
+            document.getElementById('download-link').href = blobUrl;
+            
+            // Scroll to preview
+            document.getElementById('preview-section').scrollIntoView({ behavior: 'smooth' });
+        } else {
+            alert("API Error! Check if backend is Live.");
         }
+        document.getElementById('loader').style.display = 'none';
     }
 </script>
-
 </body>
 </html>
