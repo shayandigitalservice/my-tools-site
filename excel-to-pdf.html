@@ -151,8 +151,8 @@ font-size:13px;
 
 <div class="upload">
 Upload Excel File<br><br>
-<input type="file" id="fileInput" accept=".xlsx,.xls">
-</div>
+<input type="file" id="fileInput" accept=".xlsx,.xls" multiple>
+
 
 <select id="orientation">
 <option value="p">Portrait</option>
@@ -379,45 +379,73 @@ All content, design, and functionality of this website are protected under copyr
 </div>
 
 <script>
+async function convertToPDF() {
+    const fileInput = document.getElementById("fileInput");
+    const resultDiv = document.getElementById("result");
+    const files = fileInput.files;
 
-async function convertToPDF(){
+    if (files.length == 0) {
+        alert("Please upload at least one Excel file!");
+        return;
+    }
 
-const fileInput=document.getElementById("fileInput")
+    if (files.length > 50) {
+        alert("You can only upload up to 50 files at a time.");
+        return;
+    }
 
-if(fileInput.files.length==0){
-alert("Upload Excel file")
-return
+    resultDiv.innerHTML = `⏳ Processing ${files.length} files... Please wait.`;
+    
+    const { jsPDF } = window.jspdf;
+    const orientation = document.getElementById("orientation").value;
+
+    // Har file ke liye loop chalega
+    for (let i = 0; i < files.length; i++) {
+        const file = files[i];
+        const data = await file.arrayBuffer();
+
+        // Excel Read Logic
+        const workbook = XLSX.read(data);
+        const firstSheetName = workbook.SheetNames[0];
+        const worksheet = workbook.Sheets[firstSheetName];
+        const htmlTable = XLSX.utils.sheet_to_html(worksheet);
+
+        // Hidden Div for rendering
+        const tempDiv = document.createElement("div");
+        tempDiv.innerHTML = `<h3>File: ${file.name}</h3>` + htmlTable;
+        tempDiv.style.padding = "20px";
+        tempDiv.style.fontSize = "10px";
+        tempDiv.style.width = "550px";
+        tempDiv.style.background = "white";
+        document.body.appendChild(tempDiv);
+
+        // PDF Generation
+        const doc = new jsPDF({
+            orientation: orientation,
+            unit: "pt",
+            format: "a4"
+        });
+
+        // Promise ka use karenge taaki ek ke baad ek download ho
+        await new Promise((resolve) => {
+            doc.html(tempDiv, {
+                callback: function (pdf) {
+                    pdf.save(file.name.replace(/\.[^/.]+$/, "") + ".pdf");
+                    document.body.removeChild(tempDiv);
+                    resolve();
+                },
+                x: 20,
+                y: 20,
+                width: 550,
+                windowWidth: 600
+            });
+        });
+
+        resultDiv.innerHTML = `✅ Processed ${i + 1} of ${files.length} files...`;
+    }
+
+    resultDiv.innerHTML = `🎉 All ${files.length} files converted successfully!`;
 }
-
-const file=fileInput.files[0]
-const data=await file.arrayBuffer()
-
-const workbook=XLSX.read(data)
-const sheet=workbook.Sheets[workbook.SheetNames[0]]
-
-const html=XLSX.utils.sheet_to_html(sheet)
-
-const orientation=document.getElementById("orientation").value
-
-const { jsPDF } = window.jspdf
-
-const pdf=new jsPDF({
-orientation:orientation,
-unit:"pt",
-format:"a4"
-})
-
-pdf.html(html,{
-callback:function(doc){
-doc.save("excel-to-pdf.pdf")
-document.getElementById("result").innerHTML="✅ PDF Generated Successfully!"
-},
-x:10,
-y:10
-})
-
-}
-
 </script>
 
 </body>
