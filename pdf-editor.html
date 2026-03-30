@@ -2,142 +2,162 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Shayan Smart PDF Editor Pro</title>
+    <title>Professional PDF Editor | Shayan Digital</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.min.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
-        * { margin:0; padding:0; box-sizing:border-box; font-family:'Poppins',sans-serif; }
-        body { background:#f0f2f5; padding-bottom: 50px; }
-        .header { background:#2563eb; color:white; text-align:center; padding:15px; font-size:22px; font-weight:600; }
+        :root { --primary: #2563eb; --success: #22c55e; --bg: #f8fafc; }
+        * { margin:0; padding:0; box-sizing:border-box; font-family:'Inter',sans-serif; }
+        body { background: var(--bg); color: #1e293b; }
         
-        /* Viewer Area */
-        .container { max-width: 900px; margin: 20px auto; padding: 0 15px; }
-        #pdf-wrapper { background: #525659; border-radius: 12px; overflow: auto; position: relative; min-height: 500px; padding: 20px; border: 2px solid #ddd; box-shadow: 0 5px 20px rgba(0,0,0,0.2); }
-        canvas { display: block; margin: 0 auto; background: white; cursor: crosshair; }
+        /* Professional Navbar */
+        .nav { background: white; padding: 15px 5%; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #e2e8f0; }
+        .logo { font-size: 20px; font-weight: 700; color: var(--primary); }
 
-        /* Mobile Edit Popup */
-        #edit-popup { 
-            position: fixed; display: none; background: white; border: 2px solid #2563eb; 
-            padding: 20px; border-radius: 15px; box-shadow: 0 10px 40px rgba(0,0,0,0.3); 
-            z-index: 9999; width: 300px; left: 50%; top: 50%; transform: translate(-50%, -50%);
-        }
-        #edit-popup input { width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 8px; margin-bottom: 15px; font-size: 16px; }
-        .btn-apply { background: #22c55e; color: white; width: 100%; padding: 12px; border: none; border-radius: 8px; font-weight: 600; cursor: pointer; }
+        /* Main Container */
+        .main { max-width: 1000px; margin: 40px auto; padding: 0 20px; text-align: center; }
+        h1 { font-size: 32px; margin-bottom: 10px; color: #0f172a; }
+        p { color: #64748b; margin-bottom: 30px; }
 
-        /* Preview Window */
-        #preview-box { display: none; margin-top: 30px; background: white; padding: 20px; border-radius: 15px; border: 2px solid #22c55e; text-align: center; }
-        iframe { width: 100%; height: 500px; border: 1px solid #ddd; margin-top: 15px; border-radius: 8px; }
-        .btn-dl { background: #16a34a; color: white; padding: 15px 30px; border-radius: 10px; text-decoration: none; display: inline-block; margin-top: 20px; font-weight: 600; }
+        /* iLovePDF Style Upload Box */
+        .upload-card { background: white; padding: 50px; border-radius: 16px; border: 2px dashed #cbd5e1; cursor: pointer; transition: 0.3s; }
+        .upload-card:hover { border-color: var(--primary); background: #eff6ff; }
+        .btn-select { background: var(--primary); color: white; padding: 15px 40px; border-radius: 8px; font-weight: 600; font-size: 18px; display: inline-block; margin-top: 15px; box-shadow: 0 4px 12px rgba(37, 99, 235, 0.2); }
 
-        .loader { display: none; text-align: center; color: #2563eb; font-weight: 600; margin: 15px 0; }
+        /* PDF Viewer Area */
+        #editor-view { display: none; margin-top: 30px; }
+        .canvas-container { background: #475569; padding: 30px; border-radius: 12px; overflow: auto; position: relative; max-height: 80vh; }
+        canvas { background: white; margin: 0 auto; box-shadow: 0 10px 30px rgba(0,0,0,0.3); cursor: pointer; }
+
+        /* Floating Tooltip */
+        #tool-tip { position: fixed; display: none; background: white; padding: 15px; border-radius: 12px; box-shadow: 0 10px 25px rgba(0,0,0,0.2); z-index: 1000; width: 260px; border: 1px solid #e2e8f0; }
+        #tool-tip input { width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 6px; margin-bottom: 10px; outline: none; }
+        #tool-tip button { width: 100%; background: var(--primary); color: white; border: none; padding: 10px; border-radius: 6px; font-weight: 600; cursor: pointer; }
+
+        /* Result Section */
+        #result-area { display: none; margin-top: 30px; animation: fadeIn 0.5s; }
+        iframe { width: 100%; height: 500px; border: 1px solid #e2e8f0; border-radius: 12px; margin: 20px 0; }
+        .btn-download { background: var(--success); color: white; padding: 15px 50px; border-radius: 8px; font-weight: 700; text-decoration: none; font-size: 18px; display: inline-block; }
+
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        #loading-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(255,255,255,0.9); z-index: 9999; flex-direction: column; align-items: center; justify-content: center; }
     </style>
 </head>
 <body>
 
-<div class="header">📄 Shayan Smart Visual PDF Editor</div>
+<div class="nav">
+    <div class="logo">SHAYAN DIGITAL</div>
+    <div style="font-size: 14px; color: #64748b;">PDF Editor v2.0</div>
+</div>
 
-<div class="container">
-    <div style="text-align:center; margin-bottom:20px; background:white; padding:20px; border-radius:12px;">
-        <input type="file" id="file-in" accept=".pdf">
-        <p style="font-size:13px; color:#666; margin-top:10px;">PDF upload karein, phir kisi bhi word par click karke use badlein.</p>
-        <div id="loading" class="loader">⚙️ Processing Magic... Please wait.</div>
+<div id="loading-overlay">
+    <div style="font-size: 24px; font-weight: 700; color: var(--primary);">⚙️ Processing Magic...</div>
+    <p>Please wait, matching fonts and styles.</p>
+</div>
+
+<div class="main">
+    <div id="upload-box">
+        <h1>Edit PDF online</h1>
+        <p>Select a PDF file and click on text to edit. It's that easy!</p>
+        <div class="upload-card" onclick="document.getElementById('pdf-input').click()">
+            <img src="https://cdn-icons-png.flaticon.com/512/337/337946.png" width="80" alt="PDF">
+            <br>
+            <span class="btn-select">Select PDF file</span>
+            <input type="file" id="pdf-input" accept=".pdf" style="display:none">
+        </div>
     </div>
 
-    <div id="pdf-wrapper">
-        <canvas id="pdf-canvas"></canvas>
+    <div id="editor-view">
+        <h3 style="margin-bottom: 15px;">Click on any word to edit</h3>
+        <div class="canvas-container">
+            <canvas id="pdf-canvas"></canvas>
+        </div>
     </div>
 
-    <div id="edit-popup">
-        <h4 style="margin-bottom:10px; color:#1e3a8a;">Replace This Text:</h4>
-        <input type="text" id="new-val">
-        <button class="btn-apply" onclick="processPDF()">Done & Show Preview</button>
-        <p onclick="this.parentElement.style.display='none'" style="text-align:center; margin-top:10px; color:red; cursor:pointer; font-size:14px;">Cancel</p>
+    <div id="tool-tip">
+        <p style="font-size: 12px; font-weight: 600; color: #64748b; margin-bottom: 8px;">Edit text:</p>
+        <input type="text" id="edit-val">
+        <button onclick="applyChanges()">Update & Preview</button>
     </div>
 
-    <div id="preview-box">
-        <h2 style="color:#16a34a;">✨ Preview Ready!</h2>
-        <p>Niche check karein, agar sahi hai toh download karein.</p>
+    <div id="result-area">
+        <h2 style="color: var(--success);">✅ Your PDF is Ready!</h2>
         <iframe id="pdf-preview"></iframe>
         <br>
-        <a id="dl-link" class="btn-dl" download="shayan_edited.pdf">📥 Download Final PDF</a>
+        <a id="download-btn" class="btn-download" download="edited_by_shayan.pdf">Download Edited PDF</a>
+        <p style="margin-top: 15px; cursor: pointer; color: var(--primary);" onclick="location.reload()">Edit another file</p>
     </div>
 </div>
 
 <script>
     pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.worker.min.js';
-    const API = 'https://shayan-pdf-api-1.onrender.com/api/smart-replace';
+    const API_URL = 'https://shayan-pdf-api-1.onrender.com/api/smart-replace';
     let pdfDoc = null, canv = document.getElementById('pdf-canvas'), ctx = canv.getContext('2d'), 
-        oldText = "", currentFile = null, sc = 1.3;
+        selectedText = "", fileObj = null, scale = 1.5;
 
-    // 1. PDF Show karna
-    document.getElementById('file-in').onchange = e => {
-        currentFile = e.target.files[0];
+    document.getElementById('pdf-input').onchange = e => {
+        fileObj = e.target.files[0];
+        if(!fileObj) return;
+        
         const reader = new FileReader();
         reader.onload = async function() {
             const data = new Uint8Array(this.result);
             pdfDoc = await pdfjsLib.getDocument(data).promise;
             const page = await pdfDoc.getPage(1);
-            const vp = page.getViewport({ scale: sc });
+            const vp = page.getViewport({ scale: scale });
             canv.height = vp.height; canv.width = vp.width;
             await page.render({ canvasContext: ctx, viewport: vp }).promise;
+            
+            document.getElementById('upload-box').style.display = 'none';
+            document.getElementById('editor-view').style.display = 'block';
         };
-        reader.readAsArrayBuffer(currentFile);
+        reader.readAsArrayBuffer(fileObj);
     };
 
-    // 2. Click detect karna
     canv.onclick = async e => {
         const rect = canv.getBoundingClientRect();
         const x = e.clientX - rect.left;
         const y = e.clientY - rect.top;
         const page = await pdfDoc.getPage(1);
         const content = await page.getTextContent();
-        const vp = page.getViewport({ scale: sc });
+        const vp = page.getViewport({ scale: scale });
 
         content.items.forEach(item => {
             const tx = pdfjsLib.Util.transform(vp.transform, item.transform);
             if (x >= tx[4] && x <= tx[4] + item.width && y >= vp.height - tx[5] - item.height && y <= vp.height - tx[5]) {
-                oldText = item.str;
-                const pop = document.getElementById('edit-popup');
-                pop.style.display = 'block';
-                document.getElementById('new-val').value = oldText;
+                selectedText = item.str;
+                const tip = document.getElementById('tool-tip');
+                tip.style.display = 'block';
+                tip.style.left = e.clientX + 'px';
+                tip.style.top = e.clientY + 'px';
+                document.getElementById('edit-val').value = selectedText;
             }
         });
     };
 
-    // 3. Process & Preview
-    async function processPDF() {
-        const newVal = document.getElementById('new-val').value;
+    async function applyChanges() {
+        const newVal = document.getElementById('edit-val').value;
         const fd = new FormData();
-        fd.append('file', currentFile);
-        fd.append('search_text', oldText);
+        fd.append('file', fileObj);
+        fd.append('search_text', selectedText);
         fd.append('replace_text', newVal);
 
-        document.getElementById('edit-popup').style.display = 'none';
-        document.getElementById('loading').style.display = 'block';
+        document.getElementById('tool-tip').style.display = 'none';
+        document.getElementById('loading-overlay').style.display = 'flex';
 
-        const res = await fetch(API, { method: 'POST', body: fd });
-        if (res.ok) {
-            const blob = await res.blob();
-            const url = URL.createObjectURL(blob);
-            document.getElementById('preview-box').style.display = 'block';
-            document.getElementById('pdf-preview').src = url;
-            document.getElementById('dl-link').href = url;
-            document.getElementById('preview-box').scrollIntoView({ behavior: 'smooth' });
-        } else { alert("API Error! Make sure Render is Live."); }
-        document.getElementById('loading').style.display = 'none';
-    }
-</script>
-</body>
-</html>
-            const blob = await res.blob();
-            const url = URL.createObjectURL(blob);
-            document.getElementById('preview-section').style.display = 'block';
-            document.getElementById('preview-frame').src = url;
-            document.getElementById('dl-btn').href = url;
-            document.getElementById('preview-section').scrollIntoView({ behavior: 'smooth' });
-        } else { alert("Error connecting to Shayan API."); }
-        document.getElementById('loading').style.display = 'none';
+        try {
+            const res = await fetch(API_URL, { method: 'POST', body: fd });
+            if (res.ok) {
+                const blob = await res.blob();
+                const url = URL.createObjectURL(blob);
+                document.getElementById('editor-view').style.display = 'none';
+                document.getElementById('result-area').style.display = 'block';
+                document.getElementById('pdf-preview').src = url;
+                document.getElementById('download-btn').href = url;
+            } else { alert("Error connecting to API."); }
+        } catch(err) { alert("API is offline."); }
+        document.getElementById('loading-overlay').style.display = 'none';
     }
 </script>
 </body>
