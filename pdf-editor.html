@@ -2,165 +2,169 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Advanced PDF Smart Editor 2026 – Edit & Replace PDF Text Online</title>
+    <title>Advanced Click-to-Edit PDF 2026 – Shayan Digital Service</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Use our Advanced PDF Smart Editor 2026 to replace text in your PDF files instantly. 100% free, secure, and easy to use online tool.">
-    <meta name="keywords" content="pdf editor, replace pdf text, online pdf tool, smart pdf editor, free pdf editor 2026, shayan digital service">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.min.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
-
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
-        body { background: #f1f5f9; color: #222; line-height: 1.6; }
+        * { margin:0; padding:0; box-sizing:border-box; font-family:'Poppins',sans-serif; }
+        body { background:#f1f5f9; color:#222; }
+        .header { background:#2563eb; color:white; text-align:center; padding:20px; font-size:24px; font-weight:600; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+        
+        /* PDF Viewer Styles */
+        #pdf-container { 
+            max-width: 900px; margin: 20px auto; background: #525659; 
+            border: 2px solid #ddd; border-radius: 8px; overflow: auto; 
+            position: relative; box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            min-height: 500px; padding: 20px;
+        }
+        canvas { display: block; margin: 0 auto; cursor: crosshair; background: white; box-shadow: 0 0 10px rgba(0,0,0,0.5); }
 
-        /* HEADER */
-        .header { background: #2563eb; color: white; text-align: center; padding: 25px; font-size: 28px; font-weight: 600; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+        /* Floating Edit Box */
+        #edit-box { 
+            position: fixed; display: none; background: white; 
+            border: 2px solid #2563eb; padding: 15px; border-radius: 12px; 
+            box-shadow: 0 10px 25px rgba(0,0,0,0.3); z-index: 1000;
+            width: 300px;
+        }
+        #edit-box h4 { font-size: 14px; margin-bottom: 8px; color: #1e3a8a; }
+        #edit-box input { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 6px; margin-bottom: 10px; outline: none; }
+        #edit-box .btns { display: flex; gap: 10px; }
+        #edit-box button { flex: 1; padding: 10px; border: none; border-radius: 6px; cursor: pointer; font-weight: 600; }
+        .btn-apply { background: #2563eb; color: white; }
+        .btn-cancel { background: #ef4444; color: white; }
 
-        /* MAIN CONTAINER */
-        .container { max-width: 700px; margin: 30px auto; padding: 25px; background: white; border-radius: 12px; border: 1px solid #ddd; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
-        h2 { margin-bottom: 15px; color: #1e3a8a; font-size: 24px; text-align: center; }
-
-        /* INPUTS */
-        label { font-size: 14px; font-weight: 600; color: #444; display: block; margin-top: 15px; }
-        input[type="text"], input[type="file"] { width: 100%; padding: 12px; margin: 8px 0; border-radius: 8px; border: 1px solid #ccc; font-size: 15px; transition: 0.3s; }
-        input:focus { border-color: #2563eb; outline: none; box-shadow: 0 0 5px rgba(37,99,235,0.2); }
-
-        /* BUTTON */
-        button { background: #2563eb; color: white; border: none; padding: 15px; border-radius: 8px; cursor: pointer; width: 100%; font-size: 16px; font-weight: 600; margin-top: 20px; transition: 0.3s; display: flex; justify-content: center; align-items: center; }
-        button:hover { background: #1e40af; transform: translateY(-1px); }
-        button:disabled { background: #94a3b8; cursor: not-allowed; }
-
-        /* RESULT AREA */
-        .result { margin-top: 25px; padding: 20px; background: #eff6ff; border: 1px solid #2563eb; border-radius: 10px; display: none; }
-        .result-box { display: flex; justify-content: space-between; background: white; padding: 12px; margin: 8px 0; border-radius: 6px; border: 1px solid #ddd; font-size: 14px; font-weight: 500; }
-        .highlight { background: #2563eb; color: white; padding: 12px; border-radius: 8px; text-align: center; margin-top: 15px; font-weight: 600; animation: pulse 2s infinite; }
-
-        /* SEO SECTION */
-        .section { max-width: 900px; margin: 40px auto; padding: 30px; background: white; border-radius: 12px; border: 1px solid #ddd; }
-        .section h2, .section h3 { color: #1e3a8a; margin: 20px 0 10px; }
-        .section p { margin-bottom: 15px; color: #444; }
-        .section ul, .section ol { margin-left: 20px; margin-bottom: 15px; }
-        .back-link { display: block; text-align: center; margin-top: 20px; color: #2563eb; text-decoration: none; font-weight: 600; }
-
-        /* SPINNER */
-        .spinner { border: 3px solid #f3f3f3; border-top: 3px solid #ffffff; border-radius: 50%; width: 20px; height: 20px; animation: spin 1s linear infinite; margin-right: 10px; }
-        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-        @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.8; } 100% { opacity: 1; } }
-
-        @media (max-width: 600px) { .container, .section { margin: 15px; padding: 15px; } }
+        .upload-section { text-align: center; margin: 20px auto; padding: 30px; background: white; border-radius: 12px; max-width: 700px; border: 1px solid #ddd; }
+        .upload-btn { background: #2563eb; color: white; padding: 12px 25px; border-radius: 8px; cursor: pointer; display: inline-block; margin-top: 10px; font-weight: 600; }
+        #pdf-upload { display: none; }
+        .loading { display: none; color: #2563eb; font-weight: 600; margin-top: 10px; }
     </style>
 </head>
 <body>
 
-    <div class="header">📄 Advanced PDF Smart Editor 2026</div>
+<div class="header">📄 Shayan Smart Click-to-Edit PDF</div>
 
-    <div class="container">
-        <h2>Smart Text Replacer</h2>
-        <form id="uploadForm">
-            <label>Upload PDF File</label>
-            <input type="file" id="pdfFile" accept=".pdf" required>
+<div class="upload-section">
+    <h2>Step 1: Upload PDF File</h2>
+    <label for="pdf-upload" class="upload-btn">📁 Choose PDF File</label>
+    <input type="file" id="pdf-upload" accept=".pdf">
+    <p id="file-name" style="margin-top:10px; font-size:14px; color:#555;"></p>
+    <div id="loader" class="loading">⏳ Processing PDF... Please Wait.</div>
+    <p style="font-size: 13px; color: #666; margin-top: 15px;">Tip: PDF load hone ke baad, kisi bhi text par click karein use badalne ke liye.</p>
+</div>
 
-            <label>Text to Find (Old Text)</label>
-            <input type="text" id="searchText" placeholder="Example: Old Name" required>
-
-            <label>Replace with (New Text)</label>
-            <input type="text" id="replaceText" placeholder="Example: New Name" required>
-
-            <button type="submit" id="submitBtn">
-                <span id="btnText">Process & Download</span>
-            </button>
-        </form>
-
-        <div id="resultArea" class="result">
-            <h3 style="color:#1e3a8a; margin-bottom:10px;">📊 Processing Status</h3>
-            <div class="result-box"><span>Task</span><span>Text Replacement</span></div>
-            <div class="result-box"><span>Status</span><span id="statusText">Ready</span></div>
-            <div class="highlight" id="finalMsg">Securely Processing via SSL</div>
-        </div>
-        <a href="index.html" class="back-link">⬅ Back to Home</a>
+<div id="edit-box">
+    <h4>Edit Text:</h4>
+    <input type="text" id="new-text" placeholder="Type new text here...">
+    <div class="btns">
+        <button class="btn-apply" onclick="applyChanges()">Apply & Download</button>
+        <button class="btn-cancel" onclick="closeEditBox()">Cancel</button>
     </div>
+</div>
 
-    <section class="section">
-        <h1>Advanced PDF Smart Editor 2026 – Edit PDF Text Online Fast</h1>
-        <p>The <strong>Advanced PDF Smart Editor 2026</strong> is a professional-grade online utility designed to help you replace any specific text within a PDF document instantly. Whether it's a name, date, or any specific keyword, our tool scans the entire document and performs a clean replacement while maintaining the original layout.</p>
+<div id="pdf-container">
+    <canvas id="pdf-render"></canvas>
+</div>
 
-        <h2>Why Use Our Smart PDF Editor?</h2>
-        <p>Manual PDF editing often requires expensive software. Our tool provides a 100% free, cloud-based solution that works directly in your mobile or desktop browser.</p>
+<script>
+    pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.worker.min.js';
+
+    const API_URL = 'https://shayan-pdf-api-1.onrender.com/api/smart-replace';
+    let pdfDoc = null, pageNum = 1, canvas = document.getElementById('pdf-render'), ctx = canvas.getContext('2d'), selectedText = "", currentFile = null;
+
+    // 1. PDF Upload and Render
+    document.getElementById('pdf-upload').addEventListener('change', async (e) => {
+        currentFile = e.target.files[0];
+        if(!currentFile) return;
         
-        <ul>
-            <li>✔ <strong>Exact Replacement:</strong> Replaces text across all pages.</li>
-            <li>✔ <strong>Fast Processing:</strong> Powered by high-speed Python backend.</li>
-            <li>✔ <strong>Privacy First:</strong> Files are processed securely and deleted after use.</li>
-            <li>✔ <strong>No Installation:</strong> Works online on Android, iOS, and PC.</li>
-        </ul>
+        document.getElementById('file-name').innerText = "Selected: " + currentFile.name;
+        document.getElementById('loader').style.display = "block";
 
-        <h3>How to Edit Your PDF</h3>
-        <ol>
-            <li>Select your PDF file from your device.</li>
-            <li>Enter the exact text you want to find.</li>
-            <li>Enter the new text you want to replace it with.</li>
-            <li>Click "Process & Download" and wait for the magic!</li>
-        </ol>
-
-        <h2>Frequently Asked Questions (FAQ)</h2>
-        <h3>Is this tool free to use?</h3>
-        <p>Yes, Shayan Smart Tools provides this PDF editor completely free of charge for all users.</p>
-
-        <h3>Is my data safe?</h3>
-        <p>Absolutely. We use encrypted connections and your files are only used for processing. We do not store your documents permanently.</p>
-
-        <h3>Does it work on smartphones?</h3>
-        <p>Yes, the interface is fully responsive and optimized for mobile devices.</p>
-
-        <h2>Copyright & Legal Notice</h2>
-        <p>© 2026 Shayan Smart Tools. All Rights Reserved. All functionality is protected. Unauthorized copying of this tool's source code or design is strictly prohibited.</p>
-    </section>
-
-    <script>
-        const form = document.getElementById('uploadForm');
-        const resultArea = document.getElementById('resultArea');
-        const statusText = document.getElementById('statusText');
-        const submitBtn = document.getElementById('submitBtn');
-        const btnText = document.getElementById('btnText');
-
-        form.onsubmit = async (e) => {
-            e.preventDefault();
-            const API_URL = "https://shayan-pdf-api-1.onrender.com/api/smart-replace";
-
-            const formData = new FormData();
-            formData.append('file', document.getElementById('pdfFile').files[0]);
-            formData.append('search_text', document.getElementById('searchText').value);
-            formData.append('replace_text', document.getElementById('replaceText').value);
-
-            resultArea.style.display = 'block';
-            statusText.innerText = "Processing...";
-            statusText.style.color = "#2563eb";
-            btnText.innerHTML = '<div class="spinner"></div> Please Wait...';
-            submitBtn.disabled = true;
-
-            try {
-                const response = await fetch(API_URL, { method: 'POST', body: formData });
-                if (response.ok) {
-                    const blob = await response.blob();
-                    const url = window.URL.createObjectURL(blob);
-                    const a = document.createElement('a');
-                    a.href = url;
-                    a.download = "shayan_edited.pdf";
-                    document.body.appendChild(a);
-                    a.click();
-                    statusText.innerText = "Success! Downloaded";
-                    statusText.style.color = "green";
-                } else {
-                    statusText.innerText = "Failed: API Error";
-                    statusText.style.color = "red";
-                }
-            } catch (err) {
-                statusText.innerText = "Connection Failed";
-                statusText.style.color = "red";
-            } finally {
-                submitBtn.disabled = false;
-                btnText.innerText = "Process & Download";
-            }
+        const reader = new FileReader();
+        reader.onload = async function() {
+            const typedarray = new Uint8Array(this.result);
+            pdfDoc = await pdfjsLib.getDocument(typedarray).promise;
+            await renderPage(pageNum);
+            document.getElementById('loader').style.display = "none";
         };
-    </script>
+        reader.readAsArrayBuffer(currentFile);
+    });
+
+    async function renderPage(num) {
+        const page = await pdfDoc.getPage(num);
+        const viewport = page.getViewport({ scale: 1.5 });
+        canvas.height = viewport.height;
+        canvas.width = viewport.width;
+        await page.render({ canvasContext: ctx, viewport: viewport }).promise;
+    }
+
+    // 2. Click detection on PDF
+    canvas.addEventListener('click', async (e) => {
+        const rect = canvas.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+
+        const page = await pdfDoc.getPage(pageNum);
+        const textContent = await page.getTextContent();
+        const viewport = page.getViewport({ scale: 1.5 });
+
+        let found = false;
+        textContent.items.forEach(item => {
+            const tx = pdfjsLib.Util.transform(viewport.transform, item.transform);
+            // Coordinate matching
+            if (x >= tx[4] && x <= tx[4] + item.width && y >= viewport.height - tx[5] - item.height && y <= viewport.height - tx[5]) {
+                selectedText = item.str;
+                showEditBox(e.clientX, e.clientY, selectedText);
+                found = true;
+            }
+        });
+    });
+
+    function showEditBox(x, y, text) {
+        const box = document.getElementById('edit-box');
+        box.style.display = 'block';
+        box.style.left = (x > window.innerWidth - 320 ? x - 300 : x) + 'px';
+        box.style.top = y + 'px';
+        document.getElementById('new-text').value = text;
+    }
+
+    function closeEditBox() {
+        document.getElementById('edit-box').style.display = 'none';
+    }
+
+    // 3. Send to Backend
+    async function applyChanges() {
+        const replaceText = document.getElementById('new-text').value;
+        const formData = new FormData();
+        formData.append('file', currentFile);
+        formData.append('search_text', selectedText);
+        formData.append('replace_text', replaceText);
+
+        closeEditBox();
+        document.getElementById('loader').innerText = "🚀 Finalizing Magic... Downloading Soon!";
+        document.getElementById('loader').style.display = "block";
+
+        try {
+            const response = await fetch(API_URL, { method: 'POST', body: formData });
+            if (response.ok) {
+                const blob = await response.blob();
+                const downloadUrl = window.URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = downloadUrl;
+                a.download = "edited_by_shayan.pdf";
+                document.body.appendChild(a);
+                a.click();
+                document.getElementById('loader').innerText = "✅ Done! PDF Downloaded.";
+            } else {
+                alert("Backend Error! Please check Render Logs.");
+            }
+        } catch (err) {
+            alert("Connection Error! API might be sleeping.");
+        } finally {
+            setTimeout(() => { document.getElementById('loader').style.display = "none"; }, 3000);
+        }
+    }
+</script>
+
 </body>
 </html>
