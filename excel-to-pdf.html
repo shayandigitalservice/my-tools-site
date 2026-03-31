@@ -3,131 +3,145 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Excel to PDF Converter 2026 | All Languages Support</title>
+    <title>Advanced Excel to PDF Converter 2026</title>
     
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&family=Noto+Sans+Indic:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&family=Noto+Sans:wght@400;700&display=swap" rel="stylesheet">
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.25/jspdf.plugin.autotable.min.js"></script>
 
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', 'Noto Sans Indic', sans-serif; }
-        body { background: #f8fafc; color: #1e293b; padding: 10px; }
-        .header { background: #2563eb; color: white; text-align: center; padding: 25px; border-radius: 0 0 20px 20px; margin-bottom: 20px; font-weight: 600; }
-        .container { max-width: 900px; margin: auto; background: white; padding: 20px; border-radius: 15px; box-shadow: 0 4px 20px rgba(0,0,0,0.08); }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
+        body { background: #f0f4f8; color: #334155; padding: 15px; }
+        .header { background: #2563eb; color: white; text-align: center; padding: 30px; border-radius: 15px; margin-bottom: 25px; box-shadow: 0 4px 10px rgba(37, 99, 235, 0.2); }
+        .container { max-width: 850px; margin: auto; background: white; padding: 25px; border-radius: 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.05); }
+
+        .upload-box { border: 2px dashed #cbd5e1; padding: 40px 20px; border-radius: 15px; text-align: center; cursor: pointer; background: #f8fafc; transition: 0.3s; }
+        .upload-box:hover { border-color: #2563eb; background: #eff6ff; }
         
-        /* Upload & Controls */
-        .upload-card { border: 2px dashed #cbd5e1; padding: 30px; border-radius: 12px; text-align: center; cursor: pointer; transition: 0.3s; background: #fdfdfd; margin-bottom: 15px; }
-        .upload-card:hover { border-color: #2563eb; background: #f0f7ff; }
-        .btn-main { background: #2563eb; color: white; width: 100%; border: none; padding: 15px; border-radius: 10px; font-weight: 600; cursor: pointer; font-size: 16px; margin-top: 10px; }
-        .btn-main:disabled { background: #94a3b8; }
+        .controls { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 20px; }
+        select { padding: 12px; border-radius: 10px; border: 1px solid #ddd; outline: none; }
+        
+        .btn-convert { background: #2563eb; color: white; border: none; padding: 15px; border-radius: 10px; font-weight: 600; cursor: pointer; width: 100%; margin-top: 15px; font-size: 16px; }
+        
+        /* New Preview & Download Section */
+        #final-action-area { display: none; margin-top: 30px; padding: 20px; border-top: 2px solid #f1f5f9; text-align: center; background: #f0f9ff; border-radius: 15px; }
+        .preview-box { background: white; border: 1px solid #bfdbfe; border-radius: 10px; padding: 15px; max-height: 250px; overflow: auto; margin-bottom: 20px; box-shadow: inset 0 2px 4px rgba(0,0,0,0.05); }
+        table { width: 100%; border-collapse: collapse; font-size: 12px; }
+        th, td { border: 1px solid #e2e8f0; padding: 10px; text-align: left; }
+        th { background: #f8fafc; font-weight: 600; }
 
-        /* Preview Area */
-        .preview-label { font-weight: 600; margin: 20px 0 10px; display: block; color: #2563eb; }
-        #preview-container { 
-            width: 100%; max-height: 300px; overflow: auto; border: 1px solid #e2e8f0; 
-            border-radius: 8px; padding: 10px; font-size: 12px; background: #fff; display: none;
-        }
-        table { border-collapse: collapse; width: 100%; }
-        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
-        th { background: #f1f5f9; }
+        .btn-download { background: #16a34a; color: white; border: none; padding: 15px 40px; border-radius: 50px; font-weight: bold; cursor: pointer; font-size: 18px; box-shadow: 0 4px 15px rgba(22, 163, 74, 0.3); }
+        .btn-download:hover { background: #15803d; transform: scale(1.05); }
 
-        .status { margin-top: 15px; font-size: 14px; text-align: center; font-weight: 600; color: #0369a1; }
+        .loading-text { font-weight: 600; color: #2563eb; margin: 10px 0; display: none; }
     </style>
 </head>
 <body>
 
-<div class="header">📊 Shayan Pro Excel Converter</div>
+<div class="header">
+    <h1>Shayan Smart Converter</h1>
+    <p>Excel to PDF with Multi-Language Support</p>
+</div>
 
 <div class="container">
-    <div class="upload-card" onclick="document.getElementById('fileInput').click()">
-        <p style="font-size: 18px;">📁 Upload Excel Files</p>
-        <p style="font-size: 12px; color: #64748b;">Supports Hindi, Assamese, Bengali & more</p>
+    <div class="upload-box" onclick="document.getElementById('fileInput').click()">
+        <p style="font-size: 20px; font-weight: 600;">📁 Select Excel Files</p>
+        <p style="font-size: 13px; color: #64748b; margin-top: 5px;">Hindi, Assamese, Bengali, English supported</p>
         <input type="file" id="fileInput" accept=".xlsx,.xls" multiple style="display:none">
-        <span id="fileCount" style="color:#2563eb; font-weight:bold; display:block; margin-top:10px;"></span>
+        <div id="fileCount" style="margin-top: 10px; color: #2563eb; font-weight: bold;"></div>
     </div>
 
-    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 10px;">
-        <select id="orientation" style="padding:10px; border-radius:8px; border:1px solid #ddd;">
-            <option value="p">Portrait</option>
-            <option value="l">Landscape</option>
+    <div class="controls">
+        <select id="orientation">
+            <option value="p">Portrait (Vertical)</option>
+            <option value="l">Landscape (Horizontal)</option>
         </select>
-        <button class="btn-main" id="convertBtn" onclick="processAll()">Download PDF</button>
+        <button class="btn-convert" id="convertBtn" onclick="generatePreview()">Generate Preview</button>
     </div>
 
-    <span class="preview-label">Live Preview (Current Sheet):</span>
-    <div id="preview-container"></div>
-    
-    <div id="status" class="status"></div>
+    <div id="loading" class="loading-text">⚙️ Processing your data...</div>
+
+    <div id="final-action-area">
+        <h3 style="margin-bottom: 15px; color: #1e40af;">🔍 PDF Preview (Sheet 1)</h3>
+        <div class="preview-box" id="previewTable"></div>
+        <p style="margin-bottom: 15px; color: #64748b; font-size: 14px;">Your files are ready. High-quality conversion completed.</p>
+        <button class="btn-download" onclick="downloadAll()">⬇️ Download All PDFs</button>
+    </div>
 </div>
 
 <script>
     let selectedFiles = [];
+    let generatedPDFs = []; // To store doc objects for downloading
 
-    document.getElementById('fileInput').onchange = async function(e) {
+    document.getElementById('fileInput').onchange = function(e) {
         selectedFiles = e.target.files;
         document.getElementById('fileCount').innerText = `✅ ${selectedFiles.length} files selected`;
-        
-        if (selectedFiles.length > 0) {
-            showPreview(selectedFiles[0]); // Pehli file ka preview dikhao
-        }
+        document.getElementById('final-action-area').style.display = 'none';
     };
 
-    // Live Preview Logic
-    async function showPreview(file) {
-        const reader = new FileReader();
-        reader.onload = (e) => {
-            const data = new Uint8Array(e.target.result);
-            const workbook = XLSX.read(data, { type: 'array' });
-            const sheet = workbook.Sheets[workbook.SheetNames[0]];
-            const html = XLSX.utils.sheet_to_html(sheet);
-            const container = document.getElementById('preview-container');
-            container.innerHTML = html;
-            container.style.display = 'block';
-        };
-        reader.readAsArrayBuffer(file);
-    }
-
-    async function processAll() {
-        if (selectedFiles.length === 0) return alert("Pehle file upload karein!");
+    async function generatePreview() {
+        if (selectedFiles.length === 0) return alert("Pehle files upload karein!");
         
-        const btn = document.getElementById('convertBtn');
-        const status = document.getElementById('status');
-        btn.disabled = true;
-        btn.innerText = "Processing...";
+        document.getElementById('loading').style.display = 'block';
+        document.getElementById('convertBtn').disabled = true;
+        generatedPDFs = []; // Reset
 
         const { jsPDF } = window.jspdf;
         const orient = document.getElementById('orientation').value;
 
-        for (let i = 0; i < selectedFiles.length; i++) {
-            const file = selectedFiles[i];
-            status.innerText = `⏳ Converting: ${file.name}`;
-            
-            const data = await file.arrayBuffer();
+        // Process first file for preview
+        const firstFile = selectedFiles[0];
+        const reader = new FileReader();
+        
+        reader.onload = async (e) => {
+            const data = new Uint8Array(e.target.result);
             const workbook = XLSX.read(data, { type: 'array' });
-            const doc = new jsPDF({ orientation: orient, unit: 'pt', format: 'a4' });
+            const sheetName = workbook.SheetNames[0];
+            const sheet = workbook.Sheets[sheetName];
+            
+            // Show HTML preview for the first file
+            const html = XLSX.utils.sheet_to_html(sheet);
+            document.getElementById('previewTable').innerHTML = html;
 
-            workbook.SheetNames.forEach((name, idx) => {
-                if (idx > 0) doc.addPage();
-                const ws = workbook.Sheets[name];
-                const jsonData = XLSX.utils.sheet_to_json(ws, { header: 1 });
+            // Prepare all files in background
+            for (let file of selectedFiles) {
+                const fData = await file.arrayBuffer();
+                const wb = XLSX.read(fData, { type: 'array' });
+                const doc = new jsPDF({ orientation: orient, unit: 'pt', format: 'a4' });
 
-                doc.autoTable({
-                    head: [jsonData[0]],
-                    body: jsonData.slice(1),
-                    styles: { font: 'helvetica', fontSize: 9 }, // Note: Browser PDF can use Helvetica for English
-                    // Language Fix: AutoTable handles Unicode symbols better
-                    margin: { top: 40 },
-                    didDrawPage: (d) => { doc.text(`Shayan Digital Tools - ${name}`, 40, 25); }
+                wb.SheetNames.forEach((name, idx) => {
+                    if (idx > 0) doc.addPage();
+                    const ws = wb.Sheets[name];
+                    const jsonData = XLSX.utils.sheet_to_json(ws, { header: 1 });
+
+                    doc.autoTable({
+                        head: [jsonData[0]],
+                        body: jsonData.slice(1),
+                        styles: { font: 'helvetica', fontSize: 9 }, // Standard font for layout
+                        margin: { top: 40 },
+                        didDrawPage: (d) => {
+                            doc.setFontSize(10);
+                            doc.text(`Shayan Digital - ${file.name}`, 40, 25);
+                        }
+                    });
                 });
-            });
-            doc.save(file.name.replace(/\.[^/.]+$/, "") + ".pdf");
-        }
+                generatedPDFs.push({ doc: doc, name: file.name.replace(/\.[^/.]+$/, "") + ".pdf" });
+            }
 
-        status.innerText = "🎉 All Files Downloaded!";
-        btn.disabled = false;
-        btn.innerText = "Download PDF";
+            document.getElementById('loading').style.display = 'none';
+            document.getElementById('final-action-area').style.display = 'block';
+            document.getElementById('convertBtn').disabled = false;
+        };
+        reader.readAsArrayBuffer(firstFile);
+    }
+
+    function downloadAll() {
+        generatedPDFs.forEach(item => {
+            item.doc.save(item.name);
+        });
+        alert("Saari files download ho rahi hain!");
     }
 </script>
 
