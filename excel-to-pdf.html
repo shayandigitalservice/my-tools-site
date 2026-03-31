@@ -3,147 +3,113 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <title>Multi-Language Excel to PDF Converter 2026</title>
+    <title>Excel to PDF Converter | Shayan Smart Tools</title>
     
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Indic:wght@400;700&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
-
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.25/jspdf.plugin.autotable.min.js"></script>
 
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', 'Noto Sans Indic', sans-serif; }
-        body { background: #f0f2f5; padding: 15px; color: #333; }
-        .header { background: #2563eb; color: white; text-align: center; padding: 25px; border-radius: 12px; margin-bottom: 20px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
-        .container { max-width: 850px; margin: auto; background: white; padding: 25px; border-radius: 15px; box-shadow: 0 10px 25px rgba(0,0,0,0.05); }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
+        body { background: #f1f5f9; padding: 20px; color: #333; }
+        .header { background: #2563eb; color: white; text-align: center; padding: 20px; border-radius: 10px; margin-bottom: 20px; }
+        .container { max-width: 800px; margin: auto; background: white; padding: 25px; border-radius: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
 
-        .upload-card { border: 2px dashed #2563eb; padding: 40px 20px; border-radius: 12px; text-align: center; cursor: pointer; background: #f8fafc; transition: 0.3s; }
-        .upload-card:hover { background: #eff6ff; }
+        .upload-area { border: 2px dashed #2563eb; padding: 30px; text-align: center; cursor: pointer; border-radius: 10px; background: #fafafa; margin-bottom: 20px; }
         
-        /* Preview Section */
-        #preview-wrap { display: none; margin-top: 30px; border-top: 2px solid #eee; padding-top: 20px; }
-        .pdf-page-view { 
-            background: #e4e4e4; padding: 20px; border-radius: 8px; 
-            max-height: 500px; overflow: auto; display: flex; justify-content: center; 
-        }
-        #capture-node { 
-            background: white; width: 100%; min-width: 600px; padding: 40px; 
-            box-shadow: 0 0 15px rgba(0,0,0,0.2); font-family: 'Noto Sans Indic', sans-serif; 
-        }
+        /* PDF Preview Styling */
+        #pdf-preview-section { display: none; margin-top: 20px; border-top: 2px solid #eee; padding-top: 20px; }
+        .iframe-container { width: 100%; height: 500px; border: 1px solid #ccc; border-radius: 8px; background: #525659; }
+        iframe { width: 100%; height: 100%; border: none; }
 
-        table { width: 100%; border-collapse: collapse; margin-top: 15px; border: 1px solid #444; }
-        th, td { border: 1px solid #444; padding: 10px; text-align: left; font-size: 13px; color: #000; }
-        th { background: #f3f4f6; font-weight: bold; }
-
-        .btn-box { display: flex; gap: 15px; margin-top: 25px; }
-        .btn { flex: 1; padding: 16px; border: none; border-radius: 10px; font-weight: bold; cursor: pointer; font-size: 16px; transition: 0.3s; }
-        .btn-dl { background: #16a34a; color: white; box-shadow: 0 4px 12px rgba(22, 163, 74, 0.3); }
-        .btn-reset { background: #64748b; color: white; }
+        .btn-group { display: flex; gap: 10px; margin-top: 20px; }
+        button { flex: 1; padding: 15px; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; font-size: 16px; color: white; transition: 0.3s; }
+        .btn-convert { background: #2563eb; }
+        .btn-download { background: #16a34a; }
+        .btn-reset { background: #64748b; }
         
-        #loader { text-align: center; margin: 15px 0; color: #2563eb; font-weight: 600; display: none; }
+        #status { text-align: center; margin-bottom: 10px; font-weight: bold; color: #2563eb; }
     </style>
 </head>
 <body>
 
-<div class="header">
-    <h1>📊 Shayan Universal Converter</h1>
-    <p>Excel to PDF with UTF-8 Language Support</p>
-</div>
+<div class="header"><h1>📊 Excel to PDF Converter</h1></div>
 
 <div class="container">
-    <div class="upload-card" id="dropZone" onclick="document.getElementById('fileInput').click()">
-        <p style="font-size: 20px; font-weight: 600;">📁 Upload Excel Files (Max 50)</p>
-        <p style="font-size: 13px; color: #666; margin-top: 5px;">Supported: Assamese, Hindi, Bengali, English</p>
-        <input type="file" id="fileInput" accept=".xlsx,.xls" multiple style="display:none">
-        <div id="statusMsg" style="margin-top:10px; color:#2563eb; font-weight:bold;"></div>
+    <div id="status">Upload your Excel file to start</div>
+    
+    <div class="upload-area" onclick="document.getElementById('fileInput').click()">
+        <b>📁 Click to Select Excel File</b>
+        <input type="file" id="fileInput" accept=".xlsx,.xls" style="display:none">
     </div>
 
-    <div id="loader">⚙️ Converting... Please wait.</div>
+    <button class="btn-convert" id="convertBtn" onclick="convertToPDFPreview()">1. Convert & Preview PDF</button>
 
-    <div id="preview-wrap">
-        <h3 style="margin-bottom:15px; color: #1e40af;">👀 Real PDF Preview (UTF-8):</h3>
-        <div class="pdf-page-view">
-            <div id="capture-node">
-                </div>
+    <div id="pdf-preview-section">
+        <h3 style="margin-bottom:10px; color:#1e40af;">🔍 Asli PDF Preview:</h3>
+        <div class="iframe-container">
+            <iframe id="pdfFrame"></iframe>
         </div>
         
-        <div class="btn-box">
-            <button class="btn btn-reset" onclick="location.reload()">Clear All</button>
-            <button class="btn btn-dl" id="finalBtn" onclick="runBulkExport()">⬇️ Download All PDFs</button>
+        <div class="btn-group">
+            <button class="btn-reset" onclick="location.reload()">Clear</button>
+            <button class="btn-download" id="dlBtn" onclick="downloadFinalPDF()">2. Download This PDF</button>
         </div>
     </div>
 </div>
 
 <script>
-    let batchFiles = [];
+    let finalPdfBlob = null;
+    let currentFileName = "converted-file.pdf";
 
-    document.getElementById('fileInput').onchange = async function(e) {
-        batchFiles = e.target.files;
-        if (batchFiles.length === 0) return;
+    async function convertToPDFPreview() {
+        const fileInput = document.getElementById('fileInput');
+        if (fileInput.files.length === 0) return alert("Pehle file select karein!");
 
-        document.getElementById('statusMsg').innerText = `✅ ${batchFiles.length} Files Selected`;
-        document.getElementById('preview-wrap').style.display = 'block';
+        const status = document.getElementById('status');
+        status.innerText = "⚙️ PDF Ban raha hai...";
 
-        // Pehli file ka preview dikhao
-        const file = batchFiles[0];
+        const file = fileInput.files[0];
+        currentFileName = file.name.replace(/\.[^/.]+$/, "") + ".pdf";
+
         const data = await file.arrayBuffer();
         const workbook = XLSX.read(data, { type: 'array' });
         const sheet = workbook.Sheets[workbook.SheetNames[0]];
-        const html = XLSX.utils.sheet_to_html(sheet);
-
-        // UTF-8 content render
-        document.getElementById('capture-node').innerHTML = `
-            <h2 style="text-align:center; margin-bottom:20px; border-bottom: 2px solid #333;">${file.name}</h2>
-            ${html}
-        `;
-    };
-
-    async function runBulkExport() {
-        const btn = document.getElementById('finalBtn');
-        const loader = document.getElementById('loader');
-        
-        btn.disabled = true;
-        btn.innerText = "Processing...";
-        loader.style.display = "block";
+        const jsonData = XLSX.utils.sheet_to_json(sheet, { header: 1 });
 
         const { jsPDF } = window.jspdf;
+        const doc = new jsPDF('p', 'pt', 'a4');
 
-        for (let file of batchFiles) {
-            // Worker Div (Invisible but used for UTF-8 Capture)
-            const worker = document.createElement('div');
-            worker.style.width = "750px"; // Wider for desktop feel
-            worker.style.padding = "40px";
-            worker.style.background = "white";
-            worker.style.position = "absolute";
-            worker.style.left = "-9999px"; // Hide from view
-            
-            const data = await file.arrayBuffer();
-            const workbook = XLSX.read(data, { type: 'array' });
-            const html = XLSX.utils.sheet_to_html(workbook.Sheets[workbook.SheetNames[0]]);
-            
-            worker.innerHTML = `<h2 style="text-align:center;">${file.name}</h2><br>${html}`;
-            document.body.appendChild(worker);
+        // Professional Table in PDF
+        doc.autoTable({
+            head: [jsonData[0]],
+            body: jsonData.slice(1),
+            startY: 40,
+            theme: 'grid',
+            styles: { fontSize: 9 },
+            margin: { top: 40 },
+            didDrawPage: (d) => {
+                doc.text("Shayan Smart Tools - PDF Preview", 40, 25);
+            }
+        });
 
-            const doc = new jsPDF('p', 'pt', 'a4');
+        // PDF ko Blob URL mein badalna preview ke liye
+        finalPdfBlob = doc.output('blob');
+        const pdfUrl = URL.createObjectURL(finalPdfBlob);
+        
+        // Preview Iframe mein dikhana
+        document.getElementById('pdfFrame').src = pdfUrl;
+        document.getElementById('pdf-preview-section').style.display = 'block';
+        status.innerText = "✅ Conversion Complete! Preview niche dekhein.";
+    }
 
-            // html2canvas capture (Best for Assamese/UTF-8)
-            await doc.html(worker, {
-                callback: function(pdf) {
-                    pdf.save(file.name.replace(/\.[^/.]+$/, "") + ".pdf");
-                    document.body.removeChild(worker);
-                },
-                x: 20,
-                y: 20,
-                width: 550,
-                windowWidth: 800
-            });
-        }
-
-        loader.style.display = "none";
-        btn.disabled = false;
-        btn.innerText = "⬇️ Download All PDFs";
-        alert("Sari files download ho gayi hain!");
+    function downloadFinalPDF() {
+        if (!finalPdfBlob) return alert("Pehle convert karein!");
+        
+        const link = document.createElement('a');
+        link.href = URL.createObjectURL(finalPdfBlob);
+        link.download = currentFileName;
+        link.click();
     }
 </script>
 
