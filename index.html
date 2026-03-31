@@ -8,101 +8,120 @@
 <meta name="google-site-verification" content="pMsIFlNcVKhRg-nG3tEPz-FW2rONLd9EWya7trfC8g8" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        /* Global Arial Font */
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: Arial, Helvetica, sans-serif; }
-        body { background-color: #fcfcfc; color: #101828; line-height: 1.6; }
+       
+    /* Global Arial Font */
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: Arial, Helvetica, sans-serif; }
+    body { background-color: #fcfcfc; color: #101828; line-height: 1.6; }
 
-        /* --- Header & Logo Section --- */
-        header {
-            display: flex; justify-content: space-between; align-items: center;
-            padding: 10px 5%; background: #fff; border-bottom: 1px solid #f2f4f7;
-            position: sticky; top: 0; z-index: 1000;
-        }
-        .logo { display: flex; align-items: center; text-decoration: none; color: #101828; font-size: 20px; font-weight: bold; }
-        .logo img { height: 50px; width: 50px; border-radius: 10px; margin-right: 12px; object-fit: cover; }
-        .logo span { color: #45cafd; margin-left: 4px; }
-        
-        .nav-links { display: flex; gap: 15px; align-items: center; }
-        .nav-links a { text-decoration: none; color: #667085; font-size: 13px; font-weight: 600; transition: 0.3s; }
-        .nav-links a:hover { color: #45cafd; }
+    /* --- Header & Logo Section --- */
+    header {
+        display: flex; justify-content: space-between; align-items: center;
+        padding: 10px 5%; background: #fff; border-bottom: 1px solid #f2f4f7;
+        position: sticky; top: 0; z-index: 1000;
+    }
+    .logo { display: flex; align-items: center; text-decoration: none; color: #101828; font-size: 20px; font-weight: bold; }
+    .logo img { height: 50px; width: 50px; border-radius: 10px; margin-right: 12px; object-fit: cover; }
+    .logo span { color: #45cafd; margin-left: 4px; }
+    
+    .nav-links { display: flex; gap: 15px; align-items: center; }
+    .nav-links a { text-decoration: none; color: #667085; font-size: 13px; font-weight: 600; transition: 0.3s; }
+    .nav-links a:hover { color: #45cafd; }
 
-        .auth-group { display: flex; gap: 10px; align-items: center; margin-left: 10px; }
-        .btn-login { text-decoration: none; color: #45cafd; font-size: 13px; font-weight: bold; padding: 6px 15px; border: 1px solid #45cafd; border-radius: 20px; }
-        .btn-signup { text-decoration: none; background: #45cafd; color: white; font-size: 13px; font-weight: bold; padding: 6px 18px; border-radius: 20px; }
+    .auth-group { display: flex; gap: 10px; align-items: center; margin-left: 10px; }
+    .btn-login { text-decoration: none; color: #45cafd; font-size: 13px; font-weight: bold; padding: 6px 15px; border: 1px solid #45cafd; border-radius: 20px; }
+    .btn-signup { text-decoration: none; background: #45cafd; color: white; font-size: 13px; font-weight: bold; padding: 6px 18px; border-radius: 20px; }
 
-        .menu-toggle { display: none; font-size: 22px; cursor: pointer; color: #101828; }
+    .menu-toggle { display: none; font-size: 22px; cursor: pointer; color: #101828; }
 
-        /* --- Hero Section --- */
-        .hero {
-            position: relative; height: 500px;
-            background: url('https://images.unsplash.com/photo-1497215728101-856f4ea42174?q=80&w=1600') no-repeat center center/cover;
-            display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; color: white; padding: 0 20px;
-        }
-        .hero::before { content: ""; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0.5)); z-index: 1; }
-        .hero-content { position: relative; z-index: 2; max-width: 850px; width: 100%; }
-        .hero h1 { font-size: 42px; margin-bottom: 15px; font-weight: bold; }
-        .hero h1 span { color: #45cafd; }
-        .hero p { font-size: 18px; margin-bottom: 30px; opacity: 0.9; }
+    /* --- Hero Section & NEW Sliding Background Logic --- */
+    .hero {
+        position: relative; height: 500px; width: 100%;
+        overflow: hidden; display: flex; flex-direction: column; 
+        justify-content: center; align-items: center; text-align: center; color: white;
+    }
+    
+    /* Dark Overlay: Ye images ko dark rakhega taaki text saaf dikhe */
+    .hero::after {
+        content: ""; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+        background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.5));
+        z-index: 2;
+    }
 
-        .search-box {
-            width: 100%; max-width: 550px; padding: 18px 30px; border-radius: 35px; border: none; font-size: 17px; box-shadow: 0 15px 35px rgba(0,0,0,0.3); outline: none;
-        }
+    .slider-container { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 1; }
+    
+    .slide {
+        position: absolute; width: 100%; height: 100%; object-fit: cover;
+        transform: translateX(100%); /* Right side se shuru */
+        transition: transform 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    
+    .slide.active { transform: translateX(0); } /* Center mein aana */
+    .slide.exit { transform: translateX(-100%); } /* Left side nikal jana */
 
-        /* --- Our Features Styling --- */
-        .our-features-center {
-            text-align: center;
-            margin: 60px 0 20px 0;
-            font-size: 36px;
-            font-weight: 800;
-            color: #101828;
-            text-transform: uppercase;
-        }
-        .our-features-center span { color: #45cafd; }
+    .hero-content { position: relative; z-index: 3; max-width: 850px; width: 100%; padding: 0 20px; }
+    .hero h1 { font-size: 42px; margin-bottom: 15px; font-weight: bold; }
+    .hero h1 span { color: #45cafd; }
+    .hero p { font-size: 18px; margin-bottom: 30px; opacity: 0.9; }
 
-        /* --- Grid Section --- */
-        .container { max-width: 1200px; margin: 20px auto 50px auto; padding: 0 20px; }
-        .section-title { text-align: left; margin: 45px 0 25px 0; border-left: 5px solid #45cafd; padding-left: 15px; }
-        .section-title h2 { font-size: 24px; color: #101828; font-weight: bold; }
+    .search-box {
+        width: 100%; max-width: 550px; padding: 18px 30px; border-radius: 35px; 
+        border: none; font-size: 17px; box-shadow: 0 15px 35px rgba(0,0,0,0.3); outline: none;
+        color: #101828;
+    }
 
-        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 20px; }
-        .btn {
-            background: #fff; text-decoration: none; padding: 30px 20px; border-radius: 15px; border: 1px solid #f2f4f7;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.03); display: flex; flex-direction: column; align-items: center; transition: 0.3s;
-        }
-        .btn:hover { transform: translateY(-8px); border-color: #45cafd; box-shadow: 0 12px 25px rgba(0,0,0,0.08); }
-        .icon { font-size: 28px; margin-bottom: 15px; color: #45cafd; background: #f0fbff; width: 60px; height: 60px; display: flex; align-items: center; justify-content: center; border-radius: 50%; }
-        .btn-title { font-size: 16px; font-weight: bold; color: #101828; text-align: center; }
+    /* --- Our Features Styling --- */
+    .our-features-center {
+        text-align: center; margin: 60px 0 20px 0;
+        font-size: 36px; font-weight: 800; color: #101828; text-transform: uppercase;
+    }
+    .our-features-center span { color: #45cafd; }
 
-        .more-tools-wrapper { text-align: center; margin: 60px 0; }
-        .btn-more { background: #101828; color: white; padding: 18px 45px; border-radius: 35px; border: none; font-weight: bold; cursor: pointer; transition: 0.3s; font-size: 16px; }
-        .btn-more:hover { background: #45cafd; }
-        #hidden-tools { display: none; }
+    /* --- Grid Section --- */
+    .container { max-width: 1200px; margin: 20px auto 50px auto; padding: 0 20px; }
+    .section-title { text-align: left; margin: 45px 0 25px 0; border-left: 5px solid #45cafd; padding-left: 15px; }
+    .section-title h2 { font-size: 24px; color: #101828; font-weight: bold; }
 
-        /* --- Huge SEO Section --- */
-        .seo-section { max-width: 1100px; margin: 70px auto; padding: 50px; background: white; border-radius: 25px; box-shadow: 0 15px 40px rgba(0,0,0,0.06); text-align: left; }
-        .seo-section h2 { color: #2b7cff; margin: 40px 0 20px; font-size: 26px; border-bottom: 2px solid #f0f0f0; padding-bottom: 12px; }
-        .seo-section p { margin-bottom: 25px; color: #444; font-size: 16px; line-height: 2.1; }
-        .highlight-box { background: linear-gradient(135deg,#2b7cff,#4facfe); color: white; padding: 30px; border-radius: 20px; margin: 40px 0; text-align: center; font-weight: bold; font-size: 18px; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 20px; }
+    .btn {
+        background: #fff; text-decoration: none; padding: 30px 20px; border-radius: 15px; border: 1px solid #f2f4f7;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.03); display: flex; flex-direction: column; align-items: center; transition: 0.3s;
+    }
+    .btn:hover { transform: translateY(-8px); border-color: #45cafd; box-shadow: 0 12px 25px rgba(0,0,0,0.08); }
+    .icon { font-size: 28px; margin-bottom: 15px; color: #45cafd; background: #f0fbff; width: 60px; height: 60px; display: flex; align-items: center; justify-content: center; border-radius: 50%; }
+    .btn-title { font-size: 16px; font-weight: bold; color: #101828; text-align: center; }
 
-        /* --- FOOTER with Social Media --- */
-        footer { background: #101828; color: #98a2b3; padding: 60px 20px; text-align: center; margin-top: 80px; }
-        .footer-social-wrapper { margin-bottom: 25px; display: flex; justify-content: center; gap: 20px; }
-        .social-icon { color: #98a2b3; font-size: 22px; text-decoration: none; transition: 0.3s; }
-        .instagram-hover:hover { color: #E1306C; transform: scale(1.1); }
-        .youtube-hover:hover { color: #FF0000; transform: scale(1.1); }
-        .facebook-hover:hover { color: #1877F2; transform: scale(1.1); }
-        .pinterest-hover:hover { color: #BD081C; transform: scale(1.1); }
+    .more-tools-wrapper { text-align: center; margin: 60px 0; }
+    .btn-more { background: #101828; color: white; padding: 18px 45px; border-radius: 35px; border: none; font-weight: bold; cursor: pointer; transition: 0.3s; font-size: 16px; }
+    .btn-more:hover { background: #45cafd; }
+    #hidden-tools { display: none; }
 
-        @media (max-width: 900px) {
-            .menu-toggle { display: block; }
-            .nav-links { display: none; flex-direction: column; position: absolute; top: 65px; left: 0; width: 100%; background: white; padding: 25px; z-index: 1001; box-shadow: 0 15px 25px rgba(0,0,0,0.1); border-bottom: 3px solid #45cafd; }
-            .nav-links.active { display: flex; }
-            .grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
-            .logo img { height: 40px; width: 40px; }
-            .hero h1 { font-size: 30px; }
-            .our-features-center { font-size: 28px; }
-        }
-    </style>
+    /* --- Huge SEO Section --- */
+    .seo-section { max-width: 1100px; margin: 70px auto; padding: 50px; background: white; border-radius: 25px; box-shadow: 0 15px 40px rgba(0,0,0,0.06); text-align: left; }
+    .seo-section h2 { color: #2b7cff; margin: 40px 0 20px; font-size: 26px; border-bottom: 2px solid #f0f0f0; padding-bottom: 12px; }
+    .seo-section p { margin-bottom: 25px; color: #444; font-size: 16px; line-height: 2.1; }
+    .highlight-box { background: linear-gradient(135deg,#2b7cff,#4facfe); color: white; padding: 30px; border-radius: 20px; margin: 40px 0; text-align: center; font-weight: bold; font-size: 18px; }
+
+    /* --- FOOTER with Social Media --- */
+    footer { background: #101828; color: #98a2b3; padding: 60px 20px; text-align: center; margin-top: 80px; }
+    .footer-social-wrapper { margin-bottom: 25px; display: flex; justify-content: center; gap: 20px; }
+    .social-icon { color: #98a2b3; font-size: 22px; text-decoration: none; transition: 0.3s; }
+    .instagram-hover:hover { color: #E1306C; transform: scale(1.1); }
+    .youtube-hover:hover { color: #FF0000; transform: scale(1.1); }
+    .facebook-hover:hover { color: #1877F2; transform: scale(1.1); }
+    .pinterest-hover:hover { color: #BD081C; transform: scale(1.1); }
+
+    @media (max-width: 900px) {
+        .menu-toggle { display: block; }
+        .nav-links { display: none; flex-direction: column; position: absolute; top: 65px; left: 0; width: 100%; background: white; padding: 25px; z-index: 1001; box-shadow: 0 15px 25px rgba(0,0,0,0.1); border-bottom: 3px solid #45cafd; }
+        .nav-links.active { display: flex; }
+        .grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+        .logo img { height: 40px; width: 40px; }
+        .hero h1 { font-size: 30px; }
+        .our-features-center { font-size: 28px; }
+    }
+</style>
+
+    
 </head>
 <body>
 
@@ -127,7 +146,15 @@
     </div>
 </header>
 
-<section class="hero">
+<section class="hero" id="hero-slider">
+    <div class="slider-container">
+        <img src="photo1.jpg" class="slide active">
+        <img src="photo2.jpg" class="slide">
+        <img src="photo3.jpg" class="slide">
+        <img src="photo4.jpg" class="slide">
+        <img src="photo5.jpg" class="slide">
+    </div>
+
     <div class="hero-content">
         <h1>India’s <span>Fastest Free Tools</span> Platform</h1>
         <p>Your Ultimate Free Hub for Professional PDF, Image & Calculator Tools.</p>
@@ -400,6 +427,25 @@ Shayan Smart Tools aims to become a trusted destination for free online calculat
             c.style.display = c.innerText.toLowerCase().includes(val) ? "flex" : "none";
         });
     });
+    setInterval(() => {
+    const slides = document.querySelectorAll('.slide');
+    let current = [...slides].findIndex(s => s.classList.contains('active'));
+    
+    // Purani photo bahar (Left)
+    slides[current].classList.remove('active');
+    slides[current].classList.add('exit');
+    
+    // Nayi photo andar (Right)
+    let next = (current + 1) % slides.length;
+    slides[next].classList.remove('exit');
+    slides[next].classList.add('active');
+    
+    // Reset exit class
+    setTimeout(() => {
+        document.querySelectorAll('.slide.exit').forEach(el => el.classList.remove('exit'));
+    }, 1200);
+}, 3000); 
+
 </script>
 </body>
 </html>
