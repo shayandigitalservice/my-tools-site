@@ -3,113 +3,109 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Excel to PDF Converter | Shayan Smart Tools</title>
+    <title>Excel to PDF | Shayan Smart Tools</title>
     
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.25/jspdf.plugin.autotable.min.js"></script>
 
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
-        body { background: #f1f5f9; padding: 20px; color: #333; }
-        .header { background: #2563eb; color: white; text-align: center; padding: 20px; border-radius: 10px; margin-bottom: 20px; }
-        .container { max-width: 800px; margin: auto; background: white; padding: 25px; border-radius: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
-
-        .upload-area { border: 2px dashed #2563eb; padding: 30px; text-align: center; cursor: pointer; border-radius: 10px; background: #fafafa; margin-bottom: 20px; }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: sans-serif; }
+        body { background: #f1f5f9; padding: 15px; }
+        .container { max-width: 600px; margin: auto; background: white; padding: 20px; border-radius: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
+        .header { background: #2563eb; color: white; text-align: center; padding: 15px; border-radius: 10px; margin-bottom: 15px; }
+        .upload-area { border: 2px dashed #2563eb; padding: 25px; text-align: center; border-radius: 10px; background: #fafafa; margin-bottom: 15px; cursor: pointer; }
         
-        /* PDF Preview Styling */
-        #pdf-preview-section { display: none; margin-top: 20px; border-top: 2px solid #eee; padding-top: 20px; }
-        .iframe-container { width: 100%; height: 500px; border: 1px solid #ccc; border-radius: 8px; background: #525659; }
-        iframe { width: 100%; height: 100%; border: none; }
+        /* Preview Box Fix for Mobile */
+        #pdf-preview-section { display: none; margin-top: 15px; }
+        .preview-box { 
+            width: 100%; height: 450px; border: 2px solid #ddd; border-radius: 10px; 
+            overflow: auto; background: #525659; display: flex; justify-content: center;
+        }
+        #pdf-canvas { width: 100%; background: white; }
 
-        .btn-group { display: flex; gap: 10px; margin-top: 20px; }
-        button { flex: 1; padding: 15px; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; font-size: 16px; color: white; transition: 0.3s; }
-        .btn-convert { background: #2563eb; }
-        .btn-download { background: #16a34a; }
-        .btn-reset { background: #64748b; }
-        
-        #status { text-align: center; margin-bottom: 10px; font-weight: bold; color: #2563eb; }
+        .btn { width: 100%; padding: 15px; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; margin-top: 10px; color: white; }
+        .btn-blue { background: #2563eb; }
+        .btn-green { background: #16a34a; }
+        #status { text-align: center; font-size: 14px; color: #2563eb; margin-bottom: 10px; }
     </style>
 </head>
 <body>
 
-<div class="header"><h1>📊 Excel to PDF Converter</h1></div>
+<div class="header"><h3>📊 Excel to PDF Converter</h3></div>
 
 <div class="container">
-    <div id="status">Upload your Excel file to start</div>
+    <div id="status">Select Excel file to start</div>
     
     <div class="upload-area" onclick="document.getElementById('fileInput').click()">
-        <b>📁 Click to Select Excel File</b>
+        <b>📁 Click to Select File</b>
         <input type="file" id="fileInput" accept=".xlsx,.xls" style="display:none">
     </div>
 
-    <button class="btn-convert" id="convertBtn" onclick="convertToPDFPreview()">1. Convert & Preview PDF</button>
+    <button class="btn btn-blue" onclick="convertToPDFPreview()">1. Convert & Preview PDF</button>
 
     <div id="pdf-preview-section">
-        <h3 style="margin-bottom:10px; color:#1e40af;">🔍 Asli PDF Preview:</h3>
-        <div class="iframe-container">
-            <iframe id="pdfFrame"></iframe>
+        <h4 style="margin-bottom:10px;">🔍 Real PDF Preview:</h4>
+        <div class="preview-box">
+            <canvas id="pdf-canvas"></canvas>
         </div>
         
-        <div class="btn-group">
-            <button class="btn-reset" onclick="location.reload()">Clear</button>
-            <button class="btn-download" id="dlBtn" onclick="downloadFinalPDF()">2. Download This PDF</button>
-        </div>
+        <button class="btn btn-green" onclick="downloadFinalPDF()">2. Download This PDF</button>
+        <button class="btn" style="background:#64748b;" onclick="location.reload()">Clear</button>
     </div>
 </div>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
+
 <script>
-    let finalPdfBlob = null;
-    let currentFileName = "converted-file.pdf";
+    let finalDoc = null;
+    let fileName = "file.pdf";
 
     async function convertToPDFPreview() {
         const fileInput = document.getElementById('fileInput');
         if (fileInput.files.length === 0) return alert("Pehle file select karein!");
 
-        const status = document.getElementById('status');
-        status.innerText = "⚙️ PDF Ban raha hai...";
-
         const file = fileInput.files[0];
-        currentFileName = file.name.replace(/\.[^/.]+$/, "") + ".pdf";
-
+        fileName = file.name.replace(/\.[^/.]+$/, "") + ".pdf";
+        
         const data = await file.arrayBuffer();
         const workbook = XLSX.read(data, { type: 'array' });
-        const sheet = workbook.Sheets[workbook.SheetNames[0]];
-        const jsonData = XLSX.utils.sheet_to_json(sheet, { header: 1 });
+        const jsonData = XLSX.utils.sheet_to_json(workbook.Sheets[workbook.SheetNames[0]], { header: 1 });
 
         const { jsPDF } = window.jspdf;
         const doc = new jsPDF('p', 'pt', 'a4');
 
-        // Professional Table in PDF
         doc.autoTable({
             head: [jsonData[0]],
             body: jsonData.slice(1),
             startY: 40,
             theme: 'grid',
-            styles: { fontSize: 9 },
-            margin: { top: 40 },
-            didDrawPage: (d) => {
-                doc.text("Shayan Smart Tools - PDF Preview", 40, 25);
-            }
+            styles: { fontSize: 8 }
         });
 
-        // PDF ko Blob URL mein badalna preview ke liye
-        finalPdfBlob = doc.output('blob');
-        const pdfUrl = URL.createObjectURL(finalPdfBlob);
+        finalDoc = doc;
         
-        // Preview Iframe mein dikhana
-        document.getElementById('pdfFrame').src = pdfUrl;
+        // --- Mobile Preview Logic ---
+        const pdfData = doc.output('arraybuffer');
+        const loadingTask = pdfjsLib.getDocument({ data: pdfData });
+        const pdf = await loadingTask.promise;
+        const page = await pdf.getPage(1);
+        
+        const canvas = document.getElementById('pdf-canvas');
+        const context = canvas.getContext('2d');
+        const viewport = page.getViewport({ scale: 1.2 });
+
+        canvas.height = viewport.height;
+        canvas.width = viewport.width;
+
+        await page.render({ canvasContext: context, viewport: viewport }).promise;
+        
         document.getElementById('pdf-preview-section').style.display = 'block';
-        status.innerText = "✅ Conversion Complete! Preview niche dekhein.";
+        document.getElementById('status').innerText = "✅ Preview Ready!";
     }
 
     function downloadFinalPDF() {
-        if (!finalPdfBlob) return alert("Pehle convert karein!");
-        
-        const link = document.createElement('a');
-        link.href = URL.createObjectURL(finalPdfBlob);
-        link.download = currentFileName;
-        link.click();
+        if (finalDoc) finalDoc.save(fileName);
     }
 </script>
 
