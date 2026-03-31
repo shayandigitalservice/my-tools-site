@@ -3,181 +3,110 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Advanced Age Calculator 2026 – Exact Age & Birthday Countdown Online</title>
-
-    <meta name="description" content="Use our Advanced Age Calculator 2026 to calculate your exact age in years, months, days, hours, minutes and seconds with live countdown.">
-    <meta name="keywords" content="age calculator, exact age calculator, birthday calculator, online age tool, free age calculator 2026">
-    <meta name="author" content="Shayan Smart Tools">
-    <link rel="canonical" href="https://shayandigitalservice.github.io/my-tools-site/age.html" />
-
-    <meta property="og:title" content="Advanced Age Calculator 2026 – Exact Age Calculator Online">
-    <meta property="og:description" content="Calculate your exact age in years, months, days, hours and seconds with live birthday countdown.">
-    <meta property="og:type" content="website">
-
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <title>Excel to PDF | Shayan Smart Tools</title>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.25/jspdf.plugin.autotable.min.js"></script>
 
     <style>
-        * { margin:0; padding:0; box-sizing:border-box; font-family:'Poppins',sans-serif; }
-        body { background:#f1f5f9; color:#222; line-height: 1.6; }
-
-        /* HEADER */
-        .header { background:#2563eb; color:white; text-align:center; padding:20px; font-size:28px; font-weight:600; }
-
-        /* MAIN */
-        .container { max-width:700px; margin:30px auto; padding:20px; background:white; border-radius:10px; border:1px solid #ddd; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); }
-
-        /* INPUT */
-        input { width:100%; padding:12px; margin:10px 0; border-radius:6px; border:1px solid #ccc; font-size:16px; outline: none; }
-        input:focus { border-color: #2563eb; }
-
-        /* BUTTON */
-        button { background:#2563eb; color:white; border:none; padding:15px; border-radius:6px; cursor:pointer; width:100%; font-size:16px; font-weight: 600; transition: 0.3s; }
-        button:hover { background:#1e40af; }
-
-        /* RESULT */
-        .result { margin-top:20px; padding:20px; background:#eff6ff; border:1px solid #2563eb; border-radius:8px; display: none; }
-        .result h3 { color:#1e3a8a; margin-bottom:10px; border-bottom: 1px solid #bfdbfe; padding-bottom: 5px; }
-
-        .result-box { display:flex; justify-content:space-between; background:white; padding:10px; margin:6px 0; border-radius:6px; border:1px solid #ddd; font-weight: 500; }
-        .highlight { background:#2563eb; color:white; padding:10px; border-radius:6px; text-align:center; margin-top:10px; font-weight: 600; font-size: 14px; }
-
-        /* SEO SECTION */
-        .section { max-width:900px; margin:30px auto; padding:25px; background:white; border-radius:10px; border:1px solid #ddd; }
-        h1, h2 { margin-bottom:15px; color:#1e3a8a; }
-        p { margin-bottom: 15px; color: #475569; }
-        ul, ol { margin-left: 20px; margin-bottom: 15px; color: #475569; }
-        a { color:#2563eb; text-decoration:none; font-weight: 600; }
-
-        @media (max-width: 600px) {
-            .header { font-size: 22px; }
-            .container { margin: 15px; }
-            .section { margin: 15px; padding: 15px; }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: sans-serif; }
+        body { background: #f1f5f9; padding: 15px; }
+        .container { max-width: 600px; margin: auto; background: white; padding: 20px; border-radius: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
+        .header { background: #2563eb; color: white; text-align: center; padding: 15px; border-radius: 10px; margin-bottom: 15px; }
+        .upload-area { border: 2px dashed #2563eb; padding: 25px; text-align: center; border-radius: 10px; background: #fafafa; margin-bottom: 15px; cursor: pointer; }
+        
+        /* Preview Box Fix for Mobile */
+        #pdf-preview-section { display: none; margin-top: 15px; }
+        .preview-box { 
+            width: 100%; height: 450px; border: 2px solid #ddd; border-radius: 10px; 
+            overflow: auto; background: #525659; display: flex; justify-content: center;
         }
+        #pdf-canvas { width: 100%; background: white; }
+
+        .btn { width: 100%; padding: 15px; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; margin-top: 10px; color: white; }
+        .btn-blue { background: #2563eb; }
+        .btn-green { background: #16a34a; }
+        #status { text-align: center; font-size: 14px; color: #2563eb; margin-bottom: 10px; }
     </style>
 </head>
-
 <body>
 
-<div class="header">🎂 Advanced Age Calculator 2026</div>
+<div class="header"><h3>📊 Excel to PDF Converter</h3></div>
 
 <div class="container">
-    <h2>Calculate Your Age</h2>
-    <input type="date" id="dob">
-    <button onclick="startAge()">Calculate Age</button>
-    <div id="result" class="result"></div>
-    <br>
-    <div style="text-align: center;"><a href="index.html">⬅ Back to Home</a></div>
+    <div id="status">Select Excel file to start</div>
+    
+    <div class="upload-area" onclick="document.getElementById('fileInput').click()">
+        <b>📁 Click to Select File</b>
+        <input type="file" id="fileInput" accept=".xlsx,.xls" style="display:none">
+    </div>
+
+    <button class="btn btn-blue" onclick="convertToPDFPreview()">1. Convert & Preview PDF</button>
+
+    <div id="pdf-preview-section">
+        <h4 style="margin-bottom:10px;">🔍 Real PDF Preview:</h4>
+        <div class="preview-box">
+            <canvas id="pdf-canvas"></canvas>
+        </div>
+        
+        <button class="btn btn-green" onclick="downloadFinalPDF()">2. Download This PDF</button>
+        <button class="btn" style="background:#64748b;" onclick="location.reload()">Clear</button>
+    </div>
 </div>
 
-<section class="section">
-    <h1>Advanced Age Calculator 2026 – Calculate Exact Age with Live Birthday Countdown</h1>
-    <p>The <strong>Advanced Age Calculator 2026</strong> is a powerful, accurate, and easy-to-use online tool designed to calculate your exact age instantly. Whether you want to know your age in years, months, days, hours, minutes, or seconds, this tool provides complete and real-time results.</p>
-
-    <h2>Key Features</h2>
-    <ul>
-        <li><strong>Exact Age Calculation:</strong> Get years, months, days, and even live seconds.</li>
-        <li><strong>Live Birthday Countdown:</strong> Updates every second for your next big day.</li>
-        <li><strong>100% Free:</strong> No registration or download required.</li>
-        <li><strong>Mobile Optimized:</strong> Works perfectly on all screen sizes.</li>
-    </ul>
-
-    <h2>How to Use</h2>
-    <ol>
-        <li>Select your date of birth from the calendar.</li>
-        <li>Click on "Calculate Age".</li>
-        <li>Watch your age update in real-time below.</li>
-    </ol>
-
-    <h2>Why Choose Shayan Smart Tools?</h2>
-    <p>Our tools are built for speed and privacy. All calculations are done locally in your browser, ensuring your data never leaves your device.</p>
-    
-    <div style="margin-top: 20px; border-top: 1px solid #eee; padding-top: 15px; font-size: 13px; text-align: center; color: #94a3b8;">
-        © 2026 Shayan Smart Tools. All Rights Reserved.
-    </div>
-</section>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
 
 <script>
-let interval;
+    let finalDoc = null;
+    let fileName = "file.pdf";
 
-function startAge(){
-    let dobValue = document.getElementById("dob").value;
-    if(!dobValue){
-        alert("Please select your date of birth");
-        return;
-    }
+    async function convertToPDFPreview() {
+        const fileInput = document.getElementById('fileInput');
+        if (fileInput.files.length === 0) return alert("Pehle file select karein!");
 
-    let dob = new Date(dobValue);
-    document.getElementById("result").style.display = "block";
-    clearInterval(interval);
-
-    function updateAge(){
-        let now = new Date();
+        const file = fileInput.files[0];
+        fileName = file.name.replace(/\.[^/.]+$/, "") + ".pdf";
         
-        // Exact Age Logic
-        let years = now.getFullYear() - dob.getFullYear();
-        let months = now.getMonth() - dob.getMonth();
-        let days = now.getDate() - dob.getDate();
+        const data = await file.arrayBuffer();
+        const workbook = XLSX.read(data, { type: 'array' });
+        const jsonData = XLSX.utils.sheet_to_json(workbook.Sheets[workbook.SheetNames[0]], { header: 1 });
 
-        if(days < 0){
-            months--;
-            let prevMonth = new Date(now.getFullYear(), now.getMonth(), 0);
-            days += prevMonth.getDate();
-        }
-        if(months < 0){
-            years--;
-            months += 12;
-        }
+        const { jsPDF } = window.jspdf;
+        const doc = new jsPDF('p', 'pt', 'a4');
 
-        let hours = now.getHours();
-        let minutes = now.getMinutes();
-        let seconds = now.getSeconds();
+        doc.autoTable({
+            head: [jsonData[0]],
+            body: jsonData.slice(1),
+            startY: 40,
+            theme: 'grid',
+            styles: { fontSize: 8 }
+        });
 
-        // Next Birthday Countdown
-        let nextBirthday = new Date(now.getFullYear(), dob.getMonth(), dob.getDate());
-        if(nextBirthday <= now){
-            nextBirthday.setFullYear(now.getFullYear() + 1);
-        }
+        finalDoc = doc;
+        
+        // --- Mobile Preview Logic ---
+        const pdfData = doc.output('arraybuffer');
+        const loadingTask = pdfjsLib.getDocument({ data: pdfData });
+        const pdf = await loadingTask.promise;
+        const page = await pdf.getPage(1);
+        
+        const canvas = document.getElementById('pdf-canvas');
+        const context = canvas.getContext('2d');
+        const viewport = page.getViewport({ scale: 1.2 });
 
-        let dayNames = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
-        let birthdayDayName = dayNames[nextBirthday.getDay()];
+        canvas.height = viewport.height;
+        canvas.width = viewport.width;
 
-        // Precise Countdown Logic
-        let totalDiff = nextBirthday - now;
-        let bMonths = 0;
-        let tempDate = new Date(now);
-        while(new Date(tempDate.getFullYear(), tempDate.getMonth()+1, tempDate.getDate()) <= nextBirthday){
-            tempDate.setMonth(tempDate.getMonth()+1);
-            bMonths++;
-        }
-        let remainingTime = nextBirthday - tempDate;
-        let bDays = Math.floor(remainingTime / (1000*60*60*24));
-
-        let bHours = Math.floor((totalDiff / (1000*60*60)) % 24);
-        let bMinutes = Math.floor((totalDiff / (1000*60)) % 60);
-        let bSeconds = Math.floor((totalDiff / 1000) % 60);
-
-        document.getElementById("result").innerHTML = 
-            "<h3>🎉 Your Exact Age</h3>" +
-            "<div class='result-box'><span>Years</span><span>"+years+"</span></div>" +
-            "<div class='result-box'><span>Months</span><span>"+months+"</span></div>" +
-            "<div class='result-box'><span>Days</span><span>"+days+"</span></div>" +
-            "<div class='result-box'><span>Hours</span><span>"+hours+"</span></div>" +
-            "<div class='result-box'><span>Minutes</span><span>"+minutes+"</span></div>" +
-            "<div class='result-box'><span>Seconds</span><span>"+seconds+"</span></div>" +
-            "<h3 style='margin-top:15px;'>🎂 Next Birthday</h3>" +
-            "<div class='result-box'><span>Day</span><span>"+birthdayDayName+"</span></div>" +
-            "<h3 style='margin-top:15px;'>⏳ Countdown</h3>" +
-            "<div class='result-box'><span>Months Left</span><span>"+bMonths+"</span></div>" +
-            "<div class='result-box'><span>Days Left</span><span>"+bDays+"</span></div>" +
-            "<div class='result-box'><span>Hours Left</span><span>"+bHours+"</span></div>" +
-            "<div class='result-box'><span>Minutes Left</span><span>"+bMinutes+"</span></div>" +
-            "<div class='result-box'><span>Seconds Left</span><span>"+bSeconds+"</span></div>" +
-            "<div class='highlight'>🎉 Live Updating Every Second</div>";
+        await page.render({ canvasContext: context, viewport: viewport }).promise;
+        
+        document.getElementById('pdf-preview-section').style.display = 'block';
+        document.getElementById('status').innerText = "✅ Preview Ready!";
     }
 
-    updateAge();
-    interval = setInterval(updateAge, 1000);
-}
+    function downloadFinalPDF() {
+        if (finalDoc) finalDoc.save(fileName);
+    }
 </script>
 
 </body>
