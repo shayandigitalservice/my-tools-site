@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<title>Final Master PDF to Word OCR Tool 2026</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Poppins',sans-serif;
+}
+
+body{
+background:#f1f5f9;
+}
+
+.header{
+background:#2563eb;
+color:white;
+text-align:center;
+padding:20px;
+font-size:24px;
+font-weight:600;
+}
+
+.container{
+max-width:800px;
+margin:30px auto;
+background:white;
+padding:20px;
+border-radius:10px;
+border:1px solid #ddd;
+}
+
+input{
+width:100%;
+padding:12px;
+margin:10px 0;
+border-radius:6px;
+border:1px solid #ccc;
+}
+
+button{
+width:100%;
+padding:12px;
+background:#2563eb;
+color:white;
+border:none;
+border-radius:6px;
+cursor:pointer;
+margin-top:10px;
+font-size:15px;
+}
+
+button:hover{
+background:#1e40af;
+}
+
+.result{
+margin-top:20px;
+padding:15px;
+background:#eff6ff;
+border:1px solid #2563eb;
+border-radius:8px;
+white-space:pre-wrap;
+max-height:300px;
+overflow:auto;
+}
+
+.actions{
+display:flex;
+gap:10px;
+margin-top:10px;
+}
+
+.actions button{
+flex:1;
+}
+
+.loader{
+display:none;
+margin-top:10px;
+color:#2563eb;
+font-weight:600;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="header">
+🚀 Final Master PDF → Word OCR Tool 2026
+</div>
+
+<div class="container">
+
+<h2>Upload Your PDF</h2>
+
+<input type="file" id="fileInput" accept=".pdf">
+
+<button onclick="convert()">Convert to Word</button>
+
+<div class="loader" id="loader">⏳ Processing PDF...</div>
+
+<div id="result" class="result">Extracted text will appear here...</div>
+
+<div class="actions">
+<button onclick="copyText()">📋 Copy</button>
+<button onclick="downloadWord()">📥 Download Word</button>
+</div>
+
+</div>
+
+<!-- PDF JS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
+
+<!-- OCR -->
+<script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
+
+<!-- DOCX -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/docx/8.5.0/docx.min.js"></script>
+
+<script>
+
+let finalText = "";
+
+async function convert(){
+
+const fileInput = document.getElementById("fileInput");
+const result = document.getElementById("result");
+const loader = document.getElementById("loader");
+
+if(!fileInput.files.length){
+alert("Please upload a PDF file");
+return;
+}
+
+loader.style.display = "block";
+result.innerText = "";
+
+const file = fileInput.files[0];
+const reader = new FileReader();
+
+reader.onload = async function(){
+
+const typedarray = new Uint8Array(this.result);
+const pdf = await pdfjsLib.getDocument(typedarray).promise;
+
+finalText = "";
+
+for(let i=1;i<=pdf.numPages;i++){
+
+const page = await pdf.getPage(i);
+
+// Normal extraction
+const content = await page.getTextContent();
+let text = content.items.map(i => i.str).join(" ");
+
+// OCR fallback
+if(text.trim().length < 10){
+
+const viewport = page.getViewport({scale:2});
+const canvas = document.createElement("canvas");
+const ctx = canvas.getContext("2d");
+
+canvas.width = viewport.width;
+canvas.height = viewport.height;
+
+await page.render({canvasContext:ctx, viewport:viewport}).promise;
+
+const ocr = await Tesseract.recognize(canvas, 'eng+hin');
+
+text = ocr.data.text;
+}
+
+finalText += text + "\n\n";
+}
+
+loader.style.display = "none";
+
+result.innerText = finalText;
+
+generateWord(finalText);
+
+};
+
+reader.readAsArrayBuffer(file);
+
+}
+
+// COPY TEXT
+function copyText(){
+if(!finalText){
+alert("No text found!");
+return;
+}
+navigator.clipboard.writeText(finalText);
+alert("Copied!");
+}
+
+// DOWNLOAD DOCX
+function downloadWord(){
+
+const { Document, Packer, Paragraph, TextRun } = docx;
+
+const doc = new Document({
+sections:[{
+children:[
+new Paragraph({
+children:[new TextRun(finalText)]
+})
+]
+}]
+});
+
+Packer.toBlob(doc).then(blob => {
+
+const a = document.createElement("a");
+a.href = URL.createObjectURL(blob);
+a.download = "final-converted.docx";
+a.click();
+
+});
+
+}
+
+</script>
+
+</body>
+</html>
