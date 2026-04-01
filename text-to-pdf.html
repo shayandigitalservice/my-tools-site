@@ -2,102 +2,267 @@
 <html>
 <head>
 
-<title>Ultimate Word Editor</title>
+<title>Ultimate A4 Editor</title>
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/6/tinymce.min.js"></script>
+<script src="https://cdn.ckeditor.com/ckeditor5/39.0.1/classic/ckeditor.js"></script>
 
 <style>
+
 body{
 margin:0;
-font-family:Arial;
-background:#f1f5f9;
+background:#e5e7eb;
+font-family:Poppins;
 }
 
-.header{
+/* HEADER BAR */
+.topbar{
 background:#2563eb;
 color:white;
 padding:15px;
 text-align:center;
-font-size:22px;
+font-size:20px;
 }
 
-.container{
-max-width:900px;
-margin:20px auto;
+/* PAGE */
+.page{
+width:210mm;
+min-height:297mm;
 background:white;
-padding:10px;
-border-radius:8px;
+margin:20px auto;
+padding:25mm 20mm 25mm 20mm;
+position:relative;
+box-shadow:0 0 10px rgba(0,0,0,0.2);
 }
 
+/* HEADER TEXT */
+.header-text{
+position:absolute;
+top:10mm;
+left:20mm;
+right:20mm;
+text-align:center;
+font-size:12px;
+color:#555;
+}
+
+/* FOOTER */
+.footer-text{
+position:absolute;
+bottom:10mm;
+left:20mm;
+right:20mm;
+font-size:12px;
+display:flex;
+justify-content:space-between;
+color:#555;
+}
+
+/* EDITOR AREA */
+.editor{
+margin-top:20mm;
+min-height:200mm;
+}
+
+/* INPUT */
+input{
+width:90%;
+margin:10px auto;
+display:block;
+padding:10px;
+border-radius:6px;
+border:1px solid #ccc;
+}
+
+/* BUTTON */
 button{
-margin-top:10px;
-width:100%;
+display:block;
+width:90%;
+margin:10px auto;
 padding:12px;
 background:#2563eb;
 color:white;
 border:none;
 border-radius:6px;
+cursor:pointer;
 }
+
 </style>
 
 </head>
 
 <body>
 
-<div class="header">📝 Ultimate Document Editor</div>
+<div class="topbar">📄 Ultimate A4 Document Editor</div>
 
-<div class="container">
+<!-- PAGE -->
+<div class="page">
 
-<textarea id="editor"></textarea>
+<div class="header-text" id="headerPreview">
+Header text...
+</div>
 
-<input type="text" id="filename" placeholder="file name.pdf">
+<div class="editor">
+<div id="editor">
+<h2>Start writing...</h2>
+</div>
+</div>
 
-<button onclick="downloadPDF()">Download PDF</button>
+<div class="footer-text">
+<span id="footerPreview">Footer text...</span>
+<span>Page 1</span>
+</div>
 
 </div>
 
+<!-- SETTINGS -->
+<input type="text" id="headerInput" placeholder="Enter Header">
+<input type="text" id="footerInput" placeholder="Enter Footer">
+<input type="text" id="filename" placeholder="file name.pdf">
+
+<button onclick="updateHeaderFooter()">Update Header/Footer</button>
+<button onclick="downloadPDF()">Download PDF</button>
+
 <script>
 
-tinymce.init({
-selector: '#editor',
-height: 400,
+let editorInstance;
 
-plugins: [
-'advlist autolink lists link image charmap preview anchor',
-'searchreplace visualblocks code fullscreen',
-'insertdatetime media table code help wordcount'
+// INIT CKEDITOR
+ClassicEditor
+.create(document.querySelector('#editor'), {
+
+toolbar: [
+'heading','|',
+'bold','italic','underline',
+'|',
+'fontSize','fontFamily','fontColor',
+'|',
+'alignment',
+'|',
+'bulletedList','numberedList',
+'|',
+'insertTable','imageUpload',
+'|',
+'undo','redo'
 ],
 
-toolbar: 
-'undo redo | fontfamily fontsize | bold italic underline | forecolor backcolor | alignleft aligncenter alignright alignjustify | bullist numlist | image table | removeformat',
+fontFamily: {
+options: [
+'default',
+'Arial',
+'Roboto',
+'Times New Roman',
+'Verdana',
+'Courier New'
+]
+},
 
-// 20+ fonts
-font_family_formats:
-"Arial=arial,helvetica,sans-serif;"+
-"Roboto=roboto,sans-serif;"+
-"Times New Roman=times new roman,times;"+
-"Courier New=courier new,courier;"+
-"Georgia=georgia;"+
-"Verdana=verdana;"+
-"Tahoma=tahoma;"+
-"Impact=impact;"+
-"Comic Sans MS=comic sans ms;",
+fontSize: {
+options: [10,12,14,18,24,36]
+}
 
-// font size 1–100
-fontsize_formats: "8pt 10pt 12pt 14pt 18pt 24pt 36pt 48pt 72pt",
-
-menubar: true
+})
+.then(editor => {
+editorInstance = editor;
+})
+.catch(error => {
+console.error(error);
 });
 
-// PDF DOWNLOAD
+
+// UPDATE HEADER FOOTER
+function updateHeaderFooter(){
+
+let header = document.getElementById("headerInput").value;
+let footer = document.getElementById("footerInput").value;
+
+document.getElementById("headerPreview").innerText = header;
+document.getElementById("footerPreview").innerText = footer;
+
+}
+
+
+// DOWNLOAD PDF
 function downloadPDF(){
 
-let content = tinymce.get("editor").getContent();
+let content = editorInstance.getData();
+
+let header = document.getElementById("headerInput").value;
+let footer = document.getElementById("footerInput").value;
+
+let filename = document.getElementById("filename").value || "document.pdf";
 
 let win = window.open('', '', 'width=800,height=600');
-win.document.write(content);
+
+win.document.write(`
+<html>
+<head>
+<title>${filename}</title>
+
+<style>
+
+body{
+margin:0;
+font-family:Arial;
+}
+
+.page{
+width:210mm;
+min-height:297mm;
+padding:25mm 20mm 25mm 20mm;
+position:relative;
+box-sizing:border-box;
+}
+
+.header{
+position:absolute;
+top:10mm;
+left:20mm;
+right:20mm;
+text-align:center;
+font-size:12px;
+}
+
+.footer{
+position:absolute;
+bottom:10mm;
+left:20mm;
+right:20mm;
+display:flex;
+justify-content:space-between;
+font-size:12px;
+}
+
+img{max-width:100%;}
+table{border-collapse:collapse;width:100%;}
+td,th{border:1px solid black;padding:5px;}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="page">
+
+<div class="header">${header}</div>
+
+<div style="margin-top:20mm;">
+${content}
+</div>
+
+<div class="footer">
+<span>${footer}</span>
+<span>Page 1</span>
+</div>
+
+</div>
+
+</body>
+</html>
+`);
+
 win.document.close();
 
 setTimeout(()=>{
