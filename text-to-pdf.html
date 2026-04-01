@@ -1,165 +1,39 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Google Docs Clone</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
-    <style>
-        * { box-sizing: border-box; margin: 0; padding: 0; }
-        
-        body { 
-            background-color: #F8F9FA; /* Google Docs Gray Background */
-            font-family: 'Arial', sans-serif;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-
-        /* Top Bar & Toolbar */
-        .header {
-            width: 100%;
-            background: white;
-            padding: 10px 20px;
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-            box-shadow: 0 1px 3px rgba(60,64,67,0.15);
-        }
-
-        .title-section { display: flex; align-items: center; margin-bottom: 10px; }
-        .doc-icon { color: #4285F4; font-size: 24px; margin-right: 10px; font-weight: bold; }
-        .doc-name { border: none; font-size: 18px; color: #3c4043; outline: none; padding: 2px 5px; }
-        .doc-name:hover { border: 1px solid #dadce0; border-radius: 4px; }
-
-        .toolbar {
-            background: #edf2fa;
-            border-radius: 25px;
-            padding: 5px 15px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            width: fit-content;
-            margin: 0 auto;
-        }
-
-        .toolbar select, .toolbar button {
-            background: transparent;
-            border: none;
-            padding: 5px 8px;
-            cursor: pointer;
-            border-radius: 4px;
-            color: #444;
-            font-size: 14px;
-        }
-
-        .toolbar button:hover { background: #dee1e6; }
-        .toolbar select { border: 1px solid transparent; }
-        .toolbar select:hover { border-color: #dadce0; }
-
-        .divider { width: 1px; height: 20px; background: #dadce0; margin: 0 5px; }
-
-        .download-btn {
-            background: #1a73e8 !important;
-            color: white !important;
-            font-weight: bold;
-            padding: 6px 15px !important;
-            border-radius: 4px !important;
-            margin-left: 10px;
-        }
-
-        /* A4 Page Container */
-        .page-container {
-            padding: 40px 0;
-            width: 100%;
-            display: flex;
-            justify-content: center;
-        }
-
-        #editor {
-            background: white;
-            width: 210mm;
-            min-height: 297mm;
-            padding: 25mm; /* Standard Margins */
-            box-shadow: 0 1px 3px rgba(60,64,67,0.15), 0 1px 2px rgba(60,64,67,0.3);
-            outline: none;
-            font-size: 11pt;
-            line-height: 1.5;
-            color: #000;
-            overflow-wrap: break-word;
-        }
-    </style>
+  <title>Text File to PDF</title>
 </head>
 <body>
 
-    <div class="header">
-        <div class="title-section">
-            <span class="doc-icon">📝</span>
-            <input type="text" class="doc-name" value="Untitled Document" id="fileName">
-        </div>
-        
-        <div class="toolbar">
-            <select onchange="format('fontName', this.value)">
-                <option value="Arial">Arial</option>
-                <option value="Verdana">Verdana</option>
-                <option value="Times New Roman">Times New Roman</option>
-                <option value="Georgia">Georgia</option>
-            </select>
+<h2>Upload Text File → Convert to PDF</h2>
 
-            <div class="divider"></div>
+<input type="file" id="fileInput" accept=".txt"><br><br>
+<button onclick="convertToPDF()">Convert to PDF</button>
 
-            <select onchange="format('fontSize', this.value)">
-                <option value="1">8pt</option>
-                <option value="2">10pt</option>
-                <option value="3" selected>12pt</option>
-                <option value="4">14pt</option>
-                <option value="5">18pt</option>
-                <option value="6">24pt</option>
-                <option value="7">36pt</option>
-            </select>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
-            <div class="divider"></div>
+<script>
+async function convertToPDF() {
+    const fileInput = document.getElementById("fileInput");
 
-            <button onclick="format('bold')" title="Bold"><b>B</b></button>
-            <button onclick="format('italic')" title="Italic"><i>I</i></button>
-            <button onclick="format('underline')" title="Underline"><u>U</u></button>
-            <input type="color" onchange="format('foreColor', this.value)" style="width:25px; border:none; background:none; cursor:pointer;">
+    if (!fileInput.files.length) {
+        alert("Please upload a text file first!");
+        return;
+    }
 
-            <div class="divider"></div>
+    const file = fileInput.files[0];
+    const text = await file.text(); // read file content
 
-            <button onclick="format('justifyLeft')">Align Left</button>
-            <button onclick="format('justifyCenter')">Center</button>
-            <button onclick="format('justifyRight')">Align Right</button>
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF();
 
-            <button class="download-btn" onclick="exportPDF()">Download</button>
-        </div>
-    </div>
+    // split long text into lines
+    const lines = doc.splitTextToSize(text, 180);
 
-    <div class="page-container">
-        <div id="editor" contenteditable="true">
-            Apna document yahan likhna shuru karein...
-        </div>
-    </div>
+    doc.text(lines, 10, 10);
+    doc.save("converted.pdf");
+}
+</script>
 
-    <script>
-        function format(cmd, value = null) {
-            document.execCommand(cmd, false, value);
-        }
-
-        function exportPDF() {
-            const element = document.getElementById('editor');
-            const name = document.getElementById('fileName').value;
-            
-            const opt = {
-                margin:       10,
-                filename:     name + '.pdf',
-                image:        { type: 'jpeg', quality: 0.98 },
-                html2canvas:  { scale: 2 },
-                jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
-            };
-
-            html2pdf().set(opt).from(element).save();
-        }
-    </script>
 </body>
 </html>
