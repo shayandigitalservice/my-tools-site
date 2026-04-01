@@ -1,14 +1,14 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>A4 Word Editor + Backend PDF</title>
+  <title>Simple A4 Word Editor</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <style>
     body{
       margin:0;
       font-family:Arial;
-      background:#e5e7eb;
+      background:#f1f5f9;
     }
 
     /* TOOLBAR */
@@ -46,7 +46,10 @@
       outline:none;
     }
 
-    img{max-width:100%;}
+    img{
+      max-width:100%;
+    }
+
   </style>
 </head>
 
@@ -85,59 +88,67 @@
 
   <input type="color" onchange="cmd('foreColor', this.value)">
 
-  <button onclick="downloadPDF()">PDF Download</button>
+  <button onclick="addImage()">Image</button>
+  <button onclick="downloadPDF()">PDF</button>
 
 </div>
 
-<!-- A4 PAGE -->
+<!-- PAGE -->
 <div class="page">
   <div id="editor" contenteditable="true">
-    Start typing your document...
+    Start writing here...
   </div>
 </div>
 
 <script>
 
-const API_URL = "https://shayan-pdf-api-docker.onrender.com/pdf";
-
-/* COMMANDS */
+/* BASIC COMMAND */
 function cmd(command, value=null){
   document.execCommand(command, false, value);
 }
 
-/* BACKEND PDF EXPORT */
-async function downloadPDF(){
+/* IMAGE INSERT */
+function addImage(){
+  const input = document.createElement("input");
+  input.type = "file";
+  input.accept = "image/*";
 
-  const htmlContent = document.querySelector(".page").innerHTML;
+  input.onchange = e => {
+    const file = e.target.files[0];
+    const reader = new FileReader();
 
-  try{
-    const res = await fetch(API_URL, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({
-        html: htmlContent
-      })
-    });
-
-    if(!res.ok){
-      alert("Backend error!");
-      return;
+    reader.onload = function(event){
+      cmd('insertHTML', `<img src="${event.target.result}" />`);
     }
 
-    const blob = await res.blob();
-    const url = window.URL.createObjectURL(blob);
-
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = "document.pdf";
-    a.click();
-
-  } catch(err){
-    alert("Backend not reachable!");
-    console.log(err);
+    reader.readAsDataURL(file);
   }
+
+  input.click();
+}
+
+/* PDF DOWNLOAD (SAFE LOCAL VERSION) */
+function downloadPDF(){
+  const content = document.querySelector(".page").innerHTML;
+
+  const win = window.open("", "", "width=900,height=700");
+
+  win.document.write(`
+    <html>
+    <head>
+      <title>PDF</title>
+      <style>
+        body{font-family:Arial;margin:0;padding:20px;}
+        img{max-width:100%;}
+      </style>
+    </head>
+    <body>
+      ${content}
+    </body>
+    </html>
+  `);
+
+  win.print();
 }
 
 </script>
