@@ -1,87 +1,163 @@
 <!DOCTYPE html>
-<html lang="hi">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>A4 Text to PDF Editor</title>
+    <title>My Google Docs Clone</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
     <style>
-        body { background-color: #1a1a1a; color: #eee; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; display: flex; flex-direction: column; align-items: center; padding: 20px; }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
         
-        /* Toolbar Styling */
-        .toolbar { background: #2d2d2d; padding: 10px; border-radius: 8px; margin-bottom: 20px; display: flex; flex-wrap: wrap; gap: 10px; position: sticky; top: 10px; z-index: 100; box-shadow: 0 4px 15px rgba(0,0,0,0.3); }
-        select, button, input { background: #444; color: white; border: 1px solid #555; padding: 5px 10px; cursor: pointer; border-radius: 4px; }
-        button:hover { background: #666; }
-
-        /* A4 Page Styling */
-        #paper {
-            background: white;
-            color: black;
-            width: 210mm; /* A4 Width */
-            min-height: 297mm; /* A4 Height */
-            padding: 20mm;
-            margin: auto;
-            box-shadow: 0 0 10px rgba(0,0,0,0.5);
-            outline: none;
-            overflow-wrap: break-word;
+        body { 
+            background-color: #F8F9FA; /* Google Docs Gray Background */
+            font-family: 'Arial', sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
 
-        .download-btn { background: #28a745; font-weight: bold; margin-left: 20px; }
+        /* Top Bar & Toolbar */
+        .header {
+            width: 100%;
+            background: white;
+            padding: 10px 20px;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 1px 3px rgba(60,64,67,0.15);
+        }
+
+        .title-section { display: flex; align-items: center; margin-bottom: 10px; }
+        .doc-icon { color: #4285F4; font-size: 24px; margin-right: 10px; font-weight: bold; }
+        .doc-name { border: none; font-size: 18px; color: #3c4043; outline: none; padding: 2px 5px; }
+        .doc-name:hover { border: 1px solid #dadce0; border-radius: 4px; }
+
+        .toolbar {
+            background: #edf2fa;
+            border-radius: 25px;
+            padding: 5px 15px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            width: fit-content;
+            margin: 0 auto;
+        }
+
+        .toolbar select, .toolbar button {
+            background: transparent;
+            border: none;
+            padding: 5px 8px;
+            cursor: pointer;
+            border-radius: 4px;
+            color: #444;
+            font-size: 14px;
+        }
+
+        .toolbar button:hover { background: #dee1e6; }
+        .toolbar select { border: 1px solid transparent; }
+        .toolbar select:hover { border-color: #dadce0; }
+
+        .divider { width: 1px; height: 20px; background: #dadce0; margin: 0 5px; }
+
+        .download-btn {
+            background: #1a73e8 !important;
+            color: white !important;
+            font-weight: bold;
+            padding: 6px 15px !important;
+            border-radius: 4px !important;
+            margin-left: 10px;
+        }
+
+        /* A4 Page Container */
+        .page-container {
+            padding: 40px 0;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+        }
+
+        #editor {
+            background: white;
+            width: 210mm;
+            min-height: 297mm;
+            padding: 25mm; /* Standard Margins */
+            box-shadow: 0 1px 3px rgba(60,64,67,0.15), 0 1px 2px rgba(60,64,67,0.3);
+            outline: none;
+            font-size: 11pt;
+            line-height: 1.5;
+            color: #000;
+            overflow-wrap: break-word;
+        }
     </style>
 </head>
 <body>
 
-    <div class="toolbar">
-        <select onchange="execCmd('fontName', this.value)">
-            <option value="Arial">Arial</option>
-            <option value="Roboto">Roboto</option>
-            <option value="Times New Roman">Times New Roman</option>
-            <option value="Courier New">Courier New</option>
-        </select>
-
-        <select onchange="execCmd('fontSize', this.value)">
-            <option value="3">Size 12</option>
-            <option value="4">Size 14</option>
-            <option value="5">Size 18</option>
-            <option value="6">Size 24</option>
-            <option value="7">Size 36</option>
-        </select>
-
-        <button onclick="execCmd('bold')"><b>B</b></button>
-        <button onclick="execCmd('italic')"><i>I</i></button>
-        <button onclick="execCmd('underline')"><u>U</u></button>
+    <div class="header">
+        <div class="title-section">
+            <span class="doc-icon">📝</span>
+            <input type="text" class="doc-name" value="Untitled Document" id="fileName">
+        </div>
         
-        <input type="color" onchange="execCmd('foreColor', this.value)" title="Text Color">
+        <div class="toolbar">
+            <select onchange="format('fontName', this.value)">
+                <option value="Arial">Arial</option>
+                <option value="Verdana">Verdana</option>
+                <option value="Times New Roman">Times New Roman</option>
+                <option value="Georgia">Georgia</option>
+            </select>
 
-        <button onclick="execCmd('justifyLeft')">Left</button>
-        <button onclick="execCmd('justifyCenter')">Center</button>
-        <button onclick="execCmd('justifyRight')">Right</button>
+            <div class="divider"></div>
 
-        <button class="download-btn" onclick="downloadPDF()">Download PDF</button>
+            <select onchange="format('fontSize', this.value)">
+                <option value="1">8pt</option>
+                <option value="2">10pt</option>
+                <option value="3" selected>12pt</option>
+                <option value="4">14pt</option>
+                <option value="5">18pt</option>
+                <option value="6">24pt</option>
+                <option value="7">36pt</option>
+            </select>
+
+            <div class="divider"></div>
+
+            <button onclick="format('bold')" title="Bold"><b>B</b></button>
+            <button onclick="format('italic')" title="Italic"><i>I</i></button>
+            <button onclick="format('underline')" title="Underline"><u>U</u></button>
+            <input type="color" onchange="format('foreColor', this.value)" style="width:25px; border:none; background:none; cursor:pointer;">
+
+            <div class="divider"></div>
+
+            <button onclick="format('justifyLeft')">Align Left</button>
+            <button onclick="format('justifyCenter')">Center</button>
+            <button onclick="format('justifyRight')">Align Right</button>
+
+            <button class="download-btn" onclick="exportPDF()">Download</button>
+        </div>
     </div>
 
-    <div id="paper" contenteditable="true">
-        Yahan apna text likhna shuru karein...
+    <div class="page-container">
+        <div id="editor" contenteditable="true">
+            Apna document yahan likhna shuru karein...
+        </div>
     </div>
 
     <script>
-        // Formatting function
-        function execCmd(command, value = null) {
-            document.execCommand(command, false, value);
+        function format(cmd, value = null) {
+            document.execCommand(cmd, false, value);
         }
 
-        // PDF Download function
-        function downloadPDF() {
-            const element = document.getElementById('paper');
+        function exportPDF() {
+            const element = document.getElementById('editor');
+            const name = document.getElementById('fileName').value;
+            
             const opt = {
-                margin:       0,
-                filename:     'MeraDocument.pdf',
+                margin:       10,
+                filename:     name + '.pdf',
                 image:        { type: 'jpeg', quality: 0.98 },
                 html2canvas:  { scale: 2 },
                 jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
             };
 
-            // New Promise-based usage:
             html2pdf().set(opt).from(element).save();
         }
     </script>
