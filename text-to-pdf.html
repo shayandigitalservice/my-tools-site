@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<title>Ultimate Text to PDF</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Poppins',sans-serif;
+}
+
+body{
+background:#f1f5f9;
+}
+
+.header{
+background:#2563eb;
+color:white;
+text-align:center;
+padding:20px;
+font-size:26px;
+font-weight:600;
+}
+
+.container{
+max-width:750px;
+margin:30px auto;
+background:white;
+padding:20px;
+border-radius:10px;
+border:1px solid #ddd;
+}
+
+textarea{
+width:100%;
+height:150px;
+padding:10px;
+border-radius:6px;
+border:1px solid #ccc;
+margin-top:10px;
+}
+
+input, select{
+width:100%;
+padding:10px;
+margin-top:10px;
+border-radius:6px;
+border:1px solid #ccc;
+}
+
+button{
+margin-top:15px;
+width:100%;
+padding:12px;
+background:#2563eb;
+color:white;
+border:none;
+border-radius:6px;
+cursor:pointer;
+}
+
+button:hover{
+background:#1e40af;
+}
+
+.result{
+margin-top:15px;
+padding:15px;
+background:#eff6ff;
+border:1px solid #2563eb;
+border-radius:6px;
+text-align:center;
+}
+
+iframe{
+width:100%;
+height:400px;
+margin-top:15px;
+border:1px solid #ccc;
+border-radius:6px;
+}
+
+.highlight{
+background:#2563eb;
+color:white;
+padding:10px;
+border-radius:6px;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="header">
+🚀 Ultimate Text to PDF Tool
+</div>
+
+<div class="container">
+
+<textarea id="text" placeholder="Enter your text..."></textarea>
+
+<label>Upload Image (optional)</label>
+<input type="file" id="image">
+
+<label>Header</label>
+<input type="text" id="header">
+
+<label>Footer</label>
+<input type="text" id="footer">
+
+<label>File Name</label>
+<input type="text" id="filename" placeholder="myfile.pdf">
+
+<button onclick="generatePDF()">Preview PDF</button>
+<button onclick="downloadPDF()">Download PDF</button>
+
+<div id="result" class="result"></div>
+
+<iframe id="preview"></iframe>
+
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+<script>
+
+let pdfBlob;
+
+async function generatePDF(){
+
+let text = document.getElementById("text").value;
+let header = document.getElementById("header").value;
+let footer = document.getElementById("footer").value;
+let imageFile = document.getElementById("image").files[0];
+
+if(!text){
+alert("Text enter karo");
+return;
+}
+
+document.getElementById("result").innerHTML =
+"<div class='highlight'>Generating Preview... ⏳</div>";
+
+const { jsPDF } = window.jspdf;
+
+let doc = new jsPDF();
+let y = 20;
+
+// HEADER
+if(header){
+doc.setFontSize(14);
+doc.text(header, 10, 10);
+}
+
+// IMAGE
+if(imageFile){
+let imgData = await toBase64(imageFile);
+doc.addImage(imgData, 'JPEG', 10, y, 50, 30);
+y += 40;
+}
+
+// TEXT
+doc.setFontSize(12);
+let lines = doc.splitTextToSize(text, 180);
+
+let pageCount = 1;
+
+lines.forEach(line => {
+
+if(y > 270){
+addFooter(doc, footer, pageCount);
+doc.addPage();
+y = 20;
+pageCount++;
+}
+
+doc.text(line, 10, y);
+y += 7;
+
+});
+
+// FOOTER LAST PAGE
+addFooter(doc, footer, pageCount);
+
+// SAVE BLOB
+pdfBlob = doc.output("blob");
+
+// PREVIEW
+let url = URL.createObjectURL(pdfBlob);
+document.getElementById("preview").src = url;
+
+document.getElementById("result").innerHTML =
+"<div class='highlight'>Preview Ready ✅</div>";
+
+}
+
+// DOWNLOAD
+function downloadPDF(){
+
+if(!pdfBlob){
+alert("Preview generate karo pehle");
+return;
+}
+
+let filename = document.getElementById("filename").value || "file.pdf";
+
+let link = document.createElement("a");
+link.href = URL.createObjectURL(pdfBlob);
+link.download = filename;
+link.click();
+
+}
+
+// FOOTER FUNCTION
+function addFooter(doc, footer, pageNumber){
+let pageHeight = doc.internal.pageSize.height;
+
+doc.setFontSize(10);
+doc.text("Page " + pageNumber, 10, pageHeight - 10);
+
+if(footer){
+doc.text(footer, 150, pageHeight - 10);
+}
+}
+
+// IMAGE BASE64
+function toBase64(file){
+return new Promise((resolve, reject)=>{
+let reader = new FileReader();
+reader.readAsDataURL(file);
+reader.onload = () => resolve(reader.result);
+reader.onerror = error => reject(error);
+});
+}
+
+</script>
+
+</body>
+</html>
