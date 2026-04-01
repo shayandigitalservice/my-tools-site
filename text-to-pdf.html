@@ -1,157 +1,89 @@
 <!DOCTYPE html>
-<html>
+<html lang="hi">
 <head>
-  <title>Simple A4 Word Editor</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A4 Text to PDF Editor</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <style>
+        body { background-color: #1a1a1a; color: #eee; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; display: flex; flex-direction: column; align-items: center; padding: 20px; }
+        
+        /* Toolbar Styling */
+        .toolbar { background: #2d2d2d; padding: 10px; border-radius: 8px; margin-bottom: 20px; display: flex; flex-wrap: wrap; gap: 10px; position: sticky; top: 10px; z-index: 100; box-shadow: 0 4px 15px rgba(0,0,0,0.3); }
+        select, button, input { background: #444; color: white; border: 1px solid #555; padding: 5px 10px; cursor: pointer; border-radius: 4px; }
+        button:hover { background: #666; }
 
-  <style>
-    body{
-      margin:0;
-      font-family:Arial;
-      background:#f1f5f9;
-    }
+        /* A4 Page Styling */
+        #paper {
+            background: white;
+            color: black;
+            width: 210mm; /* A4 Width */
+            min-height: 297mm; /* A4 Height */
+            padding: 20mm;
+            margin: auto;
+            box-shadow: 0 0 10px rgba(0,0,0,0.5);
+            outline: none;
+            overflow-wrap: break-word;
+        }
 
-    /* TOOLBAR */
-    .toolbar{
-      display:flex;
-      flex-wrap:wrap;
-      gap:6px;
-      padding:10px;
-      background:#2563eb;
-    }
-
-    .toolbar button, .toolbar select, .toolbar input{
-      padding:6px;
-      border:none;
-      border-radius:5px;
-    }
-
-    .toolbar button{
-      background:white;
-      cursor:pointer;
-    }
-
-    /* A4 PAGE */
-    .page{
-      width:210mm;
-      min-height:297mm;
-      background:white;
-      margin:20px auto;
-      padding:20mm;
-      box-shadow:0 0 10px rgba(0,0,0,0.2);
-    }
-
-    #editor{
-      min-height:250mm;
-      outline:none;
-    }
-
-    img{
-      max-width:100%;
-    }
-
-  </style>
+        .download-btn { background: #28a745; font-weight: bold; margin-left: 20px; }
+    </style>
 </head>
-
 <body>
 
-<!-- TOOLBAR -->
-<div class="toolbar">
+    <div class="toolbar">
+        <select onchange="execCmd('fontName', this.value)">
+            <option value="Arial">Arial</option>
+            <option value="Roboto">Roboto</option>
+            <option value="Times New Roman">Times New Roman</option>
+            <option value="Courier New">Courier New</option>
+        </select>
 
-  <select onchange="cmd('formatBlock', this.value)">
-    <option value="p">Normal</option>
-    <option value="h1">H1</option>
-    <option value="h2">H2</option>
-    <option value="h3">H3</option>
-  </select>
+        <select onchange="execCmd('fontSize', this.value)">
+            <option value="3">Size 12</option>
+            <option value="4">Size 14</option>
+            <option value="5">Size 18</option>
+            <option value="6">Size 24</option>
+            <option value="7">Size 36</option>
+        </select>
 
-  <select onchange="cmd('fontName', this.value)">
-    <option>Arial</option>
-    <option>Georgia</option>
-    <option>Times New Roman</option>
-    <option>Courier New</option>
-  </select>
+        <button onclick="execCmd('bold')"><b>B</b></button>
+        <button onclick="execCmd('italic')"><i>I</i></button>
+        <button onclick="execCmd('underline')"><u>U</u></button>
+        
+        <input type="color" onchange="execCmd('foreColor', this.value)" title="Text Color">
 
-  <select onchange="cmd('fontSize', this.value)">
-    <option value="3">Small</option>
-    <option value="4">Normal</option>
-    <option value="5">Large</option>
-  </select>
+        <button onclick="execCmd('justifyLeft')">Left</button>
+        <button onclick="execCmd('justifyCenter')">Center</button>
+        <button onclick="execCmd('justifyRight')">Right</button>
 
-  <button onclick="cmd('bold')"><b>B</b></button>
-  <button onclick="cmd('italic')"><i>I</i></button>
-  <button onclick="cmd('underline')"><u>U</u></button>
+        <button class="download-btn" onclick="downloadPDF()">Download PDF</button>
+    </div>
 
-  <button onclick="cmd('justifyLeft')">Left</button>
-  <button onclick="cmd('justifyCenter')">Center</button>
-  <button onclick="cmd('justifyRight')">Right</button>
+    <div id="paper" contenteditable="true">
+        Yahan apna text likhna shuru karein...
+    </div>
 
-  <input type="color" onchange="cmd('foreColor', this.value)">
+    <script>
+        // Formatting function
+        function execCmd(command, value = null) {
+            document.execCommand(command, false, value);
+        }
 
-  <button onclick="addImage()">Image</button>
-  <button onclick="downloadPDF()">PDF</button>
+        // PDF Download function
+        function downloadPDF() {
+            const element = document.getElementById('paper');
+            const opt = {
+                margin:       0,
+                filename:     'MeraDocument.pdf',
+                image:        { type: 'jpeg', quality: 0.98 },
+                html2canvas:  { scale: 2 },
+                jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
+            };
 
-</div>
-
-<!-- PAGE -->
-<div class="page">
-  <div id="editor" contenteditable="true">
-    Start writing here...
-  </div>
-</div>
-
-<script>
-
-/* BASIC COMMAND */
-function cmd(command, value=null){
-  document.execCommand(command, false, value);
-}
-
-/* IMAGE INSERT */
-function addImage(){
-  const input = document.createElement("input");
-  input.type = "file";
-  input.accept = "image/*";
-
-  input.onchange = e => {
-    const file = e.target.files[0];
-    const reader = new FileReader();
-
-    reader.onload = function(event){
-      cmd('insertHTML', `<img src="${event.target.result}" />`);
-    }
-
-    reader.readAsDataURL(file);
-  }
-
-  input.click();
-}
-
-/* PDF DOWNLOAD (SAFE LOCAL VERSION) */
-function downloadPDF(){
-  const content = document.querySelector(".page").innerHTML;
-
-  const win = window.open("", "", "width=900,height=700");
-
-  win.document.write(`
-    <html>
-    <head>
-      <title>PDF</title>
-      <style>
-        body{font-family:Arial;margin:0;padding:20px;}
-        img{max-width:100%;}
-      </style>
-    </head>
-    <body>
-      ${content}
-    </body>
-    </html>
-  `);
-
-  win.print();
-}
-
-</script>
-
+            // New Promise-based usage:
+            html2pdf().set(opt).from(element).save();
+        }
+    </script>
 </body>
 </html>
