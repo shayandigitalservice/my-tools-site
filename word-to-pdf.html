@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Word to PDF</title>
+</head>
+<body style="font-family: Arial; text-align:center; margin-top:50px;">
+
+<h2>Word to PDF Converter</h2>
+
+<input type="file" id="file" accept=".docx"><br><br>
+
+<button onclick="convert()">Convert to PDF</button>
+
+<p id="status"></p>
+
+<script>
+async function convert() {
+    let file = document.getElementById("file").files[0];
+    let status = document.getElementById("status");
+
+    if (!file) {
+        alert("File select karo");
+        return;
+    }
+
+    status.innerText = "Uploading...";
+
+    let formData = new FormData();
+    formData.append("file", file);
+
+    try {
+        let res = await fetch("https://shayan-pdf-api-docker.onrender.com/word-to-pdf", {
+            method: "POST",
+            body: formData
+        });
+
+        if (!res.ok) {
+            status.innerText = "Error: " + res.status;
+            return;
+        }
+
+        status.innerText = "Converting...";
+
+        let blob = await res.blob();
+
+        let link = document.createElement("a");
+        link.href = window.URL.createObjectURL(blob);
+        link.download = "converted.pdf";
+        link.click();
+
+        status.innerText = "Done ✅";
+    } catch (err) {
+        status.innerText = "Error aaya ❌";
+    }
+}
+</script>
+
+</body>
+</html>
