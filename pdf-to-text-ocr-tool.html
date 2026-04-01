@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<title>Super Pro PDF to Text + OCR Tool 2026</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Poppins',sans-serif;
+}
+
+body{
+background:#f1f5f9;
+}
+
+.header{
+background:#2563eb;
+color:white;
+text-align:center;
+padding:20px;
+font-size:24px;
+font-weight:600;
+}
+
+.container{
+max-width:800px;
+margin:30px auto;
+background:white;
+padding:20px;
+border-radius:10px;
+border:1px solid #ddd;
+}
+
+input{
+width:100%;
+padding:12px;
+margin:10px 0;
+border-radius:6px;
+border:1px solid #ccc;
+}
+
+button{
+width:100%;
+padding:12px;
+background:#2563eb;
+color:white;
+border:none;
+border-radius:6px;
+cursor:pointer;
+margin-top:10px;
+font-size:15px;
+}
+
+button:hover{
+background:#1e40af;
+}
+
+.result{
+margin-top:20px;
+padding:15px;
+background:#eff6ff;
+border:1px solid #2563eb;
+border-radius:8px;
+white-space:pre-wrap;
+max-height:400px;
+overflow:auto;
+}
+
+.actions{
+display:flex;
+gap:10px;
+margin-top:10px;
+}
+
+.actions button{
+flex:1;
+}
+
+.loader{
+display:none;
+margin-top:10px;
+color:#2563eb;
+font-weight:600;
+}
+
+.searchBox{
+margin-top:10px;
+padding:10px;
+width:100%;
+border-radius:6px;
+border:1px solid #ccc;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="header">
+🚀 Super Pro PDF → Text + OCR Tool 2026
+</div>
+
+<div class="container">
+
+<h2>Upload PDF File</h2>
+
+<input type="file" id="fileInput" accept=".pdf">
+
+<button onclick="convertPDF()">Extract Text (OCR + Normal)</button>
+
+<div class="loader" id="loader">⏳ Processing PDF...</div>
+
+<input class="searchBox" id="searchBox" placeholder="🔍 Search in extracted text..." onkeyup="searchText()">
+
+<div id="result" class="result">Extracted text will appear here...</div>
+
+<div class="actions">
+<button onclick="copyText()">📋 Copy</button>
+<button onclick="downloadText()">📥 Download</button>
+</div>
+
+</div>
+
+<!-- PDF.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
+
+<!-- OCR -->
+<script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
+
+<script>
+
+let extractedText = "";
+
+async function convertPDF(){
+
+const fileInput = document.getElementById("fileInput");
+const result = document.getElementById("result");
+const loader = document.getElementById("loader");
+
+if(!fileInput.files.length){
+alert("Please upload a PDF file");
+return;
+}
+
+loader.style.display = "block";
+result.innerText = "";
+
+const file = fileInput.files[0];
+const reader = new FileReader();
+
+reader.onload = async function(){
+
+const typedarray = new Uint8Array(this.result);
+const pdf = await pdfjsLib.getDocument(typedarray).promise;
+
+extractedText = "";
+
+for(let i=1;i<=pdf.numPages;i++){
+
+const page = await pdf.getPage(i);
+
+// Try normal text first
+const content = await page.getTextContent();
+let pageText = content.items.map(item => item.str).join(" ");
+
+// If no text found → OCR fallback
+if(pageText.trim().length < 10){
+
+const viewport = page.getViewport({scale:2});
+const canvas = document.createElement("canvas");
+const context = canvas.getContext("2d");
+
+canvas.width = viewport.width;
+canvas.height = viewport.height;
+
+await page.render({canvasContext:context, viewport:viewport}).promise;
+
+const { data: { text } } = await Tesseract.recognize(canvas, 'eng');
+
+pageText = text;
+}
+
+extractedText += pageText + "\n\n";
+}
+
+loader.style.display = "none";
+
+result.innerText = extractedText || "No text found in PDF";
+
+};
+
+reader.readAsArrayBuffer(file);
+
+}
+
+function copyText(){
+if(!extractedText){
+alert("Nothing to copy!");
+return;
+}
+navigator.clipboard.writeText(extractedText);
+alert("Copied!");
+}
+
+function downloadText(){
+if(!extractedText){
+alert("Nothing to download!");
+return;
+}
+
+const blob = new Blob([extractedText], {type:"text/plain"});
+const a = document.createElement("a");
+a.href = URL.createObjectURL(blob);
+a.download = "extracted-text.txt";
+a.click();
+}
+
+function searchText(){
+let input = document.getElementById("searchBox").value.toLowerCase();
+let resultBox = document.getElementById("result");
+
+if(!input){
+resultBox.innerText = extractedText;
+return;
+}
+
+let filtered = extractedText
+.split("\n")
+.filter(line => line.toLowerCase().includes(input))
+.join("\n");
+
+resultBox.innerText = filtered || "No match found";
+}
+
+</script>
+
+</body>
+</html>
