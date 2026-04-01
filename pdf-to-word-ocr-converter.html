@@ -98,7 +98,7 @@ font-weight:600;
 <body>
 
 <div class="header">
-🚀 Final Master PDF → Word OCR Tool 2026
+ Final Master PDF → Word OCR Tool 2026
 </div>
 
 <div class="container">
@@ -121,7 +121,7 @@ font-weight:600;
 </div>
 
 <!-- PDF JS -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/docx/8.5.0/docx.min.js"></script>
 
 <!-- OCR -->
 <script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
@@ -210,13 +210,20 @@ alert("Copied!");
 // DOWNLOAD DOCX
 function downloadWord(){
 
-const { Document, Packer, Paragraph, TextRun } = docx;
+if(!finalText || finalText.trim().length === 0){
+alert("No text to download!");
+return;
+}
+
+const { Document, Packer, Paragraph, TextRun } = window.docx;
 
 const doc = new Document({
 sections:[{
 children:[
 new Paragraph({
-children:[new TextRun(finalText)]
+children:[
+new TextRun(finalText)
+]
 })
 ]
 }]
@@ -224,15 +231,20 @@ children:[new TextRun(finalText)]
 
 Packer.toBlob(doc).then(blob => {
 
+const url = URL.createObjectURL(blob);
+
 const a = document.createElement("a");
-a.href = URL.createObjectURL(blob);
-a.download = "final-converted.docx";
+a.href = url;
+a.download = "pdf-to-word.docx";
+document.body.appendChild(a);
 a.click();
+a.remove();
+
+URL.revokeObjectURL(url);
 
 });
 
 }
-
 </script>
 
 </body>
