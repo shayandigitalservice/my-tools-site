@@ -1,40 +1,34 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Modern Word Editor</title>
+  <title>A4 Word Editor + Backend PDF</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <style>
     body{
       margin:0;
       font-family:Arial;
-      background:#eef2f7;
+      background:#e5e7eb;
     }
 
-    /* TOP TOOLBAR */
+    /* TOOLBAR */
     .toolbar{
       display:flex;
       flex-wrap:wrap;
-      gap:8px;
+      gap:6px;
       padding:10px;
       background:#2563eb;
-      align-items:center;
     }
 
     .toolbar button, .toolbar select, .toolbar input{
-      padding:8px;
+      padding:6px;
       border:none;
-      border-radius:6px;
-      outline:none;
+      border-radius:5px;
     }
 
     .toolbar button{
       background:white;
       cursor:pointer;
-    }
-
-    .toolbar button:hover{
-      background:#ddd;
     }
 
     /* A4 PAGE */
@@ -52,9 +46,7 @@
       outline:none;
     }
 
-    img{
-      max-width:100%;
-    }
+    img{max-width:100%;}
   </style>
 </head>
 
@@ -63,38 +55,44 @@
 <!-- TOOLBAR -->
 <div class="toolbar">
 
-  <button onclick="cmd('bold')"><b>B</b></button>
-  <button onclick="cmd('italic')"><i>I</i></button>
-  <button onclick="cmd('underline')"><u>U</u></button>
+  <select onchange="cmd('formatBlock', this.value)">
+    <option value="p">Normal</option>
+    <option value="h1">H1</option>
+    <option value="h2">H2</option>
+    <option value="h3">H3</option>
+  </select>
 
   <select onchange="cmd('fontName', this.value)">
     <option>Arial</option>
     <option>Georgia</option>
     <option>Times New Roman</option>
     <option>Courier New</option>
-    <option>Verdana</option>
   </select>
 
   <select onchange="cmd('fontSize', this.value)">
     <option value="3">Small</option>
     <option value="4">Normal</option>
     <option value="5">Large</option>
-    <option value="6">X-Large</option>
   </select>
+
+  <button onclick="cmd('bold')"><b>B</b></button>
+  <button onclick="cmd('italic')"><i>I</i></button>
+  <button onclick="cmd('underline')"><u>U</u></button>
+
+  <button onclick="cmd('justifyLeft')">Left</button>
+  <button onclick="cmd('justifyCenter')">Center</button>
+  <button onclick="cmd('justifyRight')">Right</button>
 
   <input type="color" onchange="cmd('foreColor', this.value)">
 
-  <button onclick="addImage()">🖼 Image</button>
-  <button onclick="saveDoc()">💾 Save</button>
-  <button onclick="loadDoc()">📂 Load</button>
-  <button onclick="exportPDF()">📄 PDF</button>
+  <button onclick="downloadPDF()">PDF Download</button>
 
 </div>
 
-<!-- PAGE -->
+<!-- A4 PAGE -->
 <div class="page">
   <div id="editor" contenteditable="true">
-    Start writing your document...
+    Start typing your document...
   </div>
 </div>
 
@@ -107,68 +105,39 @@ function cmd(command, value=null){
   document.execCommand(command, false, value);
 }
 
-/* IMAGE INSERT */
-function addImage(){
-  const input = document.createElement("input");
-  input.type = "file";
-  input.accept = "image/*";
+/* BACKEND PDF EXPORT */
+async function downloadPDF(){
 
-  input.onchange = e => {
-    const file = e.target.files[0];
-    const reader = new FileReader();
+  const htmlContent = document.querySelector(".page").innerHTML;
 
-    reader.onload = function(event){
-      const img = `<img src="${event.target.result}" />`;
-      document.execCommand("insertHTML", false, img);
+  try{
+    const res = await fetch(API_URL, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        html: htmlContent
+      })
+    });
+
+    if(!res.ok){
+      alert("Backend error!");
+      return;
     }
 
-    reader.readAsDataURL(file);
+    const blob = await res.blob();
+    const url = window.URL.createObjectURL(blob);
+
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "document.pdf";
+    a.click();
+
+  } catch(err){
+    alert("Backend not reachable!");
+    console.log(err);
   }
-
-  input.click();
-}
-
-/* AUTO SAVE */
-function saveDoc(){
-  localStorage.setItem("my_doc", document.getElementById("editor").innerHTML);
-  alert("Saved!");
-}
-
-/* LOAD */
-function loadDoc(){
-  const data = localStorage.getItem("my_doc");
-  if(data){
-    document.getElementById("editor").innerHTML = data;
-  }
-}
-
-/* AUTO SAVE EVERY 3 SEC */
-setInterval(()=>{
-  localStorage.setItem("my_doc", document.getElementById("editor").innerHTML);
-},3000);
-
-/* PDF EXPORT (YOUR BACKEND) */
-async function exportPDF(){
-
-  const html = document.querySelector(".page").innerHTML;
-
-  const res = await fetch(API_URL, {
-    method:"POST",
-    headers:{
-      "Content-Type":"application/json"
-    },
-    body: JSON.stringify({
-      html: html
-    })
-  });
-
-  const blob = await res.blob();
-  const url = window.URL.createObjectURL(blob);
-
-  const a = document.createElement("a");
-  a.href = url;
-  a.download = "document.pdf";
-  a.click();
 }
 
 </script>
