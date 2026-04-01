@@ -1,289 +1,152 @@
-<!DOCTYPE html>
-<html>
+<!DOCTYPE html><html>
 <head>
+  <title>Canva + Word Hybrid Editor</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">  <!-- Fabric.js -->  <script src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/5.3.0/fabric.min.js"></script>  <style>
+    body{
+      margin:0;
+      font-family:Arial;
+      background:#eef2f7;
+    }
 
-<title>Ultimate A4 Editor</title>
+    .topbar{
+      background:#1d4ed8;
+      color:white;
+      padding:12px;
+      text-align:center;
+      font-weight:bold;
+    }
 
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    .controls{
+      display:flex;
+      flex-wrap:wrap;
+      gap:8px;
+      padding:10px;
+      justify-content:center;
+      background:#f8fafc;
+    }
 
-<!-- CKEDITOR SUPER BUILD (IMPORTANT) -->
-<script src="https://cdn.ckeditor.com/ckeditor5/39.0.1/super-build/ckeditor.js"></script>
+    button, input{
+      padding:8px;
+      border-radius:6px;
+      border:1px solid #ccc;
+    }
 
-<style>
+    button{
+      background:#2563eb;
+      color:white;
+      border:none;
+      cursor:pointer;
+    }
 
-body{
-margin:0;
-background:#e5e7eb;
-font-family:Poppins;
+    button:hover{background:#1e40af;}
+
+    .workspace{
+      display:flex;
+      justify-content:center;
+      padding:10px;
+    }
+
+    canvas{
+      border:1px solid #ccc;
+      background:white;
+    }
+
+  </style></head>
+<body><div class="topbar">🎨 Canva + Word Hybrid Editor</div><div class="controls">
+  <button onclick="addText()">Add Text</button>
+  <button onclick="makeBold()">Bold</button>
+  <button onclick="changeColor()">Color</button>
+  <button onclick="increaseSize()">Font +</button>
+  <button onclick="decreaseSize()">Font -</button>
+  <button onclick="addRect()">Shape</button>
+  <input type="file" id="imgLoader" accept="image/*">
+  <button onclick="downloadPNG()">Export PNG</button>
+</div><div class="workspace">
+  <canvas id="c" width="900" height="1200"></canvas>
+</div><script>
+
+const canvas = new fabric.Canvas('c');
+
+// ADD TEXT
+function addText(){
+  const text = new fabric.IText('Double click to edit', {
+    left: 100,
+    top: 100,
+    fontSize: 20,
+    fill: '#000'
+  });
+  canvas.add(text);
 }
 
-/* TOP BAR */
-.topbar{
-background:#2563eb;
-color:white;
-padding:15px;
-text-align:center;
-font-size:20px;
+// MAKE BOLD
+function makeBold(){
+  let obj = canvas.getActiveObject();
+  if(obj && obj.type === 'i-text'){
+    obj.set("fontWeight", obj.fontWeight === 'bold' ? 'normal' : 'bold');
+    canvas.renderAll();
+  }
 }
 
-/* PAGE */
-.page{
-width:210mm;
-min-height:297mm;
-background:white;
-margin:20px auto;
-padding:25mm 20mm 25mm 20mm;
-position:relative;
-box-shadow:0 0 10px rgba(0,0,0,0.2);
+// COLOR CHANGE
+function changeColor(){
+  let obj = canvas.getActiveObject();
+  if(obj){
+    obj.set("fill", "#ff0000");
+    canvas.renderAll();
+  }
 }
 
-/* HEADER */
-.header-text{
-position:absolute;
-top:10mm;
-left:20mm;
-right:20mm;
-text-align:center;
-font-size:12px;
-color:#555;
+// FONT SIZE +
+function increaseSize(){
+  let obj = canvas.getActiveObject();
+  if(obj && obj.fontSize){
+    obj.set("fontSize", obj.fontSize + 2);
+    canvas.renderAll();
+  }
 }
 
-/* FOOTER */
-.footer-text{
-position:absolute;
-bottom:10mm;
-left:20mm;
-right:20mm;
-font-size:12px;
-display:flex;
-justify-content:space-between;
-color:#555;
+// FONT SIZE -
+function decreaseSize(){
+  let obj = canvas.getActiveObject();
+  if(obj && obj.fontSize){
+    obj.set("fontSize", obj.fontSize - 2);
+    canvas.renderAll();
+  }
 }
 
-/* EDITOR AREA */
-.editor{
-margin-top:20mm;
-min-height:200mm;
+// ADD SHAPE
+function addRect(){
+  const rect = new fabric.Rect({
+    left: 150,
+    top: 150,
+    width: 100,
+    height: 100,
+    fill: '#60a5fa'
+  });
+  canvas.add(rect);
 }
 
-/* INPUT */
-input{
-width:90%;
-margin:10px auto;
-display:block;
-padding:10px;
-border-radius:6px;
-border:1px solid #ccc;
-}
+// IMAGE UPLOAD
 
-/* BUTTON */
-button{
-display:block;
-width:90%;
-margin:10px auto;
-padding:12px;
-background:#2563eb;
-color:white;
-border:none;
-border-radius:6px;
-cursor:pointer;
-}
-
-</style>
-
-</head>
-
-<body>
-
-<div class="topbar">📄 Ultimate Document Editor</div>
-
-<div class="page">
-
-<div class="header-text" id="headerPreview">Header text...</div>
-
-<div class="editor">
-<div id="editor">
-<h2>Start writing your document...</h2>
-</div>
-</div>
-
-<div class="footer-text">
-<span id="footerPreview">Footer text...</span>
-<span>Page 1</span>
-</div>
-
-</div>
-
-<input type="text" id="headerInput" placeholder="Enter Header">
-<input type="text" id="footerInput" placeholder="Enter Footer">
-<input type="text" id="filename" placeholder="file name.pdf">
-
-<button onclick="updateHeaderFooter()">Update Header/Footer</button>
-<button onclick="downloadPDF()">Download PDF</button>
-
-<script>
-
-let editorInstance;
-
-// CKEDITOR INIT (FULL FEATURES)
-CKEDITOR.ClassicEditor
-.create(document.querySelector('#editor'), {
-
-toolbar: {
-items: [
-'heading',
-'|',
-'fontFamily','fontSize','fontColor','fontBackgroundColor',
-'|',
-'bold','italic','underline','strikethrough',
-'|',
-'alignment',
-'|',
-'bulletedList','numberedList',
-'|',
-'insertTable','uploadImage',
-'|',
-'undo','redo'
-]
-},
-
-fontFamily: {
-options: [
-'default',
-'Arial, Helvetica, sans-serif',
-'Roboto, sans-serif',
-'Times New Roman, Times, serif',
-'Courier New, Courier, monospace',
-'Georgia, serif',
-'Verdana, sans-serif',
-'Tahoma, sans-serif'
-]
-},
-
-fontSize: {
-options: [8,10,12,14,18,24,36,48]
-},
-
-image: {
-toolbar: [
-'imageTextAlternative',
-'toggleImageCaption',
-'imageStyle:inline',
-'imageStyle:block',
-'imageStyle:side'
-]
-}
-
-})
-.then(editor => {
-editorInstance = editor;
-})
-.catch(error => {
-console.error(error);
+document.getElementById('imgLoader').addEventListener('change', function(e){
+  const reader = new FileReader();
+  reader.onload = function(event){
+    fabric.Image.fromURL(event.target.result, function(img){
+      img.scale(0.5);
+      img.set({ left: 200, top: 200 });
+      canvas.add(img);
+    });
+  };
+  reader.readAsDataURL(e.target.files[0]);
 });
 
-
-// HEADER FOOTER UPDATE
-function updateHeaderFooter(){
-
-let header = document.getElementById("headerInput").value;
-let footer = document.getElementById("footerInput").value;
-
-document.getElementById("headerPreview").innerText = header;
-document.getElementById("footerPreview").innerText = footer;
-
+// EXPORT PNG
+function downloadPNG(){
+  const link = document.createElement('a');
+  link.download = 'design.png';
+  link.href = canvas.toDataURL();
+  link.click();
 }
 
-
-// PDF DOWNLOAD
-function downloadPDF(){
-
-let content = editorInstance.getData();
-
-let header = document.getElementById("headerInput").value;
-let footer = document.getElementById("footerInput").value;
-
-let filename = document.getElementById("filename").value || "document.pdf";
-
-let win = window.open('', '', 'width=800,height=600');
-
-win.document.write(`
-<html>
-<head>
-<title>${filename}</title>
-
-<style>
-
-body{
-margin:0;
-font-family:Arial;
-}
-
-.page{
-width:210mm;
-min-height:297mm;
-padding:25mm 20mm 25mm 20mm;
-position:relative;
-box-sizing:border-box;
-}
-
-.header{
-position:absolute;
-top:10mm;
-left:20mm;
-right:20mm;
-text-align:center;
-font-size:12px;
-}
-
-.footer{
-position:absolute;
-bottom:10mm;
-left:20mm;
-right:20mm;
-display:flex;
-justify-content:space-between;
-font-size:12px;
-}
-
-img{max-width:100%;}
-table{border-collapse:collapse;width:100%;}
-td,th{border:1px solid black;padding:5px;}
-
-</style>
-
-</head>
-
-<body>
-
-<div class="page">
-
-<div class="header">${header}</div>
-
-<div style="margin-top:20mm;">
-${content}
-</div>
-
-<div class="footer">
-<span>${footer}</span>
-<span>Page 1</span>
-</div>
-
-</div>
-
-</body>
-</html>
-`);
-
-win.document.close();
-
-setTimeout(()=>{
-win.print();
-},500);
-
-}
-
-</script>
-
-</body>
+</script></body>
 </html>
