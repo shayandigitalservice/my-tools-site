@@ -6,7 +6,8 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<script src="https://cdn.ckeditor.com/ckeditor5/39.0.1/classic/ckeditor.js"></script>
+<!-- CKEDITOR SUPER BUILD (IMPORTANT) -->
+<script src="https://cdn.ckeditor.com/ckeditor5/39.0.1/super-build/ckeditor.js"></script>
 
 <style>
 
@@ -16,7 +17,7 @@ background:#e5e7eb;
 font-family:Poppins;
 }
 
-/* HEADER BAR */
+/* TOP BAR */
 .topbar{
 background:#2563eb;
 color:white;
@@ -36,7 +37,7 @@ position:relative;
 box-shadow:0 0 10px rgba(0,0,0,0.2);
 }
 
-/* HEADER TEXT */
+/* HEADER */
 .header-text{
 position:absolute;
 top:10mm;
@@ -94,18 +95,15 @@ cursor:pointer;
 
 <body>
 
-<div class="topbar">📄 Ultimate A4 Document Editor</div>
+<div class="topbar">📄 Ultimate Document Editor</div>
 
-<!-- PAGE -->
 <div class="page">
 
-<div class="header-text" id="headerPreview">
-Header text...
-</div>
+<div class="header-text" id="headerPreview">Header text...</div>
 
 <div class="editor">
 <div id="editor">
-<h2>Start writing...</h2>
+<h2>Start writing your document...</h2>
 </div>
 </div>
 
@@ -116,7 +114,6 @@ Header text...
 
 </div>
 
-<!-- SETTINGS -->
 <input type="text" id="headerInput" placeholder="Enter Header">
 <input type="text" id="footerInput" placeholder="Enter Footer">
 <input type="text" id="filename" placeholder="file name.pdf">
@@ -128,38 +125,53 @@ Header text...
 
 let editorInstance;
 
-// INIT CKEDITOR
-ClassicEditor
+// CKEDITOR INIT (FULL FEATURES)
+CKEDITOR.ClassicEditor
 .create(document.querySelector('#editor'), {
 
-toolbar: [
-'heading','|',
-'bold','italic','underline',
+toolbar: {
+items: [
+'heading',
 '|',
-'fontSize','fontFamily','fontColor',
+'fontFamily','fontSize','fontColor','fontBackgroundColor',
+'|',
+'bold','italic','underline','strikethrough',
 '|',
 'alignment',
 '|',
 'bulletedList','numberedList',
 '|',
-'insertTable','imageUpload',
+'insertTable','uploadImage',
 '|',
 'undo','redo'
-],
+]
+},
 
 fontFamily: {
 options: [
 'default',
-'Arial',
-'Roboto',
-'Times New Roman',
-'Verdana',
-'Courier New'
+'Arial, Helvetica, sans-serif',
+'Roboto, sans-serif',
+'Times New Roman, Times, serif',
+'Courier New, Courier, monospace',
+'Georgia, serif',
+'Verdana, sans-serif',
+'Tahoma, sans-serif'
 ]
 },
 
 fontSize: {
-options: [10,12,14,18,24,36]
+options: [8,10,12,14,18,24,36,48]
+},
+
+image: {
+toolbar: [
+'imageTextAlternative',
+'toggleImageCaption',
+'imageStyle:inline',
+'imageStyle:block',
+'imageStyle:side'
+]
 }
 
 })
@@ -171,7 +183,7 @@ console.error(error);
 });
 
 
-// UPDATE HEADER FOOTER
+// HEADER FOOTER UPDATE
 function updateHeaderFooter(){
 
 let header = document.getElementById("headerInput").value;
@@ -183,7 +195,7 @@ document.getElementById("footerPreview").innerText = footer;
 }
 
 
-// DOWNLOAD PDF
+// PDF DOWNLOAD
 function downloadPDF(){
 
 let content = editorInstance.getData();
