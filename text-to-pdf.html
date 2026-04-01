@@ -2,17 +2,16 @@
 <html>
 <head>
 
-<title>Google Docs Style Editor</title>
+<title>Ultimate Word Editor</title>
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
+<script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/6/tinymce.min.js"></script>
 
 <style>
-
 body{
 margin:0;
-font-family:Poppins;
+font-family:Arial;
 background:#f1f5f9;
 }
 
@@ -20,14 +19,8 @@ background:#f1f5f9;
 background:#2563eb;
 color:white;
 padding:15px;
-font-size:20px;
 text-align:center;
-}
-
-.toolbar{
-background:white;
-padding:10px;
-border-bottom:1px solid #ddd;
+font-size:22px;
 }
 
 .container{
@@ -36,10 +29,6 @@ margin:20px auto;
 background:white;
 padding:10px;
 border-radius:8px;
-}
-
-#editor{
-height:300px;
 }
 
 button{
@@ -51,18 +40,17 @@ color:white;
 border:none;
 border-radius:6px;
 }
-
 </style>
 
 </head>
 
 <body>
 
-<div class="header">📝 Smart Document Editor</div>
+<div class="header">📝 Ultimate Document Editor</div>
 
 <div class="container">
 
-<div id="editor"></div>
+<textarea id="editor"></textarea>
 
 <input type="text" id="filename" placeholder="file name.pdf">
 
@@ -70,47 +58,51 @@ border-radius:6px;
 
 </div>
 
-<script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-
 <script>
 
-var quill = new Quill('#editor', {
-theme: 'snow',
-modules: {
-toolbar: [
-[{ 'font': [] }],
-[{ 'size': ['small', false, 'large', 'huge'] }],
-['bold', 'italic', 'underline', 'strike'],
-[{ 'color': [] }, { 'background': [] }],
-[{ 'script': 'sub'}, { 'script': 'super' }],
-[{ 'header': 1 }, { 'header': 2 }],
-[{ 'list': 'ordered'}, { 'list': 'bullet' }],
-[{ 'align': [] }],
-['link', 'image'],
-['clean']
-]
-}
+tinymce.init({
+selector: '#editor',
+height: 400,
+
+plugins: [
+'advlist autolink lists link image charmap preview anchor',
+'searchreplace visualblocks code fullscreen',
+'insertdatetime media table code help wordcount'
+],
+
+toolbar: 
+'undo redo | fontfamily fontsize | bold italic underline | forecolor backcolor | alignleft aligncenter alignright alignjustify | bullist numlist | image table | removeformat',
+
+// 20+ fonts
+font_family_formats:
+"Arial=arial,helvetica,sans-serif;"+
+"Roboto=roboto,sans-serif;"+
+"Times New Roman=times new roman,times;"+
+"Courier New=courier new,courier;"+
+"Georgia=georgia;"+
+"Verdana=verdana;"+
+"Tahoma=tahoma;"+
+"Impact=impact;"+
+"Comic Sans MS=comic sans ms;",
+
+// font size 1–100
+fontsize_formats: "8pt 10pt 12pt 14pt 18pt 24pt 36pt 48pt 72pt",
+
+menubar: true
 });
 
-async function downloadPDF(){
+// PDF DOWNLOAD
+function downloadPDF(){
 
-let element = document.querySelector(".ql-editor");
+let content = tinymce.get("editor").getContent();
 
-const canvas = await html2canvas(element);
+let win = window.open('', '', 'width=800,height=600');
+win.document.write(content);
+win.document.close();
 
-const imgData = canvas.toDataURL("image/png");
-
-const { jsPDF } = window.jspdf;
-
-let pdf = new jsPDF('p','mm','a4');
-
-pdf.addImage(imgData, 'PNG', 10, 10, 190, 0);
-
-let filename = document.getElementById("filename").value || "document.pdf";
-
-pdf.save(filename);
+setTimeout(()=>{
+win.print();
+},500);
 
 }
 
