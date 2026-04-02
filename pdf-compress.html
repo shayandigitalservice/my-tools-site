@@ -35,7 +35,7 @@ button:disabled{background:#94a3b8;}
 <input type="file" id="pdfFile" accept="application/pdf">
 
 <div style="display:flex;gap:10px;">
-<input type="number" id="sizeInput" placeholder="Target size (e.g. 200)">
+<input type="number" id="sizeInput" placeholder="Target size (optional)">
 <select id="unit">
 <option value="kb">KB</option>
 <option value="mb">MB</option>
@@ -62,14 +62,11 @@ return bytes>=1048576 ? (bytes/1048576).toFixed(2)+" MB" : (bytes/1024).toFixed(
 
 async function compressPDF(){
 const file = document.getElementById("pdfFile").files[0];
-const size = document.getElementById("sizeInput").value;
-const unit = document.getElementById("unit").value;
 const btn = document.getElementById("mainBtn");
 const status = document.getElementById("status");
 const result = document.getElementById("result");
 
 if(!file) return alert("Please select a PDF file!");
-if(!size || size <= 0) return alert("Enter valid size!");
 
 btn.disabled = true;
 btn.innerHTML = "⏳ Compressing...";
@@ -78,12 +75,11 @@ result.style.display = "none";
 
 const formData = new FormData();
 formData.append("file", file);
-formData.append("target_size", size);
-formData.append("unit", unit);
 
 try{
 
-const res = await fetch("https://shayan-pdf-api-docker.onrender.com/compress",{
+// ✅ FIXED BACKEND URL
+const res = await fetch("https://shayan-pdf-api-docker.onrender.com/run/compress",{
 method:"POST",
 body:formData
 });
@@ -92,7 +88,7 @@ if(!res.ok) throw new Error();
 
 const blob = await res.blob();
 
-// Memory leak fix
+// Memory cleanup
 if(downloadUrl){
 URL.revokeObjectURL(downloadUrl);
 }
@@ -108,6 +104,9 @@ link.download = "compressed.pdf";
 
 result.style.display = "block";
 status.innerHTML = '<span class="success">✅ Compression Done!</span>';
+
+// Auto download
+link.click();
 
 }catch(e){
 status.innerHTML = '<span class="error">❌ Server slow / error. Try again</span>';
