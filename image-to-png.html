@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image to PNG Converter 2026 – Free Online Tool</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+
+    <style>
+        /* SAME CONSISTENT DESIGN SYSTEM */
+        *{ margin:0; padding:0; box-sizing:border-box; font-family:'Poppins',sans-serif; }
+        body{ background:#f1f5f9; color:#222; padding-bottom: 50px; }
+
+        /* Blue Header */
+        .header{ background:#2563eb; color:white; text-align:center; padding:20px; font-size:26px; font-weight:600; }
+
+        /* Main Container */
+        .container{ max-width:700px; margin:30px auto; padding:25px; background:white; border-radius:10px; border:1px solid #ddd; box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1); text-align:center; }
+
+        h2{ margin-bottom:15px; color:#1e3a8a; font-size: 22px; }
+        
+        /* File Input Styling */
+        input[type="file"]{ width:100%; padding:12px; margin:15px 0; border:1px solid #ccc; border-radius:6px; background: #f8fafc; cursor: pointer; }
+
+        .info-box { background: #f0fdf4; border-left: 4px solid #22c55e; padding: 15px; font-size: 13px; color: #166534; margin-bottom: 20px; text-align: left; }
+
+        /* Action Button */
+        button{ background:#2563eb; color:white; border:none; padding:15px; border-radius:6px; cursor:pointer; width:100%; font-size:16px; font-weight: 600; transition: 0.3s; margin-top: 10px; }
+        button:hover{ background:#1e40af; transform: translateY(-1px); }
+        button:disabled { background: #94a3b8; cursor: not-allowed; }
+
+        /* Preview Area */
+        .preview-box { margin-top: 25px; display: none; border-top: 2px solid #f1f5f9; padding-top: 20px; }
+        .preview-box img { max-width: 100%; border-radius: 8px; border: 1px solid #ddd; margin-top: 10px; background: #eee; /* Light gray to see transparency */ }
+
+        /* SEO Info Section */
+        .section{ max-width:900px; margin:30px auto; padding:25px; background:white; border-radius:10px; border:1px solid #ddd; line-height:1.7; }
+        h3 { color: #1e3a8a; margin-top: 20px; }
+        a{ color:#2563eb; text-decoration:none; font-weight: 500; }
+        
+        .status-success { color: #166534; font-weight: 600; margin-top: 10px; }
+    </style>
+</head>
+<body>
+
+<div class="header"> 🖼️ Image to PNG Converter </div>
+
+<div class="container">
+    <h2>Convert Image to PNG Format</h2>
+    
+    <input type="file" id="imageInput" accept="image/*">
+
+    <div class="info-box">
+        <strong>Why PNG?</strong> PNG is a lossless format that maintains high quality and supports transparent backgrounds. Perfect for logos and graphics!
+    </div>
+
+    <button onclick="processToPNG()" id="convertBtn">Convert & Download PNG</button>
+
+    <div class="preview-box" id="previewBox">
+        <p id="statusMsg" class="status-success"></p>
+        <div id="imageDisplay"></div>
+    </div>
+
+    <br><br>
+    <div style="text-align: center;">
+        <a href="index.html">⬅ Back to All Tools</a>
+    </div>
+</div>
+
+<section class="section">
+    <h1>High-Quality Image to PNG Converter 2026</h1>
+    <p>Hamara tool kisi bhi image (JPG, JPEG, WebP, BMP, GIF) ko turant professional PNG format mein badal deta hai. Yeh **100% Client-Side** process hai, jiska matlab hai ki aapki file hamare server par nahi jati aur aapki privacy bani rehti hai.</p>
+    
+    <h3>Features of our PNG Converter:</h3>
+    <ul>
+        <li><strong>Lossless Quality:</strong> PNG format mein conversion ke waqt photo ki quality kharab nahi hoti.</li>
+        <li><strong>Fast & Secure:</strong> Kuch hi seconds mein conversion aur download complete.</li>
+        <li><strong>No Upload Required:</strong> Sab kuch aapke browser mein hi chalta hai.</li>
+    </ul>
+</section>
+
+<script>
+    function processToPNG() {
+        const fileInput = document.getElementById('imageInput');
+        const btn = document.getElementById('convertBtn');
+        const previewBox = document.getElementById('previewBox');
+        const imageDisplay = document.getElementById('imageDisplay');
+        const statusMsg = document.getElementById('statusMsg');
+
+        if (!fileInput.files[0]) {
+            alert("Please select an image file first.");
+            return;
+        }
+
+        btn.disabled = true;
+        btn.innerText = "Converting to PNG...";
+
+        const file = fileInput.files[0];
+        const reader = new FileReader();
+
+        reader.onload = function(e) {
+            const img = new Image();
+            img.onload = function() {
+                const canvas = document.createElement('canvas');
+                const ctx = canvas.getContext('2d');
+                
+                canvas.width = img.width;
+                canvas.height = img.height;
+
+                // Step 1: Draw image on canvas (PNG supports transparency, so no white background needed)
+                ctx.drawImage(img, 0, 0);
+
+                // Step 2: Export specifically as PNG
+                const pngUrl = canvas.toDataURL("image/png");
+
+                // Step 3: Secure Download Logic
+                const link = document.createElement('a');
+                link.href = pngUrl;
+                link.download = file.name.split('.')[0] + "_shayan_tools.png";
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+
+                // Step 4: UI Update
+                previewBox.style.display = "block";
+                imageDisplay.innerHTML = `<img src="${pngUrl}" alt="Converted PNG Preview">`;
+                statusMsg.innerText = "✅ Successfully converted to PNG and downloaded!";
+                
+                btn.disabled = false;
+                btn.innerText = "Convert & Download PNG";
+            };
+            img.src = e.target.result;
+        };
+        reader.readAsDataURL(file);
+    }
+</script>
+
+</body>
+</html>
