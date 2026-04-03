@@ -5,51 +5,28 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Organize PDF Online 2026 – Reorder PDF Pages Free</title>
     
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.min.js"></script>
     <script src="https://unpkg.com/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.15.0/Sortable.min.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
 
     <style>
         *{ margin:0; padding:0; box-sizing:border-box; font-family:'Poppins',sans-serif; }
         body{ background:#f1f5f9; color:#222; }
         .header{ background:#2563eb; color:white; text-align:center; padding:20px; font-size:26px; font-weight:600; }
-        
-        .container{ max-width:900px; margin:30px auto; padding:20px; background:white; border-radius:10px; border:1px solid #ddd; box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1); text-align:center; }
-        
+        .container{ max-width:700px; margin:30px auto; padding:20px; background:white; border-radius:10px; border:1px solid #ddd; box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1); text-align:center; }
         h2{ margin-bottom:15px; color:#1e3a8a; }
         input[type="file"]{ width:100%; padding:12px; margin:15px 0; border:1px solid #ccc; border-radius:6px; }
+        
+        .order-box { background: #f8fafc; padding: 20px; border-radius: 8px; margin: 15px 0; display: none; }
+        .info-text { font-size: 14px; color: #555; margin-bottom: 15px; text-align: left; line-height: 1.4; }
+        
+        input[type="text"] { width: 100%; padding: 12px; border: 2px solid #2563eb; border-radius: 6px; font-size: 16px; font-weight: 600; text-align: center; color: #2563eb; }
 
-        /* Drag and Drop Grid */
-        #pageList { 
-            display: grid; 
-            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); 
-            gap: 20px; 
-            margin-top: 20px; 
-            padding: 10px;
-            background: #f8fafc;
-            border-radius: 8px;
-            min-height: 200px;
-        }
-        .page-card { 
-            background: white; 
-            border: 2px solid #e2e8f0; 
-            border-radius: 8px; 
-            padding: 10px; 
-            cursor: grab; 
-            position: relative;
-            transition: transform 0.2s;
-        }
-        .page-card:active { cursor: grabbing; }
-        .page-card canvas { width: 100%; border-radius: 4px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
-        .page-label { margin-top: 8px; font-size: 12px; font-weight: 600; color: #64748b; }
-
-        button{ background:#2563eb; color:white; border:none; padding:15px; border-radius:6px; cursor:pointer; width:100%; font-size:16px; font-weight: 600; margin-top: 25px; transition: 0.3s; }
+        button{ background:#2563eb; color:white; border:none; padding:15px; border-radius:6px; cursor:pointer; width:100%; font-size:16px; font-weight: 600; margin-top: 15px; }
         button:hover{ background:#1e40af; }
         button:disabled { background:#94a3b8; cursor: not-allowed; }
 
         .section{ max-width:900px; margin:30px auto; padding:25px; background:white; border-radius:10px; border:1px solid #ddd; line-height:1.7; }
-        .instructions { font-size: 14px; color: #666; margin-bottom: 10px; }
+        a{ color:#2563eb; text-decoration:none; }
     </style>
 </head>
 <body>
@@ -58,38 +35,33 @@
 
 <div class="container">
     <h2>Reorder PDF Pages</h2>
-    <p class="instructions">Upload PDF, drag pages to reorder, then download the new file.</p>
-    
     <input type="file" id="pdfInput" accept="application/pdf">
     
-    <div id="pageList">
+    <div id="orderBox" class="order-box">
+        <div class="info-text">
+            ✅ <strong>PDF Loaded!</strong> <br>
+            Total Pages Found: <span id="totalPages" style="font-weight:bold; color:#2563eb;">0</span> <br><br>
+            <strong>Enter new page order:</strong> (Use commas) <br>
+            Example: If you want page 3 first, then 1, then 2, type: <b>3, 1, 2</b>
         </div>
+        <input type="text" id="newOrder" placeholder="e.g. 1, 3, 2, 4">
+        <button id="downloadBtn" onclick="reorderAndDownload()">Save & Download PDF</button>
+    </div>
 
-    <button id="downloadBtn" onclick="saveOrganizedPdf()" disabled>Save & Download PDF</button>
-    
     <br><br>
     <a href="index.html" style="color:#2563eb; text-decoration:none;">⬅ Back to Home</a>
 </div>
 
 <section class="section">
-    <h1>Free Online PDF Organizer 2026</h1>
-    <p>Apni PDF files ko manage karna ab pehle se zyada asan hai. Hamara <strong>Organize PDF tool</strong> aapko visual interface deta hai jahan aap pages ko drag-and-drop karke unka order badal sakte hain. Yeh 100% free aur secure hai.</p>
-    
-    <h3>Key Features:</h3>
-    <ul>
-        <li><strong>Visual Preview:</strong> Har page ka thumbnail dekh kar organize karein.</li>
-        <li><strong>Drag & Drop:</strong> Mouse ya touch se pages ko aage-piche karein.</li>
-        <li><strong>Zero Upload:</strong> Files aapke browser mein hi process hoti hain.</li>
-    </ul>
+    <h1>Fastest Online PDF Organizer 2026</h1>
+    <p>Agar aapke browser mein thumbnails load nahi ho rahe, toh yeh **Smart Manual Reorder** tool aapke liye best hai. Bas file upload karein aur pages ka naya order likh kar download karein. Yeh 100% stable hai.</p>
 </section>
 
 <script>
-    const pdfjsLib = window['pdfjs-dist/build/pdf'];
-    pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.worker.min.js';
-
     let originalPdfBytes = null;
-    let pageOrder = [];
+    let totalPdfPages = 0;
 
+    // File selection logic
     document.getElementById('pdfInput').onchange = async function(e) {
         const file = e.target.files[0];
         if (!file) return;
@@ -97,236 +69,79 @@
         const reader = new FileReader();
         reader.onload = async function() {
             originalPdfBytes = new Uint8Array(this.result);
-            renderPages();
+            
+            try {
+                const { PDFDocument } = PDFLib;
+                const pdfDoc = await PDFDocument.load(originalPdfBytes);
+                totalPdfPages = pdfDoc.getPageCount();
+                
+                // Show UI
+                document.getElementById('totalPages').innerText = totalPdfPages;
+                document.getElementById('orderBox').style.display = 'block';
+                
+                // Set default order as current (1, 2, 3...)
+                let defaultOrder = [];
+                for(let i=1; i<=totalPdfPages; i++) defaultOrder.push(i);
+                document.getElementById('newOrder').value = defaultOrder.join(', ');
+                
+            } catch (err) {
+                alert("Error reading PDF. Please try another file.");
+            }
         };
         reader.readAsArrayBuffer(file);
     };
 
-    async function renderPages() {
-        const list = document.getElementById('pageList');
-        list.innerHTML = "Loading pages...";
-        
-        const loadingTask = pdfjsLib.getDocument({data: originalPdfBytes});
-        const pdf = await loadingTask.promise;
-        list.innerHTML = "";
-        pageOrder = [];
+    async function reorderAndDownload() {
+        const orderInput = document.getElementById('newOrder').value;
+        const btn = document.getElementById('downloadBtn');
 
-        for (let i = 1; i <= pdf.numPages; i++) {
-            pageOrder.push(i - 1); // 0-based index
-            const page = await pdf.getPage(i);
-            const viewport = page.getViewport({scale: 0.3}); // Small thumbnail
-            
-            const card = document.createElement('div');
-            card.className = 'page-card';
-            card.setAttribute('data-index', i - 1);
-            
-            const canvas = document.createElement('canvas');
-            const context = canvas.getContext('2d');
-            canvas.height = viewport.height;
-            canvas.width = viewport.width;
-
-            await page.render({canvasContext: context, viewport: viewport}).promise;
-            
-            card.appendChild(canvas);
-            card.innerHTML += `<div class="page-label">Page ${i}</div>`;
-            list.appendChild(card);
+        if (!orderInput) {
+            alert("Please enter page order.");
+            return;
         }
 
-        // Initialize Drag and Drop
-        new Sortable(list, {
-            animation: 150,
-            ghostClass: 'sortable-ghost'
-        });
+        // Convert input string "3, 1, 2" to array [2, 0, 1] (0-based)
+        const newIndices = orderInput.split(',')
+            .map(num => parseInt(num.trim()) - 1)
+            .filter(num => !isNaN(num) && num >= 0 && num < totalPdfPages);
 
-        document.getElementById('downloadBtn').disabled = false;
-    }
-
-    async function saveOrganizedPdf() {
-        const btn = document.getElementById('downloadBtn');
-        btn.innerText = "Processing...";
-<script>
-    const pdfjsLib = window['pdfjs-dist/build/pdf'];
-    // Worker loading fix
-    pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.worker.min.js';
-
-    let originalPdfBytes = null;
-
-    document.getElementById('pdfInput').onchange = async function(e) {
-        const file = e.target.files[0];
-        if (!file) return;
-
-        const reader = new FileReader();
-        reader.onload = async function() {
-            // Memory mein copy save karna
-            originalPdfBytes = new Uint8Array(this.result);
-            renderPages();
-        };
-        reader.readAsArrayBuffer(file);
-    };
-
-    async function renderPages() {
-        const list = document.getElementById('pageList');
-        list.innerHTML = "<p style='grid-column: 1/-1;'>Loading pages... Please wait.</p>";
-        
-        try {
-            const loadingTask = pdfjsLib.getDocument({data: originalPdfBytes});
-            const pdf = await loadingTask.promise;
-            list.innerHTML = "";
-
-            for (let i = 1; i <= pdf.numPages; i++) {
-                const page = await pdf.getPage(i);
-                const viewport = page.getViewport({scale: 0.3}); 
-                
-                const card = document.createElement('div');
-                card.className = 'page-card';
-                card.setAttribute('data-index', i - 1); // 0-based index store karna
-                
-                const canvas = document.createElement('canvas');
-                const context = canvas.getContext('2d');
-                canvas.height = viewport.height;
-                canvas.width = viewport.width;
-
-                await page.render({canvasContext: context, viewport: viewport}).promise;
-                
-                card.appendChild(canvas);
-                const label = document.createElement('div');
-                label.className = 'page-label';
-                label.innerText = `Page ${i}`;
-                card.appendChild(label);
-                
-                list.appendChild(card);
-            }
-
-            // Re-order initialize karna
-            new Sortable(list, {
-                animation: 150,
-                ghostClass: 'sortable-ghost'
-            });
-
-            document.getElementById('downloadBtn').disabled = false;
-        } catch (err) {
-            console.error(err);
-            list.innerHTML = "Error loading PDF thumbnails.";
+        if (newIndices.length === 0) {
+            alert("Invalid page numbers entered.");
+            return;
         }
-    }
-
-    async function saveOrganizedPdf() {
-        const btn = document.getElementById('downloadBtn');
-        const originalText = btn<script>
-    // Stable CDN links for PDF.js
-    const pdfjsLib = window['pdfjs-dist/build/pdf'];
-    pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.worker.min.js';
-
-    let originalPdfBytes = null;
-
-    document.getElementById('pdfInput').onchange = async function(e) {
-        const file = e.target.files[0];
-        if (!file) return;
-
-        const reader = new FileReader();
-        reader.onload = async function() {
-            originalPdfBytes = new Uint8Array(this.result);
-            // Reset UI before loading new file
-            document.getElementById('pageList').innerHTML = "";
-            document.getElementById('downloadBtn').disabled = true;
-            renderPages();
-        };
-        reader.readAsArrayBuffer(file);
-    };
-
-    async function renderPages() {
-        const list = document.getElementById('pageList');
-        list.innerHTML = "<p style='grid-column: 1/-1; padding: 20px;'>Generating previews... Please wait.</p>";
-        
-        try {
-            const loadingTask = pdfjsLib.getDocument({data: originalPdfBytes});
-            const pdf = await loadingTask.promise;
-            list.innerHTML = "";
-
-            for (let i = 1; i <= pdf.numPages; i++) {
-                const page = await pdf.getPage(i);
-                
-                // Scale ko 0.3 se badha kar 0.5 kiya hai taaki clear dikhe
-                const viewport = page.getViewport({scale: 0.5}); 
-                
-                const card = document.createElement('div');
-                card.className = 'page-card';
-                card.setAttribute('data-index', i - 1);
-                
-                const canvas = document.createElement('canvas');
-                const context = canvas.getContext('2d');
-                canvas.height = viewport.height;
-                canvas.width = viewport.width;
-
-                // Render page to canvas
-                await page.render({canvasContext: context, viewport: viewport}).promise;
-                
-                card.appendChild(canvas);
-                const label = document.createElement('div');
-                label.className = 'page-label';
-                label.innerText = `Page ${i}`;
-                card.appendChild(label);
-                
-                list.appendChild(card);
-            }
-
-            // Initialize Drag and Drop (Sortable)
-            if (typeof Sortable !== 'undefined') {
-                new Sortable(list, {
-                    animation: 150,
-                    ghostClass: 'sortable-ghost',
-                    forceFallback: true // Mobile touch ke liye behtar support
-                });
-            }
-
-            document.getElementById('downloadBtn').disabled = false;
-            document.getElementById('downloadBtn').style.background = "#2563eb"; // Force active color
-        } catch (err) {
-            console.error("Render Error:", err);
-            list.innerHTML = "<p style='color:red;'>Failed to load PDF. Please make sure the file is not corrupted.</p>";
-        }
-    }
-
-    async function saveOrganizedPdf() {
-        const btn = document.getElementById('downloadBtn');
-        btn.innerText = "Creating PDF...";
-        btn.disabled = true;
 
         try {
+            btn.innerText = "Processing...";
+            btn.disabled = true;
+
             const { PDFDocument } = PDFLib;
             const srcDoc = await PDFDocument.load(originalPdfBytes);
             const newDoc = await PDFDocument.create();
 
-            // Get the order after user has dragged the cards
-            const currentCards = document.querySelectorAll('.page-card');
-            const newIndices = Array.from(currentCards).map(card => parseInt(card.getAttribute('data-index')));
-
-            if (newIndices.length === 0) throw new Error("No pages found");
-
+            // Copy pages in the new user-defined order
             const copiedPages = await newDoc.copyPages(srcDoc, newIndices);
             copiedPages.forEach(page => newDoc.addPage(page));
 
             const pdfBytes = await newDoc.save();
             const blob = new Blob([pdfBytes], { type: 'application/pdf' });
             
-            // Stable Download Logic
+            // Stable Download
             const link = document.createElement('a');
             link.href = URL.createObjectURL(blob);
-            link.download = "organized_shayan_tools.pdf";
+            link.download = "reordered_shayan_tools.pdf";
             document.body.appendChild(link);
             link.click();
             document.body.removeChild(link);
 
-            btn.innerText = "✅ Download Successful";
+            btn.innerText = "✅ Done! Downloading...";
             setTimeout(() => {
                 btn.innerText = "Save & Download PDF";
                 btn.disabled = false;
             }, 2000);
 
         } catch (err) {
-            console.error("Save Error:", err);
-            alert("Error: " + err.message);
-            btn.innerText = "Error! Try Again";
+            console.error(err);
+            alert("Error creating PDF.");
             btn.disabled = false;
         }
     }
