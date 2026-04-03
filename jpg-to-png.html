@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JPG to PNG Converter 2026 – Free Online Tool</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+
+    <style>
+        /* SAME CONSISTENT DESIGN SYSTEM */
+        *{ margin:0; padding:0; box-sizing:border-box; font-family:'Poppins',sans-serif; }
+        body{ background:#f1f5f9; color:#222; padding-bottom: 50px; }
+
+        /* Blue Header */
+        .header{ background:#2563eb; color:white; text-align:center; padding:20px; font-size:26px; font-weight:600; }
+
+        /* Main Container */
+        .container{ max-width:700px; margin:30px auto; padding:25px; background:white; border-radius:10px; border:1px solid #ddd; box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1); text-align:center; }
+
+        h2{ margin-bottom:15px; color:#1e3a8a; font-size: 22px; }
+        
+        /* File Input Styling */
+        input[type="file"]{ width:100%; padding:12px; margin:15px 0; border:1px solid #ccc; border-radius:6px; background: #f8fafc; cursor: pointer; }
+
+        .info-box { background: #f0fdf4; border-left: 4px solid #22c55e; padding: 15px; font-size: 13px; color: #166534; margin-bottom: 20px; text-align: left; }
+
+        /* Action Button */
+        button{ background:#2563eb; color:white; border:none; padding:15px; border-radius:6px; cursor:pointer; width:100%; font-size:16px; font-weight: 600; transition: 0.3s; margin-top: 10px; }
+        button:hover{ background:#1e40af; transform: translateY(-1px); }
+        button:disabled { background: #94a3b8; cursor: not-allowed; }
+
+        /* Preview Area */
+        .preview-box { margin-top: 25px; display: none; border-top: 2px solid #f1f5f9; padding-top: 20px; }
+        .preview-box img { max-width: 100%; border-radius: 8px; border: 1px solid #ddd; margin-top: 10px; }
+
+        /* SEO Info Section */
+        .section{ max-width:900px; margin:30px auto; padding:25px; background:white; border-radius:10px; border:1px solid #ddd; line-height:1.7; }
+        h3 { color: #1e3a8a; margin-top: 20px; }
+        a{ color:#2563eb; text-decoration:none; font-weight: 500; }
+        
+        .status-success { color: #166534; font-weight: 600; margin-top: 10px; }
+    </style>
+</head>
+<body>
+
+<div class="header"> 🖼️ JPG to PNG Converter </div>
+
+<div class="container">
+    <h2>Convert JPG Image to PNG</h2>
+    <p style="font-size: 13px; color: #666; margin-bottom: 15px;">High Quality & Lossless Conversion</p>
+    
+    <input type="file" id="imageInput" accept="image/jpeg">
+
+    <div class="info-box">
+        <strong>Why convert to PNG?</strong> PNG images use lossless compression, meaning they keep the exact same quality every time you open or save them.
+    </div>
+
+    <button onclick="convertJPGtoPNG()" id="convertBtn">Convert & Download PNG</button>
+
+    <div class="preview-box" id="previewBox">
+        <p id="statusMsg" class="status-success"></p>
+        <div id="imageDisplay"></div>
+    </div>
+
+    <br><br>
+    <div style="text-align: center;">
+        <a href="index.html">⬅ Back to All Tools</a>
+    </div>
+</div>
+
+<section class="section">
+    <h1>Free Online JPG to PNG Converter 2026</h1>
+    <p>Apni JPG photos ko PNG format mein badalna ab aur bhi asan hai. Hamara tool **100% Client-Side** technology par kaam karta hai, jiska matlab hai ki aapka data hamesha aapke device par hi rehta hai. Koi upload nahi, koi intezar nahi.</p>
+    
+    <h3>Key Features:</h3>
+    <ul>
+        <li><strong>No Quality Loss:</strong> JPG se PNG conversion ke waqt quality barqarar rehti hai.</li>
+        <li><strong>Privacy Safe:</strong> Photos hamare server par nahi jati hain.</li>
+        <li><strong>Instant Download:</strong> Processing ke turant baad file download ho jati hai.</li>
+        <li><strong>Easy to Use:</strong> Bas select karein aur convert karein.</li>
+    </ul>
+</section>
+
+<script>
+    function convertJPGtoPNG() {
+        const fileInput = document.getElementById('imageInput');
+        const btn = document.getElementById('convertBtn');
+        const previewBox = document.getElementById('previewBox');
+        const imageDisplay = document.getElementById('imageDisplay');
+        const statusMsg = document.getElementById('statusMsg');
+
+        if (!fileInput.files[0]) {
+            alert("Please select a JPG/JPEG file first.");
+            return;
+        }
+
+        btn.disabled = true;
+        btn.innerText = "Converting...";
+
+        const file = fileInput.files[0];
+        const reader = new FileReader();
+
+        reader.onload = function(e) {
+            const img = new Image();
+            img.onload = function() {
+                const canvas = document.createElement('canvas');
+                const ctx = canvas.getContext('2d');
+                
+                canvas.width = img.width;
+                canvas.height = img.height;
+
+                // Step 1: Draw the JPG image onto the canvas
+                ctx.drawImage(img, 0, 0);
+
+                // Step 2: Export specifically as PNG
+                const pngUrl = canvas.toDataURL("image/png");
+
+                // Step 3: Secure Download Logic
+                const link = document.createElement('a');
+                link.href = pngUrl;
+                link.download = file.name.split('.')[0] + "_shayan_tools.png";
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+
+                // UI Update
+                previewBox.style.display = "block";
+                imageDisplay.innerHTML = `<img src="${pngUrl}" alt="Converted PNG Preview">`;
+                statusMsg.innerText = "✅ Successfully converted to PNG and downloaded!";
+                
+                btn.disabled = false;
+                btn.innerText = "Convert & Download PNG";
+            };
+            img.src = e.target.result;
+        };
+        reader.readAsDataURL(file);
+    }
+</script>
+
+</body>
+</html>
