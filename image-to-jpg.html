@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image to JPG Converter 2026 – Free Online Tool</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+
+    <style>
+        /* SAME DESIGN SYSTEM AS PREVIOUS TOOLS */
+        *{ margin:0; padding:0; box-sizing:border-box; font-family:'Poppins',sans-serif; }
+        body{ background:#f1f5f9; color:#222; padding-bottom: 50px; }
+
+        /* Blue Header */
+        .header{ background:#2563eb; color:white; text-align:center; padding:20px; font-size:26px; font-weight:600; }
+
+        /* Main Container */
+        .container{ max-width:700px; margin:30px auto; padding:25px; background:white; border-radius:10px; border:1px solid #ddd; box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1); text-align:center; }
+
+        h2{ margin-bottom:15px; color:#1e3a8a; font-size: 22px; }
+        
+        /* File Input Styling */
+        input[type="file"]{ width:100%; padding:12px; margin:15px 0; border:1px solid #ccc; border-radius:6px; background: #f8fafc; cursor: pointer; }
+
+        /* Quality Settings Section */
+        .settings-box { background: #eff6ff; padding: 15px; border-radius: 8px; margin-bottom: 20px; border: 1px dashed #2563eb; }
+        .settings-box label { font-size: 14px; font-weight: 600; display: block; margin-bottom: 10px; color: #1e40af; }
+        
+        input[type="range"] { width: 100%; cursor: pointer; }
+
+        /* Action Button */
+        button{ background:#2563eb; color:white; border:none; padding:15px; border-radius:6px; cursor:pointer; width:100%; font-size:16px; font-weight: 600; transition: 0.3s; margin-top: 10px; }
+        button:hover{ background:#1e40af; transform: translateY(-1px); }
+        button:disabled { background: #94a3b8; cursor: not-allowed; }
+
+        /* Preview Area */
+        .preview-box { margin-top: 25px; display: none; border-top: 2px solid #f1f5f9; padding-top: 20px; }
+        .preview-box img { max-width: 100%; border-radius: 8px; border: 1px solid #ddd; margin-top: 10px; }
+
+        /* SEO Info Section */
+        .section{ max-width:900px; margin:30px auto; padding:25px; background:white; border-radius:10px; border:1px solid #ddd; line-height:1.7; }
+        h3 { color: #1e3a8a; margin-top: 20px; }
+        ul { margin-left: 20px; }
+        a{ color:#2563eb; text-decoration:none; font-weight: 500; }
+        
+        .status-success { color: #166534; font-weight: 600; margin-top: 10px; }
+    </style>
+</head>
+<body>
+
+<div class="header"> 🖼️ Image to JPG Converter </div>
+
+<div class="container">
+    <h2>Convert PNG/WebP to JPG</h2>
+    <p style="font-size: 13px; color: #666; margin-bottom: 15px;">Fast, Private & High Quality Conversion</p>
+    
+    <input type="file" id="imageInput" accept="image/*">
+
+    <div class="settings-box">
+        <label>JPG Quality: <span id="qualityVal">90%</span></label>
+        <input type="range" id="qualityRange" min="0.1" max="1.0" step="0.1" value="0.9">
+    </div>
+
+    <button onclick="processImage()" id="convertBtn">Convert & Download JPG</button>
+
+    <div class="preview-box" id="previewBox">
+        <p id="statusMsg" class="status-success"></p>
+        <div id="imageDisplay"></div>
+    </div>
+
+    <br><br>
+    <a href="index.html">⬅ Back to All Tools</a>
+</div>
+
+<section class="section">
+    <h1>Professional Image to JPG Converter 2026</h1>
+    <p>Apni photos ko JPG format mein convert karna ab aur bhi asan hai. Hamara tool **No-Backend** technology par chalta hai, jiska matlab hai ki aapki photos kabhi hamare server par upload nahi hoti. Sab kuch aapke phone ya computer par process hota hai.</p>
+    
+    <h3>Why use our JPG Converter?</h3>
+    <ul>
+        <li><strong>Privacy Safe:</strong> 100% Client-side processing.</li>
+        <li><strong>Format Support:</strong> PNG, WebP, BMP, aur GIF ko support karta hai.</li>
+        <li><strong>Adjustable Quality:</strong> File size aur quality ko manage karein.</li>
+        <li><strong>Transparency Fix:</strong> Transparent background ko automatically white background mein badalta hai.</li>
+    </ul>
+</section>
+
+<script>
+    // Slider update logic
+    const qualityRange = document.getElementById('qualityRange');
+    const qualityVal = document.getElementById('qualityVal');
+    
+    qualityRange.oninput = function() {
+        qualityVal.innerText = Math.round(this.value * 100) + "%";
+    };
+
+    function processImage() {
+        const fileInput = document.getElementById('imageInput');
+        const btn = document.getElementById('convertBtn');
+        const previewBox = document.getElementById('previewBox');
+        const imageDisplay = document.getElementById('imageDisplay');
+        const statusMsg = document.getElementById('statusMsg');
+        const quality = parseFloat(qualityRange.value);
+
+        if (!fileInput.files[0]) {
+            alert("Please select an image file first.");
+            return;
+        }
+
+        btn.disabled = true;
+        btn.innerText = "Converting...";
+
+        const file = fileInput.files[0];
+        const reader = new FileReader();
+
+        reader.onload = function(e) {
+            const img = new Image();
+            img.onload = function() {
+                const canvas = document.createElement('canvas');
+                const ctx = canvas.getContext('2d');
+                
+                canvas.width = img.width;
+                canvas.height = img.height;
+
+                // Step 1: Fill White Background (for PNG transparency)
+                ctx.fillStyle = "#FFFFFF";
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+                
+                // Step 2: Draw the image
+                ctx.drawImage(img, 0, 0);
+
+                // Step 3: Export as JPG
+                const jpgUrl = canvas.toDataURL("image/jpeg", quality);
+
+                // Step 4: Auto Download
+                const link = document.createElement('a');
+                link.href = jpgUrl;
+                link.download = file.name.split('.')[0] + "_shayan_tools.jpg";
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+
+                // UI Update
+                previewBox.style.display = "block";
+                imageDisplay.innerHTML = `<img src="${jpgUrl}" alt="Converted JPG">`;
+                statusMsg.innerText = "✅ Conversion Successful! File Downloaded.";
+                
+                btn.disabled = false;
+                btn.innerText = "Convert & Download JPG";
+            };
+            img.src = e.target.result;
+        };
+        reader.readAsDataURL(file);
+    }
+</script>
+
+</body>
+</html>
