@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Merge PDF & Images Online 2026 – All-in-One Merger</title>
+    
+    <script src="https://unpkg.com/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+
+    <style>
+        *{ margin:0; padding:0; box-sizing:border-box; font-family:'Poppins',sans-serif; }
+        body{ background:#f1f5f9; color:#222; }
+
+        .header{ background:#2563eb; color:white; text-align:center; padding:20px; font-size:26px; font-weight:600; }
+
+        .container{ max-width:700px; margin:30px auto; padding:20px; background:white; border-radius:10px; border:1px solid #ddd; box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1); }
+
+        h2{ margin-bottom:15px; color:#1e3a8a; font-size: 22px; }
+        
+        .upload-area { border: 2px dashed #2563eb; padding: 30px; text-align: center; border-radius: 10px; background: #f8fafc; cursor: pointer; margin-bottom: 20px; }
+        .upload-area:hover { background: #eff6ff; }
+        
+        input[type="file"]{ display: none; }
+
+        button{ background:#2563eb; color:white; border:none; padding:15px; border-radius:6px; cursor:pointer; width:100%; font-size:16px; font-weight: 600; transition: 0.3s; margin-top: 10px; }
+        button:hover{ background:#1e40af; }
+        button:disabled { background: #94a3b8; cursor: not-allowed; }
+
+        #fileList { margin-top: 15px; }
+        .file-item { background: white; padding: 10px; border: 1px solid #e2e8f0; margin-bottom: 8px; border-radius: 6px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 1px 2px rgba(0,0,0,0.05); }
+        .file-info { display: flex; align-items: center; gap: 10px; }
+        .file-type { font-size: 10px; padding: 2px 6px; border-radius: 4px; color: white; text-transform: uppercase; }
+        .type-pdf { background: #ef4444; }
+        .type-img { background: #10b981; }
+
+        .result-msg { margin-top: 15px; padding: 12px; border-radius: 6px; display: none; text-align: center; font-weight: 600; }
+
+        .section{ max-width:900px; margin:30px auto; padding:25px; background:white; border-radius:10px; border:1px solid #ddd; line-height:1.7; }
+        a{ color:#2563eb; text-decoration:none; }
+    </style>
+</head>
+<body>
+
+<div class="header"> 📂 Ultimate PDF & Image Merger </div>
+
+<div class="container">
+    <h2>Merge Multiple Files</h2>
+    
+    <div class="upload-area" onclick="document.getElementById('fileInput').click()">
+        <p>Click to Upload <strong>PDFs</strong> or <strong>Images</strong></p>
+        <span style="font-size: 12px; color: #666;">(You can select multiple files at once)</span>
+    </div>
+    <input type="file" id="fileInput" accept="application/pdf, image/*" multiple onchange="handleFiles()">
+
+    <div id="fileList"></div>
+
+    <button onclick="mergeAll()" id="mergeBtn">Merge & Download PDF</button>
+    <div id="statusMsg" class="result-msg"></div>
+
+    <br><br>
+    <a href="index.html">⬅ Back to Home</a>
+</div>
+
+<section class="section">
+    <h1>Combine PDF and Images into One File Online</h1>
+    <p>Hamara <strong>Merge PDF & Images Tool</strong> aapko allow karta hai ki aap apni scanned images (JPG/PNG) aur existing PDF files ko ek hi document mein jodd sakein. Yeh tool 2026 ki latest technology par chalta hai jo browser mein hi saara kaam karta hai.</p>
+    
+    <h3>Features:</h3>
+    <ul>
+        <li><strong>Privacy:</strong> Files server par upload nahi hoti, isliye 100% secure hai.</li>
+        <li><strong>Mixed Merging:</strong> PDF ke beech mein images ya images ke baad PDF jodd sakte hain.</li>
+        <li><strong>Fast:</strong> Bina kisi limit ke bade files merge karein.</li>
+    </ul>
+</section>
+
+<script>
+    let filesArray = [];
+
+    function handleFiles() {
+        const input = document.getElementById('fileInput');
+        const list = document.getElementById('fileList');
+        const newFiles = Array.from(input.files);
+        
+        filesArray = [...filesArray, ...newFiles];
+        renderList();
+    }
+
+    function renderList() {
+        const list = document.getElementById('fileList');
+        list.innerHTML = filesArray.length > 0 ? "<strong>Files to be merged:</strong><br><br>" : "";
+        
+        filesArray.forEach((file, index) => {
+            const isPdf = file.type === "application/pdf";
+            list.innerHTML += `
+                <div class="file-item">
+                    <div class="file-info">
+                        <span class="file-type ${isPdf ? 'type-pdf' : 'type-img'}">${isPdf ? 'PDF' : 'IMG'}</span>
+                        <span>${file.name}</span>
+                    </div>
+                    <button onclick="removeFile(${index})" style="width: auto; padding: 5px 10px; background: #ff4d4d; font-size: 12px;">Remove</button>
+                </div>
+            `;
+        });
+    }
+
+    function removeFile(index) {
+        filesArray.splice(index, 1);
+        renderList();
+    }
+
+    async function mergeAll() {
+        if (filesArray.length < 2) {
+            alert("Please select at least 2 files to merge.");
+            return;
+        }
+
+        const btn = document.getElementById('mergeBtn');
+        const status = document.getElementById('statusMsg');
+        
+        try {
+            btn.disabled = true;
+            btn.innerText = "Processing Files...";
+
+            const { PDFDocument } = PDFLib;
+            const mergedPdf = await PDFDocument.create();
+
+            for (const file of filesArray) {
+                const arrayBuffer = await file.arrayBuffer();
+
+                if (file.type === "application/pdf") {
+                    // PDF logic
+                    const pdfDoc = await PDFDocument.load(arrayBuffer);
+                    const copiedPages = await mergedPdf.copyPages(pdfDoc, pdfDoc.getPageIndices());
+                    copiedPages.forEach((page) => mergedPdf.addPage(page));
+                } else {
+                    // Image logic (JPG/PNG/WebP)
+                    let image;
+                    if (file.type === "image/png") {
+                        image = await mergedPdf.embedPng(arrayBuffer);
+                    } else {
+                        // JPEG/JPG/Others (Attempting JPG embedding)
+                        image = await mergedPdf.embedJpg(arrayBuffer);
+                    }
+
+                    const page = mergedPdf.addPage([image.width, image.height]);
+                    page.drawImage(image, { x: 0, y: 0, width: image.width, height: image.height });
+                }
+            }
+
+            const mergedPdfBytes = await mergedPdf.save();
+            const blob = new Blob([mergedPdfBytes], { type: 'application/pdf' });
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = "merged_shayan_tools.pdf";
+            link.click();
+
+            status.style.display = "block";
+            status.style.background = "#dcfce7";
+            status.style.color = "#166534";
+            status.innerText = "✅ Successfully Merged & Downloaded!";
+            
+        } catch (error) {
+            console.error(error);
+            alert("Error merging files. Ensure images are JPG/PNG and PDF is not password protected.");
+        } finally {
+            btn.disabled = false;
+            btn.innerText = "Merge & Download PDF";
+        }
+    }
+</script>
+
+</body>
+</html>
