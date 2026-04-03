@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HEIC to JPEG Converter 2026 – Convert iPhone Photos Free</title>
+    
+    <script src="https://cdn.jsdelivr.net/npm/heic2any@0.0.3/dist/heic2any.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+
+    <style>
+        /* SAME CONSISTENT DESIGN SYSTEM */
+        *{ margin:0; padding:0; box-sizing:border-box; font-family:'Poppins',sans-serif; }
+        body{ background:#f1f5f9; color:#222; padding-bottom: 50px; }
+
+        .header{ background:#2563eb; color:white; text-align:center; padding:20px; font-size:26px; font-weight:600; }
+
+        .container{ max-width:700px; margin:30px auto; padding:25px; background:white; border-radius:10px; border:1px solid #ddd; box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1); text-align:center; }
+
+        h2{ margin-bottom:15px; color:#1e3a8a; font-size: 22px; }
+        
+        input[type="file"]{ width:100%; padding:12px; margin:15px 0; border:1px solid #ccc; border-radius:6px; background: #f8fafc; cursor: pointer; }
+
+        .info-box { background: #fffbeb; border-left: 4px solid #f59e0b; padding: 15px; font-size: 13px; color: #92400e; margin-bottom: 20px; text-align: left; }
+
+        button{ background:#2563eb; color:white; border:none; padding:15px; border-radius:6px; cursor:pointer; width:100%; font-size:16px; font-weight: 600; transition: 0.3s; margin-top: 10px; }
+        button:hover{ background:#1e40af; transform: translateY(-1px); }
+        button:disabled { background: #94a3b8; cursor: not-allowed; }
+
+        .preview-box { margin-top: 25px; display: none; border-top: 2px solid #f1f5f9; padding-top: 20px; }
+        .preview-box img { max-width: 100%; border-radius: 8px; border: 1px solid #ddd; margin-top: 10px; }
+
+        .section{ max-width:900px; margin:30px auto; padding:25px; background:white; border-radius:10px; border:1px solid #ddd; line-height:1.7; }
+        a{ color:#2563eb; text-decoration:none; font-weight: 500; }
+        
+        .status-msg { color: #166534; font-weight: 600; margin-top: 10px; }
+    </style>
+</head>
+<body>
+
+<div class="header"> 📱 HEIC to JPEG Converter </div>
+
+<div class="container">
+    <h2>Convert iPhone HEIC to JPEG</h2>
+    <p style="font-size: 13px; color: #666; margin-bottom: 15px;">Fast, Private & High Quality Conversion</p>
+    
+    <input type="file" id="heicInput" accept=".heic">
+
+    <div class="info-box">
+        <strong>Note:</strong> HEIC conversion might take a few seconds depending on your file size. Please wait while we process your image locally.
+    </div>
+
+    <button onclick="convertHEIC()" id="convertBtn">Convert & Download JPEG</button>
+
+    <div class="preview-box" id="previewBox">
+        <p id="statusMsg" class="status-msg"></p>
+        <div id="imageDisplay"></div>
+    </div>
+
+    <br><br>
+    <div style="text-align: center;">
+        <a href="index.html">⬅ Back to Home</a>
+    </div>
+</div>
+
+<section class="section">
+    <h1>Free Online HEIC to JPEG Converter 2026</h1>
+    <p>Agar aapne iPhone se photos khichi hain aur wo aapke PC par nahi khul rahi hain, toh hamara **HEIC to JPEG Converter** aapke liye best solution hai. Yeh tool bina quality loose kiye aapki photos ko standard JPEG format mein badal deta hai.</p>
+    
+    <h3>Features:</h3>
+    <ul>
+        <li><strong>Privacy Safe:</strong> Photos kabhi server par upload nahi hoti, conversion browser mein hota hai.</li>
+        <li><strong>High Resolution:</strong> Original clarity aur colors ko maintain rakhta hai.</li>
+        <li><strong>Free & Unlimited:</strong> Bina kisi limit ke jitni chahe utni photos convert karein.</li>
+    </ul>
+</section>
+
+<script>
+    async function convertHEIC() {
+        const fileInput = document.getElementById('heicInput');
+        const btn = document.getElementById('convertBtn');
+        const previewBox = document.getElementById('previewBox');
+        const imageDisplay = document.getElementById('imageDisplay');
+        const statusMsg = document.getElementById('statusMsg');
+
+        if (!fileInput.files[0]) {
+            alert("Please select an HEIC file first.");
+            return;
+        }
+
+        const file = fileInput.files[0];
+        btn.disabled = true;
+        btn.innerText = "Processing... (Please Wait)";
+
+        try {
+            // Use heic2any to convert HEIC to Blob (JPEG)
+            const jpegBlob = await heic2any({
+                blob: file,
+                toType: "image/jpeg",
+                quality: 0.9
+            });
+
+            // Convert blob to Data URL for download and preview
+            const jpegUrl = URL.createObjectURL(jpegBlob);
+
+            // Auto Download
+            const link = document.createElement('a');
+            link.href = jpegUrl;
+            link.download = file.name.split('.')[0] + "_shayan_tools.jpg";
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+
+            // UI Update
+            previewBox.style.display = "block";
+            imageDisplay.innerHTML = `<img src="${jpegUrl}" alt="Converted JPEG">`;
+            statusMsg.innerText = "✅ Successfully converted to JPEG!";
+            
+            btn.disabled = false;
+            btn.innerText = "Convert & Download JPEG";
+
+        } catch (err) {
+            console.error(err);
+            alert("Error: Make sure you selected a valid HEIC file.");
+            btn.disabled = false;
+            btn.innerText = "Convert & Download JPEG";
+        }
+    }
+</script>
+
+</body>
+</html>
