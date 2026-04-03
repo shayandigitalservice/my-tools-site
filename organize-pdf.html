@@ -212,49 +212,121 @@
 
     async function saveOrganizedPdf() {
         const btn = document.getElementById('downloadBtn');
-        const originalText = btn.innerText;
+        const originalText = btn<script>
+    // Stable CDN links for PDF.js
+    const pdfjsLib = window['pdfjs-dist/build/pdf'];
+    pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.worker.min.js';
+
+    let originalPdfBytes = null;
+
+    document.getElementById('pdfInput').onchange = async function(e) {
+        const file = e.target.files[0];
+        if (!file) return;
+
+        const reader = new FileReader();
+        reader.onload = async function() {
+            originalPdfBytes = new Uint8Array(this.result);
+            // Reset UI before loading new file
+            document.getElementById('pageList').innerHTML = "";
+            document.getElementById('downloadBtn').disabled = true;
+            renderPages();
+        };
+        reader.readAsArrayBuffer(file);
+    };
+
+    async function renderPages() {
+        const list = document.getElementById('pageList');
+        list.innerHTML = "<p style='grid-column: 1/-1; padding: 20px;'>Generating previews... Please wait.</p>";
         
-        btn.innerText = "Processing & Downloading...";
+        try {
+            const loadingTask = pdfjsLib.getDocument({data: originalPdfBytes});
+            const pdf = await loadingTask.promise;
+            list.innerHTML = "";
+
+            for (let i = 1; i <= pdf.numPages; i++) {
+                const page = await pdf.getPage(i);
+                
+                // Scale ko 0.3 se badha kar 0.5 kiya hai taaki clear dikhe
+                const viewport = page.getViewport({scale: 0.5}); 
+                
+                const card = document.createElement('div');
+                card.className = 'page-card';
+                card.setAttribute('data-index', i - 1);
+                
+                const canvas = document.createElement('canvas');
+                const context = canvas.getContext('2d');
+                canvas.height = viewport.height;
+                canvas.width = viewport.width;
+
+                // Render page to canvas
+                await page.render({canvasContext: context, viewport: viewport}).promise;
+                
+                card.appendChild(canvas);
+                const label = document.createElement('div');
+                label.className = 'page-label';
+                label.innerText = `Page ${i}`;
+                card.appendChild(label);
+                
+                list.appendChild(card);
+            }
+
+            // Initialize Drag and Drop (Sortable)
+            if (typeof Sortable !== 'undefined') {
+                new Sortable(list, {
+                    animation: 150,
+                    ghostClass: 'sortable-ghost',
+                    forceFallback: true // Mobile touch ke liye behtar support
+                });
+            }
+
+            document.getElementById('downloadBtn').disabled = false;
+            document.getElementById('downloadBtn').style.background = "#2563eb"; // Force active color
+        } catch (err) {
+            console.error("Render Error:", err);
+            list.innerHTML = "<p style='color:red;'>Failed to load PDF. Please make sure the file is not corrupted.</p>";
+        }
+    }
+
+    async function saveOrganizedPdf() {
+        const btn = document.getElementById('downloadBtn');
+        btn.innerText = "Creating PDF...";
         btn.disabled = true;
 
         try {
             const { PDFDocument } = PDFLib;
-            // Naya document load karna original bytes se
             const srcDoc = await PDFDocument.load(originalPdfBytes);
             const newDoc = await PDFDocument.create();
 
-            // DOM se naya order uthana (Drag-drop ke baad jo sequence hai)
+            // Get the order after user has dragged the cards
             const currentCards = document.querySelectorAll('.page-card');
             const newIndices = Array.from(currentCards).map(card => parseInt(card.getAttribute('data-index')));
 
-            // Pages copy karke naye PDF mein dalna
+            if (newIndices.length === 0) throw new Error("No pages found");
+
             const copiedPages = await newDoc.copyPages(srcDoc, newIndices);
             copiedPages.forEach(page => newDoc.addPage(page));
 
-            // Final PDF generate karna
             const pdfBytes = await newDoc.save();
-            
-            // Download process
             const blob = new Blob([pdfBytes], { type: 'application/pdf' });
+            
+            // Stable Download Logic
             const link = document.createElement('a');
-            const url = URL.createObjectURL(blob);
-            
-            link.href = url;
+            link.href = URL.createObjectURL(blob);
             link.download = "organized_shayan_tools.pdf";
-            document.body.appendChild(link); // Important for some browsers
+            document.body.appendChild(link);
             link.click();
-            
-            // Cleanup
+            document.body.removeChild(link);
+
+            btn.innerText = "✅ Download Successful";
             setTimeout(() => {
-                document.body.removeChild(link);
-                window.URL.revokeObjectURL(url);
-            }, 100);
+                btn.innerText = "Save & Download PDF";
+                btn.disabled = false;
+            }, 2000);
 
         } catch (err) {
-            console.error("Merge Error:", err);
-            alert("Error generating organized PDF. Please try again.");
-        } finally {
-            btn.innerText = originalText;
+            console.error("Save Error:", err);
+            alert("Error: " + err.message);
+            btn.innerText = "Error! Try Again";
             btn.disabled = false;
         }
     }
