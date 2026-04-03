@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PDF to HTML Converter 2026 – Extract PDF Content Free</title>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+
+    <style>
+        *{ margin:0; padding:0; box-sizing:border-box; font-family:'Poppins',sans-serif; }
+        body{ background:#f1f5f9; color:#222; }
+
+        .header{ background:#2563eb; color:white; text-align:center; padding:20px; font-size:26px; font-weight:600; }
+
+        .container{ max-width:700px; margin:30px auto; padding:20px; background:white; border-radius:10px; border:1px solid #ddd; box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1); }
+
+        h2{ margin-bottom:15px; color:#1e3a8a; font-size: 22px; text-align: center; }
+        
+        input[type="file"]{ width:100%; padding:12px; margin:15px 0; border:1px solid #ccc; border-radius:6px; background: #f8fafc; }
+
+        #status { text-align: center; margin-bottom: 15px; font-size: 14px; color: #2563eb; font-weight: 600; display: none; }
+
+        button{ background:#2563eb; color:white; border:none; padding:15px; border-radius:6px; cursor:pointer; width:100%; font-size:16px; font-weight: 600; transition: 0.3s; }
+        button:hover{ background:#1e40af; }
+        button:disabled { background: #94a3b8; cursor: not-allowed; }
+
+        /* Preview Box */
+        .output-box { 
+            margin-top: 20px; 
+            padding: 15px; 
+            background: #fff; 
+            border: 1px solid #ddd; 
+            border-radius: 8px; 
+            max-height: 400px; 
+            overflow-y: auto; 
+            display: none;
+            white-space: pre-wrap;
+            font-size: 14px;
+        }
+
+        .section{ max-width:900px; margin:30px auto; padding:25px; background:white; border-radius:10px; border:1px solid #ddd; line-height:1.7; }
+        a{ color:#2563eb; text-decoration:none; }
+    </style>
+</head>
+<body>
+
+<div class="header"> 🌐 PDF to HTML Converter </div>
+
+<div class="container">
+    <h2>Convert PDF to HTML Webpage</h2>
+    
+    <label style="font-size: 14px; font-weight: 600; color: #444;">Select PDF File</label>
+    <input type="file" id="pdfInput" accept="application/pdf">
+
+    <div id="status">Processing PDF... Please wait.</div>
+
+    <button onclick="convertToHTML()" id="convertBtn">Convert & Download HTML</button>
+
+    <div id="outputPreview" class="output-box"></div>
+
+    <br><br>
+    <div style="text-align: center;">
+        <a href="index.html">⬅ Back to Home</a>
+    </div>
+</div>
+
+<section class="section">
+    <h1>Online PDF to HTML Converter 2026</h1>
+    <p>Apni PDF documents ko HTML format mein badalna ab asan hai. Hamara <strong>PDF to HTML Converter</strong> tool PDF se text aur structure extract karke use ek clean HTML code mein convert kar deta hai jise aap apni website par use kar sakte hain.</p>
+    
+    <h3>Features:</h3>
+    <ul>
+        <li><strong>No Server Required:</strong> Sab kuch aapke browser mein fast chalta hai.</li>
+        <li><strong>Privacy Safe:</strong> File server par upload nahi hoti.</li>
+        <li><strong>Clean Code:</strong> PDF ke text ko asani se extract karein.</li>
+    </ul>
+</section>
+
+<script>
+    const pdfjsLib = window['pdfjs-dist/build/pdf'];
+    pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.worker.min.js';
+
+    async function convertToHTML() {
+        const fileInput = document.getElementById('pdfInput');
+        const btn = document.getElementById('convertBtn');
+        const status = document.getElementById('status');
+        const preview = document.getElementById('outputPreview');
+
+        if (!fileInput.files[0]) {
+            alert("Please select a PDF file first.");
+            return;
+        }
+
+        btn.disabled = true;
+        status.style.display = "block";
+        preview.style.display = "none";
+
+        const file = fileInput.files[0];
+        const arrayBuffer = await file.arrayBuffer();
+
+        try {
+            const loadingTask = pdfjsLib.getDocument({data: arrayBuffer});
+            const pdf = await loadingTask.promise;
+            
+            let fullHtml = `<!DOCTYPE html>\n<html>\n<head>\n<title>Converted PDF</title>\n<style>body{font-family:sans-serif; padding:40px; line-height:1.6;} .page{margin-bottom:50px; border-bottom:1px solid #eee; padding-bottom:20px;}</style>\n</head>\n<body>\n`;
+
+            for (let i = 1; i <= pdf.numPages; i++) {
+                const page = await pdf.getPage(i);
+                const textContent = await page.getTextContent();
+                
+                fullHtml += `<div class="page"><h2>Page ${i}</h2>`;
+                
+                let lastY;
+                textContent.items.forEach(item => {
+                    // Check for new line based on Y coordinate
+                    if (lastY !== item.transform[5] && lastY !== undefined) {
+                        fullHtml += `<br>`;
+                    }
+                    fullHtml += item.str + " ";
+                    lastY = item.transform[5];
+                });
+
+                fullHtml += `</div>\n`;
+            }
+
+            fullHtml += `</body>\n</html>`;
+
+            // Download HTML file
+            const blob = new Blob([fullHtml], { type: 'text/html' });
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = file.name.replace(".pdf", "") + ".html";
+            link.click();
+
+            // Show preview
+            preview.innerText = fullHtml;
+            preview.style.display = "block";
+            status.innerText = "✅ Conversion Successful!";
+
+        } catch (err) {
+            console.error(err);
+            alert("Error converting PDF. Please try another file.");
+            status.style.display = "none";
+        } finally {
+            btn.disabled = false;
+        }
+    }
+</script>
+
+</body>
+</html>
