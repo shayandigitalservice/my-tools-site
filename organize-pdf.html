@@ -144,32 +144,117 @@
     async function saveOrganizedPdf() {
         const btn = document.getElementById('downloadBtn');
         btn.innerText = "Processing...";
+<script>
+    const pdfjsLib = window['pdfjs-dist/build/pdf'];
+    // Worker loading fix
+    pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.worker.min.js';
+
+    let originalPdfBytes = null;
+
+    document.getElementById('pdfInput').onchange = async function(e) {
+        const file = e.target.files[0];
+        if (!file) return;
+
+        const reader = new FileReader();
+        reader.onload = async function() {
+            // Memory mein copy save karna
+            originalPdfBytes = new Uint8Array(this.result);
+            renderPages();
+        };
+        reader.readAsArrayBuffer(file);
+    };
+
+    async function renderPages() {
+        const list = document.getElementById('pageList');
+        list.innerHTML = "<p style='grid-column: 1/-1;'>Loading pages... Please wait.</p>";
+        
+        try {
+            const loadingTask = pdfjsLib.getDocument({data: originalPdfBytes});
+            const pdf = await loadingTask.promise;
+            list.innerHTML = "";
+
+            for (let i = 1; i <= pdf.numPages; i++) {
+                const page = await pdf.getPage(i);
+                const viewport = page.getViewport({scale: 0.3}); 
+                
+                const card = document.createElement('div');
+                card.className = 'page-card';
+                card.setAttribute('data-index', i - 1); // 0-based index store karna
+                
+                const canvas = document.createElement('canvas');
+                const context = canvas.getContext('2d');
+                canvas.height = viewport.height;
+                canvas.width = viewport.width;
+
+                await page.render({canvasContext: context, viewport: viewport}).promise;
+                
+                card.appendChild(canvas);
+                const label = document.createElement('div');
+                label.className = 'page-label';
+                label.innerText = `Page ${i}`;
+                card.appendChild(label);
+                
+                list.appendChild(card);
+            }
+
+            // Re-order initialize karna
+            new Sortable(list, {
+                animation: 150,
+                ghostClass: 'sortable-ghost'
+            });
+
+            document.getElementById('downloadBtn').disabled = false;
+        } catch (err) {
+            console.error(err);
+            list.innerHTML = "Error loading PDF thumbnails.";
+        }
+    }
+
+    async function saveOrganizedPdf() {
+        const btn = document.getElementById('downloadBtn');
+        const originalText = btn.innerText;
+        
+        btn.innerText = "Processing & Downloading...";
         btn.disabled = true;
 
         try {
             const { PDFDocument } = PDFLib;
+            // Naya document load karna original bytes se
             const srcDoc = await PDFDocument.load(originalPdfBytes);
             const newDoc = await PDFDocument.create();
 
-            // Get new order from DOM
+            // DOM se naya order uthana (Drag-drop ke baad jo sequence hai)
             const currentCards = document.querySelectorAll('.page-card');
             const newIndices = Array.from(currentCards).map(card => parseInt(card.getAttribute('data-index')));
 
+            // Pages copy karke naye PDF mein dalna
             const copiedPages = await newDoc.copyPages(srcDoc, newIndices);
             copiedPages.forEach(page => newDoc.addPage(page));
 
+            // Final PDF generate karna
             const pdfBytes = await newDoc.save();
+            
+            // Download process
             const blob = new Blob([pdfBytes], { type: 'application/pdf' });
             const link = document.createElement('a');
-            link.href = URL.createObjectURL(blob);
+            const url = URL.createObjectURL(blob);
+            
+            link.href = url;
             link.download = "organized_shayan_tools.pdf";
+            document.body.appendChild(link); // Important for some browsers
             link.click();
+            
+            // Cleanup
+            setTimeout(() => {
+                document.body.removeChild(link);
+                window.URL.revokeObjectURL(url);
+            }, 100);
 
         } catch (err) {
-            console.error(err);
-            alert("Error organizing PDF.");
+            console.error("Merge Error:", err);
+            alert("Error generating organized PDF. Please try again.");
         } finally {
-            btn.innerText = "Save & Download PDF";
+            btn.innerText = originalText;
             btn.disabled = false;
         }
     }
