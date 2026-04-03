@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PDF to Text Converter 2026 – Extract Text Free</title>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+
+    <style>
+        *{ margin:0; padding:0; box-sizing:border-box; font-family:'Poppins',sans-serif; }
+        body{ background:#f1f5f9; color:#222; }
+
+        .header{ background:#2563eb; color:white; text-align:center; padding:20px; font-size:26px; font-weight:600; }
+
+        .container{ max-width:700px; margin:30px auto; padding:20px; background:white; border-radius:10px; border:1px solid #ddd; box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1); }
+
+        h2{ margin-bottom:15px; color:#1e3a8a; font-size: 22px; text-align: center; }
+        
+        input[type="file"]{ width:100%; padding:12px; margin:15px 0; border:1px solid #ccc; border-radius:6px; background: #f8fafc; }
+
+        #status { text-align: center; margin-bottom: 15px; font-size: 14px; color: #2563eb; font-weight: 600; display: none; }
+
+        .button-group { display: flex; gap: 10px; margin-top: 10px; }
+        button{ background:#2563eb; color:white; border:none; padding:15px; border-radius:6px; cursor:pointer; width:100%; font-size:16px; font-weight: 600; transition: 0.3s; }
+        button:hover{ background:#1e40af; }
+        button:disabled { background: #94a3b8; cursor: not-allowed; }
+        
+        #copyBtn { background: #10b981; }
+        #copyBtn:hover { background: #059669; }
+
+        /* Preview Box */
+        textarea { 
+            width: 100%; 
+            height: 300px; 
+            margin-top: 20px; 
+            padding: 15px; 
+            background: #fff; 
+            border: 1px solid #ddd; 
+            border-radius: 8px; 
+            display: none;
+            font-size: 14px;
+            line-height: 1.6;
+            resize: vertical;
+            outline: none;
+        }
+        textarea:focus { border-color: #2563eb; }
+
+        .section{ max-width:900px; margin:30px auto; padding:25px; background:white; border-radius:10px; border:1px solid #ddd; line-height:1.7; }
+        a{ color:#2563eb; text-decoration:none; }
+    </style>
+</head>
+<body>
+
+<div class="header"> 📄 PDF to Text Extractor </div>
+
+<div class="container">
+    <h2>Extract Text from PDF</h2>
+    
+    <label style="font-size: 14px; font-weight: 600; color: #444;">Select PDF File</label>
+    <input type="file" id="pdfInput" accept="application/pdf">
+
+    <div id="status">Reading PDF Content...</div>
+
+    <div class="button-group">
+        <button onclick="extractText()" id="convertBtn">Extract & Download .txt</button>
+        <button onclick="copyToClipboard()" id="copyBtn" style="display: none;">Copy Text</button>
+    </div>
+
+    <textarea id="textPreview" placeholder="Extracted text will appear here..."></textarea>
+
+    <br><br>
+    <div style="text-align: center;">
+        <a href="index.html">⬅ Back to Home</a>
+    </div>
+</div>
+
+<section class="section">
+    <h1>Online PDF to Text Converter 2026</h1>
+    <p>Apni PDF documents se text nikalna (extract karna) ab pehle se kahin zyada asan hai. Hamara <strong>PDF to Text Extractor</strong> tool aapke files ko turant read karta hai aur saara plain text ek jagah la deta hai jise aap asani se copy ya download kar sakte hain.</p>
+    
+    <h3>Features:</h3>
+    <ul>
+        <li><strong>Privacy Protected:</strong> Saari extraction browser mein hoti hai, koi server involvement nahi.</li>
+        <li><strong>Fast & Light:</strong> Bina software install kiye kisi bhi device par use karein.</li>
+        <li><strong>One-Click Download:</strong> Saara text `.txt` file mein save karein.</li>
+    </ul>
+
+    <h3>How to use:</h3>
+    <ol>
+        <li>PDF file select karein.</li>
+        <li>"Extract & Download" button par click karein.</li>
+        <li>Text preview mein dekhein aur copy karein ya file download karein.</li>
+    </ol>
+</section>
+
+<script>
+    const pdfjsLib = window['pdfjs-dist/build/pdf'];
+    pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.worker.min.js';
+
+    async function extractText() {
+        const fileInput = document.getElementById('pdfInput');
+        const btn = document.getElementById('convertBtn');
+        const copyBtn = document.getElementById('copyBtn');
+        const status = document.getElementById('status');
+        const preview = document.getElementById('textPreview');
+
+        if (!fileInput.files[0]) {
+            alert("Please select a PDF file first.");
+            return;
+        }
+
+        btn.disabled = true;
+        status.style.display = "block";
+        status.innerText = "Extracting... Please wait.";
+        preview.style.display = "none";
+        copyBtn.style.display = "none";
+
+        const file = fileInput.files[0];
+        const arrayBuffer = await file.arrayBuffer();
+
+        try {
+            const loadingTask = pdfjsLib.getDocument({data: arrayBuffer});
+            const pdf = await loadingTask.promise;
+            
+            let fullText = "";
+
+            for (let i = 1; i <= pdf.numPages; i++) {
+                const page = await pdf.getPage(i);
+                const textContent = await page.getTextContent();
+                
+                fullText += `--- Page ${i} ---\n`;
+                
+                let lastY;
+                textContent.items.forEach(item => {
+                    if (lastY !== item.transform[5] && lastY !== undefined) {
+                        fullText += `\n`;
+                    }
+                    fullText += item.str + " ";
+                    lastY = item.transform[5];
+                });
+                fullText += `\n\n`;
+            }
+
+            // Show in preview box
+            preview.value = fullText;
+            preview.style.display = "block";
+            copyBtn.style.display = "block";
+
+            // Download as .txt file
+            const blob = new Blob([fullText], { type: 'text/plain' });
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = file.name.replace(".pdf", "") + "_extracted.txt";
+            link.click();
+
+            status.innerText = "✅ Extraction Complete!";
+
+        } catch (err) {
+            console.error(err);
+            alert("Error reading PDF. Make sure it's a valid text-based PDF.");
+            status.style.display = "none";
+        } finally {
+            btn.disabled = false;
+        }
+    }
+
+    function copyToClipboard() {
+        const preview = document.getElementById('textPreview');
+        preview.select();
+        document.execCommand('copy');
+        alert("Text copied to clipboard!");
+    }
+</script>
+
+</body>
+</html>
