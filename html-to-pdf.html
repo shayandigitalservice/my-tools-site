@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HTML to PDF Converter 2026 – Free Online Tool</title>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+
+    <style>
+        *{ margin:0; padding:0; box-sizing:border-box; font-family:'Poppins',sans-serif; }
+        body{ background:#f1f5f9; color:#222; }
+
+        .header{ background:#2563eb; color:white; text-align:center; padding:20px; font-size:26px; font-weight:600; }
+
+        .container{ max-width:800px; margin:30px auto; padding:20px; background:white; border-radius:10px; border:1px solid #ddd; box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1); }
+
+        h2{ margin-bottom:15px; color:#1e3a8a; font-size: 22px; text-align: center; }
+        
+        /* Editor Area */
+        .editor-container { margin-bottom: 20px; }
+        label { display: block; margin-bottom: 8px; font-weight: 600; color: #444; }
+        
+        textarea { 
+            width: 100%; 
+            height: 300px; 
+            padding: 15px; 
+            border: 1px solid #ccc; 
+            border-radius: 8px; 
+            font-family: 'Courier New', Courier, monospace; 
+            font-size: 14px;
+            resize: vertical;
+            outline: none;
+        }
+        textarea:focus { border-color: #2563eb; box-shadow: 0 0 5px rgba(37, 99, 235, 0.2); }
+
+        /* Preview Area */
+        #pdf-content { 
+            display: none; /* Hidden from screen, used for PDF generation */
+            padding: 40px;
+            background: white;
+        }
+
+        .controls { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 20px; }
+        select { padding: 12px; border-radius: 6px; border: 1px solid #ccc; outline: none; }
+
+        button{ background:#2563eb; color:white; border:none; padding:15px; border-radius:6px; cursor:pointer; width:100%; font-size:16px; font-weight: 600; transition: 0.3s; }
+        button:hover{ background:#1e40af; }
+        button:disabled { background: #94a3b8; cursor: not-allowed; }
+
+        .section{ max-width:900px; margin:30px auto; padding:25px; background:white; border-radius:10px; border:1px solid #ddd; line-height:1.7; }
+        a{ color:#2563eb; text-decoration:none; }
+        
+        .hint { font-size: 12px; color: #666; margin-top: 5px; }
+    </style>
+</head>
+<body>
+
+<div class="header"> 📄 HTML to PDF Converter </div>
+
+<div class="container">
+    <h2>Convert HTML/Text to PDF</h2>
+    
+    <div class="editor-container">
+        <label>Enter HTML or Plain Text</label>
+        <textarea id="htmlInput" placeholder="<h1>Hello World</h1><p>Type your content here...</p>"><h1>My Document</h1>
+<p>This is a sample PDF generated from HTML.</p>
+<ul>
+    <li>Fast and Secure</li>
+    <li>No Server Required</li>
+    <li>100% Free</li>
+</ul></textarea>
+        <p class="hint">You can use standard HTML tags like &lt;h1&gt;, &lt;b&gt;, &lt;p&gt;, etc.</p>
+    </div>
+
+    <div class="controls">
+        <select id="pageSize">
+            <option value="a4">A4 Size</option>
+            <option value="letter">Letter Size</option>
+            <option value="legal">Legal Size</option>
+        </select>
+        <select id="orientation">
+            <option value="portrait">Portrait</option>
+            <option value="landscape">Landscape</option>
+        </select>
+    </div>
+
+    <button onclick="generatePDF()" id="downloadBtn">Download as PDF</button>
+
+    <div id="pdf-content"></div>
+
+    <br><br>
+    <div style="text-align: center;">
+        <a href="index.html">⬅ Back to Home</a>
+    </div>
+</div>
+
+<section class="section">
+    <h1>Professional HTML to PDF Converter Online 2026</h1>
+    <p>Hamara <strong>HTML to PDF Converter</strong> tool un developers aur users ke liye hai jo kisi bhi code snippet ya text content ko turant ek sundar PDF document mein badalna chahte hain. Yeh tool modern rendering engine ka use karta hai taaki aapka layout bilkul waisa hi dikhe jaisa aapne likha hai.</p>
+    
+    <h3>Key Features:</h3>
+    <ul>
+        <li><strong>Live Rendering:</strong> HTML tags aur styles ko support karta hai.</li>
+        <li><strong>Privacy:</strong> Aapka data kabhi server par nahi jata, sab kuch browser mein process hota hai.</li>
+        <li><strong>Mobile Friendly:</strong> Kisi bhi device se PDF banayein aur save karein.</li>
+    </ul>
+
+    <h3>How to use:</h3>
+    <ol>
+        <li>Box mein apna HTML code ya simple text likhein.</li>
+        <li>Page ka size aur orientation (sidha ya leta hua) select karein.</li>
+        <li>"Download as PDF" par click karein.</li>
+    </ol>
+</section>
+
+<script>
+    function generatePDF() {
+        const btn = document.getElementById('downloadBtn');
+        const html = document.getElementById('htmlInput').value;
+        const container = document.getElementById('pdf-content');
+        const pageSize = document.getElementById('pageSize').value;
+        const orientation = document.getElementById('orientation').value;
+
+        if (!html.trim()) {
+            alert("Please enter some content first.");
+            return;
+        }
+
+        btn.disabled = true;
+        btn.innerText = "Generating PDF...";
+
+        // Set content to hidden div
+        container.innerHTML = html;
+        container.style.display = "block";
+
+        const opt = {
+            margin:       [10, 10, 10, 10], // top, left, buttom, right in mm
+            filename:     'shayan-tools-document.pdf',
+            image:        { type: 'jpeg', quality: 0.98 },
+            html2canvas:  { scale: 2, useCORS: true },
+            jsPDF:        { unit: 'mm', format: pageSize, orientation: orientation }
+        };
+
+        // New Promise-based usage
+        html2pdf().set(opt).from(container).save().then(() => {
+            container.style.display = "none"; // Hide it back
+            btn.disabled = false;
+            btn.innerText = "Download as PDF";
+        }).catch(err => {
+            console.error(err);
+            alert("Error generating PDF.");
+            btn.disabled = false;
+            btn.innerText = "Download as PDF";
+        });
+    }
+</script>
+
+</body>
+</html>
