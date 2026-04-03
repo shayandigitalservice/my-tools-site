@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Visual PDF Cropper 2026 – Crop PDF Like Image</title>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.min.js"></script>
+    <script src="https://unpkg.com/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+
+    <style>
+        *{ margin:0; padding:0; box-sizing:border-box; font-family:'Poppins',sans-serif; }
+        body{ background:#f1f5f9; color:#222; }
+        .header{ background:#2563eb; color:white; text-align:center; padding:20px; font-size:26px; font-weight:600; }
+        .container{ max-width:800px; margin:30px auto; padding:20px; background:white; border-radius:10px; border:1px solid #ddd; text-align:center; }
+        
+        input[type="file"]{ width:100%; padding:12px; margin:15px 0; border:1px solid #ccc; border-radius:6px; }
+        
+        /* Cropper Container */
+        .canvas-wrapper { 
+            max-width: 100%; 
+            margin: 20px auto; 
+            background: #eee;
+            min-height: 300px;
+            display: none; /* Hidden until PDF loads */
+        }
+        #pdfCanvas { max-width: 100%; }
+
+        button{ background:#2563eb; color:white; border:none; padding:15px; border-radius:6px; cursor:pointer; width:100%; font-size:16px; font-weight: 600; margin-top: 15px; }
+        button:hover{ background:#1e40af; }
+        button:disabled { background:#94a3b8; }
+
+        .section{ max-width:900px; margin:30px auto; padding:25px; background:white; border-radius:10px; border:1px solid #ddd; line-height:1.7; }
+        .instructions { font-size: 14px; color: #555; margin-bottom: 10px; background: #fffbeb; padding: 10px; border-radius: 5px; }
+    </style>
+</head>
+<body>
+
+<div class="header"> 🎨 Visual PDF Cropper </div>
+
+<div class="container">
+    <h2>Crop PDF Visually</h2>
+    <p class="instructions">Select a PDF, drag the box to select area, then download.</p>
+    
+    <input type="file" id="pdfInput" accept="application/pdf">
+    
+    <div class="canvas-wrapper" id="wrapper">
+        <canvas id="pdfCanvas"></canvas>
+    </div>
+
+    <button id="cropBtn" onclick="processCrop()" disabled>Crop & Download PDF</button>
+    <br><br>
+    <a href="index.html" style="color:#2563eb; text-decoration:none;">⬅ Back to Home</a>
+</div>
+
+<section class="section">
+    <h1>How to Crop PDF like an Image?</h1>
+    <p>Humara 2026 model ka PDF Cropper aapko visual interface deta hai. Ab aapko numbers daalne ki zaroorat nahi, bas mouse se drag karein aur apna manchaha hissa crop karein.</p>
+</section>
+
+<script>
+    let cropper = null;
+    let originalPdfBytes = null;
+    let pdfDoc = null;
+    const pdfjsLib = window['pdfjs-dist/build/pdf'];
+    pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.worker.min.js';
+
+    document.getElementById('pdfInput').onchange = async function(e) {
+        const file = e.target.files[0];
+        if (!file) return;
+
+        const reader = new FileReader();
+        reader.onload = async function() {
+            originalPdfBytes = new Uint8Array(this.result);
+            
+            // Render first page for cropping preview
+            const loadingTask = pdfjsLib.getDocument({data: originalPdfBytes});
+            pdfDoc = await loadingTask.promise;
+            const page = await pdfDoc.getPage(1);
+            
+            const viewport = page.getViewport({scale: 1.5});
+            const canvas = document.getElementById('pdfCanvas');
+            const context = canvas.getContext('2d');
+            canvas.height = viewport.height;
+            canvas.width = viewport.width;
+
+            await page.render({canvasContext: context, viewport: viewport}).promise;
+
+            // Show wrapper and Initialize Cropper
+            document.getElementById('wrapper').style.display = "block";
+            if(cropper) cropper.destroy();
+            cropper = new Cropper(canvas, {
+                viewMode: 1,
+                autoCropArea: 0.8,
+                responsive: true
+            });
+            
+            document.getElementById('cropBtn').disabled = false;
+        };
+        reader.readAsArrayBuffer(file);
+    };
+
+    async function processCrop() {
+        if (!cropper || !originalPdfBytes) return;
+
+        const btn = document.getElementById('cropBtn');
+        btn.innerText = "Processing...";
+        btn.disabled = true;
+
+        const data = cropper.getData();
+        const canvas = document.getElementById('pdfCanvas');
+        
+        // Scale calculation (Canvas size vs PDF points)
+        const scaleX = canvas.width / cropper.getImageData().naturalWidth;
+        const scaleY = canvas.height / cropper.getImageData().naturalHeight;
+
+        try {
+            const { PDFDocument } = PDFLib;
+            const pdfDocLib = await PDFDocument.load(originalPdfBytes);
+            const pages = pdfDocLib.getPages();
+
+            pages.forEach(page => {
+                const { width, height } = page.getSize();
+                
+                // Cropper.js coordinates to PDF Points
+                // Note: PDF Y-axis starts from bottom
+                const left = data.x;
+                const top = data.y;
+                const cropWidth = data.width;
+                const cropHeight = data.height;
+
+                // Set CropBox (x, y, width, height)
+                // We calculate bottom because PDF measures from bottom-left
+                page.setCropBox(left, height - top - cropHeight, cropWidth, cropHeight);
+            });
+
+            const pdfBytes = await pdfDocLib.save();
+            const blob = new Blob([pdfBytes], { type: 'application/pdf' });
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = "visually_cropped.pdf";
+            link.click();
+
+        } catch (err) {
+            console.error(err);
+            alert("Error cropping PDF.");
+        } finally {
+            btn.innerText = "Crop & Download PDF";
+            btn.disabled = false;
+        }
+    }
+</script>
+
+</body>
+</html>
