@@ -1,6 +1,8 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>PDF to Image Converter Online Free 2026 – Convert PDF to JPG, PNG</title>
 
 <meta name="title" content="PDF to Image Converter Online Free 2026 – Convert PDF to JPG, PNG">
@@ -20,7 +22,6 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
 
 <style>
-
 *{
 margin:0;
 padding:0;
@@ -31,6 +32,7 @@ font-family:'Poppins',sans-serif;
 body{
 background:#f1f5f9;
 color:#222;
+line-height: 1.6;
 }
 
 /* HEADER */
@@ -38,36 +40,51 @@ color:#222;
 background:#2563eb;
 color:white;
 text-align:center;
-padding:20px;
-font-size:26px;
+padding:20px 15px;
+font-size:22px;
 font-weight:600;
 }
 
 /* MAIN BOX */
 .container{
-max-width:700px;
-margin:30px auto;
-padding:20px;
+max-width:95%;
+width: 600px;
+margin: 20px auto;
+padding: 20px;
 background:white;
 border-radius:10px;
 border:1px solid #ddd;
 text-align:center;
+box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
 }
 
 /* UPLOAD */
 .upload-box{
 border:2px dashed #2563eb;
-padding:20px;
+padding:30px 15px;
 border-radius:8px;
 margin-bottom:15px;
+background: #f8fafc;
+cursor: pointer;
 }
 
-input,select{
+input[type="file"]{
+width:100%;
+padding:10px;
+margin:10px 0;
+border-radius:6px;
+border:1px solid #ccc;
+background: white;
+}
+
+select{
 width:100%;
 padding:12px;
 margin:10px 0;
 border-radius:6px;
 border:1px solid #ccc;
+background: white;
+font-size: 16px; /* Prevents auto-zoom on iOS */
 }
 
 /* BUTTON */
@@ -75,11 +92,13 @@ button{
 background:#2563eb;
 color:white;
 border:none;
-padding:12px;
+padding:15px;
 border-radius:6px;
 cursor:pointer;
 width:100%;
-font-size:15px;
+font-size:16px;
+font-weight: 600;
+transition: background 0.3s;
 }
 
 button:hover{
@@ -93,34 +112,69 @@ padding:15px;
 background:#eff6ff;
 border:1px solid #2563eb;
 border-radius:8px;
+word-wrap: break-word;
 }
 
 .result img{
 max-width:100%;
+height: auto;
 margin-top:10px;
 border-radius:6px;
+border: 1px solid #ddd;
 }
 
 .result a{
-display:block;
-margin-top:10px;
-color:#2563eb;
+display:inline-block;
+margin-top:15px;
+padding: 10px 20px;
+background: #2563eb;
+color: white;
+text-decoration: none;
+border-radius: 5px;
 }
 
 /* SECTION */
 .section{
-max-width:900px;
-margin:30px auto;
-padding:25px;
+max-width:95%;
+width: 900px;
+margin:20px auto;
+padding:20px;
 background:white;
 border-radius:10px;
 border:1px solid #ddd;
-line-height:1.7;
+}
+
+h1{
+font-size: 24px;
+color: #1e3a8a;
+margin-bottom: 15px;
 }
 
 h2{
-margin-bottom:10px;
+margin: 20px 0 10px;
 color:#1e3a8a;
+font-size: 20px;
+}
+
+h3{
+font-size: 18px;
+margin-bottom: 10px;
+}
+
+p{
+margin-bottom: 15px;
+font-size: 15px;
+color: #444;
+}
+
+ul, ol{
+margin-bottom: 15px;
+padding-left: 20px;
+}
+
+li{
+margin-bottom: 8px;
+font-size: 15px;
 }
 
 a{
@@ -128,6 +182,18 @@ color:#2563eb;
 text-decoration:none;
 }
 
+.back-link{
+display: block;
+margin-top: 15px;
+font-weight: 600;
+}
+
+/* Responsive adjustments */
+@media (max-width: 480px) {
+    .header { font-size: 20px; }
+    h1 { font-size: 22px; }
+    .container, .section { padding: 15px; }
+}
 </style>
 
 </head>
@@ -143,25 +209,25 @@ text-decoration:none;
 <h2>Convert PDF to Image</h2>
 
 <div class="upload-box">
-Upload PDF File
+<strong>Upload PDF File</strong>
 <input type="file" id="pdfFile" accept="application/pdf">
 </div>
 
+<label for="format" style="display:block; text-align:left; font-size:14px; font-weight:600;">Select Format:</label>
 <select id="format">
-<option value="jpeg">JPG</option>
-<option value="png">PNG</option>
+<option value="jpeg">JPG (Smaller Size)</option>
+<option value="png">PNG (Higher Quality)</option>
 </select>
 
-<button onclick="convertPDF()">Convert PDF</button>
+<button onclick="convertPDF()">Convert PDF Now</button>
 
-<div id="result" class="result"></div>
+<div id="result" class="result" style="display:none;"></div>
 
 <br>
-<a href="index.html">⬅ Back to Home</a>
+<a href="index.html" class="back-link">⬅ Back to Home</a>
 
 </div>
 
-<!-- SEO SECTION -->
 <div class="section">
 
 <h1>PDF to Image Converter – Convert PDF Pages to JPG & PNG Online Free</h1>
@@ -343,61 +409,59 @@ Try this tool today and convert your PDF files into images instantly without any
 All content, design, and functionality are protected under copyright law. Unauthorized copying, reproduction, or redistribution is strictly prohibited.
 </p>
 
-</section>
-
 </div>
 
 <script>
-
 async function convertPDF(){
+    const fileInput = document.getElementById("pdfFile");
+    const file = fileInput.files[0];
+    const resultDiv = document.getElementById("result");
 
-const file = document.getElementById("pdfFile").files[0];
+    if(!file){
+        alert("Please upload a PDF file first.");
+        return;
+    }
 
-if(!file){
-alert("Upload PDF first");
-return;
+    // Show loading state
+    resultDiv.style.display = "block";
+    resultDiv.innerHTML = "Processing... please wait.";
+
+    const format = document.getElementById("format").value;
+    const fileReader = new FileReader();
+
+    fileReader.onload = async function(){
+        try {
+            const typedarray = new Uint8Array(this.result);
+            const pdf = await pdfjsLib.getDocument(typedarray).promise;
+            
+            // Converting only the first page as per original logic
+            const page = await pdf.getPage(1);
+            const viewport = page.getViewport({scale: 2});
+            const canvas = document.createElement("canvas");
+            const context = canvas.getContext("2d");
+
+            canvas.height = viewport.height;
+            canvas.width = viewport.width;
+
+            await page.render({
+                canvasContext: context,
+                viewport: viewport
+            }).promise;
+
+            const imgData = canvas.toDataURL("image/" + format);
+
+            resultDiv.innerHTML =
+                "<h3>Converted Image</h3>" +
+                "<img src='" + imgData + "' alt='Converted Page'>" +
+                "<br><a href='" + imgData + "' download='converted_page." + (format === 'jpeg' ? 'jpg' : 'png') + "'>Download Image</a>";
+        } catch (error) {
+            resultDiv.innerHTML = "Error processing PDF. Please ensure it's a valid file.";
+            console.error(error);
+        }
+    };
+
+    fileReader.readAsArrayBuffer(file);
 }
-
-const format = document.getElementById("format").value;
-
-const fileReader = new FileReader();
-
-fileReader.onload = async function(){
-
-const typedarray = new Uint8Array(this.result);
-
-const pdf = await pdfjsLib.getDocument(typedarray).promise;
-
-const page = await pdf.getPage(1);
-
-const viewport = page.getViewport({scale:2});
-
-const canvas = document.createElement("canvas");
-
-const context = canvas.getContext("2d");
-
-canvas.height = viewport.height;
-canvas.width = viewport.width;
-
-await page.render({
-canvasContext:context,
-viewport:viewport
-}).promise;
-
-const imgData = canvas.toDataURL("image/"+format);
-
-document.getElementById("result").innerHTML =
-
-"<h3>Converted Image</h3>" +
-"<img src='"+imgData+"'>" +
-"<a href='"+imgData+"' download='converted."+format+"'>Download Image</a>";
-
-};
-
-fileReader.readAsArrayBuffer(file);
-
-}
-
 </script>
 
 </body>
