@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PDF to PNG Converter 2026 – High Quality Image Extraction</title>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&amp;display=swap" rel="stylesheet">
+
+    <style>
+        /* SAME CONSISTENT DESIGN SYSTEM */
+        *{ margin:0; padding:0; box-sizing:border-box; font-family:'Poppins',sans-serif; }
+        body{ background:#f1f5f9; color:#222; padding-bottom: 50px; }
+
+        /* Blue Header */
+        .header{ background:#2563eb; color:white; text-align:center; padding:20px; font-size:26px; font-weight:600; }
+
+        /* Main Container */
+        .container{ max-width:750px; margin:30px auto; padding:25px; background:white; border-radius:10px; border:1px solid #ddd; box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1); text-align:center; }
+
+        h2{ margin-bottom:15px; color:#1e3a8a; font-size: 22px; }
+        
+        /* File Input Styling */
+        input[type="file"]{ width:100%; padding:12px; margin:15px 0; border:1px solid #ccc; border-radius:6px; background: #f8fafc; cursor: pointer; }
+
+        .settings-box { background: #eff6ff; padding: 15px; border-radius: 8px; margin-bottom: 20px; border: 1px dashed #2563eb; display: flex; justify-content: space-around; align-items: center; }
+        .settings-box label { font-size: 14px; font-weight: 600; color: #1e40af; }
+        
+        select { padding: 8px; border-radius: 5px; border: 1px solid #ccc; outline: none; background: white; }
+
+        /* Action Button */
+        button{ background:#2563eb; color:white; border:none; padding:15px; border-radius:6px; cursor:pointer; width:100%; font-size:16px; font-weight: 600; transition: 0.3s; margin-top: 10px; }
+        button:hover{ background:#1e40af; transform: translateY(-1px); }
+        button:disabled { background: #94a3b8; cursor: not-allowed; }
+
+        /* Preview Grid */
+        #previewGrid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 15px; margin-top: 25px; display: none; border-top: 2px solid #f1f5f9; padding-top: 20px; }
+        .page-thumb { border: 1px solid #ddd; border-radius: 5px; overflow: hidden; background: white; }
+        .page-thumb img { width: 100%; display: block; background: #eee; }
+        .page-thumb p { font-size: 11px; padding: 5px; background: #f8fafc; color: #666; }
+
+        /* SEO Info Section */
+        .section{ max-width:900px; margin:30px auto; padding:25px; background:white; border-radius:10px; border:1px solid #ddd; line-height:1.7; }
+        h3 { color: #1e3a8a; margin-top: 20px; }
+        a{ color:#2563eb; text-decoration:none; font-weight: 500; }
+        
+        #status { font-weight: 600; margin-top: 15px; color: #2563eb; display: none; }
+    </style>
+</head>
+<body>
+
+<div class="header"> 📄 PDF to PNG Converter </div>
+
+<div class="container">
+    <h2>Convert PDF Pages to PNG Images</h2>
+    <p style="font-size: 13px; color: #666; margin-bottom: 15px;">Lossless, High Resolution & Private Conversion</p>
+    
+    <input type="file" id="pdfInput" accept="application/pdf">
+
+    <div class="settings-box">
+        <div>
+            <label>Rendering Scale:</label>
+            <select id="quality">
+                <option value="1.5">Standard (Fast)</option>
+                <option value="2.0" selected>High (Clear)</option>
+                <option value="3.0">Ultra (Best Quality)</option>
+            </select>
+        </div>
+    </div>
+
+    <button onclick="processPDFtoPNG()" id="convertBtn">Convert & Download PNGs</button>
+    
+    <div id="status">Converting: <span id="percent">0</span>%</div>
+
+    <div id="previewGrid">
+        </div>
+
+    <br><br>
+    <div style="text-align: center;">
+        <a href="index.html">⬅ Back to Home</a>
+    </div>
+</div>
+
+<section class="section">
+    <h1>High-Quality PDF to PNG Converter 2026</h1>
+    <p>Apni PDF documents ko images mein badalne ke liye PNG format sabse behtar hai kyunki yeh **Lossless Compression** use karta hai. Hamara tool bina kisi server involvement ke aapke browser mein hi processing karta hai, jo ki 100% secure hai.</p>
+    
+    <h3>Why Choose PNG for PDF?</h3>
+    <ul>
+        <li><strong>Sharp Text:</strong> PNG mein text bilkul saaf dikhta hai, blur nahi hota.</li>
+        <li><strong>Privacy Protected:</strong> Saari rendering aapke device par hoti hai.</li>
+        <li><strong>No Quality Loss:</strong> JPG ke muqable PNG ki quality hamesha behtar rehti hai.</li>
+        <li><strong>Batch Extraction:</strong> Ek click mein saare pages alag-alag PNG files ban jayenge.</li>
+    </ul>
+</section>
+
+<script>
+    const pdfjsLib = window['pdfjs-dist/build/pdf'];
+    pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.worker.min.js';
+
+    async function processPDFtoPNG() {
+        const fileInput = document.getElementById('pdfInput');
+        const btn = document.getElementById('convertBtn');
+        const status = document.getElementById('status');
+        const percent = document.getElementById('percent');
+        const previewGrid = document.getElementById('previewGrid');
+        const scale = parseFloat(document.getElementById('quality').value);
+
+        if (!fileInput.files[0]) {
+            alert("Please select a PDF file first.");
+            return;
+        }
+
+        btn.disabled = true;
+        btn.innerText = "Processing PDF...";
+        status.style.display = "block";
+        previewGrid.innerHTML = "";
+        previewGrid.style.display = "grid";
+
+        const file = fileInput.files[0];
+        const arrayBuffer = await file.arrayBuffer();
+
+        try {
+            const loadingTask = pdfjsLib.getDocument({data: arrayBuffer});
+            const pdf = await loadingTask.promise;
+            const totalPages = pdf.numPages;
+
+            for (let i = 1; i <= totalPages; i++) {
+                const page = await pdf.getPage(i);
+                const viewport = page.getViewport({scale: scale});
+                
+                const canvas = document.createElement('canvas');
+                const context = canvas.getContext('2d');
+                canvas.height = viewport.height;
+                canvas.width = viewport.width;
+
+                // PNG conversion requires drawing on canvas
+                await page.render({canvasContext: context, viewport: viewport}).promise;
+
+                // Export specifically as PNG
+                const pngUrl = canvas.toDataURL("image/png");
+
+                // Auto Download Trigger
+                const link = document.createElement('a');
+                link.href = pngUrl;
+                link.download = file.name.split('.')[0] + "_page_" + i + ".png";
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+
+                // Add to Preview Grid for user feedback
+                const thumb = document.createElement('div');
+                thumb.className = 'page-thumb';
+                thumb.innerHTML = `<img src="${pngUrl}"><p>Page ${i} (PNG)</p>`;
+                previewGrid.appendChild(thumb);
+
+                // Update Progress Percent
+                percent.innerText = Math.round((i / totalPages) * 100);
+            }
+
+            status.innerText = "✅ Conversion Complete! All PNGs Downloaded.";
+            btn.disabled = false;
+            btn.innerText = "Convert & Download PNGs";
+
+        } catch (err) {
+            console.error(err);
+            alert("Error: PDF ko PNG mein badalne mein dikat aayi.");
+            btn.disabled = false;
+            btn.innerText = "Convert & Download PNGs";
+            status.style.display = "none";
+        }
+    }
+</script>
+
+</body>
+</html>
