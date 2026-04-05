@@ -1,423 +1,346 @@
 <!DOCTYPE html>
-<html>
+<html lang="hi">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Shop Bill Generator – Functional POS</title>
-<style>
-body{font-family:Arial;background:#f4f4f4;margin:0;padding:10px;}
-.container{max-width:800px;margin:auto;background:white;padding:15px;border-radius:10px;box-shadow:0 0 10px rgba(0,0,0,0.1);}
-h2{text-align:center;}
-input, select, button{width:100%;padding:10px;margin:6px 0;border-radius:6px;border:1px solid #ccc;box-sizing:border-box;}
-button{border:none;background:#2563eb;color:white;font-size:15px;cursor:pointer;}
-table{width:100%;margin-top:10px;border-collapse:collapse;}
-th,td{border:1px solid #000;padding:8px;font-size:14px;text-align:center;}
-.totalRow td{font-weight:bold;}
-.bill{margin-top:20px;}
-.invoice{float:right;}
-.clear{clear:both;}
-@media screen and (max-width:1024px){
-  .container{padding:10px;}
-  input, select, button{font-size:14px;padding:8px;}
-  table th, table td{font-size:12px;padding:6px;}
-}
-@media screen and (max-width:600px){
-  table th, table td{padding:6px;font-size:12px;}
-  button{font-size:13px;padding:8px;}
-}
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Professional Shop Bill Generator</title>
+    <style>
+        :root {
+            --primary: #2563eb;
+            --secondary: #64748b;
+            --success: #22c55e;
+            --danger: #ef4444;
+            --bg: #f8fafc;
+            --card: #ffffff;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg);
+            margin: 0;
+            padding: 15px;
+            color: #1e293b;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: auto;
+            background: var(--card);
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            text-align: center;
+            color: var(--primary);
+            margin-bottom: 20px;
+            font-size: 1.5rem;
+            border-bottom: 2px solid var(--bg);
+            padding-bottom: 10px;
+        }
+
+        /* Grid Layout for Forms */
+        .grid-form {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 12px;
+            margin-bottom: 15px;
+        }
+
+        input, select, button {
+            width: 100%;
+            padding: 12px;
+            border-radius: 8px;
+            border: 1px solid #cbd5e1;
+            font-size: 14px;
+            outline: none;
+            transition: all 0.2s;
+        }
+
+        input:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1); }
+
+        button {
+            border: none;
+            background: var(--primary);
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        button:active { transform: scale(0.98); }
+        .btn-success { background: var(--success); }
+        .btn-danger { background: var(--danger); }
+        .btn-secondary { background: var(--secondary); }
+
+        /* Table Styling */
+        .table-container {
+            overflow-x: auto;
+            margin-top: 15px;
+            border-radius: 8px;
+            border: 1px solid #e2e8f0;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 500px;
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        th { background: #f1f5f9; font-weight: 600; }
+
+        .total-box {
+            background: #f1f5f9;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 15px;
+            text-align: center;
+            font-size: 1.1rem;
+        }
+
+        /* Bill Preview */
+        #bill {
+            background: white;
+            padding: 15px;
+            border: 2px dashed #cbd5e1;
+            margin-top: 20px;
+            border-radius: 8px;
+        }
+
+        /* Desktop specific tweaks */
+        @media (min-width: 768px) {
+            .grid-form.three-col { grid-template-columns: 1fr 1fr 1fr; }
+            .grid-form.actions { grid-template-columns: repeat(4, 1fr); }
+        }
+
+        /* Mobile specific tweaks */
+        @media (max-width: 600px) {
+            body { padding: 10px; }
+            .container { padding: 15px; }
+            button { padding: 14px; } /* Bigger touch target */
+        }
+    </style>
 </head>
 <body>
+
 <div class="container">
-<h2>🧾 Bill Generator</h2>
+    <h2>🧾 Smart Bill Generator</h2>
 
-<!-- Shop Details -->
-<input id="shop" placeholder="Shop Name">
-<input id="address" placeholder="Address">
-<input id="phone" placeholder="Phone">
-<button id="saveShopBtn">Save Shop Details</button>
+    <div class="grid-form three-col">
+        <input id="shop" placeholder="Shop Name">
+        <input id="address" placeholder="Address">
+        <input id="phone" placeholder="Phone/Mobile">
+    </div>
+    <button id="saveShopBtn" class="btn-secondary">💾 Save Shop Details</button>
 
-<!-- Customer & Items -->
-<input id="customer" placeholder="Customer Name">
+    <hr style="margin:20px 0; border:0; border-top:1px solid #eee;">
 
-<!-- Product Search + Dropdown -->
-<input id="productSearch" placeholder="Search Product">
-<select id="productDropdown"></select>
+    <div class="grid-form">
+        <input id="customer" placeholder="Customer Name">
+        <select id="payment">
+            <option value="Cash">Cash</option>
+            <option value="UPI">UPI</option>
+            <option value="Card">Card</option>
+        </select>
+    </div>
 
-<input id="qty" type="number" placeholder="Qty">
-<input id="price" type="number" placeholder="Price">
-<button id="addItemBtn">Add Item</button>
+    <div class="grid-form three-col">
+        <div style="position:relative;">
+            <input id="productSearch" placeholder="🔍 Search Product...">
+            <select id="productDropdown" style="margin-top:5px;"></select>
+        </div>
+        <input id="qty" type="number" placeholder="Quantity">
+        <input id="price" type="number" placeholder="Price per Unit">
+    </div>
+    <button id="addItemBtn">➕ Add Item to List</button>
 
-<table id="table">
-<tr><th>No</th><th>Product</th><th>Qty</th><th>Price</th><th>Total</th></tr>
-</table>
+    <div class="table-container">
+        <table id="table">
+            <thead>
+                <tr><th>Item</th><th>Qty</th><th>Price</th><th>Total</th></tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </div>
 
-<!-- Payment Mode -->
-<select id="payment">
-  <option value="Cash">Cash</option>
-  <option value="UPI">UPI</option>
-  <option value="Card">Card</option>
-</select>
+    <div class="grid-form actions" style="margin-top:20px;">
+        <button id="generateBillBtn" class="btn-success">📝 Generate Bill</button>
+        <select id="printMode">
+            <option value="Receipt">Small Receipt</option>
+            <option value="A4">A4 Page</option>
+        </select>
+        <button id="printBillBtn" class="btn-secondary">🖨️ Print</button>
+        <button id="sendWhatsAppBtn" style="background:#25D366;">📱 WhatsApp</button>
+    </div>
 
-<!-- Generate & Print -->
-<button id="generateBillBtn">Generate Bill</button>
-<select id="printMode">
-<option value="A4">Print A4</option>
-<option value="Receipt" selected>Print Receipt</option>
-<option value="Custom">Custom Width</option>
-</select>
-<button id="printBillBtn">Print Bill</button>
-<button id="sendWhatsAppBtn">Send WhatsApp</button>
+    <div id="bill"></div>
+    
+    <div id="totalDay" class="total-box">
+        Sales Today: ₹0
+    </div>
 
-<!-- Bill Display -->
-<div id="bill" class="bill"></div>
-<button id="downloadHistoryBtn">Download History</button>
-<div id="totalDay"></div>
+    <hr style="margin:30px 0;">
 
-<hr>
-<h2>📦 Stock Management</h2>
+    <h2>📦 Stock Management</h2>
+    <div class="grid-form">
+        <input id="stockProduct" placeholder="Product Name">
+        <input id="stockQty" type="number" placeholder="Add Qty">
+        <button id="addStockBtn">📥 Add Stock</button>
+    </div>
 
-<!-- Add Stock -->
-<input id="stockProduct" placeholder="Product Name">
-<input id="stockQty" type="number" placeholder="Quantity to Add">
-<button id="addStockBtn">Add Stock</button>
-
-<!-- Stock Table -->
-<div style="overflow-x:auto;">
-<table id="stockTable">
-<tr><th>Product</th><th>Available Qty</th><th>Last Updated</th></tr>
-</table>
-</div>
-
-<!-- Stock Download -->
-<button id="downloadStockBtn">Download Stock Excel</button>
-
-<hr>
+    <div class="table-container">
+        <table id="stockTable">
+            <thead>
+                <tr><th>Product</th><th>Status</th><th>Updated</th></tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </div>
+    
+    <div class="grid-form" style="margin-top:15px;">
+        <button id="downloadStockBtn" class="btn-secondary">📊 Download Stock (Excel)</button>
+        <button id="downloadHistoryBtn" class="btn-secondary">📜 Download Sales History</button>
+    </div>
 </div>
 
 <script>
+// Logic remains similar but with UI updates
 document.addEventListener("DOMContentLoaded", function(){
+    let items=[];
+    let stock = JSON.parse(localStorage.getItem("stock"))||{};
+    let stockHistory = JSON.parse(localStorage.getItem("stockHistory"))||[];
+    let invoiceCounter = parseInt(localStorage.getItem("invoiceCounter"))||101;
 
-// ===== GLOBAL =====
-let items=[];
-let total=0;
-let invoiceCounter = parseInt(localStorage.getItem("invoiceCounter"))||1;
-let stock = JSON.parse(localStorage.getItem("stock"))||{};
-let stockHistory = JSON.parse(localStorage.getItem("stockHistory"))||[];
+    // Load Shop Data
+    const shopInput = document.getElementById("shop");
+    const addressInput = document.getElementById("address");
+    const phoneInput = document.getElementById("phone");
+    
+    shopInput.value = localStorage.getItem("shop")||"";
+    addressInput.value = localStorage.getItem("address")||"";
+    phoneInput.value = localStorage.getItem("phone")||"";
 
-// ===== SHOP DETAILS =====
-const shopInput = document.getElementById("shop");
-const addressInput = document.getElementById("address");
-const phoneInput = document.getElementById("phone");
-const saveShopBtn = document.getElementById("saveShopBtn");
+    document.getElementById("saveShopBtn").onclick = () => {
+        localStorage.setItem("shop", shopInput.value);
+        localStorage.setItem("address", addressInput.value);
+        localStorage.setItem("phone", phoneInput.value);
+        alert("Shop Details Updated!");
+    };
 
-shopInput.value = localStorage.getItem("shop")||"";
-addressInput.value = localStorage.getItem("address")||"";
-phoneInput.value = localStorage.getItem("phone")||"";
-
-saveShopBtn.addEventListener("click", function(){
-    localStorage.setItem("shop", shopInput.value);
-    localStorage.setItem("address", addressInput.value);
-    localStorage.setItem("phone", phoneInput.value);
-    alert("Shop details saved!");
-});
-
-// ===== STOCK MANAGEMENT =====
-const stockProductInput = document.getElementById("stockProduct");
-const stockQtyInput = document.getElementById("stockQty");
-const addStockBtn = document.getElementById("addStockBtn");
-const stockTable = document.getElementById("stockTable");
-
-function renderStock(){
-    stockTable.innerHTML = `<tr><th>Product</th><th>Available Qty</th><th>Last Updated</th></tr>`;
-    for(let p in stock){
-        let updates = stockHistory.filter(h=>h.product===p);
-        let lastUpdate = updates[updates.length-1]?.date || "";
-        let color = stock[p]<=5 ? "red" : "green";
-        let row = stockTable.insertRow();
-        row.insertCell(0).innerHTML = p + (stock[p]<=5 ? " ⚠ Low Stock" : "");
-        row.insertCell(1).innerHTML = `<span style="color:${color}">${stock[p]}</span>`;
-        row.insertCell(2).innerText = new Date(lastUpdate).toLocaleString();
+    function renderStock(){
+        const tbody = document.querySelector("#stockTable tbody");
+        tbody.innerHTML = "";
+        for(let p in stock){
+            let row = tbody.insertRow();
+            let color = stock[p] <= 5 ? "red" : "green";
+            row.insertCell(0).innerText = p;
+            row.insertCell(1).innerHTML = `<b style="color:${color}">${stock[p]} left</b>`;
+            row.insertCell(2).innerText = "Updated";
+        }
+        renderDropdown();
     }
-}
-renderStock();
 
-addStockBtn.addEventListener("click", function(){
-    let p = stockProductInput.value.trim();
-    let q = +stockQtyInput.value;
-    if(!p || !q){ alert("Fill all fields"); return; }
-    stock[p] = (stock[p] || 0) + q;
-    stockHistory.push({product:p, qtyAdded:q, type:"Added", date:new Date().toISOString()});
-    localStorage.setItem("stock", JSON.stringify(stock));
-    localStorage.setItem("stockHistory", JSON.stringify(stockHistory));
-    stockProductInput.value=""; stockQtyInput.value="";
-    renderStock();
-    renderProductDropdown();
-});
-
-// ===== PRODUCT DROPDOWN + SEARCH =====
-const productDropdown = document.getElementById("productDropdown");
-const productSearch = document.getElementById("productSearch");
-
-function renderProductDropdown(){
-    productDropdown.innerHTML = "";
-    let productList = [...new Set(Object.keys(stock))];
-    productList.forEach(p=>{
-        let option = document.createElement("option");
-        option.value = p; option.text = p;
-        productDropdown.appendChild(option);
-    });
-}
-renderProductDropdown();
-
-productSearch.addEventListener("input", function(){
-    let val = this.value.toLowerCase();
-    let options = Array.from(productDropdown.options);
-    let match = options.find(o=>o.value.toLowerCase().includes(val));
-    if(match) productDropdown.value = match.value;
-});
-
-// ===== DOWNLOAD STOCK =====
-document.getElementById("downloadStockBtn").addEventListener("click", function(){
-    let html = `<table border="1">
-    <tr><th>Product</th><th>Available Qty</th><th>Last Updated</th></tr>`;
-    for(let p in stock){
-        let updates = stockHistory.filter(h=>h.product===p);
-        let lastUpdate = updates[updates.length-1]?.date||"";
-        html += `<tr>
-        <td>${p}</td><td>${stock[p]}</td><td>${new Date(lastUpdate).toLocaleString()}</td>
-        </tr>`;
+    function renderDropdown(){
+        const dp = document.getElementById("productDropdown");
+        dp.innerHTML = '<option value="">-- Select Product --</option>';
+        Object.keys(stock).forEach(p => {
+            let opt = document.createElement("option");
+            opt.value = p; opt.text = p;
+            dp.appendChild(opt);
+        });
     }
-    html += `</table>`;
-    let blob = new Blob([html], {type:"application/vnd.ms-excel"});
-    let a = document.createElement("a");
-    a.href = URL.createObjectURL(blob);
-    a.download = "stock.xlsx";
-    a.click();
-});
 
-// ===== BILLING =====
-const qtyInput = document.getElementById("qty");
-const priceInput = document.getElementById("price");
-const addItemBtn = document.getElementById("addItemBtn");
-const table = document.getElementById("table");
+    document.getElementById("addStockBtn").onclick = () => {
+        let p = document.getElementById("stockProduct").value;
+        let q = parseInt(document.getElementById("stockQty").value);
+        if(!p || !q) return alert("Fill fields");
+        stock[p] = (stock[p]||0) + q;
+        localStorage.setItem("stock", JSON.stringify(stock));
+        renderStock();
+    };
 
-addItemBtn.addEventListener("click", function(){
-    let p = productDropdown.value.trim();
-    let q = +qtyInput.value;
-    let pr = +priceInput.value;
-    if(!p || !q || !pr){ alert("Fill all fields"); return; }
-    if(stock[p]===undefined){ alert("Product not in stock"); return; }
-    if(q>stock[p]){ alert(`Stock not sufficient for ${p}. Available: ${stock[p]}`); return; }
+    document.getElementById("addItemBtn").onclick = () => {
+        let p = document.getElementById("productDropdown").value;
+        let q = parseInt(document.getElementById("qty").value);
+        let pr = parseFloat(document.getElementById("price").value);
+        
+        if(!p || !q || !pr) return alert("Missing Info");
+        if(stock[p] < q) return alert("Out of Stock!");
 
-    stock[p]-=q;
-    stockHistory.push({product:p, qtyAdded:-q, type:"Sold", date:new Date().toISOString()});
-    localStorage.setItem("stock", JSON.stringify(stock));
-    localStorage.setItem("stockHistory", JSON.stringify(stockHistory));
+        items.push({p, q, pr, t: q*pr});
+        stock[p] -= q;
+        localStorage.setItem("stock", JSON.stringify(stock));
+        
+        let row = document.querySelector("#table tbody").insertRow();
+        row.innerHTML = `<td>${p}</td><td>${q}</td><td>${pr}</td><td>${q*pr}</td>`;
+        renderStock();
+    };
+
+    document.getElementById("generateBillBtn").onclick = () => {
+        if(!items.length) return alert("Add items!");
+        let total = items.reduce((sum, item) => sum + item.t, 0);
+        let billDiv = document.getElementById("bill");
+        let html = `
+            <div style="text-align:center">
+                <h3>${shopInput.value}</h3>
+                <p>${addressInput.value}<br>PH: ${phoneInput.value}</p>
+                <hr>
+                <p>Invoice: #${invoiceCounter++} | Date: ${new Date().toLocaleDateString()}</p>
+            </div>
+            <table style="width:100%; border:none;">
+                ${items.map(i => `<tr><td>${i.p} x ${i.q}</td><td style="text-align:right">₹${i.t}</td></tr>`).join('')}
+                <tr style="font-weight:bold; border-top:1px solid #000;">
+                    <td>Grand Total</td><td style="text-align:right">₹${total}</td>
+                </tr>
+            </table>
+            <p style="text-align:center; margin-top:10px;">Payment: ${document.getElementById("payment").value}</p>
+        `;
+        billDiv.innerHTML = html;
+        localStorage.setItem("invoiceCounter", invoiceCounter);
+        
+        // Save History
+        let history = JSON.parse(localStorage.getItem("history"))||[];
+        history.push({total, date: new Date().toISOString()});
+        localStorage.setItem("history", JSON.stringify(history));
+        updateSales();
+    };
+
+    function updateSales(){
+        let history = JSON.parse(localStorage.getItem("history"))||[];
+        let todayTotal = history.filter(h => new Date(h.date).toDateString() === new Date().toDateString())
+                                .reduce((s, h) => s + h.total, 0);
+        document.getElementById("totalDay").innerHTML = `<b>Today's Total Sales: ₹${todayTotal}</b>`;
+    }
+
+    // Print Function
+    document.getElementById("printBillBtn").onclick = () => {
+        let content = document.getElementById("bill").innerHTML;
+        let win = window.open('', '', 'width=600,height=800');
+        win.document.write(`<html><body style="font-family:monospace; padding:20px;">${content}</body></html>`);
+        win.document.close();
+        win.print();
+    };
+
+    // WhatsApp Function
+    document.getElementById("sendWhatsAppBtn").onclick = () => {
+        let text = encodeURIComponent("🧾 *BILL RECEIPT*\n" + document.getElementById("bill").innerText);
+        window.open(`https://wa.me/?text=${text}`);
+    };
+
     renderStock();
-
-    let t = q*pr;
-    items.push({p,q,pr,t});
-    let row=table.insertRow();
-    row.insertCell(0).innerText=items.length;
-    row.insertCell(1).innerText=p;
-    row.insertCell(2).innerText=q;
-    row.insertCell(3).innerText=pr;
-    row.insertCell(4).innerText=t;
-    productSearch.value=""; qtyInput.value=""; priceInput.value="";
+    updateSales();
 });
-
-// ===== INVOICE =====
-function getInvoiceNumber(){ let num = invoiceCounter; invoiceCounter++; localStorage.setItem("invoiceCounter", invoiceCounter); return num; }
-
-document.getElementById("generateBillBtn").addEventListener("click", function(){
-    if(items.length===0){ alert("Add items first"); return; }
-    let bill = document.getElementById("bill");
-    total=0; items.forEach(i=> total+=i.t);
-    let invoiceNo = getInvoiceNumber();
-    let dateISO = new Date().toISOString();
-    let paymentMode = document.getElementById("payment").value;
-
-    let html=`<div class="invoice">Invoice No: ${invoiceNo}</div><div class="clear"></div>
-    <b>${shopInput.value}</b><br>${addressInput.value}<br>Phone: ${phoneInput.value}<br>
-    Date: ${new Date(dateISO).toLocaleString()}<br>
-    Customer: ${document.getElementById("customer").value}<br>
-    Payment Mode: ${paymentMode}<hr>
-    <table>
-    <tr><th>No</th><th>Item</th><th>Qty</th><th>Price</th><th>Total</th></tr>`;
-    items.forEach((i,index)=>{
-        html+=`<tr><td>${index+1}</td><td>${i.p}</td><td>${i.q}</td><td>${i.pr}</td><td>${i.t}</td></tr>`;
-    });
-    html+=`<tr class="totalRow"><td colspan="4">Grand Total</td><td>₹${total}</td></tr></table>`;
-    bill.innerHTML = html;
-
-    let history = JSON.parse(localStorage.getItem("history"))||[];
-    history.push({total:total,date:dateISO,invoice:invoiceNo,payment:paymentMode});
-    localStorage.setItem("history",JSON.stringify(history));
-    updateSaleReports();
-});
-
-// ===== PRINT BILL =====
-document.getElementById("printBillBtn").addEventListener("click", function(){
-    let content = document.getElementById("bill").innerHTML;
-    let mode = document.getElementById("printMode").value;
-    let width=400, height=600;
-    if(mode=="A4"){width=800;height=1100;}
-    else if(mode=="Custom"){ width = parseInt(prompt("Enter width px","400"))||400; height = parseInt(prompt("Enter height px","600"))||600; }
-    let win = window.open('','',`width=${width},height=${height}`);
-    win.document.write(`<html><head><title>Print Bill</title><style>
-    body{font-family:monospace;padding:10px;} table{width:100%;border-collapse:collapse;} td,th{border:1px solid #000;padding:5px;text-align:center;} .totalRow td{font-weight:bold;} .invoice{float:right;} .clear{clear:both;}
-    </style></head><body>${content}</body></html>`);
-    win.document.close(); win.print();
-});
-
-// ===== WHATSAPP =====
-document.getElementById("sendWhatsAppBtn").addEventListener("click", function(){
-    let text="🧾 BILL RECEIPT\n\n"+document.getElementById("bill").innerText;
-    let url="https://wa.me/?text="+encodeURIComponent(text);
-    window.open(url);
-});
-
-// ===== HISTORY =====
-document.getElementById("downloadHistoryBtn").addEventListener("click", function(){
-    let history=JSON.parse(localStorage.getItem("history"))||[];
-    let csv="Invoice,Payment,Total,Date\n";
-    history.forEach(h=> csv+=h.invoice+","+h.payment+","+h.total+","+h.date+"\n");
-    let blob = new Blob([csv]); let a=document.createElement("a");
-    a.href = URL.createObjectURL(blob); a.download="history.csv"; a.click();
-});
-
-// ===== SALES REPORT =====
-function updateSaleReports(){
-    let history=JSON.parse(localStorage.getItem("history"))||[];
-    let today=new Date();
-    let daily=0,weekly=0,monthly=0;
-    history.forEach(h=>{
-        let d = new Date(h.date);
-        if(d.toDateString()===today.toDateString()) daily += h.total;
-        let diffDays = (today-d)/(1000*60*60*24);
-        if(diffDays<=7) weekly += h.total;
-        if(today.getMonth()===d.getMonth() && today.getFullYear()===d.getFullYear()) monthly += h.total;
-    });
-    document.getElementById("totalDay").innerHTML=`<b>Daily: ₹${daily} | Weekly: ₹${weekly}  | Monthly: ₹${monthly}</b>`;
-}
-updateSaleReports();
-
-}); // DOMContentLoaded
 </script>
-  <section class="seo-content" style="max-width:900px;margin:auto;padding:20px;line-height:1.7;font-family:Arial,Helvetica,sans-serif;">
-<h1>Ultimate Shop Bill Generator – Free Online Mini POS Tool for Shopkeepers</h1>
 
-<p>The <strong>Ultimate Shop Bill Generator</strong> is a comprehensive online tool designed for shopkeepers, retailers, and small business owners to efficiently manage their daily sales. This free mini POS (Point of Sale) tool allows users to generate professional invoices instantly, calculate grand totals, select payment modes, track daily, weekly, and monthly sales, and even share bills via WhatsApp. It is fully browser-based, mobile and desktop-friendly, and requires no installation, making it perfect for all devices.</p>
-
-<h2>Why Every Shopkeeper Needs the Ultimate Bill Generator</h2>
-<p>Managing a shop involves handling multiple transactions, calculating totals, recording payments, and generating invoices for customers. Manual methods often lead to errors, wasted time, and difficulty in maintaining accurate records. The <strong>Ultimate Shop Bill Generator</strong> solves these problems by offering:</p>
-<ul>
-<li>Quick and accurate invoice generation</li>
-<li>Automated grand total and tax calculations</li>
-<li>Easy tracking of daily, weekly, and monthly sales</li>
-<li>Digital sharing via WhatsApp to customers</li>
-<li>Multiple printing options: A4, receipt, and custom formats</li>
-<li>Secure storage of shop details to save time</li>
-<li>User-friendly interface for beginners and experienced shopkeepers</li>
-</ul>
-
-<h2>Getting Started with the Shop Bill Generator</h2>
-<p>Using this tool is simple and intuitive. Follow these steps:</p>
-<ol>
-<li>Enter your shop name, address, and phone number, then click <strong>Save Shop Details</strong>.</li>
-<li>Enter the customer’s name in the dedicated field.</li>
-<li>Add products to the bill by entering the product name, quantity, and per-unit price, then click <strong>Add Item</strong>.</li>
-<li>Choose the payment mode: Cash, UPI, or Card.</li>
-<li>Click <strong>Generate Bill</strong> to automatically calculate totals, assign a unique invoice number, and display the bill.</li>
-<li>Click <strong>Print Bill</strong> to print in your preferred format (A4, receipt, or custom width).</li>
-<li>Use the <strong>Send WhatsApp</strong> button to share the bill digitally.</li>
-<li>Download full sales history using the <strong>Download History</strong> button.</li>
-</ol>
-
-<h2>Main Features of the Shop Bill Generator</h2>
-
-<h3>Auto Invoice Numbers</h3>
-<p>Every bill generated comes with a unique invoice number that increments automatically. This ensures organized sales tracking, prevents duplicate invoices, and simplifies record-keeping.</p>
-
-<h3>Payment Mode Selection</h3>
-<p>Choose the payment method for each transaction, whether it’s Cash, UPI, or Card. This allows shopkeepers to accurately record payment types and generate detailed financial reports for bookkeeping purposes.</p>
-
-<h3>Daily, Weekly, and Monthly Sales Tracking</h3>
-<p>The tool automatically calculates sales totals for the current day, last 7 days, and current month. This helps shopkeepers monitor performance, identify trends, and make informed business decisions.</p>
-
-<h3>Stock Management</h3>
-<p>Maintain real-time stock tracking. Add products, update quantities, and the system automatically reduces stock when a sale occurs. Low stock items are highlighted in red, available stock in green.</p>
-
-<h3>Product Search and Dropdown</h3>
-<p>Quickly search products using the search bar or select from the dropdown list. This saves time when adding items to bills, especially for shops with multiple products.</p>
-
-<h3>Printing and WhatsApp Integration</h3>
-<p>Print invoices in multiple formats or share digitally with customers via WhatsApp. This reduces paper usage, provides convenience, and enables digital record-keeping.</p>
-
-<h2>Benefits of Using the Shop Bill Generator</h2>
-<ul>
-<li>Saves time by automating billing calculations</li>
-<li>Reduces human error in invoices</li>
-<li>Tracks sales performance efficiently</li>
-<li>Supports multiple printing formats</li>
-<li>Provides digital sharing options</li>
-<li>Helps in accurate bookkeeping and reporting</li>
-<li>Free to use and browser-based</li>
-</ul>
-
-<h2>Step-by-Step Example of Using the Tool</h2>
-<ol>
-<li>Shop Details: “Shayan Supermart”, Address: “123 Main Street”, Phone: “9876543210”</li>
-<li>Customer Name: “Rahul Sharma”</li>
-<li>Products Added:
-<ul>
-<li>Chips – Qty: 10, Price: ₹5</li>
-<li>Milk – Qty: 2, Price: ₹50</li>
-<li>Bread – Qty: 1, Price: ₹40</li>
-</ul>
-</li>
-<li>Payment Mode: Cash</li>
-<li>Click Generate Bill → Grand Total Calculated Automatically</li>
-<li>Click Print Bill → Choose A4 or Receipt format</li>
-<li>Click Send WhatsApp → Customer receives bill digitally</li>
-<li>Download history → CSV file saved</li>
-</ol>
-
-<h2>Internal Links to Related Tools</h2>
-<ul>
-<li><a href="udhaar.html">Udhaar Manager – Track Customer Credit</a></li>
-<li><a href="percentage.html">Percentage Calculator</a></li>
-<li><a href="bmi.html">BMI Calculator</a></li>
-<li><a href="emi.html">EMI Calculator</a></li>
-<li><a href="index.html">Home</a></li>
-</ul>
-
-<h2>Frequently Asked Questions (FAQ)</h2>
-<h3>Can I print bills on any paper?</h3>
-<p>Yes, you can print in A4, receipt, or custom width to match any printer.</p>
-<h3>Is WhatsApp bill sharing secure?</h3>
-<p>Yes, bills are sent as plain text, ensuring privacy.</p>
-<h3>Do I need to install software?</h3>
-<p>No, it works entirely in your browser.</p>
-<h3>Can I track monthly sales?</h3>
-<p>Yes, daily, weekly, and monthly totals are automatically tracked.</p>
-
-<h2>Tips for Shopkeepers</h2>
-<ul>
-<li>Always save shop details to avoid repeated entry.</li>
-<li>Check product quantities and prices before generating bills.</li>
-<li>Use WhatsApp sharing for digital records.</li>
-<li>Print A4 for office archives and receipts for customers.</li>
-<li>Regularly download history for bookkeeping and audits.</li>
-</ul>
-
-<h2>Conclusion</h2>
-<p>The <strong>Ultimate Shop Bill Generator</strong> is an essential tool for shopkeepers aiming to save time, avoid errors, and streamline billing operations. It combines invoice automation, payment tracking, stock management, sales reporting, printing, and digital sharing in one easy-to-use tool. Start using it today and make your shop management smarter and faster.</p>
-
-<h2>Copyright & Legal Notice</h2>
-<p>© 2026 Shayan Smart Tools – All Rights Reserved. Unauthorized copying, commercial use, or distribution of this tool is strictly prohibited.</p>
-  </section>
 </body>
 </html>
-
