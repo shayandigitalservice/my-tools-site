@@ -3,343 +3,281 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Professional Shop Bill Generator</title>
+    <title>Shop Bill Generator - White & Blue</title>
     <style>
+        /* Classic White & Blue Theme */
         :root {
-            --primary: #2563eb;
-            --secondary: #64748b;
-            --success: #22c55e;
-            --danger: #ef4444;
-            --bg: #f8fafc;
-            --card: #ffffff;
+            --primary-blue: #2563eb;
+            --light-bg: #f4f7fe;
+            --border-color: #d1d5db;
         }
 
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: var(--bg);
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background-color: var(--light-bg);
             margin: 0;
-            padding: 15px;
-            color: #1e293b;
+            padding: 10px;
+            color: #333;
         }
 
         .container {
-            max-width: 1000px;
+            max-width: 600px; /* Mobile Friendly Width */
             margin: auto;
-            background: var(--card);
+            background: #ffffff;
             padding: 20px;
             border-radius: 12px;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
         }
 
         h2 {
             text-align: center;
-            color: var(--primary);
+            color: var(--primary-blue);
             margin-bottom: 20px;
-            font-size: 1.5rem;
-            border-bottom: 2px solid var(--bg);
-            padding-bottom: 10px;
+            font-size: 1.4rem;
         }
 
-        /* Grid Layout for Forms */
-        .grid-form {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 12px;
-            margin-bottom: 15px;
+        /* Form Styling */
+        .section-title {
+            font-size: 14px;
+            font-weight: bold;
+            color: var(--secondary-blue);
+            margin-bottom: 8px;
+            display: block;
         }
 
-        input, select, button {
+        input, select {
             width: 100%;
             padding: 12px;
+            margin-bottom: 12px;
+            border: 1px solid var(--border-color);
             border-radius: 8px;
-            border: 1px solid #cbd5e1;
-            font-size: 14px;
+            box-sizing: border-box;
+            font-size: 15px;
+        }
+
+        input:focus {
+            border-color: var(--primary-blue);
             outline: none;
-            transition: all 0.2s;
         }
 
-        input:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1); }
-
-        button {
+        /* Buttons */
+        .btn {
+            width: 100%;
+            padding: 14px;
             border: none;
-            background: var(--primary);
-            color: white;
-            font-weight: 600;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: bold;
             cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
+            transition: 0.2s;
+            margin-bottom: 10px;
         }
 
-        button:active { transform: scale(0.98); }
-        .btn-success { background: var(--success); }
-        .btn-danger { background: var(--danger); }
-        .btn-secondary { background: var(--secondary); }
+        .btn-blue {
+            background-color: var(--primary-blue);
+            color: white;
+        }
+
+        .btn-outline {
+            background-color: white;
+            color: var(--primary-blue);
+            border: 2px solid var(--primary-blue);
+        }
+
+        .btn:active {
+            transform: scale(0.98);
+        }
 
         /* Table Styling */
-        .table-container {
+        .table-wrapper {
             overflow-x: auto;
-            margin-top: 15px;
-            border-radius: 8px;
-            border: 1px solid #e2e8f0;
+            margin: 15px 0;
         }
 
         table {
             width: 100%;
             border-collapse: collapse;
-            min-width: 500px;
+            font-size: 14px;
         }
 
-        th, td {
-            padding: 12px;
+        th {
+            background-color: var(--primary-blue);
+            color: white;
+            padding: 10px;
             text-align: left;
-            border-bottom: 1px solid #e2e8f0;
         }
 
-        th { background: #f1f5f9; font-weight: 600; }
-
-        .total-box {
-            background: #f1f5f9;
-            padding: 15px;
-            border-radius: 8px;
-            margin-top: 15px;
-            text-align: center;
-            font-size: 1.1rem;
+        td {
+            padding: 10px;
+            border-bottom: 1px solid #eee;
         }
 
-        /* Bill Preview */
-        #bill {
-            background: white;
-            padding: 15px;
-            border: 2px dashed #cbd5e1;
+        .total-row {
+            font-weight: bold;
+            background: #f9f9f9;
+        }
+
+        /* Bill Preview Box */
+        #bill-preview {
             margin-top: 20px;
+            padding: 15px;
+            border: 2px dashed var(--border-color);
             border-radius: 8px;
+            display: none; /* Hidden until generated */
         }
 
-        /* Desktop specific tweaks */
-        @media (min-width: 768px) {
-            .grid-form.three-col { grid-template-columns: 1fr 1fr 1fr; }
-            .grid-form.actions { grid-template-columns: repeat(4, 1fr); }
+        .action-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
         }
 
-        /* Mobile specific tweaks */
-        @media (max-width: 600px) {
-            body { padding: 10px; }
-            .container { padding: 15px; }
-            button { padding: 14px; } /* Bigger touch target */
+        @media (max-width: 480px) {
+            .action-grid {
+                grid-template-columns: 1fr;
+            }
         }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <h2>🧾 Smart Bill Generator</h2>
+    <h2>🧾 Bill Generator</h2>
 
-    <div class="grid-form three-col">
-        <input id="shop" placeholder="Shop Name">
-        <input id="address" placeholder="Address">
-        <input id="phone" placeholder="Phone/Mobile">
+    <input id="shopName" placeholder="Shop Name">
+    <input id="shopAddress" placeholder="Address">
+    <input id="shopPhone" placeholder="Mobile Number">
+    <button onclick="saveDetails()" class="btn btn-outline" style="padding: 8px; font-size: 13px;">Save Details</button>
+
+    <hr style="border: 0; border-top: 1px solid #eee; margin: 20px 0;">
+
+    <input id="custName" placeholder="Customer Name">
+    <input id="itemName" placeholder="Product Name">
+    
+    <div style="display: flex; gap: 10px;">
+        <input id="itemQty" type="number" placeholder="Qty">
+        <input id="itemPrice" type="number" placeholder="Price">
     </div>
-    <button id="saveShopBtn" class="btn-secondary">💾 Save Shop Details</button>
+    
+    <button id="addBtn" class="btn btn-blue">Add Item</button>
 
-    <hr style="margin:20px 0; border:0; border-top:1px solid #eee;">
-
-    <div class="grid-form">
-        <input id="customer" placeholder="Customer Name">
-        <select id="payment">
-            <option value="Cash">Cash</option>
-            <option value="UPI">UPI</option>
-            <option value="Card">Card</option>
-        </select>
-    </div>
-
-    <div class="grid-form three-col">
-        <div style="position:relative;">
-            <input id="productSearch" placeholder="🔍 Search Product...">
-            <select id="productDropdown" style="margin-top:5px;"></select>
-        </div>
-        <input id="qty" type="number" placeholder="Quantity">
-        <input id="price" type="number" placeholder="Price per Unit">
-    </div>
-    <button id="addItemBtn">➕ Add Item to List</button>
-
-    <div class="table-container">
-        <table id="table">
+    <div class="table-wrapper">
+        <table id="itemTable">
             <thead>
-                <tr><th>Item</th><th>Qty</th><th>Price</th><th>Total</th></tr>
+                <tr>
+                    <th>Item</th>
+                    <th>Qty</th>
+                    <th>Total</th>
+                </tr>
             </thead>
-            <tbody></tbody>
+            <tbody>
+                </tbody>
         </table>
     </div>
 
-    <div class="grid-form actions" style="margin-top:20px;">
-        <button id="generateBillBtn" class="btn-success">📝 Generate Bill</button>
-        <select id="printMode">
-            <option value="Receipt">Small Receipt</option>
-            <option value="A4">A4 Page</option>
-        </select>
-        <button id="printBillBtn" class="btn-secondary">🖨️ Print</button>
-        <button id="sendWhatsAppBtn" style="background:#25D366;">📱 WhatsApp</button>
-    </div>
+    <select id="payMode">
+        <option value="Cash">Cash</option>
+        <option value="UPI/Online">UPI/Online</option>
+        <option value="Card">Card</option>
+    </select>
 
-    <div id="bill"></div>
-    
-    <div id="totalDay" class="total-box">
-        Sales Today: ₹0
-    </div>
+    <button id="genBtn" class="btn btn-blue" style="background-color: #10b981;">Generate Bill</button>
 
-    <hr style="margin:30px 0;">
+    <div id="bill-preview"></div>
 
-    <h2>📦 Stock Management</h2>
-    <div class="grid-form">
-        <input id="stockProduct" placeholder="Product Name">
-        <input id="stockQty" type="number" placeholder="Add Qty">
-        <button id="addStockBtn">📥 Add Stock</button>
-    </div>
-
-    <div class="table-container">
-        <table id="stockTable">
-            <thead>
-                <tr><th>Product</th><th>Status</th><th>Updated</th></tr>
-            </thead>
-            <tbody></tbody>
-        </table>
-    </div>
-    
-    <div class="grid-form" style="margin-top:15px;">
-        <button id="downloadStockBtn" class="btn-secondary">📊 Download Stock (Excel)</button>
-        <button id="downloadHistoryBtn" class="btn-secondary">📜 Download Sales History</button>
+    <div class="action-grid" style="margin-top: 15px;">
+        <button onclick="printBill()" class="btn btn-outline">🖨️ Print</button>
+        <button onclick="shareWA()" class="btn btn-blue" style="background-color: #25D366;">📱 WhatsApp</button>
     </div>
 </div>
 
 <script>
-// Logic remains similar but with UI updates
-document.addEventListener("DOMContentLoaded", function(){
-    let items=[];
-    let stock = JSON.parse(localStorage.getItem("stock"))||{};
-    let stockHistory = JSON.parse(localStorage.getItem("stockHistory"))||[];
-    let invoiceCounter = parseInt(localStorage.getItem("invoiceCounter"))||101;
+    let billItems = [];
 
-    // Load Shop Data
-    const shopInput = document.getElementById("shop");
-    const addressInput = document.getElementById("address");
-    const phoneInput = document.getElementById("phone");
-    
-    shopInput.value = localStorage.getItem("shop")||"";
-    addressInput.value = localStorage.getItem("address")||"";
-    phoneInput.value = localStorage.getItem("phone")||"";
-
-    document.getElementById("saveShopBtn").onclick = () => {
-        localStorage.setItem("shop", shopInput.value);
-        localStorage.setItem("address", addressInput.value);
-        localStorage.setItem("phone", phoneInput.value);
-        alert("Shop Details Updated!");
+    // Load saved shop info
+    window.onload = () => {
+        document.getElementById('shopName').value = localStorage.getItem('sn') || "";
+        document.getElementById('shopAddress').value = localStorage.getItem('sa') || "";
+        document.getElementById('shopPhone').value = localStorage.getItem('sp') || "";
     };
 
-    function renderStock(){
-        const tbody = document.querySelector("#stockTable tbody");
-        tbody.innerHTML = "";
-        for(let p in stock){
-            let row = tbody.insertRow();
-            let color = stock[p] <= 5 ? "red" : "green";
-            row.insertCell(0).innerText = p;
-            row.insertCell(1).innerHTML = `<b style="color:${color}">${stock[p]} left</b>`;
-            row.insertCell(2).innerText = "Updated";
-        }
-        renderDropdown();
+    function saveDetails() {
+        localStorage.setItem('sn', document.getElementById('shopName').value);
+        localStorage.setItem('sa', document.getElementById('shopAddress').value);
+        localStorage.setItem('sp', document.getElementById('shopPhone').value);
+        alert("Details Saved!");
     }
 
-    function renderDropdown(){
-        const dp = document.getElementById("productDropdown");
-        dp.innerHTML = '<option value="">-- Select Product --</option>';
-        Object.keys(stock).forEach(p => {
-            let opt = document.createElement("option");
-            opt.value = p; opt.text = p;
-            dp.appendChild(opt);
-        });
-    }
+    // Add Item to Table
+    document.getElementById('addBtn').onclick = () => {
+        const name = document.getElementById('itemName').value;
+        const qty = parseFloat(document.getElementById('itemQty').value);
+        const price = parseFloat(document.getElementById('itemPrice').value);
 
-    document.getElementById("addStockBtn").onclick = () => {
-        let p = document.getElementById("stockProduct").value;
-        let q = parseInt(document.getElementById("stockQty").value);
-        if(!p || !q) return alert("Fill fields");
-        stock[p] = (stock[p]||0) + q;
-        localStorage.setItem("stock", JSON.stringify(stock));
-        renderStock();
+        if(!name || !qty || !price) return alert("Please fill item details");
+
+        const total = qty * price;
+        billItems.push({name, qty, price, total});
+
+        const tbody = document.querySelector("#itemTable tbody");
+        const row = `<tr><td>${name}</td><td>${qty}</td><td>₹${total}</td></tr>`;
+        tbody.innerHTML += row;
+
+        // Clear inputs
+        document.getElementById('itemName').value = "";
+        document.getElementById('itemQty').value = "";
+        document.getElementById('itemPrice').value = "";
     };
 
-    document.getElementById("addItemBtn").onclick = () => {
-        let p = document.getElementById("productDropdown").value;
-        let q = parseInt(document.getElementById("qty").value);
-        let pr = parseFloat(document.getElementById("price").value);
-        
-        if(!p || !q || !pr) return alert("Missing Info");
-        if(stock[p] < q) return alert("Out of Stock!");
+    // Generate Final Bill
+    document.getElementById('genBtn').onclick = () => {
+        if(billItems.length === 0) return alert("Add items first");
 
-        items.push({p, q, pr, t: q*pr});
-        stock[p] -= q;
-        localStorage.setItem("stock", JSON.stringify(stock));
-        
-        let row = document.querySelector("#table tbody").insertRow();
-        row.innerHTML = `<td>${p}</td><td>${q}</td><td>${pr}</td><td>${q*pr}</td>`;
-        renderStock();
-    };
+        const shop = document.getElementById('shopName').value;
+        const addr = document.getElementById('shopAddress').value;
+        const ph = document.getElementById('shopPhone').value;
+        const cust = document.getElementById('custName').value || "Cash Customer";
+        const pay = document.getElementById('payMode').value;
+        const grandTotal = billItems.reduce((sum, i) => sum + i.total, 0);
 
-    document.getElementById("generateBillBtn").onclick = () => {
-        if(!items.length) return alert("Add items!");
-        let total = items.reduce((sum, item) => sum + item.t, 0);
-        let billDiv = document.getElementById("bill");
         let html = `
-            <div style="text-align:center">
-                <h3>${shopInput.value}</h3>
-                <p>${addressInput.value}<br>PH: ${phoneInput.value}</p>
+            <div style="text-align:center; font-family: monospace;">
+                <h3 style="margin:0">${shop}</h3>
+                <p style="margin:2px; font-size:12px;">${addr}<br>Ph: ${ph}</p>
                 <hr>
-                <p>Invoice: #${invoiceCounter++} | Date: ${new Date().toLocaleDateString()}</p>
+                <p style="text-align:left; font-size:13px;">
+                    Date: ${new Date().toLocaleDateString()}<br>
+                    Customer: ${cust}<br>
+                    Payment: ${pay}
+                </p>
+                <table style="width:100%; border-top:1px solid #000; font-size:13px;">
+                    ${billItems.map(i => `<tr><td>${i.name} x ${i.qty}</td><td style="text-align:right">₹${i.total}</td></tr>`).join('')}
+                    <tr style="font-weight:bold; border-top:1px dashed #000;">
+                        <td>Grand Total</td><td style="text-align:right">₹${grandTotal}</td>
+                    </tr>
+                </table>
+                <p style="margin-top:10px; font-size:11px;">Thank You! Visit Again.</p>
             </div>
-            <table style="width:100%; border:none;">
-                ${items.map(i => `<tr><td>${i.p} x ${i.q}</td><td style="text-align:right">₹${i.t}</td></tr>`).join('')}
-                <tr style="font-weight:bold; border-top:1px solid #000;">
-                    <td>Grand Total</td><td style="text-align:right">₹${total}</td>
-                </tr>
-            </table>
-            <p style="text-align:center; margin-top:10px;">Payment: ${document.getElementById("payment").value}</p>
         `;
-        billDiv.innerHTML = html;
-        localStorage.setItem("invoiceCounter", invoiceCounter);
-        
-        // Save History
-        let history = JSON.parse(localStorage.getItem("history"))||[];
-        history.push({total, date: new Date().toISOString()});
-        localStorage.setItem("history", JSON.stringify(history));
-        updateSales();
+
+        const preview = document.getElementById('bill-preview');
+        preview.innerHTML = html;
+        preview.style.display = "block";
     };
 
-    function updateSales(){
-        let history = JSON.parse(localStorage.getItem("history"))||[];
-        let todayTotal = history.filter(h => new Date(h.date).toDateString() === new Date().toDateString())
-                                .reduce((s, h) => s + h.total, 0);
-        document.getElementById("totalDay").innerHTML = `<b>Today's Total Sales: ₹${todayTotal}</b>`;
-    }
-
-    // Print Function
-    document.getElementById("printBillBtn").onclick = () => {
-        let content = document.getElementById("bill").innerHTML;
-        let win = window.open('', '', 'width=600,height=800');
-        win.document.write(`<html><body style="font-family:monospace; padding:20px;">${content}</body></html>`);
+    function printBill() {
+        const content = document.getElementById('bill-preview').innerHTML;
+        const win = window.open('', '', 'height=600,width=400');
+        win.document.write('<html><body style="padding:20px;">' + content + '</body></html>');
         win.document.close();
         win.print();
-    };
+    }
 
-    // WhatsApp Function
-    document.getElementById("sendWhatsAppBtn").onclick = () => {
-        let text = encodeURIComponent("🧾 *BILL RECEIPT*\n" + document.getElementById("bill").innerText);
-        window.open(`https://wa.me/?text=${text}`);
-    };
-
-    renderStock();
-    updateSales();
-});
+    function shareWA() {
+        const content = document.getElementById('bill-preview').innerText;
+        const url = "https://wa.me/?text=" + encodeURIComponent("🧾 *BILL RECEIPT*\n\n" + content);
+        window.open(url);
+    }
 </script>
 
 </body>
