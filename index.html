@@ -3,109 +3,169 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Shayan Smart Tools | 70+ Free Online Calculators & PDF Tools</title>
+    <title>Shayan Smart Tools | 50+ Free Online Calculators & PDF Tools</title>
     <link rel="icon" type="image/png" href="1000040783.png">
-    <meta name="google-site-verification" content="pMsIFlNcVKhRg-nG3tEPz-FW2rONLd9EWya7trfC8g8" />
+<meta name="google-site-verification" content="pMsIFlNcVKhRg-nG3tEPz-FW2rONLd9EWya7trfC8g8" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
     <style>
-        /* --- Global Reset --- */
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: Arial, Helvetica, sans-serif; }
-        body { background-color: #fcfcfc; color: #101828; line-height: 1.6; }
+       
+    /* Global Arial Font */
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: Arial, Helvetica, sans-serif; }
+    body { background-color: #fcfcfc; color: #101828; line-height: 1.6; }
 
-        /* --- Header --- */
-        header {
-            display: flex; justify-content: space-between; align-items: center;
-            padding: 0 5%; height: 75px; background: #fff; border-bottom: 1px solid #f2f4f7;
-            position: sticky; top: 0; z-index: 1000; box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-        }
-        .logo { display: flex; align-items: center; text-decoration: none; color: #101828; font-size: 20px; font-weight: bold; }
-        .logo img { height: 45px; width: 45px; border-radius: 8px; margin-right: 12px; object-fit: cover; }
-        .logo span { color: #45cafd; }
+    /* --- Header & Logo Section --- */
+    header {
+        display: flex; justify-content: space-between; align-items: center;
+        padding: 10px 5%; background: #fff; border-bottom: 1px solid #f2f4f7;
+        position: sticky; top: 0; z-index: 1000;
+    }
+    .logo { display: flex; align-items: center; text-decoration: none; color: #101828; font-size: 20px; font-weight: bold; }
+    .logo img { height: 50px; width: 50px; border-radius: 10px; margin-right: 12px; object-fit: cover; }
+    .logo span { color: #45cafd; margin-left: 4px; }
+    
+    .nav-links { display: flex; gap: 15px; align-items: center; }
+    .nav-links a { text-decoration: none; color: #667085; font-size: 13px; font-weight: 600; transition: 0.3s; }
+    .nav-links a:hover { color: #45cafd; }
 
-        .nav-links { display: flex; gap: 10px; align-items: center; list-style: none; }
-        .nav-links a { text-decoration: none; color: #667085; font-size: 13px; font-weight: 600; padding: 8px 12px; transition: 0.3s; }
-        .nav-links a:hover { color: #45cafd; background: #f0faff; border-radius: 8px; }
+    .auth-group { display: flex; gap: 10px; align-items: center; margin-left: 10px; }
+    .btn-login { text-decoration: none; color: #45cafd; font-size: 13px; font-weight: bold; padding: 6px 15px; border: 1px solid #45cafd; border-radius: 20px; }
+    .btn-signup { text-decoration: none; background: #45cafd; color: white; font-size: 13px; font-weight: bold; padding: 6px 18px; border-radius: 20px; }
 
-        .auth-group { display: flex; gap: 10px; align-items: center; margin-left: 15px; border-left: 1px solid #eee; padding-left: 15px; }
-        .btn-login { text-decoration: none; color: #45cafd; font-size: 13px; font-weight: bold; padding: 6px 15px; border: 1px solid #45cafd; border-radius: 20px; }
-        .btn-signup { text-decoration: none; background: #45cafd; color: white; font-size: 13px; font-weight: bold; padding: 7px 18px; border-radius: 20px; box-shadow: 0 4px 10px rgba(69,202,253,0.2); }
+    .menu-toggle { display: none; font-size: 22px; cursor: pointer; color: #101828; }
 
-        .menu-toggle { display: none; font-size: 22px; cursor: pointer; color: #101828; }
+    /* --- Hero Section & NEW Sliding Background Logic --- */
+    .hero {
+        position: relative; height: 500px; width: 100%;
+        overflow: hidden; display: flex; flex-direction: column; 
+        justify-content: center; align-items: center; text-align: center; color: white;
+    }
+    
+    /* Dark Overlay: Ye images ko dark rakhega taaki text saaf dikhe */
+    .hero::after {
+        content: ""; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+        background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.5));
+        z-index: 2;
+    }
 
-        /* --- Hero Slider --- */
-        .hero { position: relative; height: 500px; width: 100%; overflow: hidden; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; color: white; }
-        .hero::after { content: ""; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.5)); z-index: 2; }
-        .slide { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; transform: translateX(100%); transition: transform 1.2s cubic-bezier(0.4, 0, 0.2, 1); }
-        .slide.active { transform: translateX(0); z-index: 1; }
-        .slide.exit { transform: translateX(-100%); }
+    /* --- Updated Slide Logic --- */
+    .slide {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100% !important; /* Force full width */
+        height: 100% !important; /* Force full height */
+        object-fit: cover;      /* Isse photo kategi nahi, poori fit hogi */
+        object-position: center; /* Photo ka center part dikhega */
+        transform: translateX(100%);
+        transition: transform 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+    }
 
-        .hero-content { position: relative; z-index: 3; max-width: 850px; width: 100%; padding: 0 20px; }
-        .hero h1 { font-size: 42px; margin-bottom: 15px; font-weight: bold; }
-        .hero h1 span { color: #45cafd; }
-        .hero p { font-size: 18px; margin-bottom: 30px; opacity: 0.9; }
+    .slide {
+        position: absolute; width: 100%; height: 100%; object-fit: cover;
+        transform: translateX(100%); /* Right side se shuru */
+        transition: transform 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    
+    .slide.active { transform: translateX(0); } /* Center mein aana */
+    .slide.exit { transform: translateX(-100%); } /* Left side nikal jana */
 
-        .search-box { width: 100%; max-width: 550px; padding: 18px 30px; border-radius: 35px; border: none; font-size: 17px; box-shadow: 0 15px 35px rgba(0,0,0,0.3); outline: none; color: #101828; }
+    .hero-content { position: relative; z-index: 3; max-width: 850px; width: 100%; padding: 0 20px; }
+    .hero h1 { font-size: 42px; margin-bottom: 15px; font-weight: bold; }
+    .hero h1 span { color: #45cafd; }
+    .hero p { font-size: 18px; margin-bottom: 30px; opacity: 0.9; }
 
-        /* --- Grid & Tools --- */
-        .our-features-center { text-align: center; margin: 60px 0 20px 0; font-size: 36px; font-weight: 800; color: #101828; text-transform: uppercase; }
-        .our-features-center span { color: #45cafd; }
-        .container { max-width: 1200px; margin: 20px auto 50px auto; padding: 0 20px; }
-        .section-title { text-align: left; margin: 45px 0 25px 0; border-left: 5px solid #45cafd; padding-left: 15px; }
-        .section-title h2 { font-size: 24px; color: #101828; font-weight: bold; }
-        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 20px; }
-        .btn { background: #fff; text-decoration: none; padding: 30px 20px; border-radius: 15px; border: 1px solid #f2f4f7; box-shadow: 0 5px 15px rgba(0,0,0,0.03); display: flex; flex-direction: column; align-items: center; transition: 0.3s; }
-        .btn:hover { transform: translateY(-8px); border-color: #45cafd; box-shadow: 0 12px 25px rgba(0,0,0,0.08); }
-        .icon { font-size: 28px; margin-bottom: 15px; color: #45cafd; background: #f0fbff; width: 60px; height: 60px; display: flex; align-items: center; justify-content: center; border-radius: 50%; }
-        .btn-title { font-size: 16px; font-weight: bold; color: #101828; text-align: center; }
+    .search-box {
+        width: 100%; max-width: 550px; padding: 18px 30px; border-radius: 35px; 
+        border: none; font-size: 17px; box-shadow: 0 15px 35px rgba(0,0,0,0.3); outline: none;
+        color: #101828;
+    }
 
-        .btn-more { background: #101828; color: white; padding: 18px 45px; border-radius: 35px; border: none; font-weight: bold; cursor: pointer; transition: 0.3s; font-size: 16px; margin: 40px auto; display: block; }
-        #hidden-tools { display: none; }
+    /* --- Our Features Styling --- */
+    .our-features-center {
+        text-align: center; margin: 60px 0 20px 0;
+        font-size: 36px; font-weight: 800; color: #101828; text-transform: uppercase;
+    }
+    .our-features-center span { color: #45cafd; }
 
-        /* --- SEO Section --- */
-        .seo-section { max-width: 1100px; margin: 70px auto; padding: 50px; background: white; border-radius: 25px; box-shadow: 0 15px 40px rgba(0,0,0,0.06); text-align: left; }
-        .seo-section h2 { color: #2b7cff; margin: 40px 0 20px; font-size: 26px; border-bottom: 2px solid #f0f0f0; padding-bottom: 12px; }
-        .seo-section p { margin-bottom: 25px; color: #444; font-size: 16px; line-height: 2.1; }
-        .highlight-box { background: linear-gradient(135deg,#2b7cff,#4facfe); color: white; padding: 30px; border-radius: 20px; margin: 40px 0; text-align: center; font-weight: bold; font-size: 18px; }
+    /* --- Grid Section --- */
+    .container { max-width: 1200px; margin: 20px auto 50px auto; padding: 0 20px; }
+    .section-title { text-align: left; margin: 45px 0 25px 0; border-left: 5px solid #45cafd; padding-left: 15px; }
+    .section-title h2 { font-size: 24px; color: #101828; font-weight: bold; }
 
-        footer { background: #101828; color: #98a2b3; padding: 60px 20px; text-align: center; }
-        .footer-social-wrapper { margin-bottom: 25px; display: flex; justify-content: center; gap: 20px; }
-        .social-icon { color: #98a2b3; font-size: 22px; text-decoration: none; transition: 0.3s; }
-        .social-icon:hover { color: #45cafd; transform: scale(1.1); }
+    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 20px; }
+    .btn {
+        background: #fff; text-decoration: none; padding: 30px 20px; border-radius: 15px; border: 1px solid #f2f4f7;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.03); display: flex; flex-direction: column; align-items: center; transition: 0.3s;
+    }
+    .btn:hover { transform: translateY(-8px); border-color: #45cafd; box-shadow: 0 12px 25px rgba(0,0,0,0.08); }
+    .icon { font-size: 28px; margin-bottom: 15px; color: #45cafd; background: #f0fbff; width: 60px; height: 60px; display: flex; align-items: center; justify-content: center; border-radius: 50%; }
+    .btn-title { font-size: 16px; font-weight: bold; color: #101828; text-align: center; }
 
-        @media (max-width: 900px) {
-            .menu-toggle { display: block; }
-            .nav-links { display: none; position: absolute; top: 75px; left: 0; width: 100%; background: #fff; flex-direction: column; padding: 20px; box-shadow: 0 10px 20px rgba(0,0,0,0.1); border-bottom: 3px solid #45cafd; }
-            .nav-links.active { display: flex; }
-            .auth-group { border: none; margin-left: 0; padding-left: 0; flex-direction: column; width: 100%; gap: 10px; }
-            .grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
-        }
-    </style>
+    .more-tools-wrapper { text-align: center; margin: 60px 0; }
+    .btn-more { background: #101828; color: white; padding: 18px 45px; border-radius: 35px; border: none; font-weight: bold; cursor: pointer; transition: 0.3s; font-size: 16px; }
+    .btn-more:hover { background: #45cafd; }
+    #hidden-tools { display: none; }
+
+    /* --- Huge SEO Section --- */
+    .seo-section { max-width: 1100px; margin: 70px auto; padding: 50px; background: white; border-radius: 25px; box-shadow: 0 15px 40px rgba(0,0,0,0.06); text-align: left; }
+    .seo-section h2 { color: #2b7cff; margin: 40px 0 20px; font-size: 26px; border-bottom: 2px solid #f0f0f0; padding-bottom: 12px; }
+    .seo-section p { margin-bottom: 25px; color: #444; font-size: 16px; line-height: 2.1; }
+    .highlight-box { background: linear-gradient(135deg,#2b7cff,#4facfe); color: white; padding: 30px; border-radius: 20px; margin: 40px 0; text-align: center; font-weight: bold; font-size: 18px; }
+
+    /* --- FOOTER with Social Media --- */
+    footer { background: #101828; color: #98a2b3; padding: 60px 20px; text-align: center; margin-top: 80px; }
+    .footer-social-wrapper { margin-bottom: 25px; display: flex; justify-content: center; gap: 20px; }
+    .social-icon { color: #98a2b3; font-size: 22px; text-decoration: none; transition: 0.3s; }
+    .instagram-hover:hover { color: #E1306C; transform: scale(1.1); }
+    .youtube-hover:hover { color: #FF0000; transform: scale(1.1); }
+    .facebook-hover:hover { color: #1877F2; transform: scale(1.1); }
+    .pinterest-hover:hover { color: #BD081C; transform: scale(1.1); }
+
+    @media (max-width: 900px) {
+        .menu-toggle { display: block; }
+        .nav-links { display: none; flex-direction: column; position: absolute; top: 65px; left: 0; width: 100%; background: white; padding: 25px; z-index: 1001; box-shadow: 0 15px 25px rgba(0,0,0,0.1); border-bottom: 3px solid #45cafd; }
+        .nav-links.active { display: flex; }
+        .grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+        .logo img { height: 40px; width: 40px; }
+        .hero h1 { font-size: 30px; }
+        .our-features-center { font-size: 28px; }
+    }
+</style>
+
+    
 </head>
 <body>
 
 <header>
-    <a href="index.html" class="logo"><img src="1000040753.png" alt="Logo">SHAYAN <span>TOOLS</span></a>
+    <a href="index.html" class="logo">
+        <img src="1000040753.png" alt="Shayan Smart Tools Logo">
+        SHAYAN <span>TOOLS</span>
+    </a>
     <div class="menu-toggle" id="mobile-menu"><i class="fa-solid fa-bars"></i></div>
-    <nav class="nav-links" id="nav-list">
-        <a href="index.html">Home</a>
+    <div class="nav-links" id="nav-list">
         <a href="all-articles.html">Articles</a>
         <a href="blogs.html">Blogs</a>
         <a href="about.html">About</a>
         <a href="contact.html">Contact</a>
         <a href="terms.html">Terms</a>
         <a href="privacy-policy.html">Privacy</a>
+        <a href="disclaimer.html">Disclaimer</a>
         <div class="auth-group">
             <a href="login.html" class="btn-login">Login</a>
             <a href="signup.html" class="btn-signup">Sign Up</a>
         </div>
-    </nav>
+    </div>
 </header>
 
 <section class="hero" id="hero-slider">
     <div class="slider-container">
-        <img src="photo1.jpg" class="slide active"><img src="photo2.jpg" class="slide"><img src="photo3.jpg" class="slide"><img src="photo4.jpg" class="slide"><img src="photo5.jpg" class="slide">
+        <img src="photo1.jpg" class="slide active">
+        <img src="photo2.jpg" class="slide">
+        <img src="photo3.jpg" class="slide">
+        <img src="photo4.jpg" class="slide">
+        <img src="photo5.jpg" class="slide">
     </div>
+
     <div class="hero-content">
         <h1>India’s <span>Fastest Free Tools</span> Platform</h1>
         <p>Your Ultimate Free Hub for Professional PDF, Image & Calculator Tools.</p>
@@ -113,59 +173,308 @@
     </div>
 </section>
 
+<div class="our-features-center">Our <span>Features</span></div>
+
 <div class="container">
-    <div class="section-title"><h2>🔥 Popular Tools</h2></div>
+<div class="section-title"><h2>🔥 Popular Tools</h2></div>
+    <div class="grid">
+<a class="btn" href="image-to-pdf.html"><div class="icon">📄</div><span class="btn-title">Image to PDF</span></a>
+<a class="btn" href="pdf-to-image.html"><div class="icon">🖼️</div><span class="btn-title">PDF to Image/Jpg</span></a>
+<a class="btn" href="pdf-lock-unlock.html"><div class="icon">🔐</div><span class="btn-title">PDF Lock/Unlock</span></a>
+<a class="btn" href="image.html"><div class="icon">🖼️</div><span class="btn-title">Image Compressor</span></a>
+<a class="btn" href="image-converter.html"><div class="icon">🔄</div><span class="btn-title">Image Converter</span></a>
+<a class="btn" href="background-remover.html"><div class="icon">🪄</div><span class="btn-title">BG Remover</span></a>
+<a class="btn" href="age.html"><div class="icon">📅</div><span class="btn-title">Age Calculator</span></a>
+<a class="btn" href="discount.html"><div class="icon">🏷️</div><span class="btn-title">Discount Calc</span></a>  
+<a class="btn" href="emi.html"><div class="icon">🧮</div><span class="btn-title">EMI Calculator</span></a> 
+<a class="btn" href="profit-loss.html"><div class="icon">📊</div><span class="btn-title">Profit Loss</span></a>
+
+    </div>   
+    <div class="section-title"><h2>📄 Professional PDF Tools</h2></div>
+    <a class="btn" href="pdf-compress.html"><div class="icon">🗜️</div><span class="btn-title">PDF Compressor</span></a>
+    <div class="section-title"><h2>📄 Convert to PDF</h2></div>
     <div class="grid">
         <a class="btn" href="image-to-pdf.html"><div class="icon">📄</div><span class="btn-title">Image to PDF</span></a>
-        <a class="btn" href="pdf-to-image.html"><div class="icon">🖼️</div><span class="btn-title">PDF to Image</span></a>
-        <a class="btn" href="pdf-lock-unlock.html"><div class="icon">🔐</div><span class="btn-title">PDF Lock/Unlock</span></a>
-        <a class="btn" href="image.html"><div class="icon">🖼️</div><span class="btn-title">Image Compressor</span></a>
-        <a class="btn" href="image-converter.html"><div class="icon">🔄</div><span class="btn-title">Image Converter</span></a>
-        <a class="btn" href="background-remover.html"><div class="icon">🪄</div><span class="btn-title">BG Remover</span></a>
-        <a class="btn" href="age.html"><div class="icon">📅</div><span class="btn-title">Age Calculator</span></a>
-        <a class="btn" href="discount.html"><div class="icon">🏷️</div><span class="btn-title">Discount Calc</span></a>  
-        <a class="btn" href="emi.html"><div class="icon">🧮</div><span class="btn-title">EMI Calculator</span></a> 
-        <a class="btn" href="profit-loss.html"><div class="icon">📊</div><span class="btn-title">Profit Loss</span></a>
-    </div>
-
-    <div class="section-title"><h2>📄 Professional PDF Tools</h2></div>
-    <div class="grid">
-        <a class="btn" href="pdf-compress.html"><div class="icon">🗜️</div><span class="btn-title">PDF Compressor</span></a>
         <a class="btn" href="excel-to-pdf.html"><div class="icon">📊</div><span class="btn-title">Excel to PDF</span></a>
         <a class="btn" href="text-to-pdf.html"><div class="icon">📑</div><span class="btn-title">Text to PDF</span></a>
+    </div>
+    
+        <div class="section-title"><h2>📄 Convert from PDF</h2></div>
+    <div class="grid">
+       <a class="btn" href="pdf-to-png.html"><div class="icon">🖼️</div><span class="btn-title">PDF to PNG </span></a>
+       <a class="btn" href="pdf-to-jpg.html"><div class="icon">🖼️</div><span class="btn-title">PDF to JPG</span></a>
+       <a class="btn" href="pdf-to-text.html"><div class="icon">📑</div><span class="btn-title">PDF to Text</span></a>
+       <a class="btn" href="pdf-to-html.html"><div class="icon">📑</div><span class="btn-title">PDF to HTML</span></a>
+    </div>
+        
+    <div class="section-title"><h2>📄Merge & Split</h2></div>
+    <div class="grid">
         <a class="btn" href="pdf-merge.html"><div class="icon">📑</div><span class="btn-title">PDF Merge</span></a>
+        <a class="btn" href="merge-pdf-images.html"><div class="icon">📑</div><span class="btn-title">Merge PDF and Image</span></a>
         <a class="btn" href="pdf-split.html"><div class="icon">✂️</div><span class="btn-title">PDF Split</span></a>
     </div>
+    <div class="section-title"><h2>📄View & Edit</h2></div>
+    <div class="grid">
+        <a class="btn" href="pdf-cropper.html"><div class="icon">📑</div><span class="btn-title">PDF Crop</span></a>
+        <a class="btn" href="organize-pdf.html"><div class="icon">📑</div><span class="btn-title">Optimize PDF</span></a>
+        <a class="btn" href="pdf-rotate.html"><div class="icon">🔄</div><span class="btn-title">PDF Rotate</span></a>
+        <a class="btn" href="remove-pdf-pages.html"><div class="icon">📑</div><span class="btn-title">Remove PDF Pages</span></a>
+        <a class="btn" href="pdf-page-extractor.html"><div class="icon">📑</div><span class="btn-title">Page Extractor</span></a>
+        <a class="btn" href="add-pdf-page-numbers.html"><div class="icon">📑</div><span class="btn-title">Add PDF Pages Number</span></a>
+        <a class="btn" href="pdf-watermark.html"><div class="icon">📑</div><span class="btn-title">Add Watermark pdf</span></a>
+    </div>
+        <div class="section-title"><h2>📄 PDF Security</h2></div>
+    <div class="grid">
+        
+        <a class="btn" href="pdf-lock-unlock.html"><div class="icon">🔐</div><span class="btn-title">PDF Lock/Unlock</span></a>
+        
+        
+     </div>
 
-    <button class="btn-more" id="moreToolsBtn">View All 70+ Tools ↓</button>
+    <div class="section-title"><h2>🖼️ Smart Image Utilities</h2></div>
+    <div class="grid">
+        <a class="btn" href="image.html"><div class="icon">🖼️</div><span class="btn-title">Image Compressor</span></a>
+        <a class="btn" href="resize.html"><div class="icon">📐</div><span class="btn-title">Image Resize</span></a>
+        <a class="btn" href="crop.html"><div class="icon">✂️</div><span class="btn-title">Image Crop</span></a>
+        <a class="btn" href="background-remover.html"><div class="icon">🪄</div><span class="btn-title">BG Remover</span></a>
+        <a class="btn" href="passport-photo.html"><div class="icon">🪪</div><span class="btn-title">Passport Photo Maker</span></a>
+        <a class="btn" href="image-converter.html"><div class="icon">🔄</div><span class="btn-title">Image Converter</span></a>
+        <a class="btn" href="image-merge.html"><div class="icon">🖼️</div><span class="btn-title">Image Merge Tool</span></a>
+        <a class="btn" href="image-to-jpg.html"><div class="icon">🖼️</div><span class="btn-title">Image to JPG</span></a>
+        <a class="btn" href="image-to-jpeg.html"><div class="icon">🖼️</div><span class="btn-title">Image to JPEG</span></a>
+        <a class="btn" href="image-to-png.html"><div class="icon">🖼️</div><span class="btn-title">Image to PNG</span></a>
+        <a class="btn" href="image-to-webp.html"><div class="icon">🖼️</div><span class="btn-title">Image to WEBP</span></a>
+        <a class="btn" href="webp-to-jpeg.html"><div class="icon">🖼️</div><span class="btn-title">WEBP to JPEG</span></a>
+        <a class="btn" href="webp-to-png.html"><div class="icon">🖼️</div><span class="btn-title">WEBP to PNG</span></a>
+        <a class="btn" href="heic-to-jpeg.html"><div class="icon">🖼️</div><span class="btn-title">HEIC to JPEG</span></a>
+        <a class="btn" href="png-to-jpg.html"><div class="icon">🖼️</div><span class="btn-title">PNG to JPG</span></a>
+        <a class="btn" href="jpg-to-png.html"><div class="icon">🖼️</div><span class="btn-title">JPG to PNG</span></a>
+        <a class="btn" href="png-to-webp.html"><div class="icon">🖼️</div><span class="btn-title">PNG yo WEBP</span></a>
+        <a class="btn" href="jpg-to-webp.html"><div class="icon">🖼️</div><span class="btn-title">JPG to WEBP</span></a>
+        <a class="btn" href="photo-signature-resizer.html"><div class="icon">🖼️</div><span class="btn-title">Photo Signature Resizer</span></a>
+
+
+
+ </div>
+
+    <div class="section-title"><h2>🧮 Smart Calculators</h2></div>
+    <div class="grid">
+        <a class="btn" href="age.html"><div class="icon">📅</div><span class="btn-title">Age Calculator</span></a>
+        <a class="btn" href="age-difference-calculator-2026.html"><div class="icon">📊</div><span class="btn-title">Age Difference 2026</span></a>
+        <a class="btn" href="date-duration-calculator.html"><div class="icon">📅</div><span class="btn-title">Date Duration Calc</span></a>
+        <a class="btn" href="time-zone.html"><div class="icon">🕒</div><span class="btn-title">Time Zone</span></a>
+        <a class="btn" href="bmi.html"><div class="icon">❤️</div><span class="btn-title">BMI Calculator</span></a>
+        <a class="btn" href="average-calculator-2026.html"><div class="icon">📊</div><span class="btn-title">Average Calc 2026</span></a>
+        <a class="btn" href="unit-converter.html"><div class="icon">📏</div><span class="btn-title">Unit Converter</span></a>
+        <a class="btn" href="time-duration-calculator.html"><div class="icon">⏱️</div><span class="btn-title">Time Duration</span></a>
+        <a class="btn" href="percentage.html"><div class="icon">%</div><span class="btn-title">Percentage Calc</span></a>
+        <a class="btn" href="electricity-calculator.html"><div class="icon">⚡</div><span class="btn-title">Electricity Calc</span></a>
+        <a class="btn" href="discount.html"><div class="icon">🏷️</div><span class="btn-title">Discount Calc</span></a>
+        <a class="btn" href="currency.html"><div class="icon">💱</div><span class="btn-title">Currency Converter</span></a>
+    </div>
+
+    <div class="more-tools-wrapper">
+        <button class="btn-more" id="moreToolsBtn">View All 50+ Tools ↓</button>
+    </div>
 
     <div id="hidden-tools">
         <div class="section-title"><h2>💰 Finance & Tax Tools</h2></div>
         <div class="grid">
             <a class="btn" href="vehicle-loan-calculator.html"><div class="icon">🚗</div><span class="btn-title">Vehicle Loan</span></a>
+            <a class="btn" href="gold-loan-calculator.html"><div class="icon">🥇</div><span class="btn-title">Gold Loan</span></a>
+            <a class="btn" href="personal-loan-calculator.html"><div class="icon">📝</div><span class="btn-title">Personal Loan</span></a>
+            <a class="btn" href="home-loan-calculator.html"><div class="icon">🏠</div><span class="btn-title">Home Loan</span></a>
+            <a class="btn" href="loan-eligibility.html"><div class="icon">💰</div><span class="btn-title">Loan Eligibility</span></a>
+            <a class="btn" href="emi.html"><div class="icon">🧮</div><span class="btn-title">EMI Calculator</span></a>
+            <a class="btn" href="loan-calculator.html"><div class="icon">💰</div><span class="btn-title">Loan Calculator</span></a>
+            <a class="btn" href="income-tax-calculator.html"><div class="icon">💰</div><span class="btn-title">Income Tax Calc</span></a>
             <a class="btn" href="gst.html"><div class="icon">%</div><span class="btn-title">GST Calculator</span></a>
+        </div>
+
+        <div class="section-title"><h2>📈 Investment & Insurance</h2></div>
+        <div class="grid">
+            <a class="btn" href="simple-interest.html"><div class="icon">💰</div><span class="btn-title">Simple Interest</span></a>
+            <a class="btn" href="compound-interest.html"><div class="icon">📈</div><span class="btn-title">Compound Interest</span></a>
+            <a class="btn" href="rd-calculator.html"><div class="icon">🐷</div><span class="btn-title">RD Calculator</span></a>
+            <a class="btn" href="ppf-calculator.html"><div class="icon">👛</div><span class="btn-title">PPF Calculator</span></a>
+            <a class="btn" href="fd-calculator.html"><div class="icon">🏦</div><span class="btn-title">FD Calculator</span></a>
+            <a class="btn" href="tip-calculator.html"><div class="icon">💰</div><span class="btn-title">Tip Calculator</span></a>
             <a class="btn" href="sip.html"><div class="icon">📈</div><span class="btn-title">SIP Calculator</span></a>
-            </div>
+            <a class="btn" href="profit-loss.html"><div class="icon">📊</div><span class="btn-title">Profit Loss</span></a>
+            <a class="btn" href="lic-premium-calculator.html"><div class="icon">💼</div><span class="btn-title">LIC Premium</span></a>
+        </div>
+
+        <div class="section-title"><h2>🧾 Shopkeeper & Land Tools</h2></div>
+        <div class="grid">
+            <a class="btn" href="bill-generator.html"><div class="icon">🧾</div><span class="btn-title">Big Shop Bill</span></a>
+            <a class="btn" href="weight-price-calculator.html"><div class="icon">⚖️</div><span class="btn-title">Weight to Price</span></a>
+            <a class="btn" href="udhaar.html"><div class="icon">📓</div><span class="btn-title">Udhaar Manager</span></a>
+            <a class="btn" href="small-shop.html"><div class="icon">🧾</div><span class="btn-title">Small Shop Bill</span></a>
+            <a class="btn" href="land-area-calculator.html"><div class="icon">📏</div><span class="btn-title">Land Area Calc</span></a>
+            <a class="btn" href="bigha-to-acre.html"><div class="icon">📐</div><span class="btn-title">Bigha to Acre</span></a>
+            <a class="btn" href="acre-to-bigha.html"><div class="icon">🌾</div><span class="btn-title">Acre to Bigha</span></a>
+            <a class="btn" href="land-unit-converter.html"><div class="icon">🌍</div><span class="btn-title">Land Unit Conv</span></a>
+            <a class="btn" href="plot-area-calculator.html"><div class="icon">📐</div><span class="btn-title">Plot Area Calc</span></a>
+            <a class="btn" href="circle-land-area-calculator.html"><div class="icon">⭕</div><span class="btn-title">Circle Area Calc</span></a>
+            <a class="btn" href="farm-land-calculator.html"><div class="icon">🌾</div><span class="btn-title">Farm Land Calc</span></a>
+            <a class="btn" href="land-cost-calculator.html"><div class="icon">💰</div><span class="btn-title">Land Cost Calc</span></a>
+        </div>
+
+        <div class="section-title"><h2>🛠️ SEO, Media & Utility</h2></div>
+        <div class="grid">
+            <a class="btn" href="keyword-density-checker.html"><div class="icon">🔎</div><span class="btn-title">Keyword Density</span></a>
+            <a class="btn" href="ultimate-csv-converter.html"><div class="icon">📊</div><span class="btn-title">CSV Converter</span></a>
+            <a class="btn" href="mini-quiz.html"><div class="icon">📝</div><span class="btn-title">Daily Mini Quiz</span></a>
+            <a class="btn" href="word-counter.html"><div class="icon">📝</div><span class="btn-title">Word Counter</span></a>
+            <a class="btn" href="qr-code-generator.html"><div class="icon">🔳</div><span class="btn-title">QR Generator</span></a>
+            <a class="btn" href="password-generator.html"><div class="icon">🔒</div><span class="btn-title">Password Gen</span></a>
+            <a class="btn" href="barcode-generator.html"><div class="icon">📦</div><span class="btn-title">Barcode Gen</span></a>
+            <a class="btn" href="resume-maker.html"><div class="icon">📄</div><span class="btn-title">Resume Maker</span></a>
+            <a class="btn" href="typing-speed-test.html"><div class="icon">⌨️</div><span class="btn-title">Typing Test</span></a>
+            <a class="btn" href="ringtone-maker.html"><div class="icon">🎵</div><span class="btn-title">Ringtone Maker</span></a>
+            <a class="btn" href="youtube-seo-tools.html"><div class="icon">▶️</div><span class="btn-title">YouTube SEO</span></a>
+            <a class="btn" href="instagram-caption-generator.html"><div class="icon">📷</div><span class="btn-title">Insta Caption</span></a>
+        </div>
     </div>
 
     <section class="seo-section">
         <div class="highlight-box">Shayan Smart Tools: Your All-in-One Professional Digital Hub. Fast, Secure, and Forever Free.</div>
         <h2>Free Online Tools & Calculators – Shayan Smart Tools</h2>
-        <p>Shayan Smart Tools is a powerful platform that provides a wide collection of free online calculators and smart utility tools designed to make daily tasks easier and faster. Our goal is to provide accurate, fast, and easy-to-use tools that work perfectly on both mobile and desktop devices. (Yahan tumhara pura 2000 words wala SEO content paste kar do...)</p>
-        </section>
+
+<p>
+Shayan Smart Tools is a powerful platform that provides a wide collection of free online calculators and smart utility tools designed to make daily tasks easier and faster. Our goal is to provide accurate, fast, and easy-to-use tools that work perfectly on both mobile and desktop devices. Whether you need financial calculators, productivity tools, image utilities, PDF tools, or SEO tools, you can find everything in one place.
+</p>
+
+<div class="highlight-box">
+🚀 50+ Free Tools • 📱 Mobile Friendly • ⚡ Instant Results • 🔒 Safe & Secure
+</div>
+
+<h2>Why Choose Shayan Smart Tools?</h2>
+
+<p>
+Many websites provide online tools, but Shayan Smart Tools focuses on speed, simplicity, and reliability. All tools are built with modern web technologies and optimized for fast performance. Users can instantly calculate results, convert files, or perform tasks without installing any software.
+</p>
+
+<div class="features-grid">
+
+<div class="feature-card">
+<h4>⚡ Fast Performance</h4>
+<p>Our tools load quickly and provide instant results without delays.</p>
+</div>
+
+<div class="feature-card">
+<h4>📱 Mobile Friendly</h4>
+<p>Every tool is optimized for smartphones, tablets, and desktops.</p>
+</div>
+
+<div class="feature-card">
+<h4>🔒 Secure Tools</h4>
+<p>Your data stays safe because most tools process data directly in your browser.</p>
+</div>
+
+<div class="feature-card">
+<h4>💡 Easy To Use</h4>
+<p>Simple design and clear instructions make every tool easy to use.</p>
+</div>
+
+</div>
+
+<h2>Popular Online Calculators</h2>
+
+<p>
+Financial calculators are among the most popular tools used daily by students, professionals, and business owners. Our platform includes EMI Calculator, SIP Calculator, GST Calculator, Loan Calculator, Income Tax Calculator, and many other financial tools that help users plan and manage their finances effectively.
+</p>
+
+<p>
+These calculators are designed to provide accurate results based on reliable formulas. For example, the EMI Calculator helps users estimate monthly loan payments, while the SIP Calculator helps investors estimate future investment growth.
+</p>
+
+<h2>Land Measurement Tools</h2>
+
+<p>
+Land measurement can be confusing because different regions use different units such as Bigha, Acre, Square Feet, and Hectare. Our land measurement tools simplify these calculations by providing instant conversions and area calculations.
+</p>
+
+<p>
+With tools like Land Area Calculator, Plot Area Calculator, and Land Unit Converter, users can easily calculate property size and land costs. These tools are especially useful for farmers, real estate professionals, and property buyers.
+</p>
+
+<h2>Utility Tools For Daily Tasks</h2>
+
+<p>
+In addition to calculators, Shayan Smart Tools also provides many useful utility tools such as Word Counter, QR Code Generator, Password Generator, Typing Speed Test, and Online Notepad. These tools help users perform quick tasks efficiently without installing any applications.
+</p>
+
+<p>
+For example, the QR Code Generator allows users to create QR codes for URLs, phone numbers, or WiFi networks. The Password Generator creates strong and secure passwords instantly, improving online security.
+</p>
+
+<h2>Image & PDF Tools</h2>
+
+<p>
+Image and PDF tools are widely used by students, designers, and office professionals. Our platform includes tools like Image Compressor, Image Resize, Background Remover, Image to PDF, PDF Merge, and PDF Compressor.
+</p>
+
+<p>
+These tools help users manage files quickly and improve productivity. For example, the Image Compressor reduces image size without losing quality, making it easier to upload images to websites or send them via email.
+</p>
+
+<h2>SEO & Content Tools</h2>
+
+<p>
+For bloggers, digital marketers, and content creators, we provide SEO tools such as Keyword Density Checker and CSV Converter. These tools help improve content optimization and data analysis.
+</p>
+
+<p>
+SEO tools are important for improving website visibility on search engines like Google. By analyzing keyword density and managing content data, users can create better optimized content for search engines.
+</p>
+
+<h2>Our Mission</h2>
+
+<p>
+Our mission is to create a powerful platform where users can access useful tools without any complicated steps. We continue to develop new tools and improve existing ones to provide the best experience for our users.
+</p>
+
+<p>
+Shayan Smart Tools aims to become a trusted destination for free online calculators, productivity tools, and digital utilities in the coming years.
+</p>
+
+    </section>
 </div>
 
 <footer>
     <div class="footer-social-wrapper">
-        <a href="#" class="social-icon"><i class="fa-brands fa-instagram"></i></a>
-        <a href="#" class="social-icon"><i class="fa-brands fa-youtube"></i></a>
-        <a href="#" class="social-icon"><i class="fa-brands fa-facebook"></i></a>
+        <a href="https://www.instagram.com/shayansmarttools" target="_blank" class="social-icon instagram-hover">
+            <i class="fa-brands fa-instagram"></i>
+        </a>
+        <a href="https://youtube.com/@shayansmarttoolsofficial" target="_blank" class="social-icon youtube-hover">
+            <i class="fa-brands fa-youtube"></i>
+        </a>
+        <a href="https://www.facebook.com/share/18Cit2eYEB/" target="_blank" class="social-icon facebook-hover">
+            <i class="fa-brands fa-facebook"></i>
+        </a>
+        <a href="https://pin.it/5g9691ivE" target="_blank" class="social-icon pinterest-hover">
+            <i class="fa-brands fa-pinterest"></i>
+        </a>
     </div>
     <h3>SHAYAN SMART TOOLS</h3>
     <p>© 2026 Shayan Smart Tools | All Rights Reserved</p>
 </footer>
 
+
 <script>
+    const moreBtn = document.getElementById('moreToolsBtn');
+    const hiddenSection = document.getElementById('hidden-tools');
+    moreBtn.onclick = () => {
+        if(hiddenSection.style.display === "block") {
+            hiddenSection.style.display = "none";
+            moreBtn.innerText = "View All 50+ Tools ↓";
+        } else {
+            hiddenSection.style.display = "block";
+            moreBtn.innerText = "Show Less Tools ↑";
+        }
+    };
+
     const menuBtn = document.getElementById('mobile-menu');
     const navList = document.getElementById('nav-list');
     menuBtn.onclick = () => {
@@ -174,30 +483,34 @@
         menuBtn.querySelector('i').classList.toggle('fa-xmark');
     };
 
-    const moreBtn = document.getElementById('moreToolsBtn');
-    const hiddenSection = document.getElementById('hidden-tools');
-    moreBtn.onclick = () => {
-        if(hiddenSection.style.display === "block") {
-            hiddenSection.style.display = "none";
-            moreBtn.innerText = "View All 70+ Tools ↓";
-        } else {
-            hiddenSection.style.display = "block";
-            moreBtn.innerText = "Show Less Tools ↑";
-        }
-    };
-
+    const toolSearch = document.getElementById('toolSearch');
+    const allCards = document.querySelectorAll('.btn');
+    toolSearch.addEventListener('keyup', () => {
+        let val = toolSearch.value.toLowerCase();
+        if(val.length > 0) hiddenSection.style.display = "block";
+        allCards.forEach(c => {
+            c.style.display = c.innerText.toLowerCase().includes(val) ? "flex" : "none";
+        });
+    });
     setInterval(() => {
-        const slides = document.querySelectorAll('.slide');
-        let current = [...slides].findIndex(s => s.classList.contains('active'));
-        slides[current].classList.remove('active');
-        slides[current].classList.add('exit');
-        let next = (current + 1) % slides.length;
-        slides[next].classList.remove('exit');
-        slides[next].classList.add('active');
-        setTimeout(() => {
-            document.querySelectorAll('.slide.exit').forEach(el => el.classList.remove('exit'));
-        }, 1200);
-    }, 4000);
+    const slides = document.querySelectorAll('.slide');
+    let current = [...slides].findIndex(s => s.classList.contains('active'));
+    
+    // Purani photo bahar (Left)
+    slides[current].classList.remove('active');
+    slides[current].classList.add('exit');
+    
+    // Nayi photo andar (Right)
+    let next = (current + 1) % slides.length;
+    slides[next].classList.remove('exit');
+    slides[next].classList.add('active');
+    
+    // Reset exit class
+    setTimeout(() => {
+        document.querySelectorAll('.slide.exit').forEach(el => el.classList.remove('exit'));
+    }, 1200);
+}, 3000); 
+
 </script>
 </body>
-</html>
+    </html>
