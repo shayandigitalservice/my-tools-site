@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Shayan POS - Professional Billing</title>
 <style>
-/* --- PROFESSIONAL UI (NO BOX SYSTEM) --- */
+/* --- NEXT-GEN APP UI (NO BOXES) --- */
 :root {
     --accent: #6366f1;
     --accent-dark: #4f46e5;
@@ -16,7 +16,7 @@
 }
 
 body {
-    font-family: 'Inter', Arial, sans-serif;
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
     background: var(--bg-gradient);
     background-attachment: fixed;
     color: var(--text-main);
@@ -28,148 +28,119 @@ body {
     min-height: 100vh;
 }
 
-.content-wrapper { width: 100%; max-width: 500px; }
-
-/* Typography */
-h1, h2 { 
-    text-align: center; 
+.app-header { text-align: center; padding: 20px; width: 100%; }
+.app-header h1 {
+    font-size: 26px; font-weight: 800; margin: 0;
     background: linear-gradient(to right, #6366f1, #a855f7);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    margin-bottom: 30px;
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
 }
 
-/* Form Elements */
+.content-wrapper { width: 100%; max-width: 600px; padding-bottom: 50px; }
+
+/* Elements Styling */
 input, select, .plan-item {
-    width: 100%;
-    background: var(--glass);
-    border: 1px solid rgba(255,255,255,0.3);
-    backdrop-filter: blur(10px);
-    padding: 15px;
-    border-radius: 16px;
-    font-size: 15px;
-    margin-top: 10px;
-    box-sizing: border-box;
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+    width: 100%; background: var(--glass); border: 1px solid rgba(255,255,255,0.4);
+    backdrop-filter: blur(10px); padding: 14px; border-radius: 16px;
+    font-size: 15px; margin-top: 8px; box-sizing: border-box; transition: 0.3s;
 }
+input:focus { outline: none; border-color: var(--accent); background: #fff; }
 
 button {
-    width: 100%;
-    padding: 16px;
-    margin-top: 20px;
-    border-radius: 16px;
-    border: none;
-    background: var(--accent);
-    color: white;
-    font-size: 16px;
-    font-weight: 700;
-    cursor: pointer;
-    box-shadow: 0 10px 15px -3px rgba(99, 102, 241, 0.3);
+    width: 100%; padding: 16px; margin-top: 15px; border-radius: 16px; border: none;
+    background: var(--accent); color: white; font-size: 15px; font-weight: 700;
+    cursor: pointer; box-shadow: 0 8px 15px rgba(99, 102, 241, 0.2); transition: 0.3s;
 }
+button:active { transform: scale(0.98); }
 
 /* Plan Styles */
-.plan-item {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    cursor: pointer;
-    transition: 0.3s;
-}
-.plan-item:hover { background: white; border-color: var(--accent); }
-.plan-price { font-weight: 800; color: #10b981; }
+.plan-item { display: flex; justify-content: space-between; align-items: center; cursor: pointer; margin-bottom: 12px; }
+.plan-item:hover { background: #fff; border-left: 5px solid var(--accent); }
+.plan-price { font-weight: 800; color: #10b981; font-size: 17px; }
 
-/* Status & QR */
-.step-box { text-align: center; padding: 20px; }
-.qr-frame { background: white; padding: 15px; border-radius: 20px; display: inline-block; margin: 15px 0; }
+/* Table & Output */
+.table-wrapper { overflow-x: auto; margin-top: 20px; border-radius: 16px; background: var(--glass); }
+table { width: 100%; border-collapse: collapse; }
+th, td { padding: 12px; font-size: 13px; text-align: center; border-bottom: 1px solid rgba(0,0,0,0.05); }
+.bill { margin-top: 20px; background: #fff; padding: 15px; border-radius: 16px; border: 1px dashed #ccc; }
 .hidden { display: none !important; }
-.trial-tag { background: #dcfce7; color: #166534; padding: 6px 12px; border-radius: 10px; font-size: 12px; font-weight: 700; }
+.status-tag { display: inline-block; padding: 5px 12px; background: #dcfce7; color: #166534; border-radius: 10px; font-size: 11px; font-weight: 700; margin-bottom: 10px; }
 
-/* Billing Table Style */
-table { width: 100%; border-collapse: collapse; margin-top: 20px; background: var(--glass); border-radius: 15px; overflow: hidden; }
-th, td { padding: 12px; border-bottom: 1px solid rgba(0,0,0,0.05); text-align: center; font-size: 13px; }
-th { background: rgba(0,0,0,0.02); }
-
-@media screen and (max-width:600px){ .content-wrapper { width: 95%; } }
+@media print { body * { visibility: hidden; } .bill, .bill * { visibility: visible; } .bill { position: absolute; left: 0; top: 0; width: 100%; } }
 </style>
 </head>
 <body>
 
 <div class="content-wrapper">
-    
     <div id="login-screen">
-        <h1>Shayan Smart Tools</h1>
+        <header class="app-header"><h1>Shayan Smart Tools</h1></header>
         
         <div id="registration-form">
-            <input id="regName" placeholder="Business Owner Name">
-            <input id="regAddr" placeholder="Shop Address">
-            <input id="regMob" type="number" placeholder="WhatsApp Number">
-            <button onclick="sendVerificationRequest()">Verify & Request Approval</button>
+            <input id="uName" placeholder="Business Owner Name">
+            <input id="uAddr" placeholder="Shop Address">
+            <input id="uMob" type="number" placeholder="WhatsApp Number">
+            <button onclick="sendActivationRequest()" style="background:#22c55e;">Verify & Get Approval ID</button>
         </div>
 
-        <div id="activation-area" class="hidden">
-            <div class="step-box">
-                <span class="trial-tag">Approval Pending</span>
-                <p style="font-size: 14px; color: var(--text-dim); margin-top: 15px;">A request has been sent to Muksidul Islam.<br>Enter the <b>Approval ID</b> to continue.</p>
-                <input id="inputIDKey" placeholder="Enter ID (e.g. ID-1234)" style="text-align: center; letter-spacing: 2px; font-weight: 800;">
-                <button onclick="unlockPlans()">Unlock Plans</button>
-            </div>
+        <div id="approval-lock" class="hidden" style="text-align: center;">
+            <span class="status-tag">Approval Pending</span>
+            <p style="font-size: 14px; color: var(--text-dim);">Enter the <b>Approval ID</b> sent by Muksidul.</p>
+            <input id="inputID" placeholder="ID-XXXX" style="text-align: center; letter-spacing: 3px; font-weight: 800;">
+            <button onclick="unlockPlans()">Unlock Plans</button>
         </div>
 
         <div id="plans-page" class="hidden">
             <h3 style="text-align:center;">Select Subscription</h3>
-            <div class="plan-item" onclick="selectPlan('trial', 7, 'Free Trial', 0)">
-                <span>Free Trial (7 Days)</span><span class="plan-price">FREE</span>
-            </div>
-            <div class="plan-item" onclick="selectPlan('paid', 30, '1 Month', 100)">
-                <span>1 Month Plan</span><span class="plan-price">₹100</span>
-            </div>
-            <div class="plan-item" onclick="selectPlan('paid', 90, '3 Months', 250)">
-                <span>3 Months Plan</span><span class="plan-price">₹250</span>
-            </div>
-            <div class="plan-item" onclick="selectPlan('paid', 180, '6 Months', 500)">
-                <span>6 Months Plan</span><span class="plan-price">₹500</span>
-            </div>
-            <div class="plan-item" onclick="selectPlan('paid', 365, '1 Year', 1000)">
-                <span>1 Year Plan</span><span class="plan-price">₹1000</span>
-            </div>
+            <div class="plan-item" onclick="selectPlan('trial', 7, 'Free Trial', 0)"><span>Free Trial (7 Days)</span><span class="plan-price">FREE</span></div>
+            <div class="plan-item" onclick="selectPlan('paid', 30, '1 Month', 100)"><span>1 Month</span><span class="plan-price">₹100</span></div>
+            <div class="plan-item" onclick="selectPlan('paid', 90, '3 Months', 250)"><span>3 Months</span><span class="plan-price">₹250</span></div>
+            <div class="plan-item" onclick="selectPlan('paid', 180, '6 Months', 500)"><span>6 Months</span><span class="plan-price">₹500</span></div>
+            <div class="plan-item" onclick="selectPlan('paid', 365, '1 Year', 1000)"><span>1 Year</span><span class="plan-price">₹1000</span></div>
         </div>
 
-        <div id="payment-area" class="hidden">
-            <div class="step-box">
-                <p>Activating: <b id="sel-plan-text"></b></p>
-                <div class="qr-frame" id="qr-display"></div>
-                <button onclick="sendPaymentWA()" style="background:#22c55e;">Send Screenshot to WhatsApp</button>
-                <button onclick="validateFinalActivation()" style="margin-top:10px; background:#dc2626;">Activate Now</button>
-            </div>
+        <div id="payment-area" class="hidden" style="text-align: center;">
+            <p>Plan: <b id="sel-plan"></b></p>
+            <div id="qr-display" style="background:white; padding:15px; border-radius:15px; display:inline-block; margin:10px 0;"></div>
+            <button onclick="sendPaymentWA()" style="background:#22c55e;">Send WA Screenshot</button>
+            <button onclick="activateFinal()" style="background:#dc2626; margin-top:10px;">Activate Software Now</button>
         </div>
     </div>
 
     <div id="main-app" class="hidden">
-        <div style="text-align:right"><span id="trial-timer" class="trial-tag"></span></div>
-        <h2 style="text-align:left">🧾 Dashboard</h2>
+        <div style="display:flex; justify-content: space-between; align-items:center;">
+            <span class="status-tag" id="days-left"></span>
+            <button onclick="localStorage.clear(); location.reload();" style="width:auto; padding:5px 10px; background:#64748b; font-size:10px;">Logout</button>
+        </div>
+        <h1>🧾 Dashboard</h1>
 
         <input id="shop" placeholder="Shop Name">
         <input id="address" placeholder="Address">
         <input id="phone" placeholder="Phone">
-        <input id="upiId" placeholder="UPI ID (for QR)">
+        <input id="upiId" placeholder="UPI ID (e.g. name@upi)">
         <button id="saveShopBtn">Save Shop Details</button>
-        <hr style="border:0; border-top:1px solid rgba(0,0,0,0.1); margin:20px 0;">
-        
+
+        <hr style="border:0; border-top:1px solid rgba(0,0,0,0.1); margin:25px 0;">
+
         <input id="customer" placeholder="Customer Name">
         <input id="productSearch" placeholder="Product Name">
-        <input id="qty" type="number" placeholder="Qty">
-        <input id="price" type="number" placeholder="Price">
+        <div style="display:flex; gap:10px;">
+            <input id="qty" type="number" placeholder="Qty">
+            <input id="price" type="number" placeholder="Price">
+        </div>
         <button id="addItemBtn">Add Item</button>
 
-        <table id="table"><tr><th>No</th><th>Item</th><th>Qty</th><th>Price</th><th>Total</th></tr></table>
+        <div class="table-wrapper">
+            <table id="table"><tr><th>No</th><th>Item</th><th>Qty</th><th>Price</th><th>Total</th></tr></table>
+        </div>
 
-        <select id="payment"><option value="Cash">Cash</option><option value="UPI">UPI</option></select>
-        <button id="generateBillBtn">Generate Bill</button>
-        <button id="printBillBtn">Print Bill</button>
+        <select id="payment"><option value="Cash">Cash</option><option value="UPI">UPI</option><option value="Card">Card</option></select>
+        <button id="generateBillBtn" style="background:#4f46e5;">Generate Bill</button>
         
+        <select id="printMode"><option value="A4">Print A4</option><option value="Receipt" selected>Print Receipt</option></select>
+        <button onclick="window.print()" style="background:#0f172a;">Print Bill</button>
+        <button id="sendWhatsAppBtn" style="background:#25d366;">Send WhatsApp</button>
+
         <div id="bill" class="bill"></div>
-        <div id="totalDay" style="margin-top:20px; font-weight:bold; text-align:center;"></div>
-        <button onclick="localStorage.clear(); location.reload();" style="background:#94a3b8; margin-top:40px;">Logout (Testing)</button>
+        <div id="totalDay" style="text-align:center; margin-top:20px; font-weight:bold;"></div>
     </div>
 </div>
 
@@ -177,34 +148,29 @@ th { background: rgba(0,0,0,0.02); }
 const MY_WA = "919957548361";
 const MY_UPI = "9957548361@upi";
 
-// --- FLOW LOGIC ---
-function sendVerificationRequest() {
-    let name = document.getElementById("regName").value, addr = document.getElementById("regAddr").value, mob = document.getElementById("regMob").value;
-    if(!name || !addr || mob.length < 10) return alert("Fill details!");
+// --- FLOW FUNCTIONS ---
+function sendActivationRequest() {
+    let name = document.getElementById("uName").value, addr = document.getElementById("uAddr").value, mob = document.getElementById("uMob").value;
+    if(!name || !addr || mob.length < 10) return alert("Fill all details!");
     let id = "ID-" + Math.floor(1000 + Math.random() * 9999);
-    localStorage.setItem("pending_id", id.toUpperCase());
-    localStorage.setItem("pending_mob", mob);
+    localStorage.setItem("muksidul_secret_id", id.toUpperCase());
     window.open(`https://wa.me/${MY_WA}?text=${encodeURIComponent("*Activation Request*\nName: "+name+"\nID: "+id)}`);
     document.getElementById("registration-form").classList.add("hidden");
-    document.getElementById("activation-area").classList.remove("hidden");
+    document.getElementById("approval-lock").classList.remove("hidden");
 }
 
 function unlockPlans() {
-    let input = document.getElementById("inputIDKey").value.trim().toUpperCase();
-    if(input === localStorage.getItem("pending_id")) {
-        document.getElementById("activation-area").classList.add("hidden");
+    if(document.getElementById("inputID").value.trim().toUpperCase() === localStorage.getItem("muksidul_secret_id")) {
+        document.getElementById("approval-lock").classList.add("hidden");
         document.getElementById("plans-page").classList.remove("hidden");
     } else { alert("Invalid ID!"); }
 }
 
 function selectPlan(type, days, name, price) {
-    localStorage.setItem("pending_days", days);
-    if(type === 'trial') {
-        let expiry = new Date().getTime() + (days * 24 * 60 * 60 * 1000);
-        localStorage.setItem("user_auth", JSON.stringify({active:true, exp:expiry, type:'trial'}));
-        location.reload();
-    } else {
-        document.getElementById("sel-plan-text").innerText = name + " (₹" + price + ")";
+    localStorage.setItem("p_days", days);
+    if(type === 'trial') { activateFinal(); } 
+    else {
+        document.getElementById("sel-plan").innerText = name + " Plan";
         let qr = `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${encodeURIComponent('upi://pay?pa='+MY_UPI+'&am='+price+'&cu=INR')}`;
         document.getElementById("qr-display").innerHTML = `<img src="${qr}">`;
         document.getElementById("plans-page").classList.add("hidden");
@@ -212,42 +178,37 @@ function selectPlan(type, days, name, price) {
     }
 }
 
-function validateFinalActivation() {
-    let days = parseInt(localStorage.getItem("pending_days"));
-    let expiry = new Date().getTime() + (days * 24 * 60 * 60 * 1000);
-    localStorage.setItem("user_auth", JSON.stringify({active:true, exp:expiry, type:'paid'}));
-    alert("Subscription Activated!"); location.reload();
+function activateFinal() {
+    let expiry = new Date().getTime() + (parseInt(localStorage.getItem("p_days")||7) * 24 * 60 * 60 * 1000);
+    localStorage.setItem("app_auth", JSON.stringify({active:true, exp:expiry}));
+    location.reload();
 }
 
-function sendPaymentWA() {
-    window.open(`https://wa.me/${MY_WA}?text=Payment%20Screenshot%20ID:%20${localStorage.getItem("pending_id")}`);
-}
+function sendPaymentWA() { window.open(`https://wa.me/${MY_WA}?text=Payment%20Done%20ID:%20${localStorage.getItem("muksidul_secret_id")}`); }
 
-function launchApp() {
-    document.getElementById("login-screen").classList.add("hidden");
-    document.getElementById("main-app").classList.remove("hidden");
-}
-
-// --- BILLING LOGIC (ORIGINAL) ---
+// --- BILLING LOGIC (100% ORIGINAL) ---
 document.addEventListener("DOMContentLoaded", function(){
-    let auth = JSON.parse(localStorage.getItem("user_auth"));
+    let auth = JSON.parse(localStorage.getItem("app_auth"));
     if(auth && new Date().getTime() < auth.exp) {
-        launchApp();
+        document.getElementById("login-screen").classList.add("hidden");
+        document.getElementById("main-app").classList.remove("hidden");
         let left = Math.ceil((auth.exp - new Date().getTime()) / (1000*60*60*24));
-        document.getElementById("trial-timer").innerText = left + " Days Left";
+        document.getElementById("days-left").innerText = left + " Days Left";
     }
 
     let items=[];
-    const shopInput = document.getElementById("shop"), addressInput = document.getElementById("address"), upiInput = document.getElementById("upiId");
-    shopInput.value = localStorage.getItem("shop")||"";
-    addressInput.value = localStorage.getItem("address")||"";
-    upiInput.value = localStorage.getItem("upiId")||"";
+    let invoiceCounter = parseInt(localStorage.getItem("invoiceCounter"))||1;
+    const shopIn = document.getElementById("shop"), addrIn = document.getElementById("address"), upiIn = document.getElementById("upiId"), phoneIn = document.getElementById("phone");
+    
+    shopIn.value = localStorage.getItem("shop")||"";
+    addrIn.value = localStorage.getItem("address")||"";
+    phoneIn.value = localStorage.getItem("phone")||"";
+    upiIn.value = localStorage.getItem("upiId")||"";
 
     document.getElementById("saveShopBtn").onclick = function(){
-        localStorage.setItem("shop", shopInput.value);
-        localStorage.setItem("address", addressInput.value);
-        localStorage.setItem("upiId", upiInput.value);
-        alert("Saved!");
+        localStorage.setItem("shop", shopIn.value); localStorage.setItem("address", addrIn.value);
+        localStorage.setItem("phone", phoneIn.value); localStorage.setItem("upiId", upiIn.value);
+        alert("Settings Saved!");
     };
 
     document.getElementById("addItemBtn").onclick = function(){
@@ -262,14 +223,16 @@ document.addEventListener("DOMContentLoaded", function(){
     document.getElementById("generateBillBtn").onclick = function(){
         if(items.length===0) return;
         let total=0; items.forEach(i=>total+=i.t);
-        let html=`<b>${shopInput.value}</b><br>${addressInput.value}<hr><table><tr><th>Item</th><th>Qty</th><th>Total</th></tr>`;
+        let html=`<div style="text-align:right">No: ${invoiceCounter++}</div><center><b>${shopIn.value}</b><br><small>${addrIn.value}</small><br>Ph: ${phoneIn.value}</center><hr>`;
+        html+=`<table style="width:100%; font-size:12px;"><tr><th>Item</th><th>Qty</th><th>Total</th></tr>`;
         items.forEach(i=> html+=`<tr><td>${i.p}</td><td>${i.q}</td><td>₹${i.t}</td></tr>`);
-        html+=`<tr><td colspan="2">Total</td><td>₹${total}</td></tr></table>`;
-        if(upiInput.value) html+=`<center><img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${encodeURIComponent('upi://pay?pa='+upiInput.value+'&am='+total)}"></center>`;
+        html+=`<tr><td colspan="2"><b>Total</b></td><td><b>₹${total}</b></td></tr></table><hr>`;
+        if(upiIn.value) html+=`<center><img src="https://api.qrserver.com/v1/create-qr-code/?size=120x120&data=${encodeURIComponent('upi://pay?pa='+upiIn.value+'&am='+total)}"></center>`;
         document.getElementById("bill").innerHTML = html;
+        localStorage.setItem("invoiceCounter", invoiceCounter);
     };
 
-    document.getElementById("printBillBtn").onclick = () => window.print();
+    document.getElementById("sendWhatsAppBtn").onclick = () => window.open("https://wa.me/?text="+encodeURIComponent(document.getElementById("bill").innerText));
 });
 </script>
 </body>
