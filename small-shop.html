@@ -6,10 +6,8 @@
 <title>Shop Bill Generator – Functional POS</title>
 <link rel="icon" type="image/png" href="logo.png">
 <link rel="apple-touch-icon" href="logo.png">
-<meta name="mobile-web-app-capable" content="yes">
 
 <style>
-/* --- AAPKA ORIGINAL DESIGN (NO CHANGE) --- */
 body{font-family:Arial;background:#ffffff;margin:0;padding:10px;}
 .container{max-width:800px;margin:auto;background:transparent;padding:15px;border-radius:0;box-shadow:none;}
 h2{text-align:center;}
@@ -24,190 +22,173 @@ th,td{border:1px solid #000;padding:8px;font-size:14px;text-align:center;}
 .qr-container{text-align:center; margin-top:15px; padding:10px; border:1px dashed #ccc;}
 .qr-container img{width:150px; height:150px;}
 
-/* Subscription Hidden Helpers */
-.hidden { display: none !important; }
-.trial-tag { text-align: center; color: #b45309; font-weight: bold; margin-bottom: 10px; font-size: 14px; }
-
+@media screen and (max-width:1024px){
+  .container{padding:10px;}
+  input, select, button{font-size:14px;padding:8px;}
+  table th, table td{font-size:12px;padding:6px;}
+}
 @media screen and (max-width:600px){
   table th, table td{padding:6px;font-size:12px;}
+  button{font-size:13px;padding:8px;}
   .invoice{float: none; text-align: right;}
   .table-wrapper { overflow-x: auto; width: 100%; }
 }
 </style>
 </head>
 <body>
+<div class="container">
+<h2>🧾 Bill Generator</h2>
 
-<div id="login-screen" class="container">
-    <h2 id="admin-trigger">🧾 Shayan Smart Tools</h2>
-    <input id="userMobile" type="number" placeholder="Enter Mobile Number">
-    <button id="startBtn">Open App</button>
-    
-    <div id="lock-box" class="hidden" style="margin-top:20px; color:red; text-align:center;">
-        <p><b>Trial Expired!</b> Contact Muksidul: 9957548361</p>
-        <input id="licKey" placeholder="Enter License Key">
-        <button onclick="activate()" style="background:red;">Activate</button>
-    </div>
+<input id="shop" placeholder="Shop Name">
+<input id="address" placeholder="Address">
+<input id="phone" placeholder="Phone">
+<input id="upiId" placeholder="Enter Your UPI ID (e.g. name@upi)">
+<button id="saveShopBtn">Save Shop Details</button>
 
-    <div id="admin-login" class="hidden">
-        <input id="mPass" type="password" placeholder="Master Password">
-        <button onclick="goAdmin()" style="background:#444;">Admin Login</button>
-    </div>
+<input id="customer" placeholder="Customer Name">
+
+<input id="productSearch" placeholder="Product Name">
+
+<input id="qty" type="number" placeholder="Qty">
+<input id="price" type="number" placeholder="Price">
+<button id="addItemBtn">Add Item</button>
+
+<div class="table-wrapper">
+<table id="table">
+<tr><th>No</th><th>Product</th><th>Qty</th><th>Price</th><th>Total</th></tr>
+</table>
 </div>
 
-<div id="admin-gen" class="container hidden">
-    <h3>Key Generator</h3>
-    <input id="targetM" type="number" placeholder="Mobile Number">
-    <button onclick="makeKey()" style="background:purple;">Generate 30 Days Key</button>
-    <div id="finalK" style="padding:10px; border:1px dashed #000; margin:10px 0; word-break:break-all; font-weight:bold;"></div>
-    <button onclick="location.reload()" style="background:#888;">Back</button>
-</div>
+<select id="payment">
+  <option value="Cash">Cash</option>
+  <option value="UPI">UPI</option>
+  <option value="Card">Card</option>
+</select>
 
-<div id="main-app" class="container hidden">
-    <div id="trial-msg" class="trial-tag"></div>
-    <h2>🧾 Bill Generator</h2>
+<button id="generateBillBtn">Generate Bill</button>
+<select id="printMode">
+<option value="A4">Print A4</option>
+<option value="Receipt" selected>Print Receipt</option>
+<option value="Custom">Custom Width</option>
+</select>
+<button id="printBillBtn">Print Bill</button>
+<button id="sendWhatsAppBtn">Send WhatsApp</button>
 
-    <input id="shop" placeholder="Shop Name">
-    <input id="address" placeholder="Address">
-    <input id="phone" placeholder="Phone">
-    <input id="upiId" placeholder="Enter Your UPI ID">
-    <button id="saveShopBtn">Save Shop Details</button>
+<div id="bill" class="bill"></div>
+<button id="downloadHistoryBtn">Download History</button>
+<div id="totalDay"></div>
 
-    <input id="customer" placeholder="Customer Name">
-    <input id="productSearch" placeholder="Product Name">
-    <input id="qty" type="number" placeholder="Qty">
-    <input id="price" type="number" placeholder="Price">
-    <button id="addItemBtn">Add Item</button>
-
-    <div class="table-wrapper">
-        <table id="table"><tr><th>No</th><th>Product</th><th>Qty</th><th>Price</th><th>Total</th></tr></table>
-    </div>
-
-    <select id="payment">
-        <option value="Cash">Cash</option>
-        <option value="UPI">UPI</option>
-    </select>
-
-    <button id="generateBillBtn">Generate Bill</button>
-    <button id="printBillBtn">Print Bill</button>
-    <button id="sendWhatsAppBtn">Send WhatsApp</button>
-
-    <div id="bill" class="bill"></div>
-    <div id="totalDay"></div>
+<hr>
 </div>
 
 <script>
-// --- SUBSCRIPTION LOGIC ---
-const MASTER = "shayan123";
-let clicks = 0;
-document.getElementById("admin-trigger").addEventListener("click", () => {
-    clicks++; if(clicks>=5) { document.getElementById("admin-login").classList.remove("hidden"); clicks=0; }
-    setTimeout(() => clicks=0, 3000);
-});
-
-function goAdmin() {
-    if(document.getElementById("mPass").value === MASTER) {
-        document.getElementById("login-screen").classList.add("hidden");
-        document.getElementById("admin-gen").classList.remove("hidden");
-    }
-}
-
-function makeKey() {
-    let m = document.getElementById("targetM").value;
-    if(m.length < 10) return alert("Sahi number dalein");
-    let exp = new Date().getTime() + (30*24*60*60*1000);
-    document.getElementById("finalK").innerText = btoa(m + "|" + exp + "|premium");
-}
-
-document.getElementById("startBtn").addEventListener("click", () => {
-    let mob = document.getElementById("userMobile").value;
-    if(mob.length < 10) return alert("10 Digit Mobile Number Required");
-
-    let u = JSON.parse(localStorage.getItem("pos_" + mob));
-    let now = new Date().getTime();
-
-    if(!u) { u = { m: mob, ex: now + (7*24*60*60*1000), s: "trial" }; localStorage.setItem("pos_" + mob, JSON.stringify(u)); }
-
-    if(now < u.ex) { localStorage.setItem("activeMob", mob); showApp(u); }
-    else { document.getElementById("lock-box").classList.remove("hidden"); document.getElementById("startBtn").classList.add("hidden"); }
-});
-
-function activate() {
-    let mob = document.getElementById("userMobile").value;
-    let k = document.getElementById("licKey").value;
-    try {
-        let d = atob(k).split("|");
-        if(d[0] === mob && d[2] === "premium") {
-            let u = JSON.parse(localStorage.getItem("pos_" + mob));
-            u.ex = parseInt(d[1]); u.s = "paid";
-            localStorage.setItem("pos_" + mob, JSON.stringify(u));
-            alert("App Activated!");
-            location.reload();
-        } else { alert("Wrong Key for this number!"); }
-    } catch(e) { alert("Invalid License Key!"); }
-}
-
-function showApp(u) {
-    document.getElementById("login-screen").classList.add("hidden");
-    document.getElementById("main-app").classList.remove("hidden");
-    let days = Math.ceil((u.ex - new Date().getTime()) / (1000*60*60*24));
-    document.getElementById("trial-msg").innerText = (u.s==="trial"?"Trial: ":"Paid: ") + days + " Days Remaining";
-}
-
-// --- ORIGINAL BILLING LOGIC ---
 document.addEventListener("DOMContentLoaded", function(){
-    let active = localStorage.getItem("activeMob");
-    if(active) { 
-        let u = JSON.parse(localStorage.getItem("pos_" + active));
-        if(u && new Date().getTime() < u.ex) showApp(u);
+
+let items=[];
+let total=0;
+let invoiceCounter = parseInt(localStorage.getItem("invoiceCounter"))||1;
+
+const shopInput = document.getElementById("shop");
+const addressInput = document.getElementById("address");
+const phoneInput = document.getElementById("phone");
+const upiInput = document.getElementById("upiId");
+const saveShopBtn = document.getElementById("saveShopBtn");
+
+shopInput.value = localStorage.getItem("shop")||"";
+addressInput.value = localStorage.getItem("address")||"";
+phoneInput.value = localStorage.getItem("phone")||"";
+upiInput.value = localStorage.getItem("upiId")||"";
+
+saveShopBtn.addEventListener("click", function(){
+    localStorage.setItem("shop", shopInput.value);
+    localStorage.setItem("address", addressInput.value);
+    localStorage.setItem("phone", phoneInput.value);
+    localStorage.setItem("upiId", upiInput.value);
+    alert("Shop details saved!");
+});
+
+const qtyInput = document.getElementById("qty");
+const priceInput = document.getElementById("price");
+const addItemBtn = document.getElementById("addItemBtn");
+const table = document.getElementById("table");
+const productSearch = document.getElementById("productSearch");
+
+addItemBtn.addEventListener("click", function(){
+    let p = productSearch.value.trim();
+    let q = +qtyInput.value;
+    let pr = +priceInput.value;
+    if(!p || !q || !pr){ alert("Fill all fields"); return; }
+
+    let t = q*pr;
+    items.push({p,q,pr,t});
+    let row=table.insertRow();
+    row.insertCell(0).innerText=items.length;
+    row.insertCell(1).innerText=p;
+    row.insertCell(2).innerText=q;
+    row.insertCell(3).innerText=pr;
+    row.insertCell(4).innerText=t;
+    productSearch.value=""; qtyInput.value=""; priceInput.value="";
+});
+
+function getInvoiceNumber(){ let num = invoiceCounter; invoiceCounter++; localStorage.setItem("invoiceCounter", invoiceCounter); return num; }
+
+document.getElementById("generateBillBtn").addEventListener("click", function(){
+    if(items.length===0){ alert("Add items first"); return; }
+    let bill = document.getElementById("bill");
+    total=0; items.forEach(i=> total+=i.t);
+    let invoiceNo = getInvoiceNumber();
+    let dateISO = new Date().toISOString();
+    let paymentMode = document.getElementById("payment").value;
+    let upiId = upiInput.value.trim();
+
+    let html=`<div class="invoice">Invoice No: ${invoiceNo}</div><div class="clear"></div>
+    <b>${shopInput.value}</b><br>${addressInput.value}<br>Phone: ${phoneInput.value}<br>
+    Date: ${new Date(dateISO).toLocaleString()}<br>
+    Customer: ${document.getElementById("customer").value}<br>
+    Payment Mode: ${paymentMode}<hr>
+    <div style="overflow-x:auto;"><table>
+    <tr><th>No</th><th>Item</th><th>Qty</th><th>Price</th><th>Total</th></tr>`;
+    items.forEach((i,index)=>{
+        html+=`<tr><td>${index+1}</td><td>${i.p}</td><td>${i.q}</td><td>${i.pr}</td><td>${i.t}</td></tr>`;
+    });
+    html+=`<tr class="totalRow"><td colspan="4">Grand Total</td><td>₹${total}</td></tr></table></div>`;
+    
+    if(upiId !== ""){
+        let qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${encodeURIComponent('upi://pay?pa='+upiId+'&pn='+shopInput.value+'&am='+total+'&cu=INR')}`;
+        html += `<div class="qr-container"><p>Scan to Pay ₹${total}</p><img src="${qrUrl}" alt="UPI QR Code"></div>`;
     }
 
-    let items=[]; let total=0;
-    const shopInput = document.getElementById("shop");
-    shopInput.value = localStorage.getItem("shop")||"";
-    document.getElementById("address").value = localStorage.getItem("address")||"";
-    document.getElementById("phone").value = localStorage.getItem("phone")||"";
-    document.getElementById("upiId").value = localStorage.getItem("upiId")||"";
+    bill.innerHTML = html;
+    updateSaleReports();
+});
 
-    document.getElementById("saveShopBtn").addEventListener("click", function(){
-        localStorage.setItem("shop", shopInput.value);
-        localStorage.setItem("address", document.getElementById("address").value);
-        localStorage.setItem("phone", document.getElementById("phone").value);
-        localStorage.setItem("upiId", document.getElementById("upiId").value);
-        alert("Details Saved!");
-    });
+document.getElementById("printBillBtn").addEventListener("click", function(){
+    let content = document.getElementById("bill").innerHTML;
+    let mode = document.getElementById("printMode").value;
+    let width=400, height=700;
+    if(mode=="A4"){width=800;height=1100;}
+    let win = window.open('','',`width=${width},height=${height}`);
+    win.document.write(`<html><head><title>Print Bill</title><style>
+    body{font-family:monospace;padding:10px;text-align:center;} table{width:100%;border-collapse:collapse;} td,th{border:1px solid #000;padding:5px;text-align:center;} .totalRow td{font-weight:bold;} .invoice{float:right;} .clear{clear:both;} .qr-container{margin-top:10px;} .qr-container img{width:120px;}
+    </style></head><body>${content}</body></html>`);
+    win.document.close(); win.print();
+});
 
-    document.getElementById("addItemBtn").addEventListener("click", function(){
-        let p = document.getElementById("productSearch").value;
-        let q = +document.getElementById("qty").value;
-        let pr = +document.getElementById("price").value;
-        if(!p || !q || !pr) return;
-        let t = q*pr; items.push({p,q,pr,t});
-        let row=document.getElementById("table").insertRow();
-        row.insertCell(0).innerText=items.length; row.insertCell(1).innerText=p;
-        row.insertCell(2).innerText=q; row.insertCell(3).innerText=pr; row.insertCell(4).innerText=t;
-    });
+document.getElementById("sendWhatsAppBtn").addEventListener("click", function(){
+    let text="🧾 BILL RECEIPT\n\n"+document.getElementById("bill").innerText;
+    window.open("https://wa.me/?text="+encodeURIComponent(text));
+});
 
-    document.getElementById("generateBillBtn").addEventListener("click", function(){
-        if(items.length===0) return;
-        total=0; items.forEach(i=> total+=i.t);
-        let upiId = document.getElementById("upiId").value;
-        let html=`<div class="invoice">Inv No: 1</div><div class="clear"></div>
-        <b>${shopInput.value}</b><br>${document.getElementById("address").value}<hr>
-        <table><tr><th>Item</th><th>Qty</th><th>Total</th></tr>`;
-        items.forEach(i=> html+=`<tr><td>${i.p}</td><td>${i.q}</td><td>₹${i.t}</td></tr>`);
-        html+=`<tr class="totalRow"><td colspan="2">Total</td><td>₹${total}</td></tr></table>`;
-        if(upiId !== ""){
-            let qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${encodeURIComponent('upi://pay?pa='+upiId+'&pn='+shopInput.value+'&am='+total)}`;
-            html += `<div class="qr-container"><p>Scan to Pay ₹${total}</p><img src="${qrUrl}"></div>`;
-        }
-        document.getElementById("bill").innerHTML = html;
-    });
+function updateSaleReports(){
+    let history=JSON.parse(localStorage.getItem("history"))||[];
+    let daily=0; 
+    history.push({total, date:new Date().toISOString()});
+    localStorage.setItem("history", JSON.stringify(history));
+    history.forEach(h=>{ if(new Date(h.date).toDateString()===new Date().toDateString()) daily += h.total; });
+    document.getElementById("totalDay").innerHTML=`<b>Today's Total Sale: ₹${daily}</b>`;
+}
+updateSaleReports();
 
-    document.getElementById("printBillBtn").addEventListener("click", function(){ window.print(); });
-    document.getElementById("sendWhatsAppBtn").addEventListener("click", function(){
-        let text="🧾 BILL RECEIPT\n\n"+document.getElementById("bill").innerText;
-        window.open("https://wa.me/?text="+encodeURIComponent(text));
-    });
 });
 </script>
 </body>
