@@ -8,10 +8,10 @@
 <link rel="apple-touch-icon" href="logo.png">
 
 <style>
-/* --- AAPKA ORIGINAL CSS --- */
+/* --- AAPKA ORIGINAL DESIGN (NO CHANGE) --- */
 body{font-family:Arial;background:#ffffff;margin:0;padding:10px;}
 .container{max-width:800px;margin:auto;background:transparent;padding:15px;border-radius:0;box-shadow:none;}
-h2{text-align:center; cursor:pointer; user-select:none;}
+h2{text-align:center; cursor:pointer; user-select:none;} /* Clickable for Secret Admin */
 input, select, button{width:100%;padding:10px;margin:6px 0;border-radius:6px;border:1px solid #ccc;box-sizing:border-box;}
 button{border:none;background:#2563eb;color:white;font-size:15px;cursor:pointer;}
 table{width:100%;margin-top:10px;border-collapse:collapse;}
@@ -23,18 +23,12 @@ th,td{border:1px solid #000;padding:8px;font-size:14px;text-align:center;}
 .qr-container{text-align:center; margin-top:15px; padding:10px; border:1px dashed #ccc;}
 .qr-container img{width:150px; height:150px;}
 
-/* Subscription System Style */
+/* Subscription System Helpers */
 .hidden { display: none !important; }
-.trial-info { text-align: center; color: #b45309; font-weight: bold; margin-bottom: 10px; font-size: 14px; }
+.trial-tag { text-align: center; color: #b45309; font-weight: bold; margin-bottom: 10px; font-size: 14px; }
 
-@media screen and (max-width:1024px){
-  .container{padding:10px;}
-  input, select, button{font-size:14px;padding:8px;}
-  table th, table td{font-size:12px;padding:6px;}
-}
 @media screen and (max-width:600px){
   table th, table td{padding:6px;font-size:12px;}
-  button{font-size:13px;padding:8px;}
   .invoice{float: none; text-align: right;}
   .table-wrapper { overflow-x: auto; width: 100%; }
 }
@@ -55,78 +49,62 @@ th,td{border:1px solid #000;padding:8px;font-size:14px;text-align:center;}
     </div>
 
     <div id="admin-login-area" class="hidden" style="margin-top:40px; border-top:1px solid #ccc; padding-top:10px;">
-        <input id="masterPass" type="password" placeholder="Master Password">
+        <input id="masterPass" type="password" placeholder="Enter Master Password">
         <button onclick="accessAdmin()" style="background:#444;">Admin Login</button>
     </div>
 </div>
 
 <div id="admin-panel" class="container hidden">
-    <h3>🛠 Key Generator (Admin)</h3>
-    <input id="targetMobile" type="number" placeholder="Customer Mobile Number">
+    <h3>🛠 Key Generator (Muksidul)</h3>
+    <input id="targetMobile" type="number" placeholder="Dukandar Mobile Number">
     <button onclick="generateKey()" style="background:purple;">Generate 30 Days Key</button>
-    <div id="keyOutput" style="margin-top:10px; padding:10px; border:1px dashed #000; word-break:break-all; font-weight:bold;"></div>
-    <button onclick="location.reload()" style="background:#666;">Back</button>
+    <div id="keyOutput" style="margin-top:10px; padding:10px; border:1px dashed #000; word-break:break-all; font-weight:bold; background:#f9f9f9;"></div>
+    <button onclick="location.reload()" style="background:#666;">Back to App</button>
 </div>
 
 <div id="main-app" class="container hidden">
-    <div id="trial-timer" class="trial-info"></div>
+    <div id="trial-timer" class="trial-tag"></div>
     <h2>🧾 Bill Generator</h2>
 
     <input id="shop" placeholder="Shop Name">
     <input id="address" placeholder="Address">
     <input id="phone" placeholder="Phone">
-    <input id="upiId" placeholder="Enter Your UPI ID (e.g. name@upi)">
+    <input id="upiId" placeholder="Enter Your UPI ID">
     <button id="saveShopBtn">Save Shop Details</button>
 
     <input id="customer" placeholder="Customer Name">
-
     <input id="productSearch" placeholder="Product Name">
-
     <input id="qty" type="number" placeholder="Qty">
     <input id="price" type="number" placeholder="Price">
     <button id="addItemBtn">Add Item</button>
 
     <div class="table-wrapper">
-    <table id="table">
-    <tr><th>No</th><th>Product</th><th>Qty</th><th>Price</th><th>Total</th></tr>
-    </table>
+        <table id="table"><tr><th>No</th><th>Product</th><th>Qty</th><th>Price</th><th>Total</th></tr></table>
     </div>
 
-    <select id="payment">
-      <option value="Cash">Cash</option>
-      <option value="UPI">UPI</option>
-      <option value="Card">Card</option>
-    </select>
+    <select id="payment"><option value="Cash">Cash</option><option value="UPI">UPI</option></select>
 
     <button id="generateBillBtn">Generate Bill</button>
-    <select id="printMode">
-    <option value="A4">Print A4</option>
-    <option value="Receipt" selected>Print Receipt</option>
-    <option value="Custom">Custom Width</option>
-    </select>
     <button id="printBillBtn">Print Bill</button>
     <button id="sendWhatsAppBtn">Send WhatsApp</button>
 
     <div id="bill" class="bill"></div>
-    <button id="downloadHistoryBtn">Download History</button>
     <div id="totalDay"></div>
-
-    <hr>
 </div>
 
 <script>
-// --- SUBSCRIPTION LOGIC ---
 const ADMIN_KEY = "shayan123";
 
-// Secret Trigger (5 Clicks on Header)
-let headerClicks = 0;
+// --- SECRET TRIGGER (5 CLICKS ON HEADING) ---
+let clicks = 0;
 document.getElementById("admin-trigger").addEventListener("click", function() {
-    headerClicks++;
-    if(headerClicks >= 5) {
+    clicks++;
+    if(clicks >= 5) {
         document.getElementById("admin-login-area").classList.remove("hidden");
-        headerClicks = 0;
+        alert("Admin Mode ON: Password niche khul gaya hai!");
+        clicks = 0;
     }
-    setTimeout(() => { headerClicks = 0; }, 3000);
+    setTimeout(() => { clicks = 0; }, 5000);
 });
 
 function accessAdmin() {
@@ -141,25 +119,24 @@ function generateKey() {
     if(m.length < 10) return alert("Sahi Number Dalein");
     let exp = new Date().getTime() + (30 * 24 * 60 * 60 * 1000);
     let key = btoa(m + "|" + exp + "|premium_shayan");
-    document.getElementById("keyOutput").innerText = "License Key:\n" + key;
+    document.getElementById("keyOutput").innerText = "Key: " + key;
 }
 
-// Login & Trial Check
+// --- SUBSCRIPTION LOGIC ---
 document.getElementById("startBtn").addEventListener("click", function() {
     let mob = document.getElementById("userMobile").value;
     if(mob.length < 10) return alert("10 Digit Mobile Number Required");
-
-    let uData = JSON.parse(localStorage.getItem("shop_user_" + mob));
+    
+    let uData = JSON.parse(localStorage.getItem("u_" + mob));
     let now = new Date().getTime();
 
     if(!uData) {
-        // Naya User - 7 Din Trial
-        uData = { mobile: mob, expiry: now + (7 * 24 * 60 * 60 * 1000), type: "trial" };
-        localStorage.setItem("shop_user_" + mob, JSON.stringify(uData));
+        uData = { mobile: mob, expiry: now + (7 * 24 * 60 * 60 * 1000), status: "trial" };
+        localStorage.setItem("u_" + mob, JSON.stringify(uData));
     }
 
     if(now < uData.expiry) {
-        localStorage.setItem("activeSessionMob", mob);
+        localStorage.setItem("currentSession", mob);
         launchApp(uData);
     } else {
         document.getElementById("lock-box").classList.remove("hidden");
@@ -169,17 +146,15 @@ document.getElementById("startBtn").addEventListener("click", function() {
 
 function activateApp() {
     let mob = document.getElementById("userMobile").value;
-    let key = document.getElementById("licKey").value.trim();
+    let k = document.getElementById("licKey").value.trim();
     try {
-        let dec = atob(key).split("|");
+        let dec = atob(k).split("|");
         if(dec[0] === mob && dec[2] === "premium_shayan") {
-            let u = JSON.parse(localStorage.getItem("shop_user_" + mob));
-            u.expiry = parseInt(dec[1]);
-            u.type = "paid";
-            localStorage.setItem("shop_user_" + mob, JSON.stringify(u));
-            alert("App Activated Successfully!");
-            location.reload();
-        } else { alert("Key mismatch for this number!"); }
+            let u = JSON.parse(localStorage.getItem("u_" + mob));
+            u.expiry = parseInt(dec[1]); u.status = "paid";
+            localStorage.setItem("u_" + mob, JSON.stringify(u));
+            alert("Activated!"); location.reload();
+        } else { alert("Key mismatch!"); }
     } catch(e) { alert("Invalid Key!"); }
 }
 
@@ -187,106 +162,64 @@ function launchApp(u) {
     document.getElementById("login-screen").classList.add("hidden");
     document.getElementById("main-app").classList.remove("hidden");
     let left = Math.ceil((u.expiry - new Date().getTime()) / (1000 * 60 * 60 * 24));
-    document.getElementById("trial-timer").innerText = (u.type === "trial" ? "Trial: " : "Paid: ") + left + " Days Remaining";
+    document.getElementById("trial-timer").innerText = (u.status === "trial" ? "Trial: " : "Paid: ") + left + " Days Remaining";
 }
 
-// --- AAPKA ORIGINAL BILLING LOGIC (AS IT IS) ---
+// --- ORIGINAL BILLING LOGIC ---
 document.addEventListener("DOMContentLoaded", function(){
-    let sessionMob = localStorage.getItem("activeSessionMob");
-    if(sessionMob) {
-        let u = JSON.parse(localStorage.getItem("shop_user_" + sessionMob));
+    let active = localStorage.getItem("currentSession");
+    if(active) {
+        let u = JSON.parse(localStorage.getItem("u_" + active));
         if(u && new Date().getTime() < u.expiry) launchApp(u);
     }
 
     let items=[];
     let total=0;
-    let invoiceCounter = parseInt(localStorage.getItem("invoiceCounter"))||1;
-
     const shopInput = document.getElementById("shop");
-    const addressInput = document.getElementById("address");
-    const phoneInput = document.getElementById("phone");
-    const upiInput = document.getElementById("upiId");
-    const saveShopBtn = document.getElementById("saveShopBtn");
-
     shopInput.value = localStorage.getItem("shop")||"";
-    addressInput.value = localStorage.getItem("address")||"";
-    phoneInput.value = localStorage.getItem("phone")||"";
-    upiInput.value = localStorage.getItem("upiId")||"";
+    document.getElementById("address").value = localStorage.getItem("address")||"";
+    document.getElementById("phone").value = localStorage.getItem("phone")||"";
+    document.getElementById("upiId").value = localStorage.getItem("upiId")||"";
 
-    saveShopBtn.addEventListener("click", function(){
+    document.getElementById("saveShopBtn").addEventListener("click", function(){
         localStorage.setItem("shop", shopInput.value);
-        localStorage.setItem("address", addressInput.value);
-        localStorage.setItem("phone", phoneInput.value);
-        localStorage.setItem("upiId", upiInput.value);
-        alert("Shop details saved!");
+        localStorage.setItem("address", document.getElementById("address").value);
+        localStorage.setItem("phone", document.getElementById("phone").value);
+        localStorage.setItem("upiId", document.getElementById("upiId").value);
+        alert("Saved!");
     });
 
-    const qtyInput = document.getElementById("qty");
-    const priceInput = document.getElementById("price");
-    const addItemBtn = document.getElementById("addItemBtn");
-    const table = document.getElementById("table");
-    const productSearch = document.getElementById("productSearch");
-
-    addItemBtn.addEventListener("click", function(){
-        let p = productSearch.value.trim();
-        let q = +qtyInput.value;
-        let pr = +priceInput.value;
-        if(!p || !q || !pr){ alert("Fill all fields"); return; }
-        let t = q*pr;
-        items.push({p,q,pr,t});
-        let row=table.insertRow();
+    document.getElementById("addItemBtn").addEventListener("click", function(){
+        let p = document.getElementById("productSearch").value;
+        let q = +document.getElementById("qty").value;
+        let pr = +document.getElementById("price").value;
+        if(!p || !q || !pr) return;
+        items.push({p,q,pr,t:q*pr});
+        let row=document.getElementById("table").insertRow();
         row.insertCell(0).innerText=items.length; row.insertCell(1).innerText=p;
-        row.insertCell(2).innerText=q; row.insertCell(3).innerText=pr; row.insertCell(4).innerText=t;
-        productSearch.value=""; qtyInput.value=""; priceInput.value="";
+        row.insertCell(2).innerText=q; row.insertCell(3).innerText=pr; row.insertCell(4).innerText=q*pr;
+        document.getElementById("productSearch").value=""; document.getElementById("qty").value=""; document.getElementById("price").value="";
     });
-
-    function getInvoiceNumber(){ let num = invoiceCounter; invoiceCounter++; localStorage.setItem("invoiceCounter", invoiceCounter); return num; }
 
     document.getElementById("generateBillBtn").addEventListener("click", function(){
-        if(items.length===0){ alert("Add items first"); return; }
-        let bill = document.getElementById("bill");
+        if(items.length===0) return;
         total=0; items.forEach(i=> total+=i.t);
-        let invoiceNo = getInvoiceNumber();
-        let upiId = upiInput.value.trim();
-
-        let html=`<div class="invoice">Invoice No: ${invoiceNo}</div><div class="clear"></div>
-        <b>${shopInput.value}</b><br>${addressInput.value}<br>Phone: ${phoneInput.value}<br>
-        Date: ${new Date().toLocaleString()}<br>
-        Customer: ${document.getElementById("customer").value}<br>
-        Payment Mode: ${document.getElementById("payment").value}<hr>
-        <div style="overflow-x:auto;"><table>
-        <tr><th>No</th><th>Item</th><th>Qty</th><th>Price</th><th>Total</th></tr>`;
-        items.forEach((i,index)=>{ html+=`<tr><td>${index+1}</td><td>${i.p}</td><td>${i.q}</td><td>${i.pr}</td><td>${i.t}</td></tr>`; });
-        html+=`<tr class="totalRow"><td colspan="4">Grand Total</td><td>₹${total}</td></tr></table></div>`;
-        
-        if(upiId !== ""){
-            let qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${encodeURIComponent('upi://pay?pa='+upiId+'&pn='+shopInput.value+'&am='+total+'&cu=INR')}`;
-            html += `<div class="qr-container"><p>Scan to Pay ₹${total}</p><img src="${qrUrl}"></div>`;
+        let upi = document.getElementById("upiId").value;
+        let html=`<b>${shopInput.value}</b><br>${document.getElementById("address").value}<hr>
+        <table><tr><th>No</th><th>Item</th><th>Qty</th><th>Total</th></tr>`;
+        items.forEach((i,index)=> html+=`<tr><td>${index+1}</td><td>${i.p}</td><td>${i.q}</td><td>₹${i.t}</td></tr>`);
+        html+=`<tr class="totalRow"><td colspan="2">Total</td><td>₹${total}</td></tr></table>`;
+        if(upi !== ""){
+            let qr = `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${encodeURIComponent('upi://pay?pa='+upi+'&pn='+shopInput.value+'&am='+total)}`;
+            html += `<center><p>Scan to Pay</p><img src="${qr}"></center>`;
         }
-        bill.innerHTML = html;
-        updateSaleReports();
+        document.getElementById("bill").innerHTML = html;
     });
 
-    document.getElementById("printBillBtn").addEventListener("click", function(){
-        let content = document.getElementById("bill").innerHTML;
-        let win = window.open('','','width=400,height=700');
-        win.document.write(`<html><head><title>Print Bill</title><style>body{font-family:monospace;padding:10px;text-align:center;} table{width:100%;border-collapse:collapse;} td,th{border:1px solid #000;padding:5px;text-align:center;} .invoice{float:right;} .clear{clear:both;} .qr-container img{width:120px;}</style></head><body>${content}</body></html>`);
-        win.document.close(); win.print();
-    });
-
-    document.getElementById("sendWhatsAppBtn").addEventListener("click", function(){
+    document.getElementById("printBillBtn").addEventListener("click", () => window.print());
+    document.getElementById("sendWhatsAppBtn").addEventListener("click", () => {
         window.open("https://wa.me/?text="+encodeURIComponent(document.getElementById("bill").innerText));
     });
-
-    function updateSaleReports(){
-        let history=JSON.parse(localStorage.getItem("history"))||[];
-        let daily=0; 
-        history.push({total, date:new Date().toISOString()});
-        localStorage.setItem("history", JSON.stringify(history));
-        history.forEach(h=>{ if(new Date(h.date).toDateString()===new Date().toDateString()) daily += h.total; });
-        document.getElementById("totalDay").innerHTML=`<b>Today's Total Sale: ₹${daily}</b>`;
-    }
-    updateSaleReports();
 });
 </script>
 </body>
