@@ -8,27 +8,31 @@
 <link rel="apple-touch-icon" href="logo.png">
 
 <style>
-/* --- AAPKA ORIGINAL DESIGN --- */
+/* --- AAPKA ASLI DESIGN (NO CHANGE) --- */
 body{font-family:Arial;background:#ffffff;margin:0;padding:10px;}
-.container{max-width:800px;margin:auto;background:transparent;padding:15px;}
+.container{max-width:800px;margin:auto;background:transparent;padding:15px;border-radius:0;box-shadow:none;}
 h2{text-align:center; position: relative; user-select:none;}
-
-/* SECRET INVISIBLE OVERLAY */
-.secret-overlay {
-    position: absolute;
-    top: 0; left: 0; width: 100%; height: 100%;
-    background: transparent; z-index: 999; cursor: pointer;
-}
-
 input, select, button{width:100%;padding:10px;margin:6px 0;border-radius:6px;border:1px solid #ccc;box-sizing:border-box;}
 button{border:none;background:#2563eb;color:white;font-size:15px;cursor:pointer;}
 table{width:100%;margin-top:10px;border-collapse:collapse;}
 th,td{border:1px solid #000;padding:8px;font-size:14px;text-align:center;}
 .totalRow td{font-weight:bold;}
-.bill{margin-top:20px; overflow-wrap: break-word;}
+.bill{margin-top:20px; overflow-wrap: break-word; word-wrap: break-word;}
+.invoice{float:right;}
+.clear{clear:both;}
+.qr-container{text-align:center; margin-top:15px; padding:10px; border:1px dashed #ccc;}
+.qr-container img{width:150px; height:150px;}
+
+/* Hidden Helpers */
 .hidden { display: none !important; }
 .trial-tag { text-align: center; color: #b45309; font-weight: bold; margin-bottom: 10px; font-size: 14px; }
-.wa-btn { background: #25d366 !important; margin-top: 10px; font-weight: bold; }
+.secret-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: transparent; z-index: 99; }
+
+@media screen and (max-width:600px){
+  table th, table td{padding:6px;font-size:12px;}
+  .invoice{float: none; text-align: right;}
+  .table-wrapper { overflow-x: auto; width: 100%; }
+}
 </style>
 </head>
 <body>
@@ -38,20 +42,15 @@ th,td{border:1px solid #000;padding:8px;font-size:14px;text-align:center;}
         <span id="admin-header">🧾 Bill Generator</span>
         <div class="secret-overlay" onclick="handleSecretClick()"></div>
     </h2>
+    <p style="text-align:center; color:gray;">Mobile Number daalein</p>
+    <input id="userMobile" type="number" placeholder="Enter Mobile Number">
     
-    <div id="registration-area">
-        <p style="text-align:center; color:gray;">Register karke 7 din ka Free Trial payein</p>
-        <input id="userMobile" type="number" placeholder="Enter Mobile Number">
-        
-        <button class="wa-btn" onclick="verifyOnWA()">1. Verify on WhatsApp</button>
-        <p style="font-size:11px; color:gray; text-align:center;">(Pehle WhatsApp par message bhejein, fir neeche click karein)</p>
-        
-        <button id="startBtn" style="background:#444;">2. Open Software</button>
-    </div>
+    <button onclick="verifyOnWA()" style="background:#22c55e;">1. Verify on WhatsApp</button>
+    <button id="startBtn" style="background:#444;">2. Open Software</button>
     
     <div id="lock-box" class="hidden" style="margin-top:20px; color:red; text-align:center; border:1px solid red; padding:10px;">
         <p id="lock-reason"><b>Trial Expired!</b></p>
-        <p>Contact Muksidul: 9957548361</p>
+        <p>Contact: 9957548361</p>
         <input id="licKey" placeholder="Enter License Key">
         <button onclick="activateApp()" style="background:red;">Activate Now</button>
     </div>
@@ -66,17 +65,19 @@ th,td{border:1px solid #000;padding:8px;font-size:14px;text-align:center;}
     <h3>🛠 Key Generator</h3>
     <input id="targetMobile" type="number" placeholder="Mobile Number">
     <button onclick="generateKey()" style="background:purple;">Generate 30 Days Key</button>
-    <div id="keyOutput" style="margin-top:10px; padding:10px; border:1px dashed #000; word-break:break-all; font-weight:bold; background:#f9f9f9;"></div>
-    <button onclick="location.reload()" style="background:#666;">Back</button>
+    <div id="keyOutput" style="padding:10px; border:1px dashed #000; margin:10px 0; word-break:break-all; font-weight:bold;"></div>
+    <button onclick="location.reload()" style="background:#888;">Back</button>
 </div>
 
 <div id="main-app" class="container hidden">
     <div id="trial-timer" class="trial-tag"></div>
-    <h2 onclick="location.reload()">🧾 Bill Generator</h2>
+    <h2>🧾 Bill Generator</h2>
+
     <input id="shop" placeholder="Shop Name">
     <input id="address" placeholder="Address">
-    <input id="upiId" placeholder="UPI ID">
-    <button id="saveShopBtn" style="background:#059669;">Save Details</button>
+    <input id="phone" placeholder="Phone">
+    <input id="upiId" placeholder="Enter Your UPI ID">
+    <button id="saveShopBtn">Save Shop Details</button>
 
     <input id="customer" placeholder="Customer Name">
     <input id="productSearch" placeholder="Product Name">
@@ -84,42 +85,37 @@ th,td{border:1px solid #000;padding:8px;font-size:14px;text-align:center;}
     <input id="price" type="number" placeholder="Price">
     <button id="addItemBtn">Add Item</button>
 
-    <table id="table"><tr><th>No</th><th>Product</th><th>Qty</th><th>Price</th><th>Total</th></tr></table>
+    <div class="table-wrapper">
+        <table id="table"><tr><th>No</th><th>Product</th><th>Qty</th><th>Price</th><th>Total</th></tr></table>
+    </div>
+
+    <select id="payment"><option value="Cash">Cash</option><option value="UPI">UPI</option></select>
 
     <button id="generateBillBtn">Generate Bill</button>
     <button id="printBillBtn">Print Bill</button>
     <button id="sendWhatsAppBtn">Send WhatsApp</button>
+
     <div id="bill" class="bill"></div>
+    <div id="totalDay"></div>
 </div>
 
 <script>
 const ADMIN_KEY = "shayan123";
-const MY_NUMBER = "919957548361"; // Aapka WhatsApp Number
+const MY_NUMBER = "919957548361";
 
-// --- 1. DEVICE FINGERPRINT (Unique ID) ---
-function getDeviceId() {
-    return btoa(navigator.userAgent + navigator.language + screen.width).substring(0, 16);
-}
+// --- SECURITY LOGIC ---
+function getDeviceId() { return btoa(navigator.userAgent + screen.width).substring(0, 12); }
 
-// --- 2. WHATSAPP VERIFY ---
 function verifyOnWA() {
     let mob = document.getElementById("userMobile").value;
-    if(mob.length < 10) return alert("Pehle sahi Mobile Number bhariye!");
-    
-    let text = `Hello Muksidul, main Shayan POS use karna chahta hoon. Mera Number: ${mob}, Device ID: ${getDeviceId()}`;
-    window.open(`https://wa.me/${MY_NUMBER}?text=${encodeURIComponent(text)}`);
-    localStorage.setItem("wa_requested_" + mob, "true");
+    if(mob.length < 10) return alert("Mobile Number bhariye!");
+    window.open(`https://wa.me/${MY_NUMBER}?text=Register%20Number:%20${mob}%20ID:%20${getDeviceId()}`);
+    localStorage.setItem("wa_done_" + mob, "true");
 }
 
-// --- 3. SECRET ADMIN ---
-let clickCount = 0;
+let clicks = 0;
 function handleSecretClick() {
-    clickCount++;
-    if(clickCount >= 5) {
-        document.getElementById("admin-login-area").classList.remove("hidden");
-        alert("Admin Mode ON!");
-        clickCount = 0;
-    }
+    clicks++; if(clicks >= 5) { document.getElementById("admin-login-area").classList.remove("hidden"); clicks = 0; }
 }
 
 function accessAdmin() {
@@ -132,43 +128,26 @@ function accessAdmin() {
 function generateKey() {
     let m = document.getElementById("targetMobile").value;
     let exp = new Date().getTime() + (30 * 24 * 60 * 60 * 1000);
-    document.getElementById("keyOutput").innerText = btoa(m + "|" + exp + "|premium_shayan");
+    document.getElementById("keyOutput").innerText = btoa(m + "|" + exp + "|shayan_pos");
 }
 
-// --- 4. LOGIN LOGIC WITH DEVICE LOCK ---
 document.getElementById("startBtn").addEventListener("click", function() {
     let mob = document.getElementById("userMobile").value;
-    let deviceId = getDeviceId();
-    
-    if(mob.length < 10) return alert("Mobile Number sahi dalein!");
-    if(!localStorage.getItem("wa_requested_" + mob)) return alert("Pehle 'Verify on WhatsApp' button par click karke message bhejein!");
+    if(mob.length < 10) return alert("Sahi number dalein!");
+    if(!localStorage.getItem("wa_done_" + mob)) return alert("Pehle WhatsApp button dabayein!");
 
-    // Check if this DEVICE has already used a trial
-    let deviceRecord = localStorage.getItem("device_lock");
+    let deviceLock = localStorage.getItem("d_lock");
+    if(deviceLock && deviceLock !== mob) {
+        document.getElementById("lock-reason").innerText = "Device Locked! Is phone par trial khatam ho chuka hai.";
+        document.getElementById("lock-box").classList.remove("hidden"); return;
+    }
+
+    let u = JSON.parse(localStorage.getItem("u_" + mob));
     let now = new Date().getTime();
+    if(!u) { u = { m: mob, ex: now + (7*24*60*60*1000), s: "trial" }; localStorage.setItem("u_" + mob, JSON.stringify(u)); localStorage.setItem("d_lock", mob); }
 
-    if(deviceRecord && deviceRecord !== mob) {
-        // Agar is phone par kisi aur number se trial chal chuka hai
-        document.getElementById("lock-reason").innerHTML = "<b>Device Locked!</b> Is phone par trial pehle hi liya ja chuka hai.";
-        document.getElementById("lock-box").classList.remove("hidden");
-        document.getElementById("registration-area").classList.add("hidden");
-        return;
-    }
-
-    let uData = JSON.parse(localStorage.getItem("u_" + mob));
-    if(!uData) {
-        uData = { mobile: mob, expiry: now + (7*24*60*60*1000), status: "trial", dId: deviceId };
-        localStorage.setItem("u_" + mob, JSON.stringify(uData));
-        localStorage.setItem("device_lock", mob); // Lock this device to this mobile number
-    }
-
-    if(now < uData.expiry) {
-        localStorage.setItem("currentSession", mob);
-        launchApp(uData);
-    } else {
-        document.getElementById("lock-box").classList.remove("hidden");
-        document.getElementById("registration-area").classList.add("hidden");
-    }
+    if(now < u.ex) { localStorage.setItem("session", mob); launchApp(u); }
+    else { document.getElementById("lock-box").classList.remove("hidden"); }
 });
 
 function activateApp() {
@@ -178,9 +157,9 @@ function activateApp() {
         let dec = atob(k).split("|");
         if(dec[0] === mob) {
             let u = JSON.parse(localStorage.getItem("u_" + mob));
-            u.expiry = parseInt(dec[1]); u.status = "paid";
+            u.ex = parseInt(dec[1]); u.s = "paid";
             localStorage.setItem("u_" + mob, JSON.stringify(u));
-            alert("App Activated!"); location.reload();
+            location.reload();
         }
     } catch(e) { alert("Invalid Key!"); }
 }
@@ -188,19 +167,30 @@ function activateApp() {
 function launchApp(u) {
     document.getElementById("login-screen").classList.add("hidden");
     document.getElementById("main-app").classList.remove("hidden");
-    let left = Math.ceil((u.expiry - new Date().getTime()) / (1000 * 60 * 60 * 24));
-    document.getElementById("trial-timer").innerText = "Days Remaining: " + left;
+    let d = Math.ceil((u.ex - new Date().getTime()) / (1000*60*60*24));
+    document.getElementById("trial-timer").innerText = "Days Remaining: " + d;
 }
 
-// --- 5. ORIGINAL BILLING LOGIC ---
+// --- ORIGINAL BILLING (NO CHANGE) ---
 document.addEventListener("DOMContentLoaded", function(){
-    let active = localStorage.getItem("currentSession");
-    if(active) {
-        let u = JSON.parse(localStorage.getItem("u_" + active));
-        if(u && new Date().getTime() < u.expiry) launchApp(u);
-    }
-    // (Baki bill generator ka purana logic yahan rahega)
+    let s = localStorage.getItem("session");
+    if(s) { let u = JSON.parse(localStorage.getItem("u_" + s)); if(u && new Date().getTime() < u.ex) launchApp(u); }
+
     let items=[];
+    const shopInput = document.getElementById("shop");
+    shopInput.value = localStorage.getItem("shop")||"";
+    document.getElementById("address").value = localStorage.getItem("address")||"";
+    document.getElementById("phone").value = localStorage.getItem("phone")||"";
+    document.getElementById("upiId").value = localStorage.getItem("upiId")||"";
+
+    document.getElementById("saveShopBtn").addEventListener("click", function(){
+        localStorage.setItem("shop", shopInput.value);
+        localStorage.setItem("address", document.getElementById("address").value);
+        localStorage.setItem("phone", document.getElementById("phone").value);
+        localStorage.setItem("upiId", document.getElementById("upiId").value);
+        alert("Saved!");
+    });
+
     document.getElementById("addItemBtn").addEventListener("click", function(){
         let p=document.getElementById("productSearch").value, q=+document.getElementById("qty").value, pr=+document.getElementById("price").value;
         if(p && q && pr){
@@ -209,18 +199,29 @@ document.addEventListener("DOMContentLoaded", function(){
             row.insertCell(0).innerText=items.length; row.insertCell(1).innerText=p; row.insertCell(2).innerText=q; row.insertCell(3).innerText=pr; row.insertCell(4).innerText=q*pr;
         }
     });
+
     document.getElementById("generateBillBtn").addEventListener("click", function(){
         if(items.length===0) return;
         let total=0; items.forEach(i=>total+=i.t);
         let upi = document.getElementById("upiId").value;
-        let html=`<b>${document.getElementById("shop").value}</b><hr><table><tr><th>Item</th><th>Qty</th><th>Total</th></tr>`;
+        let html=`<b>${shopInput.value}</b><hr><table><tr><th>Item</th><th>Qty</th><th>Total</th></tr>`;
         items.forEach(i=> html+=`<tr><td>${i.p}</td><td>${i.q}</td><td>₹${i.t}</td></tr>`);
         html+=`<tr><td colspan="2">Total</td><td>₹${total}</td></tr></table>`;
         if(upi) html+=`<center><img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${encodeURIComponent('upi://pay?pa='+upi+'&am='+total)}"></center>`;
         document.getElementById("bill").innerHTML = html;
+        updateSaleReports(total);
     });
+
     document.getElementById("printBillBtn").addEventListener("click", () => window.print());
     document.getElementById("sendWhatsAppBtn").addEventListener("click", () => window.open("https://wa.me/?text="+encodeURIComponent(document.getElementById("bill").innerText)));
+    
+    function updateSaleReports(t){
+        let history=JSON.parse(localStorage.getItem("history"))||[];
+        let daily=0; history.push({total:t, date:new Date().toISOString()});
+        localStorage.setItem("history", JSON.stringify(history));
+        history.forEach(h=>{ if(new Date(h.date).toDateString()===new Date().toDateString()) daily += h.total; });
+        document.getElementById("totalDay").innerHTML=`<b>Today's Total: ₹${daily}</b>`;
+    }
 });
 </script>
 </body>
