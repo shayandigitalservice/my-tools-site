@@ -1,251 +1,422 @@
 <!DOCTYPE html>
-<html lang="hi">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Smart Shop POS - Mobile Friendly</title>
-    <style>
-        :root {
-            --primary: #2563eb; /* Classic Blue */
-            --bg: #f4f7fe;
-            --card: #ffffff;
-            --border: #d1d5db;
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Shop Bill Generator – Functional POS</title>
+<style>
+/* MOBILE FRIENDLY & NO-BOX DESIGN */
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    background: #ffffff; /* Clean white background, no box */
+    margin: 0;
+    padding: 15px;
+    color: #333;
+}
 
-        body {
-            font-family: 'Segoe UI', Arial, sans-serif;
-            background-color: var(--bg);
-            margin: 0;
-            padding: 10px;
-            color: #333;
-        }
+.container {
+    max-width: 100%; /* Full width for mobile */
+    margin: auto;
+    background: transparent; /* Box system removed */
+    padding: 0;
+    border-radius: 0;
+    box-shadow: none; /* Shadow removed */
+}
 
-        .container {
-            max-width: 500px;
-            margin: auto;
-            background: var(--card);
-            padding: 15px;
-            border-radius: 12px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-        }
+h2 {
+    text-align: left;
+    font-size: 22px;
+    margin-bottom: 20px;
+    color: #1a1a1a;
+    border-bottom: 2px solid #2563eb;
+    padding-bottom: 5px;
+    display: inline-block;
+}
 
-        h2 { text-align: center; color: var(--primary); margin-bottom: 15px; font-size: 1.3rem; border-bottom: 2px solid var(--bg); padding-bottom: 8px; }
-        h3 { font-size: 1rem; color: #555; margin-top: 20px; border-left: 4px solid var(--primary); padding-left: 8px; }
+/* Modern Inputs - No heavy borders */
+input, select {
+    width: 100%;
+    padding: 12px;
+    margin: 8px 0;
+    border-radius: 8px;
+    border: 1px solid #e0e0e0;
+    background: #f9f9f9;
+    box-sizing: border-box;
+    font-size: 16px; /* Prevents auto-zoom on iPhone */
+    outline: none;
+    transition: border 0.3s;
+}
 
-        input, select {
-            width: 100%;
-            padding: 12px;
-            margin-bottom: 10px;
-            border: 1px solid var(--border);
-            border-radius: 8px;
-            box-sizing: border-box;
-            font-size: 14px;
-        }
+input:focus {
+    border-color: #2563eb;
+    background: #fff;
+}
 
-        .btn {
-            width: 100%;
-            padding: 12px;
-            border: none;
-            border-radius: 8px;
-            font-size: 15px;
-            font-weight: bold;
-            cursor: pointer;
-            margin-bottom: 8px;
-        }
+/* Big Action Buttons for Thumb Access */
+button {
+    width: 100%;
+    padding: 14px;
+    margin: 10px 0;
+    border-radius: 10px;
+    border: none;
+    background: #2563eb;
+    color: white;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: opacity 0.2s;
+    -webkit-tap-highlight-color: transparent;
+}
 
-        .btn-blue { background: var(--primary); color: white; }
-        .btn-outline { background: white; color: var(--primary); border: 1px solid var(--primary); }
-        .btn-green { background: #10b981; color: white; }
+button:active {
+    opacity: 0.8;
+    transform: scale(0.98);
+}
 
-        /* Table */
-        .table-wrapper { overflow-x: auto; margin-top: 10px; border: 1px solid #eee; border-radius: 8px; }
-        table { width: 100%; border-collapse: collapse; font-size: 13px; }
-        th { background: var(--primary); color: white; padding: 8px; text-align: left; }
-        td { padding: 8px; border-bottom: 1px solid #eee; }
+/* Specialized Button Colors */
+#saveShopBtn { background: #059669; }
+#printBillBtn { background: #4b5563; }
+#sendWhatsAppBtn { background: #25d366; }
+#downloadHistoryBtn, #downloadStockBtn { background: #7c3aed; }
 
-        /* Stock Status Colors */
-        .low-stock { color: #ef4444; font-weight: bold; }
-        .in-stock { color: #10b981; font-weight: bold; }
+/* Mobile Responsive Table */
+.table-wrapper {
+    overflow-x: auto;
+    margin-top: 15px;
+    border-radius: 8px;
+}
 
-        #bill-output {
-            margin-top: 15px;
-            padding: 12px;
-            border: 2px dashed var(--border);
-            border-radius: 8px;
-            background: #fff;
-            display: none;
-        }
+table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 500px; /* Ensures table doesn't squash too much */
+}
 
-        .flex-row { display: flex; gap: 8px; }
-    </style>
+th {
+    background: #f1f5f9;
+    color: #475569;
+    font-weight: 600;
+    border: 1px solid #e2e8f0;
+    padding: 12px 8px;
+}
+
+td {
+    border: 1px solid #e2e8f0;
+    padding: 10px 8px;
+    font-size: 14px;
+    text-align: center;
+}
+
+.totalRow td {
+    font-weight: bold;
+    background: #f8fafc;
+    font-size: 16px;
+    color: #2563eb;
+}
+
+#totalDay {
+    background: #eff6ff;
+    padding: 15px;
+    border-radius: 10px;
+    margin-top: 15px;
+    text-align: center;
+    color: #1e40af;
+}
+
+.bill {
+    margin-top: 25px;
+    padding: 15px;
+    border: 1px dashed #cbd5e1;
+    background: #fff;
+    border-radius: 8px;
+}
+
+hr {
+    border: 0;
+    border-top: 1px solid #eee;
+    margin: 30px 0;
+}
+
+/* SEO Section Styling */
+.seo-content {
+    margin-top: 40px;
+    padding: 15px;
+    background: #f8fafc;
+    border-radius: 12px;
+}
+
+@media screen and (max-width: 600px) {
+    body { padding: 10px; }
+    h2 { font-size: 20px; }
+    button { padding: 12px; font-size: 15px; }
+}
+</style>
 </head>
 <body>
-
 <div class="container">
-    <h2>🧾 Shop Bill & Stock</h2>
+<h2>🧾 Bill Generator</h2>
 
-    <h3>🏠 Shop Details</h3>
-    <input id="sName" placeholder="Shop Name">
-    <input id="sAddr" placeholder="Address">
-    <input id="sPh" placeholder="Phone">
-    <button onclick="saveShop()" class="btn btn-outline" style="padding:7px; font-size:12px;">Save Shop Info</button>
+<input id="shop" placeholder="Shop Name">
+<input id="address" placeholder="Address">
+<input id="phone" placeholder="Phone">
+<button id="saveShopBtn">Save Shop Details</button>
 
-    <h3>📦 Manage Stock</h3>
-    <input id="stName" placeholder="Product Name">
-    <input id="stQty" type="number" placeholder="Add Quantity">
-    <button onclick="addStock()" class="btn btn-blue">Update Stock</button>
-    
-    <div class="table-wrapper">
-        <table id="stockTable">
-            <thead><tr><th>Product</th><th>Available</th></tr></thead>
-            <tbody></tbody>
-        </table>
-    </div>
+<input id="customer" placeholder="Customer Name">
 
-    <hr style="margin:20px 0; border:0; border-top:1px solid #eee;">
+<input id="productSearch" placeholder="Search Product">
+<select id="productDropdown"></select>
 
-    <h3>🛒 Create Bill</h3>
-    <input id="cName" placeholder="Customer Name">
-    <select id="pSelect"><option value="">-- Select Product --</option></select>
-    
-    <div class="flex-row">
-        <input id="bQty" type="number" placeholder="Qty">
-        <input id="bPrice" type="number" placeholder="Price">
-    </div>
-    <button onclick="addToBill()" class="btn btn-outline">+ Add to List</button>
+<input id="qty" type="number" placeholder="Qty">
+<input id="price" type="number" placeholder="Price">
+<button id="addItemBtn">Add Item</button>
 
-    <div class="table-wrapper">
-        <table id="billTable">
-            <thead><tr><th>Item</th><th>Qty</th><th>Total</th></tr></thead>
-            <tbody></tbody>
-        </table>
-    </div>
+<div class="table-wrapper">
+    <table id="table">
+    <tr><th>No</th><th>Product</th><th>Qty</th><th>Price</th><th>Total</th></tr>
+    </table>
+</div>
 
-    <select id="payMode" style="margin-top:10px;">
-        <option value="Cash">Cash</option>
-        <option value="UPI">UPI / Online</option>
-    </select>
+<select id="payment">
+  <option value="Cash">Cash</option>
+  <option value="UPI">UPI</option>
+  <option value="Card">Card</option>
+</select>
 
-    <button onclick="generateBill()" class="btn btn-green">Generate & Save Bill</button>
+<button id="generateBillBtn">Generate Bill</button>
+<select id="printMode">
+<option value="A4">Print A4</option>
+<option value="Receipt" selected>Print Receipt</option>
+<option value="Custom">Custom Width</option>
+</select>
+<button id="printBillBtn">Print Bill</button>
+<button id="sendWhatsAppBtn">Send WhatsApp</button>
 
-    <div id="bill-output"></div>
+<div id="bill" class="bill">Your generated bill will appear here...</div>
+<button id="downloadHistoryBtn">Download History</button>
+<div id="totalDay"></div>
 
-    <div class="flex-row" style="margin-top:10px;">
-        <button onclick="window.print()" class="btn btn-outline">🖨️ Print</button>
-        <button onclick="shareWA()" class="btn btn-blue" style="background:#25D366;">📱 WhatsApp</button>
-    </div>
+<hr>
+<h2>📦 Stock Management</h2>
+
+<input id="stockProduct" placeholder="Product Name">
+<input id="stockQty" type="number" placeholder="Quantity to Add">
+<button id="addStockBtn">Add Stock</button>
+
+<div class="table-wrapper">
+<table id="stockTable">
+<tr><th>Product</th><th>Available Qty</th><th>Last Updated</th></tr>
+</table>
+</div>
+
+<button id="downloadStockBtn">Download Stock Excel</button>
+
+<hr>
 </div>
 
 <script>
-    let stockData = JSON.parse(localStorage.getItem('stock')) || {};
-    let currentBill = [];
+// --- AAPKA ORIGINAL JAVASCRIPT LOGIC (NO CHANGES) ---
+document.addEventListener("DOMContentLoaded", function(){
 
-    window.onload = () => {
-        document.getElementById('sName').value = localStorage.getItem('sn') || "";
-        document.getElementById('sAddr').value = localStorage.getItem('sa') || "";
-        document.getElementById('sPh').value = localStorage.getItem('sp') || "";
-        updateStockUI();
-    };
+let items=[];
+let total=0;
+let invoiceCounter = parseInt(localStorage.getItem("invoiceCounter"))||1;
+let stock = JSON.parse(localStorage.getItem("stock"))||{};
+let stockHistory = JSON.parse(localStorage.getItem("stockHistory"))||[];
 
-    function saveShop() {
-        localStorage.setItem('sn', document.getElementById('sName').value);
-        localStorage.setItem('sa', document.getElementById('sAddr').value);
-        localStorage.setItem('sp', document.getElementById('sPh').value);
-        alert("Shop Details Saved!");
+const shopInput = document.getElementById("shop");
+const addressInput = document.getElementById("address");
+const phoneInput = document.getElementById("phone");
+const saveShopBtn = document.getElementById("saveShopBtn");
+
+shopInput.value = localStorage.getItem("shop")||"";
+addressInput.value = localStorage.getItem("address")||"";
+phoneInput.value = localStorage.getItem("phone")||"";
+
+saveShopBtn.addEventListener("click", function(){
+    localStorage.setItem("shop", shopInput.value);
+    localStorage.setItem("address", addressInput.value);
+    localStorage.setItem("phone", phoneInput.value);
+    alert("Shop details saved!");
+});
+
+const stockProductInput = document.getElementById("stockProduct");
+const stockQtyInput = document.getElementById("stockQty");
+const addStockBtn = document.getElementById("addStockBtn");
+const stockTable = document.getElementById("stockTable");
+
+function renderStock(){
+    stockTable.innerHTML = `<tr><th>Product</th><th>Available Qty</th><th>Last Updated</th></tr>`;
+    for(let p in stock){
+        let updates = stockHistory.filter(h=>h.product===p);
+        let lastUpdate = updates[updates.length-1]?.date || "";
+        let color = stock[p]<=5 ? "red" : "green";
+        let row = stockTable.insertRow();
+        row.insertCell(0).innerHTML = p + (stock[p]<=5 ? " ⚠ Low Stock" : "");
+        row.insertCell(1).innerHTML = `<span style="color:${color}">${stock[p]}</span>`;
+        row.insertCell(2).innerText = new Date(lastUpdate).toLocaleString();
     }
+}
+renderStock();
 
-    function updateStockUI() {
-        const tbody = document.querySelector("#stockTable tbody");
-        const select = document.getElementById("pSelect");
-        tbody.innerHTML = "";
-        select.innerHTML = '<option value="">-- Select Product --</option>';
+addStockBtn.addEventListener("click", function(){
+    let p = stockProductInput.value.trim();
+    let q = +stockQtyInput.value;
+    if(!p || !q){ alert("Fill all fields"); return; }
+    stock[p] = (stock[p] || 0) + q;
+    stockHistory.push({product:p, qtyAdded:q, type:"Added", date:new Date().toISOString()});
+    localStorage.setItem("stock", JSON.stringify(stock));
+    localStorage.setItem("stockHistory", JSON.stringify(stockHistory));
+    stockProductInput.value=""; stockQtyInput.value="";
+    renderStock();
+    renderProductDropdown();
+});
 
-        for (let name in stockData) {
-            let qty = stockData[name];
-            let statusClass = qty <= 5 ? 'low-stock' : 'in-stock';
-            
-            // Update Table
-            tbody.innerHTML += `<tr><td>${name}</td><td class="${statusClass}">${qty}</td></tr>`;
-            
-            // Update Dropdown
-            let opt = document.createElement("option");
-            opt.value = name; opt.text = name;
-            select.appendChild(opt);
-        }
+const productDropdown = document.getElementById("productDropdown");
+const productSearch = document.getElementById("productSearch");
+
+function renderProductDropdown(){
+    productDropdown.innerHTML = "";
+    let productList = [...new Set(Object.keys(stock))];
+    productList.forEach(p=>{
+        let option = document.createElement("option");
+        option.value = p; option.text = p;
+        productDropdown.appendChild(option);
+    });
+}
+renderProductDropdown();
+
+productSearch.addEventListener("input", function(){
+    let val = this.value.toLowerCase();
+    let options = Array.from(productDropdown.options);
+    let match = options.find(o=>o.value.toLowerCase().includes(val));
+    if(match) productDropdown.value = match.value;
+});
+
+document.getElementById("downloadStockBtn").addEventListener("click", function(){
+    let html = `<table border="1">
+    <tr><th>Product</th><th>Available Qty</th><th>Last Updated</th></tr>`;
+    for(let p in stock){
+        let updates = stockHistory.filter(h=>h.product===p);
+        let lastUpdate = updates[updates.length-1]?.date||"";
+        html += `<tr>
+        <td>${p}</td><td>${stock[p]}</td><td>${new Date(lastUpdate).toLocaleString()}</td>
+        </tr>`;
     }
+    html += `</table>`;
+    let blob = new Blob([html], {type:"application/vnd.ms-excel"});
+    let a = document.createElement("a");
+    a.href = URL.createObjectURL(blob);
+    a.download = "stock.xlsx";
+    a.click();
+});
 
-    function addStock() {
-        let name = document.getElementById('stName').value.trim();
-        let qty = parseInt(document.getElementById('stQty').value);
-        if(!name || isNaN(qty)) return alert("Enter valid Name & Qty");
+const qtyInput = document.getElementById("qty");
+const priceInput = document.getElementById("price");
+const addItemBtn = document.getElementById("addItemBtn");
+const table = document.getElementById("table");
 
-        stockData[name] = (stockData[name] || 0) + qty;
-        localStorage.setItem('stock', JSON.stringify(stockData));
-        updateStockUI();
-        document.getElementById('stName').value = "";
-        document.getElementById('stQty').value = "";
-    }
+addItemBtn.addEventListener("click", function(){
+    let p = productDropdown.value.trim();
+    let q = +qtyInput.value;
+    let pr = +priceInput.value;
+    if(!p || !q || !pr){ alert("Fill all fields"); return; }
+    if(stock[p]===undefined){ alert("Product not in stock"); return; }
+    if(q>stock[p]){ alert(`Stock not sufficient for ${p}. Available: ${stock[p]}`); return; }
 
-    function addToBill() {
-        let name = document.getElementById('pSelect').value;
-        let qty = parseInt(document.getElementById('bQty').value);
-        let price = parseFloat(document.getElementById('bPrice').value);
+    stock[p]-=q;
+    stockHistory.push({product:p, qtyAdded:-q, type:"Sold", date:new Date().toISOString()});
+    localStorage.setItem("stock", JSON.stringify(stock));
+    localStorage.setItem("stockHistory", JSON.stringify(stockHistory));
+    renderStock();
 
-        if(!name || isNaN(qty) || isNaN(price)) return alert("Fill all fields");
-        if(stockData[name] < qty) return alert("Stock not enough! Only " + stockData[name] + " left.");
+    let t = q*pr;
+    items.push({p,q,pr,t});
+    let row=table.insertRow();
+    row.insertCell(0).innerText=items.length;
+    row.insertCell(1).innerText=p;
+    row.insertCell(2).innerText=q;
+    row.insertCell(3).innerText=pr;
+    row.insertCell(4).innerText=t;
+    productSearch.value=""; qtyInput.value=""; priceInput.value="";
+});
 
-        let total = qty * price;
-        currentBill.push({name, qty, price, total});
-        
-        // Deduct from stock
-        stockData[name] -= qty;
-        localStorage.setItem('stock', JSON.stringify(stockData));
+function getInvoiceNumber(){ let num = invoiceCounter; invoiceCounter++; localStorage.setItem("invoiceCounter", invoiceCounter); return num; }
 
-        const tbody = document.querySelector("#billTable tbody");
-        tbody.innerHTML += `<tr><td>${name}</td><td>${qty}</td><td>₹${total}</td></tr>`;
-        
-        updateStockUI();
-        document.getElementById('bQty').value = "";
-        document.getElementById('bPrice').value = "";
-    }
+document.getElementById("generateBillBtn").addEventListener("click", function(){
+    if(items.length===0){ alert("Add items first"); return; }
+    let bill = document.getElementById("bill");
+    total=0; items.forEach(i=> total+=i.t);
+    let invoiceNo = getInvoiceNumber();
+    let dateISO = new Date().toISOString();
+    let paymentMode = document.getElementById("payment").value;
 
-    function generateBill() {
-        if(currentBill.length === 0) return alert("Add items first");
-        
-        let shop = document.getElementById('sName').value;
-        let addr = document.getElementById('sAddr').value;
-        let ph = document.getElementById('sPh').value;
-        let cust = document.getElementById('cName').value || "Customer";
-        let grandTotal = currentBill.reduce((s, i) => s + i.total, 0);
+    let html=`<div class="invoice">Invoice No: ${invoiceNo}</div><div class="clear"></div>
+    <b>${shopInput.value}</b><br>${addressInput.value}<br>Phone: ${phoneInput.value}<br>
+    Date: ${new Date(dateISO).toLocaleString()}<br>
+    Customer: ${document.getElementById("customer").value}<br>
+    Payment Mode: ${paymentMode}<hr>
+    <table>
+    <tr><th>No</th><th>Item</th><th>Qty</th><th>Price</th><th>Total</th></tr>`;
+    items.forEach((i,index)=>{
+        html+=`<tr><td>${index+1}</td><td>${i.p}</td><td>${i.q}</td><td>${i.pr}</td><td>${i.t}</td></tr>`;
+    });
+    html+=`<tr class="totalRow"><td colspan="4">Grand Total</td><td>₹${total}</td></tr></table>`;
+    bill.innerHTML = html;
 
-        let html = `
-            <div style="text-align:center; font-family:monospace;">
-                <h3 style="margin:0">${shop}</h3>
-                <p style="font-size:11px; margin:2px;">${addr}<br>Ph: ${ph}</p>
-                <hr>
-                <div style="text-align:left; font-size:12px;">
-                    Date: ${new Date().toLocaleDateString()}<br>
-                    Customer: ${cust}<br>
-                    Payment: ${document.getElementById('payMode').value}
-                </div>
-                <table style="width:100%; border-top:1px solid #000; margin-top:10px; font-size:12px;">
-                    ${currentBill.map(i => `<tr><td>${i.name} x ${i.qty}</td><td style="text-align:right">₹${i.total}</td></tr>`).join('')}
-                    <tr style="font-weight:bold; border-top:1px dashed #000;">
-                        <td>TOTAL</td><td style="text-align:right">₹${grandTotal}</td>
-                    </tr>
-                </table>
-            </div>
-        `;
-        const out = document.getElementById('bill-output');
-        out.innerHTML = html;
-        out.style.display = "block";
-    }
+    let history = JSON.parse(localStorage.getItem("history"))||[];
+    history.push({total:total,date:dateISO,invoice:invoiceNo,payment:paymentMode});
+    localStorage.setItem("history",JSON.stringify(history));
+    updateSaleReports();
+});
 
-    function shareWA() {
-        let text = document.getElementById('bill-output').innerText;
-        window.open("https://wa.me/?text=" + encodeURIComponent("🧾 *NEW BILL*\n" + text));
-    }
+document.getElementById("printBillBtn").addEventListener("click", function(){
+    let content = document.getElementById("bill").innerHTML;
+    let mode = document.getElementById("printMode").value;
+    let width=400, height=600;
+    if(mode=="A4"){width=800;height=1100;}
+    else if(mode=="Custom"){ width = parseInt(prompt("Enter width px","400"))||400; height = parseInt(prompt("Enter height px","600"))||600; }
+    let win = window.open('','',`width=${width},height=${height}`);
+    win.document.write(`<html><head><title>Print Bill</title><style>
+    body{font-family:monospace;padding:10px;} table{width:100%;border-collapse:collapse;} td,th{border:1px solid #000;padding:5px;text-align:center;} .totalRow td{font-weight:bold;} .invoice{float:right;} .clear{clear:both;}
+    </style></head><body>${content}</body></html>`);
+    win.document.close(); win.print();
+});
+
+document.getElementById("sendWhatsAppBtn").addEventListener("click", function(){
+    let text="🧾 BILL RECEIPT\n\n"+document.getElementById("bill").innerText;
+    let url="https://wa.me/?text="+encodeURIComponent(text);
+    window.open(url);
+});
+
+document.getElementById("downloadHistoryBtn").addEventListener("click", function(){
+    let history=JSON.parse(localStorage.getItem("history"))||[];
+    let csv="Invoice,Payment,Total,Date\n";
+    history.forEach(h=> csv+=h.invoice+","+h.payment+","+h.total+","+h.date+"\n");
+    let blob = new Blob([csv]); let a=document.createElement("a");
+    a.href = URL.createObjectURL(blob); a.download="history.csv"; a.click();
+});
+
+function updateSaleReports(){
+    let history=JSON.parse(localStorage.getItem("history"))||[];
+    let today=new Date();
+    let daily=0,weekly=0,monthly=0;
+    history.forEach(h=>{
+        let d = new Date(h.date);
+        if(d.toDateString()===today.toDateString()) daily += h.total;
+        let diffDays = (today-d)/(1000*60*60*24);
+        if(diffDays<=7) weekly += h.total;
+        if(today.getMonth()===d.getMonth() && today.getFullYear()===d.getFullYear()) monthly += h.total;
+    });
+    document.getElementById("totalDay").innerHTML=`<b>Daily: ₹${daily} | Weekly: ₹${weekly}  | Monthly: ₹${monthly}</b>`;
+}
+updateSaleReports();
+
+});
 </script>
 
+<section class="seo-content" style="line-height:1.6; font-family: sans-serif; font-size: 14px; color: #444;">
+    <h1 style="font-size: 20px;">Ultimate Shop Bill Generator – Free Online Mini POS Tool</h1>
+    <p>The <strong>Ultimate Shop Bill Generator</strong> is a comprehensive online tool designed for shopkeepers to manage daily sales. professional invoices instantly, track sales, and share via WhatsApp.</p>
+    </section>
 </body>
 </html>
