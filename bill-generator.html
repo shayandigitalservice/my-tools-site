@@ -19,11 +19,13 @@ th,td{border:1px solid #000;padding:8px;font-size:14px;text-align:center;}
 .qr-container{text-align:center; margin-top:15px;}
 .qr-container img{width:150px; height:150px;}
 
-/* Print settings to prevent blank PDF */
+/* YE SECTION PDF KO BLANK HONE SE ROKEGA */
 @media print {
   body * { visibility: hidden; }
   #bill, #bill * { visibility: visible; }
-  #bill { position: absolute; left: 0; top: 0; width: 100%; }
+  #bill { position: absolute; left: 0; top: 0; width: 100%; border:none; }
+  table { width: 100% !important; border: 1px solid #000 !important; }
+  th, td { border: 1px solid #000 !important; padding: 5px !important; }
 }
 
 @media screen and (max-width:600px){
@@ -47,7 +49,6 @@ th,td{border:1px solid #000;padding:8px;font-size:14px;text-align:center;}
 <input id="customer" placeholder="Customer Name">
 <input id="productSearch" placeholder="Search Product">
 <select id="productDropdown"></select>
-
 <input id="qty" type="number" placeholder="Qty">
 <input id="price" type="number" placeholder="Price">
 <button id="addItemBtn">Add Item</button>
@@ -65,7 +66,7 @@ th,td{border:1px solid #000;padding:8px;font-size:14px;text-align:center;}
 </select>
 
 <button id="generateBillBtn">Generate Bill</button>
-<button id="downloadPdfBtn" onclick="window.print()">Download/Print Bill PDF</button>
+<button id="printBtn" onclick="window.print()">Download/Print PDF</button>
 <button id="sendWhatsAppBtn">Send WhatsApp</button>
 
 <div id="bill" class="bill"></div>
@@ -79,7 +80,6 @@ th,td{border:1px solid #000;padding:8px;font-size:14px;text-align:center;}
 <input id="stockQty" type="number" placeholder="Quantity to Add">
 <button id="addStockBtn">Add Stock</button>
 <div style="overflow-x:auto;"><table id="stockTable"><tr><th>Product</th><th>Qty</th><th>Updated</th></tr></table></div>
-<button id="downloadStockBtn">Download Stock Excel</button>
 </div>
 
 <script>
@@ -106,7 +106,7 @@ document.getElementById("saveShopBtn").addEventListener("click", function(){
     localStorage.setItem("address", addressInput.value);
     localStorage.setItem("phone", phoneInput.value);
     localStorage.setItem("upiId", upiInput.value);
-    alert("Details saved!");
+    alert("Saved!");
 });
 
 function renderStock(){
@@ -161,7 +161,7 @@ document.getElementById("generateBillBtn").addEventListener("click", function(){
     let invNo = invoiceCounter++; localStorage.setItem("invoiceCounter", invoiceCounter);
     let upiId = upiInput.value.trim();
 
-    let html=`<div style="width:100%; padding:15px; color:black;">
+    let html=`<div style="width:100%; padding:10px; color:black;">
     <div style="text-align:right;">Invoice No: ${invNo}</div>
     <center><b>${shopInput.value}</b><br>${addressInput.value}<br>PH: ${phoneInput.value}</center>
     <hr>
