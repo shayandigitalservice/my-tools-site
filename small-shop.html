@@ -3,174 +3,222 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Bill Generator - Muksidul Distribution</title>
+<title>Shop Bill Generator – Functional POS</title>
+<link rel="icon" type="image/png" href="logo.png">
+<link rel="apple-touch-icon" href="logo.png">
+
 <style>
-/* --- ORIGINAL LOOK --- */
-body{font-family:Arial;background:#f0f2f5;margin:0;padding:10px;}
-.container{max-width:450px;margin:auto;background:#fff;padding:20px;border-radius:12px;box-shadow:0 4px 15px rgba(0,0,0,0.1);}
-h2{text-align:center;color:#1a73e8;position:relative;margin-bottom:20px;}
-input, button{width:100%;padding:12px;margin:8px 0;border-radius:8px;border:1px solid #ddd;box-sizing:border-box;font-size:15px;}
-button{border:none;background:#1a73e8;color:white;cursor:pointer;font-weight:bold;transition:0.3s;}
-button:active{transform:scale(0.98);}
-.wa-btn{background:#25d366;}
-.distributor-panel{margin-top:15px;padding:15px;border:2px dashed #1a73e8;background:#f8fbff;border-radius:10px;text-align:center;}
-.hidden{display:none !important;}
-.trial-tag{text-align:center;color:#e67e22;font-weight:bold;margin-bottom:10px;}
-table{width:100%;border-collapse:collapse;margin-top:10px;font-size:12px;}
-th,td{border:1px solid #000;padding:6px;text-align:center;}
-.secret-overlay{position:absolute;top:0;left:0;width:100%;height:40px;background:transparent;z-index:99;}
+/* --- AAPKA ORIGINAL DESIGN (100% SAME) --- */
+body{font-family:Arial;background:#ffffff;margin:0;padding:10px;}
+.container{max-width:800px;margin:auto;background:transparent;padding:15px;border-radius:0;box-shadow:none;}
+h2{text-align:center; position: relative; user-select:none;}
+input, select, button{width:100%;padding:10px;margin:6px 0;border-radius:6px;border:1px solid #ccc;box-sizing:border-box;}
+button{border:none;background:#2563eb;color:white;font-size:15px;cursor:pointer;}
+table{width:100%;margin-top:10px;border-collapse:collapse;}
+th,td{border:1px solid #000;padding:8px;font-size:14px;text-align:center;}
+.totalRow td{font-weight:bold;}
+.bill{margin-top:20px; overflow-wrap: break-word; word-wrap: break-word;}
+.invoice{float:right;}
+.clear{clear:both;}
+.qr-container{text-align:center; margin-top:15px; padding:10px; border:1px dashed #ccc;}
+.qr-container img{width:150px; height:150px;}
+
+/* Hidden Helpers */
+.hidden { display: none !important; }
+.trial-tag { text-align: center; color: #b45309; font-weight: bold; margin-bottom: 10px; font-size: 14px; }
+.secret-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: transparent; z-index: 99; }
+.activation-panel { margin-top: 15px; padding: 15px; border: 2px dashed #2563eb; background: #f0f7ff; border-radius: 8px; text-align: center; }
+
+@media screen and (max-width:600px){
+  table th, table td{padding:6px;font-size:12px;}
+  .invoice{float: none; text-align: right;}
+  .table-wrapper { overflow-x: auto; width: 100%; }
+}
 </style>
 </head>
 <body>
 
 <div id="login-screen" class="container">
     <h2>
-        <span id="app-title">🧾 Bill Generator</span>
-        <div class="secret-overlay" onclick="adminAccess()"></div>
+        <span id="admin-trigger">🧾 Bill Generator</span>
+        <div class="secret-overlay" onclick="handleSecretClick()"></div>
     </h2>
     
     <div id="reg-form">
-        <p style="text-align:center; color:#555; font-size:14px;">Software Activate karne ke liye details bharein</p>
         <input id="uName" type="text" placeholder="Apna Naam (Name)">
-        <input id="uAddr" type="text" placeholder="Dukan ka Pata (Address)">
+        <input id="uAddr" type="text" placeholder="Dukan ka Address">
         <input id="uMob" type="number" placeholder="WhatsApp Number">
-        
-        <button class="wa-btn" onclick="sendVerification()">Verify & Get ID Number</button>
+        <button onclick="sendVerifyRequest()" style="background:#22c55e;">Verify & Get ID Number</button>
     </div>
 
-    <div id="activation-box" class="distributor-panel hidden">
-        <p style="color:#1a73e8; font-weight:bold; font-size:16px; margin:0;">Distributor: Muksidul Islam</p>
-        <p style="font-size:13px; color:#666; margin:5px 0;">ID Number maangne ke liye WhatsApp par message bhejein: <b>9957548361</b></p>
-        <hr style="border:0; border-top:1px solid #eee;">
+    <div id="activation-box" class="activation-panel hidden">
+        <p style="color:#2563eb; font-weight:bold; margin-top:0;">Distributor: Muksidul Islam</p>
+        <p style="font-size:13px;">WhatsApp par ID maangein: 9957548361</p>
+        <hr>
         <input id="inputID" type="text" placeholder="Enter 6-Digit ID Number">
-        <button onclick="checkActivation()" style="background:#d93025;">Activate Software</button>
+        <button onclick="checkActivation()" style="background:#dc2626;">Activate Software</button>
+    </div>
+
+    <div id="admin-login-area" class="hidden" style="margin-top:40px; border-top:1px solid #ccc; padding-top:10px;">
+        <input id="masterPass" type="password" placeholder="Master Password">
+        <button onclick="accessAdmin()" style="background:#444;">Admin Login</button>
     </div>
 </div>
 
 <div id="admin-panel" class="container hidden">
-    <h3>Admin Database</h3>
-    <p>Yahan aap saved users dekh sakte hain (Local)</p>
-    <div id="userList" style="font-size:12px; text-align:left; max-height:200px; overflow-y:auto; border:1px solid #ccc; padding:5px;"></div>
-    <button onclick="location.reload()" style="background:#555; margin-top:10px;">Back</button>
+    <h3>🛠 Admin Panel</h3>
+    <div id="admin-info" style="font-size:14px; background:#eee; padding:10px;"></div>
+    <button onclick="location.reload()" style="background:#888; margin-top:10px;">Back</button>
 </div>
 
-<div id="main-app" class="container hidden" style="max-width:800px;">
-    <div id="days-left" class="trial-tag"></div>
+<div id="main-app" class="container hidden">
+    <div id="trial-timer" class="trial-tag"></div>
     <h2 onclick="location.reload()">🧾 Bill Generator</h2>
-    <input id="sName" placeholder="Shop Name">
-    <input id="sAddr" placeholder="Address">
-    <button id="saveInfo" style="background:#34a853;">Save Shop Info</button>
-    <hr>
-    <input id="itemN" placeholder="Product Name">
-    <input id="itemQ" type="number" placeholder="Qty">
-    <input id="itemP" type="number" placeholder="Price">
-    <button id="addBtn">Add to List</button>
 
-    <table id="billTbl"><tr><th>No</th><th>Item</th><th>Qty</th><th>Price</th><th>Total</th></tr></table>
-    <button id="printBtn" style="margin-top:10px;">Print / Generate Bill</button>
-    <div id="finalBill"></div>
+    <input id="shop" placeholder="Shop Name">
+    <input id="address" placeholder="Address">
+    <input id="phone" placeholder="Phone">
+    <input id="upiId" placeholder="Enter Your UPI ID (e.g. name@upi)">
+    <button id="saveShopBtn">Save Shop Details</button>
+
+    <input id="customer" placeholder="Customer Name">
+    <input id="productSearch" placeholder="Product Name">
+    <input id="qty" type="number" placeholder="Qty">
+    <input id="price" type="number" placeholder="Price">
+    <button id="addItemBtn">Add Item</button>
+
+    <div class="table-wrapper">
+        <table id="table"><tr><th>No</th><th>Product</th><th>Qty</th><th>Price</th><th>Total</th></tr></table>
+    </div>
+
+    <select id="payment"><option value="Cash">Cash</option><option value="UPI">UPI</option></select>
+
+    <button id="generateBillBtn">Generate Bill</button>
+    <button id="printBillBtn">Print Bill</button>
+    <button id="sendWhatsAppBtn">Send WhatsApp</button>
+
+    <div id="bill" class="bill"></div>
+    <div id="totalDay"></div>
 </div>
 
 <script>
 const MY_WA = "919957548361";
-const ADMIN_PASS = "shayan123";
+const ADMIN_KEY = "shayan123";
 
-// 1. Generate Random ID (Example: SH-4829)
-function generateRandomID() {
-    return "SH-" + Math.floor(1000 + Math.random() * 9000);
+// 1. Device Fingerprint
+function getDID() { return btoa(navigator.userAgent).substring(5, 15); }
+
+// 2. Secret Admin Trigger
+let clicks = 0;
+function handleSecretClick() {
+    clicks++; if(clicks >= 5) { document.getElementById("admin-login-area").classList.remove("hidden"); clicks = 0; }
 }
 
-// 2. WhatsApp Verification
-function sendVerification() {
+function accessAdmin() {
+    if(document.getElementById("masterPass").value === ADMIN_KEY) {
+        document.getElementById("login-screen").classList.add("hidden");
+        document.getElementById("admin-panel").classList.remove("hidden");
+        document.getElementById("admin-info").innerText = "Last ID: " + localStorage.getItem("pending_id");
+    }
+}
+
+// 3. WhatsApp & ID Generation
+function sendVerifyRequest() {
     let name = document.getElementById("uName").value;
     let addr = document.getElementById("uAddr").value;
     let mob = document.getElementById("uMob").value;
     
-    if(!name || !addr || mob.length < 10) return alert("Please fill all details correctly!");
+    if(!name || !addr || mob.length < 10) return alert("Details sahi bhariye!");
 
-    // Check Device Lock
-    let existingLock = localStorage.getItem("dev_lock");
-    if(existingLock && existingLock !== mob) {
-        return alert("Error: Is device par dusra account allow nahi hai!");
-    }
+    // Device Lock Check
+    let dLock = localStorage.getItem("device_lock");
+    if(dLock && dLock !== mob) return alert("Device Locked! Is phone par dusra number allow nahi hai.");
 
-    // Create Random ID for this user
-    let sessionID = generateRandomID();
-    localStorage.setItem("pending_id", sessionID);
+    let randomID = "SH-" + Math.floor(1000 + Math.random() * 9000);
+    localStorage.setItem("pending_id", randomID);
     localStorage.setItem("pending_mob", mob);
 
-    let msg = `*Activation Request*\nName: ${name}\nAddress: ${addr}\nMobile: ${mob}\n*ID Number: ${sessionID}*\n------------------\nSir, please activate my software.`;
-    
+    let msg = `*Activation Request*\nName: ${name}\nAddress: ${addr}\nMobile: ${mob}\n*ID Number: ${randomID}*\nDeviceID: ${getDID()}`;
     window.open(`https://wa.me/${MY_WA}?text=${encodeURIComponent(msg)}`);
     
     document.getElementById("reg-form").classList.add("hidden");
     document.getElementById("activation-box").classList.remove("hidden");
 }
 
-// 3. Check ID and Activate
 function checkActivation() {
-    let enteredID = document.getElementById("inputID").value.trim().toUpperCase();
-    let correctID = localStorage.getItem("pending_id");
+    let input = document.getElementById("inputID").value.trim().toUpperCase();
+    let correct = localStorage.getItem("pending_id");
     let mob = localStorage.getItem("pending_mob");
 
-    if(enteredID === correctID) {
-        let expiry = new Date().getTime() + (30 * 24 * 60 * 60 * 1000); // 30 Days
-        let userData = { active: true, exp: expiry, mobile: mob };
-        localStorage.setItem("app_auth", JSON.stringify(userData));
-        localStorage.setItem("dev_lock", mob);
-        alert("Software Successfully Activated for 30 Days!");
+    if(input === correct) {
+        let expiry = new Date().getTime() + (30 * 24 * 60 * 60 * 1000);
+        let auth = { active: true, exp: expiry, mob: mob };
+        localStorage.setItem("app_auth_data", JSON.stringify(auth));
+        localStorage.setItem("device_lock", mob);
+        alert("Success! Software Activated.");
         location.reload();
-    } else {
-        alert("Galat ID Number! Distributor se sahi ID maangein.");
-    }
+    } else { alert("Galat ID Number!"); }
 }
 
-// 4. Admin Access
-let tapCount = 0;
-function adminAccess() {
-    tapCount++;
-    if(tapCount >= 5) {
-        let p = prompt("Admin Password:");
-        if(p === ADMIN_PASS) {
-            document.getElementById("login-screen").classList.add("hidden");
-            document.getElementById("admin-panel").classList.remove("hidden");
-            showUsers();
-        }
-        tapCount = 0;
-    }
-}
-
-function showUsers() {
-    let lock = localStorage.getItem("dev_lock") || "No Users";
-    let id = localStorage.getItem("pending_id") || "None";
-    document.getElementById("userList").innerHTML = `Last Registered: ${lock}<br>Current ID: ${id}`;
-}
-
-// 5. App Launch Logic
-function launchApp(data) {
+function launchApp(u) {
     document.getElementById("login-screen").classList.add("hidden");
     document.getElementById("main-app").classList.remove("hidden");
-    let diff = Math.ceil((data.exp - new Date().getTime()) / (1000*60*60*24));
-    document.getElementById("days-left").innerText = "License Valid: " + diff + " Days Left";
+    let left = Math.ceil((u.exp - new Date().getTime()) / (1000*60*60*24));
+    document.getElementById("trial-timer").innerText = "License: " + left + " Days Left";
 }
 
-document.addEventListener("DOMContentLoaded", function() {
-    let auth = JSON.parse(localStorage.getItem("app_auth"));
-    if(auth && new Date().getTime() < auth.exp) {
-        launchApp(auth);
+// --- ORIGINAL BILLING LOGIC ---
+document.addEventListener("DOMContentLoaded", function(){
+    let auth = JSON.parse(localStorage.getItem("app_auth_data"));
+    if(auth && new Date().getTime() < auth.exp) launchApp(auth);
+
+    let items=[];
+    const shopInput = document.getElementById("shop");
+    shopInput.value = localStorage.getItem("shop")||"";
+    document.getElementById("address").value = localStorage.getItem("address")||"";
+    document.getElementById("phone").value = localStorage.getItem("phone")||"";
+    document.getElementById("upiId").value = localStorage.getItem("upiId")||"";
+
+    document.getElementById("saveShopBtn").addEventListener("click", function(){
+        localStorage.setItem("shop", shopInput.value);
+        localStorage.setItem("address", document.getElementById("address").value);
+        localStorage.setItem("phone", document.getElementById("phone").value);
+        localStorage.setItem("upiId", document.getElementById("upiId").value);
+        alert("Details Saved!");
+    });
+
+    document.getElementById("addItemBtn").addEventListener("click", function(){
+        let p=document.getElementById("productSearch").value, q=+document.getElementById("qty").value, pr=+document.getElementById("price").value;
+        if(p && q && pr){
+            items.push({p,q,pr,t:q*pr});
+            let row=document.getElementById("table").insertRow();
+            row.insertCell(0).innerText=items.length; row.insertCell(1).innerText=p; row.insertCell(2).innerText=q; row.insertCell(3).innerText=pr; row.insertCell(4).innerText=q*pr;
+        }
+    });
+
+    document.getElementById("generateBillBtn").addEventListener("click", function(){
+        if(items.length===0) return;
+        let total=0; items.forEach(i=>total+=i.t);
+        let upi = document.getElementById("upiId").value;
+        let html=`<b>${shopInput.value}</b><hr><table><tr><th>Item</th><th>Qty</th><th>Total</th></tr>`;
+        items.forEach(i=> html+=`<tr><td>${i.p}</td><td>${i.q}</td><td>₹${i.t}</td></tr>`);
+        html+=`<tr><td colspan="2">Total</td><td>₹${total}</td></tr></table>`;
+        if(upi) html+=`<center><img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${encodeURIComponent('upi://pay?pa='+upi+'&am='+total)}"></center>`;
+        document.getElementById("bill").innerHTML = html;
+        updateSaleReports(total);
+    });
+
+    document.getElementById("printBillBtn").addEventListener("click", () => window.print());
+    document.getElementById("sendWhatsAppBtn").addEventListener("click", () => window.open("https://wa.me/?text="+encodeURIComponent(document.getElementById("bill").innerText)));
+    
+    function updateSaleReports(t){
+        let daily=0; let history=JSON.parse(localStorage.getItem("history"))||[];
+        history.push({total:t, date:new Date().toISOString()});
+        localStorage.setItem("history", JSON.stringify(history));
+        history.forEach(h=>{ if(new Date(h.date).toDateString()===new Date().toDateString()) daily += h.total; });
+        document.getElementById("totalDay").innerHTML=`<b>Today's Total: ₹${daily}</b>`;
     }
 });
-
-// (Billing logic simplified for demo)
-let items = [];
-document.getElementById("addBtn").onclick = function() {
-    let n = document.getElementById("itemN").value, q = +document.getElementById("itemQ").value, p = +document.getElementById("itemP").value;
-    if(n && q && p) {
-        items.push({n,q,p,t:q*p});
-        let row = document.getElementById("billTbl").insertRow();
-        row.innerHTML = `<td>${items.length}</td><td>${n}</td><td>${q}</td><td>${p}</td><td>${q*p}</td>`;
-    }
-};
 </script>
 </body>
 </html>
