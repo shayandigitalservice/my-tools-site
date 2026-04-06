@@ -37,7 +37,7 @@ button{border:none;background:#2563eb;color:white;font-size:15px;cursor:pointer;
         <div class="step-box">
             <p style="font-weight:bold; color:#2563eb; margin:0;">Waiting for Approval...</p>
             <p style="font-size:12px; margin:5px 0;">Contact Distributor (9957548361) to get your <b>Verification Code</b>.</p>
-            <input id="inputVerifyCode" placeholder="Enter Verification Code">
+            <input id="inputVerifyCode" type="number" placeholder="Enter Verification Code">
             <button onclick="unlockPlans()" style="background:#2563eb;">Show Subscription Plans</button>
         </div>
     </div>
@@ -66,8 +66,8 @@ button{border:none;background:#2563eb;color:white;font-size:15px;cursor:pointer;
             <p style="font-size:11px; color:red;">Scan & Send Screenshot on WhatsApp</p>
             <button onclick="sendPaymentWA()" style="background:#25d366;">Send Payment Screenshot</button>
             <hr style="margin:10px 0; border:0; border-top:1px solid #ccc;">
-            <p style="font-size:12px; color:gray;">Enter the same ID Number you received on WhatsApp to activate.</p>
-            <input id="inputIDKey" placeholder="Enter Final Activation ID">
+            <p style="font-size:12px; color:gray;">Enter the Activation ID you received on WhatsApp.</p>
+            <input id="inputIDKey" placeholder="Enter ID (e.g. ID-1234)">
             <button onclick="validateActivation()" style="background:#dc2626;">Activate Software Now</button>
         </div>
     </div>
@@ -83,28 +83,29 @@ button{border:none;background:#2563eb;color:white;font-size:15px;cursor:pointer;
 const MY_NUMBER = "919957548361";
 const MY_UPI = "9957548361@upi";
 
-// Initial Load
-document.addEventListener("DOMContentLoaded", function(){
+// 1. Initial Load Check
+window.onload = function() {
     let auth = JSON.parse(localStorage.getItem("user_auth_status"));
-    if(auth && new Date().getTime() < auth.exp) launchApp();
-});
+    if(auth && new Date().getTime() < auth.exp) {
+        launchApp();
+    }
+};
 
-// STEP 1: Generate ID and Send to WhatsApp Immediately
+// 2. STEP 1: Registration
 function sendVerifyRequest() {
-    let name = document.getElementById("regName").value;
-    let addr = document.getElementById("regAddr").value;
-    let mob = document.getElementById("regMob").value;
+    let name = document.getElementById("regName").value.trim();
+    let addr = document.getElementById("regAddr").value.trim();
+    let mob = document.getElementById("regMob").value.trim();
     
-    if(!name || !addr || mob.length < 10) return alert("Fill all details!");
+    if(!name || !addr || mob.length < 10) return alert("Fill all details correctly!");
 
-    // Generate Random ID Right Now
     let randomID = "ID-" + Math.floor(1000 + Math.random() * 9000);
     
+    // Save to LocalStorage with extra safety
     localStorage.setItem("pending_mob", mob);
-    localStorage.setItem("pending_id", randomID);
-    localStorage.setItem("secret_verify_code", mob); // User's mobile is the code to see plans
+    localStorage.setItem("pending_id", randomID.toUpperCase());
+    localStorage.setItem("secret_verify_code", mob); 
 
-    // Message including the ID Number
     let message = `*Software Request*\nName: ${name}\nAddress: ${addr}\nMobile: ${mob}\n*ID Number: ${randomID}*\n\nPlease send me the Verification Code to see plans.`;
     
     window.open(`https://wa.me/${MY_NUMBER}?text=${encodeURIComponent(message)}`);
@@ -113,26 +114,28 @@ function sendVerifyRequest() {
     document.getElementById("verify-code-area").classList.remove("hidden");
 }
 
-// STEP 2: Unlock Plans
+// 3. STEP 2: Unlock Plans (Fixing Invalid Problem)
 function unlockPlans() {
     let input = document.getElementById("inputVerifyCode").value.trim();
     let correct = localStorage.getItem("secret_verify_code");
 
-    if(input === correct) {
+    // Number matching fix
+    if(input && input === correct) {
         document.getElementById("verify-code-area").classList.add("hidden");
         document.getElementById("plans-page").classList.remove("hidden");
     } else {
-        alert("Invalid Verification Code!");
+        alert("Invalid Verification Code! Make sure you enter the same mobile number you used in step 1.");
     }
 }
 
-// STEP 3: Plan Selection
+// 4. STEP 3: Plan Selection
 function selectPlan(type, days, name, price) {
     localStorage.setItem("pending_days", days);
     
     if(type === 'trial') {
         let expiry = new Date().getTime() + (7 * 24 * 60 * 60 * 1000);
-        localStorage.setItem("user_auth_status", JSON.stringify({active:true, exp:expiry, mob:localStorage.getItem("pending_mob"), type:'trial'}));
+        let mob = localStorage.getItem("pending_mob");
+        localStorage.setItem("user_auth_status", JSON.stringify({active:true, exp:expiry, mob:mob, type:'trial'}));
         alert("7 Days Trial Started!"); location.reload();
     } else {
         document.getElementById("selected-plan-text").innerText = name + " (₹" + price + ")";
@@ -146,18 +149,19 @@ function selectPlan(type, days, name, price) {
 
 function sendPaymentWA() {
     let id = localStorage.getItem("pending_id");
-    window.open(`https://wa.me/${MY_NUMBER}?text=${encodeURIComponent("Payment Done for ID: " + id)}`);
+    window.open(`https://wa.me/${MY_NUMBER}?text=${encodeURIComponent("Payment Screenshot for ID: " + id)}`);
 }
 
 function validateActivation() {
     let input = document.getElementById("inputIDKey").value.trim().toUpperCase();
     let correct = localStorage.getItem("pending_id");
     let days = parseInt(localStorage.getItem("pending_days"));
+    let mob = localStorage.getItem("pending_mob");
     
-    if(input === correct) {
+    if(input && input === correct) {
         let expiry = new Date().getTime() + (days * 24 * 60 * 60 * 1000);
-        localStorage.setItem("user_auth_status", JSON.stringify({active:true, exp:expiry, mob:localStorage.getItem("pending_mob"), type:'premium'}));
-        alert("Software Activated!"); location.reload();
+        localStorage.setItem("user_auth_status", JSON.stringify({active:true, exp:expiry, mob:mob, type:'premium'}));
+        alert("Software Activated Successfully!"); location.reload();
     } else { alert("Wrong ID Number!"); }
 }
 
