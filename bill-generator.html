@@ -17,7 +17,7 @@ th,td{border:1px solid #000;padding:8px;font-size:14px;text-align:center;}
 .bill{margin-top:20px; overflow-wrap: break-word; word-wrap: break-word;}
 .invoice{float:right;}
 .clear{clear:both;}
-.qr-container{text-align:center; margin-top:15px; padding:10px; border:1px dashed #ccc;}
+.qr-container{text-align:center; margin-top:15px;}
 .qr-container img{width:150px; height:150px;}
 
 @media screen and (max-width:600px){
@@ -63,6 +63,7 @@ th,td{border:1px solid #000;padding:8px;font-size:14px;text-align:center;}
 <button id="sendWhatsAppBtn">Send WhatsApp</button>
 
 <div id="bill" class="bill"></div>
+
 <button id="downloadHistoryBtn">Download History</button>
 <div id="totalDay"></div>
 
@@ -72,9 +73,7 @@ th,td{border:1px solid #000;padding:8px;font-size:14px;text-align:center;}
 <input id="stockQty" type="number" placeholder="Quantity to Add">
 <button id="addStockBtn">Add Stock</button>
 <div style="overflow-x:auto;"><table id="stockTable"><tr><th>Product</th><th>Qty</th><th>Updated</th></tr></table></div>
-
 <button id="downloadStockBtn">Download Stock Excel</button>
-<hr>
 </div>
 
 <script>
@@ -102,12 +101,12 @@ saveShopBtn.addEventListener("click", function(){
     localStorage.setItem("address", addressInput.value);
     localStorage.setItem("phone", phoneInput.value);
     localStorage.setItem("upiId", upiInput.value);
-    alert("Shop details saved!");
+    alert("Details saved!");
 });
 
-// Stock & Items logic (Same as before)
-const stockTable = document.getElementById("stockTable");
+// Original Stock Logic
 function renderStock(){
+    const stockTable = document.getElementById("stockTable");
     stockTable.innerHTML = `<tr><th>Product</th><th>Available Qty</th><th>Last Updated</th></tr>`;
     for(let p in stock){
         let last = stockHistory.filter(h=>h.product===p).pop()?.date || "";
@@ -152,22 +151,25 @@ document.getElementById("addItemBtn").addEventListener("click", function(){
     row.insertCell(2).innerText=q; row.insertCell(3).innerText=pr; row.insertCell(4).innerText=t;
 });
 
+// GENERATE BILL
 document.getElementById("generateBillBtn").addEventListener("click", function(){
     if(items.length===0) return;
     total=0; items.forEach(i=> total+=i.t);
     let invNo = invoiceCounter++; localStorage.setItem("invoiceCounter", invoiceCounter);
     let upiId = upiInput.value.trim();
 
-    // ID added to wrapper for PDF scaling
-    let html=`<div id="pdf-content" style="width:100%; padding:10px; background:white; font-family:Arial;">
-    <div style="float:right;">No: ${invNo}</div><div style="clear:both;"></div>
+    // Restoration of Price and No columns in Receipt
+    let html=`<div id="pdf-area" style="width:100%; padding:15px; background:white; color:black;">
+    <div style="text-align:right;">No: ${invNo}</div>
     <center><b>${shopInput.value}</b><br>${addressInput.value}<br>PH: ${phoneInput.value}</center>
     <hr>
     <p>Cust: ${document.getElementById("customer").value}<br>Date: ${new Date().toLocaleString()}</p>
     <table style="width:100%; border-collapse:collapse; border:1px solid #000;">
-    <tr style="background:#eee;"><th>Item</th><th>Qty</th><th>Total</th></tr>`;
-    items.forEach(i=>{ html+=`<tr><td>${i.p}</td><td>${i.q}</td><td>${i.t}</td></tr>`; });
-    html+=`<tr style="font-weight:bold;"><td colspan="2">Total</td><td>₹${total}</td></tr></table>`;
+    <tr style="background:#eee;"><th>No</th><th>Item</th><th>Qty</th><th>Price</th><th>Total</th></tr>`;
+    items.forEach((i, idx)=>{ 
+        html+=`<tr><td>${idx+1}</td><td>${i.p}</td><td>${i.q}</td><td>${i.pr}</td><td>${i.t}</td></tr>`; 
+    });
+    html+=`<tr style="font-weight:bold;"><td colspan="4">Grand Total</td><td>₹${total}</td></tr></table>`;
     
     if(upiId !== ""){
         let qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${encodeURIComponent('upi://pay?pa='+upiId+'&pn='+shopInput.value+'&am='+total+'&cu=INR')}`;
@@ -175,18 +177,19 @@ document.getElementById("generateBillBtn").addEventListener("click", function(){
     }
     html += `</div>`;
     document.getElementById("bill").innerHTML = html;
+    updateSaleReports();
 });
 
-// PDF Fix: Settings changed to Receipt Size (80mm)
+// PDF Download Fix (No Blank Page)
 document.getElementById("downloadPdfBtn").addEventListener("click", function(){
-    const element = document.getElementById("pdf-content");
+    const element = document.getElementById("pdf-area");
     if(!element) { alert("Generate Bill first"); return; }
     const opt = {
-      margin: 2,
+      margin: [5, 5],
       filename: 'Bill_' + new Date().getTime() + '.pdf',
-      image: { type: 'jpeg', quality: 1 },
-      html2canvas: { scale: 3, useCORS: true },
-      jsPDF: { unit: 'mm', format: [80, 200], orientation: 'portrait' } 
+      image: { type: 'jpeg', quality: 0.98 },
+      html2canvas: { scale: 2, logging: false, useCORS: true },
+      jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' } 
     };
     html2pdf().set(opt).from(element).save();
 });
@@ -198,11 +201,10 @@ document.getElementById("sendWhatsAppBtn").addEventListener("click", function(){
 
 function updateSaleReports(){
     let history=JSON.parse(localStorage.getItem("history"))||[];
-    let daily=0; 
-    history.push({total, date:new Date().toISOString()});
+    let daily=0; history.push({total, date:new Date().toISOString()});
     localStorage.setItem("history", JSON.stringify(history));
     history.forEach(h=>{ if(new Date(h.date).toDateString()===new Date().toDateString()) daily += h.total; });
-    document.getElementById("totalDay").innerHTML=`<b>Daily Total: ₹${daily}</b>`;
+    document.getElementById("totalDay").innerHTML=`<b>Today's Sale: ₹${daily}</b>`;
 }
 updateSaleReports();
 
