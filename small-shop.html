@@ -8,7 +8,7 @@
 <link rel="apple-touch-icon" href="logo.png">
 
 <style>
-/* --- AAPKA ORIGINAL CSS (UNTOUCHED) --- */
+/* --- AAPKA ORIGINAL CSS --- */
 body{font-family:Arial;background:#ffffff;margin:0;padding:10px;}
 .container{max-width:800px;margin:auto;background:transparent;padding:15px;border-radius:0;box-shadow:none;}
 h2{text-align:center; cursor:pointer; user-select:none; position: relative;}
@@ -23,7 +23,7 @@ th,td{border:1px solid #000;padding:8px;font-size:14px;text-align:center;}
 .qr-container{text-align:center; margin-top:15px; padding:10px; border:1px dashed #ccc;}
 .qr-container img{width:150px; height:150px;}
 
-/* Naya Subscription & Verification Styling */
+/* Subscription & Verification Styling */
 .hidden { display: none !important; }
 .trial-info { text-align: center; color: #b45309; font-weight: bold; margin-bottom: 10px; font-size: 14px; }
 .distributor-box { border: 2px dashed #2563eb; padding: 15px; background: #f0f7ff; text-align: center; margin-top: 10px; border-radius: 8px; }
@@ -53,8 +53,8 @@ th,td{border:1px solid #000;padding:8px;font-size:14px;text-align:center;}
     <div id="verify-code-area" class="hidden">
         <div class="distributor-box">
             <p style="font-weight:bold; color:#2563eb; margin:0;">Waiting for Approval...</p>
-            <p style="font-size:12px; margin:5px 0;">Contact Muksidul Islam (9957548361) to get your <b>Verification Code</b>.</p>
-            <input id="inputVerifyCode" type="number" placeholder="Enter Verification Code">
+            <p style="font-size:12px; margin:5px 0;">Enter the <b>ID Number</b> you just received on WhatsApp to see plans.</p>
+            <input id="inputVerifyCode" placeholder="Enter ID (e.g. ID-1234)">
             <button onclick="unlockPlans()" style="background:#2563eb;">Show Subscription Plans</button>
         </div>
     </div>
@@ -66,12 +66,6 @@ th,td{border:1px solid #000;padding:8px;font-size:14px;text-align:center;}
         </div>
         <div class="plan-card" onclick="selectPlan('paid', 30, '1 Month', 100)">
             <h3>1 MONTH PLAN</h3><span class="plan-price">₹100</span>
-        </div>
-        <div class="plan-card" onclick="selectPlan('paid', 90, '3 Months', 250)">
-            <h3>3 MONTHS PLAN</h3><span class="plan-price">₹250</span>
-        </div>
-        <div class="plan-card" onclick="selectPlan('paid', 180, '6 Months', 500)">
-            <h3>6 MONTHS PLAN</h3><span class="plan-price">₹500</span>
         </div>
         <div class="plan-card" onclick="selectPlan('paid', 365, '1 Year', 1000)">
             <h3>1 YEAR PLAN</h3><span class="plan-price">₹1000</span>
@@ -88,7 +82,7 @@ th,td{border:1px solid #000;padding:8px;font-size:14px;text-align:center;}
             <p style="font-size:11px; color:red; font-weight:bold;">Scan QR & Send Screenshot on WhatsApp</p>
             <button onclick="sendPaymentWA()" style="background:#25d366; font-size:13px;">Send Payment Screenshot</button>
             <hr style="margin:15px 0; border:0; border-top:1px solid #ccc;">
-            <input id="inputIDKey" placeholder="Enter Activation ID (from WhatsApp)">
+            <input id="inputIDKey" placeholder="Enter ID Number for Final Activation">
             <button onclick="validateActivation()" style="background:#dc2626;">Activate Software Now</button>
         </div>
     </div>
@@ -131,7 +125,6 @@ window.onload = function() {
     let auth = JSON.parse(localStorage.getItem("user_auth_status"));
     if(auth && new Date().getTime() < auth.exp) launchApp();
     
-    // Restore state if page refreshes
     let step = localStorage.getItem("current_step");
     if(step && !auth) showStep(step);
 };
@@ -152,9 +145,12 @@ function sendVerifyRequest() {
     if(!name || !addr || mob.length < 10) return alert("Fill all details!");
 
     let randomID = "ID-" + Math.floor(1000 + Math.random() * 9999);
-    localStorage.setItem("pending_id", randomID);
+    
+    // Save to Memory
+    localStorage.setItem("pending_id", randomID.toUpperCase());
     localStorage.setItem("pending_mob", mob);
-    localStorage.setItem("secret_verify_code", mob); // User's mobile is the code to unlock plans
+    // User jo ID bhej raha hai, wahi code hai
+    localStorage.setItem("secret_verify_code", randomID.toUpperCase()); 
 
     let msg = `*Activation Request*\nName: ${name}\nAddress: ${addr}\nMobile: ${mob}\n*ID Number: ${randomID}*\n\nPlease provide verification code.`;
     window.open(`https://wa.me/${MY_NUMBER}?text=${encodeURIComponent(msg)}`);
@@ -162,11 +158,15 @@ function sendVerifyRequest() {
 }
 
 function unlockPlans() {
-    let input = document.getElementById("inputVerifyCode").value.trim();
-    if(input === localStorage.getItem("secret_verify_code")) {
+    let input = document.getElementById("inputVerifyCode").value.trim().toUpperCase();
+    let correct = localStorage.getItem("secret_verify_code");
+
+    if(input === correct) {
         showStep("plans-page");
         if(localStorage.getItem("trial_used")) document.getElementById("trial-card").classList.add("hidden");
-    } else { alert("Invalid Verification Code!"); }
+    } else { 
+        alert("Invalid ID Number! Enter the ID (e.g. ID-1234) sent on WhatsApp."); 
+    }
 }
 
 function selectPlan(type, days, name, price) {
@@ -191,8 +191,8 @@ function validateActivation() {
         let days = parseInt(localStorage.getItem("pending_days"));
         let expiry = new Date().getTime() + (days * 24 * 60 * 60 * 1000);
         localStorage.setItem("user_auth_status", JSON.stringify({active:true, exp:expiry, mob:localStorage.getItem("pending_mob"), type:'premium'}));
-        alert("Software Activated!"); location.reload();
-    } else { alert("Wrong Activation ID!"); }
+        alert("Software Activated Successfully!"); location.reload();
+    } else { alert("Wrong ID Number!"); }
 }
 
 function sendPaymentWA() {
@@ -203,13 +203,15 @@ function launchApp() {
     document.getElementById("login-screen").classList.add("hidden");
     document.getElementById("main-app").classList.remove("hidden");
     let u = JSON.parse(localStorage.getItem("user_auth_status"));
-    let left = Math.ceil((u.exp - new Date().getTime()) / (1000*60*60*24));
-    document.getElementById("trial-timer").innerText = (u.type==='trial'?'Trial: ':'Premium: ') + left + " Days Left";
+    if(u){
+        let left = Math.ceil((u.exp - new Date().getTime()) / (1000*60*60*24));
+        document.getElementById("trial-timer").innerText = (u.type==='trial'?'Trial: ':'Premium: ') + left + " Days Left";
+    }
 }
 
 function logoutTest() { localStorage.clear(); location.reload(); }
 
-// --- ORIGINAL BILLING LOGIC (Preserved) ---
+// --- ORIGINAL BILLING LOGIC ---
 document.addEventListener("DOMContentLoaded", function(){
     let items=[];
     const shopInput = document.getElementById("shop");
