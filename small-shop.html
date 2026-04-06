@@ -16,22 +16,19 @@ th,td{border:1px solid #000;padding:8px;font-size:14px;text-align:center;}
 .totalRow td{font-weight:bold;}
 .bill{margin-top:20px; overflow-wrap: break-word;}
 .hidden { display: none !important; }
-.secret-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: transparent; z-index: 99; }
 
 /* Subscription Page Styling */
 .plan-card { border: 1px solid #ddd; padding: 15px; margin: 10px 0; border-radius: 8px; text-align: center; background: #f9f9f9; cursor: pointer; transition: 0.3s; }
 .plan-card:hover { border-color: #2563eb; background: #f0f7ff; }
 .plan-card h3 { margin: 0; color: #2563eb; }
 .qr-box { text-align: center; padding: 20px; border: 2px dashed #2563eb; background: #fff; margin-top: 10px; }
+.logout-btn { background: #f97316; margin-bottom: 10px; font-weight: bold; }
 </style>
 </head>
 <body>
 
 <div id="login-screen" class="container">
-    <h2>
-        <span id="admin-trigger">🧾 Bill Generator</span>
-        <div class="secret-overlay" onclick="handleSecretClick()"></div>
-    </h2>
+    <h2>🧾 Bill Generator</h2>
     <div id="reg-form">
         <p style="text-align:center; color:gray;">Enter details to continue</p>
         <input id="uName" placeholder="Full Name">
@@ -42,7 +39,7 @@ th,td{border:1px solid #000;padding:8px;font-size:14px;text-align:center;}
 
     <div id="plans-page" class="hidden">
         <h3 style="text-align:center;">Choose Your Plan</h3>
-        <div id="trial-card" class="plan-card" onclick="selectPlan('trial', 7)">
+        <div id="trial-card" class="plan-card" onclick="selectPlan('trial', 7, 'Free Trial')">
             <h3>FREE TRIAL</h3>
             <p>7 Days Full Access (One Time)</p>
         </div>
@@ -67,106 +64,84 @@ th,td{border:1px solid #000;padding:8px;font-size:14px;text-align:center;}
     <div id="payment-page" class="hidden">
         <div class="qr-box">
             <h4>Scan to Pay for <span id="selected-plan-name"></span></h4>
-            <img id="my-qr" src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=upi://pay?pa=9957548361@upi&pn=Muksidul%20Islam" width="200">
+            <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=upi://pay?pa=9957548361@upi&pn=Muksidul%20Islam" width="200">
             <p style="font-size:12px; color:red;">After payment, send screenshot on WhatsApp</p>
             <button onclick="sendPaymentWA()" style="background:#25d366;">Verify Payment on WhatsApp</button>
             <hr>
-            <input id="activationID" placeholder="Enter Activation ID Provided by Distributor">
+            <input id="activationID" placeholder="Enter Activation ID (e.g. ID-1234)">
             <button onclick="activateWithID()" style="background:#dc2626;">Activate Now</button>
         </div>
     </div>
-
-    <div id="admin-login-area" class="hidden" style="margin-top:40px; border-top:1px solid #ccc; padding-top:10px;">
-        <input id="masterPass" type="password" placeholder="Master Password">
-        <button onclick="accessAdmin()" style="background:#444;">Admin Login</button>
-    </div>
-</div>
-
-<div id="admin-panel" class="container hidden">
-    <h3>🛠 Admin Control</h3>
-    <div id="admin-info" style="font-size:14px; background:#eee; padding:10px;"></div>
-    <button onclick="location.reload()" style="background:#888; margin-top:10px;">Back</button>
 </div>
 
 <div id="main-app" class="container hidden">
+    <button class="logout-btn" onclick="logoutTest()">⚠️ LOGOUT & RESET APP (Testing)</button>
+    
     <div id="trial-timer" style="text-align:center; font-weight:bold; color:orange;"></div>
     <h2>🧾 Bill Generator</h2>
+    
     <input id="shop" placeholder="Shop Name">
     <input id="address" placeholder="Address">
     <input id="phone" placeholder="Phone">
-    <input id="upiId" placeholder="UPI ID (e.g. name@upi)">
+    <input id="upiId" placeholder="UPI ID">
     <button id="saveShopBtn">Save Shop Details</button>
+    <hr>
     <input id="customer" placeholder="Customer Name">
     <input id="productSearch" placeholder="Product Name">
     <input id="qty" type="number" placeholder="Qty">
     <input id="price" type="number" placeholder="Price">
     <button id="addItemBtn">Add Item</button>
-
-    <div class="table-wrapper">
-        <table id="table"><tr><th>No</th><th>Product</th><th>Qty</th><th>Price</th><th>Total</th></tr></table>
-    </div>
+    <table id="table"><tr><th>No</th><th>Item</th><th>Qty</th><th>Price</th><th>Total</th></tr></table>
     <button id="generateBillBtn">Generate Bill</button>
-    <button id="printBillBtn">Print Bill</button>
     <div id="bill" class="bill"></div>
 </div>
 
 <script>
 const MY_WA = "919957548361";
-const ADMIN_KEY = "shayan123";
 
-// 1. Initial State
+// 1. Check Auth on Load
 document.addEventListener("DOMContentLoaded", function(){
     let auth = JSON.parse(localStorage.getItem("app_auth_data"));
     if(auth && new Date().getTime() < auth.exp) {
         launchApp(auth);
     }
-    // Check if Trial was already used
     if(localStorage.getItem("trial_used")) {
-        document.getElementById("trial-card").classList.add("hidden");
+        let tc = document.getElementById("trial-card");
+        if(tc) tc.classList.add("hidden");
     }
 });
 
-// 2. Secret Admin
-let clicks = 0;
-function handleSecretClick() {
-    clicks++; if(clicks >= 5) { document.getElementById("admin-login-area").classList.remove("hidden"); clicks = 0; }
-}
-
-function accessAdmin() {
-    if(document.getElementById("masterPass").value === ADMIN_KEY) {
-        document.getElementById("login-screen").classList.add("hidden");
-        document.getElementById("admin-panel").classList.remove("hidden");
-        document.getElementById("admin-info").innerText = "Last Registered: " + localStorage.getItem("pending_mob") + "\nLast ID: " + localStorage.getItem("pending_id");
+// 2. Testing Logout Function
+function logoutTest() {
+    if(confirm("Testing: Kya aap logout karke sara data clear karna chahte hain?")) {
+        localStorage.clear();
+        location.reload();
     }
 }
 
-// 3. Navigation
+// 3. Navigation & Subscription
 function goToPlans() {
     let name = document.getElementById("uName").value;
     let mob = document.getElementById("uMob").value;
     if(!name || mob.length < 10) return alert("Fill details first!");
-    
+    localStorage.setItem("pending_mob", mob);
     document.getElementById("reg-form").classList.add("hidden");
     document.getElementById("plans-page").classList.remove("hidden");
 }
 
 function selectPlan(type, days, name) {
-    let mob = document.getElementById("uMob").value;
     let randomID = "ID-" + Math.floor(1000 + Math.random() * 9000);
     localStorage.setItem("pending_id", randomID);
-    localStorage.setItem("pending_mob", mob);
     localStorage.setItem("pending_days", days);
 
     if(type === 'trial') {
-        // Direct Trial Launch
         let expiry = new Date().getTime() + (7 * 24 * 60 * 60 * 1000);
-        let auth = { active: true, exp: expiry, mob: mob, type: 'trial' };
+        let auth = { active: true, exp: expiry, mob: localStorage.getItem("pending_mob"), type: 'trial' };
         localStorage.setItem("app_auth_data", JSON.stringify(auth));
         localStorage.setItem("trial_used", "true");
-        alert("7 Days Free Trial Started!");
+        alert("7 Days Trial Activated!");
         location.reload();
     } else {
-        // Show Payment Page
         document.getElementById("selected-plan-name").innerText = name;
         document.getElementById("plans-page").classList.add("hidden");
         document.getElementById("payment-page").classList.remove("hidden");
@@ -177,7 +152,7 @@ function sendPaymentWA() {
     let mob = localStorage.getItem("pending_mob");
     let id = localStorage.getItem("pending_id");
     let plan = document.getElementById("selected-plan-name").innerText;
-    let msg = `*Payment Done*\nPlan: ${plan}\nMobile: ${mob}\n*ID Number: ${id}*\nDistributor: Please provide activation key.`;
+    let msg = `*Payment Done*\nPlan: ${plan}\nMobile: ${mob}\n*ID Number: ${id}*\nDistributor: Please activate my key.`;
     window.open(`https://wa.me/${MY_WA}?text=${encodeURIComponent(msg)}`);
 }
 
@@ -185,26 +160,23 @@ function activateWithID() {
     let input = document.getElementById("activationID").value.trim().toUpperCase();
     let correct = localStorage.getItem("pending_id");
     let days = parseInt(localStorage.getItem("pending_days"));
-    let mob = localStorage.getItem("pending_mob");
-
     if(input === correct) {
         let expiry = new Date().getTime() + (days * 24 * 60 * 60 * 1000);
-        let auth = { active: true, exp: expiry, mob: mob, type: 'premium' };
+        let auth = { active: true, exp: expiry, mob: localStorage.getItem("pending_mob"), type: 'premium' };
         localStorage.setItem("app_auth_data", JSON.stringify(auth));
-        alert("Premium Subscription Activated!");
+        alert("Premium Activated!");
         location.reload();
-    } else { alert("Invalid ID Number!"); }
+    } else { alert("Wrong ID!"); }
 }
 
 function launchApp(u) {
     document.getElementById("login-screen").classList.add("hidden");
     document.getElementById("main-app").classList.remove("hidden");
     let left = Math.ceil((u.exp - new Date().getTime()) / (1000*60*60*24));
-    document.getElementById("trial-timer").innerText = (u.type==='trial'?'Trial Mode: ':'Premium: ') + left + " Days Left";
+    document.getElementById("trial-timer").innerText = (u.type==='trial'?'Trial: ':'Premium: ') + left + " Days Left";
 }
 
-// --- ORIGINAL BILLING LOGIC REMAINS SAME ---
-// (Aapke original addItemBtn aur generateBillBtn events yahan hain)
+// (Baki billing logic aapka same rahega)
 </script>
 </body>
 </html>
