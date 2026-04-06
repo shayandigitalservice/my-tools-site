@@ -5,15 +5,17 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Shop Bill Generator – Professional POS</title>
 <style>
-/* --- AAPKA ORIGINAL CSS --- */
+/* --- ORIGINAL DESIGN & STYLE --- */
 body{font-family:Arial;background:#ffffff;margin:0;padding:10px;}
 .container{max-width:800px;margin:auto;background:transparent;padding:15px;}
 h2{text-align:center; position: relative; user-select:none;}
 input, select, button{width:100%;padding:10px;margin:6px 0;border-radius:6px;border:1px solid #ccc;box-sizing:border-box;}
 button{border:none;background:#2563eb;color:white;font-size:15px;cursor:pointer;}
+table{width:100%;margin-top:10px;border-collapse:collapse;}
+th,td{border:1px solid #000;padding:8px;font-size:14px;text-align:center;}
 .hidden { display: none !important; }
 
-/* Design Elements */
+/* Verification & Step Boxes */
 .step-box { border: 2px dashed #2563eb; padding: 15px; background: #f0f7ff; text-align: center; border-radius: 8px; margin-top: 10px; }
 .plan-card { border: 1px solid #ddd; padding: 12px; margin: 8px 0; border-radius: 8px; text-align: center; background: #f9f9f9; cursor: pointer; display: flex; justify-content: space-between; align-items: center; }
 .plan-price { font-weight: bold; color: #059669; }
@@ -26,7 +28,7 @@ button{border:none;background:#2563eb;color:white;font-size:15px;cursor:pointer;
     <h2>🧾 Bill Generator</h2>
     
     <div id="registration-form">
-        <p style="text-align:center; color:gray;">Step 1: Enter details to verify</p>
+        <p style="text-align:center; color:gray;">English Verification: Enter details</p>
         <input id="regName" placeholder="Full Name">
         <input id="regAddr" placeholder="Shop Address">
         <input id="regMob" type="number" placeholder="WhatsApp Number">
@@ -36,8 +38,8 @@ button{border:none;background:#2563eb;color:white;font-size:15px;cursor:pointer;
     <div id="verify-code-area" class="hidden">
         <div class="step-box">
             <p style="font-weight:bold; color:#2563eb; margin:0;">Waiting for Approval...</p>
-            <p style="font-size:12px; margin:5px 0;">Contact Distributor (9957548361) to get your <b>Verification Code</b>.</p>
-            <input id="inputVerifyCode" type="number" placeholder="Enter Verification Code">
+            <p style="font-size:12px; margin:5px 0;">Enter the <b>Verification Code</b> sent to you by Muksidul Islam.</p>
+            <input id="inputVerifyCode" type="number" placeholder="Enter Code (Your Mobile No.)">
             <button onclick="unlockPlans()" style="background:#2563eb;">Show Subscription Plans</button>
         </div>
     </div>
@@ -60,77 +62,93 @@ button{border:none;background:#2563eb;color:white;font-size:15px;cursor:pointer;
 
     <div id="activation-area" class="hidden">
         <div class="step-box">
-            <p style="font-weight:bold; color:#2563eb;">Distributor: Muksidul Islam</p>
-            <p style="font-size:13px;">Selected Plan: <b id="selected-plan-text"></b></p>
+            <p style="font-weight:bold; color:#2563eb;">Distributor: Muksidul Islam (9957548361)</p>
+            <p style="font-size:13px;">Selected: <b id="selected-plan-text"></b></p>
             <div id="qr-display" style="margin: 15px 0;"></div>
             <p style="font-size:11px; color:red;">Scan & Send Screenshot on WhatsApp</p>
-            <button onclick="sendPaymentWA()" style="background:#25d366;">Send Payment Screenshot</button>
+            <button onclick="sendPaymentWA()" style="background:#25d366;">Send Screenshot</button>
             <hr style="margin:10px 0; border:0; border-top:1px solid #ccc;">
-            <p style="font-size:12px; color:gray;">Enter the Activation ID you received on WhatsApp.</p>
-            <input id="inputIDKey" placeholder="Enter ID (e.g. ID-1234)">
-            <button onclick="validateActivation()" style="background:#dc2626;">Activate Software Now</button>
+            <input id="inputIDKey" placeholder="Enter Final Activation ID">
+            <button onclick="validateActivation()" style="background:#dc2626;">Activate Now</button>
         </div>
     </div>
 </div>
 
 <div id="main-app" class="container hidden">
-    <button class="logout-btn" onclick="localStorage.clear(); location.reload();">⚠️ LOGOUT (For Testing)</button>
-    <h2>🧾 Bill Generator</h2>
+    <button class="logout-btn" onclick="logoutSystem()">⚠️ LOGOUT & RESET (Testing)</button>
     <div id="trial-timer" style="text-align:center; font-weight:bold; color:orange;"></div>
+    <h2>🧾 Bill Generator</h2>
     </div>
 
 <script>
-const MY_NUMBER = "919957548361";
+const MY_WA = "919957548361";
 const MY_UPI = "9957548361@upi";
 
-// 1. Initial Load Check
+// 1. AUTO-LOAD SYSTEM (Restore State)
 window.onload = function() {
     let auth = JSON.parse(localStorage.getItem("user_auth_status"));
     if(auth && new Date().getTime() < auth.exp) {
         launchApp();
+        return;
+    }
+
+    // Restore Current Step if not activated
+    let currentStep = localStorage.getItem("current_ui_step");
+    if(currentStep === "verify-code-area") {
+        showScreen("verify-code-area");
+    } else if(currentStep === "plans-page") {
+        showScreen("plans-page");
+    } else if(currentStep === "activation-area") {
+        showScreen("activation-area");
+        restoreSelectedPlan();
     }
 };
 
-// 2. STEP 1: Registration
+function showScreen(id) {
+    document.getElementById("registration-form").classList.add("hidden");
+    document.getElementById("verify-code-area").classList.add("hidden");
+    document.getElementById("plans-page").classList.add("hidden");
+    document.getElementById("activation-area").classList.add("hidden");
+    document.getElementById(id).classList.remove("hidden");
+    localStorage.setItem("current_ui_step", id);
+}
+
+// 2. STEP 1: REQUEST VERIFICATION
 function sendVerifyRequest() {
     let name = document.getElementById("regName").value.trim();
     let addr = document.getElementById("regAddr").value.trim();
     let mob = document.getElementById("regMob").value.trim();
     
-    if(!name || !addr || mob.length < 10) return alert("Fill all details correctly!");
+    if(!name || !addr || mob.length < 10) return alert("Fill all details!");
 
     let randomID = "ID-" + Math.floor(1000 + Math.random() * 9000);
     
-    // Save to LocalStorage with extra safety
     localStorage.setItem("pending_mob", mob);
     localStorage.setItem("pending_id", randomID.toUpperCase());
     localStorage.setItem("secret_verify_code", mob); 
 
-    let message = `*Software Request*\nName: ${name}\nAddress: ${addr}\nMobile: ${mob}\n*ID Number: ${randomID}*\n\nPlease send me the Verification Code to see plans.`;
+    let msg = `*Software Request*\nName: ${name}\nAddress: ${addr}\nMobile: ${mob}\n*ID Number: ${randomID}*\n\nPlease send me the Verification Code.`;
+    window.open(`https://wa.me/${MY_WA}?text=${encodeURIComponent(msg)}`);
     
-    window.open(`https://wa.me/${MY_NUMBER}?text=${encodeURIComponent(message)}`);
-    
-    document.getElementById("registration-form").classList.add("hidden");
-    document.getElementById("verify-code-area").classList.remove("hidden");
+    showScreen("verify-code-area");
 }
 
-// 3. STEP 2: Unlock Plans (Fixing Invalid Problem)
+// 3. STEP 2: UNLOCK PLANS
 function unlockPlans() {
     let input = document.getElementById("inputVerifyCode").value.trim();
     let correct = localStorage.getItem("secret_verify_code");
 
-    // Number matching fix
     if(input && input === correct) {
-        document.getElementById("verify-code-area").classList.add("hidden");
-        document.getElementById("plans-page").classList.remove("hidden");
+        showScreen("plans-page");
     } else {
-        alert("Invalid Verification Code! Make sure you enter the same mobile number you used in step 1.");
+        alert("Invalid Verification Code!");
     }
 }
 
-// 4. STEP 3: Plan Selection
+// 4. STEP 3: SELECT PLAN
 function selectPlan(type, days, name, price) {
     localStorage.setItem("pending_days", days);
+    localStorage.setItem("selected_plan_info", JSON.stringify({name, price}));
     
     if(type === 'trial') {
         let expiry = new Date().getTime() + (7 * 24 * 60 * 60 * 1000);
@@ -138,18 +156,22 @@ function selectPlan(type, days, name, price) {
         localStorage.setItem("user_auth_status", JSON.stringify({active:true, exp:expiry, mob:mob, type:'trial'}));
         alert("7 Days Trial Started!"); location.reload();
     } else {
-        document.getElementById("selected-plan-text").innerText = name + " (₹" + price + ")";
-        let qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=${encodeURIComponent(`upi://pay?pa=${MY_UPI}&am=${price}&cu=INR`)}`;
-        document.getElementById("qr-display").innerHTML = `<img src="${qrUrl}">`;
-
-        document.getElementById("plans-page").classList.add("hidden");
-        document.getElementById("activation-area").classList.remove("hidden");
+        restoreSelectedPlan();
+        showScreen("activation-area");
     }
+}
+
+function restoreSelectedPlan() {
+    let info = JSON.parse(localStorage.getItem("selected_plan_info"));
+    if(!info) return;
+    document.getElementById("selected-plan-text").innerText = `${info.name} (₹${info.price})`;
+    let qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=${encodeURIComponent(`upi://pay?pa=${MY_UPI}&am=${info.price}&cu=INR`)}`;
+    document.getElementById("qr-display").innerHTML = `<img src="${qrUrl}">`;
 }
 
 function sendPaymentWA() {
     let id = localStorage.getItem("pending_id");
-    window.open(`https://wa.me/${MY_NUMBER}?text=${encodeURIComponent("Payment Screenshot for ID: " + id)}`);
+    window.open(`https://wa.me/${MY_WA}?text=${encodeURIComponent("Payment Screenshot for ID: " + id)}`);
 }
 
 function validateActivation() {
@@ -161,13 +183,20 @@ function validateActivation() {
     if(input && input === correct) {
         let expiry = new Date().getTime() + (days * 24 * 60 * 60 * 1000);
         localStorage.setItem("user_auth_status", JSON.stringify({active:true, exp:expiry, mob:mob, type:'premium'}));
-        alert("Software Activated Successfully!"); location.reload();
+        alert("Success!"); location.reload();
     } else { alert("Wrong ID Number!"); }
 }
 
 function launchApp() {
     document.getElementById("login-screen").classList.add("hidden");
     document.getElementById("main-app").classList.remove("hidden");
+}
+
+function logoutSystem() {
+    if(confirm("Logout and Reset App?")) {
+        localStorage.clear();
+        location.reload();
+    }
 }
 </script>
 </body>
