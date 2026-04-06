@@ -11,17 +11,13 @@ body{font-family:Arial;background:#ffffff;margin:0;padding:10px;}
 h2{text-align:center; position: relative; user-select:none;}
 input, select, button{width:100%;padding:10px;margin:6px 0;border-radius:6px;border:1px solid #ccc;box-sizing:border-box;}
 button{border:none;background:#2563eb;color:white;font-size:15px;cursor:pointer;}
-table{width:100%;margin-top:10px;border-collapse:collapse;}
-th,td{border:1px solid #000;padding:8px;font-size:14px;text-align:center;}
 .hidden { display: none !important; }
 
-/* Verification & Plans Styling */
-.distributor-box { border: 2px dashed #2563eb; padding: 15px; background: #f0f7ff; text-align: center; border-radius: 8px; }
+/* Design Elements */
+.step-box { border: 2px dashed #2563eb; padding: 15px; background: #f0f7ff; text-align: center; border-radius: 8px; margin-top: 10px; }
 .plan-card { border: 1px solid #ddd; padding: 12px; margin: 8px 0; border-radius: 8px; text-align: center; background: #f9f9f9; cursor: pointer; display: flex; justify-content: space-between; align-items: center; }
-.plan-card h3 { margin: 0; color: #2563eb; font-size: 15px; }
 .plan-price { font-weight: bold; color: #059669; }
 .logout-btn { background: #f97316; margin-bottom: 10px; font-weight: bold; }
-.wa-link { color: #25d366; font-weight: bold; text-decoration: none; font-size: 14px; }
 </style>
 </head>
 <body>
@@ -30,15 +26,24 @@ th,td{border:1px solid #000;padding:8px;font-size:14px;text-align:center;}
     <h2>🧾 Bill Generator</h2>
     
     <div id="registration-form">
-        <p style="text-align:center; color:gray;">Enter details to start software</p>
+        <p style="text-align:center; color:gray;">Step 1: Enter details to verify</p>
         <input id="regName" placeholder="Full Name">
         <input id="regAddr" placeholder="Shop Address">
         <input id="regMob" type="number" placeholder="WhatsApp Number">
-        <button onclick="sendVerificationRequest()" style="background:#22c55e;">Verify & Contact Distributor</button>
+        <button onclick="sendVerifyRequest()" style="background:#22c55e;">Verify Details</button>
+    </div>
+
+    <div id="verify-code-area" class="hidden">
+        <div class="step-box">
+            <p style="font-weight:bold; color:#2563eb; margin:0;">Waiting for Approval...</p>
+            <p style="font-size:12px; margin:5px 0;">Contact Distributor (9957548361) to get your <b>Verification Code</b>.</p>
+            <input id="inputVerifyCode" placeholder="Enter Verification Code">
+            <button onclick="unlockPlans()" style="background:#2563eb;">Show Subscription Plans</button>
+        </div>
     </div>
 
     <div id="plans-page" class="hidden">
-        <h3 style="text-align:center;">Choose Your Plan</h3>
+        <h3 style="text-align:center;">Step 2: Choose Your Plan</h3>
         <div id="trial-card" class="plan-card" onclick="selectPlan('trial', 7, 'Free Trial', 0)">
             <h3>FREE TRIAL (7 Days)</h3>
             <span class="plan-price">FREE</span>
@@ -47,14 +52,6 @@ th,td{border:1px solid #000;padding:8px;font-size:14px;text-align:center;}
             <h3>1 MONTH PLAN</h3>
             <span class="plan-price">₹100</span>
         </div>
-        <div class="plan-card" onclick="selectPlan('paid', 90, '3 Months', 250)">
-            <h3>3 MONTHS PLAN</h3>
-            <span class="plan-price">₹250</span>
-        </div>
-        <div class="plan-card" onclick="selectPlan('paid', 180, '6 Months', 500)">
-            <h3>6 MONTHS PLAN</h3>
-            <span class="plan-price">₹500</span>
-        </div>
         <div class="plan-card" onclick="selectPlan('paid', 365, '1 Year', 1000)">
             <h3>1 YEAR PLAN</h3>
             <span class="plan-price">₹1000</span>
@@ -62,75 +59,80 @@ th,td{border:1px solid #000;padding:8px;font-size:14px;text-align:center;}
     </div>
 
     <div id="activation-area" class="hidden">
-        <div class="distributor-box">
-            <p style="font-weight:bold; color:#2563eb; margin-bottom:5px;">Distributor: Muksidul Islam</p>
-            <a href="https://wa.me/919957548361" class="wa-link">WhatsApp: +91 9957548361</a>
-            <p style="font-size:13px; margin-top:10px;">Selected Plan: <b id="selected-plan-text"></b></p>
-            
-            <div id="qr-display" style="margin: 15px 0;">
-                </div>
-
-            <p style="font-size:11px; color:red; font-weight:bold;">Scan & Pay. Amount is Auto-set.</p>
-            <button onclick="sendPaymentWA()" style="background:#25d366; font-size:13px;">Send Payment Screenshot</button>
-            <hr style="margin:15px 0; border:0; border-top:1px solid #ccc;">
-            <input id="inputIDKey" placeholder="Enter Activation ID from WhatsApp">
-            <button onclick="validateActivation()" style="background:#dc2626;">Activate Now</button>
+        <div class="step-box">
+            <p style="font-weight:bold; color:#2563eb;">Distributor: Muksidul Islam</p>
+            <p style="font-size:13px;">Selected: <b id="selected-plan-text"></b></p>
+            <div id="qr-display" style="margin: 15px 0;"></div>
+            <p style="font-size:11px; color:red;">Scan & Send Screenshot on WhatsApp</p>
+            <button onclick="sendPaymentWA()" style="background:#25d366;">Send Payment Screenshot</button>
+            <hr style="margin:10px 0; border:0; border-top:1px solid #ccc;">
+            <input id="inputIDKey" placeholder="Enter Final Activation ID">
+            <button onclick="validateActivation()" style="background:#dc2626;">Activate Software</button>
         </div>
     </div>
 </div>
 
 <div id="main-app" class="container hidden">
     <button class="logout-btn" onclick="localStorage.clear(); location.reload();">⚠️ LOGOUT (For Testing)</button>
-    <div id="trial-timer" style="text-align:center; font-weight:bold; color:orange; font-size:12px;"></div>
     <h2>🧾 Bill Generator</h2>
-    <button id="saveShopBtn" style="background:#444;">Back to Billing</button>
-</div>
+    <div id="trial-timer" style="text-align:center; font-weight:bold; color:orange;"></div>
+    </div>
 
 <script>
 const MY_NUMBER = "919957548361";
-const MY_UPI = "9957548361@upi"; // Apna sahi UPI ID yahan dalein
+const MY_UPI = "9957548361@upi";
 
-// 1. Load Check
+// 1. Initial Load
 document.addEventListener("DOMContentLoaded", function(){
     let auth = JSON.parse(localStorage.getItem("user_auth_status"));
     if(auth && new Date().getTime() < auth.exp) launchApp();
-    if(localStorage.getItem("trial_used")) document.getElementById("trial-card")?.classList.add("hidden");
 });
 
-// 2. Verification
-function sendVerificationRequest() {
+// 2. Step 1: Send Request
+function sendVerifyRequest() {
     let name = document.getElementById("regName").value;
     let addr = document.getElementById("regAddr").value;
     let mob = document.getElementById("regMob").value;
-    if(!name || !addr || mob.length < 10) return alert("Please fill all details!");
+    if(!name || !addr || mob.length < 10) return alert("Fill all details!");
 
-    let randomID = "ID-" + Math.floor(1000 + Math.random() * 9000);
-    localStorage.setItem("pending_id", randomID);
     localStorage.setItem("pending_mob", mob);
+    // Hum user ka MOBILE NUMBER hi uska verification code bana dete hain (Easy for you)
+    localStorage.setItem("secret_verify_code", mob); 
 
-    let message = `*Software Activation Request*\nName: ${name}\nAddress: ${addr}\nMobile: ${mob}\n*ID Number: ${randomID}*\n\nPlease provide activation key.`;
+    let message = `*Software Request*\nName: ${name}\nAddress: ${addr}\nMobile: ${mob}\n\nPlease send me the Verification Code to see plans.`;
     window.open(`https://wa.me/${MY_NUMBER}?text=${encodeURIComponent(message)}`);
     
     document.getElementById("registration-form").classList.add("hidden");
-    document.getElementById("plans-page").classList.remove("hidden");
+    document.getElementById("verify-code-area").classList.remove("hidden");
 }
 
-// 3. Plan Selection & Auto QR
+// 3. Step 2: Unlock Plans (Aap jab user ko uska number bolenge dalne ko tabhi khulega)
+function unlockPlans() {
+    let input = document.getElementById("inputVerifyCode").value.trim();
+    let correct = localStorage.getItem("secret_verify_code");
+
+    if(input === correct) {
+        document.getElementById("verify-code-area").classList.add("hidden");
+        document.getElementById("plans-page").classList.remove("hidden");
+    } else {
+        alert("Invalid Verification Code! Please contact Muksidul.");
+    }
+}
+
+// 4. Step 3: Plan Selection
 function selectPlan(type, days, name, price) {
     if(type === 'trial') {
         let expiry = new Date().getTime() + (7 * 24 * 60 * 60 * 1000);
         localStorage.setItem("user_auth_status", JSON.stringify({active:true, exp:expiry, mob:localStorage.getItem("pending_mob"), type:'trial'}));
-        localStorage.setItem("trial_used", "true");
-        alert("7 Days Trial Started!");
-        location.reload();
+        alert("Trial Started!"); location.reload();
     } else {
+        let randomID = "ID-" + Math.floor(1000 + Math.random() * 9000);
+        localStorage.setItem("pending_id", randomID);
         localStorage.setItem("pending_days", days);
         document.getElementById("selected-plan-text").innerText = name + " (₹" + price + ")";
         
-        // Auto-Amount UPI QR Link
-        let upiLink = `upi://pay?pa=${MY_UPI}&pn=Muksidul%20Islam&am=${price}&cu=INR`;
-        let qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=${encodeURIComponent(upiLink)}`;
-        document.getElementById("qr-display").innerHTML = `<img src="${qrUrl}" alt="Scan to Pay">`;
+        let qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=${encodeURIComponent(`upi://pay?pa=${MY_UPI}&am=${price}&cu=INR`)}`;
+        document.getElementById("qr-display").innerHTML = `<img src="${qrUrl}">`;
 
         document.getElementById("plans-page").classList.add("hidden");
         document.getElementById("activation-area").classList.remove("hidden");
@@ -139,8 +141,7 @@ function selectPlan(type, days, name, price) {
 
 function sendPaymentWA() {
     let id = localStorage.getItem("pending_id");
-    let msg = `*Payment Screenshot*\nMy ID: ${id}\nPlease activate my software.`;
-    window.open(`https://wa.me/${MY_NUMBER}?text=${encodeURIComponent(msg)}`);
+    window.open(`https://wa.me/${MY_NUMBER}?text=${encodeURIComponent("My ID: " + id + ". Please activate my key.")}`);
 }
 
 function validateActivation() {
@@ -150,16 +151,13 @@ function validateActivation() {
     if(input === correct) {
         let expiry = new Date().getTime() + (days * 24 * 60 * 60 * 1000);
         localStorage.setItem("user_auth_status", JSON.stringify({active:true, exp:expiry, mob:localStorage.getItem("pending_mob"), type:'premium'}));
-        alert("Activated!"); location.reload();
-    } else { alert("Invalid ID!"); }
+        alert("Success!"); location.reload();
+    } else { alert("Wrong Activation ID!"); }
 }
 
 function launchApp() {
     document.getElementById("login-screen").classList.add("hidden");
     document.getElementById("main-app").classList.remove("hidden");
-    let u = JSON.parse(localStorage.getItem("user_auth_status"));
-    let left = Math.ceil((u.exp - new Date().getTime()) / (1000*60*60*24));
-    document.getElementById("trial-timer").innerText = (u.type==='trial'?'Trial: ':'Premium: ') + left + " Days Left";
 }
 </script>
 </body>
