@@ -3,135 +3,296 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Shop Bill Generator – Professional POS</title>
+<title>Shayan POS - Professional Billing</title>
 <style>
-/* --- AAPKA ORIGINAL CSS --- */
-body{font-family:Arial;background:#ffffff;margin:0;padding:10px;}
-.container{max-width:800px;margin:auto;background:transparent;padding:15px;}
-h2{text-align:center; position: relative; user-select:none;}
-input, select, button{width:100%;padding:10px;margin:6px 0;border-radius:6px;border:1px solid #ccc;box-sizing:border-box;}
-button{border:none;background:#2563eb;color:white;font-size:15px;cursor:pointer;}
+/* --- PROFESSIONAL UI DESIGN --- */
+:root {
+    --primary: #2563eb;
+    --secondary: #3b82f6;
+    --success: #22c55e;
+    --danger: #ef4444;
+    --bg: #f8fafc;
+    --card: #ffffff;
+    --text: #1e293b;
+}
+
+body {
+    font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    background-color: var(--bg);
+    color: var(--text);
+    margin: 0;
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+}
+
+.container {
+    width: 100%;
+    max-width: 500px;
+    background: var(--card);
+    padding: 30px;
+    border-radius: 20px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+}
+
+h2 {
+    text-align: center;
+    color: var(--primary);
+    font-size: 24px;
+    margin-bottom: 10px;
+}
+
+p.subtitle {
+    text-align: center;
+    color: #64748b;
+    font-size: 14px;
+    margin-bottom: 25px;
+}
+
+/* Form Styling */
+input, select {
+    width: 100%;
+    padding: 12px 15px;
+    margin: 10px 0;
+    border-radius: 10px;
+    border: 1px solid #e2e8f0;
+    font-size: 15px;
+    transition: 0.3s;
+    outline: none;
+}
+
+input:focus {
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+}
+
+button {
+    width: 100%;
+    padding: 14px;
+    margin-top: 15px;
+    border-radius: 10px;
+    border: none;
+    background: var(--primary);
+    color: white;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+button:hover {
+    background: var(--secondary);
+    transform: translateY(-1px);
+}
+
+button:active {
+    transform: translateY(0);
+}
+
+/* Plan Cards */
+.plan-grid {
+    display: grid;
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.plan-card {
+    border: 2px solid #f1f5f9;
+    padding: 15px;
+    border-radius: 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    transition: 0.3s;
+    background: #fff;
+}
+
+.plan-card:hover {
+    border-color: var(--primary);
+    background: #eff6ff;
+}
+
+.plan-card.popular {
+    border-color: var(--primary);
+    position: relative;
+}
+
+.plan-card.popular::after {
+    content: "Popular";
+    position: absolute;
+    top: -10px;
+    right: 15px;
+    background: var(--primary);
+    color: white;
+    font-size: 10px;
+    padding: 2px 8px;
+    border-radius: 10px;
+}
+
+.plan-info h3 {
+    margin: 0;
+    font-size: 16px;
+    color: var(--text);
+}
+
+.plan-info p {
+    margin: 4px 0 0;
+    font-size: 12px;
+    color: #64748b;
+}
+
+.plan-price {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--success);
+}
+
+/* Lock Box & QR */
+.step-box {
+    background: #f8fbff;
+    border: 2px dashed #cbd5e1;
+    padding: 25px;
+    border-radius: 15px;
+    text-align: center;
+}
+
+.qr-frame {
+    background: white;
+    padding: 15px;
+    display: inline-block;
+    border-radius: 15px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    margin: 15px 0;
+}
+
 .hidden { display: none !important; }
 
-/* Design Elements */
-.step-box { border: 2px dashed #2563eb; padding: 20px; background: #f0f7ff; text-align: center; border-radius: 8px; margin-top: 10px; }
-.plan-card { border: 1px solid #ddd; padding: 12px; margin: 8px 0; border-radius: 8px; text-align: center; background: #f9f9f9; cursor: pointer; display: flex; justify-content: space-between; align-items: center; }
-.plan-price { font-weight: bold; color: #059669; }
-.logout-btn { background: #f97316; margin-bottom: 10px; font-weight: bold; }
+.trial-tag {
+    background: #fef3c7;
+    color: #b45309;
+    padding: 5px 15px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+    display: inline-block;
+    margin-bottom: 15px;
+}
+
+/* Original Table preserved but styled */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+th { background: #f1f5f9; padding: 12px; font-size: 13px; }
+td { padding: 10px; border-bottom: 1px solid #f1f5f9; text-align: center; font-size: 13px; }
+
 </style>
 </head>
 <body>
 
 <div id="login-screen" class="container">
-    <h2>🧾 Bill Generator</h2>
+    <h2>Shayan Smart Tools</h2>
+    <p class="subtitle">Cloud Based Billing Solution</p>
     
     <div id="registration-form">
-        <p style="text-align:center; color:gray;">Enter details to request activation</p>
-        <input id="uName" placeholder="Full Name">
-        <input id="uAddr" placeholder="Shop Address">
+        <input id="uName" type="text" placeholder="Owner Name">
+        <input id="uAddr" type="text" placeholder="Shop/Business Address">
         <input id="uMob" type="number" placeholder="WhatsApp Number">
-        <button onclick="sendActivationRequest()" style="background:#22c55e;">Verify & Send to WhatsApp</button>
+        <button onclick="sendActivationRequest()" style="background: var(--success);">Get Started & Verify</button>
     </div>
 
     <div id="approval-lock" class="hidden">
         <div class="step-box">
-            <h3 style="color:#2563eb; margin:0;">Waiting for Approval...</h3>
-            <p style="font-size:13px; margin:10px 0;">Your details have been sent to Muksidul Islam.</p>
-            <p style="font-size:14px; font-weight:bold; color:red;">Enter the ID Number received from Muksidul on WhatsApp to see plans:</p>
-            <hr>
-            <input id="inputID" placeholder="Enter ID (e.g. ID-1234)">
-            <button onclick="unlockSoftware()" style="background:#2563eb;">Verify ID & Unlock Plans</button>
+            <div class="trial-tag">Security Verification</div>
+            <p style="font-size: 14px; color: #475569;">Request sent to <b>Muksidul Islam</b>.<br>Please enter the Approval ID to unlock.</p>
+            <input id="inputID" type="text" placeholder="Enter Approval ID (ID-XXXX)" style="text-align:center; font-weight:bold; letter-spacing: 2px;">
+            <button onclick="unlockSoftware()">Unlock Dashboard</button>
         </div>
     </div>
 
     <div id="plans-page" class="hidden">
-        <h3 style="text-align:center;">Step 2: Choose Your Plan</h3>
-        <div id="trial-card" class="plan-card" onclick="selectPlan('trial', 7, 'Free Trial', 0)">
-            <h3>FREE TRIAL (7 Days)</h3><span class="plan-price">FREE</span>
-        </div>
-        <div class="plan-card" onclick="selectPlan('paid', 30, '1 Month', 100)">
-            <h3>1 MONTH PLAN</h3><span class="plan-price">₹100</span>
-        </div>
-        <div class="plan-card" onclick="selectPlan('paid', 365, '1 Year', 1000)">
-            <h3>1 YEAR PLAN</h3><span class="plan-price">₹1000</span>
+        <h3 style="text-align:center; font-size: 18px; margin-bottom: 20px;">Activate Subscription</h3>
+        <div class="plan-grid">
+            <div id="trial-card" class="plan-card" onclick="selectPlan('trial', 7, 'Free Trial', 0)">
+                <div class="plan-info"><h3>Free Trial</h3><p>Full access for 7 days</p></div>
+                <div class="plan-price">Free</div>
+            </div>
+            <div class="plan-card popular" onclick="selectPlan('paid', 30, 'Monthly Plan', 100)">
+                <div class="plan-info"><h3>1 Month Plan</h3><p>Premium support included</p></div>
+                <div class="plan-price">₹100</div>
+            </div>
+            <div class="plan-card" onclick="selectPlan('paid', 365, 'Yearly Plan', 1000)">
+                <div class="plan-info"><h3>1 Year Plan</h3><p>Best for growing shops</p></div>
+                <div class="plan-price">₹1000</div>
+            </div>
         </div>
     </div>
 
     <div id="payment-area" class="hidden">
         <div class="step-box">
-            <p style="font-weight:bold; color:#2563eb;">Distributor: Muksidul Islam (9957548361)</p>
-            <p style="font-size:13px;">Selected: <b id="sel-plan"></b></p>
-            <div id="qr-display" style="margin:15px 0;"></div>
-            <p style="font-size:11px; color:red; font-weight:bold;">Scan & Send Screenshot to Distributor</p>
-            <button onclick="location.reload()" style="background:#666;">Back to Plans</button>
+            <p style="font-size: 14px; margin-bottom: 5px;">Plan: <b id="sel-plan" style="color:var(--primary)"></b></p>
+            <div class="qr-frame" id="qr-display"></div>
+            <p style="font-size: 11px; color: var(--danger); font-weight: 600;">Scan to Pay & Send Screenshot</p>
+            <button onclick="sendPaymentWA()" style="background: var(--success);">WhatsApp Screenshot</button>
+            <button onclick="location.reload()" style="background: #94a3b8; margin-top: 10px;">Change Plan</button>
         </div>
     </div>
 </div>
 
-<div id="main-app" class="container hidden">
-    <button class="logout-btn" onclick="localStorage.clear(); location.reload();">Logout (Testing)</button>
-    <div id="trial-timer" style="text-align:center; font-weight:bold; color:orange;"></div>
-    <h2>🧾 Bill Generator</h2>
+<div id="main-app" class="container hidden" style="max-width: 800px;">
+    <div style="text-align:right"><span id="trial-timer" class="trial-tag"></span></div>
+    <h2 style="text-align:left">🧾 Dashboard</h2>
+    <hr style="border: 0; border-top: 1px solid #f1f5f9; margin: 20px 0;">
     </div>
 
 <script>
+/* --- JAVASCRIPT FUNCTIONS (SAME AS BEFORE) --- */
 const MY_WA = "919957548361";
 const MY_UPI = "9957548361@upi";
 
-// 1. Send Request & Generate Auto ID
 function sendActivationRequest() {
-    let name = document.getElementById("uName").value.trim();
-    let addr = document.getElementById("uAddr").value.trim();
-    let mob = document.getElementById("uMob").value.trim();
-    
-    if(!name || !addr || mob.length < 10) return alert("Please fill all details!");
-
-    // Auto-Generate Random ID
+    let name = document.getElementById("uName").value, addr = document.getElementById("uAddr").value, mob = document.getElementById("uMob").value;
+    if(!name || !addr || mob.length < 10) return alert("Fill all details!");
     let randomID = "ID-" + Math.floor(1000 + Math.random() * 9999);
-    
-    // Save to memory so software knows the correct ID
     localStorage.setItem("muksidul_secret_id", randomID.toUpperCase());
     localStorage.setItem("reg_mob", mob);
-
-    // Send Message to your WhatsApp with the ID
-    let msg = `*New Software Request*\nName: ${name}\nAddress: ${addr}\nMobile: ${mob}\n*Auto-Generated ID: ${randomID}*\n\nPlease provide this ID to the user to unlock plans.`;
-    
+    let msg = `*Activation Request*\nName: ${name}\nAddress: ${addr}\nMobile: ${mob}\n*ID: ${randomID}*`;
     window.open(`https://wa.me/${MY_WA}?text=${encodeURIComponent(msg)}`);
-    
     document.getElementById("registration-form").classList.add("hidden");
     document.getElementById("approval-lock").classList.remove("hidden");
 }
 
-// 2. Unlock Plans with the ID you provide
 function unlockSoftware() {
     let input = document.getElementById("inputID").value.trim().toUpperCase();
-    let correct = localStorage.getItem("muksidul_secret_id");
-
-    if(input && input === correct) {
+    if(input === localStorage.getItem("muksidul_secret_id")) {
         document.getElementById("approval-lock").classList.add("hidden");
         document.getElementById("plans-page").classList.remove("hidden");
         if(localStorage.getItem("trial_done")) document.getElementById("trial-card").classList.add("hidden");
-    } else {
-        alert("Invalid ID! Please contact Muksidul Islam on WhatsApp for the correct Activation ID.");
-    }
+    } else { alert("Invalid Approval ID!"); }
 }
 
-// 3. Plan Selection
 function selectPlan(type, days, name, price) {
     if(type === 'trial') {
-        let expiry = new Date().getTime() + (7 * 24 * 60 * 60 * 1000);
+        let expiry = new Date().getTime() + (days * 24 * 60 * 60 * 1000);
         localStorage.setItem("app_auth", JSON.stringify({active:true, exp:expiry, type:'trial'}));
         localStorage.setItem("trial_done", "true");
-        alert("Trial Started!"); location.reload();
+        location.reload();
     } else {
-        document.getElementById("sel-plan").innerText = name + " (₹" + price + ")";
-        let upiLink = `upi://pay?pa=${MY_UPI}&pn=Muksidul%20Islam&am=${price}&cu=INR`;
-        let qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=${encodeURIComponent(upiLink)}`;
-        document.getElementById("qr-display").innerHTML = `<img src="${qrUrl}">`;
-        
+        document.getElementById("sel-plan").innerText = name + " - ₹" + price;
+        let qr = `https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=${encodeURIComponent('upi://pay?pa='+MY_UPI+'&am='+price+'&cu=INR')}`;
+        document.getElementById("qr-display").innerHTML = `<img src="${qr}">`;
         document.getElementById("plans-page").classList.add("hidden");
         document.getElementById("payment-area").classList.remove("hidden");
     }
+}
+
+function sendPaymentWA() {
+    window.open(`https://wa.me/${MY_WA}?text=Payment%20Done%20ID:%20${localStorage.getItem("muksidul_secret_id")}`);
 }
 
 window.onload = function() {
@@ -139,6 +300,8 @@ window.onload = function() {
     if(auth && new Date().getTime() < auth.exp) {
         document.getElementById("login-screen").classList.add("hidden");
         document.getElementById("main-app").classList.remove("hidden");
+        let left = Math.ceil((auth.exp - new Date().getTime()) / (1000*60*60*24));
+        document.getElementById("trial-timer").innerText = left + " Days Left";
     }
 };
 </script>
