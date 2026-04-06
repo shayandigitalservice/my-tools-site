@@ -4,37 +4,20 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Shop Bill Generator – Professional POS</title>
-<link rel="icon" type="image/png" href="logo.png">
-<link rel="apple-touch-icon" href="logo.png">
-
 <style>
 /* --- AAPKA ORIGINAL CSS --- */
 body{font-family:Arial;background:#ffffff;margin:0;padding:10px;}
-.container{max-width:800px;margin:auto;background:transparent;padding:15px;border-radius:0;box-shadow:none;}
-h2{text-align:center; cursor:pointer; user-select:none; position: relative;}
+.container{max-width:800px;margin:auto;background:transparent;padding:15px;}
+h2{text-align:center; position: relative; user-select:none;}
 input, select, button{width:100%;padding:10px;margin:6px 0;border-radius:6px;border:1px solid #ccc;box-sizing:border-box;}
 button{border:none;background:#2563eb;color:white;font-size:15px;cursor:pointer;}
-table{width:100%;margin-top:10px;border-collapse:collapse;}
-th,td{border:1px solid #000;padding:8px;font-size:14px;text-align:center;}
-.totalRow td{font-weight:bold;}
-.bill{margin-top:20px; overflow-wrap: break-word; word-wrap: break-word;}
-.invoice{float:right;}
-.clear{clear:both;}
-.qr-container{text-align:center; margin-top:15px; padding:10px; border:1px dashed #ccc;}
-.qr-container img{width:150px; height:150px;}
-
-/* Subscription & Verification Styling */
 .hidden { display: none !important; }
-.trial-info { text-align: center; color: #b45309; font-weight: bold; margin-bottom: 10px; font-size: 14px; }
-.distributor-box { border: 2px dashed #2563eb; padding: 15px; background: #f0f7ff; text-align: center; margin-top: 10px; border-radius: 8px; }
+
+/* Design Elements */
+.step-box { border: 2px dashed #2563eb; padding: 20px; background: #f0f7ff; text-align: center; border-radius: 8px; margin-top: 10px; }
 .plan-card { border: 1px solid #ddd; padding: 12px; margin: 8px 0; border-radius: 8px; text-align: center; background: #f9f9f9; cursor: pointer; display: flex; justify-content: space-between; align-items: center; }
 .plan-price { font-weight: bold; color: #059669; }
 .logout-btn { background: #f97316; margin-bottom: 10px; font-weight: bold; }
-
-@media screen and (max-width:600px){
-  table th, table td{padding:6px;font-size:12px;}
-  .table-wrapper { overflow-x: auto; width: 100%; }
-}
 </style>
 </head>
 <body>
@@ -43,19 +26,21 @@ th,td{border:1px solid #000;padding:8px;font-size:14px;text-align:center;}
     <h2>🧾 Bill Generator</h2>
     
     <div id="registration-form">
-        <p style="text-align:center; color:gray;">English Verification: Enter details</p>
-        <input id="regName" placeholder="Full Name">
-        <input id="regAddr" placeholder="Shop Address">
-        <input id="regMob" type="number" placeholder="WhatsApp Number">
-        <button onclick="sendVerifyRequest()" style="background:#22c55e;">Verify Details</button>
+        <p style="text-align:center; color:gray;">Enter details to request activation</p>
+        <input id="uName" placeholder="Full Name">
+        <input id="uAddr" placeholder="Shop Address">
+        <input id="uMob" type="number" placeholder="WhatsApp Number">
+        <button onclick="sendActivationRequest()" style="background:#22c55e;">Verify & Send to WhatsApp</button>
     </div>
 
-    <div id="verify-code-area" class="hidden">
-        <div class="distributor-box">
-            <p style="font-weight:bold; color:#2563eb; margin:0;">Waiting for Approval...</p>
-            <p style="font-size:12px; margin:5px 0;">Enter the <b>ID Number</b> you just received on WhatsApp to see plans.</p>
-            <input id="inputVerifyCode" placeholder="Enter ID (e.g. ID-1234)">
-            <button onclick="unlockPlans()" style="background:#2563eb;">Show Subscription Plans</button>
+    <div id="approval-lock" class="hidden">
+        <div class="step-box">
+            <h3 style="color:#2563eb; margin:0;">Waiting for Approval...</h3>
+            <p style="font-size:13px; margin:10px 0;">Your details have been sent to Muksidul Islam.</p>
+            <p style="font-size:14px; font-weight:bold; color:red;">Enter the ID Number received from Muksidul on WhatsApp to see plans:</p>
+            <hr>
+            <input id="inputID" placeholder="Enter ID (e.g. ID-1234)">
+            <button onclick="unlockSoftware()" style="background:#2563eb;">Verify ID & Unlock Plans</button>
         </div>
     </div>
 
@@ -72,186 +57,90 @@ th,td{border:1px solid #000;padding:8px;font-size:14px;text-align:center;}
         </div>
     </div>
 
-    <div id="activation-area" class="hidden">
-        <div class="distributor-box">
-            <p style="font-weight:bold; color:#2563eb; margin:0;">Distributor: Muksidul Islam</p>
-            <p style="font-size:13px; margin:5px 0;">WhatsApp: 9957548361</p>
-            <hr>
-            <p style="font-size:14px;">Selected Plan: <b id="selected-plan-text"></b></p>
-            <div id="qr-display" style="margin: 15px 0;"></div>
-            <p style="font-size:11px; color:red; font-weight:bold;">Scan QR & Send Screenshot on WhatsApp</p>
-            <button onclick="sendPaymentWA()" style="background:#25d366; font-size:13px;">Send Payment Screenshot</button>
-            <hr style="margin:15px 0; border:0; border-top:1px solid #ccc;">
-            <input id="inputIDKey" placeholder="Enter ID Number for Final Activation">
-            <button onclick="validateActivation()" style="background:#dc2626;">Activate Software Now</button>
+    <div id="payment-area" class="hidden">
+        <div class="step-box">
+            <p style="font-weight:bold; color:#2563eb;">Distributor: Muksidul Islam (9957548361)</p>
+            <p style="font-size:13px;">Selected: <b id="sel-plan"></b></p>
+            <div id="qr-display" style="margin:15px 0;"></div>
+            <p style="font-size:11px; color:red; font-weight:bold;">Scan & Send Screenshot to Distributor</p>
+            <button onclick="location.reload()" style="background:#666;">Back to Plans</button>
         </div>
     </div>
 </div>
 
 <div id="main-app" class="container hidden">
-    <button class="logout-btn" onclick="logoutTest()">⚠️ LOGOUT (For Testing)</button>
-    <div id="trial-timer" class="trial-info"></div>
+    <button class="logout-btn" onclick="localStorage.clear(); location.reload();">Logout (Testing)</button>
+    <div id="trial-timer" style="text-align:center; font-weight:bold; color:orange;"></div>
     <h2>🧾 Bill Generator</h2>
-
-    <input id="shop" placeholder="Shop Name">
-    <input id="address" placeholder="Address">
-    <input id="phone" placeholder="Phone">
-    <input id="upiId" placeholder="UPI ID (e.g. 9957548361@upi)">
-    <button id="saveShopBtn">Save Shop Details</button>
-    <hr>
-    <input id="customer" placeholder="Customer Name">
-    <input id="productSearch" placeholder="Product Name">
-    <input id="qty" type="number" placeholder="Qty">
-    <input id="price" type="number" placeholder="Price">
-    <button id="addItemBtn">Add Item</button>
-
-    <div class="table-wrapper">
-    <table id="table"><tr><th>No</th><th>Product</th><th>Qty</th><th>Price</th><th>Total</th></tr></table>
     </div>
 
-    <button id="generateBillBtn">Generate Bill</button>
-    <button id="printBillBtn">Print Bill</button>
-    <button id="sendWhatsAppBtn">Send WhatsApp</button>
-    <div id="bill" class="bill"></div>
-    <div id="totalDay"></div>
-</div>
-
 <script>
-const MY_NUMBER = "919957548361";
+const MY_WA = "919957548361";
 const MY_UPI = "9957548361@upi";
 
-// --- FLOW LOGIC ---
-window.onload = function() {
-    let auth = JSON.parse(localStorage.getItem("user_auth_status"));
-    if(auth && new Date().getTime() < auth.exp) launchApp();
+// 1. Send Request & Generate Auto ID
+function sendActivationRequest() {
+    let name = document.getElementById("uName").value.trim();
+    let addr = document.getElementById("uAddr").value.trim();
+    let mob = document.getElementById("uMob").value.trim();
     
-    let step = localStorage.getItem("current_step");
-    if(step && !auth) showStep(step);
-};
+    if(!name || !addr || mob.length < 10) return alert("Please fill all details!");
 
-function showStep(id) {
-    document.getElementById("registration-form").classList.add("hidden");
-    document.getElementById("verify-code-area").classList.add("hidden");
-    document.getElementById("plans-page").classList.add("hidden");
-    document.getElementById("activation-area").classList.add("hidden");
-    document.getElementById(id).classList.remove("hidden");
-    localStorage.setItem("current_step", id);
-}
-
-function sendVerifyRequest() {
-    let name = document.getElementById("regName").value.trim();
-    let addr = document.getElementById("regAddr").value.trim();
-    let mob = document.getElementById("regMob").value.trim();
-    if(!name || !addr || mob.length < 10) return alert("Fill all details!");
-
+    // Auto-Generate Random ID
     let randomID = "ID-" + Math.floor(1000 + Math.random() * 9999);
     
-    // Save to Memory
-    localStorage.setItem("pending_id", randomID.toUpperCase());
-    localStorage.setItem("pending_mob", mob);
-    // User jo ID bhej raha hai, wahi code hai
-    localStorage.setItem("secret_verify_code", randomID.toUpperCase()); 
+    // Save to memory so software knows the correct ID
+    localStorage.setItem("muksidul_secret_id", randomID.toUpperCase());
+    localStorage.setItem("reg_mob", mob);
 
-    let msg = `*Activation Request*\nName: ${name}\nAddress: ${addr}\nMobile: ${mob}\n*ID Number: ${randomID}*\n\nPlease provide verification code.`;
-    window.open(`https://wa.me/${MY_NUMBER}?text=${encodeURIComponent(msg)}`);
-    showStep("verify-code-area");
+    // Send Message to your WhatsApp with the ID
+    let msg = `*New Software Request*\nName: ${name}\nAddress: ${addr}\nMobile: ${mob}\n*Auto-Generated ID: ${randomID}*\n\nPlease provide this ID to the user to unlock plans.`;
+    
+    window.open(`https://wa.me/${MY_WA}?text=${encodeURIComponent(msg)}`);
+    
+    document.getElementById("registration-form").classList.add("hidden");
+    document.getElementById("approval-lock").classList.remove("hidden");
 }
 
-function unlockPlans() {
-    let input = document.getElementById("inputVerifyCode").value.trim().toUpperCase();
-    let correct = localStorage.getItem("secret_verify_code");
+// 2. Unlock Plans with the ID you provide
+function unlockSoftware() {
+    let input = document.getElementById("inputID").value.trim().toUpperCase();
+    let correct = localStorage.getItem("muksidul_secret_id");
 
-    if(input === correct) {
-        showStep("plans-page");
-        if(localStorage.getItem("trial_used")) document.getElementById("trial-card").classList.add("hidden");
-    } else { 
-        alert("Invalid ID Number! Enter the ID (e.g. ID-1234) sent on WhatsApp."); 
+    if(input && input === correct) {
+        document.getElementById("approval-lock").classList.add("hidden");
+        document.getElementById("plans-page").classList.remove("hidden");
+        if(localStorage.getItem("trial_done")) document.getElementById("trial-card").classList.add("hidden");
+    } else {
+        alert("Invalid ID! Please contact Muksidul Islam on WhatsApp for the correct Activation ID.");
     }
 }
 
+// 3. Plan Selection
 function selectPlan(type, days, name, price) {
-    localStorage.setItem("pending_days", days);
     if(type === 'trial') {
         let expiry = new Date().getTime() + (7 * 24 * 60 * 60 * 1000);
-        localStorage.setItem("user_auth_status", JSON.stringify({active:true, exp:expiry, mob:localStorage.getItem("pending_mob"), type:'trial'}));
-        localStorage.setItem("trial_used", "true");
-        alert("7 Days Trial Started!"); location.reload();
+        localStorage.setItem("app_auth", JSON.stringify({active:true, exp:expiry, type:'trial'}));
+        localStorage.setItem("trial_done", "true");
+        alert("Trial Started!"); location.reload();
     } else {
-        document.getElementById("selected-plan-text").innerText = name + " (₹" + price + ")";
+        document.getElementById("sel-plan").innerText = name + " (₹" + price + ")";
         let upiLink = `upi://pay?pa=${MY_UPI}&pn=Muksidul%20Islam&am=${price}&cu=INR`;
         let qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=${encodeURIComponent(upiLink)}`;
         document.getElementById("qr-display").innerHTML = `<img src="${qrUrl}">`;
-        showStep("activation-area");
+        
+        document.getElementById("plans-page").classList.add("hidden");
+        document.getElementById("payment-area").classList.remove("hidden");
     }
 }
 
-function validateActivation() {
-    let input = document.getElementById("inputIDKey").value.trim().toUpperCase();
-    if(input === localStorage.getItem("pending_id")) {
-        let days = parseInt(localStorage.getItem("pending_days"));
-        let expiry = new Date().getTime() + (days * 24 * 60 * 60 * 1000);
-        localStorage.setItem("user_auth_status", JSON.stringify({active:true, exp:expiry, mob:localStorage.getItem("pending_mob"), type:'premium'}));
-        alert("Software Activated Successfully!"); location.reload();
-    } else { alert("Wrong ID Number!"); }
-}
-
-function sendPaymentWA() {
-    window.open(`https://wa.me/${MY_NUMBER}?text=Payment%20Screenshot%20for%20ID:%20${localStorage.getItem("pending_id")}`);
-}
-
-function launchApp() {
-    document.getElementById("login-screen").classList.add("hidden");
-    document.getElementById("main-app").classList.remove("hidden");
-    let u = JSON.parse(localStorage.getItem("user_auth_status"));
-    if(u){
-        let left = Math.ceil((u.exp - new Date().getTime()) / (1000*60*60*24));
-        document.getElementById("trial-timer").innerText = (u.type==='trial'?'Trial: ':'Premium: ') + left + " Days Left";
+window.onload = function() {
+    let auth = JSON.parse(localStorage.getItem("app_auth"));
+    if(auth && new Date().getTime() < auth.exp) {
+        document.getElementById("login-screen").classList.add("hidden");
+        document.getElementById("main-app").classList.remove("hidden");
     }
-}
-
-function logoutTest() { localStorage.clear(); location.reload(); }
-
-// --- ORIGINAL BILLING LOGIC ---
-document.addEventListener("DOMContentLoaded", function(){
-    let items=[];
-    const shopInput = document.getElementById("shop");
-    shopInput.value = localStorage.getItem("shop")||"";
-    document.getElementById("address").value = localStorage.getItem("address")||"";
-    document.getElementById("phone").value = localStorage.getItem("phone")||"";
-    document.getElementById("upiId").value = localStorage.getItem("upiId")||"";
-
-    document.getElementById("saveShopBtn").addEventListener("click", function(){
-        localStorage.setItem("shop", shopInput.value);
-        localStorage.setItem("address", document.getElementById("address").value);
-        localStorage.setItem("phone", document.getElementById("phone").value);
-        localStorage.setItem("upiId", document.getElementById("upiId").value);
-        alert("Details Saved!");
-    });
-
-    document.getElementById("addItemBtn").addEventListener("click", function(){
-        let p=document.getElementById("productSearch").value, q=+document.getElementById("qty").value, pr=+document.getElementById("price").value;
-        if(p && q && pr){
-            items.push({p,q,pr,t:q*pr});
-            let row=document.getElementById("table").insertRow();
-            row.insertCell(0).innerText=items.length; row.insertCell(1).innerText=p;
-            row.insertCell(2).innerText=q; row.insertCell(3).innerText=pr; row.insertCell(4).innerText=q*pr;
-        }
-    });
-
-    document.getElementById("generateBillBtn").addEventListener("click", function(){
-        if(items.length===0) return;
-        let total=0; items.forEach(i=>total+=i.t);
-        let upi = document.getElementById("upiId").value;
-        let html=`<b>${shopInput.value}</b><hr><table><tr><th>Item</th><th>Qty</th><th>Total</th></tr>`;
-        items.forEach(i=> html+=`<tr><td>${i.p}</td><td>${i.q}</td><td>₹${i.t}</td></tr>`);
-        html+=`<tr><td colspan="2">Total</td><td>₹${total}</td></tr></table>`;
-        if(upi) html+=`<center><img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${encodeURIComponent('upi://pay?pa='+upi+'&am='+total)}"></center>`;
-        document.getElementById("bill").innerHTML = html;
-    });
-
-    document.getElementById("printBillBtn").addEventListener("click", () => window.print());
-    document.getElementById("sendWhatsAppBtn").addEventListener("click", () => window.open("https://wa.me/?text="+encodeURIComponent(document.getElementById("bill").innerText)));
-});
+};
 </script>
 </body>
 </html>
