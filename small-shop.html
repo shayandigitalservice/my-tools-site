@@ -3,192 +3,240 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Shop Bill Generator – Functional POS</title>
+<title>Shayan Smart Tools</title>
+
 <link rel="icon" type="image/png" href="logo.png">
 <link rel="apple-touch-icon" href="logo.png">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="theme-color" content="#2563eb">
 
 <style>
-body{font-family:Arial;background:#ffffff;margin:0;padding:10px;}
-.container{max-width:800px;margin:auto;background:transparent;padding:15px;border-radius:0;box-shadow:none;}
-h2{text-align:center;}
-input, select, button{width:100%;padding:10px;margin:6px 0;border-radius:6px;border:1px solid #ccc;box-sizing:border-box;}
-button{border:none;background:#2563eb;color:white;font-size:15px;cursor:pointer;}
+body{font-family:Arial;background:#f4f7f6;margin:0;padding:10px;}
+.container{max-width:800px;margin:auto;background:#fff;padding:15px;border-radius:12px;box-shadow:0 4px 12px rgba(0,0,0,0.1);margin-bottom:20px;}
+h2{text-align:center; color:#2563eb; cursor:pointer; user-select:none;}
+input, select, button{width:100%;padding:12px;margin:6px 0;border-radius:8px;border:1px solid #ccc;box-sizing:border-box;font-size:15px;}
+button{border:none;background:#2563eb;color:white;font-weight:bold;cursor:pointer;}
+.hidden { display: none !important; }
+#login-screen { text-align: center; padding: 40px 20px; }
+.trial-status { font-size: 14px; color: #1e40af; background: #e0e7ff; padding: 10px; border-radius: 8px; margin-bottom: 15px; text-align: center; font-weight: bold; }
 table{width:100%;margin-top:10px;border-collapse:collapse;}
-th,td{border:1px solid #000;padding:8px;font-size:14px;text-align:center;}
-.totalRow td{font-weight:bold;}
-.bill{margin-top:20px; overflow-wrap: break-word; word-wrap: break-word;}
-.invoice{float:right;}
-.clear{clear:both;}
-.qr-container{text-align:center; margin-top:15px; padding:10px; border:1px dashed #ccc;}
-.qr-container img{width:150px; height:150px;}
-
-@media screen and (max-width:1024px){
-  .container{padding:10px;}
-  input, select, button{font-size:14px;padding:8px;}
-  table th, table td{font-size:12px;padding:6px;}
-}
-@media screen and (max-width:600px){
-  table th, table td{padding:6px;font-size:12px;}
-  button{font-size:13px;padding:8px;}
-  .invoice{float: none; text-align: right;}
-  .table-wrapper { overflow-x: auto; width: 100%; }
-}
+th,td{border:1px solid #ddd;padding:8px;font-size:14px;text-align:center;}
+.bill{margin-top:20px; border-top: 2px dashed #ccc; padding-top:20px;}
+.qr-container{text-align:center; margin-top:15px;}
+.install-section { text-align: center; padding: 20px; background: #eff6ff; border-radius: 12px; border: 2px dashed #2563eb; margin-top: 20px; }
+#installBtn { background: #059669; width: auto; padding: 12px 30px; font-size: 16px; display: inline-block; }
 </style>
 </head>
 <body>
-<div class="container">
-<h2>🧾 Bill Generator</h2>
 
-<input id="shop" placeholder="Shop Name">
-<input id="address" placeholder="Address">
-<input id="phone" placeholder="Phone">
-<input id="upiId" placeholder="Enter Your UPI ID (e.g. name@upi)">
-<button id="saveShopBtn">Save Shop Details</button>
+<div id="login-screen" class="container">
+    <h2 id="admin-trigger">🧾 Shayan Smart Tools</h2>
+    <p>Apna Mobile Number daalkar shuru karein</p>
+    <input id="userMobile" type="number" placeholder="Enter Mobile Number">
+    <button id="checkTrialBtn">App Open Karein</button>
 
-<input id="customer" placeholder="Customer Name">
+    <div id="expiry-box" class="hidden" style="margin-top:20px; color:red;">
+        <p><b>Trial Khatam!</b> App activate karne ke liye contact karein:</p>
+        <p>Muksidul Islam: 9957548361</p>
+        <input id="licenseKey" placeholder="Paste License Key Here">
+        <button onclick="activateNow()" style="background:#dc2626;">Activate 30 Days</button>
+    </div>
 
-<input id="productSearch" placeholder="Product Name">
-
-<input id="qty" type="number" placeholder="Qty">
-<input id="price" type="number" placeholder="Price">
-<button id="addItemBtn">Add Item</button>
-
-<div class="table-wrapper">
-<table id="table">
-<tr><th>No</th><th>Product</th><th>Qty</th><th>Price</th><th>Total</th></tr>
-</table>
+    <div id="admin-login" class="hidden" style="margin-top:30px;">
+        <input id="masterPass" type="password" placeholder="Master Password">
+        <button onclick="enterAdmin()" style="background:#4b5563;">Admin Login</button>
+    </div>
 </div>
 
-<select id="payment">
-  <option value="Cash">Cash</option>
-  <option value="UPI">UPI</option>
-  <option value="Card">Card</option>
-</select>
+<div id="admin-panel" class="container hidden">
+    <h3>🛠 Master Key Generator</h3>
+    <input id="genMobile" type="number" placeholder="Dukandar Mobile Number">
+    <button onclick="generateKey()" style="background:#7c3aed;">Generate 30-Day Key</button>
+    <div id="showKey" style="margin:15px; padding:10px; background:#f0fdf4; border:1px dashed #16a34a; word-break:break-all; font-weight:bold;"></div>
+    <button onclick="location.reload()" style="background:#6b7280;">Back</button>
+</div>
 
-<button id="generateBillBtn">Generate Bill</button>
-<select id="printMode">
-<option value="A4">Print A4</option>
-<option value="Receipt" selected>Print Receipt</option>
-<option value="Custom">Custom Width</option>
-</select>
-<button id="printBillBtn">Print Bill</button>
-<button id="sendWhatsAppBtn">Send WhatsApp</button>
+<div id="main-app" class="container hidden">
+    <div id="trial-info" class="trial-status"></div>
+    <h2>🧾 Bill Generator</h2>
 
-<div id="bill" class="bill"></div>
-<button id="downloadHistoryBtn">Download History</button>
-<div id="totalDay"></div>
+    <input id="shop" placeholder="Shop Name">
+    <input id="address" placeholder="Address">
+    <input id="phone" placeholder="Phone">
+    <input id="upiId" placeholder="UPI ID (e.g. name@upi)">
+    <button id="saveShopBtn" style="background:#059669;">Save Shop Details</button>
 
-<hr>
+    <input id="customer" placeholder="Customer Name">
+    <input id="productSearch" placeholder="Product Name">
+    <input id="qty" type="number" placeholder="Qty">
+    <input id="price" type="number" placeholder="Price">
+    <button id="addItemBtn">Add Item</button>
+
+    <table id="table"><tr><th>No</th><th>Product</th><th>Qty</th><th>Price</th><th>Total</th></tr></table>
+
+    <select id="payment" style="margin-top:15px;">
+        <option value="Cash">Cash</option>
+        <option value="UPI">UPI</option>
+    </select>
+
+    <button id="generateBillBtn">Generate Bill</button>
+    <button id="printBillBtn" style="background:#6366f1;">PDF Print</button>
+    <button id="sendWhatsAppBtn" style="background:#22c55e;">Send WhatsApp</button>
+
+    <div id="bill" class="bill"></div>
+    <div id="totalDay" style="text-align:center; margin-top:10px; font-weight:bold;"></div>
+</div>
+
+<div class="container install-section" id="install-area">
+    <p>Is App ko apne phone par install karein</p>
+    <button id="installBtn">📥 Install Shayan POS</button>
+    <p style="font-size:12px; color:#666; margin-top:10px;">(Chrome settings se 'Add to Home Screen' bhi kar sakte hain)</p>
 </div>
 
 <script>
-document.addEventListener("DOMContentLoaded", function(){
+const ADMIN_PASS = "shayan123"; 
 
-let items=[];
-let total=0;
-let invoiceCounter = parseInt(localStorage.getItem("invoiceCounter"))||1;
-
-const shopInput = document.getElementById("shop");
-const addressInput = document.getElementById("address");
-const phoneInput = document.getElementById("phone");
-const upiInput = document.getElementById("upiId");
-const saveShopBtn = document.getElementById("saveShopBtn");
-
-shopInput.value = localStorage.getItem("shop")||"";
-addressInput.value = localStorage.getItem("address")||"";
-phoneInput.value = localStorage.getItem("phone")||"";
-upiInput.value = localStorage.getItem("upiId")||"";
-
-saveShopBtn.addEventListener("click", function(){
-    localStorage.setItem("shop", shopInput.value);
-    localStorage.setItem("address", addressInput.value);
-    localStorage.setItem("phone", phoneInput.value);
-    localStorage.setItem("upiId", upiInput.value);
-    alert("Shop details saved!");
+// --- SECRET ADMIN ACCESS ---
+let clicks = 0;
+document.getElementById("admin-trigger").addEventListener("click", () => {
+    clicks++;
+    if(clicks >= 5) { document.getElementById("admin-login").classList.remove("hidden"); clicks=0; }
+    setTimeout(() => clicks = 0, 3000);
 });
 
-const qtyInput = document.getElementById("qty");
-const priceInput = document.getElementById("price");
-const addItemBtn = document.getElementById("addItemBtn");
-const table = document.getElementById("table");
-const productSearch = document.getElementById("productSearch");
+function enterAdmin() {
+    if(document.getElementById("masterPass").value === ADMIN_PASS) {
+        document.getElementById("login-screen").classList.add("hidden");
+        document.getElementById("admin-panel").classList.remove("hidden");
+    } else { alert("Wrong Password!"); }
+}
 
-addItemBtn.addEventListener("click", function(){
-    let p = productSearch.value.trim();
-    let q = +qtyInput.value;
-    let pr = +priceInput.value;
-    if(!p || !q || !pr){ alert("Fill all fields"); return; }
+function generateKey() {
+    let m = document.getElementById("genMobile").value;
+    if(m.length < 10) return alert("Enter 10 digit number");
+    let expiry = new Date().getTime() + (30 * 24 * 60 * 60 * 1000);
+    let key = btoa(m + "|" + expiry + "|shayan_premium");
+    document.getElementById("showKey").innerText = "Key: " + key;
+}
 
-    let t = q*pr;
-    items.push({p,q,pr,t});
-    let row=table.insertRow();
-    row.insertCell(0).innerText=items.length;
-    row.insertCell(1).innerText=p;
-    row.insertCell(2).innerText=q;
-    row.insertCell(3).innerText=pr;
-    row.insertCell(4).innerText=t;
-    productSearch.value=""; qtyInput.value=""; priceInput.value="";
-});
+// --- SUBSCRIPTION LOGIC ---
+document.getElementById("checkTrialBtn").addEventListener("click", () => {
+    let mob = document.getElementById("userMobile").value;
+    if(mob.length < 10) return alert("Valid Mobile Number Required");
 
-function getInvoiceNumber(){ let num = invoiceCounter; invoiceCounter++; localStorage.setItem("invoiceCounter", invoiceCounter); return num; }
+    let u = JSON.parse(localStorage.getItem("user_" + mob));
+    let now = new Date().getTime();
 
-document.getElementById("generateBillBtn").addEventListener("click", function(){
-    if(items.length===0){ alert("Add items first"); return; }
-    let bill = document.getElementById("bill");
-    total=0; items.forEach(i=> total+=i.t);
-    let invoiceNo = getInvoiceNumber();
-    let dateISO = new Date().toISOString();
-    let paymentMode = document.getElementById("payment").value;
-    let upiId = upiInput.value.trim();
-
-    let html=`<div class="invoice">Invoice No: ${invoiceNo}</div><div class="clear"></div>
-    <b>${shopInput.value}</b><br>${addressInput.value}<br>Phone: ${phoneInput.value}<br>
-    Date: ${new Date(dateISO).toLocaleString()}<br>
-    Customer: ${document.getElementById("customer").value}<br>
-    Payment Mode: ${paymentMode}<hr>
-    <div style="overflow-x:auto;"><table>
-    <tr><th>No</th><th>Item</th><th>Qty</th><th>Price</th><th>Total</th></tr>`;
-    items.forEach((i,index)=>{
-        html+=`<tr><td>${index+1}</td><td>${i.p}</td><td>${i.q}</td><td>${i.pr}</td><td>${i.t}</td></tr>`;
-    });
-    html+=`<tr class="totalRow"><td colspan="4">Grand Total</td><td>₹${total}</td></tr></table></div>`;
-    
-    if(upiId !== ""){
-        let qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${encodeURIComponent('upi://pay?pa='+upiId+'&pn='+shopInput.value+'&am='+total+'&cu=INR')}`;
-        html += `<div class="qr-container"><p>Scan to Pay ₹${total}</p><img src="${qrUrl}" alt="UPI QR Code"></div>`;
+    if(!u) {
+        // New User - 7 Day Trial
+        u = { mobile: mob, expiry: now + (7 * 24 * 60 * 60 * 1000), status: "trial" };
+        localStorage.setItem("user_" + mob, JSON.stringify(u));
     }
 
-    bill.innerHTML = html;
-    updateSaleReports();
+    if(now < u.expiry) {
+        localStorage.setItem("activeUser", mob);
+        startApp(u);
+    } else {
+        document.getElementById("expiry-box").classList.remove("hidden");
+        document.getElementById("checkTrialBtn").classList.add("hidden");
+    }
 });
 
-document.getElementById("printBillBtn").addEventListener("click", function(){
-    let content = document.getElementById("bill").innerHTML;
-    let mode = document.getElementById("printMode").value;
-    let width=400, height=700;
-    if(mode=="A4"){width=800;height=1100;}
-    let win = window.open('','',`width=${width},height=${height}`);
-    win.document.write(`<html><head><title>Print Bill</title><style>
-    body{font-family:monospace;padding:10px;text-align:center;} table{width:100%;border-collapse:collapse;} td,th{border:1px solid #000;padding:5px;text-align:center;} .totalRow td{font-weight:bold;} .invoice{float:right;} .clear{clear:both;} .qr-container{margin-top:10px;} .qr-container img{width:120px;}
-    </style></head><body>${content}</body></html>`);
-    win.document.close(); win.print();
-});
-
-document.getElementById("sendWhatsAppBtn").addEventListener("click", function(){
-    let text="🧾 BILL RECEIPT\n\n"+document.getElementById("bill").innerText;
-    window.open("https://wa.me/?text="+encodeURIComponent(text));
-});
-
-function updateSaleReports(){
-    let history=JSON.parse(localStorage.getItem("history"))||[];
-    let daily=0; 
-    history.push({total, date:new Date().toISOString()});
-    localStorage.setItem("history", JSON.stringify(history));
-    history.forEach(h=>{ if(new Date(h.date).toDateString()===new Date().toDateString()) daily += h.total; });
-    document.getElementById("totalDay").innerHTML=`<b>Today's Total Sale: ₹${daily}</b>`;
+function activateNow() {
+    let mob = document.getElementById("userMobile").value;
+    let k = document.getElementById("licenseKey").value;
+    try {
+        let dec = atob(k).split("|");
+        if(dec[0] === mob && dec[2] === "shayan_premium") {
+            let uData = JSON.parse(localStorage.getItem("user_" + mob));
+            uData.expiry = parseInt(dec[1]);
+            uData.status = "paid";
+            localStorage.setItem("user_" + mob, JSON.stringify(uData));
+            alert("Success! App Activated.");
+            location.reload();
+        } else { alert("Key mismatch for this number!"); }
+    } catch(e) { alert("Invalid Key!"); }
 }
-updateSaleReports();
 
+function startApp(u) {
+    document.getElementById("login-screen").classList.add("hidden");
+    document.getElementById("main-app").classList.remove("hidden");
+    let left = Math.ceil((u.expiry - new Date().getTime()) / (1000*60*60*24));
+    document.getElementById("trial-info").innerText = (u.status==="trial"?"FREE TRIAL: ":"PAID: ") + left + " Days Left";
+}
+
+// --- BILLING LOGIC ---
+document.addEventListener("DOMContentLoaded", () => {
+    let active = localStorage.getItem("activeUser");
+    if(active) {
+        let u = JSON.parse(localStorage.getItem("user_" + active));
+        if(u && new Date().getTime() < u.expiry) startApp(u);
+    }
+
+    let items=[]; let total=0;
+    const shopInput = document.getElementById("shop");
+    shopInput.value = localStorage.getItem("shop")||"";
+    document.getElementById("address").value = localStorage.getItem("address")||"";
+    document.getElementById("phone").value = localStorage.getItem("phone")||"";
+    document.getElementById("upiId").value = localStorage.getItem("upiId")||"";
+
+    document.getElementById("saveShopBtn").addEventListener("click", () => {
+        localStorage.setItem("shop", shopInput.value);
+        localStorage.setItem("address", document.getElementById("address").value);
+        localStorage.setItem("phone", document.getElementById("phone").value);
+        localStorage.setItem("upiId", document.getElementById("upiId").value);
+        alert("Saved!");
+    });
+
+    document.getElementById("addItemBtn").addEventListener("click", () => {
+        let p = document.getElementById("productSearch").value;
+        let q = +document.getElementById("qty").value;
+        let pr = +document.getElementById("price").value;
+        if(!p || !q || !pr) return;
+        let t = q*pr; items.push({p,q,pr,t});
+        let row = document.getElementById("table").insertRow();
+        row.insertCell(0).innerText=items.length; row.insertCell(1).innerText=p;
+        row.insertCell(2).innerText=q; row.insertCell(3).innerText=pr; row.insertCell(4).innerText=t;
+    });
+
+    document.getElementById("generateBillBtn").addEventListener("click", () => {
+        if(items.length===0) return;
+        total=0; items.forEach(i=> total+=i.t);
+        let upi = document.getElementById("upiId").value;
+        let html = `<center><b>${shopInput.value}</b><br>${document.getElementById("address").value}</center><hr>`;
+        html += `<table><tr><th>Item</th><th>Qty</th><th>Total</th></tr>`;
+        items.forEach(i => html += `<tr><td>${i.p}</td><td>${i.q}</td><td>₹${i.t}</td></tr>`);
+        html += `<tr style="font-weight:bold;"><td colspan="2">Total</td><td>₹${total}</td></tr></table>`;
+        if(upi) {
+            let qr = `https://api.qrserver.com/v1/create-qr-code/?size=120x120&data=${encodeURIComponent('upi://pay?pa='+upi+'&pn='+shopInput.value+'&am='+total)}`;
+            html += `<center style="margin-top:10px;"><img src="${qr}"><br>Scan to Pay</center>`;
+        }
+        document.getElementById("bill").innerHTML = html;
+    });
+
+    document.getElementById("printBillBtn").addEventListener("click", () => window.print());
+    document.getElementById("sendWhatsAppBtn").addEventListener("click", () => {
+        window.open("https://wa.me/?text=" + encodeURIComponent(document.getElementById("bill").innerText));
+    });
+});
+
+// --- INSTALL BUTTON LOGIC ---
+let deferredPrompt;
+window.addEventListener('beforeinstallprompt', (e) => {
+    e.preventDefault();
+    deferredPrompt = e;
+    document.getElementById('install-area').classList.remove('hidden');
+});
+
+document.getElementById('installBtn').addEventListener('click', async () => {
+    if (deferredPrompt) {
+        deferredPrompt.prompt();
+        const { outcome } = await deferredPrompt.userChoice;
+        if (outcome === 'accepted') deferredPrompt = null;
+    } else {
+        alert("App install karne ke liye Chrome menu (3 dots) par jayein aur 'Add to Home Screen' par click karein.");
+    }
 });
 </script>
 </body>
