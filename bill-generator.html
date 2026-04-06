@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Shop Bill Generator – Functional POS</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 <style>
 body{font-family:Arial;background:#ffffff;margin:0;padding:10px;}
 .container{max-width:800px;margin:auto;background:transparent;padding:15px;border-radius:0;box-shadow:none;}
@@ -64,12 +65,7 @@ th,td{border:1px solid #000;padding:8px;font-size:14px;text-align:center;}
 </select>
 
 <button id="generateBillBtn">Generate Bill</button>
-<select id="printMode">
-<option value="A4">Print A4</option>
-<option value="Receipt" selected>Print Receipt</option>
-<option value="Custom">Custom Width</option>
-</select>
-<button id="printBillBtn">Print Bill</button>
+<button id="downloadPdfBtn">Download Bill PDF</button>
 <button id="sendWhatsAppBtn">Send WhatsApp</button>
 
 <div id="bill" class="bill"></div>
@@ -230,7 +226,8 @@ document.getElementById("generateBillBtn").addEventListener("click", function(){
     let paymentMode = document.getElementById("payment").value;
     let upiId = upiInput.value.trim();
 
-    let html=`<div class="invoice">Invoice No: ${invoiceNo}</div><div class="clear"></div>
+    let html=`<div id="pdf-content" style="padding:10px; background:white;">
+    <div class="invoice">Invoice No: ${invoiceNo}</div><div class="clear"></div>
     <b>${shopInput.value}</b><br>${addressInput.value}<br>Phone: ${phoneInput.value}<br>
     Date: ${new Date(dateISO).toLocaleString()}<br>
     Customer: ${document.getElementById("customer").value}<br>
@@ -242,26 +239,28 @@ document.getElementById("generateBillBtn").addEventListener("click", function(){
     });
     html+=`<tr class="totalRow"><td colspan="4">Grand Total</td><td>₹${total}</td></tr></table></div>`;
     
-    // QR Code Integration (Dynamic)
     if(upiId !== ""){
         let qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${encodeURIComponent('upi://pay?pa='+upiId+'&pn='+shopInput.value+'&am='+total+'&cu=INR')}`;
         html += `<div class="qr-container"><p>Scan to Pay ₹${total}</p><img src="${qrUrl}" alt="UPI QR Code"></div>`;
     }
+    html += `</div>`;
 
     bill.innerHTML = html;
     updateSaleReports();
 });
 
-document.getElementById("printBillBtn").addEventListener("click", function(){
-    let content = document.getElementById("bill").innerHTML;
-    let mode = document.getElementById("printMode").value;
-    let width=400, height=700;
-    if(mode=="A4"){width=800;height=1100;}
-    let win = window.open('','',`width=${width},height=${height}`);
-    win.document.write(`<html><head><title>Print Bill</title><style>
-    body{font-family:monospace;padding:10px;text-align:center;} table{width:100%;border-collapse:collapse;} td,th{border:1px solid #000;padding:5px;text-align:center;} .totalRow td{font-weight:bold;} .invoice{float:right;} .clear{clear:both;} .qr-container{margin-top:10px;} .qr-container img{width:120px;}
-    </style></head><body>${content}</body></html>`);
-    win.document.close(); win.print();
+// Download PDF function
+document.getElementById("downloadPdfBtn").addEventListener("click", function(){
+    let element = document.getElementById("pdf-content");
+    if(!element) { alert("Generate Bill first"); return; }
+    let opt = {
+      margin: 0.5,
+      filename: 'Bill_' + new Date().getTime() + '.pdf',
+      image: { type: 'jpeg', quality: 0.98 },
+      html2canvas: { scale: 2 },
+      jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
+    };
+    html2pdf().set(opt).from(element).save();
 });
 
 document.getElementById("sendWhatsAppBtn").addEventListener("click", function(){
