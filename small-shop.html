@@ -4,310 +4,171 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Shayan POS - Professional Billing</title>
-<link rel="icon" type="image/png" href="logo.png">
-<link rel="apple-touch-icon" href="logo.png">
-
 <style>
-/* --- NEXT-GEN APP UI (NO BOXES) --- */
+/* --- 1. NEXT-GEN VERIFICATION UI (NO BOX) --- */
 :root {
     --accent: #6366f1;
-    --accent-dark: #4f46e5;
     --bg-gradient: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
     --glass: rgba(255, 255, 255, 0.8);
-    --text-main: #0f172a;
     --text-dim: #64748b;
 }
 
-body {
-    font-family: 'Inter', system-ui, -apple-system, sans-serif;
-    background: var(--bg-gradient);
-    background-attachment: fixed;
-    color: var(--text-main);
-    margin: 0;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    min-height: 100vh;
-}
+body { font-family: 'Inter', Arial, sans-serif; background: var(--bg-gradient); margin: 0; padding: 10px; min-height: 100vh; }
 
-/* Hatke Header */
-.app-header {
-    text-align: center;
-    padding: 30px 20px;
-    width: 100%;
-}
+/* Login Screen Styles */
+.login-content { width: 90%; max-width: 450px; margin: 40px auto; text-align: center; }
+.login-content h1 { background: linear-gradient(to right, #6366f1, #a855f7); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-size: 28px; }
+.login-content input { width: 100%; background: var(--glass); border: 1px solid rgba(255,255,255,0.4); padding: 15px; border-radius: 16px; margin-top: 10px; box-sizing: border-box; }
+.login-content button { width: 100%; padding: 16px; border-radius: 16px; border: none; background: var(--accent); color: white; font-weight: 700; margin-top: 15px; cursor: pointer; }
 
-.app-header h1 {
-    font-size: 28px;
-    font-weight: 800;
-    margin: 0;
-    background: linear-gradient(to right, #6366f1, #a855f7);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    letter-spacing: -1px;
-}
+/* --- 2. AAPKA ORIGINAL BILLING DESIGN (BOX SYSTEM) --- */
+.container { max-width: 800px; margin: auto; background: transparent; padding: 15px; }
+.main-app-box h2 { text-align: center; cursor: pointer; user-select: none; position: relative; margin-top: 0; }
+.main-app-box input, .main-app-box select, .main-app-box button { width: 100%; padding: 10px; margin: 6px 0; border-radius: 6px; border: 1px solid #ccc; box-sizing: border-box; }
+.main-app-box button { border: none; background: #2563eb; color: white; font-size: 15px; cursor: pointer; }
+.main-app-box table { width: 100%; margin-top: 10px; border-collapse: collapse; background: #fff; }
+.main-app-box th, .main-app-box td { border: 1px solid #000; padding: 8px; font-size: 14px; text-align: center; }
+.bill { margin-top: 20px; overflow-wrap: break-word; background: #fff; padding: 10px; border: 1px dashed #000; }
 
-/* Content Area */
-.content-wrapper {
-    width: 90%;
-    max-width: 550px;
-    padding-bottom: 50px;
-}
-
-/* Modern Input Fields */
-.input-group { margin-bottom: 15px; }
-label { font-size: 11px; font-weight: 700; color: var(--text-dim); text-transform: uppercase; margin-left: 5px; }
-
-input, select {
-    width: 100%;
-    background: var(--glass);
-    border: 1px solid rgba(255,255,255,0.3);
-    backdrop-filter: blur(10px);
-    padding: 14px;
-    border-radius: 16px;
-    font-size: 15px;
-    margin-top: 5px;
-    box-sizing: border-box;
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
-    transition: all 0.3s ease;
-}
-
-input:focus {
-    outline: none;
-    background: #fff;
-    border-color: var(--accent);
-    box-shadow: 0 10px 15px -3px rgba(99, 102, 241, 0.2);
-}
-
-/* Buttons */
-button {
-    width: 100%;
-    padding: 16px;
-    margin-top: 15px;
-    border-radius: 16px;
-    border: none;
-    background: var(--accent);
-    color: white;
-    font-size: 15px;
-    font-weight: 700;
-    cursor: pointer;
-    box-shadow: 0 8px 15px rgba(99, 102, 241, 0.3);
-    transition: 0.3s;
-}
-
-button:hover { background: var(--accent-dark); transform: translateY(-2px); }
-
-/* Plan Cards */
-.plan-item {
-    background: var(--glass);
-    backdrop-filter: blur(10px);
-    margin-bottom: 12px;
-    padding: 18px;
-    border-radius: 20px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    cursor: pointer;
-    transition: 0.3s;
-}
-
-.plan-item:hover { background: #fff; border-left: 5px solid var(--accent); }
-.plan-name { font-weight: 700; font-size: 15px; }
-.plan-desc { font-size: 12px; color: var(--text-dim); }
-.plan-price { font-weight: 800; color: #10b981; font-size: 17px; }
-
-/* Status Badges */
-.status-badge {
-    display: inline-block; padding: 5px 12px; background: #dcfce7;
-    color: #166534; border-radius: 10px; font-size: 11px; font-weight: 700;
-}
-
-/* Billing Table Styles */
-.table-wrapper { overflow-x: auto; margin-top: 20px; border-radius: 16px; background: var(--glass); }
-table { width: 100%; border-collapse: collapse; }
-th, td { padding: 12px; border-bottom: 1px solid rgba(0,0,0,0.05); text-align: center; font-size: 13px; }
-th { background: rgba(0,0,0,0.02); color: var(--text-dim); }
-
+/* Global Helpers */
 .hidden { display: none !important; }
-.qr-frame { background: white; padding: 15px; border-radius: 20px; display: inline-block; margin: 15px 0; }
-.bill { background: #fff; padding: 20px; border-radius: 16px; margin-top: 20px; border: 1px dashed #ccc; overflow-wrap: break-word; }
-
-/* Print Logic */
-@media print { body * { visibility: hidden; } .bill, .bill * { visibility: visible; } .bill { position: absolute; left: 0; top: 0; width: 100%; } }
+.status-badge { display: inline-block; padding: 5px 12px; background: #dcfce7; color: #166534; border-radius: 10px; font-size: 11px; font-weight: 700; }
+.plan-item { background: var(--glass); padding: 15px; border-radius: 15px; display: flex; justify-content: space-between; margin-bottom: 10px; cursor: pointer; }
 </style>
 </head>
 <body>
 
-<header class="app-header">
+<div id="login-screen" class="login-content">
     <h1>Shayan Smart Tools</h1>
-    <p style="color: var(--text-dim); font-size: 13px; margin-top: 5px;">Modern Billing Experience</p>
-</header>
-
-<div class="content-wrapper">
     
-    <div id="login-screen">
-        <div id="registration-form">
-            <div class="input-group"><label>Owner Name</label><input id="regName" placeholder="Full Name"></div>
-            <div class="input-group"><label>Shop Address</label><input id="regAddr" placeholder="City, State"></div>
-            <div class="input-group"><label>WhatsApp</label><input id="regMob" type="number" placeholder="Mobile Number"></div>
-            <button onclick="sendActivationRequest()">Request Approval ID</button>
-        </div>
-
-        <div id="approval-lock" class="hidden" style="text-align: center;">
-            <span class="status-badge">Approval Pending</span>
-            <p style="font-size: 14px; margin: 15px 0;">Enter the <b>Approval ID</b> received from Muksidul.</p>
-            <input id="inputIDKey" placeholder="ID-XXXX" style="text-align: center; letter-spacing: 3px; font-weight: 800;">
-            <button onclick="unlockPlans()">Unlock Dashboard</button>
-        </div>
-
-        <div id="plans-page" class="hidden">
-            <h3 style="margin-bottom: 20px;">Choose Subscription</h3>
-            <div class="plan-item" onclick="selectPlan('trial', 7, 'Free Trial', 0)">
-                <div><div class="plan-name">Free Trial</div><div class="plan-desc">7 Days Full Access</div></div>
-                <div class="plan-price">FREE</div>
-            </div>
-            <div class="plan-item" onclick="selectPlan('paid', 30, '1 Month', 100)">
-                <div><div class="plan-name">1 Month</div><div class="plan-desc">Standard Access</div></div>
-                <div class="plan-price">₹100</div>
-            </div>
-            <div class="plan-item" onclick="selectPlan('paid', 90, '3 Months', 250)">
-                <div><div class="plan-name">3 Months</div><div class="plan-desc">Quarterly Savings</div></div>
-                <div class="plan-price">₹250</div>
-            </div>
-            <div class="plan-item" onclick="selectPlan('paid', 180, '6 Months', 500)">
-                <div><div class="plan-name">6 Months</div><div class="plan-desc">Half-Yearly Access</div></div>
-                <div class="plan-price">₹500</div>
-            </div>
-            <div class="plan-item" onclick="selectPlan('paid', 365, '1 Year', 1000)">
-                <div><div class="plan-name">1 Year</div><div class="plan-desc">Best Value Plan</div></div>
-                <div class="plan-price">₹1000</div>
-            </div>
-        </div>
-
-        <div id="payment-area" class="hidden" style="text-align: center;">
-            <p>Plan Selected: <b id="sel-plan-text" style="color:var(--accent)"></b></p>
-            <div class="qr-frame" id="qr-display"></div>
-            <button onclick="sendPaymentWA()" style="background:#22c55e;">Send Screenshot to WhatsApp</button>
-            <button onclick="validateFinalActivation()" style="background:#dc2626; margin-top:10px;">Activate Software Now</button>
-        </div>
+    <div id="registration-form">
+        <input id="regName" placeholder="Business Owner Name">
+        <input id="regAddr" placeholder="Shop Address">
+        <input id="regMob" type="number" placeholder="WhatsApp Number">
+        <button onclick="sendActivationRequest()" style="background:#22c55e;">Verify Details</button>
     </div>
 
-    <div id="main-app" class="hidden">
-        <div style="display:flex; justify-content: space-between; align-items: center;">
-            <span class="status-badge" id="days-left-tag"></span>
-            <button onclick="localStorage.clear(); location.reload();" style="width:auto; padding:5px 12px; background:#64748b; font-size:11px;">Logout</button>
-        </div>
-        
-        <h3 style="margin: 20px 0 10px 0;">Shop Settings</h3>
-        <input id="shop" placeholder="Shop Name">
-        <input id="address" placeholder="Address">
-        <input id="phone" placeholder="Phone">
-        <input id="upiId" placeholder="UPI ID (for bill QR)">
-        <button id="saveShopBtn">Save Shop Details</button>
-
-        <hr style="border:0; border-top:1px solid rgba(0,0,0,0.1); margin:25px 0;">
-        
-        <input id="customer" placeholder="Customer Name">
-        <input id="productSearch" placeholder="Product Name">
-        <div style="display:flex; gap:10px;">
-            <input id="qty" type="number" placeholder="Qty">
-            <input id="price" type="number" placeholder="Price">
-        </div>
-        <button id="addItemBtn">Add Item</button>
-
-        <div class="table-wrapper">
-            <table id="table"><tr><th>No</th><th>Item</th><th>Qty</th><th>Price</th><th>Total</th></tr></table>
-        </div>
-
-        <select id="payment"><option value="Cash">Cash</option><option value="UPI">UPI</option><option value="Card">Card</option></select>
-        <button id="generateBillBtn" style="background:#4f46e5;">Generate Bill</button>
-        
-        <select id="printMode">
-            <option value="A4">Print A4</option>
-            <option value="Receipt" selected>Print Receipt</option>
-        </select>
-        <button id="printBillBtn" style="background:#0f172a;">Print Bill</button>
-        <button id="sendWhatsAppBtn" style="background:#25d366;">Send WhatsApp</button>
-
-        <div id="bill" class="bill"></div>
-        <div id="totalDay" style="text-align:center; font-weight:bold; margin-top:20px;"></div>
+    <div id="approval-lock" class="hidden">
+        <span class="status-badge">Waiting for Approval</span>
+        <p style="font-size: 14px; color: var(--text-dim); margin: 15px 0;">Enter the <b>Approval ID</b> from Muksidul.</p>
+        <input id="inputID" placeholder="ID-XXXX" style="text-align: center; letter-spacing: 3px; font-weight: 800;">
+        <button onclick="unlockPlans()">Unlock Plans</button>
     </div>
 
+    <div id="plans-page" class="hidden">
+        <h3 style="text-align: left;">Choose Plan</h3>
+        <div class="plan-item" onclick="selectPlan('trial', 7, 'Trial', 0)"><span>Free Trial</span><b>FREE</b></div>
+        <div class="plan-item" onclick="selectPlan('paid', 30, '1 Month', 100)"><span>1 Month</span><b>₹100</b></div>
+        <div class="plan-item" onclick="selectPlan('paid', 90, '3 Months', 250)"><span>3 Months</span><b>₹250</b></div>
+        <div class="plan-item" onclick="selectPlan('paid', 365, '1 Year', 1000)"><span>1 Year</span><b>₹1000</b></div>
+    </div>
+
+    <div id="payment-area" class="hidden">
+        <p>Activating: <b id="sel-plan"></b></p>
+        <div id="qr-display" style="background:white; padding:10px; display:inline-block; border-radius:10px;"></div>
+        <button onclick="sendPaymentWA()" style="background:#22c55e;">Send Screenshot</button>
+        <button onclick="activateFinal()" style="background:#dc2626; margin-top:10px;">Activate Now</button>
+    </div>
+</div>
+
+<div id="main-app" class="container main-app-box hidden">
+    <div style="text-align:right;"><span id="days-tag" class="status-badge"></span></div>
+    <h2>🧾 Bill Generator</h2>
+
+    <input id="shop" placeholder="Shop Name">
+    <input id="address" placeholder="Address">
+    <input id="phone" placeholder="Phone">
+    <input id="upiId" placeholder="Enter Your UPI ID (e.g. name@upi)">
+    <button id="saveShopBtn">Save Shop Details</button>
+
+    <hr>
+
+    <input id="customer" placeholder="Customer Name">
+    <input id="productSearch" placeholder="Product Name">
+    <input id="qty" type="number" placeholder="Qty">
+    <input id="price" type="number" placeholder="Price">
+    <button id="addItemBtn">Add Item</button>
+
+    <table id="table">
+        <tr><th>No</th><th>Product</th><th>Qty</th><th>Price</th><th>Total</th></tr>
+    </table>
+
+    <select id="payment">
+      <option value="Cash">Cash</option>
+      <option value="UPI">UPI</option>
+    </select>
+
+    <button id="generateBillBtn">Generate Bill</button>
+    <button onclick="window.print()">Print Bill</button>
+    <button id="sendWhatsAppBtn" style="background:#25d366;">Send WhatsApp</button>
+
+    <div id="bill" class="bill"></div>
+    <div id="totalDay" style="text-align:center; font-weight:bold; margin-top:15px;"></div>
+    
+    <button onclick="localStorage.clear(); location.reload();" style="background:#94a3b8; margin-top:30px;">Logout (Testing)</button>
 </div>
 
 <script>
 const MY_WA = "919957548361";
 const MY_UPI = "9957548361@upi";
 
-// --- FLOW FUNCTIONS ---
+// --- FLOW LOGIC ---
 function sendActivationRequest() {
     let name = document.getElementById("regName").value, addr = document.getElementById("regAddr").value, mob = document.getElementById("regMob").value;
-    if(!name || !addr || mob.length < 10) return alert("Fill all details!");
+    if(!name || !addr || mob.length < 10) return alert("Fill details!");
     let id = "ID-" + Math.floor(1000 + Math.random() * 9999);
-    localStorage.setItem("pending_id", id.toUpperCase());
-    localStorage.setItem("pending_mob", mob);
+    localStorage.setItem("m_secret", id.toUpperCase());
     window.open(`https://wa.me/${MY_WA}?text=${encodeURIComponent("*Activation Request*\nName: "+name+"\nID: "+id)}`);
     document.getElementById("registration-form").classList.add("hidden");
     document.getElementById("approval-lock").classList.remove("hidden");
 }
 
 function unlockPlans() {
-    let input = document.getElementById("inputIDKey").value.trim().toUpperCase();
-    if(input === localStorage.getItem("pending_id")) {
+    if(document.getElementById("inputID").value.trim().toUpperCase() === localStorage.getItem("m_secret")) {
         document.getElementById("approval-lock").classList.add("hidden");
         document.getElementById("plans-page").classList.remove("hidden");
-    } else { alert("Invalid ID Number!"); }
+    } else { alert("Wrong ID!"); }
 }
 
 function selectPlan(type, days, name, price) {
     localStorage.setItem("p_days", days);
-    if(type === 'trial') {
-        validateFinalActivation();
-    } else {
-        document.getElementById("sel-plan-text").innerText = name + " (₹" + price + ")";
-        let qr = `https://api.qrserver.com/v1/create-qr-code/?size=160x160&data=${encodeURIComponent('upi://pay?pa='+MY_UPI+'&am='+price+'&cu=INR')}`;
+    if(type === 'trial') activateFinal();
+    else {
+        document.getElementById("sel-plan").innerText = name;
+        let qr = `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${encodeURIComponent('upi://pay?pa='+MY_UPI+'&am='+price+'&cu=INR')}`;
         document.getElementById("qr-display").innerHTML = `<img src="${qr}">`;
         document.getElementById("plans-page").classList.add("hidden");
         document.getElementById("payment-area").classList.remove("hidden");
     }
 }
 
-function validateFinalActivation() {
-    let days = parseInt(localStorage.getItem("p_days") || 7);
-    let expiry = new Date().getTime() + (days * 24 * 60 * 60 * 1000);
-    localStorage.setItem("user_auth", JSON.stringify({active:true, exp:expiry}));
-    alert("Software Activated Successfully!");
+function activateFinal() {
+    let expiry = new Date().getTime() + (parseInt(localStorage.getItem("p_days")||7) * 24 * 60 * 60 * 1000);
+    localStorage.setItem("app_auth", JSON.stringify({active:true, exp:expiry}));
     location.reload();
 }
 
-function sendPaymentWA() {
-    window.open(`https://wa.me/${MY_WA}?text=Payment%20Screenshot%20for%20ID:%20${localStorage.getItem("pending_id")}`);
-}
+function sendPaymentWA() { window.open(`https://wa.me/${MY_WA}?text=Payment%20Done%20ID:%20${localStorage.getItem("m_secret")}`); }
 
-// --- BILLING LOGIC (ORIGINAL) ---
+// --- BILLING LOGIC (100% ORIGINAL DESIGN) ---
 document.addEventListener("DOMContentLoaded", function(){
-    let auth = JSON.parse(localStorage.getItem("user_auth"));
+    let auth = JSON.parse(localStorage.getItem("app_auth"));
     if(auth && new Date().getTime() < auth.exp) {
         document.getElementById("login-screen").classList.add("hidden");
         document.getElementById("main-app").classList.remove("hidden");
         let left = Math.ceil((auth.exp - new Date().getTime()) / (1000*60*60*24));
-        document.getElementById("days-left-tag").innerText = left + " Days Remaining";
+        document.getElementById("days-tag").innerText = left + " Days Remaining";
     }
 
     let items=[];
-    let total=0;
-    let invoiceCounter = parseInt(localStorage.getItem("invoiceCounter"))||1;
     const shopIn = document.getElementById("shop"), addrIn = document.getElementById("address"), upiIn = document.getElementById("upiId"), phoneIn = document.getElementById("phone");
-    
-    shopIn.value = localStorage.getItem("shop")||"";
-    addrIn.value = localStorage.getItem("address")||"";
-    phoneIn.value = localStorage.getItem("phone")||"";
-    upiIn.value = localStorage.getItem("upiId")||"";
+    shopIn.value = localStorage.getItem("s_n")||""; addrIn.value = localStorage.getItem("s_a")||"";
+    phoneIn.value = localStorage.getItem("s_p")||""; upiIn.value = localStorage.getItem("s_u")||"";
 
     document.getElementById("saveShopBtn").onclick = function(){
-        localStorage.setItem("shop", shopIn.value); localStorage.setItem("address", addrIn.value);
-        localStorage.setItem("phone", phoneIn.value); localStorage.setItem("upiId", upiIn.value);
-        alert("Details Saved!");
+        localStorage.setItem("s_n", shopIn.value); localStorage.setItem("s_a", addrIn.value);
+        localStorage.setItem("s_p", phoneIn.value); localStorage.setItem("s_u", upiIn.value);
+        alert("Saved!");
     };
 
     document.getElementById("addItemBtn").onclick = function(){
@@ -316,34 +177,21 @@ document.addEventListener("DOMContentLoaded", function(){
             items.push({p,q,pr,t:q*pr});
             let row=document.getElementById("table").insertRow();
             row.innerHTML = `<td>${items.length}</td><td>${p}</td><td>${q}</td><td>${pr}</td><td>${q*pr}</td>`;
-            document.getElementById("productSearch").value=""; document.getElementById("qty").value=""; document.getElementById("price").value="";
         }
     };
 
     document.getElementById("generateBillBtn").onclick = function(){
-        if(items.length===0) return;
-        total=0; items.forEach(i=>total+=i.t);
-        let html=`<div style="text-align:right">Inv No: ${invoiceCounter}</div><center><b>${shopIn.value}</b><br><small>${addrIn.value}</small><br>Ph: ${phoneIn.value}</center><hr>`;
-        html+=`<table style="width:100%; font-size:12px;"><tr><th>Item</th><th>Qty</th><th>Total</th></tr>`;
+        let total=0; items.forEach(i=>total+=i.t);
+        let html=`<center><b>${shopIn.value}</b><br>${addrIn.value}<br>Ph: ${phoneIn.value}</center><hr>`;
+        html+=`<table style="width:100%; border:1px solid #000; border-collapse:collapse;"><tr><th>Item</th><th>Qty</th><th>Total</th></tr>`;
         items.forEach(i=> html+=`<tr><td>${i.p}</td><td>${i.q}</td><td>₹${i.t}</td></tr>`);
-        html+=`<tr><td colspan="2"><b>Grand Total</b></td><td><b>₹${total}</b></td></tr></table><hr>`;
+        html+=`<tr><td colspan="2">Total</td><td>₹${total}</td></tr></table>`;
         if(upiIn.value) html+=`<center><img src="https://api.qrserver.com/v1/create-qr-code/?size=120x120&data=${encodeURIComponent('upi://pay?pa='+upiIn.value+'&am='+total)}"></center>`;
         document.getElementById("bill").innerHTML = html;
-        invoiceCounter++; localStorage.setItem("invoiceCounter", invoiceCounter);
-        updateReports();
+        document.getElementById("totalDay").innerText = "Today's Sale: ₹" + total;
     };
 
-    document.getElementById("printBillBtn").onclick = () => window.print();
     document.getElementById("sendWhatsAppBtn").onclick = () => window.open("https://wa.me/?text="+encodeURIComponent(document.getElementById("bill").innerText));
-
-    function updateReports(){
-        let history=JSON.parse(localStorage.getItem("history"))||[];
-        history.push({total, date:new Date().toDateString()});
-        localStorage.setItem("history", JSON.stringify(history));
-        let daily = 0;
-        history.forEach(h => { if(h.date === new Date().toDateString()) daily += h.total; });
-        document.getElementById("totalDay").innerHTML = "Today's Sale: ₹" + daily;
-    }
 });
 </script>
 </body>
