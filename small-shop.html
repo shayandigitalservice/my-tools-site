@@ -5,49 +5,23 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Shayan POS - Professional Billing & Stock</title>
 <style>
-/* --- PROFESSIONAL UI (MODERN DESIGN) --- */
-:root {
-    --accent: #6366f1;
-    --bg: #f8fafc;
-    --glass: rgba(255, 255, 255, 0.95);
-    --text: #0f172a;
-}
-
+/* --- VERIFICATION & ADMIN UI --- */
+:root { --accent: #6366f1; --bg: #f8fafc; --glass: rgba(255, 255, 255, 0.95); --text: #0f172a; }
 body { font-family: 'Inter', Arial, sans-serif; background: var(--bg); margin: 0; color: var(--text); }
 .content-wrapper { width: 90%; max-width: 500px; margin: 40px auto; }
 h1 { text-align: center; background: linear-gradient(to right, #6366f1, #a855f7); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-
 .step-card { background: var(--glass); padding: 30px; border-radius: 24px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); text-align: center; }
 input, select { width: 100%; padding: 15px; margin: 10px 0; border-radius: 12px; border: 1px solid #e2e8f0; font-size: 15px; box-sizing: border-box; outline: none; }
 .btn-primary { width: 100%; padding: 16px; border-radius: 12px; border: none; background: var(--accent); color: white; font-weight: 700; cursor: pointer; transition: 0.3s; margin-top: 10px; }
-.btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 15px rgba(99, 102, 241, 0.3); }
-
-.plan-item { background: white; padding: 15px; border-radius: 16px; border: 1px solid #eee; display: flex; justify-content: space-between; align-items: center; cursor: pointer; margin-bottom: 10px; transition: 0.2s; text-align: left; }
-.plan-item:hover { border-color: var(--accent); background: #f5f7ff; }
+.plan-item { background: white; padding: 15px; border-radius: 16px; border: 1px solid #eee; display: flex; justify-content: space-between; align-items: center; cursor: pointer; margin-bottom: 10px; text-align: left; }
 .plan-price { font-weight: 800; color: #10b981; }
-
 #admin-panel { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #fff; z-index: 9999; display: none; padding: 20px; box-sizing: border-box; overflow-y: auto; }
 .admin-box { background: #f1f5f9; padding: 20px; border-radius: 15px; margin-bottom: 15px; border: 1px solid var(--accent); }
-
-/* --- BILLING UI (ORIGINAL 100% SAME) --- */
-.billing-ui { max-width: 800px; margin: auto; background: white; padding: 15px; }
-.billing-ui h2 { text-align: center; }
-.billing-ui table { width: 100%; border-collapse: collapse; margin-top: 10px; }
-.billing-ui th, .billing-ui td { border: 1px solid #000; padding: 8px; text-align: center; font-size: 14px; }
-.bill { margin-top: 20px; border: 1px dashed #000; padding: 10px; overflow-wrap: break-word; }
 .hidden { display: none !important; }
 .status-badge { display: inline-block; padding: 5px 12px; background: #dcfce7; color: #166534; border-radius: 10px; font-size: 12px; font-weight: 700; }
 
-.container{max-width:800px; margin:auto; background:transparent; padding:15px; border-radius:0; box-shadow:none;}
-.invoice{float:right;}
-.clear{clear:both;}
-.qr-container{text-align:center; margin-top:15px; padding:10px; border:1px dashed #ccc;}
-.qr-container img{width:150px; height:150px;}
+/* --- SPACE FOR BILLING CSS (Step 2 mein yahan paste karenge) --- */
 
-@media screen and (max-width:600px){
-  .invoice{float: none; text-align: right;}
-  .table-wrapper { overflow-x: auto; width: 100%; }
-}
 </style>
 </head>
 <body>
@@ -62,68 +36,36 @@ input, select { width: 100%; padding: 15px; margin: 10px 0; border-radius: 12px;
         <button class="btn-primary" onclick="requestActivation()">Verify & Request ID</button>
     </div>
     <div id="step-lock" class="step-card hidden">
-        <p>Awaiting Approval (Contact: 9957548361)</p>
+        <p>Awaiting Approval (9957548361)</p>
         <input id="inputApprovalID" placeholder="Enter Approval ID" style="text-align:center;">
         <button class="btn-primary" onclick="verifyApprovalID()">Verify ID</button>
     </div>
     <div id="step-plans" class="step-card hidden">
-        <h3>Choose Your Plan</h3>
+        <h3>Choose Plan</h3>
         <div class="plan-item" onclick="activateSystem(7)"><div><b>7 Days Trial</b></div><b class="plan-price">FREE</b></div>
-        <div class="plan-item" onclick="selectPlan('paid', 30, 'Monthly', 99)"><div><b>1 Month</b></div><b class="plan-price">₹99</b></div>
+        <div class="plan-item" onclick="selectPlan(30, 99)"><div><b>1 Month</b></div><b class="plan-price">₹99</b></div>
     </div>
     <div id="step-payment" class="step-card hidden">
         <p>Scan to Pay: <b id="pay-amount"></b></p>
         <div id="qr-display"></div>
-        <input id="inputSubKey" placeholder="Enter Key">
-        <button class="btn-primary" onclick="verifySubKey()">Complete Subscription</button>
+        <input id="inputSubKey" placeholder="Enter Subscription Key">
+        <button class="btn-primary" onclick="verifySubKey()">Complete Activation</button>
     </div>
 </div>
 
 <div id="admin-panel">
-    <div style="display:flex; justify-content:space-between;"><h2>🛠 Admin Panel</h2><button onclick="closeAdmin()" style="background:red; color:white;">Exit</button></div>
+    <div style="display:flex; justify-content:space-between;"><h2>🛠 Admin Panel</h2><button onclick="closeAdmin()" style="background:red; color:white; border:none; padding:10px;">Exit</button></div>
     <div class="admin-box">
-        <input id="admMob1" placeholder="User Mobile">
-        <button onclick="admGenApproval()" style="background:#4f46e5; color:white;">Generate ID</button>
+        <input id="admMob1" placeholder="User Mobile"><button onclick="admGenApproval()">Generate ID</button>
         <p id="admShowID"></p>
     </div>
     <div class="admin-box">
-        <input id="admMob2" placeholder="User Mobile">
-        <button onclick="admGenKey()" style="background:#10b981; color:white;">Generate Key</button>
+        <input id="admMob2" placeholder="User Mobile"><button onclick="admGenKey()">Generate Key</button>
         <p id="admShowKey"></p>
     </div>
 </div>
 
-<div id="main-billing" class="billing-ui hidden">
-    <div class="container">
-        <div style="text-align:right;"><span id="timer-badge" class="status-badge"></span></div>
-        <h2>🧾 Bill Generator</h2>
-        <input id="shop" placeholder="Shop Name">
-        <input id="address" placeholder="Address">
-        <input id="phone" placeholder="Phone">
-        <input id="upiId" placeholder="UPI ID">
-        <button id="saveShopBtn" style="background:#2563eb; color:white;">Save Details</button>
-        <hr>
-        <input id="customer" placeholder="Customer Name">
-        <input id="productSearch" placeholder="Product Name">
-        <select id="productDropdown"></select>
-        <div style="display:flex; gap:10px;"><input id="qty" type="number" placeholder="Qty"><input id="price" type="number" placeholder="Price"></div>
-        <button id="addItemBtn" style="background:#2563eb; color:white;">Add Item</button>
-        <div class="table-wrapper">
-            <table>
-                <tr><th>No</th><th>Product</th><th>Qty</th><th>Price</th><th>Total</th></tr>
-                <tbody id="tableBody"></tbody>
-            </table>
-        </div>
-        <select id="payment"><option value="Cash">Cash</option><option value="UPI">UPI</option></select>
-        <button id="generateBillBtn" style="background:#000; color:white;">Generate Bill</button>
-        <div id="bill" class="bill"></div>
-        <button id="printBillBtn">Print Bill</button>
-        <hr>
-        <h2>📦 Stock Management</h2>
-        <input id="stockProduct" placeholder="Product Name"><input id="stockQty" type="number" placeholder="Quantity"><button id="addStockBtn">Add Stock</button>
-        <table id="stockTable"><tr><th>Product</th><th>Available Qty</th></tr></table>
-        <button onclick="localStorage.clear(); location.reload();" style="background:#666; color:white; margin-top:20px;">Logout</button>
-    </div>
+<div id="main-billing" class="hidden">
 </div>
 
 <script>
@@ -132,58 +74,46 @@ const DIST_UPI = "9957548361@upi";
 
 function checkAdminFlow(val) { if(val === "shayan@321") { document.getElementById("admin-panel").style.display = "block"; document.getElementById("uName").value = ""; } }
 function closeAdmin() { document.getElementById("admin-panel").style.display = "none"; }
-
 function requestActivation() {
-    let name = document.getElementById("uName").value, addr = document.getElementById("uAddr").value, mob = document.getElementById("uMob").value;
-    if(!name || !addr || mob.length < 10) return alert("Details bhariye!");
-    window.open(`https://wa.me/${DIST_WA}?text=${encodeURIComponent("*Verification Request*\nName: "+name+"\nMobile: "+mob)}`);
+    let name = document.getElementById("uName").value, mob = document.getElementById("uMob").value;
+    if(!name || mob.length < 10) return alert("Fill details!");
+    window.open(`https://wa.me/${DIST_WA}?text=${encodeURIComponent("*Request ID*\nName: "+name+"\nMobile: "+mob)}`);
     document.getElementById("step-reg").classList.add("hidden");
     document.getElementById("step-lock").classList.remove("hidden");
 }
-
 function verifyApprovalID() {
     if(document.getElementById("inputApprovalID").value.trim() === localStorage.getItem("temp_approval_id")) {
         document.getElementById("step-lock").classList.add("hidden");
         document.getElementById("step-plans").classList.remove("hidden");
     } else alert("Invalid ID!");
 }
-
-function selectPlan(type, days, name, price) {
+function selectPlan(days, price) {
     document.getElementById("pay-amount").innerText = "₹" + price;
     document.getElementById("qr-display").innerHTML = `<img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=upi://pay?pa=${DIST_UPI}&am=${price}">`;
     localStorage.setItem("temp_plan_days", days);
     document.getElementById("step-plans").classList.add("hidden");
     document.getElementById("step-payment").classList.remove("hidden");
 }
-
 function verifySubKey() {
     if(document.getElementById("inputSubKey").value.trim() === localStorage.getItem("temp_sub_key")) {
         activateSystem(localStorage.getItem("temp_plan_days"));
     } else alert("Invalid Key!");
 }
-
 function activateSystem(days) {
     let expiry = new Date().getTime() + (days * 24 * 60 * 60 * 1000);
     localStorage.setItem("shayan_auth", JSON.stringify({active:true, exp:expiry}));
     location.reload();
 }
-
 function admGenApproval() {
     let id = "APP-" + Math.floor(1000 + Math.random() * 9999);
     localStorage.setItem("temp_approval_id", id);
-    document.getElementById("admShowID").innerText = "ID: " + id;
+    document.getElementById("admShowID").innerText = "Generated ID: " + id;
 }
-
 function admGenKey() {
     let key = "KEY-" + Math.floor(1000 + Math.random() * 9999);
     localStorage.setItem("temp_sub_key", key);
-    document.getElementById("admShowKey").innerText = "Key: " + key;
+    document.getElementById("admShowKey").innerText = "Generated Key: " + key;
 }
-
-// --- BILLING LOGIC (100% UNTOUCHED) ---
-let items=[]; let total=0;
-let stock = JSON.parse(localStorage.getItem("stock"))||{};
-const shopInput = document.getElementById("shop"), addressInput = document.getElementById("address"), upiInput = document.getElementById("upiId");
 
 window.onload = function() {
     let auth = JSON.parse(localStorage.getItem("shayan_auth"));
@@ -192,54 +122,14 @@ window.onload = function() {
         document.getElementById("main-billing").classList.remove("hidden");
         let left = Math.ceil((auth.exp - new Date().getTime()) / (1000*60*60*24));
         document.getElementById("timer-badge").innerText = left + " Days Remaining";
-        renderStock(); renderProductDropdown();
+        if (typeof initBilling === "function") initBilling();
     }
 };
 
-document.getElementById("saveShopBtn").onclick = function(){
-    localStorage.setItem("shop", shopInput.value); localStorage.setItem("address", addressInput.value); localStorage.setItem("upiId", upiInput.value);
-    alert("Saved!");
-};
+function sendPaymentWA() { window.open(`https://wa.me/${DIST_WA}?text=Paid. Send Key.`); }
 
-function renderStock(){
-    const st = document.getElementById("stockTable");
-    st.innerHTML = `<tr><th>Product</th><th>Qty</th></tr>`;
-    for(let p in stock){
-        let row = st.insertRow();
-        row.insertCell(0).innerText = p;
-        row.insertCell(1).innerHTML = `<span style="color:${stock[p]<=5?'red':'green'}">${stock[p]}</span>`;
-    }
-}
+/* --- SPACE FOR BILLING JS (Step 4 mein yahan paste karenge) --- */
 
-document.getElementById("addStockBtn").onclick = function(){
-    let p = document.getElementById("stockProduct").value, q = +document.getElementById("stockQty").value;
-    if(p && q){ stock[p]=(stock[p]||0)+q; localStorage.setItem("stock", JSON.stringify(stock)); renderStock(); renderProductDropdown(); }
-};
-
-function renderProductDropdown(){
-    const pd = document.getElementById("productDropdown"); pd.innerHTML = "";
-    Object.keys(stock).forEach(p=>{ let opt = document.createElement("option"); opt.value=p; opt.text=p; pd.appendChild(opt); });
-}
-
-document.getElementById("addItemBtn").onclick = function(){
-    let p = document.getElementById("productDropdown").value, q = +document.getElementById("qty").value, pr = +document.getElementById("price").value;
-    if(p && q && pr && stock[p]>=q){
-        stock[p]-=q; localStorage.setItem("stock", JSON.stringify(stock)); renderStock();
-        items.push({p,q,pr,t:q*pr});
-        let row = document.getElementById("tableBody").insertRow();
-        row.insertCell(0).innerText=items.length; row.insertCell(1).innerText=p; row.insertCell(2).innerText=q; row.insertCell(3).innerText=pr; row.insertCell(4).innerText=q*pr;
-    } else alert("Stock Issue!");
-};
-
-document.getElementById("generateBillBtn").onclick = function(){
-    total=0; items.forEach(i=>total+=i.t);
-    let html = `<b>${shopInput.value}</b><hr>`;
-    items.forEach(i=> html += `<div>${i.p} x ${i.q} = ${i.t}</div>`);
-    html += `<hr>Total: ₹${total}`;
-    if(upiInput.value) html += `<div class="qr-container"><img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=upi://pay?pa=${upiInput.value}&am=${total}"></div>`;
-    document.getElementById("bill").innerHTML = html;
-};
-document.getElementById("printBillBtn").onclick = () => window.print();
 </script>
 </body>
 </html>
