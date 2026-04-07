@@ -45,6 +45,31 @@ input, select, button { border-radius: 6px; }
 /* ======================================================== */
 /* POINT 1: YAHAN APNE BILLING KA PURA CSS (STYLE) DALO     */
 /* ======================================================== */
+/* --- AAPKA ORIGINAL BILLING CSS --- */
+.container{max-width:800px;margin:auto;background:transparent;padding:15px;border-radius:0;box-shadow:none;}
+h2{text-align:center;}
+input, select, button{width:100%;padding:10px;margin:6px 0;border-radius:6px;border:1px solid #ccc;box-sizing:border-box;}
+button{border:none;background:#2563eb;color:white;font-size:15px;cursor:pointer;}
+table{width:100%;margin-top:10px;border-collapse:collapse;}
+th,td{border:1px solid #000;padding:8px;font-size:14px;text-align:center;}
+.totalRow td{font-weight:bold;}
+.bill{margin-top:20px; border: 1px dashed #000; padding: 10px; overflow-wrap: break-word; word-wrap: break-word;}
+.invoice{float:right;}
+.clear{clear:both;}
+.qr-container{text-align:center; margin-top:15px; padding:10px; border:1px dashed #ccc;}
+.qr-container img{width:150px; height:150px;}
+
+@media screen and (max-width:1024px){
+  .container{padding:10px;}
+  input, select, button{font-size:14px;padding:8px;}
+  table th, table td{font-size:12px;padding:6px;}
+}
+@media screen and (max-width:600px){
+  table th, table td{padding:6px;font-size:12px;}
+  button{font-size:13px;padding:8px;}
+  .invoice{float: none; text-align: right;}
+  .table-wrapper { overflow-x: auto; width: 100%; }
+}
 
 </style>
 </head>
@@ -90,6 +115,7 @@ input, select, button { border-radius: 6px; }
 </div>
 
 <div id="admin-panel">
+    
     <div style="display:flex; justify-content:space-between; align-items:center; border-bottom: 2px solid #eee; padding-bottom: 10px;">
         <h2 style="margin:0; color:var(--accent);">🛠 Admin Panel</h2>
         <button onclick="closeAdmin()" style="background:red; color:white; border:none; padding:10px 20px; border-radius:10px; cursor:pointer;">Exit</button>
@@ -117,6 +143,68 @@ input, select, button { border-radius: 6px; }
 </div>
 
 <div id="main-billing" class="billing-ui hidden">
+    <div class="container">
+    <h2>🧾 Bill Generator</h2>
+
+    <input id="shop" placeholder="Shop Name">
+    <input id="address" placeholder="Address">
+    <input id="phone" placeholder="Phone">
+    <input id="upiId" placeholder="Enter Your UPI ID (e.g. name@upi)">
+    <button id="saveShopBtn">Save Shop Details</button>
+
+    <input id="customer" placeholder="Customer Name">
+
+    <input id="productSearch" placeholder="Search Product">
+    <select id="productDropdown"></select>
+
+    <div style="display:flex; gap:10px;">
+        <input id="qty" type="number" placeholder="Qty">
+        <input id="price" type="number" placeholder="Price">
+    </div>
+    <button id="addItemBtn">Add Item</button>
+
+    <div class="table-wrapper">
+        <table id="table">
+            <tr><th>No</th><th>Product</th><th>Qty</th><th>Price</th><th>Total</th></tr>
+            <tbody id="tableBody"></tbody>
+        </table>
+    </div>
+
+    <select id="payment">
+      <option value="Cash">Cash</option>
+      <option value="UPI">UPI</option>
+      <option value="Card">Card</option>
+    </select>
+
+    <button id="generateBillBtn">Generate Bill</button>
+    <select id="printMode">
+        <option value="A4">Print A4</option>
+        <option value="Receipt" selected>Print Receipt</option>
+    </select>
+    <button id="printBillBtn">Print Bill</button>
+    <button id="sendWhatsAppBtn">Send WhatsApp</button>
+
+    <div id="bill" class="bill"></div>
+    <div id="totalDay"></div>
+
+    <hr>
+    <h2>📦 Stock Management</h2>
+
+    <input id="stockProduct" placeholder="Product Name">
+    <input id="stockQty" type="number" placeholder="Quantity to Add">
+    <button id="addStockBtn">Add Stock</button>
+
+    <div style="overflow-x:auto;">
+        <table id="stockTable">
+            <tr><th>Product</th><th>Available Qty</th><th>Last Updated</th></tr>
+        </table>
+    </div>
+
+    <button id="downloadStockBtn">Download Stock Excel</button>
+    <button onclick="localStorage.clear(); location.reload();" style="background:#666; color:white; margin-top:30px;">Logout (Test)</button>
+    <hr>
+</div>
+
     <div style="text-align:right;"><span id="timer-badge" class="status-badge"></span></div>
     
     </div>
@@ -209,6 +297,111 @@ function sendPaymentWA() { window.open(`https://wa.me/${DIST_WA}?text=Payment%20
 /* ======================================================== */
 /* POINT 3: YAHAN APNE BILLING KA PURA JAVASCRIPT (LOGIC) DALO */
 /* ======================================================== */
+// --- AAPKA ORIGINAL BILLING LOGIC ---
+let items = [];
+let total = 0;
+let invoiceCounter = parseInt(localStorage.getItem("invoiceCounter")) || 1;
+let stock = JSON.parse(localStorage.getItem("stock")) || {};
+let stockHistory = JSON.parse(localStorage.getItem("stockHistory")) || [];
+
+function initBilling() {
+    document.getElementById("shop").value = localStorage.getItem("shop") || "";
+    document.getElementById("address").value = localStorage.getItem("address") || "";
+    document.getElementById("phone").value = localStorage.getItem("phone") || "";
+    document.getElementById("upiId").value = localStorage.getItem("upiId") || "";
+    renderStock();
+    renderProductDropdown();
+    updateSaleReports();
+}
+
+document.getElementById("saveShopBtn").onclick = function() {
+    localStorage.setItem("shop", document.getElementById("shop").value);
+    localStorage.setItem("address", document.getElementById("address").value);
+    localStorage.setItem("phone", document.getElementById("phone").value);
+    localStorage.setItem("upiId", document.getElementById("upiId").value);
+    alert("Shop details saved!");
+};
+
+function renderStock() {
+    const stockTable = document.getElementById("stockTable");
+    stockTable.innerHTML = `<tr><th>Product</th><th>Available Qty</th><th>Last Updated</th></tr>`;
+    for (let p in stock) {
+        let color = stock[p] <= 5 ? "red" : "green";
+        let row = stockTable.insertRow();
+        row.insertCell(0).innerHTML = p + (stock[p] <= 5 ? " ⚠ Low Stock" : "");
+        row.insertCell(1).innerHTML = `<span style="color:${color}">${stock[p]}</span>`;
+        row.insertCell(2).innerText = "Updated";
+    }
+}
+
+document.getElementById("addStockBtn").onclick = function() {
+    let p = document.getElementById("stockProduct").value.trim();
+    let q = +document.getElementById("stockQty").value;
+    if (p && q) {
+        stock[p] = (stock[p] || 0) + q;
+        localStorage.setItem("stock", JSON.stringify(stock));
+        document.getElementById("stockProduct").value = "";
+        document.getElementById("stockQty").value = "";
+        renderStock();
+        renderProductDropdown();
+    }
+};
+
+function renderProductDropdown() {
+    const pd = document.getElementById("productDropdown");
+    pd.innerHTML = "";
+    Object.keys(stock).forEach(p => {
+        let option = document.createElement("option");
+        option.value = p; option.text = p;
+        pd.appendChild(option);
+    });
+}
+
+document.getElementById("addItemBtn").onclick = function() {
+    let p = document.getElementById("productDropdown").value;
+    let q = +document.getElementById("qty").value;
+    let pr = +document.getElementById("price").value;
+    if (p && q && pr && stock[p] >= q) {
+        stock[p] -= q;
+        localStorage.setItem("stock", JSON.stringify(stock));
+        renderStock();
+        let t = q * pr;
+        items.push({ p, q, pr, t });
+        let row = document.getElementById("tableBody").insertRow();
+        row.insertCell(0).innerText = items.length;
+        row.insertCell(1).innerText = p;
+        row.insertCell(2).innerText = q;
+        row.insertCell(3).innerText = pr;
+        row.insertCell(4).innerText = t;
+    } else { alert("Stock kam hai ya details galat hain!"); }
+};
+
+document.getElementById("generateBillBtn").onclick = function() {
+    if (items.length === 0) return;
+    total = 0; items.forEach(i => total += i.t);
+    let upiId = document.getElementById("upiId").value;
+    let html = `<b>${document.getElementById("shop").value}</b><br>Total: ₹${total}<hr>`;
+    if (upiId) {
+        let qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${encodeURIComponent('upi://pay?pa=' + upiId + '&am=' + total)}`;
+        html += `<div class="qr-container"><img src="${qrUrl}"></div>`;
+    }
+    document.getElementById("bill").innerHTML = html;
+    updateSaleReports(total);
+};
+
+function updateSaleReports(t = 0) {
+    let history = JSON.parse(localStorage.getItem("history")) || [];
+    if (t > 0) { history.push({ total: t, date: new Date().toISOString() }); localStorage.setItem("history", JSON.stringify(history)); }
+    let daily = 0;
+    history.forEach(h => { if (new Date(h.date).toDateString() === new Date().toDateString()) daily += h.total; });
+    document.getElementById("totalDay").innerHTML = `<b>Today's Sale: ₹${daily}</b>`;
+}
+
+document.getElementById("printBillBtn").onclick = () => window.print();
+document.getElementById("sendWhatsAppBtn").onclick = () => {
+    let text = "🧾 BILL\n" + document.getElementById("bill").innerText;
+    window.open("https://wa.me/?text=" + encodeURIComponent(text));
+};
 
 </script>
 </body>
