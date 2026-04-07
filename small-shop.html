@@ -11,33 +11,28 @@
     --bg: #f8fafc;
     --glass: rgba(255, 255, 255, 0.95);
     --text: #0f172a;
-    --blue-btn: #2563eb; /* Screen-shot wala blue */
+    --blue-btn: #2563eb;
 }
 
 body { font-family: 'Inter', Arial, sans-serif; background: var(--bg); margin: 0; color: var(--text); padding: 10px; }
 .content-wrapper { width: 95%; max-width: 500px; margin: 40px auto; }
 h1 { text-align: center; background: linear-gradient(to right, #6366f1, #a855f7); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
 
-/* Modern Step Cards (Auth Flow) */
 .step-card { background: var(--glass); padding: 30px; border-radius: 24px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); text-align: center; }
 input, select { width: 100%; padding: 12px; margin: 6px 0; border-radius: 8px; border: 1px solid #ccc; font-size: 15px; box-sizing: border-box; outline: none; }
 
-/* SCREEN-SHOT STYLE BUTTONS (BILLING AREA) */
 .btn-blue { width: 100%; padding: 12px; border-radius: 6px; border: none; background: var(--blue-btn); color: white; font-size: 15px; font-weight: 500; cursor: pointer; margin: 5px 0; transition: 0.2s; }
 .btn-blue:hover { opacity: 0.9; }
 
-/* Auth Buttons */
 .btn-primary { width: 100%; padding: 16px; border-radius: 12px; border: none; background: var(--accent); color: white; font-weight: 700; cursor: pointer; transition: 0.3s; margin-top: 10px; }
 
-/* Plans Styling */
 .plan-item { background: white; padding: 15px; border-radius: 16px; border: 1px solid #eee; display: flex; justify-content: space-between; align-items: center; cursor: pointer; margin-bottom: 10px; transition: 0.2s; text-align: left; }
 .plan-price { font-weight: 800; color: #10b981; }
 
-/* Admin Panel */
 #admin-panel { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #fff; z-index: 9999; display: none; padding: 20px; box-sizing: border-box; overflow-y: auto; }
 .admin-box { background: #f1f5f9; padding: 20px; border-radius: 15px; margin-bottom: 15px; border: 1px solid var(--accent); }
 
-/* --- BILLING UI CONTAINER (SCREEN-SHOT STYLE) --- */
+/* --- BILLING UI CONTAINER --- */
 .billing-ui-container { max-width: 800px; margin: auto; background: #ffffff; padding: 5px; }
 .billing-ui-container h2 { text-align: center; margin-bottom: 15px; font-size: 24px; }
 table { width: 100%; margin-top: 10px; border-collapse: collapse; }
@@ -51,6 +46,12 @@ th, td { border: 1px solid #666; padding: 8px; font-size: 14px; text-align: cent
 .hidden { display: none !important; }
 .status-badge { display: inline-block; padding: 5px 12px; background: #dcfce7; color: #166534; border-radius: 10px; font-size: 12px; font-weight: 700; }
 .table-wrapper { overflow-x: auto; width: 100%; margin-bottom: 10px; }
+
+/* Sale Summary Cards */
+.sale-summary { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-top: 15px; margin-bottom: 15px; }
+.sale-card { background: #f1f5f9; padding: 10px; border-radius: 8px; text-align: center; border: 1px solid #e2e8f0; }
+.sale-card span { display: block; font-size: 11px; color: #64748b; font-weight: bold; }
+.sale-card b { font-size: 13px; color: #0f172a; }
 
 @media screen and (max-width:600px){
   table th, table td { padding: 6px; font-size: 12px; }
@@ -135,6 +136,7 @@ th, td { border: 1px solid #666; padding: 8px; font-size: 14px; text-align: cent
     <div class="table-wrapper">
         <table id="table">
             <tr><th>No</th><th>Product</th><th>Qty</th><th>Price</th><th>Total</th></tr>
+            <tbody id="tableBody"></tbody>
         </table>
     </div>
 
@@ -153,8 +155,14 @@ th, td { border: 1px solid #666; padding: 8px; font-size: 14px; text-align: cent
     <button id="sendWhatsAppBtn" class="btn-blue">Send WhatsApp</button>
 
     <div id="bill" class="bill"></div>
+    
     <button id="downloadHistoryBtn" class="btn-blue">Download History</button>
-    <div id="totalDay" style="margin-top:10px; font-weight:bold;">Today's Total Sale: ₹0</div>
+    
+    <div class="sale-summary">
+        <div class="sale-card"><span>Today</span><b id="saleToday">₹0</b></div>
+        <div class="sale-card"><span>Weekly</span><b id="saleWeekly">₹0</b></div>
+        <div class="sale-card"><span>Monthly</span><b id="saleMonthly">₹0</b></div>
+    </div>
 
     <hr style="margin:30px 0;">
     <h2 style="display:flex; align-items:center; justify-content:center; gap:10px;">📦 Stock Management</h2>
@@ -175,7 +183,6 @@ th, td { border: 1px solid #666; padding: 8px; font-size: 14px; text-align: cent
 </div>
 
 <script>
-/* --- ALL JAVASCRIPT REMAINS 100% UNCHANGED AS REQUESTED --- */
 const DIST_WA = "919957548361";
 const DIST_UPI = "9957548361@upi";
 
@@ -357,7 +364,7 @@ function initBillingSystem() {
     const qtyInput = document.getElementById("qty");
     const priceInput = document.getElementById("price");
     const addItemBtn = document.getElementById("addItemBtn");
-    const table = document.getElementById("table");
+    const tableBody = document.getElementById("tableBody");
 
     addItemBtn.addEventListener("click", function(){
         let p = productDropdown.value.trim();
@@ -375,7 +382,7 @@ function initBillingSystem() {
 
         let t = q*pr;
         items.push({p,q,pr,t});
-        let row=table.insertRow();
+        let row=tableBody.insertRow();
         row.insertCell(0).innerText=items.length;
         row.insertCell(1).innerText=p;
         row.insertCell(2).innerText=q;
@@ -413,11 +420,26 @@ function initBillingSystem() {
         }
 
         bill.innerHTML = html;
-        updateSaleReports();
+
+        // Record Sale History
+        let saleHistory = JSON.parse(localStorage.getItem("saleHistory")) || [];
+        saleHistory.push({
+            invoiceNo,
+            total,
+            date: dateISO,
+            customer: document.getElementById("customer").value,
+            items: [...items]
+        });
+        localStorage.setItem("saleHistory", JSON.stringify(saleHistory));
+
+        updateSaleSummary();
+        items = [];
+        tableBody.innerHTML = "";
     });
 
     document.getElementById("printBillBtn").addEventListener("click", function(){
         let content = document.getElementById("bill").innerHTML;
+        if(!content) return alert("Generate bill first");
         let mode = document.getElementById("printMode").value;
         let width=400, height=700;
         if(mode=="A4"){width=800;height=1100;}
@@ -433,19 +455,50 @@ function initBillingSystem() {
         window.open("https://wa.me/?text="+encodeURIComponent(text));
     });
 
-    function updateSaleReports(){
-        let history=JSON.parse(localStorage.getItem("history"))||[];
-        let daily=0; 
-        history.forEach(h=>{ if(new Date(h.date).toDateString()===new Date().toDateString()) daily += h.total; });
-        document.getElementById("totalDay").innerHTML=`<b>Today's Total Sale: ₹${daily}</b>`;
-        
-        // Final logic to actually push if needed for history
-        if(total > 0) {
-            history.push({total, date:new Date().toISOString()});
-            localStorage.setItem("history", JSON.stringify(history));
-        }
+    // Fix Download History Button
+    document.getElementById("downloadHistoryBtn").addEventListener("click", function(){
+        let saleHistory = JSON.parse(localStorage.getItem("saleHistory")) || [];
+        if(saleHistory.length === 0) return alert("No history found");
+
+        let html = `<table border="1"><tr><th>Date</th><th>Invoice</th><th>Customer</th><th>Amount</th></tr>`;
+        saleHistory.forEach(s => {
+            html += `<tr><td>${new Date(s.date).toLocaleDateString()}</td><td>${s.invoiceNo}</td><td>${s.customer}</td><td>${s.total}</td></tr>`;
+        });
+        html += `</table>`;
+
+        let blob = new Blob([html], {type:"application/vnd.ms-excel"});
+        let a = document.createElement("a");
+        a.href = URL.createObjectURL(blob);
+        a.download = "Sale_History.xlsx";
+        a.click();
+    });
+
+    function updateSaleSummary(){
+        let history = JSON.parse(localStorage.getItem("saleHistory")) || [];
+        let today = new Date();
+        let tTotal = 0, wTotal = 0, mTotal = 0;
+
+        history.forEach(s => {
+            let sDate = new Date(s.date);
+            
+            // Today
+            if(sDate.toDateString() === today.toDateString()) tTotal += s.total;
+
+            // Weekly (Last 7 days)
+            let diffDays = Math.ceil(Math.abs(today - sDate) / (1000 * 60 * 60 * 24));
+            if(diffDays <= 7) wTotal += s.total;
+
+            // Monthly
+            if(sDate.getMonth() === today.getMonth() && sDate.getFullYear() === today.getFullYear()) mTotal += s.total;
+        });
+
+        document.getElementById("saleToday").innerText = "₹" + tTotal;
+        document.getElementById("saleWeekly").innerText = "₹" + wTotal;
+        document.getElementById("saleMonthly").innerText = "₹" + mTotal;
     }
+    updateSaleSummary();
 }
 </script>
 </body>
 </html>
+
