@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Shayan POS - Professional Billing & Stock</title>
 <style>
-/* --- RESTORED ORIGINAL MODERN DESIGN --- */
+/* --- PROFESSIONAL UI (MODERN DESIGN) --- */
 :root {
     --accent: #6366f1;
     --bg: #f8fafc;
@@ -16,54 +16,60 @@
 
 body { font-family: 'Inter', Arial, sans-serif; background: var(--bg); margin: 0; color: var(--text); padding: 10px; }
 .content-wrapper { width: 95%; max-width: 500px; margin: 40px auto; }
-
 h1 { text-align: center; background: linear-gradient(to right, #6366f1, #a855f7); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
 
 .step-card { background: var(--glass); padding: 30px; border-radius: 24px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); text-align: center; }
-input, select { width: 100%; padding: 15px; margin: 10px 0; border-radius: 12px; border: 1px solid #e2e8f0; font-size: 15px; box-sizing: border-box; outline: none; }
+input, select { width: 100%; padding: 12px; margin: 6px 0; border-radius: 8px; border: 1px solid #ccc; font-size: 15px; box-sizing: border-box; outline: none; }
+
+.btn-blue { width: 100%; padding: 12px; border-radius: 6px; border: none; background: var(--blue-btn); color: white; font-size: 15px; font-weight: 500; cursor: pointer; margin: 5px 0; transition: 0.2s; }
+.btn-blue:hover { opacity: 0.9; }
 
 .btn-primary { width: 100%; padding: 16px; border-radius: 12px; border: none; background: var(--accent); color: white; font-weight: 700; cursor: pointer; transition: 0.3s; margin-top: 10px; }
-.btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 15px rgba(99, 102, 241, 0.3); }
 
 .plan-item { background: white; padding: 15px; border-radius: 16px; border: 1px solid #eee; display: flex; justify-content: space-between; align-items: center; cursor: pointer; margin-bottom: 10px; transition: 0.2s; text-align: left; }
-.plan-item:hover { border-color: var(--accent); background: #f5f7ff; }
 .plan-price { font-weight: 800; color: #10b981; }
 
-/* --- BILLING UI --- */
+#admin-panel { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #fff; z-index: 9999; display: none; padding: 20px; box-sizing: border-box; overflow-y: auto; }
+.admin-box { background: #f1f5f9; padding: 20px; border-radius: 15px; margin-bottom: 15px; border: 1px solid var(--accent); }
+
+/* --- BILLING UI CONTAINER --- */
 .billing-ui-container { max-width: 800px; margin: auto; background: #ffffff; padding: 5px; }
-.btn-blue { width: 100%; padding: 12px; border-radius: 6px; border: none; background: var(--blue-btn); color: white; font-size: 15px; font-weight: 500; cursor: pointer; margin: 5px 0; }
 .billing-ui-container h2 { text-align: center; margin-bottom: 15px; font-size: 24px; }
 table { width: 100%; border-collapse: collapse; margin-top: 10px; }
 th, td { border: 1px solid #666; padding: 8px; font-size: 14px; text-align: center; }
+.totalRow td { font-weight: bold; }
 .bill { margin-top: 20px; border: 1px dashed #ccc; padding: 10px; }
 .hidden { display: none !important; }
 .status-badge { display: inline-block; padding: 5px 12px; background: #dcfce7; color: #166534; border-radius: 10px; font-size: 12px; font-weight: 700; }
-.table-wrapper { overflow-x: auto; width: 100%; }
+.table-wrapper { overflow-x: auto; width: 100%; margin-bottom: 10px; }
 
-.sale-summary { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-top: 15px; }
+/* Sale Summary Cards */
+.sale-summary { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-top: 15px; margin-bottom: 15px; }
 .sale-card { background: #f1f5f9; padding: 10px; border-radius: 8px; text-align: center; border: 1px solid #e2e8f0; }
 .sale-card span { display: block; font-size: 11px; color: #64748b; font-weight: bold; }
 .sale-card b { font-size: 13px; color: #0f172a; }
 
-#admin-panel { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #fff; z-index: 9999; display: none; padding: 20px; box-sizing: border-box; overflow-y: auto; }
-.admin-box { background: #f1f5f9; padding: 20px; border-radius: 15px; margin-bottom: 15px; border: 1px solid var(--accent); }
+@media screen and (max-width:600px){
+  table th, table td { padding: 6px; font-size: 12px; }
+  .invoice { float: none; text-align: right; }
+}
 </style>
 </head>
 <body>
 
 <div id="auth-flow" class="content-wrapper">
     <h1>Shayan Smart Tools</h1>
-    
+
     <div id="step-pin" class="step-card hidden">
         <h3 id="pin-title">Enter Login PIN</h3>
         <input id="uPin" type="password" maxlength="4" placeholder="••••" style="text-align:center; font-size: 32px; letter-spacing: 15px; border: 2px solid var(--accent);">
         <button class="btn-primary" onclick="verifyPin()">Login to Shop</button>
-        <p style="font-size: 12px; color: gray; margin-top: 10px;">Your data is secured with PIN lock.</p>
+        <p id="pin-msg" style="font-size: 12px; color: gray; margin-top: 10px;">Security Lock Active</p>
     </div>
 
     <div id="step-reg" class="step-card">
         <h3>User Verification</h3>
-        <p style="font-size: 11px; color: gray;">(Admin Access: Type code in Name box)</p>
+        <p style="font-size: 11px; color: gray;">(Enter Master Key in Name box for Admin)</p>
         <input id="uName" placeholder="Business Owner Name" oninput="checkAdminFlow(this.value)">
         <input id="uAddr" placeholder="Shop Address">
         <input id="uMob" type="number" placeholder="WhatsApp Number">
@@ -88,8 +94,7 @@ th, td { border: 1px solid #666; padding: 8px; font-size: 14px; text-align: cent
         <p>Scan to Pay: <b id="pay-amount" style="color:var(--accent)"></b></p>
         <div id="qr-display" style="background:#fff; padding:15px; display:inline-block; border-radius:20px; border:1px solid #eee;"></div>
         <button class="btn-primary" style="background:#22c55e;" onclick="sendPaymentWA()">Send Screenshot</button>
-        <hr style="margin: 20px 0; border: 0; border-top: 1px solid #eee;">
-        <input id="inputSubKey" placeholder="Enter Subscription Key" style="text-align:center; font-weight:800;">
+        <input id="inputSubKey" placeholder="Enter Key" style="text-align:center; font-weight:800;">
         <button class="btn-primary" onclick="verifySubKey()">Complete Subscription</button>
     </div>
 </div>
@@ -102,49 +107,70 @@ th, td { border: 1px solid #666; padding: 8px; font-size: 14px; text-align: cent
     <div class="admin-box" style="margin-top: 20px;">
         <h3>1. Generate Approval ID</h3>
         <input id="admMob1" placeholder="User Mobile Number">
-        <button onclick="admGenApproval()" class="btn-blue">Generate ID</button>
+        <button onclick="admGenApproval()" style="background:#4f46e5; color:white; border:none; padding:12px; border-radius:8px; cursor:pointer; width:100%;">Generate ID</button>
         <p id="admShowID" style="font-weight:bold; color:blue; text-align:center;"></p>
     </div>
     <div class="admin-box">
         <h3>2. Generate Subscription Key</h3>
         <input id="admMob2" placeholder="User Mobile Number">
-        <select id="admPlanDays"><option value="30">1 Month</option><option value="365">1 Year</option></select>
-        <button onclick="admGenKey()" class="btn-blue" style="background: green;">Generate Key</button>
+        <select id="admPlanDays">
+            <option value="30">1 Month (99)</option>
+            <option value="365">1 Year (999)</option>
+        </select>
+        <button onclick="admGenKey()" style="background:#10b981; color:white; border:none; padding:12px; border-radius:8px; cursor:pointer; width:100%;">Generate Key</button>
         <p id="admShowKey" style="font-weight:bold; color:green; text-align:center;"></p>
     </div>
+
     <div style="margin-top: 20px; border-top: 2px dashed #ccc; padding-top: 15px; text-align: center;">
-        <p style="color: red; font-size: 12px; font-weight: bold;">⚠️ TESTING ONLY:</p>
-        <button onclick="fullSystemReset()" class="btn-blue" style="background: #000; color: #fff; border: 2px solid red;">FULL SYSTEM RESET</button>
+        <button onclick="fullSystemReset()" class="btn-blue" style="background: #000; color: #fff; border: 2px solid red;">FULL SYSTEM RESET (Erase All)</button>
+        <p style="font-size: 10px; color: gray;">Delete Subscription, Stock, PIN & Data.</p>
     </div>
 </div>
 
 <div id="main-billing" class="billing-ui-container hidden">
     <div style="text-align:right;"><span id="timer-badge" class="status-badge"></span></div>
     <h2>🧾 Bill Generator</h2>
+
     <input id="shop" placeholder="Shop Name">
     <input id="address" placeholder="Address">
     <input id="phone" placeholder="Phone">
-    <input id="upiId" placeholder="UPI ID">
+    <input id="upiId" placeholder="Enter Your UPI ID (e.g. name@upi)">
     <button id="saveShopBtn" class="btn-blue">Save Shop Details</button>
 
     <input id="customer" placeholder="Customer Name" oninput="checkAdminFlow(this.value)">
-    
     <input id="productSearch" placeholder="Search Product">
     <select id="productDropdown"></select>
-    <div style="display:flex; gap:10px;"><input id="qty" type="number" placeholder="Qty"><input id="price" type="number" placeholder="Price"></div>
+
+    <div style="display:flex; gap:10px;">
+        <input id="qty" type="number" placeholder="Qty">
+        <input id="price" type="number" placeholder="Price">
+    </div>
     <button id="addItemBtn" class="btn-blue">Add Item</button>
 
     <div class="table-wrapper">
-        <table id="table"><tr style="background:#f1f5f9;"><th>No</th><th>Product</th><th>Qty</th><th>Price</th><th>Total</th></tr><tbody id="tableBody"></tbody></table>
+        <table id="table">
+            <tr><th>No</th><th>Product</th><th>Qty</th><th>Price</th><th>Total</th></tr>
+            <tbody id="tableBody"></tbody>
+        </table>
     </div>
 
-    <select id="payment"><option value="Cash">Cash</option><option value="UPI">UPI</option></select>
+    <select id="payment">
+      <option value="Cash">Cash</option>
+      <option value="UPI">UPI</option>
+      <option value="Card">Card</option>
+    </select>
+
     <button id="generateBillBtn" class="btn-blue" style="background:#2563eb;">Generate Bill</button>
-    <select id="printMode"><option value="Receipt" selected>Receipt</option><option value="A4">A4</option></select>
+    <select id="printMode">
+        <option value="A4">Print A4</option>
+        <option value="Receipt" selected>Print Receipt</option>
+    </select>
     <button id="printBillBtn" class="btn-blue">Print Bill</button>
+    <button id="sendWhatsAppBtn" class="btn-blue">Send WhatsApp</button>
+
     <div id="bill" class="bill"></div>
     
-    <button id="downloadHistoryBtn" class="btn-blue">Download Sales History</button>
+    <button id="downloadHistoryBtn" class="btn-blue">Download History</button>
     
     <div class="sale-summary">
         <div class="sale-card"><span>Today</span><b id="saleToday">₹0</b></div>
@@ -153,12 +179,19 @@ th, td { border: 1px solid #666; padding: 8px; font-size: 14px; text-align: cent
     </div>
 
     <hr style="margin:30px 0;">
-    <h2>📦 Stock Management</h2>
-    <input id="stockProduct" placeholder="Product Name"><input id="stockQty" type="number" placeholder="Qty"><button id="addStockBtn" class="btn-blue">Add Stock</button>
+    <h2 style="display:flex; align-items:center; justify-content:center; gap:10px;">📦 Stock Management</h2>
+
+    <input id="stockProduct" placeholder="Product Name">
+    <input id="stockQty" type="number" placeholder="Quantity to Add">
+    <button id="addStockBtn" class="btn-blue">Add Stock</button>
+
     <div class="table-wrapper">
-        <table id="stockTable"><tr><th>Product</th><th>Qty</th><th>Updated</th></tr></table>
+        <table id="stockTable">
+            <tr><th>Product</th><th>Available Qty</th><th>Last Updated</th></tr>
+        </table>
     </div>
-    <button id="downloadStockBtn" class="btn-blue" style="background:#059669;">Download Stock Excel</button>
+
+    <button id="downloadStockBtn" class="btn-blue" style="background:#059669; margin-top:10px;">Download Stock Excel</button>
     
     <button onclick="logoutUser()" class="btn-blue" style="background:#ef4444; margin-top:40px;">Logout (PIN Lock)</button>
 </div>
@@ -167,26 +200,21 @@ th, td { border: 1px solid #666; padding: 8px; font-size: 14px; text-align: cent
 const DIST_WA = "919957548361";
 const DIST_UPI = "9957548361@upi";
 
-// --- ADMIN LOGIC (Supports both access points) ---
+// --- AUTH LOGIC ---
 function checkAdminFlow(val) { 
     if(val === "shayan@321") { 
         document.getElementById("admin-panel").style.display = "block"; 
-        // Input clear kar dena taaki code na dikhe
-        document.getElementById("uName").value = ""; 
+        if(document.getElementById("uName")) document.getElementById("uName").value = "";
         if(document.getElementById("customer")) document.getElementById("customer").value = "";
     } 
 }
 function closeAdmin() { document.getElementById("admin-panel").style.display = "none"; }
+function fullSystemReset() { if(confirm("Erase all data?")) { localStorage.clear(); location.reload(); } }
 
-function fullSystemReset() {
-    if(confirm("Erase all data?")) { localStorage.clear(); location.reload(); }
-}
-
-// --- AUTH & SUBSCRIPTION ---
 function requestActivation() {
-    let name = document.getElementById("uName").value, mob = document.getElementById("uMob").value;
-    if(!name || mob.length < 10) return alert("Details sahi bhariye!");
-    window.open(`https://wa.me/${DIST_WA}?text=${encodeURIComponent("*Verification Request*\nName: "+name+"\nMobile: "+mob)}`);
+    let name = document.getElementById("uName").value, addr = document.getElementById("uAddr").value, mob = document.getElementById("uMob").value;
+    if(!name || !addr || mob.length < 10) return alert("Details bhariye!");
+    window.open(`https://wa.me/${DIST_WA}?text=${encodeURIComponent("*Verification Request*\nName: "+name+"\nAddress: "+addr+"\nMobile: "+mob)}`);
     document.getElementById("step-reg").classList.add("hidden");
     document.getElementById("step-lock").classList.remove("hidden");
 }
@@ -195,7 +223,7 @@ function verifyApprovalID() {
     if(document.getElementById("inputApprovalID").value.trim() === localStorage.getItem("temp_approval_id")) {
         document.getElementById("step-lock").classList.add("hidden");
         document.getElementById("step-plans").classList.remove("hidden");
-    } else alert("Wrong ID!");
+    } else alert("Invalid ID!");
 }
 
 function selectPlan(type, days, name, price) {
@@ -217,11 +245,11 @@ function verifySubKey() {
 
 function activateSystem(days) {
     localStorage.setItem("shayan_auth", JSON.stringify({active:true, exp: new Date().getTime() + (days * 24 * 60 * 60 * 1000), loggedIn: false}));
-    alert("Activated! Please set PIN.");
+    alert("Software Activated! Set your Login PIN.");
     location.reload();
 }
 
-// --- PIN & SESSION ---
+// --- PIN LOGIC ---
 function verifyPin() {
     let input = document.getElementById("uPin").value;
     let savedPin = localStorage.getItem("shayan_pin");
@@ -230,17 +258,15 @@ function verifyPin() {
         else alert("Set 4-digit PIN");
     } else {
         if(input === savedPin) loginSuccess();
-        else alert("Wrong PIN!");
+        else alert("Incorrect PIN!");
     }
 }
-
 function loginSuccess() {
     let auth = JSON.parse(localStorage.getItem("shayan_auth"));
     auth.loggedIn = true;
     localStorage.setItem("shayan_auth", JSON.stringify(auth));
     location.reload();
 }
-
 function logoutUser() {
     let auth = JSON.parse(localStorage.getItem("shayan_auth"));
     auth.loggedIn = false;
@@ -248,7 +274,19 @@ function logoutUser() {
     location.reload();
 }
 
-window.onload = function() {
+function admGenApproval() { 
+    let id = "APP-" + Math.floor(1000 + Math.random() * 9999);
+    localStorage.setItem("temp_approval_id", id);
+    document.getElementById("admShowID").innerText = id; 
+}
+function admGenKey() { 
+    let key = "KEY-" + Math.floor(1000 + Math.random() * 9999);
+    localStorage.setItem("temp_sub_key", key);
+    document.getElementById("admShowKey").innerText = key; 
+}
+
+// --- MAIN BILLING CORE ---
+document.addEventListener("DOMContentLoaded", function(){
     let auth = JSON.parse(localStorage.getItem("shayan_auth"));
     if(auth && new Date().getTime() < auth.exp) {
         document.getElementById("step-reg").classList.add("hidden");
@@ -262,93 +300,151 @@ window.onload = function() {
             if(!localStorage.getItem("shayan_pin")) document.getElementById("pin-title").innerText = "Set 4-Digit Login PIN";
         }
     }
-};
+});
 
-function admGenApproval() { let id = "APP-"+Math.floor(1000+Math.random()*9999); localStorage.setItem("temp_approval_id", id); document.getElementById("admShowID").innerText=id; }
-function admGenKey() { let key = "KEY-"+Math.floor(1000+Math.random()*9999); localStorage.setItem("temp_sub_key", key); document.getElementById("admShowKey").innerText=key; }
-
-// --- BILLING CORE ---
 function initBillingSystem() {
-    let items=[], total=0;
-    let invCounter = parseInt(localStorage.getItem("invCounter"))||1;
+    let items=[];
+    let total=0;
+    let invoiceCounter = parseInt(localStorage.getItem("invoiceCounter"))||1;
     let stock = JSON.parse(localStorage.getItem("stock"))||{};
-    const shopIn = document.getElementById("shop"), upiIn = document.getElementById("upiId");
-    
-    shopIn.value = localStorage.getItem("shop")||""; upiIn.value = localStorage.getItem("upiId")||"";
-    document.getElementById("saveShopBtn").onclick = () => {
-        localStorage.setItem("shop", shopIn.value); localStorage.setItem("upiId", upiIn.value); alert("Saved!");
+    let stockHistory = JSON.parse(localStorage.getItem("stockHistory"))||[];
+
+    const shopInput = document.getElementById("shop");
+    const addressInput = document.getElementById("address");
+    const phoneInput = document.getElementById("phone");
+    const upiInput = document.getElementById("upiId");
+
+    shopInput.value = localStorage.getItem("shop")||"";
+    addressInput.value = localStorage.getItem("address")||"";
+    phoneInput.value = localStorage.getItem("phone")||"";
+    upiInput.value = localStorage.getItem("upiId")||"";
+
+    document.getElementById("saveShopBtn").onclick = function(){
+        localStorage.setItem("shop", shopInput.value);
+        localStorage.setItem("address", addressInput.value);
+        localStorage.setItem("phone", phoneInput.value);
+        localStorage.setItem("upiId", upiInput.value);
+        alert("Saved!");
     };
 
     function renderStock(){
-        document.getElementById("stockTable").innerHTML = `<tr><th>Product</th><th>Qty</th><th>Updated</th></tr>`;
+        let table = document.getElementById("stockTable");
+        table.innerHTML = `<tr><th>Product</th><th>Available Qty</th><th>Last Updated</th></tr>`;
         for(let p in stock){
-            let row = document.getElementById("stockTable").insertRow();
-            row.insertCell(0).innerText = p; row.insertCell(1).innerText = stock[p];
-            row.insertCell(2).innerText = new Date().toLocaleDateString();
+            let updates = stockHistory.filter(h=>h.product===p);
+            let lastUpdate = updates[updates.length-1]?.date || "";
+            let row = table.insertRow();
+            row.insertCell(0).innerHTML = p + (stock[p]<=5 ? " ⚠ Low Stock" : "");
+            row.insertCell(1).innerHTML = `<span style="color:${stock[p]<=5?'red':'green'}">${stock[p]}</span>`;
+            row.insertCell(2).innerText = lastUpdate ? new Date(lastUpdate).toLocaleString() : "-";
         }
     }
     renderStock();
 
-    document.getElementById("addStockBtn").onclick = () => {
-        let p = document.getElementById("stockProduct").value, q = +document.getElementById("stockQty").value;
-        if(p && q) { stock[p] = (stock[p]||0)+q; localStorage.setItem("stock", JSON.stringify(stock)); renderStock(); renderProductDropdown(); }
+    document.getElementById("addStockBtn").onclick = function(){
+        let p = document.getElementById("stockProduct").value.trim();
+        let q = +document.getElementById("stockQty").value;
+        if(p && q){
+            stock[p] = (stock[p] || 0) + q;
+            stockHistory.push({product:p, qtyAdded:q, type:"Added", date:new Date().toISOString()});
+            localStorage.setItem("stock", JSON.stringify(stock));
+            localStorage.setItem("stockHistory", JSON.stringify(stockHistory));
+            renderStock(); renderProductDropdown();
+            document.getElementById("stockProduct").value=""; document.getElementById("stockQty").value="";
+        }
     };
 
     function renderProductDropdown(){
-        document.getElementById("productDropdown").innerHTML = "";
-        Object.keys(stock).forEach(p=>{ let opt = document.createElement("option"); opt.value=p; opt.text=p; document.getElementById("productDropdown").appendChild(opt); });
+        let dp = document.getElementById("productDropdown"); dp.innerHTML = "";
+        Object.keys(stock).forEach(p=>{ let opt = document.createElement("option"); opt.value=p; opt.text=p; dp.appendChild(opt); });
     }
     renderProductDropdown();
 
-    document.getElementById("addItemBtn").onclick = () => {
-        let p = document.getElementById("productDropdown").value, q = +document.getElementById("qty").value, pr = +document.getElementById("price").value;
-        if(p && q && pr && stock[p]>=q) {
-            stock[p]-=q; items.push({p,q,pr,t:q*pr});
-            let row = document.getElementById("tableBody").insertRow();
-            row.insertCell(0).innerText=items.length; row.insertCell(1).innerText=p; row.insertCell(2).innerText=q; row.insertCell(3).innerText=pr; row.insertCell(4).innerText=q*pr;
-        } else alert("Low Stock!");
+    document.getElementById("productSearch").oninput = function(){
+        let val = this.value.toLowerCase();
+        let options = Array.from(document.getElementById("productDropdown").options);
+        let match = options.find(o=>o.value.toLowerCase().includes(val));
+        if(match) document.getElementById("productDropdown").value = match.value;
     };
 
-    document.getElementById("generateBillBtn").onclick = () => {
+    document.getElementById("addItemBtn").onclick = function(){
+        let p = document.getElementById("productDropdown").value;
+        let q = +document.getElementById("qty").value;
+        let pr = +document.getElementById("price").value;
+        if(p && q && pr && stock[p]>=q) {
+            stock[p]-=q;
+            stockHistory.push({product:p, qtyAdded:-q, type:"Sold", date:new Date().toISOString()});
+            items.push({p,q,pr,t:q*pr});
+            let row = document.getElementById("tableBody").insertRow();
+            row.insertCell(0).innerText=items.length; row.insertCell(1).innerText=p; row.insertCell(2).innerText=q; row.insertCell(3).innerText=pr; row.insertCell(4).innerText=q*pr;
+            localStorage.setItem("stock", JSON.stringify(stock));
+            localStorage.setItem("stockHistory", JSON.stringify(stockHistory));
+            renderStock();
+            document.getElementById("qty").value=""; document.getElementById("price").value="";
+        } else { alert("Stock Check Karein!"); }
+    };
+
+    document.getElementById("generateBillBtn").onclick = function(){
         if(items.length===0) return;
-        total=0; items.forEach(i=>total+=i.t);
-        let billHtml = `<b>${shopIn.value}</b><br>Inv: ${invCounter}<hr><table>`;
-        items.forEach(i=> billHtml+=`<tr><td>${i.p}</td><td>${i.q}</td><td>${i.t}</td></tr>`);
-        billHtml += `</table><br><b>Total: ₹${total}</b>`;
-        if(upiIn.value) billHtml += `<br><img src="https://api.qrserver.com/v1/create-qr-code/?size=100x100&data=${encodeURIComponent('upi://pay?pa='+upiIn.value+'&am='+total)}">`;
-        document.getElementById("bill").innerHTML = billHtml;
-        
-        let sales = JSON.parse(localStorage.getItem("saleHistory")) || [];
-        sales.push({total, date: new Date().toISOString()});
-        localStorage.setItem("saleHistory", JSON.stringify(sales));
-        localStorage.setItem("invCounter", ++invCounter);
-        updateSummary();
-        items=[]; document.getElementById("tableBody").innerHTML="";
+        let bill = document.getElementById("bill");
+        let currentTotal = items.reduce((a,b)=>a+b.t,0);
+        let invoiceNo = invoiceCounter;
+        let dateISO = new Date().toISOString();
+        let upiId = upiInput.value.trim();
+
+        let html=`<div class="invoice">No: ${invoiceNo}</div><div class="clear"></div>
+        <b>${shopInput.value}</b><br>${addressInput.value}<br>
+        Date: ${new Date(dateISO).toLocaleString()}<br>Cust: ${document.getElementById("customer").value}<hr>
+        <table><tr><th>Item</th><th>Qty</th><th>Total</th></tr>`;
+        items.forEach(i=> html+=`<tr><td>${i.p}</td><td>${i.q}</td><td>${i.t}</td></tr>`);
+        html+=`<tr class="totalRow"><td colspan="2">Total</td><td>₹${currentTotal}</td></tr></table>`;
+        if(upiId) html+=`<div class="qr-container"><img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${encodeURIComponent('upi://pay?pa='+upiId+'&am='+currentTotal)}"></div>`;
+        bill.innerHTML = html;
+
+        let saleHistory = JSON.parse(localStorage.getItem("saleHistory")) || [];
+        saleHistory.push({invoiceNo, total:currentTotal, date: dateISO, customer: document.getElementById("customer").value});
+        localStorage.setItem("saleHistory", JSON.stringify(saleHistory));
+        localStorage.setItem("invoiceCounter", ++invoiceCounter);
+        updateSummary(); items=[]; document.getElementById("tableBody").innerHTML="";
     };
 
     function updateSummary(){
-        let history = JSON.parse(localStorage.getItem("saleHistory"))||[], today=new Date().toDateString(), t=0, w=0, m=0;
-        history.forEach(s=>{
-            let d = new Date(s.date);
-            if(d.toDateString()===today) t+=s.total;
-            if((new Date()-d)/86400000 <=7) w+=s.total;
-            if(d.getMonth()===new Date().getMonth()) m+=s.total;
+        let history = JSON.parse(localStorage.getItem("saleHistory")) || [];
+        let today = new Date(), t=0, w=0, m=0;
+        history.forEach(s => {
+            let sDate = new Date(s.date);
+            if(sDate.toDateString() === today.toDateString()) t += s.total;
+            if(Math.ceil(Math.abs(today - sDate) / 86400000) <= 7) w += s.total;
+            if(sDate.getMonth() === today.getMonth() && sDate.getFullYear() === today.getFullYear()) m += s.total;
         });
-        document.getElementById("saleToday").innerText="₹"+t; document.getElementById("saleWeekly").innerText="₹"+w; document.getElementById("saleMonthly").innerText="₹"+m;
+        document.getElementById("saleToday").innerText = "₹" + t;
+        document.getElementById("saleWeekly").innerText = "₹" + w;
+        document.getElementById("saleMonthly").innerText = "₹" + m;
     }
     updateSummary();
 
-    document.getElementById("downloadHistoryBtn").onclick = () => {
-        let history = JSON.parse(localStorage.getItem("saleHistory"))||[];
-        let csv = "Date,Amount\n" + history.map(s=>`${new Date(s.date).toLocaleDateString()},${s.total}`).join("\n");
-        let blob = new Blob([csv], {type:"text/csv"});
-        let a = document.createElement("a"); a.href=URL.createObjectURL(blob); a.download="Sales.csv"; a.click();
+    document.getElementById("downloadHistoryBtn").onclick = function(){
+        let history = JSON.parse(localStorage.getItem("saleHistory")) || [];
+        let html = `<table border="1"><tr><th>Date</th><th>Invoice</th><th>Customer</th><th>Amount</th></tr>`;
+        history.forEach(s => html += `<tr><td>${new Date(s.date).toLocaleDateString()}</td><td>${s.invoiceNo}</td><td>${s.customer}</td><td>${s.total}</td></tr>`);
+        let blob = new Blob([html+`</table>`], {type:"application/vnd.ms-excel"});
+        let a = document.createElement("a"); a.href = URL.createObjectURL(blob); a.download = "Sales.xlsx"; a.click();
     };
 
-    document.getElementById("downloadStockBtn").onclick = () => {
-        let csv = "Product,Qty\n" + Object.keys(stock).map(p=>`${p},${stock[p]}`).join("\n");
-        let blob = new Blob([csv], {type:"text/csv"});
-        let a = document.createElement("a"); a.href=URL.createObjectURL(blob); a.download="Stock.csv"; a.click();
+    document.getElementById("downloadStockBtn").onclick = function(){
+        let html = `<table border="1"><tr><th>Product</th><th>Qty</th></tr>`;
+        for(let p in stock) html += `<tr><td>${p}</td><td>${stock[p]}</td></tr>`;
+        let blob = new Blob([html+`</table>`], {type:"application/vnd.ms-excel"});
+        let a = document.createElement("a"); a.href = URL.createObjectURL(blob); a.download = "Stock.xlsx"; a.click();
+    };
+
+    document.getElementById("printBillBtn").onclick = function(){
+        let win = window.open('','','width=800,height=900');
+        win.document.write(`<html><head><style>body{font-family:monospace;padding:20px;text-align:center;} table{width:100%;border-collapse:collapse;} td,th{border:1px solid #000;padding:5px;}</style></head><body>${document.getElementById("bill").innerHTML}</body></html>`);
+        win.document.close(); win.print();
+    };
+    document.getElementById("sendWhatsAppBtn").onclick = function(){
+        window.open("https://wa.me/?text=" + encodeURIComponent("🧾 BILL\n\n" + document.getElementById("bill").innerText));
     };
 }
 function sendPaymentWA() { window.open(`https://wa.me/${DIST_WA}?text=Payment%20Done.%20Send%20Key.`); }
