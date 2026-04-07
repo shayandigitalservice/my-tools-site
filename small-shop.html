@@ -5,14 +5,13 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Shayan POS - Professional Billing & Stock</title>
 <style>
-/* --- AUTH & UI SYSTEM CSS --- */
+/* --- AUTH & ADMIN UI (MODERN DESIGN) --- */
 :root {
     --accent: #6366f1;
     --bg: #f8fafc;
     --glass: rgba(255, 255, 255, 0.95);
     --text: #0f172a;
 }
-
 body { font-family: 'Inter', Arial, sans-serif; background: var(--bg); margin: 0; color: var(--text); }
 .content-wrapper { width: 90%; max-width: 500px; margin: 40px auto; }
 h1 { text-align: center; background: linear-gradient(to right, #6366f1, #a855f7); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
@@ -27,17 +26,17 @@ h1 { text-align: center; background: linear-gradient(to right, #6366f1, #a855f7)
 #admin-panel { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #fff; z-index: 9999; display: none; padding: 20px; box-sizing: border-box; overflow-y: auto; }
 .admin-box { background: #f1f5f9; padding: 20px; border-radius: 15px; margin-bottom: 15px; border: 1px solid var(--accent); }
 
-/* --- ORIGINAL BILLING SYSTEM CSS (RESTORED) --- */
-.billing-ui-container { max-width: 800px; margin: auto; background: #ffffff; padding: 15px; border-radius: 0; box-shadow: none; font-family: Arial; }
-.billing-ui-container h2 { text-align: center; color: #000; }
-.billing-ui-container input, 
-.billing-ui-container select, 
-.billing-ui-container button { width: 100%; padding: 10px; margin: 6px 0; border-radius: 6px; border: 1px solid #ccc; box-sizing: border-box; }
-.billing-ui-container button { border: none; background: #2563eb; color: white; font-size: 15px; cursor: pointer; }
+/* --- BILLING & STOCK UI (YOUR SECOND DESIGN - WHITE THEME) --- */
+.container-billing { max-width: 800px; margin: auto; background: #ffffff; padding: 15px; border-radius: 0; box-shadow: none; font-family: Arial; }
+.container-billing h2 { text-align: center; color: #000; margin-top: 20px; }
+.container-billing input, 
+.container-billing select, 
+.container-billing button { width: 100%; padding: 10px; margin: 6px 0; border-radius: 6px; border: 1px solid #ccc; box-sizing: border-box; }
+.container-billing button { border: none; background: #2563eb; color: white; font-size: 15px; cursor: pointer; }
 
-.billing-ui-container table { width: 100%; margin-top: 10px; border-collapse: collapse; }
-.billing-ui-container th, 
-.billing-ui-container td { border: 1px solid #000; padding: 8px; font-size: 14px; text-align: center; color: #000; }
+.container-billing table { width: 100%; margin-top: 10px; border-collapse: collapse; }
+.container-billing th, 
+.container-billing td { border: 1px solid #000; padding: 8px; font-size: 14px; text-align: center; }
 .totalRow td { font-weight: bold; }
 .bill { margin-top: 20px; overflow-wrap: break-word; word-wrap: break-word; border: 1px dashed #ccc; padding: 10px; }
 .invoice { float: right; }
@@ -50,7 +49,7 @@ h1 { text-align: center; background: linear-gradient(to right, #6366f1, #a855f7)
 .table-wrapper { overflow-x: auto; width: 100%; }
 
 @media screen and (max-width:600px){
-  .billing-ui-container table th, .billing-ui-container table td { padding: 6px; font-size: 12px; }
+  .container-billing table th, .container-billing table td { padding: 6px; font-size: 12px; }
   .invoice { float: none; text-align: right; }
 }
 </style>
@@ -114,10 +113,10 @@ h1 { text-align: center; background: linear-gradient(to right, #6366f1, #a855f7)
     </div>
 </div>
 
-<div id="main-billing" class="billing-ui-container hidden">
+<div id="main-billing" class="container-billing hidden">
     <div style="text-align:right;"><span id="timer-badge" class="status-badge"></span></div>
+    
     <h2>🧾 Bill Generator</h2>
-
     <input id="shop" placeholder="Shop Name">
     <input id="address" placeholder="Address">
     <input id="phone" placeholder="Phone">
@@ -128,8 +127,10 @@ h1 { text-align: center; background: linear-gradient(to right, #6366f1, #a855f7)
     <input id="productSearch" placeholder="Search Product">
     <select id="productDropdown"></select>
 
-    <input id="qty" type="number" placeholder="Qty">
-    <input id="price" type="number" placeholder="Price">
+    <div style="display:flex; gap:10px;">
+        <input id="qty" type="number" placeholder="Qty">
+        <input id="price" type="number" placeholder="Price">
+    </div>
     <button id="addItemBtn">Add Item</button>
 
     <div class="table-wrapper">
@@ -148,6 +149,7 @@ h1 { text-align: center; background: linear-gradient(to right, #6366f1, #a855f7)
     <select id="printMode">
         <option value="A4">Print A4</option>
         <option value="Receipt" selected>Print Receipt</option>
+        <option value="Custom">Custom Width</option>
     </select>
     <button id="printBillBtn" style="background:#4b5563;">Print Bill</button>
     <button id="sendWhatsAppBtn" style="background:#22c55e;">Send WhatsApp</button>
@@ -169,7 +171,7 @@ h1 { text-align: center; background: linear-gradient(to right, #6366f1, #a855f7)
     </div>
     <button id="downloadStockBtn" style="background:#059669; margin-top:10px;">Download Stock Excel</button>
     
-    <button onclick="localStorage.clear(); location.reload();" style="background:#ef4444; margin-top:50px;">Logout (Reset Software)</button>
+    <button onclick="localStorage.clear(); location.reload();" style="background:#ef4444; margin-top:50px; border-radius: 6px;">Logout (Reset Software)</button>
 </div>
 
 <script>
@@ -212,8 +214,8 @@ function activateSystem(days) {
     alert("Software Activated!"); location.reload();
 }
 function sendPaymentWA() { window.open(`https://wa.me/${DIST_WA}?text=Payment%20Done.%20Send%20Key.`); }
-function admGenApproval() { let id = "APP-" + Math.floor(1000 + Math.random() * 9999); localStorage.setItem("temp_approval_id", id); document.getElementById("admShowID").innerText = "ID: " + id; }
-function admGenKey() { let key = "KEY-" + Math.floor(1000 + Math.random() * 9999); localStorage.setItem("temp_sub_key", key); document.getElementById("admShowKey").innerText = "Key: " + key; }
+function admGenApproval() { let mob = document.getElementById("admMob1").value; let id = "APP-" + Math.floor(1000 + Math.random() * 9999); localStorage.setItem("temp_approval_id", id); document.getElementById("admShowID").innerText = "Generated ID: " + id; window.open(`https://wa.me/${mob}?text=Your%20Approval%20ID:%20${id}`); }
+function admGenKey() { let mob = document.getElementById("admMob2").value; let key = "KEY-" + Math.floor(1000 + Math.random() * 9999); localStorage.setItem("temp_sub_key", key); document.getElementById("admShowKey").innerText = "Generated Key: " + key; window.open(`https://wa.me/${mob}?text=Your%20Subscription%20Key:%20${key}`); }
 
 // --- BILLING LOGIC ---
 document.addEventListener("DOMContentLoaded", function(){
@@ -221,10 +223,14 @@ document.addEventListener("DOMContentLoaded", function(){
     if(auth && new Date().getTime() < auth.exp) {
         document.getElementById("auth-flow").classList.add("hidden");
         document.getElementById("main-billing").classList.remove("hidden");
-        document.getElementById("timer-badge").innerText = Math.ceil((auth.exp - new Date().getTime()) / (86400000)) + " Days Left";
+        document.getElementById("timer-badge").innerText = Math.ceil((auth.exp - new Date().getTime()) / 86400000) + " Days Remaining";
         
-        let items=[], total=0, invoiceCounter = parseInt(localStorage.getItem("invoiceCounter"))||1;
-        let stock = JSON.parse(localStorage.getItem("stock"))||{}, stockHistory = JSON.parse(localStorage.getItem("stockHistory"))||[];
+        // Initialize Billing System
+        let items=[];
+        let total=0;
+        let invoiceCounter = parseInt(localStorage.getItem("invoiceCounter"))||1;
+        let stock = JSON.parse(localStorage.getItem("stock"))||{};
+        let stockHistory = JSON.parse(localStorage.getItem("stockHistory"))||[];
 
         const shopInput = document.getElementById("shop"), addressInput = document.getElementById("address"), 
               phoneInput = document.getElementById("phone"), upiInput = document.getElementById("upiId");
@@ -242,18 +248,15 @@ document.addEventListener("DOMContentLoaded", function(){
         const renderStock = () => {
             document.getElementById("stockTable").innerHTML = `<tr><th>Product</th><th>Available Qty</th><th>Last Updated</th></tr>`;
             for(let p in stock){
+                let updates = stockHistory.filter(h=>h.product===p);
+                let lastUpdate = updates[updates.length-1]?.date || "";
                 let row = document.getElementById("stockTable").insertRow();
-                row.insertCell(0).innerText = p + (stock[p]<=5 ? " ⚠" : "");
+                row.insertCell(0).innerText = p + (stock[p]<=5 ? " ⚠ Low Stock" : "");
                 row.insertCell(1).innerHTML = `<span style="color:${stock[p]<=5?'red':'green'}">${stock[p]}</span>`;
-                row.insertCell(2).innerText = new Date().toLocaleDateString();
+                row.insertCell(2).innerText = lastUpdate ? new Date(lastUpdate).toLocaleString() : "-";
             }
         };
         renderStock();
-
-        document.getElementById("addStockBtn").onclick = () => {
-            let p = document.getElementById("stockProduct").value.trim(), q = +document.getElementById("stockQty").value;
-            if(p && q) { stock[p] = (stock[p]||0)+q; localStorage.setItem("stock", JSON.stringify(stock)); renderStock(); renderProductDropdown(); }
-        };
 
         const renderProductDropdown = () => {
             document.getElementById("productDropdown").innerHTML = "";
@@ -261,27 +264,81 @@ document.addEventListener("DOMContentLoaded", function(){
         };
         renderProductDropdown();
 
+        document.getElementById("addStockBtn").onclick = () => {
+            let p = document.getElementById("stockProduct").value.trim(), q = +document.getElementById("stockQty").value;
+            if(p && q) { 
+                stock[p] = (stock[p]||0)+q; 
+                stockHistory.push({product:p, qtyAdded:q, type:"Added", date:new Date().toISOString()});
+                localStorage.setItem("stock", JSON.stringify(stock)); 
+                localStorage.setItem("stockHistory", JSON.stringify(stockHistory));
+                renderStock(); renderProductDropdown(); 
+            }
+        };
+
+        document.getElementById("productSearch").oninput = function() {
+            let val = this.value.toLowerCase();
+            let options = Array.from(document.getElementById("productDropdown").options);
+            let match = options.find(o=>o.value.toLowerCase().includes(val));
+            if(match) document.getElementById("productDropdown").value = match.value;
+        };
+
         document.getElementById("addItemBtn").onclick = () => {
             let p = document.getElementById("productDropdown").value, q = +document.getElementById("qty").value, pr = +document.getElementById("price").value;
             if(p && q && pr && stock[p]>=q) {
-                stock[p]-=q; items.push({p,q,pr,t:q*pr});
+                stock[p]-=q; 
+                stockHistory.push({product:p, qtyAdded:-q, type:"Sold", date:new Date().toISOString()});
+                items.push({p,q,pr,t:q*pr});
                 let row = document.getElementById("table").insertRow();
                 row.insertCell(0).innerText=items.length; row.insertCell(1).innerText=p; row.insertCell(2).innerText=q; row.insertCell(3).innerText=pr; row.insertCell(4).innerText=q*pr;
-            } else alert("Stock kam hai!");
+                localStorage.setItem("stock", JSON.stringify(stock));
+                localStorage.setItem("stockHistory", JSON.stringify(stockHistory));
+                renderStock();
+            } else alert("Stock Check Karein!");
         };
 
         document.getElementById("generateBillBtn").onclick = () => {
-            let billHtml = `<b>${shopInput.value}</b><br>${addressInput.value}<br>Inv: ${invoiceCounter++}<hr><table><tr><th>Item</th><th>Qty</th><th>Total</th></tr>`;
-            total = 0; items.forEach(i => { total+=i.t; billHtml+=`<tr><td>${i.p}</td><td>${i.q}</td><td>${i.t}</td></tr>`; });
-            billHtml += `<tr class="totalRow"><td colspan="2">Total</td><td>₹${total}</td></tr></table>`;
-            if(upiInput.value) billHtml += `<div class="qr-container"><img src="https://api.qrserver.com/v1/create-qr-code/?data=${encodeURIComponent('upi://pay?pa='+upiInput.value+'&am='+total)}"></div>`;
+            if(items.length===0) return alert("Items Add Karein!");
+            total = 0; items.forEach(i => total+=i.t);
+            let upiId = upiInput.value.trim();
+            let billHtml = `<div class="invoice">No: ${invoiceCounter}</div><div class="clear"></div>
+                <b>${shopInput.value}</b><br>${addressInput.value}<br>Ph: ${phoneInput.value}<br>
+                Date: ${new Date().toLocaleString()}<br>Cust: ${document.getElementById("customer").value}<hr>
+                <table><tr><th>No</th><th>Item</th><th>Qty</th><th>Total</th></tr>`;
+            items.forEach((i, idx) => { billHtml+=`<tr><td>${idx+1}</td><td>${i.p}</td><td>${i.q}</td><td>${i.t}</td></tr>`; });
+            billHtml += `<tr class="totalRow"><td colspan="3">Grand Total</td><td>₹${total}</td></tr></table>`;
+            if(upiId) billHtml += `<div class="qr-container"><p>Scan to Pay ₹${total}</p><img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${encodeURIComponent('upi://pay?pa='+upiId+'&am='+total)}"></div>`;
             document.getElementById("bill").innerHTML = billHtml;
+            
+            // Record History
+            let history=JSON.parse(localStorage.getItem("history"))||[];
+            history.push({total, date:new Date().toISOString()});
+            localStorage.setItem("history", JSON.stringify(history));
+            localStorage.setItem("invoiceCounter", ++invoiceCounter);
+            updateDailySale();
         };
 
+        const updateDailySale = () => {
+            let history=JSON.parse(localStorage.getItem("history"))||[], daily=0;
+            history.forEach(h=>{ if(new Date(h.date).toDateString()===new Date().toDateString()) daily += h.total; });
+            document.getElementById("totalDay").innerHTML=`<b>Today's Total Sale: ₹${daily}</b>`;
+        };
+        updateDailySale();
+
         document.getElementById("printBillBtn").onclick = () => {
-            let win = window.open('','','width=400');
-            win.document.write(`<html><head><style>table{width:100%;border-collapse:collapse;text-align:center;} td,th{border:1px solid #000;}</style></head><body>${document.getElementById("bill").innerHTML}</body></html>`);
-            win.print();
+            let win = window.open('','','width=800,height=900');
+            win.document.write(`<html><head><style>body{font-family:monospace;padding:20px;text-align:center;} table{width:100%;border-collapse:collapse;} td,th{border:1px solid #000;padding:5px;}</style></head><body>${document.getElementById("bill").innerHTML}</body></html>`);
+            win.document.close(); win.print();
+        };
+
+        document.getElementById("sendWhatsAppBtn").onclick = () => {
+            window.open("https://wa.me/?text=" + encodeURIComponent("🧾 BILL RECEIPT\n\n" + document.getElementById("bill").innerText));
+        };
+        
+        document.getElementById("downloadStockBtn").onclick = () => {
+            let html = `<table border="1"><tr><th>Product</th><th>Qty</th></tr>`;
+            for(let p in stock) html += `<tr><td>${p}</td><td>${stock[p]}</td></tr>`;
+            let blob = new Blob([html + `</table>`], {type:"application/vnd.ms-excel"});
+            let a = document.createElement("a"); a.href = URL.createObjectURL(blob); a.download = "stock.xlsx"; a.click();
         };
     }
 });
