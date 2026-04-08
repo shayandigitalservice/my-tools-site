@@ -171,22 +171,22 @@ th, td { border: 1px solid #666; padding: 8px; font-size: 14px; text-align: cent
         </table>
     </div>
 
-    <div id="paymentSection" class="hidden">
+    <div id="payment-section" class="hidden">
         <input id="amtPaid" type="number" placeholder="Enter Amount Paid by Customer">
         <select id="payment">
           <option value="Cash">Cash</option>
           <option value="UPI">UPI</option>
           <option value="Card">Card</option>
         </select>
+    
         <button id="generateBillBtn" class="btn-blue" style="background:#2563eb;">Generate Bill</button>
+        <select id="printMode">
+            <option value="A4">Print A4</option>
+            <option value="Receipt" selected>Print Receipt</option>
+        </select>
+        <button id="printBillBtn" class="btn-blue">Print Bill</button>
+        <button id="sendWhatsAppBtn" class="btn-blue">Send WhatsApp</button>
     </div>
-
-    <select id="printMode">
-        <option value="A4">Print A4</option>
-        <option value="Receipt" selected>Print Receipt</option>
-    </select>
-    <button id="printBillBtn" class="btn-blue">Print Bill</button>
-    <button id="sendWhatsAppBtn" class="btn-blue">Send WhatsApp</button>
 
     <div id="bill" class="bill"></div>
     
@@ -522,7 +522,6 @@ function initBillingSystem() {
     const priceInput = document.getElementById("price");
     const addItemBtn = document.getElementById("addItemBtn");
     const tableBody = document.getElementById("tableBody");
-    const paymentSection = document.getElementById("paymentSection");
 
     addItemBtn.addEventListener("click", function(){
         let p = productDropdown.value.trim();
@@ -547,10 +546,8 @@ function initBillingSystem() {
         row.insertCell(3).innerText=pr;
         row.insertCell(4).innerText=t;
         
-        // Items add hone par payment section dikhana
-        if(items.length > 0) {
-            paymentSection.classList.remove("hidden");
-        }
+        // Show payment section when first item is added
+        document.getElementById("payment-section").classList.remove("hidden");
         
         productSearch.value=""; qtyInput.value=""; priceInput.value="";
     });
@@ -600,7 +597,9 @@ function initBillingSystem() {
         items = [];
         tableBody.innerHTML = "";
         document.getElementById("amtPaid").value = "";
-        paymentSection.classList.add("hidden"); // Reset: Section firse hide kar dena
+        
+        // Hide payment section again after bill generated
+        document.getElementById("payment-section").classList.add("hidden");
     });
 
     document.getElementById("printBillBtn").addEventListener("click", function(){
