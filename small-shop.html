@@ -418,8 +418,8 @@ function initBillingSystem() {
         let row = document.getElementById("tableBody").insertRow();
         row.insertCell(0).innerText = items.length; row.insertCell(1).innerText = p; row.insertCell(2).innerText = q; row.insertCell(3).innerText = pr; row.insertCell(4).innerText = t;
         
-        // Show payment section ONLY after adding items
-        if(total > 0) {
+        // Logical Change: Show payment section only when items are added
+        if(items.length > 0) {
             document.getElementById("payment-section").classList.remove("hidden");
             document.getElementById("displayTotal").innerText = total;
         }
@@ -439,8 +439,9 @@ function initBillingSystem() {
         }
         document.getElementById("bill").innerHTML = html;
         
-        // Reset for next bill and hide payment section again
-        items = []; total = 0; document.getElementById("tableBody").innerHTML = "";
+        // Reset state for new bill
+        items = []; total = 0; 
+        document.getElementById("tableBody").innerHTML = "";
         document.getElementById("payment-section").classList.add("hidden");
         document.getElementById("amtPaid").value = "";
     };
