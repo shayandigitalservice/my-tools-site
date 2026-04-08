@@ -202,7 +202,6 @@ th, td { border: 1px solid #666; padding: 8px; font-size: 14px; text-align: cent
 const DIST_WA = "919957548361";
 const DIST_UPI = "9957548361@upi";
 
-// --- RESET LOGIC ---
 let resetClickCount = 0;
 function tempResetCheck() {
     resetClickCount++;
@@ -212,7 +211,6 @@ function tempResetCheck() {
     } else { setTimeout(() => { if(resetClickCount === 1) logoutToMPIN(); resetClickCount = 0; }, 500); }
 }
 
-// --- ADMIN ---
 function admSearchUser() {
     let mob = document.getElementById("admSearchMob").value;
     let data = JSON.parse(localStorage.getItem("user_db_" + mob));
@@ -231,7 +229,6 @@ function admToggleSuspend(mob, status) {
     if(data) { data.suspended = status; localStorage.setItem("user_db_" + mob, JSON.stringify(data)); alert("Updated!"); admSearchUser(); }
 }
 
-// --- MPIN ---
 function logoutToMPIN() { let auth = JSON.parse(localStorage.getItem("shayan_auth")); if(auth) { auth.active = false; localStorage.setItem("shayan_auth", JSON.stringify(auth)); } location.reload(); }
 function loginWithMPIN() {
     let pin = document.getElementById("inputMPIN").value, mob = localStorage.getItem("current_user_mob");
@@ -251,7 +248,6 @@ function resetMPIN() {
 }
 function finishMPINSetup() { let pin = document.getElementById("setupMPIN").value; if(pin.length === 4) { localStorage.setItem("user_mpin", pin); activateSystem(localStorage.getItem("temp_plan_days")); } }
 
-// --- AUTH ---
 function checkAdminFlow(val) { if(val === "shayan@321") document.getElementById("admin-panel").style.display = "block"; }
 function closeAdmin() { document.getElementById("admin-panel").style.display = "none"; }
 function requestActivation() {
@@ -269,7 +265,6 @@ function activateSystem(days) { localStorage.setItem("shayan_auth", JSON.stringi
 function admGenApproval() { let id = "APP-" + Math.floor(1000 + Math.random() * 9999); localStorage.setItem("temp_approval_id", id); document.getElementById("admShowID").innerText = id; }
 function admGenKey() { let key = "KEY-" + Math.floor(1000 + Math.random() * 9999); localStorage.setItem("temp_sub_key", key); document.getElementById("admShowKey").innerText = key; }
 
-// --- INITIALIZE ---
 document.addEventListener("DOMContentLoaded", function(){
     let auth = JSON.parse(localStorage.getItem("shayan_auth")), mpin = localStorage.getItem("user_mpin"), mob = localStorage.getItem("current_user_mob");
     let userData = mob ? JSON.parse(localStorage.getItem("user_db_" + mob)) : null;
@@ -287,7 +282,6 @@ function initBillingSystem() {
     let items=[]; let total=0;
     let invoiceCounter = parseInt(localStorage.getItem("invoiceCounter"))||1;
     let stock = JSON.parse(localStorage.getItem("stock"))||{};
-    let stockHistory = JSON.parse(localStorage.getItem("stockHistory"))||[];
     const shopInput = document.getElementById("shop"), addressInput = document.getElementById("address"), phoneInput = document.getElementById("phone"), upiInput = document.getElementById("upiId");
     shopInput.value = localStorage.getItem("shop")||""; addressInput.value = localStorage.getItem("address")||""; phoneInput.value = localStorage.getItem("phone")||""; upiInput.value = localStorage.getItem("upiId")||"";
 
@@ -297,14 +291,19 @@ function initBillingSystem() {
         document.getElementById("stockTable").innerHTML = `<tr><th>Product</th><th>Qty</th><th>Updated</th></tr>`;
         for(let p in stock){
             let row = document.getElementById("stockTable").insertRow();
-            row.insertCell(0).innerText = p; row.insertCell(1).innerText = stock[p]; row.insertCell(2).innerText = new Date().toLocaleDateString();
+            let isLow = stock[p] < 10;
+            row.insertCell(0).innerHTML = isLow ? `<span style="color:red;font-weight:bold;">${p} ⚠ Low Stock</span>` : p;
+            row.insertCell(1).innerHTML = isLow ? `<span style="color:red;font-weight:bold;">${stock[p]}</span>` : stock[p];
+            row.insertCell(2).innerText = new Date().toLocaleDateString();
         }
     }
     renderStock();
 
     document.getElementById("addStockBtn").onclick = () => {
         let p = document.getElementById("stockProduct").value, q = +document.getElementById("stockQty").value;
+        if(!p || !q) return alert("Fill fields");
         stock[p] = (stock[p] || 0) + q; localStorage.setItem("stock", JSON.stringify(stock)); renderStock(); renderDD();
+        document.getElementById("stockProduct").value = ""; document.getElementById("stockQty").value = "";
     };
 
     function renderDD(){
@@ -319,13 +318,14 @@ function initBillingSystem() {
         stock[p]-=q; items.push({p,q,pr,t:q*pr});
         let row = document.getElementById("tableBody").insertRow();
         row.insertCell(0).innerText=items.length; row.insertCell(1).innerText=p; row.insertCell(2).innerText=q; row.insertCell(3).innerText=pr; row.insertCell(4).innerText=q*pr;
+        renderStock();
     };
 
     document.getElementById("generateBillBtn").onclick = () => {
         if(!items.length) return alert("Add items");
         total=0; items.forEach(i=>total+=i.t);
         let pAmt = +document.getElementById("paidAmt").value || 0;
-        let unpaid = total - pAmt;
+        let unpaid = Math.max(0, total - pAmt);
         let inv = invoiceCounter++; localStorage.setItem("invoiceCounter", invoiceCounter);
         
         let html=`<div class="invoice">No: ${inv}</div><div class="clear"></div>
@@ -334,19 +334,23 @@ function initBillingSystem() {
         <table><tr><th>No</th><th>Item</th><th>Qty</th><th>Price</th><th>Total</th></tr>`;
         items.forEach((i,idx)=> html+=`<tr><td>${idx+1}</td><td>${i.p}</td><td>${i.q}</td><td>${i.pr}</td><td>${i.t}</td></tr>`);
         html+=`<tr class="totalRow"><td colspan="4">Grand Total</td><td>₹${total}</td></tr>
-               <tr><td colspan="4" style="color:green;text-align:right;">Paid Amount</td><td>₹${pAmt}</td></tr>
-               <tr><td colspan="4" style="color:red;text-align:right;">Unpaid Balance</td><td>₹${unpaid}</td></tr></table>`;
+               <tr><td colspan="4" style="color:green;text-align:right;font-weight:bold;">Paid Amount</td><td style="color:green;font-weight:bold;">₹${pAmt}</td></tr>
+               <tr><td colspan="4" style="color:red;text-align:right;font-weight:bold;">Unpaid Balance</td><td style="color:red;font-weight:bold;">₹${unpaid}</td></tr></table>`;
         
-        if(upiInput.value && unpaid > 0) html += `<div class="qr-container"><p>Scan to Pay ₹${unpaid}</p><img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${encodeURIComponent('upi://pay?pa='+upiInput.value+'&am='+unpaid)}"></div>`;
+        // QR Code always shows for payment, using total amount as base QR reference if unpaid is 0
+        let qrAmt = unpaid > 0 ? unpaid : total;
+        if(upiInput.value) {
+            html += `<div class="qr-container"><p>Scan to Pay ₹${qrAmt}</p><img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${encodeURIComponent('upi://pay?pa='+upiInput.value+'&am='+qrAmt)}"></div>`;
+        }
         
         document.getElementById("bill").innerHTML = html;
         let h = JSON.parse(localStorage.getItem("saleHistory"))||[]; h.push({inv, total, date:new Date().toISOString()}); localStorage.setItem("saleHistory", JSON.stringify(h));
-        updateSaleSummary(); items=[]; document.getElementById("tableBody").innerHTML="";
+        updateSaleSummary(); items=[]; document.getElementById("tableBody").innerHTML=""; document.getElementById("paidAmt").value="";
     };
 
     document.getElementById("printBillBtn").onclick = () => {
         let win = window.open('','','width=400,height=600');
-        win.document.write(`<html><head><style>body{text-align:center;font-family:monospace;} table{width:100%;border-collapse:collapse;} td,th{border:1px solid #000;padding:5px;} .totalRow td{font-weight:bold;} .invoice{float:right;}</style></head><body>${document.getElementById("bill").innerHTML}</body></html>`);
+        win.document.write(`<html><head><style>body{text-align:center;font-family:monospace;padding:10px;} table{width:100%;border-collapse:collapse;} td,th{border:1px solid #000;padding:5px;} .totalRow td{font-weight:bold;} .invoice{float:right;}</style></head><body>${document.getElementById("bill").innerHTML}</body></html>`);
         win.document.close(); win.print();
     };
 
