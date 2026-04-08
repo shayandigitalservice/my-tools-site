@@ -140,7 +140,10 @@ th, td { border: 1px solid #666; padding: 8px; font-size: 14px; text-align: cent
         <h3>3. User Control & Details</h3>
         <input id="admSearchMob" placeholder="Enter User Mobile Number">
         <button onclick="admSearchUser()" style="background:#2563eb; color:white; border:none; padding:12px; border-radius:8px; cursor:pointer; width:100%; margin-bottom:5px;">Show Details</button>
-        <button onclick="admSuspendUser()" style="background:#ef4444; color:white; border:none; padding:12px; border-radius:8px; cursor:pointer; width:100%;">Suspend User</button>
+        <div style="display:flex; gap:10px;">
+             <button onclick="admSuspendUser()" style="background:#ef4444; color:white; border:none; padding:12px; border-radius:8px; cursor:pointer; width:50%;">Suspend</button>
+             <button onclick="admActivateUser()" style="background:#22c55e; color:white; border:none; padding:12px; border-radius:8px; cursor:pointer; width:50%;">Activate</button>
+        </div>
         <div id="admUserDetails" style="margin-top:10px; font-size:12px; background:#fff; padding:10px; border-radius:8px; display:none;"></div>
     </div>
 </div>
@@ -171,9 +174,8 @@ th, td { border: 1px solid #666; padding: 8px; font-size: 14px; text-align: cent
     </div>
 
     <select id="payment">
-      <option value="Cash">Cash</option>
-      <option value="UPI">UPI</option>
-      <option value="Card">Card</option>
+      <option value="Paid">Paid</option>
+      <option value="Unpaid">Unpaid</option>
     </select>
 
     <button id="generateBillBtn" class="btn-blue" style="background:#2563eb;">Generate Bill</button>
@@ -228,7 +230,6 @@ function tempResetCheck() {
         }
         resetClickCount = 0;
     } else {
-        // Normal Logout Functionality on single click
         setTimeout(() => {
            if(resetClickCount === 1) logoutToMPIN();
            resetClickCount = 0;
@@ -243,7 +244,7 @@ function admSearchUser() {
     let div = document.getElementById("admUserDetails");
     if(data) {
         div.style.display = "block";
-        div.innerHTML = `<b>Name:</b> ${data.name}<br><b>Address:</b> ${data.addr}<br><b>ID:</b> ${data.appID}<br><b>Key:</b> ${data.subKey}<br><b>Reg Date:</b> ${data.regDate}`;
+        div.innerHTML = `<b>Name:</b> ${data.name}<br><b>Address:</b> ${data.addr}<br><b>ID:</b> ${data.appID}<br><b>Key:</b> ${data.subKey}<br><b>Reg Date:</b> ${data.regDate}<br><b>Status:</b> ${data.suspended ? '<span style="color:red">Suspended</span>' : '<span style="color:green">Active</span>'}`;
     } else { alert("User not found!"); div.style.display = "none"; }
 }
 
@@ -253,7 +254,19 @@ function admSuspendUser() {
     if(data) {
         data.suspended = true;
         localStorage.setItem("user_db_" + mob, JSON.stringify(data));
-        alert("User Suspended Successfully!");
+        alert("User Suspended!");
+        admSearchUser();
+    } else { alert("User not found!"); }
+}
+
+function admActivateUser() {
+    let mob = document.getElementById("admSearchMob").value;
+    let data = JSON.parse(localStorage.getItem("user_db_" + mob));
+    if(data) {
+        data.suspended = false;
+        localStorage.setItem("user_db_" + mob, JSON.stringify(data));
+        alert("User Activated Successfully!");
+        admSearchUser();
     } else { alert("User not found!"); }
 }
 
@@ -319,7 +332,6 @@ function requestActivation() {
     let name = document.getElementById("uName").value, addr = document.getElementById("uAddr").value, mob = document.getElementById("uMob").value;
     if(!name || !addr || mob.length < 10) return alert("Details bhariye!");
     
-    // Save user info in a mock DB
     let userData = { name, addr, mob, regDate: new Date().toLocaleString(), suspended: false };
     localStorage.setItem("user_db_" + mob, JSON.stringify(userData));
     localStorage.setItem("current_user_mob", mob);
@@ -418,7 +430,6 @@ document.addEventListener("DOMContentLoaded", function(){
     }
 });
 
-// --- BILLING SYSTEM (NO CHANGES) ---
 function initBillingSystem() {
     let items=[];
     let total=0;
@@ -558,7 +569,7 @@ function initBillingSystem() {
         <b>${shopInput.value}</b><br>${addressInput.value}<br>Phone: ${phoneInput.value}<br>
         Date: ${new Date(dateISO).toLocaleString()}<br>
         Customer: ${document.getElementById("customer").value}<br>
-        Payment Mode: ${paymentMode}<hr>
+        Status: <b>${paymentMode}</b><hr>
         <div style="overflow-x:auto;"><table>
         <tr><th>No</th><th>Item</th><th>Qty</th><th>Price</th><th>Total</th></tr>`;
         items.forEach((i,index)=>{
@@ -566,9 +577,9 @@ function initBillingSystem() {
         });
         html+=`<tr class="totalRow"><td colspan="4">Grand Total</td><td>₹${total}</td></tr></table></div>`;
         
-        if(upiId !== ""){
-            let qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${encodeURIComponent('upi://pay?pa='+upiId+'&pn='+shopInput.value+'&am='+total+'&cu=INR')}`;
-            html += `<div class="qr-container"><p>Scan to Pay ₹${total}</p><img src="${qrUrl}" alt="UPI QR Code"></div>`;
+        if(paymentMode === "Paid" && upiId !== ""){
+             let qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${encodeURIComponent('upi://pay?pa='+upiId+'&pn='+shopInput.value+'&am='+total+'&cu=INR')}`;
+             html += `<div class="qr-container"><p>Scan to Pay ₹${total}</p><img src="${qrUrl}" alt="UPI QR Code"></div>`;
         }
 
         bill.innerHTML = html;
@@ -579,6 +590,7 @@ function initBillingSystem() {
             total,
             date: dateISO,
             customer: document.getElementById("customer").value,
+            status: paymentMode,
             items: [...items]
         });
         localStorage.setItem("saleHistory", JSON.stringify(saleHistory));
@@ -609,9 +621,9 @@ function initBillingSystem() {
     document.getElementById("downloadHistoryBtn").addEventListener("click", function(){
         let saleHistory = JSON.parse(localStorage.getItem("saleHistory")) || [];
         if(saleHistory.length === 0) return alert("No history found");
-        let html = `<table border="1"><tr><th>Date</th><th>Invoice</th><th>Customer</th><th>Amount</th></tr>`;
+        let html = `<table border="1"><tr><th>Date</th><th>Invoice</th><th>Customer</th><th>Amount</th><th>Status</th></tr>`;
         saleHistory.forEach(s => {
-            html += `<tr><td>${new Date(s.date).toLocaleDateString()}</td><td>${s.invoiceNo}</td><td>${s.customer}</td><td>${s.total}</td></tr>`;
+            html += `<tr><td>${new Date(s.date).toLocaleDateString()}</td><td>${s.invoiceNo}</td><td>${s.customer}</td><td>${s.total}</td><td>${s.status||'N/A'}</td></tr>`;
         });
         html += `</table>`;
         let blob = new Blob([html], {type:"application/vnd.ms-excel"});
