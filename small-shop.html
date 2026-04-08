@@ -553,7 +553,7 @@ function initBillingSystem() {
         row.insertCell(3).innerText=pr;
         row.insertCell(4).innerText=t;
 
-        // --- UPDATE TOTAL AND SHOW PAYMENT ---
+        // --- UPDATE TOTAL AND SHOW PAYMENT/PRINT AREA ---
         total = 0;
         items.forEach(i => total += i.t);
         document.getElementById("current-total").innerText = total;
@@ -608,7 +608,7 @@ function initBillingSystem() {
         tableBody.innerHTML = "";
         document.getElementById("amtPaid").value = "";
         
-        // Reset and hide payment area
+        // Hide payment area but keep it ready for next bill
         document.getElementById("payment-area").classList.add("hidden");
     });
 
@@ -626,7 +626,9 @@ function initBillingSystem() {
     });
 
     document.getElementById("sendWhatsAppBtn").addEventListener("click", function(){
-        let text="🧾 BILL RECEIPT\n\n"+document.getElementById("bill").innerText;
+        let billContent = document.getElementById("bill").innerText;
+        if(!billContent) return alert("Generate bill first");
+        let text="🧾 BILL RECEIPT\n\n"+billContent;
         window.open("https://wa.me/?text="+encodeURIComponent(text));
     });
 
