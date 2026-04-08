@@ -209,12 +209,32 @@ th, td { border: 1px solid #666; padding: 8px; font-size: 14px; text-align: cent
 
     <button id="downloadStockBtn" class="btn-blue">Download Stock Excel</button>
     
-    <button onclick="logoutToMPIN()" class="btn-blue" style="background:#ef4444; margin-top:50px;">Logout (MPIN Lock)</button>
+    <button onclick="tempResetCheck()" class="btn-blue" style="background:#ef4444; margin-top:50px;">Logout (MPIN Lock)</button>
+    <p style="text-align:center; font-size:10px; color:gray;">(Tip: Click Logout 3x to Reset during testing)</p>
 </div>
 
 <script>
 const DIST_WA = "919957548361";
 const DIST_UPI = "9957548361@upi";
+
+// --- TEMPORARY RESET LOGIC ---
+let resetClickCount = 0;
+function tempResetCheck() {
+    resetClickCount++;
+    if(resetClickCount >= 3) {
+        if(confirm("Testing Reset: Clear all data and go to Registration?")) {
+            localStorage.clear();
+            location.reload();
+        }
+        resetClickCount = 0;
+    } else {
+        // Normal Logout Functionality on single click
+        setTimeout(() => {
+           if(resetClickCount === 1) logoutToMPIN();
+           resetClickCount = 0;
+        }, 500);
+    }
+}
 
 // --- ADMIN SYSTEM UPDATES ---
 function admSearchUser() {
@@ -378,7 +398,7 @@ document.addEventListener("DOMContentLoaded", function(){
     let auth = JSON.parse(localStorage.getItem("shayan_auth"));
     let mpin = localStorage.getItem("user_mpin");
     let mob = localStorage.getItem("current_user_mob");
-    let userData = JSON.parse(localStorage.getItem("user_db_" + mob));
+    let userData = mob ? JSON.parse(localStorage.getItem("user_db_" + mob)) : null;
 
     if(auth && mpin) {
         if(userData && userData.suspended) {
