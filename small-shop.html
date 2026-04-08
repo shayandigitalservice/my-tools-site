@@ -173,10 +173,14 @@ th, td { border: 1px solid #666; padding: 8px; font-size: 14px; text-align: cent
         </table>
     </div>
 
-    <select id="payment">
-      <option value="Paid">Paid</option>
-      <option value="Unpaid">Unpaid</option>
-    </select>
+    <div style="display:flex; gap:10px; margin-top:10px;">
+        <select id="payment" style="flex:1;">
+          <option value="Cash">Cash</option>
+          <option value="UPI">UPI</option>
+          <option value="Card">Card</option>
+        </select>
+        <input id="amtPaid" type="number" placeholder="Amt Paid" style="flex:1;">
+    </div>
 
     <button id="generateBillBtn" class="btn-blue" style="background:#2563eb;">Generate Bill</button>
     <select id="printMode">
@@ -237,14 +241,14 @@ function tempResetCheck() {
     }
 }
 
-// --- ADMIN SYSTEM UPDATES ---
+// --- ADMIN SYSTEM ---
 function admSearchUser() {
     let mob = document.getElementById("admSearchMob").value;
     let data = JSON.parse(localStorage.getItem("user_db_" + mob));
     let div = document.getElementById("admUserDetails");
     if(data) {
         div.style.display = "block";
-        div.innerHTML = `<b>Name:</b> ${data.name}<br><b>Address:</b> ${data.addr}<br><b>ID:</b> ${data.appID}<br><b>Key:</b> ${data.subKey}<br><b>Reg Date:</b> ${data.regDate}<br><b>Status:</b> ${data.suspended ? '<span style="color:red">Suspended</span>' : '<span style="color:green">Active</span>'}`;
+        div.innerHTML = `<b>Name:</b> ${data.name}<br><b>Address:</b> ${data.addr}<br><b>ID:</b> ${data.appID}<br><b>Key:</b> ${data.subKey}<br><b>Status:</b> ${data.suspended ? '<span style="color:red">Suspended</span>' : '<span style="color:green">Active</span>'}`;
     } else { alert("User not found!"); div.style.display = "none"; }
 }
 
@@ -265,7 +269,7 @@ function admActivateUser() {
     if(data) {
         data.suspended = false;
         localStorage.setItem("user_db_" + mob, JSON.stringify(data));
-        alert("User Activated Successfully!");
+        alert("User Activated!");
         admSearchUser();
     } else { alert("User not found!"); }
 }
@@ -281,9 +285,7 @@ function loginWithMPIN() {
     let pin = document.getElementById("inputMPIN").value;
     let mob = localStorage.getItem("current_user_mob");
     let userData = JSON.parse(localStorage.getItem("user_db_" + mob));
-    
     if(userData && userData.suspended) return alert("Your account is suspended. Contact Admin!");
-
     if(pin === localStorage.getItem("user_mpin")) {
         let auth = JSON.parse(localStorage.getItem("shayan_auth"));
         auth.active = true;
@@ -331,11 +333,9 @@ function closeAdmin() { document.getElementById("admin-panel").style.display = "
 function requestActivation() {
     let name = document.getElementById("uName").value, addr = document.getElementById("uAddr").value, mob = document.getElementById("uMob").value;
     if(!name || !addr || mob.length < 10) return alert("Details bhariye!");
-    
     let userData = { name, addr, mob, regDate: new Date().toLocaleString(), suspended: false };
     localStorage.setItem("user_db_" + mob, JSON.stringify(userData));
     localStorage.setItem("current_user_mob", mob);
-
     window.open(`https://wa.me/${DIST_WA}?text=${encodeURIComponent("*Verification Request*\nName: "+name+"\nAddress: "+addr+"\nMobile: "+mob)}`);
     document.getElementById("step-reg").classList.add("hidden");
     document.getElementById("step-lock").classList.remove("hidden");
@@ -348,7 +348,6 @@ function verifyApprovalID() {
         let userData = JSON.parse(localStorage.getItem("user_db_" + mob));
         userData.appID = input;
         localStorage.setItem("user_db_" + mob, JSON.stringify(userData));
-        
         document.getElementById("step-lock").classList.add("hidden");
         document.getElementById("step-plans").classList.remove("hidden");
     } else { alert("Invalid Approval ID!"); }
@@ -377,7 +376,6 @@ function verifySubKey() {
         let userData = JSON.parse(localStorage.getItem("user_db_" + mob));
         userData.subKey = input;
         localStorage.setItem("user_db_" + mob, JSON.stringify(userData));
-
         document.getElementById("step-payment").classList.add("hidden");
         document.getElementById("step-set-mpin").classList.remove("hidden");
     } else { alert("Invalid Subscription Key!"); }
@@ -430,6 +428,7 @@ document.addEventListener("DOMContentLoaded", function(){
     }
 });
 
+// --- BILLING SYSTEM ---
 function initBillingSystem() {
     let items=[];
     let total=0;
@@ -509,21 +508,6 @@ function initBillingSystem() {
         if(match) productDropdown.value = match.value;
     });
 
-    document.getElementById("downloadStockBtn").addEventListener("click", function(){
-        let html = `<table border="1"><tr><th>Product</th><th>Available Qty</th><th>Last Updated</th></tr>`;
-        for(let p in stock){
-            let updates = stockHistory.filter(h=>h.product===p);
-            let lastUpdate = updates[updates.length-1]?.date||"";
-            html += `<tr><td>${p}</td><td>${stock[p]}</td><td>${new Date(lastUpdate).toLocaleString()}</td></tr>`;
-        }
-        html += `</table>`;
-        let blob = new Blob([html], {type:"application/vnd.ms-excel"});
-        let a = document.createElement("a");
-        a.href = URL.createObjectURL(blob);
-        a.download = "stock.xlsx";
-        a.click();
-    });
-
     const qtyInput = document.getElementById("qty");
     const priceInput = document.getElementById("price");
     const addItemBtn = document.getElementById("addItemBtn");
@@ -560,6 +544,8 @@ function initBillingSystem() {
         if(items.length===0){ alert("Add items first"); return; }
         let bill = document.getElementById("bill");
         total=0; items.forEach(i=> total+=i.t);
+        let paidAmt = +document.getElementById("amtPaid").value || total;
+        let balance = total - paidAmt;
         let invoiceNo = getInvoiceNumber();
         let dateISO = new Date().toISOString();
         let paymentMode = document.getElementById("payment").value;
@@ -569,47 +555,43 @@ function initBillingSystem() {
         <b>${shopInput.value}</b><br>${addressInput.value}<br>Phone: ${phoneInput.value}<br>
         Date: ${new Date(dateISO).toLocaleString()}<br>
         Customer: ${document.getElementById("customer").value}<br>
-        Status: <b>${paymentMode}</b><hr>
+        Payment: ${paymentMode}<hr>
         <div style="overflow-x:auto;"><table>
         <tr><th>No</th><th>Item</th><th>Qty</th><th>Price</th><th>Total</th></tr>`;
         items.forEach((i,index)=>{
             html+=`<tr><td>${index+1}</td><td>${i.p}</td><td>${i.q}</td><td>${i.pr}</td><td>${i.t}</td></tr>`;
         });
-        html+=`<tr class="totalRow"><td colspan="4">Grand Total</td><td>₹${total}</td></tr></table></div>`;
+        html+=`<tr class="totalRow"><td colspan="4">Grand Total</td><td>₹${total}</td></tr>`;
+        html+=`<tr class="totalRow"><td colspan="4">Amount Paid</td><td>₹${paidAmt}</td></tr>`;
         
-        if(paymentMode === "Paid" && upiId !== ""){
-             let qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${encodeURIComponent('upi://pay?pa='+upiId+'&pn='+shopInput.value+'&am='+total+'&cu=INR')}`;
-             html += `<div class="qr-container"><p>Scan to Pay ₹${total}</p><img src="${qrUrl}" alt="UPI QR Code"></div>`;
+        if(balance > 0) {
+            html+=`<tr class="totalRow" style="color:red;"><td colspan="4">Unpaid Balance</td><td>₹${balance}</td></tr>`;
+        }
+        
+        html+=`</table></div>`;
+        
+        if(paymentMode === "UPI" && upiId !== "" && balance > 0){
+            let qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${encodeURIComponent('upi://pay?pa='+upiId+'&pn='+shopInput.value+'&am='+balance+'&cu=INR')}`;
+            html += `<div class="qr-container"><p>Scan to Pay ₹${balance}</p><img src="${qrUrl}" alt="UPI QR Code"></div>`;
         }
 
         bill.innerHTML = html;
 
         let saleHistory = JSON.parse(localStorage.getItem("saleHistory")) || [];
-        saleHistory.push({
-            invoiceNo,
-            total,
-            date: dateISO,
-            customer: document.getElementById("customer").value,
-            status: paymentMode,
-            items: [...items]
-        });
+        saleHistory.push({ invoiceNo, total, paidAmt, balance, date: dateISO, customer: document.getElementById("customer").value });
         localStorage.setItem("saleHistory", JSON.stringify(saleHistory));
 
         updateSaleSummary();
         items = [];
         tableBody.innerHTML = "";
+        document.getElementById("amtPaid").value = "";
     });
 
     document.getElementById("printBillBtn").addEventListener("click", function(){
         let content = document.getElementById("bill").innerHTML;
         if(!content) return alert("Generate bill first");
-        let mode = document.getElementById("printMode").value;
-        let width=400, height=700;
-        if(mode=="A4"){width=800;height=1100;}
-        let win = window.open('','',`width=${width},height=${height}`);
-        win.document.write(`<html><head><title>Print Bill</title><style>
-        body{font-family:monospace;padding:10px;text-align:center;} table{width:100%;border-collapse:collapse;} td,th{border:1px solid #000;padding:5px;text-align:center;} .totalRow td{font-weight:bold;} .invoice{float:right;} .clear{clear:both;} .qr-container{margin-top:10px;} .qr-container img{width:120px;}
-        </style></head><body>${content}</body></html>`);
+        let win = window.open('','','width=400,height=700');
+        win.document.write(`<html><head><style>body{font-family:monospace;text-align:center;}table{width:100%;border-collapse:collapse;}td,th{border:1px solid #000;padding:5px;}.invoice{float:right;}</style></head><body>${content}</body></html>`);
         win.document.close(); win.print();
     });
 
@@ -619,34 +601,20 @@ function initBillingSystem() {
     });
 
     document.getElementById("downloadHistoryBtn").addEventListener("click", function(){
-        let saleHistory = JSON.parse(localStorage.getItem("saleHistory")) || [];
-        if(saleHistory.length === 0) return alert("No history found");
-        let html = `<table border="1"><tr><th>Date</th><th>Invoice</th><th>Customer</th><th>Amount</th><th>Status</th></tr>`;
-        saleHistory.forEach(s => {
-            html += `<tr><td>${new Date(s.date).toLocaleDateString()}</td><td>${s.invoiceNo}</td><td>${s.customer}</td><td>${s.total}</td><td>${s.status||'N/A'}</td></tr>`;
-        });
+        let history = JSON.parse(localStorage.getItem("saleHistory")) || [];
+        let html = `<table border="1"><tr><th>Date</th><th>Invoice</th><th>Customer</th><th>Total</th><th>Paid</th><th>Balance</th></tr>`;
+        history.forEach(s => html += `<tr><td>${new Date(s.date).toLocaleDateString()}</td><td>${s.invoiceNo}</td><td>${s.customer}</td><td>${s.total}</td><td>${s.paidAmt}</td><td>${s.balance}</td></tr>`);
         html += `</table>`;
         let blob = new Blob([html], {type:"application/vnd.ms-excel"});
-        let a = document.createElement("a");
-        a.href = URL.createObjectURL(blob);
-        a.download = "Sale_History.xlsx";
-        a.click();
+        let a = document.createElement("a"); a.href = URL.createObjectURL(blob); a.download = "History.xlsx"; a.click();
     });
 
     function updateSaleSummary(){
         let history = JSON.parse(localStorage.getItem("saleHistory")) || [];
-        let today = new Date();
-        let tTotal = 0, wTotal = 0, mTotal = 0;
-        history.forEach(s => {
-            let sDate = new Date(s.date);
-            if(sDate.toDateString() === today.toDateString()) tTotal += s.total;
-            let diffDays = Math.ceil(Math.abs(today - sDate) / (1000 * 60 * 60 * 24));
-            if(diffDays <= 7) wTotal += s.total;
-            if(sDate.getMonth() === today.getMonth() && sDate.getFullYear() === today.getFullYear()) mTotal += s.total;
-        });
+        let today = new Date().toDateString();
+        let tTotal = 0;
+        history.forEach(s => { if(new Date(s.date).toDateString() === today) tTotal += s.total; });
         document.getElementById("saleToday").innerText = "₹" + tTotal;
-        document.getElementById("saleWeekly").innerText = "₹" + wTotal;
-        document.getElementById("saleMonthly").innerText = "₹" + mTotal;
     }
     updateSaleSummary();
 }
