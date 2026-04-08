@@ -136,6 +136,13 @@ th, td { border: 1px solid #666; padding: 8px; font-size: 14px; text-align: cent
         <button onclick="admGenKey()" style="background:#10b981; color:white; border:none; padding:12px; border-radius:8px; cursor:pointer; width:100%;">Generate Key</button>
         <p id="admShowKey" style="font-weight:bold; color:green; text-align:center;"></p>
     </div>
+    <div class="admin-box">
+        <h3>3. User Control & Details</h3>
+        <input id="admSearchMob" placeholder="Enter User Mobile Number">
+        <button onclick="admSearchUser()" style="background:#2563eb; color:white; border:none; padding:12px; border-radius:8px; cursor:pointer; width:100%; margin-bottom:5px;">Show Details</button>
+        <button onclick="admSuspendUser()" style="background:#ef4444; color:white; border:none; padding:12px; border-radius:8px; cursor:pointer; width:100%;">Suspend User</button>
+        <div id="admUserDetails" style="margin-top:10px; font-size:12px; background:#fff; padding:10px; border-radius:8px; display:none;"></div>
+    </div>
 </div>
 
 <div id="main-billing" class="billing-ui-container hidden">
@@ -209,6 +216,27 @@ th, td { border: 1px solid #666; padding: 8px; font-size: 14px; text-align: cent
 const DIST_WA = "919957548361";
 const DIST_UPI = "9957548361@upi";
 
+// --- ADMIN SYSTEM UPDATES ---
+function admSearchUser() {
+    let mob = document.getElementById("admSearchMob").value;
+    let data = JSON.parse(localStorage.getItem("user_db_" + mob));
+    let div = document.getElementById("admUserDetails");
+    if(data) {
+        div.style.display = "block";
+        div.innerHTML = `<b>Name:</b> ${data.name}<br><b>Address:</b> ${data.addr}<br><b>ID:</b> ${data.appID}<br><b>Key:</b> ${data.subKey}<br><b>Reg Date:</b> ${data.regDate}`;
+    } else { alert("User not found!"); div.style.display = "none"; }
+}
+
+function admSuspendUser() {
+    let mob = document.getElementById("admSearchMob").value;
+    let data = JSON.parse(localStorage.getItem("user_db_" + mob));
+    if(data) {
+        data.suspended = true;
+        localStorage.setItem("user_db_" + mob, JSON.stringify(data));
+        alert("User Suspended Successfully!");
+    } else { alert("User not found!"); }
+}
+
 // --- MPIN LOGIC ---
 function logoutToMPIN() {
     let auth = JSON.parse(localStorage.getItem("shayan_auth"));
@@ -218,6 +246,11 @@ function logoutToMPIN() {
 
 function loginWithMPIN() {
     let pin = document.getElementById("inputMPIN").value;
+    let mob = localStorage.getItem("current_user_mob");
+    let userData = JSON.parse(localStorage.getItem("user_db_" + mob));
+    
+    if(userData && userData.suspended) return alert("Your account is suspended. Contact Admin!");
+
     if(pin === localStorage.getItem("user_mpin")) {
         let auth = JSON.parse(localStorage.getItem("shayan_auth"));
         auth.active = true;
@@ -265,6 +298,12 @@ function closeAdmin() { document.getElementById("admin-panel").style.display = "
 function requestActivation() {
     let name = document.getElementById("uName").value, addr = document.getElementById("uAddr").value, mob = document.getElementById("uMob").value;
     if(!name || !addr || mob.length < 10) return alert("Details bhariye!");
+    
+    // Save user info in a mock DB
+    let userData = { name, addr, mob, regDate: new Date().toLocaleString(), suspended: false };
+    localStorage.setItem("user_db_" + mob, JSON.stringify(userData));
+    localStorage.setItem("current_user_mob", mob);
+
     window.open(`https://wa.me/${DIST_WA}?text=${encodeURIComponent("*Verification Request*\nName: "+name+"\nAddress: "+addr+"\nMobile: "+mob)}`);
     document.getElementById("step-reg").classList.add("hidden");
     document.getElementById("step-lock").classList.remove("hidden");
@@ -272,7 +311,12 @@ function requestActivation() {
 
 function verifyApprovalID() {
     let input = document.getElementById("inputApprovalID").value.trim();
+    let mob = localStorage.getItem("current_user_mob");
     if(input === localStorage.getItem("temp_approval_id")) {
+        let userData = JSON.parse(localStorage.getItem("user_db_" + mob));
+        userData.appID = input;
+        localStorage.setItem("user_db_" + mob, JSON.stringify(userData));
+        
         document.getElementById("step-lock").classList.add("hidden");
         document.getElementById("step-plans").classList.remove("hidden");
     } else { alert("Invalid Approval ID!"); }
@@ -296,7 +340,12 @@ function sendPaymentWA() { window.open(`https://wa.me/${DIST_WA}?text=Payment%20
 
 function verifySubKey() {
     let input = document.getElementById("inputSubKey").value.trim();
+    let mob = localStorage.getItem("current_user_mob");
     if(input === localStorage.getItem("temp_sub_key")) {
+        let userData = JSON.parse(localStorage.getItem("user_db_" + mob));
+        userData.subKey = input;
+        localStorage.setItem("user_db_" + mob, JSON.stringify(userData));
+
         document.getElementById("step-payment").classList.add("hidden");
         document.getElementById("step-set-mpin").classList.remove("hidden");
     } else { alert("Invalid Subscription Key!"); }
@@ -328,8 +377,14 @@ function admGenKey() {
 document.addEventListener("DOMContentLoaded", function(){
     let auth = JSON.parse(localStorage.getItem("shayan_auth"));
     let mpin = localStorage.getItem("user_mpin");
+    let mob = localStorage.getItem("current_user_mob");
+    let userData = JSON.parse(localStorage.getItem("user_db_" + mob));
 
     if(auth && mpin) {
+        if(userData && userData.suspended) {
+            document.body.innerHTML = "<h1 style='color:red; text-align:center; margin-top:50px;'>Your account has been SUSPENDED.<br>Contact Muksidul: 9957548361</h1>";
+            return;
+        }
         if(auth.active && new Date().getTime() < auth.exp) {
             document.getElementById("auth-flow").classList.add("hidden");
             document.getElementById("main-billing").classList.remove("hidden");
@@ -337,7 +392,6 @@ document.addEventListener("DOMContentLoaded", function(){
             document.getElementById("timer-badge").innerText = left + " Days Remaining";
             initBillingSystem();
         } else {
-            // Logout state or expired
             document.getElementById("step-reg").classList.add("hidden");
             document.getElementById("step-mpin-login").classList.remove("hidden");
         }
