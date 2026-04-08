@@ -4,15 +4,36 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Shayan POS - Professional Billing & Stock</title>
-<link rel="manifest" href="manifest.json">
+<link rel="manifest" href='data:application/manifest+json,{
+    "name":"Shayan Billing",
+    "short_name":"Shayan Billing",
+    "start_url":"bill-generator.html",
+    "scope": "/my-tools-site/",
+    "display":"standalone",
+    "background_color":"#f8fafc",
+    "theme_color":"#6366f1",
+    "icons":[
+        {"src":"logo1.png","sizes":"192x192","type":"image/png"},
+        {"src":"logo1.png","sizes":"512x512","type":"image/png"}
+    ]
+}'>
+
 <script>
-  if ('serviceWorker' in navigator) {
-    window.addEventListener('load', () => {
-      navigator.serviceWorker.register('sw.js')
-        .then(reg => console.log('PWA Registered'))
-        .catch(err => console.log('Registration Failed', err));
-    });
-  }
+if ('serviceWorker' in navigator) {
+    const swCode = `
+        self.addEventListener('install', (e) => self.skipWaiting());
+        self.addEventListener('fetch', (e) => {
+            e.respondWith(fetch(e.request));
+        });
+    `;
+    const blob = new Blob([swCode], { type: 'application/javascript' });
+    const swUrl = URL.createObjectURL(blob);
+    
+    // Path ko dhayan mein rakhte huye register
+    navigator.serviceWorker.register(swUrl, { scope: '/my-tools-site/' })
+        .then(() => console.log("Billing Tool PWA Ready"))
+        .catch(err => console.log("PWA Error:", err));
+}
 </script>
 
 
