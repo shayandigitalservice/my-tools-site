@@ -4,37 +4,15 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Shayan POS - Professional Billing & Stock</title>
-<link rel="manifest" href='data:application/manifest+json,{
-<link rel="manifest" href='data:application/manifest+json,{
-    "name":"Shayan Billing",
-    "short_name":"Shayan Billing",
-    "start_url":"/my-tools-site/bill-generator.html",
-    "display":"standalone",
-    "background_color":"#f8fafc",
-    "theme_color":"#6366f1",
-    "icons":[
-        {"src":"logo1.png","sizes":"192x192","type":"image/png"},
-        {"src":"logo1.png","sizes":"512x512","type":"image/png"}
-    ]
-}'>
-
+<link rel="manifest" href="manifest.json">
 <script>
-if ('serviceWorker' in navigator) {
-    const swCode = `
-        self.addEventListener('install', (e) => self.skipWaiting());
-        self.addEventListener('fetch', (e) => {
-            e.respondWith(fetch(e.request));
-        });
-    `;
-    const blob = new Blob([swCode], { type: 'application/javascript' });
-    const swUrl = URL.createObjectURL(blob);
-    
+  if ('serviceWorker' in navigator) {
     window.addEventListener('load', () => {
-        navigator.serviceWorker.register(swUrl)
-            .then(() => console.log("Shayan Billing Ready"))
-            .catch(err => console.log("PWA Error:", err));
+      navigator.serviceWorker.register('sw.js')
+        .then(() => console.log("Service Worker Registered"))
+        .catch(err => console.log("SW Register Failed", err));
     });
-}
+  }
 </script>
 
 
