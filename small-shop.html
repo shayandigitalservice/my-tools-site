@@ -171,7 +171,7 @@ th, td { border: 1px solid #666; padding: 8px; font-size: 14px; text-align: cent
         </table>
     </div>
 
-    <div id="payment-section" class="hidden">
+    <div id="payment-input-area" class="hidden">
         <input id="amtPaid" type="number" placeholder="Enter Amount Paid by Customer">
         <select id="payment">
           <option value="Cash">Cash</option>
@@ -545,10 +545,10 @@ function initBillingSystem() {
         row.insertCell(2).innerText=q;
         row.insertCell(3).innerText=pr;
         row.insertCell(4).innerText=t;
-        
-        // Show payment section when first item is added
-        document.getElementById("payment-section").classList.remove("hidden");
-        
+
+        // Show payment section when at least one item is added
+        document.getElementById("payment-input-area").classList.remove("hidden");
+
         productSearch.value=""; qtyInput.value=""; priceInput.value="";
     });
 
@@ -597,9 +597,9 @@ function initBillingSystem() {
         items = [];
         tableBody.innerHTML = "";
         document.getElementById("amtPaid").value = "";
-        
-        // Hide payment section again after bill generated
-        document.getElementById("payment-section").classList.add("hidden");
+
+        // Hide payment section again after bill is generated
+        document.getElementById("payment-input-area").classList.add("hidden");
     });
 
     document.getElementById("printBillBtn").addEventListener("click", function(){
