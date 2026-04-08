@@ -4,6 +4,35 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Shayan POS - Professional Billing & Stock</title>
+    <link rel="manifest" href='data:application/manifest+json,{"name":"Shayan Smart Billing","short_name":"Shayan POS","start_url":".","display":"standalone","background_color":"#f8fafc","theme_color":"#6366f1","icons":[{"src":"logo.png","sizes":"512x512","type":"image/png"}]}'>
+
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<link rel="apple-touch-icon" href="logo.png">
+
+<script>
+if ('serviceWorker' in navigator) {
+    const swCode = `
+        const CACHE_NAME = 'shayan-pos-v1';
+        self.addEventListener('install', (e) => {
+            e.waitUntil(caches.open(CACHE_NAME).then((cache) => cache.addAll(['./'])));
+        });
+        self.addEventListener('fetch', (e) => {
+            e.respondWith(caches.match(e.request).then((res) => res || fetch(e.request)));
+        });
+    `;
+    
+    const blob = new Blob([swCode], { type: 'application/javascript' });
+    const swUrl = URL.createObjectURL(blob);
+    
+    window.addEventListener('load', () => {
+        navigator.worker.register(swUrl)
+            .then(() => console.log('PWA Setup Done'))
+            .catch(err => console.log('PWA Error', err));
+    });
+}
+</script>
+
 <style>
 /* --- PROFESSIONAL UI (MODERN DESIGN) --- */
 :root {
