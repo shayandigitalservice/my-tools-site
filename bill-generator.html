@@ -5,10 +5,10 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Shayan POS - Professional Billing & Stock</title>
 <link rel="manifest" href='data:application/manifest+json,{
+<link rel="manifest" href='data:application/manifest+json,{
     "name":"Shayan Billing",
     "short_name":"Shayan Billing",
-    "start_url":"bill-generator.html",
-    "scope": "bill-generator.html",
+    "start_url":"/my-tools-site/bill-generator.html",
     "display":"standalone",
     "background_color":"#f8fafc",
     "theme_color":"#6366f1",
@@ -29,10 +29,11 @@ if ('serviceWorker' in navigator) {
     const blob = new Blob([swCode], { type: 'application/javascript' });
     const swUrl = URL.createObjectURL(blob);
     
-    // Scope ko billing page par hi lock kar diya hai
-    navigator.serviceWorker.register(swUrl, { scope: './bill-generator.html' })
-        .then(() => console.log("Shayan Billing Tool Ready"))
-        .catch(err => console.log("PWA Error:", err));
+    window.addEventListener('load', () => {
+        navigator.serviceWorker.register(swUrl)
+            .then(() => console.log("Shayan Billing Ready"))
+            .catch(err => console.log("PWA Error:", err));
+    });
 }
 </script>
 
