@@ -53,6 +53,9 @@ th, td { border: 1px solid #666; padding: 8px; font-size: 14px; text-align: cent
 .sale-card span { display: block; font-size: 11px; color: #64748b; font-weight: bold; }
 .sale-card b { font-size: 13px; color: #0f172a; }
 
+/* NEW TOTAL BOX DISPLAY */
+#total-display-box { background: #eef2ff; padding: 15px; border-radius: 12px; margin: 15px 0; border: 2px solid var(--accent); text-align: center; font-size: 18px; color: var(--text); }
+
 @media screen and (max-width:600px){
   table th, table td { padding: 6px; font-size: 12px; }
   .invoice { float: none; text-align: right; }
@@ -171,7 +174,11 @@ th, td { border: 1px solid #666; padding: 8px; font-size: 14px; text-align: cent
         </table>
     </div>
 
-    <div id="payment-input-area" class="hidden">
+    <div id="payment-area" class="hidden">
+        <div id="total-display-box">
+            <b>Current Total: ₹<span id="current-total">0</span></b>
+        </div>
+        
         <input id="amtPaid" type="number" placeholder="Enter Amount Paid by Customer">
         <select id="payment">
           <option value="Cash">Cash</option>
@@ -546,8 +553,11 @@ function initBillingSystem() {
         row.insertCell(3).innerText=pr;
         row.insertCell(4).innerText=t;
 
-        // Show payment section when at least one item is added
-        document.getElementById("payment-input-area").classList.remove("hidden");
+        // --- UPDATE TOTAL AND SHOW PAYMENT ---
+        total = 0;
+        items.forEach(i => total += i.t);
+        document.getElementById("current-total").innerText = total;
+        document.getElementById("payment-area").classList.remove("hidden");
 
         productSearch.value=""; qtyInput.value=""; priceInput.value="";
     });
@@ -597,9 +607,9 @@ function initBillingSystem() {
         items = [];
         tableBody.innerHTML = "";
         document.getElementById("amtPaid").value = "";
-
-        // Hide payment section again after bill is generated
-        document.getElementById("payment-input-area").classList.add("hidden");
+        
+        // Reset and hide payment area
+        document.getElementById("payment-area").classList.add("hidden");
     });
 
     document.getElementById("printBillBtn").addEventListener("click", function(){
