@@ -63,12 +63,14 @@ th, td { border: 1px solid #666; padding: 8px; font-size: 14px; text-align: cent
 
 <div id="auth-flow" class="content-wrapper">
     <h1>Shayan Smart Tools</h1>
+    
     <div id="step-mpin-login" class="step-card hidden">
         <h3>Login</h3>
         <input id="inputMPIN" type="password" maxlength="4" placeholder="Enter 4-Digit MPIN" style="text-align:center;">
         <button class="btn-primary" onclick="loginWithMPIN()">Unlock</button>
         <p onclick="forgotMPINFlow()" style="font-size: 11px; color: blue; cursor: pointer; margin-top: 10px;">Forgot MPIN? Reset using ID & Key</p>
     </div>
+
     <div id="step-mpin-reset" class="step-card hidden">
         <h3>Reset MPIN</h3>
         <input id="resetAppID" placeholder="Enter Approval ID">
@@ -76,6 +78,7 @@ th, td { border: 1px solid #666; padding: 8px; font-size: 14px; text-align: cent
         <input id="newMPIN" type="password" maxlength="4" placeholder="Enter New 4-Digit MPIN" style="text-align:center;">
         <button class="btn-primary" onclick="resetMPIN()">Reset & Login</button>
     </div>
+
     <div id="step-reg" class="step-card">
         <h3>User Verification</h3>
         <p style="font-size: 11px; color: gray;">(Enter Master Key in Name box for Admin)</p>
@@ -103,6 +106,7 @@ th, td { border: 1px solid #666; padding: 8px; font-size: 14px; text-align: cent
         <input id="inputSubKey" placeholder="Enter Key" style="text-align:center; font-weight:800;">
         <button class="btn-primary" onclick="verifySubKey()">Complete Subscription</button>
     </div>
+
     <div id="step-set-mpin" class="step-card hidden">
         <h3>Set Security MPIN</h3>
         <p>Choose a 4-digit PIN for future logins</p>
@@ -136,31 +140,36 @@ th, td { border: 1px solid #666; padding: 8px; font-size: 14px; text-align: cent
         <h3>3. User Control & Details</h3>
         <input id="admSearchMob" placeholder="Enter User Mobile Number">
         <button onclick="admSearchUser()" style="background:#2563eb; color:white; border:none; padding:12px; border-radius:8px; cursor:pointer; width:100%; margin-bottom:5px;">Show Details</button>
+        <button onclick="admSuspendUser()" style="background:#ef4444; color:white; border:none; padding:12px; border-radius:8px; cursor:pointer; width:100%;">Suspend User</button>
         <div id="admUserDetails" style="margin-top:10px; font-size:12px; background:#fff; padding:10px; border-radius:8px; display:none;"></div>
-        <div id="admActionBtn" style="margin-top:5px;"></div>
     </div>
 </div>
 
 <div id="main-billing" class="billing-ui-container hidden">
     <div style="text-align:right;"><span id="timer-badge" class="status-badge"></span></div>
     <h2>🧾 Bill Generator</h2>
+
     <input id="shop" placeholder="Shop Name">
     <input id="address" placeholder="Address">
     <input id="phone" placeholder="Phone">
     <input id="upiId" placeholder="Enter Your UPI ID (e.g. name@upi)">
     <button id="saveShopBtn" class="btn-blue">Save Shop Details</button>
+
     <input id="customer" placeholder="Customer Name">
     <input id="productSearch" placeholder="Search Product">
     <select id="productDropdown"></select>
+
     <input id="qty" type="number" placeholder="Qty">
     <input id="price" type="number" placeholder="Price">
     <button id="addItemBtn" class="btn-blue">Add Item</button>
+
     <div class="table-wrapper">
         <table id="table">
             <tr><th>No</th><th>Product</th><th>Qty</th><th>Price</th><th>Total</th></tr>
             <tbody id="tableBody"></tbody>
         </table>
     </div>
+
     <div style="display:flex; gap:10px;">
         <select id="payment" style="flex:1;">
           <option value="Cash">Cash</option>
@@ -169,6 +178,7 @@ th, td { border: 1px solid #666; padding: 8px; font-size: 14px; text-align: cent
         </select>
         <input id="paidAmt" type="number" placeholder="Paid Amount" style="flex:1;">
     </div>
+
     <button id="generateBillBtn" class="btn-blue" style="background:#2563eb;">Generate Bill</button>
     <select id="printMode">
         <option value="A4">Print A4</option>
@@ -176,24 +186,32 @@ th, td { border: 1px solid #666; padding: 8px; font-size: 14px; text-align: cent
     </select>
     <button id="printBillBtn" class="btn-blue">Print Bill</button>
     <button id="sendWhatsAppBtn" class="btn-blue">Send WhatsApp</button>
+
     <div id="bill" class="bill"></div>
+    
     <button id="downloadHistoryBtn" class="btn-blue">Download History</button>
+    
     <div class="sale-summary">
         <div class="sale-card"><span>Today</span><b id="saleToday">₹0</b></div>
         <div class="sale-card"><span>Weekly</span><b id="saleWeekly">₹0</b></div>
         <div class="sale-card"><span>Monthly</span><b id="saleMonthly">₹0</b></div>
     </div>
+
     <hr style="margin:30px 0;">
     <h2 style="display:flex; align-items:center; justify-content:center; gap:10px;">📦 Stock Management</h2>
+
     <input id="stockProduct" placeholder="Product Name">
     <input id="stockQty" type="number" placeholder="Quantity to Add">
     <button id="addStockBtn" class="btn-blue">Add Stock</button>
+
     <div class="table-wrapper">
         <table id="stockTable">
             <tr><th>Product</th><th>Available Qty</th><th>Last Updated</th></tr>
         </table>
     </div>
+
     <button id="downloadStockBtn" class="btn-blue">Download Stock Excel</button>
+    
     <button onclick="tempResetCheck()" class="btn-blue" style="background:#ef4444; margin-top:50px;">Logout (MPIN Lock)</button>
     <p style="text-align:center; font-size:10px; color:gray;">(Tip: Click Logout 3x to Reset during testing)</p>
 </div>
@@ -202,6 +220,7 @@ th, td { border: 1px solid #666; padding: 8px; font-size: 14px; text-align: cent
 const DIST_WA = "919957548361";
 const DIST_UPI = "9957548361@upi";
 
+// --- RESET LOGIC ---
 let resetClickCount = 0;
 function tempResetCheck() {
     resetClickCount++;
@@ -211,59 +230,143 @@ function tempResetCheck() {
     } else { setTimeout(() => { if(resetClickCount === 1) logoutToMPIN(); resetClickCount = 0; }, 500); }
 }
 
+// --- ADMIN SYSTEM UPDATES ---
 function admSearchUser() {
     let mob = document.getElementById("admSearchMob").value;
     let data = JSON.parse(localStorage.getItem("user_db_" + mob));
     let div = document.getElementById("admUserDetails");
-    let actionBtnDiv = document.getElementById("admActionBtn");
     if(data) {
         div.style.display = "block";
-        div.innerHTML = `<b>Name:</b> ${data.name}<br><b>Status:</b> ${data.suspended ? '<span style="color:red">Suspended</span>' : '<span style="color:green">Active</span>'}`;
-        actionBtnDiv.innerHTML = data.suspended ? 
-            `<button onclick="admToggleSuspend('${mob}', false)" style="background:#10b981; color:white; border:none; padding:12px; border-radius:8px; cursor:pointer; width:100%;">Phirse Active Karein</button>` :
-            `<button onclick="admToggleSuspend('${mob}', true)" style="background:#ef4444; color:white; border:none; padding:12px; border-radius:8px; cursor:pointer; width:100%;">Suspend User</button>`;
-    } else { alert("Not found"); div.style.display = "none"; actionBtnDiv.innerHTML = ""; }
+        div.innerHTML = `<b>Name:</b> ${data.name}<br><b>Address:</b> ${data.addr}<br><b>ID:</b> ${data.appID}<br><b>Key:</b> ${data.subKey}<br><b>Reg Date:</b> ${data.regDate}`;
+    } else { alert("User not found!"); div.style.display = "none"; }
 }
-function admToggleSuspend(mob, status) {
+
+function admSuspendUser() {
+    let mob = document.getElementById("admSearchMob").value;
     let data = JSON.parse(localStorage.getItem("user_db_" + mob));
-    if(data) { data.suspended = status; localStorage.setItem("user_db_" + mob, JSON.stringify(data)); alert("Updated!"); admSearchUser(); }
+    if(data) {
+        data.suspended = true;
+        localStorage.setItem("user_db_" + mob, JSON.stringify(data));
+        alert("User Suspended Successfully!");
+    } else { alert("User not found!"); }
 }
 
-function logoutToMPIN() { let auth = JSON.parse(localStorage.getItem("shayan_auth")); if(auth) { auth.active = false; localStorage.setItem("shayan_auth", JSON.stringify(auth)); } location.reload(); }
+// --- MPIN LOGIC ---
+function logoutToMPIN() {
+    let auth = JSON.parse(localStorage.getItem("shayan_auth"));
+    if(auth) { auth.active = false; localStorage.setItem("shayan_auth", JSON.stringify(auth)); }
+    location.reload();
+}
+
 function loginWithMPIN() {
-    let pin = document.getElementById("inputMPIN").value, mob = localStorage.getItem("current_user_mob");
+    let pin = document.getElementById("inputMPIN").value;
+    let mob = localStorage.getItem("current_user_mob");
     let userData = JSON.parse(localStorage.getItem("user_db_" + mob));
-    if(userData && userData.suspended) return alert("Suspended!");
-    if(pin === localStorage.getItem("user_mpin")) {
-        let auth = JSON.parse(localStorage.getItem("shayan_auth")); auth.active = true;
-        localStorage.setItem("shayan_auth", JSON.stringify(auth)); location.reload();
-    } else alert("Wrong MPIN");
-}
-function forgotMPINFlow() { document.getElementById("step-mpin-login").classList.add("hidden"); document.getElementById("step-mpin-reset").classList.remove("hidden"); }
-function resetMPIN() {
-    let id = document.getElementById("resetAppID").value, key = document.getElementById("resetKey").value, newPin = document.getElementById("newMPIN").value;
-    if(id === localStorage.getItem("temp_approval_id") && key === localStorage.getItem("temp_sub_key")) {
-        localStorage.setItem("user_mpin", newPin); alert("Success!"); location.reload();
-    } else alert("Invalid");
-}
-function finishMPINSetup() { let pin = document.getElementById("setupMPIN").value; if(pin.length === 4) { localStorage.setItem("user_mpin", pin); activateSystem(localStorage.getItem("temp_plan_days")); } }
+    
+    if(userData && userData.suspended) return alert("Your account is suspended. Contact Admin!");
 
-function checkAdminFlow(val) { if(val === "shayan@321") document.getElementById("admin-panel").style.display = "block"; }
-function closeAdmin() { document.getElementById("admin-panel").style.display = "none"; }
-function requestActivation() {
-    let n = document.getElementById("uName").value, a = document.getElementById("uAddr").value, m = document.getElementById("uMob").value;
-    if(!n || !a || m.length < 10) return alert("Fill all");
-    localStorage.setItem("user_db_" + m, JSON.stringify({ name:n, addr:a, mob:m, regDate: new Date().toLocaleString(), suspended: false }));
-    localStorage.setItem("current_user_mob", m);
-    window.open(`https://wa.me/${DIST_WA}?text=${encodeURIComponent("Verify: "+n+" ("+m+")")}`);
-    document.getElementById("step-reg").classList.add("hidden"); document.getElementById("step-lock").classList.remove("hidden");
+    if(pin === localStorage.getItem("user_mpin")) {
+        let auth = JSON.parse(localStorage.getItem("shayan_auth"));
+        auth.active = true;
+        localStorage.setItem("shayan_auth", JSON.stringify(auth));
+        location.reload();
+    } else { alert("Incorrect MPIN!"); }
 }
-function verifyApprovalID() { if(document.getElementById("inputApprovalID").value.trim() === localStorage.getItem("temp_approval_id")) { document.getElementById("step-lock").classList.add("hidden"); document.getElementById("step-plans").classList.remove("hidden"); } else alert("Invalid"); }
-function selectPlan(type, days) { localStorage.setItem("temp_plan_days", days); document.getElementById("step-plans").classList.add("hidden"); if(type === 'trial') document.getElementById("step-set-mpin").classList.remove("hidden"); else document.getElementById("step-payment").classList.remove("hidden"); }
-function verifySubKey() { if(document.getElementById("inputSubKey").value.trim() === localStorage.getItem("temp_sub_key")) { document.getElementById("step-payment").classList.add("hidden"); document.getElementById("step-set-mpin").classList.remove("hidden"); } else alert("Invalid"); }
-function activateSystem(days) { localStorage.setItem("shayan_auth", JSON.stringify({active:true, exp:new Date().getTime() + (days * 86400000)})); location.reload(); }
-function admGenApproval() { let id = "APP-" + Math.floor(1000 + Math.random() * 9999); localStorage.setItem("temp_approval_id", id); document.getElementById("admShowID").innerText = id; }
-function admGenKey() { let key = "KEY-" + Math.floor(1000 + Math.random() * 9999); localStorage.setItem("temp_sub_key", key); document.getElementById("admShowKey").innerText = key; }
+
+function forgotMPINFlow() {
+    document.getElementById("step-mpin-login").classList.add("hidden");
+    document.getElementById("step-mpin-reset").classList.remove("hidden");
+}
+
+function resetMPIN() {
+    let id = document.getElementById("resetAppID").value;
+    let key = document.getElementById("resetKey").value;
+    let newPin = document.getElementById("newMPIN").value;
+    if(id === localStorage.getItem("temp_approval_id") && key === localStorage.getItem("temp_sub_key")) {
+        if(newPin.length === 4) {
+            localStorage.setItem("user_mpin", newPin);
+            alert("MPIN Reset Successful!");
+            location.reload();
+        } else { alert("Enter 4 digits!"); }
+    } else { alert("Invalid ID or Key!"); }
+}
+
+function finishMPINSetup() {
+    let pin = document.getElementById("setupMPIN").value;
+    if(pin.length === 4) {
+        localStorage.setItem("user_mpin", pin);
+        let days = localStorage.getItem("temp_plan_days");
+        activateSystem(days);
+    } else { alert("Enter 4-digit PIN"); }
+}
+
+// --- ORIGINAL FUNCTIONS ---
+function checkAdminFlow(val) {
+    if(val === "shayan@321") {
+        document.getElementById("admin-panel").style.display = "block";
+        document.getElementById("uName").value = "";
+    }
+}
+function closeAdmin() { document.getElementById("admin-panel").style.display = "none"; }
+
+function requestActivation() {
+    let name = document.getElementById("uName").value, addr = document.getElementById("uAddr").value, mob = document.getElementById("uMob").value;
+    if(!name || !addr || mob.length < 10) return alert("Details bhariye!");
+    let userData = { name, addr, mob, regDate: new Date().toLocaleString(), suspended: false };
+    localStorage.setItem("user_db_" + mob, JSON.stringify(userData));
+    localStorage.setItem("current_user_mob", mob);
+    window.open(`https://wa.me/${DIST_WA}?text=${encodeURIComponent("*Verification Request*\nName: "+name+"\nAddress: "+addr+"\nMobile: "+mob)}`);
+    document.getElementById("step-reg").classList.add("hidden");
+    document.getElementById("step-lock").classList.remove("hidden");
+}
+
+function verifyApprovalID() {
+    let input = document.getElementById("inputApprovalID").value.trim();
+    if(input === localStorage.getItem("temp_approval_id")) {
+        document.getElementById("step-lock").classList.add("hidden");
+        document.getElementById("step-plans").classList.remove("hidden");
+    } else { alert("Invalid Approval ID!"); }
+}
+
+function selectPlan(type, days, name, price) {
+    localStorage.setItem("temp_plan_days", days);
+    document.getElementById("step-plans").classList.add("hidden");
+    if(type === 'trial') {
+        document.getElementById("step-set-mpin").classList.remove("hidden");
+    } else {
+        document.getElementById("pay-amount").innerText = "₹" + price;
+        let qr = `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${encodeURIComponent('upi://pay?pa='+DIST_UPI+'&am='+price+'&cu=INR')}`;
+        document.getElementById("qr-display").innerHTML = `<img src="${qr}">`;
+        document.getElementById("step-payment").classList.remove("hidden");
+    }
+}
+
+function verifySubKey() {
+    let input = document.getElementById("inputSubKey").value.trim();
+    if(input === localStorage.getItem("temp_sub_key")) {
+        document.getElementById("step-payment").classList.add("hidden");
+        document.getElementById("step-set-mpin").classList.remove("hidden");
+    } else { alert("Invalid Subscription Key!"); }
+}
+
+function activateSystem(days) {
+    let expiry = new Date().getTime() + (days * 24 * 60 * 60 * 1000);
+    localStorage.setItem("shayan_auth", JSON.stringify({active:true, exp:expiry}));
+    alert("Software Activated!");
+    location.reload();
+}
+
+function admGenApproval() {
+    let id = "APP-" + Math.floor(1000 + Math.random() * 9999);
+    localStorage.setItem("temp_approval_id", id);
+    document.getElementById("admShowID").innerText = id;
+}
+
+function admGenKey() {
+    let key = "KEY-" + Math.floor(1000 + Math.random() * 9999);
+    localStorage.setItem("temp_sub_key", key);
+    document.getElementById("admShowKey").innerText = key;
+}
 
 document.addEventListener("DOMContentLoaded", function(){
     let auth = JSON.parse(localStorage.getItem("shayan_auth")), mpin = localStorage.getItem("user_mpin"), mob = localStorage.getItem("current_user_mob");
@@ -278,6 +381,7 @@ document.addEventListener("DOMContentLoaded", function(){
     }
 });
 
+// --- BILLING SYSTEM ---
 function initBillingSystem() {
     let items=[]; let total=0;
     let invoiceCounter = parseInt(localStorage.getItem("invoiceCounter"))||1;
@@ -337,7 +441,6 @@ function initBillingSystem() {
                <tr><td colspan="4" style="color:green;text-align:right;font-weight:bold;">Paid Amount</td><td style="color:green;font-weight:bold;">₹${pAmt}</td></tr>
                <tr><td colspan="4" style="color:red;text-align:right;font-weight:bold;">Unpaid Balance</td><td style="color:red;font-weight:bold;">₹${unpaid}</td></tr></table>`;
         
-        // QR Code always shows for payment, using total amount as base QR reference if unpaid is 0
         let qrAmt = unpaid > 0 ? unpaid : total;
         if(upiInput.value) {
             html += `<div class="qr-container"><p>Scan to Pay ₹${qrAmt}</p><img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${encodeURIComponent('upi://pay?pa='+upiInput.value+'&am='+qrAmt)}"></div>`;
