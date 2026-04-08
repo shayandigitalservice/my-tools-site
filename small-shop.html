@@ -47,14 +47,24 @@ th, td { border: 1px solid #666; padding: 8px; font-size: 14px; text-align: cent
 .status-badge { display: inline-block; padding: 5px 12px; background: #dcfce7; color: #166534; border-radius: 10px; font-size: 12px; font-weight: 700; }
 .table-wrapper { overflow-x: auto; width: 100%; margin-bottom: 10px; }
 
+/* Current Total Box Style */
+.current-total-box {
+    background: #f0f4ff;
+    border: 1px solid #6366f1;
+    border-radius: 12px;
+    padding: 15px;
+    margin: 15px 0;
+    text-align: center;
+    font-size: 20px;
+    font-weight: bold;
+    color: #0f172a;
+}
+
 /* Sale Summary Cards */
 .sale-summary { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-top: 15px; margin-bottom: 15px; }
 .sale-card { background: #f1f5f9; padding: 10px; border-radius: 8px; text-align: center; border: 1px solid #e2e8f0; }
 .sale-card span { display: block; font-size: 11px; color: #64748b; font-weight: bold; }
 .sale-card b { font-size: 13px; color: #0f172a; }
-
-/* NEW TOTAL BOX DISPLAY */
-#total-display-box { background: #eef2ff; padding: 15px; border-radius: 12px; margin: 15px 0; border: 2px solid var(--accent); text-align: center; font-size: 18px; color: var(--text); }
 
 @media screen and (max-width:600px){
   table th, table td { padding: 6px; font-size: 12px; }
@@ -174,26 +184,24 @@ th, td { border: 1px solid #666; padding: 8px; font-size: 14px; text-align: cent
         </table>
     </div>
 
-    <div id="payment-area" class="hidden">
-        <div id="total-display-box">
-            <b>Current Total: ₹<span id="current-total">0</span></b>
-        </div>
-        
-        <input id="amtPaid" type="number" placeholder="Enter Amount Paid by Customer">
-        <select id="payment">
-          <option value="Cash">Cash</option>
-          <option value="UPI">UPI</option>
-          <option value="Card">Card</option>
-        </select>
-    
-        <button id="generateBillBtn" class="btn-blue" style="background:#2563eb;">Generate Bill</button>
-        <select id="printMode">
-            <option value="A4">Print A4</option>
-            <option value="Receipt" selected>Print Receipt</option>
-        </select>
-        <button id="printBillBtn" class="btn-blue">Print Bill</button>
-        <button id="sendWhatsAppBtn" class="btn-blue">Send WhatsApp</button>
+    <div class="current-total-box">
+        Current Total: ₹<span id="liveCurrentTotal">0</span>
     </div>
+
+    <input id="amtPaid" type="number" placeholder="Enter Amount Paid by Customer">
+    <select id="payment">
+      <option value="Cash">Cash</option>
+      <option value="UPI">UPI</option>
+      <option value="Card">Card</option>
+    </select>
+
+    <button id="generateBillBtn" class="btn-blue" style="background:#2563eb;">Generate Bill</button>
+    <select id="printMode">
+        <option value="A4">Print A4</option>
+        <option value="Receipt" selected>Print Receipt</option>
+    </select>
+    <button id="printBillBtn" class="btn-blue">Print Bill</button>
+    <button id="sendWhatsAppBtn" class="btn-blue">Send WhatsApp</button>
 
     <div id="bill" class="bill"></div>
     
@@ -434,6 +442,7 @@ document.addEventListener("DOMContentLoaded", function(){
 function initBillingSystem() {
     let items=[];
     let total=0;
+    let liveTotal = 0; // Tracking live total for the UI box
     let invoiceCounter = parseInt(localStorage.getItem("invoiceCounter"))||1;
     let stock = JSON.parse(localStorage.getItem("stock"))||{};
     let stockHistory = JSON.parse(localStorage.getItem("stockHistory"))||[];
@@ -443,6 +452,7 @@ function initBillingSystem() {
     const phoneInput = document.getElementById("phone");
     const upiInput = document.getElementById("upiId");
     const saveShopBtn = document.getElementById("saveShopBtn");
+    const liveTotalDisplay = document.getElementById("liveCurrentTotal");
 
     shopInput.value = localStorage.getItem("shop")||"";
     addressInput.value = localStorage.getItem("address")||"";
@@ -546,19 +556,17 @@ function initBillingSystem() {
 
         let t = q*pr;
         items.push({p,q,pr,t});
+        
+        // Update live total display
+        liveTotal += t;
+        liveTotalDisplay.innerText = liveTotal;
+
         let row=tableBody.insertRow();
         row.insertCell(0).innerText=items.length;
         row.insertCell(1).innerText=p;
         row.insertCell(2).innerText=q;
         row.insertCell(3).innerText=pr;
         row.insertCell(4).innerText=t;
-
-        // --- UPDATE TOTAL AND SHOW PAYMENT/PRINT AREA ---
-        total = 0;
-        items.forEach(i => total += i.t);
-        document.getElementById("current-total").innerText = total;
-        document.getElementById("payment-area").classList.remove("hidden");
-
         productSearch.value=""; qtyInput.value=""; priceInput.value="";
     });
 
@@ -608,8 +616,9 @@ function initBillingSystem() {
         tableBody.innerHTML = "";
         document.getElementById("amtPaid").value = "";
         
-        // Hide payment area but keep it ready for next bill
-        document.getElementById("payment-area").classList.add("hidden");
+        // Reset Live Total after generating bill
+        liveTotal = 0;
+        liveTotalDisplay.innerText = "0";
     });
 
     document.getElementById("printBillBtn").addEventListener("click", function(){
@@ -626,9 +635,7 @@ function initBillingSystem() {
     });
 
     document.getElementById("sendWhatsAppBtn").addEventListener("click", function(){
-        let billContent = document.getElementById("bill").innerText;
-        if(!billContent) return alert("Generate bill first");
-        let text="🧾 BILL RECEIPT\n\n"+billContent;
+        let text="🧾 BILL RECEIPT\n\n"+document.getElementById("bill").innerText;
         window.open("https://wa.me/?text="+encodeURIComponent(text));
     });
 
