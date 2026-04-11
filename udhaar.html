@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Udhaar Manager PRO - Secure Edition</title>
+<title>Udhaar Manager PRO - Official Secure</title>
 
 <script src="https://www.gstatic.com/firebasejs/9.15.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.15.0/firebase-database-compat.js"></script>
@@ -22,6 +22,7 @@ td, th { border:1px solid #000; padding:6px; text-align:center; font-size:13px; 
 .centered { display:flex; justify-content:center; gap:10px; flex-wrap:wrap; }
 button.smallbtn { padding:8px 12px; font-size:14px; min-width:100px; width:auto; }
 .hidden { display:none !important; }
+.status-badge { display: inline-block; padding: 5px 12px; background: #dcfce7; color: #166534; border-radius: 10px; font-size: 12px; font-weight: 700; }
 
 @media(max-width:600px){
   .centered { flex-direction:column; align-items:center; }
@@ -36,6 +37,8 @@ button.smallbtn { padding:8px 12px; font-size:14px; min-width:100px; width:auto;
     <h2>💰 Udhaar Manager PRO</h2>
     
     <div id="step-reg">
+        <h3>User Verification</h3>
+        <p style="font-size: 11px; color: gray; text-align:center;">(Enter Your Details Properly)</p>
         <input id="uName" placeholder="Business Owner Name">
         <input id="uAddr" placeholder="Shop Address">
         <input id="uMob" type="number" placeholder="WhatsApp Number">
@@ -43,51 +46,56 @@ button.smallbtn { padding:8px 12px; font-size:14px; min-width:100px; width:auto;
     </div>
 
     <div id="step-lock" class="hidden">
-        <p style="text-align:center; color:orange; font-weight:bold;">Awaiting Approval (9957548361)</p>
-        <input id="inputApprovalID" placeholder="Enter Approval ID" style="text-align:center;">
+        <div style="background:#fef3c7; color:#b45309; padding:15px; border-radius:10px; font-size:13px; font-weight:700; margin-bottom:15px; text-align:center;">Awaiting Approval</div>
+        <p style="text-align:center;">Details sent to Distributor.<br><b>Contact: 9957548361</b></p>
+        <input id="inputApprovalID" placeholder="Enter Approval ID" style="text-align:center; font-weight:800; letter-spacing: 2px;">
         <button onclick="verifyApprovalID()">Verify ID</button>
     </div>
 
     <div id="step-mpin-login" class="hidden">
         <h3>Login</h3>
-        <input id="inputMPIN" type="password" maxlength="4" placeholder="Enter 4-Digit MPIN" style="text-align:center;">
+        <input id="inputMPIN" type="password" maxlength="4" placeholder="Enter 4-Digit MPIN" style="text-align:center; font-size: 20px;">
         <button onclick="loginWithMPIN()">Unlock</button>
     </div>
 
     <div id="step-set-mpin" class="hidden">
         <h3>Set Security MPIN</h3>
-        <input id="setupMPIN" type="password" maxlength="4" placeholder="••••" style="text-align:center;">
+        <p style="text-align:center; font-size:12px;">Choose a 4-digit PIN for future logins</p>
+        <input id="setupMPIN" type="password" maxlength="4" placeholder="••••" style="text-align:center; font-size: 24px;">
         <button onclick="finishMPINSetup()">Save & Start</button>
     </div>
 </div>
 
 <div id="main-app" class="container hidden">
+    <div style="text-align:right;"><span id="timer-badge" class="status-badge">Premium Active</span></div>
     <h2>💰 Udhaar Manager PRO</h2>
 
-    <input id="shop" placeholder="Shop Name">
-    <input id="address" placeholder="Address">
-    <input id="phone" placeholder="Mobile Number">
-    <button class="smallbtn" onclick="saveShop()">Save Shop Info</button>
+    <div id="shop-setup">
+        <input id="shop" placeholder="Shop Name">
+        <input id="address" placeholder="Address">
+        <input id="phone" placeholder="Phone Number">
+        <button class="smallbtn" onclick="saveShop()">Save Shop Settings</button>
+    </div>
 
     <hr>
     <div id="grandTotalBox" class="dashboard"></div>
 
     <input id="cname" placeholder="Customer Name">
-    <input id="cmobile" placeholder="Mobile Number">
+    <input id="cmobile" placeholder="Customer Mobile">
     <button class="smallbtn" onclick="addCustomer()">Add Customer</button>
 
-    <input id="search" placeholder="Search Customer" onkeyup="showCustomers()">
+    <input id="search" placeholder="Search Customer..." onkeyup="showCustomers()">
     <button class="smallbtn" onclick="downloadExcel()" style="background:#10b981;">📊 Download All Data</button>
 
     <div id="customerList"></div>
     <hr>
     <div id="profile"></div>
     
-    <button onclick="logout()" style="background:red; margin-top:50px;">Logout (MPIN Lock)</button>
+    <button onclick="logout()" style="background:#ef4444; margin-top:50px;">Logout (MPIN Lock)</button>
 </div>
 
 <script>
-// --- FIREBASE CONFIG ---
+// --- FIREBASE ---
 const firebaseConfig = {
     apiKey: "AIzaSyDzUtrDvUpxqsrwZ4O-SGJo6HnGdH89ewU",
     authDomain: "shayan-smart-pos.firebaseapp.com",
@@ -101,27 +109,34 @@ firebase.initializeApp(firebaseConfig);
 const db = firebase.database();
 const DIST_WA = "919957548361";
 
-// --- SECURITY LOGIC ---
+// --- VERIFICATION FUNCTIONS (MATCHED TO BILLING) ---
 function requestActivation() {
     let name = document.getElementById("uName").value, addr = document.getElementById("uAddr").value, mob = document.getElementById("uMob").value;
     if(!name || !addr || mob.length < 10) return alert("Details bhariye!");
+    
     localStorage.setItem("current_user_mob", mob);
-    db.ref('users/' + mob).set({ name, addr, mob, suspended: false }).then(() => {
-        window.open(`https://wa.me/${DIST_WA}?text=${encodeURIComponent("*Udhaar Verification Request*\nName: "+name+"\nMob: "+mob)}`);
+    // Firebase Update
+    db.ref('users/' + mob).update({ name, addr, mob, suspended: false }).then(() => {
+        window.open(`https://wa.me/${DIST_WA}?text=${encodeURIComponent("*Udhaar App Verification*\nName: "+name+"\nShop: "+addr+"\nMob: "+mob)}`);
         document.getElementById("step-reg").classList.add("hidden");
         document.getElementById("step-lock").classList.remove("hidden");
-    });
+    }).catch(err => alert("Error: " + err.message));
 }
 
 function verifyApprovalID() {
     let input = document.getElementById("inputApprovalID").value.trim();
     let mob = localStorage.getItem("current_user_mob");
+    if(!mob) return alert("Registration data not found!");
+
     db.ref('users/' + mob).once('value').then((snap) => {
         let data = snap.val();
         if(data && data.appID === input) {
+            alert("ID Verified!");
             document.getElementById("step-lock").classList.add("hidden");
             document.getElementById("step-set-mpin").classList.remove("hidden");
-        } else { alert("Approval ID Invalid!"); }
+        } else {
+            alert("ID Invalid or Not Approved yet!");
+        }
     });
 }
 
@@ -129,22 +144,25 @@ function finishMPINSetup() {
     let pin = document.getElementById("setupMPIN").value;
     if(pin.length === 4) {
         localStorage.setItem("udhaar_mpin", pin);
-        localStorage.setItem("udhaar_auth", "true");
+        localStorage.setItem("udhaar_auth_active", "true");
         location.reload();
-    } else { alert("4 digits required!"); }
+    } else { alert("Enter 4 digits!"); }
 }
 
 function loginWithMPIN() {
     let pin = document.getElementById("inputMPIN").value;
     if(pin === localStorage.getItem("udhaar_mpin")) {
-        localStorage.setItem("udhaar_auth", "true");
+        localStorage.setItem("udhaar_auth_active", "true");
         location.reload();
-    } else { alert("Wrong MPIN!"); }
+    } else { alert("Incorrect MPIN!"); }
 }
 
-function logout() { localStorage.removeItem("udhaar_auth"); location.reload(); }
+function logout() {
+    localStorage.removeItem("udhaar_auth_active");
+    location.reload();
+}
 
-// --- UDHAAR MANAGER ORIGINAL FUNCTIONS (0% MISSING) ---
+// --- CORE UDHAAR FUNCTIONS (0% MISSING) ---
 let data = JSON.parse(localStorage.getItem("udhaarData")) || [];
 let current = null;
 
@@ -152,32 +170,20 @@ function saveShop(){
     localStorage.setItem("shop", document.getElementById("shop").value);
     localStorage.setItem("address", document.getElementById("address").value);
     localStorage.setItem("phone", document.getElementById("phone").value);
-    alert("Saved");
+    alert("Shop details saved!");
 }
 
-function save(){
-    localStorage.setItem("udhaarData", JSON.stringify(data));
-    updateDashboard();
-}
+function save(){ localStorage.setItem("udhaarData", JSON.stringify(data)); updateDashboard(); }
 
 function updateDashboard(){
     let total=0, paid=0;
-    data.forEach(c => {
-        c.history.forEach(t => {
-            if(t.type=="credit") total+=t.amount; else paid+=t.amount;
-        });
-    });
-    document.getElementById("grandTotalBox").innerHTML = `
-        <b>👥 Total Customers: ${data.length}</b><br>
-        <b>💰 Total Udhaar: ₹${total}</b><br>
-        <b>💸 Total Paid: ₹${paid}</b><br>
-        <b>🧾 Balance: ₹${total - paid}</b>
-    `;
+    data.forEach(c => { c.history.forEach(t => { if(t.type=="credit") total+=t.amount; else paid+=t.amount; }); });
+    document.getElementById("grandTotalBox").innerHTML = `<b>👥 Customers: ${data.length}</b> | <b>💰 Total Udhaar: ₹${total}</b><br><b>💸 Paid: ₹${paid}</b> | <b>🧾 Unpaid: ₹${total-paid}</b>`;
 }
 
 function addCustomer(){
     let cn = document.getElementById("cname").value, cm = document.getElementById("cmobile").value;
-    if(!cn){alert("Enter name");return;}
+    if(!cn) return alert("Name is required");
     data.push({name:cn, mobile:cm, history:[]});
     save(); document.getElementById("cname").value=""; document.getElementById("cmobile").value="";
     showCustomers();
@@ -188,7 +194,7 @@ function showCustomers(){
     let html = "";
     data.forEach((c,i) => {
         if(!c.name.toLowerCase().includes(s)) return;
-        html += `<div class="card" onclick="openProfile(${i})"><b>${c.name}</b><br>${c.mobile}</div>`;
+        html += `<div class="card" onclick="openProfile(${i})"><b>${c.name}</b><br><small>${c.mobile}</small></div>`;
     });
     document.getElementById("customerList").innerHTML = html;
 }
@@ -198,46 +204,32 @@ function openProfile(i){
     let c = data[i];
     let total=0, paid=0;
     c.history.forEach(t => { if(t.type=="credit") total+=t.amount; else paid+=t.amount; });
-    let balance = total - paid;
-
     let html = `
         <div style="background:#fff; padding:15px; border:1px solid #ddd; border-radius:10px;">
-        <h3>${c.name}</h3>
-        Mobile: ${c.mobile}<br>
-        <b>Total Udhaar:</b> ₹${total} | <b>Paid:</b> ₹${paid}<br>
-        <b>Unpaid:</b> ₹${balance}
-        <hr>
+        <h3>${c.name}</h3><p>Balance: <b>₹${total-paid}</b></p>
         <input id="amt" type="number" placeholder="Enter Amount">
         <div class="centered">
             <button class="smallbtn" onclick="addUdhaar()">Add Udhaar</button>
             <button class="smallbtn" onclick="addPayment()" style="background:green;">Add Payment</button>
-            <button class="smallbtn" onclick="sendReminder()" style="background:#25d366;">📲 WhatsApp</button>
-            <button class="smallbtn" onclick="printData()" style="background:#000;">🖨 Print</button>
+            <button class="smallbtn" onclick="sendReminder()" style="background:#25d366;">WhatsApp</button>
+            <button class="smallbtn" onclick="printData()" style="background:#000;">Print</button>
             <button class="smallbtn" onclick="deleteCustomer()" style="background:red;">Delete</button>
         </div>
         <select id="filter" onchange="openProfile(${i})" style="margin-top:10px;">
-            <option value="all">Full History</option>
+            <option value="all">History: All</option>
             <option value="today">Today</option>
             <option value="week">Last Week</option>
             <option value="month">Last Month</option>
         </select>
-        <h4>History</h4>
-        <table>
-            <tr><th>Date</th><th>Type</th><th>Amount</th></tr>`;
-            
-    let now = new Date();
-    c.history.forEach(t => {
-        let d = new Date(t.date);
-        let show = true;
-        let f = document.getElementById("filter")?.value || "all";
-        if(f=="today" && d.toDateString()!=now.toDateString()) show=false;
-        if(f=="week" && (now-d)>7*86400000) show=false;
-        if(f=="month" && d.getMonth()!=now.getMonth()) show=false;
-        if(show){
-            html += `<tr><td>${t.date}</td><td>${t.type}</td><td>₹${t.amount}</td></tr>`;
-        }
-    });
-    html += `</table></div>`;
+        <table><tr><th>Date</th><th>Type</th><th>Amt</th></tr>
+        ${c.history.filter(t => {
+            let d = new Date(t.date), now = new Date(), f = document.getElementById("filter")?.value || "all";
+            if(f=="today") return d.toDateString()==now.toDateString();
+            if(f=="week") return (now-d)<=7*86400000;
+            if(f=="month") return d.getMonth()==now.getMonth();
+            return true;
+        }).map(t => `<tr><td>${t.date.split(',')[0]}</td><td>${t.type}</td><td>₹${t.amount}</td></tr>`).join('')}
+        </table></div>`;
     document.getElementById("profile").innerHTML = html;
 }
 
@@ -256,24 +248,20 @@ function addPayment(){
 }
 
 function sendReminder(){
-    let c = data[current];
-    let total=0, paid=0;
-    c.history.forEach(t => { if(t.type=="credit") total+=t.amount; else paid+=t.amount; });
-    let msg = `🧾 Udhaar Reminder\n\nShop: ${localStorage.getItem("shop")}\nName: ${c.name}\nBalance: ₹${total-paid}\nPlease pay soon 🙏`;
-    window.open("https://wa.me/"+(c.mobile||"")+"?text="+encodeURIComponent(msg));
+    let c = data[current], bal = 0;
+    c.history.forEach(t => bal += (t.type=="credit" ? t.amount : -t.amount));
+    window.open(`https://wa.me/${c.mobile}?text=${encodeURIComponent("🧾 Udhaar Reminder\nBalance: ₹"+bal+"\nShop: "+localStorage.getItem("shop"))}`);
 }
 
 function printData(){
-    let shopName=localStorage.getItem("shop")||"My Shop";
-    let c=data[current];
-    let total=0, paid=0;
-    c.history.forEach(t=>{ if(t.type=="credit") total+=t.amount; else paid+=t.amount; });
+    let c=data[current], bal=0;
+    c.history.forEach(t => bal += (t.type=="credit" ? t.amount : -t.amount));
     let win = window.open('','','width=400,height=600');
     win.document.write(`<html><head><style>body{font-family:Arial;text-align:center;} table{width:100%;border-collapse:collapse;} td,th{border:1px solid #000;padding:5px;}</style></head><body>
-    <h2>${shopName}</h2><h3>Udhaar Receipt</h3><b>Customer: ${c.name}</b><br>
-    <table><tr><th>Date</th><th>Type</th><th>Amt</th></tr>`);
-    c.history.forEach(t=>{ win.document.write(`<tr><td>${t.date}</td><td>${t.type}</td><td>₹${t.amount}</td></tr>`); });
-    win.document.write(`</table><br><b>Total Balance: ₹${total-paid}</b></body></html>`);
+    <h2>${localStorage.getItem("shop")||"Shop"}</h2><b>Customer: ${c.name}</b><br>
+    <table><tr><th>Date</th><th>Type</th><th>Amt</th></tr>
+    ${c.history.map(t => `<tr><td>${t.date}</td><td>${t.type}</td><td>₹${t.amount}</td></tr>`).join('')}
+    </table><h3>Balance: ₹${bal}</h3></body></html>`);
     win.document.close(); win.print();
 }
 
@@ -286,11 +274,9 @@ function downloadExcel(){
     let a=document.createElement("a"); a.href=URL.createObjectURL(blob); a.download="udhaar_data.csv"; a.click();
 }
 
-// --- INITIALIZE ---
+// --- INIT ---
 window.onload = function() {
-    let auth = localStorage.getItem("udhaar_auth");
-    let mpin = localStorage.getItem("udhaar_mpin");
-    let mob = localStorage.getItem("current_user_mob");
+    let auth = localStorage.getItem("udhaar_auth_active"), mpin = localStorage.getItem("udhaar_mpin"), mob = localStorage.getItem("current_user_mob");
     if(auth && mpin) {
         document.getElementById("auth-flow").classList.add("hidden");
         document.getElementById("main-app").classList.remove("hidden");
