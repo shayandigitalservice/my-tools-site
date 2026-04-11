@@ -3,31 +3,30 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Udhaar Manager PRO - Secure Edition</title>
+<title>Udhaar Manager PRO - Official Secure</title>
 
 <script src="https://www.gstatic.com/firebasejs/9.15.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.15.0/firebase-database-compat.js"></script>
 
 <style>
-/* Verification UI Styling */
 :root { --accent: #2563eb; --bg: #f4f4f4; }
-body{font-family:Arial;background:var(--bg);margin:0;padding:10px;}
-.container{max-width:800px;margin:auto;background:white;padding:15px;border-radius:10px;box-shadow:0 2px 10px rgba(0,0,0,0.1);}
+body{font-family:Arial; background:var(--bg); margin:0; padding:10px;}
+.container{max-width:800px; margin:auto; background:white; padding:15px; border-radius:10px; box-shadow:0 2px 10px rgba(0,0,0,0.1);}
 h2{text-align:center;}
-input,select,button{padding:10px;margin:6px 0;border-radius:6px;box-sizing:border-box;width:100%;}
-button{background:var(--accent);color:white;border:none;cursor:pointer;font-weight:bold;}
-.card{border:1px solid #ccc;padding:10px;margin:6px 0;border-radius:6px;cursor:pointer;background:#fff;}
-table{width:100%;border-collapse:collapse;margin-top:10px;}
-td,th{border:1px solid #000;padding:6px;text-align:center;font-size:13px;}
-.dashboard{background:#e6f2ff;padding:10px;border-radius:6px;margin-bottom:10px;line-height:1.6;}
-.centered{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;}
-button.smallbtn{padding:8px 12px;font-size:14px;min-width:100px;width:auto;}
+input, select, button { padding:10px; margin:6px 0; border-radius:6px; box-sizing:border-box; width:100%; }
+button { background:var(--accent); color:white; border:none; cursor:pointer; font-weight:bold; }
+.card { border:1px solid #ccc; padding:10px; margin:6px 0; border-radius:6px; cursor:pointer; background:#fff; }
+table { width:100%; border-collapse:collapse; margin-top:10px; }
+td, th { border:1px solid #000; padding:6px; text-align:center; font-size:13px; }
+.dashboard { background:#e6f2ff; padding:10px; border-radius:6px; margin-bottom:10px; line-height:1.6; }
+.centered { display:flex; justify-content:center; gap:10px; flex-wrap:wrap; }
+button.smallbtn { padding:8px 12px; font-size:14px; min-width:100px; width:auto; }
 .hidden { display:none !important; }
-.status-badge { display: inline-block; padding: 5px 12px; background: #dcfce7; color: #166534; border-radius: 10px; font-size: 12px; font-weight: 700; }
+.status-badge { display: inline-block; padding: 4px 10px; background: #dcfce7; color: #166534; border-radius: 10px; font-size: 11px; font-weight: 700; }
 
 @media(max-width:600px){
-  .centered{flex-direction:column;align-items:center;}
-  button.smallbtn{width:90%;}
+  .centered { flex-direction:column; align-items:center; }
+  button.smallbtn { width:90%; }
 }
 </style>
 </head>
@@ -39,62 +38,66 @@ button.smallbtn{padding:8px 12px;font-size:14px;min-width:100px;width:auto;}
     
     <div id="step-reg">
         <h3>User Verification</h3>
-        <p style="font-size: 11px; color: gray; text-align:center;">(Enter Your Details Properly)</p>
         <input id="uName" placeholder="Business Owner Name">
         <input id="uAddr" placeholder="Shop Address">
         <input id="uMob" type="number" placeholder="WhatsApp Number">
-        <button onclick="requestActivation()">Verify & Request ID</button>
+        <button onclick="requestActivation()">Verify & Request Udhaar ID</button>
     </div>
 
     <div id="step-lock" class="hidden">
-        <div style="background:#fef3c7; color:#b45309; padding:15px; border-radius:10px; font-size:13px; font-weight:700; text-align:center; margin-bottom:15px;">Awaiting Approval</div>
-        <p style="text-align:center;">Details sent to Distributor.<br><b>Contact: 9957548361</b></p>
-        <input id="inputApprovalID" placeholder="Enter Approval ID" style="text-align:center; font-weight:800; letter-spacing: 2px;">
+        <div style="background:#fef3c7; color:#b45309; padding:15px; border-radius:10px; font-weight:700; text-align:center; margin-bottom:15px;">Awaiting Udhaar Approval</div>
+        <p style="text-align:center;">Contact: <b>9957548361</b></p>
+        <input id="inputApprovalID" placeholder="Enter Udhaar Approval ID" style="text-align:center; font-weight:800;">
         <button onclick="verifyApprovalID()">Verify ID</button>
+    </div>
+
+    <div id="step-plans" class="hidden">
+        <h3>Choose Udhaar Plan</h3>
+        <button onclick="selectPlan(0)">Free Trial (7 Days)</button>
+        <button onclick="selectPlan(99)">Monthly Premium (₹99)</button>
+    </div>
+
+    <div id="step-payment" class="hidden">
+        <h3>Complete Subscription</h3>
+        <p style="text-align:center;">Pay to UPI: <b>9957548361@ybl</b></p>
+        <input id="inputSubKey" placeholder="Enter Udhaar Key" style="text-align:center; font-weight:800;">
+        <button onclick="verifySubKey()">Activate App</button>
     </div>
 
     <div id="step-mpin-login" class="hidden">
         <h3>Login</h3>
-        <input id="inputMPIN" type="password" maxlength="4" placeholder="Enter 4-Digit MPIN" style="text-align:center; font-size: 20px;">
+        <input id="inputMPIN" type="password" maxlength="4" placeholder="Enter 4-Digit MPIN" style="text-align:center;">
         <button onclick="loginWithMPIN()">Unlock</button>
     </div>
 
     <div id="step-set-mpin" class="hidden">
-        <h3>Set Security MPIN</h3>
-        <p style="text-align:center; font-size:12px;">Choose a 4-digit PIN for future logins</p>
+        <h3>Set Udhaar MPIN</h3>
         <input id="setupMPIN" type="password" maxlength="4" placeholder="••••" style="text-align:center; font-size: 24px;">
         <button onclick="finishMPINSetup()">Save & Start</button>
     </div>
 </div>
 
 <div id="main-app" class="container hidden">
-    <div style="text-align:right;"><span id="timer-badge" class="status-badge">Premium Active</span></div>
+    <div style="text-align:right;"><span class="status-badge">Udhaar PRO Active</span></div>
     <h2>💰 Udhaar Manager PRO</h2>
-
     <input id="shop" placeholder="Shop Name">
     <input id="address" placeholder="Address">
-    <input id="phone" placeholder="Mobile Number">
+    <input id="phone" placeholder="Phone">
     <button class="smallbtn" onclick="saveShop()">Save Shop</button>
-
     <hr>
     <div id="grandTotalBox" class="dashboard"></div>
-
     <input id="cname" placeholder="Customer Name">
     <input id="cmobile" placeholder="Mobile Number">
     <button class="smallbtn" onclick="addCustomer()">Add Customer</button>
-
-    <input id="search" placeholder="Search Customer" onkeyup="showCustomers()">
-    <button class="smallbtn" onclick="downloadExcel()">📊 Download All Data</button>
-
+    <input id="search" placeholder="Search Customer..." onkeyup="showCustomers()">
+    <button class="smallbtn" onclick="downloadExcel()" style="background:#10b981;">📊 Export Excel</button>
     <div id="customerList"></div>
     <hr>
     <div id="profile"></div>
-    
-    <button onclick="logout()" style="background:#ef4444; margin-top:50px;">Logout (MPIN Lock)</button>
+    <button onclick="logout()" style="background:red; margin-top:50px;">Logout (MPIN Lock)</button>
 </div>
 
 <script>
-// --- FIREBASE CONFIG ---
 const firebaseConfig = {
     apiKey: "AIzaSyDzUtrDvUpxqsrwZ4O-SGJo6HnGdH89ewU",
     authDomain: "shayan-smart-pos.firebaseapp.com",
@@ -108,28 +111,49 @@ firebase.initializeApp(firebaseConfig);
 const db = firebase.database();
 const DIST_WA = "919957548361";
 
-// --- VERIFICATION SYSTEM LOGIC ---
+// --- AUTH LOGIC (UDHAAR SPECIFIC) ---
 function requestActivation() {
     let name = document.getElementById("uName").value, addr = document.getElementById("uAddr").value, mob = document.getElementById("uMob").value;
     if(!name || !addr || mob.length < 10) return alert("Details bhariye!");
     localStorage.setItem("current_user_mob", mob);
-    db.ref('users/' + mob).update({ name, addr, mob, suspended: false }).then(() => {
-        window.open(`https://wa.me/${DIST_WA}?text=${encodeURIComponent("*Udhaar Manager Verification*\nName: "+name+"\nShop: "+addr+"\nMob: "+mob)}`);
+    db.ref('users/' + mob).update({ name, addr, mob }).then(() => {
+        window.open(`https://wa.me/${DIST_WA}?text=${encodeURIComponent("*Udhaar App Request*\nName: "+name+"\nMob: "+mob)}`);
         document.getElementById("step-reg").classList.add("hidden");
         document.getElementById("step-lock").classList.remove("hidden");
-    }).catch(err => alert("Error: " + err.message));
+    });
 }
 
 function verifyApprovalID() {
     let input = document.getElementById("inputApprovalID").value.trim();
     let mob = localStorage.getItem("current_user_mob");
-    db.ref('users/' + mob).once('value').then((snap) => {
+    db.ref('users/' + mob).once('value', (snap) => {
         let data = snap.val();
-        if(data && data.appID === input) {
-            alert("ID Verified!");
+        if(data && data.udhaarAppID === input) {
             document.getElementById("step-lock").classList.add("hidden");
+            document.getElementById("step-plans").classList.remove("hidden");
+        } else { alert("Ye ID Udhaar App ke liye nahi hai!"); }
+    });
+}
+
+function selectPlan(price) {
+    if(price === 0) { 
+        document.getElementById("step-plans").classList.add("hidden");
+        document.getElementById("step-set-mpin").classList.remove("hidden");
+    } else {
+        document.getElementById("step-plans").classList.add("hidden");
+        document.getElementById("step-payment").classList.remove("hidden");
+    }
+}
+
+function verifySubKey() {
+    let input = document.getElementById("inputSubKey").value.trim();
+    let mob = localStorage.getItem("current_user_mob");
+    db.ref('users/' + mob).once('value', (snap) => {
+        let data = snap.val();
+        if(data && data.udhaarSubKey === input) {
+            document.getElementById("step-payment").classList.add("hidden");
             document.getElementById("step-set-mpin").classList.remove("hidden");
-        } else { alert("ID Invalid or Not Approved yet!"); }
+        } else { alert("Invalid Udhaar Key!"); }
     });
 }
 
@@ -137,22 +161,21 @@ function finishMPINSetup() {
     let pin = document.getElementById("setupMPIN").value;
     if(pin.length === 4) {
         localStorage.setItem("udhaar_mpin", pin);
-        localStorage.setItem("udhaar_auth_active", "true");
+        localStorage.setItem("udhaar_active", "true");
         location.reload();
-    } else { alert("Enter 4 digits!"); }
+    }
 }
 
 function loginWithMPIN() {
-    let pin = document.getElementById("inputMPIN").value;
-    if(pin === localStorage.getItem("udhaar_mpin")) {
-        localStorage.setItem("udhaar_auth_active", "true");
+    if(document.getElementById("inputMPIN").value === localStorage.getItem("udhaar_mpin")) {
+        localStorage.setItem("udhaar_active", "true");
         location.reload();
-    } else { alert("Incorrect MPIN!"); }
+    } else { alert("Wrong PIN!"); }
 }
 
-function logout() { localStorage.removeItem("udhaar_auth_active"); location.reload(); }
+function logout() { localStorage.removeItem("udhaar_active"); location.reload(); }
 
-// --- ORIGINAL UDHAAR MANAGER FUNCTIONS (NO CHANGES) ---
+// --- UDHAAR MANAGER CORE ---
 let data = JSON.parse(localStorage.getItem("udhaarData")) || [];
 let current = null;
 
@@ -163,125 +186,88 @@ function saveShop(){
     alert("Saved");
 }
 
-function save(){ localStorage.setItem("udhaarData",JSON.stringify(data)); updateDashboard(); }
-
 function updateDashboard(){
-    let total=0,paid=0;
-    data.forEach(c=>{ c.history.forEach(t=>{ if(t.type=="credit") total+=t.amount; else paid+=t.amount; }); });
-    document.getElementById("grandTotalBox").innerHTML = `
-        <b>👥 Total Customers: ${data.length}</b><br>
-        <b>💰 Total Udhaar: ₹${total}</b><br>
-        <b>💸 Total Paid: ₹${paid}</b><br>
-        <b>🧾 Balance: ₹${total - paid}</b>
-    `;
+    let total=0, paid=0;
+    data.forEach(c => { c.history.forEach(t => { if(t.type=="credit") total+=t.amount; else paid+=t.amount; }); });
+    document.getElementById("grandTotalBox").innerHTML = `<b>Total Customers: ${data.length}</b><br><b>Unpaid Balance: ₹${total-paid}</b>`;
 }
 
 function addCustomer(){
-    let cn=document.getElementById("cname").value, cm=document.getElementById("cmobile").value;
-    if(!cn){alert("Enter name");return;}
-    data.push({name:cn,mobile:cm,history:[]});
-    save(); document.getElementById("cname").value=""; document.getElementById("cmobile").value="";
-    showCustomers();
+    let n = document.getElementById("cname").value, m = document.getElementById("cmobile").value;
+    if(!n) return;
+    data.push({name:n, mobile:m, history:[]});
+    localStorage.setItem("udhaarData", JSON.stringify(data));
+    showCustomers(); updateDashboard();
 }
 
 function showCustomers(){
-    let s=document.getElementById("search").value.toLowerCase();
-    let html="";
-    data.forEach((c,i)=>{
-        if(!c.name.toLowerCase().includes(s)) return;
-        html+=`<div class="card" onclick="openProfile(${i})"><b>${c.name}</b><br>${c.mobile}</div>`;
+    let s = document.getElementById("search").value.toLowerCase();
+    let html = "";
+    data.forEach((c,i) => {
+        if(c.name.toLowerCase().includes(s)) html += `<div class="card" onclick="openProfile(${i})"><b>${c.name}</b><br>${c.mobile}</div>`;
     });
-    document.getElementById("customerList").innerHTML=html;
+    document.getElementById("customerList").innerHTML = html;
 }
 
 function openProfile(i){
-    current=i;
-    let c=data[i];
-    let total=0,paid=0;
-    c.history.forEach(t=>{ if(t.type=="credit") total+=t.amount; else paid+=t.amount; });
-    let balance=total-paid;
-
-    let html=`<h3>${c.name}</h3>Mobile: ${c.mobile}<br><b>Total Udhaar:</b> ₹${total}<br><b>Paid:</b> ₹${paid}<br><b>Unpaid:</b> ₹${balance}<hr>
-    <input id="amt" type="number" placeholder="Enter Amount">
-    <div class="centered">
-        <button class="smallbtn" onclick="addUdhaar()">Add Udhaar</button>
-        <button class="smallbtn" onclick="addPayment()" style="background:green;">Add Payment</button>
-        <button class="smallbtn" onclick="sendReminder()" style="background:#25d366;">📲 WhatsApp</button>
-        <button class="smallbtn" onclick="printData()" style="background:#000;">🖨 Print</button>
-        <button class="smallbtn" onclick="deleteCustomer()" style="background:red;">Delete Customer</button>
-    </div>
-    <select id="filter" onchange="openProfile(${i})" style="margin-top:10px;">
-        <option value="all">Full</option>
-        <option value="today">Today</option>
-        <option value="week">Last Week</option>
-        <option value="month">Last Month</option>
-    </select>
-    <h4>History</h4><table><tr><th>Date & Time</th><th>Type</th><th>Amount</th></tr>`;
-
-    let now=new Date();
-    c.history.forEach(t=>{
-        let d=new Date(t.date), show=true, f=document.getElementById("filter")?.value || "all";
-        if(f=="today" && d.toDateString()!=now.toDateString()) show=false;
-        if(f=="week" && (now-d)>7*86400000) show=false;
-        if(f=="month" && d.getMonth()!=now.getMonth()) show=false;
-        if(show){ html+=`<tr><td>${t.date}</td><td>${t.type}</td><td>₹${t.amount}</td></tr>`; }
-    });
-    html+=`</table>`;
-    document.getElementById("profile").innerHTML=html;
+    current = i; let c = data[i]; let total=0, paid=0;
+    c.history.forEach(t => { if(t.type=="credit") total+=t.amount; else paid+=t.amount; });
+    document.getElementById("profile").innerHTML = `
+        <div style="background:#fff; padding:15px; border:1px solid #ddd; border-radius:10px;">
+        <h3>${c.name}</h3><p>Balance: <b>₹${total-paid}</b></p>
+        <input id="amt" type="number" placeholder="Amt">
+        <div class="centered">
+            <button class="smallbtn" onclick="addTrans('credit')">Add Udhaar</button>
+            <button class="smallbtn" onclick="addTrans('paid')" style="background:green;">Add Payment</button>
+            <button class="smallbtn" onclick="sendWA()" style="background:#25d366;">WhatsApp</button>
+            <button class="smallbtn" onclick="printData()" style="background:#000;">Print</button>
+            <button class="smallbtn" onclick="deleteC()" style="background:red;">Delete</button>
+        </div>
+        <select id="filter" onchange="openProfile(${i})">
+            <option value="all">Full</option><option value="today">Today</option>
+        </select>
+        <table><tr><th>Date</th><th>Type</th><th>Amt</th></tr>
+        ${c.history.map(t => `<tr><td>${t.date.split(',')[0]}</td><td>${t.type}</td><td>₹${t.amount}</td></tr>`).join('')}
+        </table></div>`;
 }
 
-function addUdhaar(){
-    let amt=+document.getElementById("amt").value;
-    if(!amt){alert("Enter amount");return;}
-    data[current].history.push({type:"credit",amount:amt,date:new Date().toLocaleString()});
-    save(); openProfile(current);
+function addTrans(type){
+    let amt = +document.getElementById("amt").value;
+    if(!amt) return;
+    data[current].history.push({type, amount:amt, date:new Date().toLocaleString()});
+    localStorage.setItem("udhaarData", JSON.stringify(data));
+    openProfile(current); updateDashboard();
 }
 
-function addPayment(){
-    let amt=+document.getElementById("amt").value;
-    if(!amt){alert("Enter amount");return;}
-    data[current].history.push({type:"paid",amount:amt,date:new Date().toLocaleString()});
-    save(); openProfile(current);
-}
-
-function sendReminder(){
-    let c=data[current], total=0, paid=0;
-    c.history.forEach(t=>{ if(t.type=="credit") total+=t.amount; else paid+=t.amount; });
-    let msg=`🧾 Udhaar Reminder\n\nShop: ${localStorage.getItem("shop")}\nName: ${c.name}\nBalance: ₹${total-paid}\nPlease pay soon 🙏`;
-    window.open("https://wa.me/"+(c.mobile||"")+"?text="+encodeURIComponent(msg));
+function sendWA(){
+    let c = data[current], bal = 0;
+    c.history.forEach(t => bal += (t.type=="credit" ? t.amount : -t.amount));
+    window.open(`https://wa.me/${c.mobile}?text=Udhaar%20Reminder:%20₹${bal}`);
 }
 
 function printData(){
-    let shopName=localStorage.getItem("shop")||"My Shop", c=data[current], total=0, paid=0;
-    c.history.forEach(t=>{ if(t.type=="credit") total+=t.amount; else paid+=t.amount; });
-    let win = window.open('','','width=400,height=600');
-    win.document.write(`<html><head><style>body{font-family:Arial;text-align:center;}table{width:100%;border-collapse:collapse;}td,th{border:1px solid #000;padding:6px;}</style></head><body>
-    <h2>${shopName}</h2><h3>Udhaar Receipt</h3><b>Customer: ${c.name}</b><br>
-    <table><tr><th>Date & Time</th><th>Type</th><th>Amount</th></tr>`);
-    c.history.forEach(t=>{ win.document.write(`<tr><td>${t.date}</td><td>${t.type}</td><td>₹${t.amount}</td></tr>`); });
-    win.document.write(`<tr><td colspan="2"><b>Balance</b></td><td>₹${total-paid}</td></tr></table></body></html>`);
-    win.document.close(); win.print();
+    let c=data[current], bal=0;
+    c.history.forEach(t => bal += (t.type=="credit" ? t.amount : -t.amount));
+    let win = window.open('','','width=400');
+    win.document.write(`<h2>${localStorage.getItem("shop")}</h2><b>${c.name}</b><br>Balance: ₹${bal}`);
+    win.print();
 }
 
-function deleteCustomer(){ if(confirm("Delete?")){ data.splice(current,1); save(); document.getElementById("profile").innerHTML=""; showCustomers(); } }
+function deleteC(){ if(confirm("Delete?")){ data.splice(current,1); localStorage.setItem("udhaarData", JSON.stringify(data)); location.reload(); } }
 
 function downloadExcel(){
-    let csv="Customer,Type,Amount,Date\n";
-    data.forEach(c=>{ c.history.forEach(h=>{ csv+=`${c.name},${h.type},${h.amount},${h.date}\n`; }); });
-    let blob=new Blob([csv], {type:"text/csv"});
-    let a=document.createElement("a"); a.href=URL.createObjectURL(blob); a.download="udhaar_data.csv"; a.click();
+    let csv = "Customer,Type,Amount,Date\n";
+    data.forEach(c=> c.history.forEach(h=> csv+=`${c.name},${h.type},${h.amount},${h.date}\n`));
+    let blob = new Blob([csv], {type:"text/csv"});
+    let a = document.createElement("a"); a.href=URL.createObjectURL(blob); a.download="udhaar.csv"; a.click();
 }
 
-// --- INIT ---
 window.onload = function() {
-    let auth = localStorage.getItem("udhaar_auth_active"), mpin = localStorage.getItem("udhaar_mpin"), mob = localStorage.getItem("current_user_mob");
-    if(auth && mpin) {
+    let active = localStorage.getItem("udhaar_active"), mpin = localStorage.getItem("udhaar_mpin"), mob = localStorage.getItem("current_user_mob");
+    if(active && mpin) {
         document.getElementById("auth-flow").classList.add("hidden");
         document.getElementById("main-app").classList.remove("hidden");
-        document.getElementById("shop").value = localStorage.getItem("shop") || "";
-        document.getElementById("address").value = localStorage.getItem("address") || "";
-        document.getElementById("phone").value = localStorage.getItem("phone") || "";
-        showCustomers(); updateDashboard();
+        updateDashboard(); showCustomers();
     } else if (mpin) {
         document.getElementById("step-reg").classList.add("hidden");
         document.getElementById("step-mpin-login").classList.remove("hidden");
