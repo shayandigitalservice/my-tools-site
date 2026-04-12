@@ -436,35 +436,44 @@ async function handlePdf(action) {
     const progBar = document.getElementById('prog-bar');
     const buttons = document.querySelectorAll('button');
 
-    if (!fileInput.files[0]) return alert("Please select a PDF file!");
-    if (!password) return alert("Please enter a password!");
+    // Basic Validation
+    if (!fileInput.files[0]) {
+        return alert("Please select a PDF file!");
+    }
+    if (!password) {
+        return alert("Please enter the password!");
+    }
 
+    // UI Reset and Loading State
     buttons.forEach(b => b.disabled = true);
     resultBox.style.display = "block";
     progCont.style.display = "block";
     dlBtn.style.display = "none";
+    progBar.style.width = "0%";
     
     let progress = 0;
-    statusMsg.innerText = "⏳ Connecting...";
+    statusMsg.innerText = "⏳ Connecting to API...";
+    statusMsg.style.color = "#1e3a8a";
     
+    // Fake progress animation for better UX
     const interval = setInterval(() => {
         if (progress < 90) {
-            progress += 10;
+            progress += 5;
             progBar.style.width = progress + "%";
+            if(progress === 30) statusMsg.innerText = "🚀 Uploading File...";
+            if(progress === 60) statusMsg.innerText = action === 'lock' ? "🔐 Locking PDF..." : "🔓 Unlocking PDF...";
         }
-    }, 400);
+    }, 300);
 
     const formData = new FormData();
     formData.append('file', fileInput.files[0]);
     formData.append('password', password);
-
-    // YAHAN FIX HAI: Action ke hisaab se URL change hoga
-    // Agar unlock karna hai to endpoint alag hona chahiye (e.g., /pdf-unlock)
-    const endpoint = action === 'lock' ? 'pdf-lock' : 'pdf-unlock'; 
-    const url = `https://shayan-pdf-api-docker.onrender.com/run/${endpoint}`;
+    // CRITICAL: Ye line backend ko batati hai ki unlock karna hai ya lock
+    formData.append('action', action); 
 
     try {
-        const response = await fetch(url, {
+        // Aapka Render Backend URL
+        const response = await fetch('https://shayan-pdf-api-docker.onrender.com/run/pdf-lock', {
             method: 'POST',
             body: formData
         });
@@ -473,10 +482,12 @@ async function handlePdf(action) {
 
         if (response.ok) {
             progBar.style.width = "100%";
+            
             const blob = await response.blob();
-            const downloadUrl = URL.createObjectURL(blob);
+            const url = URL.createObjectURL(blob);
 
-            dlBtn.href = downloadUrl;
+            dlBtn.href = url;
+            // File name update based on action
             dlBtn.download = action === 'lock' ? "Locked_By_Shayan.pdf" : "Unlocked_By_Shayan.pdf";
             dlBtn.style.display = "inline-block";
 
@@ -484,22 +495,26 @@ async function handlePdf(action) {
                 ? "✅ PDF Locked Successfully!"
                 : "✅ PDF Unlocked Successfully!";
             statusMsg.style.color = "green";
+
+            // Trigger auto-download
             dlBtn.click();
 
         } else {
-            statusMsg.innerText = "❌ Error: Password galat hai ya server issue.";
+            const errorData = await response.json().catch(() => ({}));
+            statusMsg.innerText = "❌ Error: " + (errorData.error || "Wrong password or server error.");
             statusMsg.style.color = "red";
         }
 
     } catch (e) {
         clearInterval(interval);
-        statusMsg.innerText = "⚠️ Server busy hai. 10-20 sec wait karein.";
+        statusMsg.innerText = "⚠️ Server connection failed. Render is waking up, please try again in 30 seconds.";
         statusMsg.style.color = "orange";
     } finally {
         buttons.forEach(b => b.disabled = false);
         progCont.style.display = "none";
     }
 }
+
 
 </script>
 <footer>
