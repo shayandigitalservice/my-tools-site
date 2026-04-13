@@ -1,308 +1,246 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Land Area Calculator</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #ffffff;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
 
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+        header {
+            background: #2b7cff;
+            color: white;
+            text-align: center;
+            padding: 30px 10px;
+        }
 
-<title>Land Area Calculator</title>
+        header h1 {
+            margin: 0;
+            font-size: 26px;
+            font-weight: 600;
+        }
 
-<style>
+        .main-wrapper {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
 
-body{
-font-family:Arial;
-background:#f4f6fb;
-margin:0;
-}
+        .calculator-section {
+            padding: 20px 0;
+            border-bottom: 2px solid #f0f4f8;
+        }
 
-header{
-background:#2b7cff;
-color:white;
-text-align:center;
-padding:18px;
-font-size:24px;
-font-weight:bold;
-}
+        .input-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
 
-.container{
-max-width:450px;
-margin:30px auto;
-background:white;
-padding:25px;
-border-radius:12px;
-box-shadow:0 0 12px rgba(0,0,0,0.1);
-text-align:center;
-}
+        .input-group {
+            flex: 1;
+            min-width: 200px;
+        }
 
-input,select{
-width:100%;
-padding:10px;
-margin:10px 0;
-}
+        label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 8px;
+            color: #2b7cff;
+            font-size: 14px;
+        }
 
-button{
-background:#2b7cff;
-color:white;
-border:none;
-padding:12px;
-width:100%;
-border-radius:8px;
-font-size:16px;
-cursor:pointer;
-}
+        input, select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #d1d9e6;
+            border-radius: 6px;
+            font-size: 16px;
+            box-sizing: border-box;
+            background: #f9fbff;
+        }
 
-button:hover{
-background:#1a5fd1;
-}
+        input:focus {
+            outline: none;
+            border-color: #2b7cff;
+            background: #fff;
+        }
 
-.result{
-margin-top:20px;
-font-size:17px;
-line-height:1.8;
-text-align:left;
-}
+        button {
+            background: #2b7cff;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 6px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
+            width: 100%;
+        }
 
-</style>
+        button:hover {
+            background: #1a5fd1;
+        }
 
+        /* Result Area - No Card Style */
+        .result-display {
+            margin-top: 30px;
+            padding: 20px 0;
+            display: none;
+        }
+
+        .result-title {
+            font-size: 20px;
+            font-weight: bold;
+            color: #2b7cff;
+            margin-bottom: 15px;
+            border-left: 5px solid #2b7cff;
+            padding-left: 10px;
+        }
+
+        .output-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .output-table td {
+            padding: 12px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .unit-name {
+            font-weight: 600;
+            color: #555;
+        }
+
+        .unit-value {
+            text-align: right;
+            font-weight: bold;
+            color: #2b7cff;
+            font-size: 18px;
+        }
+
+        /* SEO Content */
+        .seo-content {
+            margin-top: 40px;
+            line-height: 1.8;
+            color: #444;
+        }
+
+        .seo-content h2 {
+            color: #2b7cff;
+        }
+
+        @media (max-width: 600px) {
+            .input-group {
+                flex: 100%;
+            }
+        }
+    </style>
 </head>
-
 <body>
 
 <header>
-Land Area Calculator
+    <h1>Land Area Calculator</h1>
 </header>
 
-<div class="container">
+<div class="main-wrapper">
+    <div class="calculator-section">
+        <div class="input-row">
+            <div class="input-group">
+                <label>Land Shape</label>
+                <select id="shape">
+                    <option value="rectangle">Rectangle Land</option>
+                    <option value="triangle">Triangle Land</option>
+                </select>
+            </div>
+            <div class="input-group">
+                <label>Unit System</label>
+                <select id="unit">
+                    <option value="feet">Feet</option>
+                    <option value="meter">Meter</option>
+                    <option value="yard">Yard</option>
+                </select>
+            </div>
+        </div>
 
-<h2>Calculate Land Area</h2>
+        <div class="input-row">
+            <div class="input-group">
+                <label>Length / Base</label>
+                <input type="number" id="length" placeholder="Enter value">
+            </div>
+            <div class="input-group">
+                <label>Width / Height</label>
+                <input type="number" id="width" placeholder="Enter value">
+            </div>
+        </div>
 
-<select id="shape">
-<option value="rectangle">Rectangle Land</option>
-<option value="triangle">Triangle Land</option>
-</select>
+        <button onclick="calculate()">Calculate Result</button>
 
-<input type="number" id="length" placeholder="Enter Length / Base">
+        <div class="result-display" id="resultDisplay">
+            <div class="result-title">Conversion Results</div>
+            <table class="output-table" id="resultTable">
+                </table>
+        </div>
+    </div>
 
-<input type="number" id="width" placeholder="Enter Width / Height">
-
-<select id="unit">
-<option value="feet">Feet</option>
-<option value="meter">Meter</option>
-<option value="yard">Yard</option>
-</select>
-
-<button onclick="calculate()">Calculate Area</button>
-
-<div class="result" id="result"></div>
-
+    <section class="seo-content">
+        <h2>Free Land Area Calculator – Calculate Land Size Online</h2>
+        <p>The Land Area Calculator is a simple and powerful online tool that helps you calculate land size quickly and accurately. Whether you are a farmer, property buyer, or real estate agent, this tool makes it easy to calculate the area of a plot using just the length and width.</p>
+        
+        <p>Our calculator instantly converts the result into multiple units including <strong>square feet, square meters, katha, bigha, acre, and hectare</strong>.</p>
+    </section>
 </div>
 
 <script>
+function calculate() {
+    let shape = document.getElementById("shape").value;
+    let length = document.getElementById("length").value;
+    let width = document.getElementById("width").value;
+    let unit = document.getElementById("unit").value;
 
-function calculate(){
+    if(length == "" || width == "") {
+        alert("Please enter values");
+        return;
+    }
 
-let shape=document.getElementById("shape").value;
-let length=document.getElementById("length").value;
-let width=document.getElementById("width").value;
-let unit=document.getElementById("unit").value;
+    let area;
+    if(shape == "rectangle") {
+        area = length * width;
+    } else {
+        area = (length * width) / 2;
+    }
 
-if(length=="" || width==""){
-alert("Please enter values");
-return;
+    let sqft;
+    if(unit == "feet") { sqft = area; }
+    if(unit == "meter") { sqft = area * 10.7639; }
+    if(unit == "yard") { sqft = area * 9; }
+
+    let sqm = sqft * 0.092903;
+    let acre = sqft / 43560;
+    let hectare = sqft / 107639;
+    let katha = sqft / 720;
+    let bigha = sqft / 14400;
+
+    document.getElementById("resultDisplay").style.display = "block";
+    document.getElementById("resultTable").innerHTML = `
+        <tr><td class="unit-name">Square Feet</td><td class="unit-value">${sqft.toFixed(2)}</td></tr>
+        <tr><td class="unit-name">Square Meter</td><td class="unit-value">${sqm.toFixed(2)}</td></tr>
+        <tr><td class="unit-name">Katha</td><td class="unit-value">${katha.toFixed(2)}</td></tr>
+        <tr><td class="unit-name">Bigha</td><td class="unit-value">${bigha.toFixed(2)}</td></tr>
+        <tr><td class="unit-name">Acre</td><td class="unit-value">${acre.toFixed(4)}</td></tr>
+        <tr><td class="unit-name">Hectare</td><td class="unit-value">${hectare.toFixed(4)}</td></tr>
+    `;
 }
-
-let area;
-
-if(shape=="rectangle"){
-area=length*width;
-}
-
-if(shape=="triangle"){
-area=(length*width)/2;
-}
-
-let sqft;
-
-if(unit=="feet"){
-sqft=area;
-}
-
-if(unit=="meter"){
-sqft=area*10.7639;
-}
-
-if(unit=="yard"){
-sqft=area*9;
-}
-
-let sqm=sqft*0.092903;
-
-let acre=sqft/43560;
-
-let hectare=sqft/107639;
-
-let katha=sqft/720;
-
-let bigha=sqft/14400;
-
-document.getElementById("result").innerHTML=
-
-"<b>Square Feet:</b> "+sqft.toFixed(2)+"<br>"+
-"<b>Square Meter:</b> "+sqm.toFixed(2)+"<br>"+
-"<b>Katha:</b> "+katha.toFixed(2)+"<br>"+
-"<b>Bigha:</b> "+bigha.toFixed(2)+"<br>"+
-"<b>Acre:</b> "+acre.toFixed(4)+"<br>"+
-"<b>Hectare:</b> "+hectare.toFixed(4);
-
-}
-
 </script>
-<section class="seo-content" style="max-width:900px;margin:auto;padding:20px;line-height:1.7;font-family:Arial,Helvetica,sans-serif;">
 
-<h2>Free Land Area Calculator – Calculate Land Size Online</h2>
-
-<p>
-The <strong>Land Area Calculator</strong> is a simple and powerful online tool that helps you calculate land size quickly and accurately. 
-Whether you are a farmer, property buyer, real estate agent, or land survey enthusiast, this tool makes it easy to calculate the area 
-of a plot using just the length and width. Our calculator instantly converts the result into multiple units including 
-square feet, square meters, katha, bigha, acre, and hectare.
-</p>
-
-<p>
-Land measurement can sometimes be confusing because different regions use different units. For example, in some areas land is measured 
-in <strong>bigha</strong> or <strong>katha</strong>, while in other places people use <strong>square feet</strong>, 
-<strong>acres</strong>, or <strong>hectares</strong>. This free tool solves that problem by providing automatic conversions 
-between all common land measurement units.
-</p>
-
-<h2>How to Use the Land Area Calculator</h2>
-
-<p>
-Using the Land Area Calculator is very simple and does not require any technical knowledge. Follow these easy steps to 
-calculate your land area.
-</p>
-
-<ol>
-<li>Enter the <strong>length</strong> of the land.</li>
-<li>Enter the <strong>width</strong> of the land.</li>
-<li>Select the unit of measurement (feet, meter, or yard).</li>
-<li>Click the calculate button.</li>
-<li>The tool will instantly show the area in different land units.</li>
-</ol>
-
-<p>
-Within seconds, you will see results in square feet, square meters, katha, bigha, acre, and hectare. This makes it easier 
-to understand the exact size of your land without manual calculations.
-</p>
-
-<h2>Land Measurement Units Explained</h2>
-
-<p>
-Land measurement units vary depending on the country and region. Below are some commonly used units in land calculations.
-</p>
-
-<h3>Square Feet (Sq Ft)</h3>
-<p>
-Square feet is one of the most commonly used land measurement units, especially in urban areas and real estate markets. 
-It represents the total area of land in square feet.
-</p>
-
-<h3>Square Meter (Sq M)</h3>
-<p>
-Square meters are widely used in international land measurement systems. Many countries use square meters for property 
-documentation and land registration.
-</p>
-
-<h3>Katha</h3>
-<p>
-Katha is a traditional land measurement unit used in India, Nepal, and Bangladesh. However, the exact value of a katha 
-can vary depending on the region.
-</p>
-
-<h3>Bigha</h3>
-<p>
-Bigha is another traditional land unit commonly used in rural areas. Farmers and landowners often use bigha when buying 
-or selling agricultural land.
-</p>
-
-<h3>Acre</h3>
-<p>
-An acre is a widely recognized international land measurement unit, often used for measuring large plots, farms, and 
-agricultural fields.
-</p>
-
-<h3>Hectare</h3>
-<p>
-A hectare is part of the metric system and is commonly used in government land records and international land measurement.
-</p>
-
-<h2>Benefits of Using an Online Land Area Calculator</h2>
-
-<p>
-There are many advantages to using an online land area calculator instead of doing manual calculations. First, it saves 
-time and effort. Second, it reduces the chances of errors. Third, it provides instant conversions into multiple units.
-</p>
-
-<p>
-Manual calculations can be complicated when converting between square feet, acres, and hectares. Our tool automatically 
-performs these conversions for you, making land measurement easier and faster.
-</p>
-
-<h2>Calculate Different Types of Land Shapes</h2>
-
-<p>
-Not all land plots are rectangular. Some plots are triangular or irregular in shape. This tool allows you to calculate 
-both <strong>rectangle land</strong> and <strong>triangle land</strong> areas. By selecting the correct shape and entering 
-the required dimensions, you can calculate land size accurately.
-</p>
-
-<p>
-For triangular land plots, the tool uses the standard mathematical formula to determine the correct area. This ensures 
-accurate calculations for all types of land measurements.
-</p>
-
-<h2>Who Can Use This Tool?</h2>
-
-<p>
-The Land Area Calculator is designed for everyone who deals with land measurement. Farmers can calculate field size for 
-agriculture. Real estate agents can measure plot size before listing properties. Property buyers can verify land area 
-before purchasing land.
-</p>
-
-<p>
-Students and engineers can also use this tool for educational and project purposes. Because it works directly in the 
-browser, there is no need to install any software.
-</p>
-
-<h2>Related Tools</h2>
-
-<p>
-You may also find these tools useful for land and property calculations:
-</p>
-
-<ul>
-<li><a href="bigha-to-acre.html">Bigha to Acre Converter</a></li>
-<li><a href="acre-to-bigha.html">Acre to Bigha Converter</a></li>
-<li><a href="katha-to-sqft.html">Katha to Square Feet Converter</a></li>
-<li><a href="sqft-to-bigha.html">Square Feet to Bigha Converter</a></li>
-</ul>
-
-<p>
-These related tools help you convert between different land measurement units quickly and accurately.
-</p>
-
-<h2>Conclusion</h2>
-
-<p>
-The Free Land Area Calculator is an essential online tool for calculating land size easily. With support for multiple 
-units such as square feet, square meters, katha, bigha, acre, and hectare, it simplifies land measurement for users 
-around the world.
-</p>
-
-<p>
-Try this tool today and make land calculations faster, simpler, and more accurate.
-</p>
-
-</section>
 </body>
 </html>
