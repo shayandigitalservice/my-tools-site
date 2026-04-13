@@ -1,260 +1,204 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bigha to Acre Converter</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #ffffff;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
 
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+        header {
+            background: #2b7cff;
+            color: white;
+            text-align: center;
+            padding: 30px 10px;
+        }
 
-<title>Bigha to Acre Converter</title>
+        header h1 {
+            margin: 0;
+            font-size: 26px;
+            font-weight: 600;
+        }
 
-<style>
+        .main-wrapper {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
 
-body{
-font-family:Arial;
-background:#f4f6fb;
-margin:0;
-}
+        .calculator-section {
+            padding: 20px 0;
+            border-bottom: 2px solid #f0f4f8;
+        }
 
-header{
-background:#2b7cff;
-color:white;
-text-align:center;
-padding:18px;
-font-size:24px;
-font-weight:bold;
-}
+        .input-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
 
-.container{
-max-width:450px;
-margin:30px auto;
-background:white;
-padding:25px;
-border-radius:12px;
-box-shadow:0 0 12px rgba(0,0,0,0.1);
-text-align:center;
-}
+        .input-group {
+            flex: 1;
+            min-width: 250px;
+        }
 
-input{
-width:100%;
-padding:10px;
-margin:10px 0;
-}
+        label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 8px;
+            color: #2b7cff;
+            font-size: 14px;
+        }
 
-button{
-background:#2b7cff;
-color:white;
-border:none;
-padding:12px;
-width:100%;
-border-radius:8px;
-font-size:16px;
-cursor:pointer;
-}
+        input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #d1d9e6;
+            border-radius: 6px;
+            font-size: 16px;
+            box-sizing: border-box;
+            background: #f9fbff;
+        }
 
-button:hover{
-background:#1a5fd1;
-}
+        input:focus {
+            outline: none;
+            border-color: #2b7cff;
+            background: #fff;
+        }
 
-.result{
-margin-top:20px;
-font-size:17px;
-line-height:1.8;
-text-align:left;
-}
+        button {
+            background: #2b7cff;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 6px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
+            width: 100%;
+        }
 
-</style>
+        button:hover {
+            background: #1a5fd1;
+        }
 
+        /* Result Area - Flat Style */
+        .result-display {
+            margin-top: 30px;
+            padding: 20px 0;
+            display: none;
+        }
+
+        .result-title {
+            font-size: 20px;
+            font-weight: bold;
+            color: #2b7cff;
+            margin-bottom: 15px;
+            border-left: 5px solid #2b7cff;
+            padding-left: 10px;
+        }
+
+        .output-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .output-table td {
+            padding: 12px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .unit-name {
+            font-weight: 600;
+            color: #555;
+        }
+
+        .unit-value {
+            text-align: right;
+            font-weight: bold;
+            color: #2b7cff;
+            font-size: 18px;
+        }
+
+        /* SEO Content */
+        .seo-content {
+            margin-top: 40px;
+            line-height: 1.8;
+            color: #444;
+        }
+
+        .seo-content h2 {
+            color: #2b7cff;
+        }
+
+        @media (max-width: 600px) {
+            .input-group {
+                flex: 100%;
+            }
+        }
+    </style>
 </head>
-
 <body>
 
 <header>
-Bigha to Acre Converter
+    <h1>Bigha to Acre Converter</h1>
 </header>
 
-<div class="container">
+<div class="main-wrapper">
+    <div class="calculator-section">
+        <div class="input-row">
+            <div class="input-group">
+                <label>Enter Bigha Value</label>
+                <input type="number" id="bigha" placeholder="e.g. 5">
+            </div>
+        </div>
 
-<h2>Convert Bigha to Acre</h2>
+        <button onclick="convert()">Convert Land Area</button>
 
-<input type="number" id="bigha" placeholder="Enter Bigha">
+        <div class="result-display" id="resultDisplay">
+            <div class="result-title">Conversion Results</div>
+            <table class="output-table" id="resultTable">
+                </table>
+        </div>
+    </div>
 
-<button onclick="convert()">Convert</button>
-
-<div class="result" id="result"></div>
-
+    <section class="seo-content">
+        <h2>Bigha to Acre Converter – Convert Land Area Instantly</h2>
+        <p>The <strong>Bigha to Acre Converter</strong> is a free online tool that helps you convert land area from bigha to acre quickly and accurately. This simple tool eliminates confusion by instantly converting bigha into acre along with other common units like square feet and square meters.</p>
+        
+        <p>In many parts of India, Nepal, and Bangladesh, land is commonly measured in <strong>bigha</strong>. Use this tool to get international standard measurements for your property documents.</p>
+    </section>
 </div>
 
 <script>
+function convert() {
+    let bigha = document.getElementById("bigha").value;
 
-function convert(){
+    if(bigha == "") {
+        alert("Please enter bigha value");
+        return;
+    }
 
-let bigha=document.getElementById("bigha").value;
+    let acre = bigha * 0.33;
+    let sqft = bigha * 14400;
+    let sqm = sqft * 0.092903;
 
-if(bigha==""){
-alert("Please enter bigha value");
-return;
+    document.getElementById("resultDisplay").style.display = "block";
+    document.getElementById("resultTable").innerHTML = `
+        <tr><td class="unit-name">Acre</td><td class="unit-value">${acre.toFixed(3)}</td></tr>
+        <tr><td class="unit-name">Square Feet</td><td class="unit-value">${sqft.toLocaleString()}</td></tr>
+        <tr><td class="unit-name">Square Meter</td><td class="unit-value">${sqm.toFixed(2)}</td></tr>
+    `;
 }
-
-let acre=bigha*0.33;
-
-let sqft=bigha*14400;
-
-let sqm=sqft*0.092903;
-
-document.getElementById("result").innerHTML=
-
-"<b>Acre:</b> "+acre.toFixed(3)+"<br>"+
-"<b>Square Feet:</b> "+sqft.toFixed(2)+"<br>"+
-"<b>Square Meter:</b> "+sqm.toFixed(2);
-
-}
-
 </script>
-<section class="seo-content" style="max-width:900px;margin:auto;padding:20px;line-height:1.7;font-family:Arial,Helvetica,sans-serif;">
 
-<h2>Bigha to Acre Converter – Convert Land Area Instantly</h2>
-
-<p>
-The <strong>Bigha to Acre Converter</strong> is a free online tool that helps you convert land area from bigha to acre quickly and accurately. 
-Land measurement units vary from region to region, which often creates confusion for property buyers, farmers, and real estate professionals. 
-This simple tool eliminates that confusion by instantly converting bigha into acre along with other common land measurement units such as 
-square feet and square meters.
-</p>
-
-<p>
-In many parts of India, Nepal, and Bangladesh, land is commonly measured in <strong>bigha</strong>. However, international land measurement 
-systems mostly use units such as <strong>acre</strong>, <strong>hectare</strong>, or <strong>square meters</strong>. Because of this difference, 
-people often need to convert bigha to acre when dealing with land documents, property sales, agricultural planning, or land registration.
-</p>
-
-<h2>What is Bigha?</h2>
-
-<p>
-Bigha is a traditional unit of land measurement widely used in South Asia. The exact value of one bigha can vary depending on the state 
-or region. For example, the size of a bigha in Uttar Pradesh may be slightly different from the size used in Bihar, Rajasthan, or West Bengal.
-</p>
-
-<p>
-Despite these variations, bigha remains one of the most commonly used land measurement units in rural areas. Farmers and landowners 
-frequently use bigha when buying, selling, or calculating farmland.
-</p>
-
-<h2>What is an Acre?</h2>
-
-<p>
-An acre is an internationally recognized unit used for measuring land area. It is widely used in real estate, agriculture, and property 
-documentation around the world. One acre is equal to <strong>43,560 square feet</strong> or approximately <strong>4046.86 square meters</strong>.
-</p>
-
-<p>
-Because acre is part of the international measurement system, it is commonly used in government land records and official property documents.
-</p>
-
-<h2>Why Convert Bigha to Acre?</h2>
-
-<p>
-There are several reasons why converting bigha to acre is important. When buying or selling property, the land size may be mentioned 
-in bigha while official documents require measurements in acres. Farmers may also need acre measurements for agricultural planning, 
-crop management, and irrigation calculations.
-</p>
-
-<p>
-Using an online converter helps you quickly determine the equivalent acre value without manual calculations. This saves time and 
-reduces the chances of errors.
-</p>
-
-<h2>How to Use the Bigha to Acre Converter</h2>
-
-<p>
-Our online Bigha to Acre Converter is extremely easy to use. Follow these simple steps:
-</p>
-
-<ol>
-<li>Enter the land value in <strong>bigha</strong>.</li>
-<li>Click the <strong>convert</strong> button.</li>
-<li>The tool will instantly show the result in <strong>acre</strong>.</li>
-<li>You will also see conversions into <strong>square feet</strong> and <strong>square meters</strong>.</li>
-</ol>
-
-<p>
-The conversion process takes only a few seconds and works directly in your web browser without requiring any software installation.
-</p>
-
-<h2>Benefits of Using an Online Land Converter</h2>
-
-<p>
-Online land conversion tools provide many advantages compared to manual calculations. First, they save time and effort. 
-Second, they provide accurate results instantly. Third, they allow users to convert between multiple land units easily.
-</p>
-
-<p>
-Instead of searching for complicated formulas or conversion charts, you can simply enter the value and get the result 
-immediately. This makes land calculations much easier for farmers, landowners, and real estate professionals.
-</p>
-
-<h2>Who Can Use This Tool?</h2>
-
-<p>
-The Bigha to Acre Converter is designed for anyone who needs to calculate land area quickly. Farmers can use it to measure 
-their agricultural fields. Property buyers can verify the size of land before making a purchase. Real estate agents can 
-convert land units when listing properties.
-</p>
-
-<p>
-Students, engineers, and surveyors can also use this tool for educational purposes and land measurement projects. 
-Because the tool works online, it can be accessed from any device including mobile phones, tablets, and computers.
-</p>
-
-<h2>Common Land Measurement Units</h2>
-
-<p>
-There are many different land measurement units used around the world. Some of the most common units include:
-</p>
-
-<ul>
-<li>Bigha</li>
-<li>Katha</li>
-<li>Acre</li>
-<li>Hectare</li>
-<li>Square Feet</li>
-<li>Square Meter</li>
-</ul>
-
-<p>
-Understanding these units and converting between them is important when dealing with land transactions, agriculture, 
-or property investments.
-</p>
-
-<h2>Related Land Measurement Tools</h2>
-
-<p>
-If you frequently work with land measurements, you may also find these tools helpful:
-</p>
-
-<ul>
-<li><a href="land-area-calculator.html">Land Area Calculator</a></li>
-<li><a href="acre-to-bigha.html">Acre to Bigha Converter</a></li>
-<li><a href="katha-to-sqft.html">Katha to Square Feet Converter</a></li>
-<li><a href="sqft-to-bigha.html">Square Feet to Bigha Converter</a></li>
-</ul>
-
-<p>
-These tools make it easier to convert between different land measurement units and calculate plot sizes quickly.
-</p>
-
-<h2>Conclusion</h2>
-
-<p>
-The <strong>Bigha to Acre Converter</strong> is a fast, reliable, and easy-to-use online tool designed to simplify land 
-measurement conversions. By entering a simple bigha value, you can instantly convert it into acre, square feet, and 
-square meters without performing manual calculations.
-</p>
-
-<p>
-Whether you are a farmer, landowner, property buyer, or real estate professional, this tool helps you understand land 
-area more clearly and accurately. Try the converter today and make land measurement easier than ever.
-</p>
-
-</section>
 </body>
 </html>
