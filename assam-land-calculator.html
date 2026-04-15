@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Assam Land Area Calculator | Shayan Smart Tools</title>
+    <style>
+        :root {
+            --primary-color: #2e7d32;
+            --secondary-color: #f1f8e9;
+            --text-color: #333;
+            --white: #ffffff;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f0f2f5;
+            color: var(--text-color);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .calculator-card {
+            background: var(--white);
+            width: 100%;
+            max-width: 450px;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .header h1 {
+            font-size: 1.5rem;
+            color: var(--primary-color);
+            margin: 0;
+        }
+
+        .header p {
+            font-size: 0.9rem;
+            color: #666;
+            margin-top: 5px;
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 8px;
+            font-size: 0.9rem;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+            box-sizing: border-box;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+        }
+
+        .results-container {
+            background-color: var(--secondary-color);
+            padding: 20px;
+            border-radius: 12px;
+            margin-top: 25px;
+        }
+
+        .result-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid #dcedc8;
+        }
+
+        .result-row:last-child {
+            border-bottom: none;
+        }
+
+        .unit-name {
+            font-weight: 500;
+            color: #555;
+        }
+
+        .unit-value {
+            font-weight: 700;
+            color: var(--primary-color);
+        }
+
+        .footer-note {
+            text-align: center;
+            font-size: 0.75rem;
+            color: #999;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="calculator-card">
+    <div class="header">
+        <h1>Assam Land Calculator</h1>
+        <p>Convert Bigha, Katha, Lessa & Acre</p>
+    </div>
+
+    <div class="input-group">
+        <label for="landValue">Enter Value</label>
+        <input type="number" id="landValue" placeholder="e.g. 1" oninput="convertLand()">
+    </div>
+
+    <div class="input-group">
+        <label for="unitType">Select Unit</label>
+        <select id="unitType" onchange="convertLand()">
+            <option value="bigha">Bigha</option>
+            <option value="katha">Katha</option>
+            <option value="lessa">Lessa</option>
+            <option value="acre">Acre</option>
+            <option value="sqft">Square Feet (sq. ft.)</option>
+            <option value="hectare">Hectare</option>
+        </select>
+    </div>
+
+    <div class="results-container">
+        <div class="result-row">
+            <span class="unit-name">Bigha - Katha - Lessa</span>
+            <span class="unit-value" id="bklResult">0 - 0 - 0</span>
+        </div>
+        <div class="result-row">
+            <span class="unit-name">Total Bigha</span>
+            <span class="unit-value" id="resBigha">0</span>
+        </div>
+        <div class="result-row">
+            <span class="unit-name">Acres</span>
+            <span class="unit-value" id="resAcre">0</span>
+        </div>
+        <div class="result-row">
+            <span class="unit-name">Hectares</span>
+            <span class="unit-value" id="resHectare">0</span>
+        </div>
+        <div class="result-row">
+            <span class="unit-name">Square Feet</span>
+            <span class="unit-value" id="resSqft">0</span>
+        </div>
+    </div>
+
+    <div class="footer-note">
+        Standard: 1 Bigha = 14,400 sq. ft. (Assam State)
+    </div>
+</div>
+
+<script>
+    function convertLand() {
+        const val = parseFloat(document.getElementById('landValue').value);
+        const unit = document.getElementById('unitType').value;
+        
+        if (isNaN(val) || val <= 0) {
+            updateDisplay(0);
+            return;
+        }
+
+        let sqft = 0;
+        const BIGHA_SQFT = 14400;
+        const KATHA_SQFT = 3600;
+        const LESSA_SQFT = 180;
+        const ACRE_SQFT = 43560;
+        const HECTARE_SQFT = 107639;
+
+        // Convert input to Square Feet first
+        switch(unit) {
+            case 'bigha': sqft = val * BIGHA_SQFT; break;
+            case 'katha': sqft = val * KATHA_SQFT; break;
+            case 'lessa': sqft = val * LESSA_SQFT; break;
+            case 'acre': sqft = val * ACRE_SQFT; break;
+            case 'hectare': sqft = val * HECTARE_SQFT; break;
+            case 'sqft': sqft = val; break;
+        }
+
+        updateDisplay(sqft);
+    }
+
+    function updateDisplay(sqft) {
+        const BIGHA_SQFT = 14400;
+        const KATHA_SQFT = 3600;
+        const LESSA_SQFT = 180;
+        const ACRE_SQFT = 43560;
+        const HECTARE_SQFT = 107639;
+
+        if (sqft === 0) {
+            document.getElementById('bklResult').innerText = "0 - 0 - 0";
+            document.getElementById('resBigha').innerText = "0";
+            document.getElementById('resAcre').innerText = "0";
+            document.getElementById('resHectare').innerText = "0";
+            document.getElementById('resSqft').innerText = "0";
+            return;
+        }
+
+        // Calculate Bigha-Katha-Lessa breakdown
+        let remainingSqft = sqft;
+        const bighas = Math.floor(remainingSqft / BIGHA_SQFT);
+        remainingSqft %= BIGHA_SQFT;
+        
+        const kathas = Math.floor(remainingSqft / KATHA_SQFT);
+        remainingSqft %= KATHA_SQFT;
+        
+        const lessas = (remainingSqft / LESSA_SQFT).toFixed(2);
+
+        // Update UI
+        document.getElementById('bklResult').innerText = `${bighas} B, ${kathas} K, ${lessas} L`;
+        document.getElementById('resBigha').innerText = (sqft / BIGHA_SQFT).toFixed(4);
+        document.getElementById('resAcre').innerText = (sqft / ACRE_SQFT).toFixed(4);
+        document.getElementById('resHectare').innerText = (sqft / HECTARE_SQFT).toFixed(4);
+        document.getElementById('resSqft').innerText = sqft.toLocaleString(undefined, {maximumFractionDigits: 2});
+    }
+</script>
+
+</body>
+</html>
