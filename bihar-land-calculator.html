@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bihar Land Calculator | Bigha, Kattha, Dhur Converter 2026</title>
+    <meta name="description" content="Calculate land area in Bihar using Length & Width. Accurate Bigha, Kattha, and Dhur converter by Shayan Digital Service. Best tool for Bihar land measurement.">
+    
+    <style>
+        /* Responsive CSS */
+        .tool-wrapper {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            max-width: 800px;
+            margin: 20px auto;
+            color: #333;
+            padding: 15px;
+        }
+
+        .input-section {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .field label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            font-size: 14px;
+            color: #1565c0;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 16px;
+            box-sizing: border-box;
+            outline: none;
+            transition: 0.3s;
+        }
+
+        input:focus { border-color: #1565c0; }
+
+        .btn-calc {
+            width: 100%;
+            background: #1565c0;
+            color: white;
+            border: none;
+            padding: 15px;
+            font-size: 18px;
+            font-weight: bold;
+            border-radius: 8px;
+            cursor: pointer;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .btn-calc:active { transform: scale(0.98); }
+
+        .results-list {
+            margin-top: 30px;
+            display: none; /* Default hidden */
+        }
+
+        .bkd-highlight {
+            background: #e3f2fd;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            border: 2px dashed #1565c0;
+            margin-bottom: 20px;
+        }
+
+        .bkd-highlight strong {
+            display: block;
+            font-size: 24px;
+            color: #0d47a1;
+            margin-top: 5px;
+        }
+
+        .row-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 12px 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .row-item span { font-weight: 500; }
+        .row-item b { color: #1565c0; }
+
+        @media (max-width: 480px) {
+            h1 { font-size: 1.5rem; }
+            .btn-calc { font-size: 16px; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="tool-wrapper">
+    <h1 style="text-align:center; color:#1565c0;">Bihar Land Measurement Calculator</h1>
+    <p style="text-align:center; font-size:14px; color:#666; margin-bottom:30px;">
+        Length aur Width dalein aur Bihar ke standard Bigha, Kattha mein badlein.
+    </p>
+    
+    <div class="input-section">
+        <div class="field">
+            <label>Length (Lambai)</label>
+            <input type="number" id="L" placeholder="0">
+        </div>
+        <div class="field">
+            <label>Width (Chaudai)</label>
+            <input type="number" id="W" placeholder="0">
+        </div>
+        <div class="field">
+            <label>Unit Type</label>
+            <select id="u">
+                <option value="ft">Feet (ft)</option>
+                <option value="mt">Meter (m)</option>
+            </select>
+        </div>
+    </div>
+
+    <button class="btn-calc" onclick="calculateBiharLand()">CONVERT NOW</button>
+
+    <div id="resArea" class="results-list">
+        <div class="bkd-highlight">
+            <span style="font-size: 14px; color: #555;">Bihar Standard Format:</span>
+            <strong id="bkdText">0 Bigha, 0 Kattha, 0 Dhur</strong>
+        </div>
+
+        <div class="row-item"><span>Total Square Feet:</span> <b id="outSqft">0</b></div>
+        <div class="row-item"><span>Total Bigha:</span> <b id="outBigha">0</b></div>
+        <div class="row-item"><span>Total Acre:</span> <b id="outAcre">0</b></div>
+        <div class="row-item"><span>Total Hectare:</span> <b id="outHect">0</b></div>
+    </div>
+
+    <p style="font-size: 11px; color: #999; text-align: center; margin-top: 20px;">
+        Note: 1 Bigha in Bihar = 27,225 sq. ft. (20 Kattha)
+    </p>
+</div>
+
+<script>
+    function calculateBiharLand() {
+        const length = parseFloat(document.getElementById('L').value);
+        const width = parseFloat(document.getElementById('W').value);
+        const unit = document.getElementById('u').value;
+        const resArea = document.getElementById('resArea');
+
+        if (!length || !width) {
+            alert("Bhai, Length aur Width dono fill karein!");
+            return;
+        }
+
+        // 1. Calculate Sq Ft
+        let sqft = (unit === "ft") ? (length * width) : (length * width * 10.7639);
+
+        // 2. Bihar Logic (Standard)
+        const BIGHA_SQFT = 27225;
+        const KATTHA_SQFT = 1361.25;
+        const DHUR_SQFT = 68.0625;
+
+        // 3. Breakdown Bigha-Kattha-Dhur
+        let temp = sqft;
+        const bigha = Math.floor(temp / BIGHA_SQFT);
+        temp %= BIGHA_SQFT;
+        
+        const kattha = Math.floor(temp / KATTHA_SQFT);
+        temp %= KATTHA_SQFT;
+        
+        const dhur = (temp / DHUR_SQFT).toFixed(2);
+
+        // 4. Update UI
+        document.getElementById('bkdText').innerText = `${bigha} Bigha, ${kattha} Kattha, ${dhur} Dhur`;
+        document.getElementById('outSqft').innerText = sqft.toLocaleString(undefined, {maximumFractionDigits: 2}) + " sq.ft";
+        document.getElementById('outBigha').innerText = (sqft / BIGHA_SQFT).toFixed(4);
+        document.getElementById('outAcre').innerText = (sqft / 43560).toFixed(4);
+        document.getElementById('outHect').innerText = (sqft / 107639).toFixed(4);
+
+        resArea.style.display = "block";
+    }
+</script>
+
+</body>
+</html>
