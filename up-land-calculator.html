@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UP Land Calculator | Bigha, Biswa, Biswansi Converter 2026</title>
+    <meta name="description" content="Calculate land area in Uttar Pradesh (UP). Convert length & width into Pucca Bigha, Biswa, and Dhur. Accurate UP Land Measurement Tool.">
+    <meta name="keywords" content="UP land calculator, bigha to biswa up, 1 bigha in up square feet, biswa to dhur converter, land measurement units in Uttar Pradesh, Shayan Digital Service">
+
+    <style>
+        .up-tool-container {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            max-width: 900px;
+            margin: 10px auto;
+            padding: 15px;
+            color: #333;
+        }
+        .up-input-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+        input, select {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 6px;
+            font-size: 16px;
+            box-sizing: border-box;
+        }
+        .up-btn {
+            width: 100%;
+            background: #e65100;
+            color: white;
+            border: none;
+            padding: 15px;
+            font-size: 18px;
+            font-weight: bold;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+        .up-results {
+            margin-top: 25px;
+            display: none;
+            background: #fff3e0;
+            padding: 20px;
+            border-radius: 8px;
+            border: 2px dashed #e65100;
+        }
+        .res-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px solid #ffe0b2;
+        }
+        @media (max-width: 480px) {
+            h1 { font-size: 1.6rem; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="up-tool-container">
+    <h1 style="text-align:center; color:#e65100;">Uttar Pradesh Land Calculator</h1>
+    
+    <div class="up-input-grid">
+        <div>
+            <label>Length (Lambai)</label>
+            <input type="number" id="L_up" placeholder="0">
+        </div>
+        <div>
+            <label>Width (Chaudai)</label>
+            <input type="number" id="W_up" placeholder="0">
+        </div>
+        <div>
+            <label>Unit</label>
+            <select id="U_up">
+                <option value="ft">Feet (ft)</option>
+                <option value="mt">Meter (m)</option>
+            </select>
+        </div>
+    </div>
+
+    <button class="up-btn" onclick="calcUP()">CONVERT NOW</button>
+
+    <div id="resUP" class="up-results">
+        <div style="text-align:center; margin-bottom:15px;">
+            <span style="font-size:14px;">UP Standard Result:</span>
+            <strong id="up_main" style="display:block; font-size:22px; color:#bf360c;">0 Bigha, 0 Biswa</strong>
+        </div>
+        <div class="res-row"><span>Total Sq. Ft:</span> <b id="up_sqft">0</b></div>
+        <div class="res-row"><span>Total Bigha:</span> <b id="up_bigha">0</b></div>
+        <div class="res-row"><span>Total Acre:</span> <b id="up_acre">0</b></div>
+    </div>
+</div>
+
+<script>
+    function calcUP() {
+        const l = parseFloat(document.getElementById('L_up').value);
+        const w = parseFloat(document.getElementById('W_up').value);
+        const u = document.getElementById('U_up').value;
+        const res = document.getElementById('resUP');
+
+        if(!l || !w) { alert("Bhai, naap toh dalo!"); return; }
+
+        let sqft = (u === "ft") ? (l * w) : (l * w * 10.7639);
+        const BIGHA = 27225;
+        const BISWA = 1361.25;
+
+        let b = Math.floor(sqft / BIGHA);
+        let rem = sqft % BIGHA;
+        let bi = Math.floor(rem / BISWA);
+        let d = ((rem % BISWA) / 68.06).toFixed(2);
+
+        document.getElementById('up_main').innerText = `${b} Bigha, ${bi} Biswa, ${d} Dhur`;
+        document.getElementById('up_sqft').innerText = sqft.toFixed(2);
+        document.getElementById('up_bigha').innerText = (sqft / BIGHA).toFixed(4);
+        document.getElementById('up_acre').innerText = (sqft / 43560).toFixed(4);
+        res.style.display = "block";
+    }
+</script>
+
+<article style="max-width: 900px; margin: 40px auto; padding: 10px; line-height: 1.8; text-align: justify; overflow-x: hidden;">
+    
+    <h2 style="color: #e65100; font-size: clamp(1.4rem, 5vw, 2.2rem); border-left: 6px solid #e65100; padding-left: 15px;">
+        UP Land Measurement Guide 2026: Everything About Bigha and Biswa
+    </h2>
+
+    <p>Uttar Pradesh, jo Bharat ka sabse bada rajya hai, wahan zameen ki naap-jokh ka system kaafi purana aur mukhya roop se <strong>Pucca Bigha</strong> aur <strong>Kucha Bigha</strong> par adharit hai. Jab aap Lucknow, Kanpur, Noida ya Varanasi mein zameen kharidte hain, toh aapko "Biswa" aur "Biswansi" jaise shabd sunne ko milenge. <strong>Shayan Digital Service</strong> ke is vishal guide mein hum UP ke land units ko vistar se samjhayenge.</p>
+
+    <h3 style="color: #bf360c;">1. What is 1 Bigha in Uttar Pradesh?</h3>
+    <p>UP mein 'Bigha' do tarah ke hote hain. Mukhya roop se sarkari dastawezon (Bhulekh UP) mein <strong>Pucca Bigha</strong> ka istemal hota hai. 
+    1 Pucca Bigha barabar <strong>27,225 Square Feet</strong> hota hai. Wahi dusri taraf Kucha Bigha iska lagbhag ek-tihaayi (1/3) hota hai, jo zyada tar dehati ilakon mein kisan aapsi baat-cheet mein use karte hain. Sahi naap ke liye humara <a href="up-land-calculator.html" style="color: #e65100; font-weight: bold;">UP Land Calculator</a> use karein.</p>
+
+    <h3 style="color: #bf360c;">2. Biswa and Biswansi: The Sub-units</h3>
+    <p>UP mein Bigha ko Biswa mein baata jata hai. 
+    <strong>1 Bigha = 20 Biswa</strong>. 
+    Ek Biswa ka area 1,361.25 Square Feet hota hai. Iske niche ki unit ko Biswansi (ya Dhur) kehte hain. 1 Biswa mein 20 Biswansi hote hain. Yeh units bilkul waisi hi hain jaisi Bihar mein Kattha aur Dhur hoti hain, bas naam ka antar hai.</p>
+
+    <h3 style="color: #bf360c;">3. Direct Tool Access</h3>
+    <div style="text-align: center; margin: 30px 0; border: 2px solid #e65100; padding: 20px; border-radius: 12px;">
+        <p>Bina kisi error ke UP ki zameen naapne ke liye humara official tool use karein:</p>
+        <a href="https://shayandigitalservice.github.io/my-tools-site/up-land-calculator.html" style="background: #e65100; color: white; padding: 15px 25px; text-decoration: none; border-radius: 8px; font-weight: bold; display: inline-block; width: 85%;">👉 OPEN UP CALCULATOR</a>
+    </div>
+
+    <h3 style="color: #bf360c;">4. Comparison Table (UP Standard)</h3>
+    <div style="overflow-x: auto;">
+        <table style="width: 100%; border-collapse: collapse; min-width: 380px;">
+            <tr style="background: #e65100; color: white;">
+                <th style="padding: 12px; border: 1px solid #ddd;">Unit</th>
+                <th style="padding: 12px; border: 1px solid #ddd;">Sq. Ft. Area</th>
+                <th style="padding: 12px; border: 1px solid #ddd;">Logic</th>
+            </tr>
+            <tr><td>1 Biswansi (Dhur)</td><td>68.06</td><td>Smallest Unit</td></tr>
+            <tr><td>1 Biswa</td><td>1,361.25</td><td>20 Biswansi</td></tr>
+            <tr><td>1 Bigha (Pucca)</td><td>27,225</td><td>20 Biswa</td></tr>
+        </table>
+    </div>
+
+    <h3 style="color: #bf360c; margin-top: 30px;">5. Frequently Asked Questions (FAQs)</h3>
+    <p><strong>Q: UP mein 1 bigha mein kitne biswa hote hain?</strong><br>Ans: UP mein 1 Bigha mein total 20 Biswa hote hain.</p>
+    <p><strong>Q: 1 Acre mein kitna bigha hota hai UP mein?</strong><br>Ans: UP (Pucca Bigha) ke hisaab se 1 Acre mein lagbhag 1.6 Bigha hota hai.</p>
+
+    <div style="margin-top: 50px; padding: 20px; border: 1px solid #ffccbc; background: #fffbfb; border-radius: 10px; font-size: 13px;">
+        <h4 style="color: #c53030; margin-top: 0;">🚫 Copyright & Rights Reserved</h4>
+        <strong>Copyright © 2026 Shayan Digital Service.</strong><br>
+        Yeh content aur calculator logic <strong>Muksidul Islam</strong> ki property hai. Copy karna legal offense hai.
+    </div>
+</article>
+
+<script>
+    document.addEventListener('copy', (e) => { e.preventDefault(); alert("Copyright Protection: Copying is not allowed - Shayan Digital Service"); });
+    document.addEventListener('contextmenu', (e) => e.preventDefault());
+</script>
+
+</body>
+</html>
