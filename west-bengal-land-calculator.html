@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>West Bengal Land Calculator | Bigha, Katha, Chatak Converter 2026</title>
+    <meta name="description" content="Calculate land area in West Bengal accurately. Convert Length & Width into Bigha, Katha, and Chatak. Standard WB Land Measurement Tool.">
+    <meta name="keywords" content="West Bengal land calculator, bigha to katha WB, 1 katha in west bengal sq ft, chatak to sq ft converter, Shayan Digital Service">
+
+    <style>
+        .wb-tool-wrapper {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            max-width: 900px;
+            margin: 10px auto;
+            padding: 15px;
+            color: #333;
+        }
+        .wb-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+        input, select {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            box-sizing: border-box;
+            outline: none;
+        }
+        input:focus { border-color: #2e7d32; }
+        .wb-btn {
+            width: 100%;
+            background: #2e7d32;
+            color: white;
+            border: none;
+            padding: 15px;
+            font-size: 18px;
+            font-weight: bold;
+            border-radius: 8px;
+            cursor: pointer;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        .wb-results {
+            margin-top: 30px;
+            display: none;
+            background: #f1f8e9;
+            padding: 20px;
+            border-radius: 12px;
+            border: 2px dashed #2e7d32;
+        }
+        .wb-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid #c8e6c9;
+        }
+        @media (max-width: 480px) {
+            h1 { font-size: 1.5rem; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="wb-tool-wrapper">
+    <h1 style="text-align:center; color:#2e7d32;">West Bengal Land Calculator</h1>
+    <p style="text-align:center; font-size:14px; color:#666; margin-bottom:30px;">
+        Length aur Width dalein aur West Bengal ke Bigha, Katha, Chatak mein badlein.
+    </p>
+    
+    <div class="wb-grid">
+        <div>
+            <label style="font-size:13px; font-weight:bold;">Length (Lambai)</label>
+            <input type="number" id="L_wb" placeholder="0">
+        </div>
+        <div>
+            <label style="font-size:13px; font-weight:bold;">Width (Chaudai)</label>
+            <input type="number" id="W_wb" placeholder="0">
+        </div>
+        <div>
+            <label style="font-size:13px; font-weight:bold;">Unit</label>
+            <select id="U_wb">
+                <option value="ft">Feet (ft)</option>
+                <option value="mt">Meter (m)</option>
+            </select>
+        </div>
+    </div>
+
+    <button class="wb-btn" onclick="calcWB()">CONVERT NOW</button>
+
+    <div id="resWB" class="wb-results">
+        <div style="text-align:center; margin-bottom:15px;">
+            <span style="font-size:14px; color:#555;">WB Standard Result:</span>
+            <strong id="wb_main" style="display:block; font-size:24px; color:#1b5e20;">0 Bigha, 0 Katha</strong>
+        </div>
+        <div class="wb-row"><span>Total Square Feet:</span> <b id="wb_sqft">0</b></div>
+        <div class="wb-row"><span>Total Bigha:</span> <b id="wb_bigha">0</b></div>
+        <div class="wb-row"><span>Total Acre:</span> <b id="wb_acre">0</b></div>
+    </div>
+    
+    <p style="font-size: 11px; color: #999; text-align: center; margin-top: 20px;">
+        Note: 1 Bigha (WB) = 14,400 sq. ft. | 1 Katha = 720 sq. ft. | 1 Chatak = 45 sq. ft.
+    </p>
+</div>
+
+<script>
+    function calcWB() {
+        const l = parseFloat(document.getElementById('L_wb').value);
+        const w = parseFloat(document.getElementById('W_wb').value);
+        const u = document.getElementById('U_wb').value;
+        const res = document.getElementById('resWB');
+
+        if(!l || !w) { alert("Please enter length and width!"); return; }
+
+        let sqft = (u === "ft") ? (l * w) : (l * w * 10.7639);
+        
+        const BIGHA = 14400;
+        const KATHA = 720;
+        const CHATAK = 45;
+
+        let b = Math.floor(sqft / BIGHA);
+        let rem = sqft % BIGHA;
+        let k = Math.floor(rem / KATHA);
+        let c = ((rem % KATHA) / CHATAK).toFixed(2);
+
+        document.getElementById('wb_main').innerText = `${b} Bigha, ${k} Katha, ${c} Chatak`;
+        document.getElementById('wb_sqft').innerText = sqft.toLocaleString(undefined, {maximumFractionDigits: 2}) + " sq.ft";
+        document.getElementById('wb_bigha').innerText = (sqft / BIGHA).toFixed(4);
+        document.getElementById('wb_acre').innerText = (sqft / 43560).toFixed(4);
+        res.style.display = "block";
+    }
+</script>
+
+<article style="max-width: 1000px; margin: 40px auto; padding: clamp(10px, 4vw, 25px); line-height: 1.9; text-align: justify; overflow-x: hidden;">
+    
+    <h1 style="color: #2e7d32; font-size: clamp(1.6rem, 5vw, 2.8rem); text-align: center; line-height: 1.2; margin-bottom: 30px;">
+        West Bengal Land Measurement Guide 2026: Bigha, Katha, and Chatak Full Guide
+    </h1>
+
+    <div style="background: #f1f8e9; padding: clamp(15px, 4vw, 25px); border-radius: 10px; border-left: 8px solid #2e7d32; margin-bottom: 35px; font-size: 16px;">
+        <strong>Quick Insight:</strong> West Bengal mein 1 Bigha = 14,400 Square Feet hota hai. Yahan 1 Katha mein 16 Chatak hote hain. Sahi paimaish ke liye humara <a href="west-bengal-land-calculator.html" style="color: #1b5e20; font-weight: bold; text-decoration: underline;">WB Land Area Calculator</a> use karein.
+    </div>
+
+    <h2 style="color: #1b5e20; font-size: clamp(1.2rem, 4.5vw, 1.8rem); border-bottom: 2px solid #c8e6c9; padding-bottom: 10px; margin-top: 40px;">1. Introduction: Understanding Bengal's Land Records</h2>
+    <p>West Bengal, jo apni kala aur sanskriti ke liye duniya bhar mein mashhoor hai, wahan zameen ki naap-jokh ka system kaafi satik (accurate) aur purana hai. Bengal mein zameen ko mukhya roop se <strong>Bigha, Katha, aur Chatak</strong> mein naapa jata hai. Jab aap Kolkata, Siliguri, ya Durgapur mein property ki baat karte hain, toh yahi units use hoti hain.</p>
+    
+    <p>Modern daur mein **Banglarbhumi** portal par zameen ke records online milte hain, lekin unhe samajhne ke liye aapko local conversion ki jankari honi chahiye. <strong>Shayan Digital Service</strong> ke is vishal blog mein hum West Bengal ke land system ki har ek bariki ko expand karke samjhayenge.</p>
+
+    <h2 style="color: #1b5e20; font-size: clamp(1.2rem, 4.5vw, 1.8rem); border-bottom: 2px solid #c8e6c9; padding-bottom: 10px; margin-top: 40px;">2. The Core Units: Bigha, Katha, and Chatak</h2>
+    <p>West Bengal mein zameen ki calculation India ke baaki rajyon se thodi alag hai. Niche iska breakdown diya gaya hai:</p>
+
+    <h3 style="color: #2e7d32; font-size: clamp(1.1rem, 3.5vw, 1.4rem);">1. What is 1 Bigha in West Bengal?</h3>
+    <p>West Bengal mein 1 Bigha barabar <strong>14,400 Square Feet</strong> hota hai. Agar aapne Assam Land Calculator use kiya hai, toh aapko pata hoga ki Assam ka Bigha bhi itna hi hota hai. Lekin divisions mein antar hai.</p>
+
+    <h3 style="color: #2e7d32; font-size: clamp(1.1rem, 3.5vw, 1.4rem);">2. The Katha System (720 Sq. Ft.)</h3>
+    <p>Bengal mein <strong>1 Bigha = 20 Katha</strong> hota hai. Ek Katha ka area 720 Square Feet hota hai. Yeh unit ghar banwane wale plots ke liye sabse zyada lokpriya hai.</p>
+
+    <h3 style="color: #2e7d32; font-size: clamp(1.1rem, 3.5vw, 1.4rem);">3. Chatak: The Unique Unit</h3>
+    <p>West Bengal ki sabse khas unit <strong>Chatak</strong> hai. 1 Katha mein 16 Chatak hote hain. Iska matlab hai ki 1 Chatak barabar 45 Square Feet hota hai ($720 / 16$). Chote dukaan ya micro-plots ki registry Chatak mein hi hoti hai.</p>
+
+    <h2 style="color: #1b5e20; font-size: clamp(1.2rem, 4.5vw, 1.8rem); border-bottom: 2px solid #c8e6c9; padding-bottom: 10px; margin-top: 40px;">3. Direct Tool Link: Instant WB Conversion</h2>
+    <div style="text-align: center; margin: 30px 0; border: 2px solid #2e7d32; padding: clamp(15px, 5vw, 30px); border-radius: 12px; background: #fff;">
+        <p style="font-size: 16px; margin-bottom: 20px;"><strong>Bina kisi math ke accurate West Bengal Bigha-Katha nikalne ke liye niche click karein:</strong></p>
+        <a href="https://shayandigitalservice.github.io/my-tools-site/west-bengal-land-calculator.html" style="background: #2e7d32; color: white; padding: 15px 20px; text-decoration: none; border-radius: 8px; font-weight: bold; display: inline-block; width: 100%; max-width: 300px; box-sizing: border-box;">👉 OPEN WB CALCULATOR</a>
+    </div>
+
+    <h2 style="color: #1b5e20; font-size: clamp(1.2rem, 4.5vw, 1.8rem); border-bottom: 2px solid #c8e6c9; padding-bottom: 10px; margin-top: 40px;">4. Comparison: West Bengal vs Others</h2>
+    <div style="width: 100%; overflow-x: auto; -webkit-overflow-scrolling: touch; margin: 20px 0;">
+        <table style="width: 100%; border-collapse: collapse; min-width: 450px; background: #fff;">
+            <thead>
+                <tr style="background: #2e7d32; color: white;">
+                    <th style="padding: 12px; border: 1px solid #ddd;">State</th>
+                    <th style="padding: 12px; border: 1px solid #ddd;">1 Bigha (Sq. Ft)</th>
+                    <th style="padding: 12px; border: 1px solid #ddd;">Logic</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr><td><b>West Bengal</b></td><td>14,400</td><td>20 Katha / 16 Chatak</td></tr>
+                <tr><td>Assam</td><td>14,400</td><td>5 Katha / 20 Lessa</td></tr>
+                <tr><td>Bihar</td><td>27,225</td><td>20 Kattha / 20 Dhur</td></tr>
+            </tbody>
+        </table>
+    </div>
+
+    <h2 style="color: #1b5e20; font-size: clamp(1.2rem, 4.5vw, 1.8rem); border-bottom: 2px solid #c8e6c9; padding-bottom: 10px; margin-top: 40px;">5. Frequently Asked Questions (FAQs)</h2>
+    <div style="background: #f9f9f9; padding: 15px; border-radius: 8px; margin-bottom: 12px; border-left: 5px solid #2e7d32;">
+        <strong>Q: West Bengal mein 1 Katha mein kitne square feet hote hain?</strong><br>
+        Ans: West Bengal mein 1 Katha barabar 720 Square Feet hota hai.
+    </div>
+    <div style="background: #f9f9f9; padding: 15px; border-radius: 8px; margin-bottom: 12px; border-left: 5px solid #2e7d32;">
+        <strong>Q: 1 Chatak kitna bada hota hai?</strong><br>
+        Ans: 1 Chatak barabar 45 Square Feet hota hai.
+    </div>
+
+    <div style="margin-top: 50px; padding: clamp(15px, 3vw, 25px); border: 1px solid #feb2b2; background: #fff5f5; border-radius: 12px; font-size: 14px;">
+        <h3 style="color: #c53030; margin-top: 0;">🛑 Copyright Notice</h3>
+        <p><strong>Copyright © 2026 Shayan Digital Service. All Rights Reserved.</strong><br>
+        Unauthorized copying of this content is strictly prohibited. We take legal action against content theft.</p>
+    </div>
+
+    <footer style="text-align: center; margin-top: 40px; font-size: 11px; color: #999;">
+        Published by Shayan Digital Service | West Bengal Division | 2026
+    </footer>
+
+</article>
+
+<script>
+    document.addEventListener('copy', (e) => { e.preventDefault(); alert("Warning: Content is Copyright Protected - Shayan Digital Service"); });
+    document.addEventListener('contextmenu', (e) => e.preventDefault());
+</script>
+
+</body>
+</html>
