@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rajasthan Land Calculator | Pucca & Kucha Bigha Converter</title>
+    <meta name="description" content="Calculate land area in Rajasthan. Convert Sq Ft to Pucca Bigha, Kucha Bigha, and Biswa using Shayan Smart Tools.">
+    <style>
+        .rj-wrapper { font-family: 'Segoe UI', Arial, sans-serif; max-width: 900px; margin: 10px auto; padding: 15px; color: #333; }
+        .rj-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 15px; margin-bottom: 25px; }
+        input, select { width: 100%; padding: 12px; border: 2px solid #ddd; border-radius: 8px; font-size: 16px; box-sizing: border-box; outline: none; }
+        input:focus { border-color: #8d6e63; }
+        .rj-btn { width: 100%; background: #8d6e63; color: white; border: none; padding: 15px; font-size: 18px; font-weight: bold; border-radius: 8px; cursor: pointer; }
+        .rj-results { margin-top: 30px; display: none; background: #efebe9; padding: 20px; border-radius: 12px; border: 2px dashed #8d6e63; }
+        .rj-row { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #d7ccc8; }
+        @media (max-width: 480px) { h1 { font-size: 1.5rem; } }
+    </style>
+</head>
+<body>
+
+<div class="rj-wrapper">
+    <h1 style="text-align:center; color:#5d4037;">Rajasthan Land Calculator</h1>
+    <p style="text-align:center; font-size:14px; color:#666; margin-bottom:30px;">Pucca aur Kucha Bigha ka accurate hisaab - Shayan Smart Tools</p>
+    
+    <div class="rj-grid">
+        <div><label style="font-size:13px; font-weight:bold;">Length</label><input type="number" id="L_rj" placeholder="0"></div>
+        <div><label style="font-size:13px; font-weight:bold;">Width</label><input type="number" id="W_rj" placeholder="0"></div>
+        <div>
+            <label style="font-size:13px; font-weight:bold;">Type</label>
+            <select id="T_rj">
+                <option value="pucca">Pucca Bigha</option>
+                <option value="kucha">Kucha Bigha</option>
+            </select>
+        </div>
+    </div>
+
+    <button class="rj-btn" onclick="calcRJ()">CALCULATE AREA</button>
+
+    <div id="resRJ" class="rj-results">
+        <div style="text-align:center; margin-bottom:15px;">
+            <span style="font-size:14px;">Rajasthan Result:</span>
+            <strong id="rj_main" style="display:block; font-size:24px; color:#3e2723;">0 Bigha, 0 Biswa</strong>
+        </div>
+        <div class="rj-row"><span>Total Sq. Ft:</span> <b id="rj_sqft">0</b></div>
+        <div class="rj-row"><span>Total Acre:</span> <b id="rj_acre">0</b></div>
+    </div>
+</div>
+
+<script>
+    function calcRJ() {
+        const l = parseFloat(document.getElementById('L_rj').value);
+        const w = parseFloat(document.getElementById('W_rj').value);
+        const type = document.getElementById('T_rj').value;
+        const res = document.getElementById('resRJ');
+
+        if(!l || !w) { alert("Please enter measurements!"); return; }
+
+        let sqft = l * w;
+        let bighaSize = (type === "pucca") ? 27225 : 17424;
+        let biswaSize = bighaSize / 20;
+
+        let b = Math.floor(sqft / bighaSize);
+        let rem = sqft % bighaSize;
+        let bi = Math.floor(rem / biswaSize);
+
+        document.getElementById('rj_main').innerText = `${b} ${type.charAt(0).toUpperCase() + type.slice(1)} Bigha, ${bi} Biswa`;
+        document.getElementById('rj_sqft').innerText = sqft.toLocaleString();
+        document.getElementById('rj_acre').innerText = (sqft / 43560).toFixed(4);
+        res.style.display = "block";
+    }
+</script>
+
+<article style="max-width: 1000px; margin: 40px auto; padding: clamp(10px, 4vw, 25px); line-height: 1.9; text-align: justify; overflow-x: hidden;">
+    <h2 style="color: #5d4037; border-left: 6px solid #8d6e63; padding-left: 15px;">Rajasthan Land Measurement: Pucca vs Kucha Bigha</h2>
+    <p>Rajasthan mein zameen ka maapan ek dilchasp vishay hai. Yahan "Pucca Bigha" sarkari dastawezon mein use hota hai, jabki "Kucha Bigha" local kisan aapsi vyavhar mein use karte hain. <strong>Shayan Smart Tools</strong> ke is guide mein hum Rajasthan Bhulekh ke har ek unit ko detail mein samjhayenge.</p>
+
+    <h3 style="color: #3e2723;">1. What is 1 Pucca Bigha?</h3>
+    <p>Rajasthan mein 1 Pucca Bigha $27,225 \text{ sq. ft.}$ hota hai. Yeh bilkul UP aur Bihar ke standard jaisa hai. Isme 20 Biswa hote hain.</p>
+
+    <h3 style="color: #3e2723;">2. What is 1 Kucha Bigha?</h3>
+    <p>Kucha Bigha chota hota hai, jo lagbhag $17,424 \text{ sq. ft.}$ ka hota hai. Rajasthan ke kai districts mein log aaj bhi Kucha Bigha mein hi baat karte hain, isliye humare calculator mein dono options diye gaye hain.</p>
+
+    <div style="margin-top: 50px; padding: 20px; border: 1px solid #d7ccc8; background: #efebe9; border-radius: 12px; font-size: 13px;">
+        <strong>Copyright Notice © 2026 Shayan Smart Tools. All Rights Reserved.</strong><br>
+        Muksidul Islam dwara banaya gaya yeh content copy karna kanoonan apradh hai.
+    </div>
+</article>
+
+<script>
+    document.addEventListener('copy', (e) => { e.preventDefault(); alert("Copyright Protected - Shayan Smart Tools"); });
+    document.addEventListener('contextmenu', (e) => e.preventDefault());
+</script>
+
+</body>
+</html>
