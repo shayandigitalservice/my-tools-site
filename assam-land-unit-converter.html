@@ -5,171 +5,147 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Assam Land Unit Converter</title>
     <style>
-        :root {
-            --primary-color: #2e7d32;
-            --bg-color: #f4f7f6;
-        }
-
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: var(--bg-color);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background-color: #ffffff; /* Bilkul safed background */
             margin: 0;
             padding: 20px;
-        }
-
-        .converter-card {
-            background: white;
-            padding: 2rem;
-            border-radius: 12px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-            width: 100%;
-            max-width: 450px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
 
         h2 {
-            color: var(--primary-color);
+            color: #2e7d32;
+            margin-bottom: 20px;
             text-align: center;
-            margin-bottom: 1.5rem;
-            border-bottom: 2px solid var(--primary-color);
-            padding-bottom: 10px;
+        }
+
+        .converter-wrapper {
+            width: 100%;
+            max-width: 400px;
         }
 
         .input-group {
-            margin-bottom: 12px;
+            margin-bottom: 15px;
         }
 
         label {
             display: block;
-            margin-bottom: 4px;
-            font-weight: 600;
+            margin-bottom: 5px;
+            font-weight: bold;
             color: #333;
-            font-size: 14px;
         }
 
         input {
             width: 100%;
-            padding: 10px;
-            border: 1px solid #ddd;
-            border-radius: 6px;
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 4px; /* Simple corners */
+            font-size: 16px;
             box-sizing: border-box;
-            font-size: 15px;
-            transition: border-color 0.3s;
         }
 
         input:focus {
-            outline: none;
-            border-color: var(--primary-color);
-            background-color: #f9fff9;
+            outline: 2px solid #2e7d32;
+            border-color: transparent;
         }
 
-        .info-box {
-            background: #e8f5e9;
-            padding: 12px;
-            border-radius: 6px;
-            font-size: 0.85rem;
-            color: #2e7d32;
-            margin-top: 15px;
-            line-height: 1.4;
-        }
-
-        .back-home {
-            display: block;
-            text-align: center;
-            margin-top: 20px;
-            text-decoration: none;
-            color: #666;
+        .info-text {
+            margin-top: 25px;
             font-size: 14px;
+            color: #555;
+            line-height: 1.6;
+            border-top: 1px solid #eee;
+            padding-top: 15px;
+        }
+
+        .back-link {
+            margin-top: 30px;
+            text-decoration: none;
+            color: #2e7d32;
             font-weight: bold;
+            display: inline-block;
         }
     </style>
 </head>
 <body>
 
-<div class="converter-card">
     <h2>Assam Land Unit Converter</h2>
-    
-    <div class="input-group">
-        <label>Bigha</label>
-        <input type="number" id="bigha" placeholder="0" oninput="convertFrom('bigha')">
+
+    <div class="converter-wrapper">
+        <div class="input-group">
+            <label>Bigha</label>
+            <input type="number" id="bigha" oninput="convert('bigha')">
+        </div>
+
+        <div class="input-group">
+            <label>Katha</label>
+            <input type="number" id="katha" oninput="convert('katha')">
+        </div>
+
+        <div class="input-group">
+            <label>Lessa</label>
+            <input type="number" id="lessa" oninput="convert('lessa')">
+        </div>
+
+        <div class="input-group">
+            <label>Square Feet</label>
+            <input type="number" id="sqft" oninput="convert('sqft')">
+        </div>
+
+        <div class="input-group">
+            <label>Square Meter</label>
+            <input type="number" id="sqmeter" oninput="convert('sqmeter')">
+        </div>
+
+        <div class="input-group">
+            <label>Acre</label>
+            <input type="number" id="acre" oninput="convert('acre')">
+        </div>
+
+        <div class="input-group">
+            <label>Hectare</label>
+            <input type="number" id="hectare" oninput="convert('hectare')">
+        </div>
+
+        <div class="info-text">
+            <b>Assam Standard:</b> 1 Bigha = 14400 sq ft | 1 Katha = 2880 sq ft | 1 Lessa = 144 sq ft
+        </div>
+
+        <a href="index.html" class="back-link">← Back to Dashboard</a>
     </div>
-
-    <div class="input-group">
-        <label>Katha</label>
-        <input type="number" id="katha" placeholder="0" oninput="convertFrom('katha')">
-    </div>
-
-    <div class="input-group">
-        <label>Lessa</label>
-        <input type="number" id="lessa" placeholder="0" oninput="convertFrom('lessa')">
-    </div>
-
-    <hr style="border: 0; border-top: 1px solid #eee; margin: 15px 0;">
-
-    <div class="input-group">
-        <label>Square Feet (sq ft)</label>
-        <input type="number" id="sqft" placeholder="0" oninput="convertFrom('sqft')">
-    </div>
-
-    <div class="input-group">
-        <label>Square Meter (sq m)</label>
-        <input type="number" id="sqmeter" placeholder="0" oninput="convertFrom('sqmeter')">
-    </div>
-
-    <div class="input-group">
-        <label>Acre</label>
-        <input type="number" id="acre" placeholder="0" oninput="convertFrom('acre')">
-    </div>
-
-    <div class="input-group">
-        <label>Hectare</label>
-        <input type="number" id="hectare" placeholder="0" oninput="convertFrom('hectare')">
-    </div>
-
-    <div class="info-box">
-        <strong>Conversion Factor:</strong><br>
-        1 Bigha = 14,400 sq ft | 1337.8 sq m<br>
-        1 Acre = 3.025 Bigha approx<br>
-        1 Hectare = 7.47 Bigha approx
-    </div>
-
-    <a href="index.html" class="back-home">← Back to Dashboard</a>
-</div>
 
 <script>
-    function convertFrom(unit) {
-        const bigha = document.getElementById('bigha');
-        const katha = document.getElementById('katha');
-        const lessa = document.getElementById('lessa');
-        const sqft = document.getElementById('sqft');
-        const sqmeter = document.getElementById('sqmeter');
-        const acre = document.getElementById('acre');
-        const hectare = document.getElementById('hectare');
+    function convert(unit) {
+        const b = document.getElementById('bigha');
+        const k = document.getElementById('katha');
+        const l = document.getElementById('lessa');
+        const s = document.getElementById('sqft');
+        const m = document.getElementById('sqmeter');
+        const ac = document.getElementById('acre');
+        const he = document.getElementById('hectare');
 
-        let totalSqFt = 0;
+        let val = 0;
 
-        // Logic based on Square Feet as Base
-        if (unit === 'bigha') totalSqFt = bigha.value * 14400;
-        else if (unit === 'katha') totalSqFt = katha.value * 2880;
-        else if (unit === 'lessa') totalSqFt = lessa.value * 144;
-        else if (unit === 'sqft') totalSqFt = sqft.value;
-        else if (unit === 'sqmeter') totalSqFt = sqmeter.value * 10.7639;
-        else if (unit === 'acre') totalSqFt = acre.value * 43560;
-        else if (unit === 'hectare') totalSqFt = hectare.value * 107639;
+        if (unit === 'bigha') val = b.value * 14400;
+        else if (unit === 'katha') val = k.value * 2880;
+        else if (unit === 'lessa') val = l.value * 144;
+        else if (unit === 'sqft') val = s.value;
+        else if (unit === 'sqmeter') val = m.value * 10.7639;
+        else if (unit === 'acre') val = ac.value * 43560;
+        else if (unit === 'hectare') val = he.value * 107639;
 
-        if (totalSqFt > 0) {
-            if (unit !== 'bigha') bigha.value = (totalSqFt / 14400).toFixed(4);
-            if (unit !== 'katha') katha.value = (totalSqFt / 2880).toFixed(4);
-            if (unit !== 'lessa') lessa.value = (totalSqFt / 144).toFixed(2);
-            if (unit !== 'sqft') sqft.value = parseFloat(totalSqFt).toFixed(2);
-            if (unit !== 'sqmeter') sqmeter.value = (totalSqFt / 10.7639).toFixed(2);
-            if (unit !== 'acre') acre.value = (totalSqFt / 43560).toFixed(6);
-            if (unit !== 'hectare') hectare.value = (totalSqFt / 107639).toFixed(6);
+        if (val > 0) {
+            if (unit !== 'bigha') b.value = (val / 14400).toFixed(4);
+            if (unit !== 'katha') k.value = (val / 2880).toFixed(4);
+            if (unit !== 'lessa') l.value = (val / 144).toFixed(2);
+            if (unit !== 'sqft') s.value = parseFloat(val).toFixed(2);
+            if (unit !== 'sqmeter') m.value = (val / 10.7639).toFixed(2);
+            if (unit !== 'acre') ac.value = (val / 43560).toFixed(6);
+            if (unit !== 'hectare') he.value = (val / 107639).toFixed(6);
         } else {
-            bigha.value = katha.value = lessa.value = sqft.value = sqmeter.value = acre.value = hectare.value = "";
+            b.value = k.value = l.value = s.value = m.value = ac.value = he.value = "";
         }
     }
 </script>
