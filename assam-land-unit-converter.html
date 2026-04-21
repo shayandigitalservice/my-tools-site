@@ -18,6 +18,7 @@
             align-items: center;
             min-height: 100vh;
             margin: 0;
+            padding: 20px;
         }
 
         .converter-card {
@@ -26,7 +27,7 @@
             border-radius: 12px;
             box-shadow: 0 10px 25px rgba(0,0,0,0.1);
             width: 100%;
-            max-width: 400px;
+            max-width: 450px;
         }
 
         h2 {
@@ -38,38 +39,41 @@
         }
 
         .input-group {
-            margin-bottom: 15px;
+            margin-bottom: 12px;
         }
 
         label {
             display: block;
-            margin-bottom: 5px;
+            margin-bottom: 4px;
             font-weight: 600;
             color: #333;
+            font-size: 14px;
         }
 
         input {
             width: 100%;
-            padding: 12px;
+            padding: 10px;
             border: 1px solid #ddd;
             border-radius: 6px;
             box-sizing: border-box;
-            font-size: 16px;
+            font-size: 15px;
             transition: border-color 0.3s;
         }
 
         input:focus {
             outline: none;
             border-color: var(--primary-color);
+            background-color: #f9fff9;
         }
 
         .info-box {
             background: #e8f5e9;
-            padding: 10px;
+            padding: 12px;
             border-radius: 6px;
             font-size: 0.85rem;
             color: #2e7d32;
-            margin-top: 20px;
+            margin-top: 15px;
+            line-height: 1.4;
         }
 
         .back-home {
@@ -79,6 +83,7 @@
             text-decoration: none;
             color: #666;
             font-size: 14px;
+            font-weight: bold;
         }
     </style>
 </head>
@@ -89,28 +94,46 @@
     
     <div class="input-group">
         <label>Bigha</label>
-        <input type="number" id="bigha" placeholder="Enter Bigha" oninput="convertFrom('bigha')">
+        <input type="number" id="bigha" placeholder="0" oninput="convertFrom('bigha')">
     </div>
 
     <div class="input-group">
         <label>Katha</label>
-        <input type="number" id="katha" placeholder="Enter Katha" oninput="convertFrom('katha')">
+        <input type="number" id="katha" placeholder="0" oninput="convertFrom('katha')">
     </div>
 
     <div class="input-group">
         <label>Lessa</label>
-        <input type="number" id="lessa" placeholder="Enter Lessa" oninput="convertFrom('lessa')">
+        <input type="number" id="lessa" placeholder="0" oninput="convertFrom('lessa')">
     </div>
+
+    <hr style="border: 0; border-top: 1px solid #eee; margin: 15px 0;">
 
     <div class="input-group">
         <label>Square Feet (sq ft)</label>
-        <input type="number" id="sqft" placeholder="Total Sq. Ft" oninput="convertFrom('sqft')">
+        <input type="number" id="sqft" placeholder="0" oninput="convertFrom('sqft')">
+    </div>
+
+    <div class="input-group">
+        <label>Square Meter (sq m)</label>
+        <input type="number" id="sqmeter" placeholder="0" oninput="convertFrom('sqmeter')">
+    </div>
+
+    <div class="input-group">
+        <label>Acre</label>
+        <input type="number" id="acre" placeholder="0" oninput="convertFrom('acre')">
+    </div>
+
+    <div class="input-group">
+        <label>Hectare</label>
+        <input type="number" id="hectare" placeholder="0" oninput="convertFrom('hectare')">
     </div>
 
     <div class="info-box">
-        <strong>Unit Standard (Assam):</strong><br>
-        1 Bigha = 5 Katha | 1 Katha = 20 Lessa<br>
-        1 Lessa = 144 sq ft | 1 Bigha = 14,400 sq ft
+        <strong>Conversion Factor:</strong><br>
+        1 Bigha = 14,400 sq ft | 1337.8 sq m<br>
+        1 Acre = 3.025 Bigha approx<br>
+        1 Hectare = 7.47 Bigha approx
     </div>
 
     <a href="index.html" class="back-home">← Back to Dashboard</a>
@@ -118,30 +141,35 @@
 
 <script>
     function convertFrom(unit) {
-        const bighaInp = document.getElementById('bigha');
-        const kathaInp = document.getElementById('katha');
-        const lessaInp = document.getElementById('lessa');
-        const sqftInp = document.getElementById('sqft');
+        const bigha = document.getElementById('bigha');
+        const katha = document.getElementById('katha');
+        const lessa = document.getElementById('lessa');
+        const sqft = document.getElementById('sqft');
+        const sqmeter = document.getElementById('sqmeter');
+        const acre = document.getElementById('acre');
+        const hectare = document.getElementById('hectare');
 
         let totalSqFt = 0;
 
-        if (unit === 'bigha') {
-            totalSqFt = bighaInp.value * 14400;
-        } else if (unit === 'katha') {
-            totalSqFt = kathaInp.value * 2880;
-        } else if (unit === 'lessa') {
-            totalSqFt = lessaInp.value * 144;
-        } else if (unit === 'sqft') {
-            totalSqFt = sqftInp.value;
-        }
+        // Logic based on Square Feet as Base
+        if (unit === 'bigha') totalSqFt = bigha.value * 14400;
+        else if (unit === 'katha') totalSqFt = katha.value * 2880;
+        else if (unit === 'lessa') totalSqFt = lessa.value * 144;
+        else if (unit === 'sqft') totalSqFt = sqft.value;
+        else if (unit === 'sqmeter') totalSqFt = sqmeter.value * 10.7639;
+        else if (unit === 'acre') totalSqFt = acre.value * 43560;
+        else if (unit === 'hectare') totalSqFt = hectare.value * 107639;
 
-        if (unit !== 'sqft') sqftInp.value = totalSqFt || "";
-        if (unit !== 'bigha') bighaInp.value = totalSqFt ? (totalSqFt / 14400).toFixed(4) : "";
-        if (unit !== 'katha') kathaInp.value = totalSqFt ? (totalSqFt / 2880).toFixed(4) : "";
-        if (unit !== 'lessa') lessaInp.value = totalSqFt ? (totalSqFt / 144).toFixed(2) : "";
-
-        if (!totalSqFt) {
-            bighaInp.value = kathaInp.value = lessaInp.value = sqftInp.value = "";
+        if (totalSqFt > 0) {
+            if (unit !== 'bigha') bigha.value = (totalSqFt / 14400).toFixed(4);
+            if (unit !== 'katha') katha.value = (totalSqFt / 2880).toFixed(4);
+            if (unit !== 'lessa') lessa.value = (totalSqFt / 144).toFixed(2);
+            if (unit !== 'sqft') sqft.value = parseFloat(totalSqFt).toFixed(2);
+            if (unit !== 'sqmeter') sqmeter.value = (totalSqFt / 10.7639).toFixed(2);
+            if (unit !== 'acre') acre.value = (totalSqFt / 43560).toFixed(6);
+            if (unit !== 'hectare') hectare.value = (totalSqFt / 107639).toFixed(6);
+        } else {
+            bigha.value = katha.value = lessa.value = sqft.value = sqmeter.value = acre.value = hectare.value = "";
         }
     }
 </script>
