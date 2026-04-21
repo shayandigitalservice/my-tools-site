@@ -7,7 +7,7 @@
     <style>
         body {
             font-family: 'Segoe UI', Arial, sans-serif;
-            background-color: #ffffff; /* Bilkul safed background */
+            background-color: #ffffff;
             margin: 0;
             padding: 20px;
             display: flex;
@@ -17,8 +17,7 @@
 
         h2 {
             color: #2e7d32;
-            margin-bottom: 20px;
-            text-align: center;
+            margin-bottom: 25px;
         }
 
         .converter-wrapper {
@@ -41,23 +40,45 @@
             width: 100%;
             padding: 12px;
             border: 1px solid #ccc;
-            border-radius: 4px; /* Simple corners */
+            border-radius: 4px;
             font-size: 16px;
             box-sizing: border-box;
         }
 
-        input:focus {
-            outline: 2px solid #2e7d32;
-            border-color: transparent;
+        /* Convert Button Styling */
+        .btn-convert {
+            width: 100%;
+            padding: 15px;
+            background-color: #2e7d32;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 10px;
+            margin-bottom: 20px;
         }
 
-        .info-text {
-            margin-top: 25px;
-            font-size: 14px;
-            color: #555;
-            line-height: 1.6;
-            border-top: 1px solid #eee;
-            padding-top: 15px;
+        .btn-convert:hover {
+            background-color: #1b5e20;
+        }
+
+        /* Result Section Styling */
+        .result-section {
+            border-top: 2px solid #eee;
+            padding-top: 20px;
+            display: none; /* Shuru mein chhupa rahega */
+        }
+
+        .result-item {
+            margin-bottom: 10px;
+            font-size: 16px;
+            color: #333;
+        }
+
+        .result-item b {
+            color: #2e7d32;
         }
 
         .back-link {
@@ -75,78 +96,46 @@
 
     <div class="converter-wrapper">
         <div class="input-group">
-            <label>Bigha</label>
-            <input type="number" id="bigha" oninput="convert('bigha')">
+            <label>Enter Bigha</label>
+            <input type="number" id="bighaInput" placeholder="Bigha amount karein...">
         </div>
 
-        <div class="input-group">
-            <label>Katha</label>
-            <input type="number" id="katha" oninput="convert('katha')">
-        </div>
+        <button class="btn-convert" onclick="processConversion()">Convert Now</button>
 
-        <div class="input-group">
-            <label>Lessa</label>
-            <input type="number" id="lessa" oninput="convert('lessa')">
-        </div>
-
-        <div class="input-group">
-            <label>Square Feet</label>
-            <input type="number" id="sqft" oninput="convert('sqft')">
-        </div>
-
-        <div class="input-group">
-            <label>Square Meter</label>
-            <input type="number" id="sqmeter" oninput="convert('sqmeter')">
-        </div>
-
-        <div class="input-group">
-            <label>Acre</label>
-            <input type="number" id="acre" oninput="convert('acre')">
-        </div>
-
-        <div class="input-group">
-            <label>Hectare</label>
-            <input type="number" id="hectare" oninput="convert('hectare')">
-        </div>
-
-        <div class="info-text">
-            <b>Assam Standard:</b> 1 Bigha = 14400 sq ft | 1 Katha = 2880 sq ft | 1 Lessa = 144 sq ft
+        <div id="resultArea" class="result-section">
+            <div class="result-item">Katha: <b id="resKatha">0</b></div>
+            <div class="result-item">Lessa: <b id="resLessa">0</b></div>
+            <div class="result-item">Square Feet: <b id="resSqft">0</b></div>
+            <div class="result-item">Square Meter: <b id="resSqm">0</b></div>
+            <div class="result-item">Acre: <b id="resAcre">0</b></div>
+            <div class="result-item">Hectare: <b id="resHectare">0</b></div>
         </div>
 
         <a href="index.html" class="back-link">← Back to Dashboard</a>
     </div>
 
 <script>
-    function convert(unit) {
-        const b = document.getElementById('bigha');
-        const k = document.getElementById('katha');
-        const l = document.getElementById('lessa');
-        const s = document.getElementById('sqft');
-        const m = document.getElementById('sqmeter');
-        const ac = document.getElementById('acre');
-        const he = document.getElementById('hectare');
+    function processConversion() {
+        const bigha = document.getElementById('bighaInput').value;
+        const resultArea = document.getElementById('resultArea');
 
-        let val = 0;
-
-        if (unit === 'bigha') val = b.value * 14400;
-        else if (unit === 'katha') val = k.value * 2880;
-        else if (unit === 'lessa') val = l.value * 144;
-        else if (unit === 'sqft') val = s.value;
-        else if (unit === 'sqmeter') val = m.value * 10.7639;
-        else if (unit === 'acre') val = ac.value * 43560;
-        else if (unit === 'hectare') val = he.value * 107639;
-
-        if (val > 0) {
-            if (unit !== 'bigha') b.value = (val / 14400).toFixed(4);
-            if (unit !== 'katha') k.value = (val / 2880).toFixed(4);
-            if (unit !== 'lessa') l.value = (val / 144).toFixed(2);
-            if (unit !== 'sqft') s.value = parseFloat(val).toFixed(2);
-            if (unit !== 'sqmeter') m.value = (val / 10.7639).toFixed(2);
-            if (unit !== 'acre') ac.value = (val / 43560).toFixed(6);
-            if (unit !== 'hectare') he.value = (val / 107639).toFixed(6);
-        } else {
-            b.value = k.value = l.value = s.value = m.value = ac.value = he.value = "";
+        if (bigha === "" || bigha <= 0) {
+            alert("Please enter a valid Bigha amount");
+            return;
         }
+
+        // Calculation (Based on 1 Bigha = 14400 sq ft)
+        let totalSqft = bigha * 14400;
+
+        document.getElementById('resKatha').innerText = (bigha * 5).toFixed(2);
+        document.getElementById('resLessa').innerText = (bigha * 100).toFixed(2);
+        document.getElementById('resSqft').innerText = totalSqft.toLocaleString();
+        document.getElementById('resSqm').innerText = (totalSqft / 10.764).toFixed(2);
+        document.getElementById('resAcre').innerText = (totalSqft / 43560).toFixed(4);
+        document.getElementById('resHectare').innerText = (totalSqft / 107639).toFixed(4);
+
+        // Result dikhane ke liye
+        resultArea.style.display = "block";
     }
 </script>
 
