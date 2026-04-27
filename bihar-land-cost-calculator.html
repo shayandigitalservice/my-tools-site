@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bihar Land Cost Calculator | Zameen ki Keemat Nikalein</title>
+    <meta name="description" content="Official Bihar Land Cost Calculator by Shayan Smart Tools. Calculate the total price of land in Bihar based on Bigha, Kattha, or Dhur rates. Accurate and fast.">
+    <meta name="keywords" content="Bihar Land Cost Calculator, Zameen ki keemat kaise nikale, Bihar Land Price Calculator, Bigha to Price Bihar, Shayan Smart Tools">
+    <meta name="author" content="Shayan Smart Tools">
+
+    <style>
+        :root {
+            --bihar-red: #b71c1c;
+            --text-dark: #333;
+        }
+
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            line-height: 1.6;
+            color: var(--text-dark);
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #ffffff;
+        }
+
+        .tool-wrapper {
+            padding: 40px 0;
+            text-align: center;
+        }
+
+        h1, h2, h3 { color: var(--bihar-red); }
+
+        .input-group { margin: 20px 0; text-align: left; max-width: 400px; margin-left: auto; margin-right: auto; }
+
+        label { display: block; font-weight: bold; margin-bottom: 5px; }
+
+        input, select {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+            box-sizing: border-box;
+            margin-bottom: 15px;
+        }
+
+        .btn-convert {
+            background-color: var(--bihar-red);
+            color: white;
+            padding: 15px 45px;
+            border: none;
+            border-radius: 5px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
+            width: 100%;
+            max-width: 400px;
+        }
+
+        .btn-convert:hover { background-color: #7f0000; }
+
+        .result-display {
+            margin-top: 30px;
+            display: none;
+            text-align: left;
+            background: #fff5f5;
+            padding: 25px;
+            border-radius: 8px;
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
+            border-left: 5px solid var(--bihar-red);
+        }
+
+        .res-item { font-size: 20px; margin-bottom: 10px; }
+        .res-item b { color: var(--bihar-red); }
+
+        /* SEO Section */
+        .seo-article { margin-top: 60px; border-top: 2px solid #eee; padding-top: 40px; }
+        table { width: 100%; border-collapse: collapse; margin: 20px 0; }
+        th, td { border: 1px solid #ddd; padding: 12px; text-align: left; }
+        th { background-color: var(--bihar-red); color: white; }
+
+        footer { margin-top: 60px; text-align: center; padding: 30px 0; border-top: 1px solid #eee; color: #777; font-size: 14px; }
+    </style>
+</head>
+<body>
+
+    <div class="tool-wrapper">
+        <h1>Bihar Land Cost Calculator</h1>
+        <p>Calculate total land price based on Bihar's local units (Kattha, Dhur, Bigha)</p>
+
+        <div class="input-group">
+            <label>Select Unit (Ikai)</label>
+            <select id="unitSelect">
+                <option value="Kattha">Kattha</option>
+                <option value="Bigha">Bigha</option>
+                <option value="Dhur">Dhur</option>
+            </select>
+
+            <label>Enter Area (Kitni zameen hai)</label>
+            <input type="number" id="areaInput" placeholder="Example: 5">
+
+            <label>Rate per Unit (Ek Kattha/Bigha ka daam)</label>
+            <input type="number" id="rateInput" placeholder="Example: 500000">
+        </div>
+
+        <button class="btn-convert" onclick="calculateCost()">Calculate Total Price</button>
+
+        <div id="resultArea" class="result-display">
+            <h3 style="margin-top:0;">Land Price Summary:</h3>
+            <div class="res-item">Total Cost: ₹ <b id="totalPrice">0</b></div>
+            <div class="res-item" style="font-size: 16px; color: #555;">(In Words: <span id="priceWords"></span>)</div>
+        </div>
+    </div>
+
+    <article class="seo-article">
+        <header style="text-align: center; margin-bottom: 30px;">
+            <h2>Bihar Land Cost Calculation Guide: Zameen Ka Sahi Mol Nikalein</h2>
+            <p>Bihar mein zameen kharidne se pehle uska total budget nikalne ka sabse aasan tarika.</p>
+        </header>
+
+        <section>
+            <h3>Introduction (Dumdar Prastavana)</h3>
+            <p>
+                Bihar mein zameen ka karobaar bohot tezi se badh raha hai. Chahe aap Patna mein plot le rahe hon ya Darbhanga ke gramin ilakon mein khet, sabse pehla sawal hota hai— <b>"Zameen ki total keemat kya hogi?"</b> Bihar mein zameen ka rate aksar <b>"Per Kattha"</b> ya <b>"Per Dhur"</b> ke hisaab se bataya jata hai. Lekin jab area points mein ho (jaise 2.5 Kattha), toh aam aadmi ke liye calculation mushkil ho jati hai.
+            </p>
+            <p>
+                Hamara <b>Bihar Land Cost Calculator</b> isi samasya ko hal karne ke liye banaya gaya hai. Yeh tool Shayan Smart Tools ki ek vishesh peshkash hai jo Bihar ke revenue standards (5.5 Haath ka Lagga) ko dhyan mein rakhte hue banaya gaya hai. Is calculator se aap seconds mein zameen ka total value nikal sakte hain.
+            </p>
+        </section>
+
+        <section style="background: #fff5f5; padding: 20px; border-radius: 10px; margin: 30px 0;">
+            <h3>How to Use Bihar Land Cost Calculator?</h3>
+            <p>Is calculator ka upyog karna behad saral hai:</p>
+            <ol>
+                <li>Sabse pehle dropdown menu se apni unit chunein (Kattha, Bigha, ya Dhur).</li>
+                <li>"Enter Area" box mein zameen ki sankhya likhein jo aap kharidna chahte hain.</li>
+                <li>"Rate per Unit" mein us area ka current market rate ya sarkari rate (MVR) bharein.</li>
+                <li><b>"Calculate Total Price"</b> button par click karein.</li>
+                <li>Tool aapko total keemat ₹ (Rupees) mein aur Words mein bhi dikha dega.</li>
+            </ol>
+        </section>
+
+        <h3>Bihar Land Unit Conversion Table</h3>
+        <p>Calculation se pehle Bihar ke in units ko samajhna zaruri hai:</p>
+        <table>
+            <thead>
+                <tr>
+                    <th>Unit Name</th>
+                    <th>Conversion</th>
+                    <th>Typical Usage</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>1 Bigha</td>
+                    <td>20 Kattha</td>
+                    <td>Khetibadi (Agriculture)</td>
+                </tr>
+                <tr>
+                    <td>1 Kattha</td>
+                    <td>20 Dhur</td>
+                    <td>Residential Plots</td>
+                </tr>
+                <tr>
+                    <td>1 Dhur</td>
+                    <td>20 Dhurki</td>
+                    <td>Small Shop/House Space</td>
+                </tr>
+                <tr>
+                    <td>1 Acre</td>
+                    <td>~1.61 Bigha</td>
+                    <td>Large Scale Farming</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h3>5 Practical Examples (Bihar Context)</h3>
+        <ol>
+            <li><b>Example 1:</b> Agar 2 Kattha zameen ka rate ₹10 Lakh per Kattha hai, toh total cost ₹20 Lakh hogi.</li>
+            <li><b>Example 2:</b> 5 Dhur zameen ka rate ₹50,000 per Dhur hai, toh total cost ₹2.5 Lakh hogi.</li>
+            <li><b>Example 3:</b> 1 Bigha khet ka daam ₹15 Lakh hai, toh pure khet ki keemat ₹15 Lakh hogi.</li>
+            <li><b>Example 4:</b> 2.5 Kattha plot ka rate ₹8 Lakh per Kattha hai, toh total value ₹20 Lakh banegi.</li>
+            <li><b>Example 5:</b> Town area mein agar rate ₹2500 per sq ft hai, toh pehle use Kattha mein badlein ya direct total sq ft se guna karein.</li>
+        </ol>
+
+        <h3>Frequently Asked Questions (FAQs)</h3>
+        <div>
+            <p><b>Q1. Bihar mein zameen ka rate kaise tay hota hai?</b><br>Ans: Bihar mein do tarah ke rate hote hain—Sarkari Rate (MVR) aur Market Rate. Registry hamesha MVR ya usse zyada par hoti hai.</p>
+            <p><b>Q2. 1 Kattha mein kitna Dhur hota hai?</b><br>Ans: Bihar mein hamesha 1 Kattha mein 20 Dhur hote hain.</p>
+            <p><b>Q3. Kya Registry fees land cost mein include hoti hai?</b><br>Ans: Nahi, land cost ke upar aapko lagbhag 6% to 9% stamp duty aur registration fee alag se deni hoti hai.</p>
+            <p><b>Q4. 1 Bigha mein kitna Kattha hota hai?</b><br>Ans: Bihar standard ke anusar 1 Bigha mein 20 Kattha hota hai.</p>
+            <p><b>Q5. Kya ye tool khet aur plot dono ke liye hai?</b><br>Ans: Ji haan, ye tool har tarah ki zameen ke mol-bhav ke liye upyogi hai.</p>
+        </div>
+
+        <div style="margin-top: 30px; border-top: 1px dashed #b71c1c; padding-top: 20px;">
+            <p><b>Internal Links:</b> <a href="index.html">Home</a> | <a href="bihar-bigha-to-sqft.html">Bihar Land Converter</a> | <a href="up-bigha-to-sqft.html">UP Land Tool</a></p>
+        </div>
+
+        <div style="margin-top: 40px; background: #f9f9f9; padding: 20px; border-radius: 5px; font-size: 13px;">
+            <p><b>Copyright Issue:</b> Is website ka code, logic aur content Shayan Smart Tools ki property hai. Bina ijazat copy karna kanoonan dandniya hai.</p>
+            <p><b>All Rights Reserved © 2026 Shayan Smart Tools</b></p>
+            <p><b>Disclaimer:</b> Yeh calculator keval anumanit keemat (estimation) ke liye hai. Final sauda karne se pehle local Registry Office ya vakeel se salah zarur lein.</p>
+        </div>
+    </article>
+
+    <script>
+        function calculateCost() {
+            const area = document.getElementById('areaInput').value;
+            const rate = document.getElementById('rateInput').value;
+            const unit = document.getElementById('unitSelect').value;
+            const resArea = document.getElementById('resultArea');
+
+            if (area === "" || rate === "" || area <= 0 || rate <= 0) {
+                alert("Bhai, sahi Area aur Rate dalo!");
+                return;
+            }
+
+            let total = area * rate;
+            document.getElementById('totalPrice').innerText = total.toLocaleString('en-IN');
+            document.getElementById('priceWords').innerText = numberToWords(total) + " Rupees Only";
+            resArea.style.display = "block";
+        }
+
+        // Simple helper for Words conversion
+        function numberToWords(num) {
+            const a = ['','One ','Two ','Three ','Four ','Five ','Six ','Seven ','Eight ','Nine ','Ten ','Eleven ','Twelve ','Thirteen ','Fourteen ','Fifteen ','Sixteen ','Seventeen ','Eighteen ','Nineteen '];
+            const b = ['', '', 'Twenty','Thirty','Forty','Fifty','Sixty','Seventy','Eighty','Ninety'];
+            
+            if ((num = num.toString()).length > 9) return 'Amount is too large';
+            let n = ('000000000' + num).substr(-9).match(/^(\d{2})(\d{2})(\d{2})(\d{1})(\d{2})$/);
+            if (!n) return ''; 
+            let str = '';
+            str += (n[1] != 0) ? (a[Number(n[1])] || b[n[1][0]] + ' ' + a[n[1][1]]) + 'Crore ' : '';
+            str += (n[2] != 0) ? (a[Number(n[2])] || b[n[2][0]] + ' ' + a[n[2][1]]) + 'Lakh ' : '';
+            str += (n[3] != 0) ? (a[Number(n[3])] || b[n[3][0]] + ' ' + a[n[3][1]]) + 'Thousand ' : '';
+            str += (n[4] != 0) ? (a[Number(n[4])] || b[n[4][0]] + ' ' + a[n[4][1]]) + 'Hundred ' : '';
+            str += (n[5] != 0) ? ((str != '') ? 'and ' : '') + (a[Number(n[5])] || b[n[5][0]] + ' ' + a[n[5][1]]) : '';
+            return str.trim();
+        }
+    </script>
+
+    <footer>
+        <p>&copy; 2026 Shayan Smart Tools. Managed by Muksidul Islam.</p>
+    </footer>
+</body>
+</html>
