@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rajasthan Land Cost Calculator | Bigha to Price Calculator</title>
+    
+    <meta name="description" content="Official Rajasthan Land Cost Calculator by Shayan Smart Tools. Calculate total land price in Rajasthan based on Pucca Bigha, Biswa, or Sq Ft rates accurately. Free and Fast.">
+    <meta name="keywords" content="Rajasthan Land Cost Calculator, Land Price in Rajasthan, Bigha to Price Rajasthan, Rajasthan Zameen ki Keemat, Shayan Smart Tools Rajasthan">
+    <meta name="author" content="Shayan Smart Tools">
+    <meta name="robots" content="index, follow">
+
+    <style>
+        :root {
+            --raj-orange: #d84315;
+            --text-dark: #333;
+        }
+
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            line-height: 1.6;
+            color: var(--text-dark);
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #ffffff;
+        }
+
+        .tool-wrapper {
+            padding: 40px 0;
+            text-align: center;
+        }
+
+        h1, h2, h3 { color: var(--raj-orange); }
+
+        .input-group { margin: 20px 0; text-align: left; max-width: 400px; margin-left: auto; margin-right: auto; }
+
+        label { display: block; font-weight: bold; margin-bottom: 5px; }
+
+        input, select {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+            box-sizing: border-box;
+            margin-bottom: 15px;
+        }
+
+        .btn-convert {
+            background-color: var(--raj-orange);
+            color: white;
+            padding: 15px 45px;
+            border: none;
+            border-radius: 5px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
+            width: 100%;
+            max-width: 400px;
+        }
+
+        .btn-convert:hover { background-color: #bf360c; }
+
+        .result-display {
+            margin-top: 30px;
+            display: none;
+            text-align: left;
+            background: #fff3e0;
+            padding: 25px;
+            border-radius: 8px;
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
+            border-left: 5px solid var(--raj-orange);
+        }
+
+        .res-item { font-size: 20px; margin-bottom: 10px; }
+        .res-item b { color: var(--raj-orange); }
+
+        /* SEO Section Styling */
+        .seo-article { margin-top: 60px; border-top: 2px solid #eee; padding-top: 40px; }
+        table { width: 100%; border-collapse: collapse; margin: 20px 0; border: 1px solid #ddd; }
+        th, td { border: 1px solid #ddd; padding: 12px; text-align: left; }
+        th { background-color: var(--raj-orange); color: white; }
+
+        footer { margin-top: 60px; text-align: center; padding: 30px 0; border-top: 1px solid #eee; color: #777; font-size: 14px; }
+    </style>
+</head>
+<body>
+
+    <div class="tool-wrapper">
+        <h1>Rajasthan Land Cost Calculator</h1>
+        <p>Calculate total land price based on Rajasthan local units (Pucca Bigha, Biswa, Biswansi)</p>
+
+        <div class="input-group">
+            <label>Select Unit (Unit Chunein)</label>
+            <select id="unitSelect">
+                <option value="Bigha">Pucca Bigha</option>
+                <option value="Biswa">Biswa</option>
+                <option value="Biswansi">Biswansi</option>
+            </select>
+
+            <label>Enter Area (Kitni zameen hai)</label>
+            <input type="number" id="areaInput" placeholder="Example: 5">
+
+            <label>Rate per Unit (Ek Unit ka daam)</label>
+            <input type="number" id="rateInput" placeholder="Example: 500000">
+        </div>
+
+        <button class="btn-convert" onclick="calculateCost()">Calculate Total Price</button>
+
+        <div id="resultArea" class="result-display">
+            <h3 style="margin-top:0;">Rajasthan Land Price Summary:</h3>
+            <div class="res-item">Total Cost: ₹ <b id="totalPrice">0</b></div>
+            <div class="res-item" style="font-size: 16px; color: #555;">(In Words: <span id="priceWords"></span>)</div>
+        </div>
+    </div>
+
+    <article class="seo-article">
+        <header style="text-align: center; margin-bottom: 30px;">
+            <h2>Rajasthan Land Cost Calculation Guide: Zameen Ka Mol-Bhav</h2>
+            <p>Rajasthan mein Pucca Bigha aur Biswa ke hisaab se zameen ka sateek budget kaise banayein.</p>
+        </header>
+
+        <section>
+            <h3>Introduction (Dumdar Prastavana)</h3>
+            <p>
+                Rajasthan mein zameen ka karobaar hamesha se hi vikasit raha hai. Jaipur, Jodhpur, ya Bikaner—kahin bhi property kharidte waqt sabse bada sawal hota hai total budget ka. Rajasthan mein zameen ka saudha zyadatar <b>"Per Pucca Bigha"</b> ya <b>"Per Biswa"</b> ke hisaab se kiya jata hai. Kyunki Rajasthan mein <b>Kucha Bigha</b> ka bhi prachalan hai, isliye calculation mein galti hone ki sambhavna rehti hai.
+            </p>
+            <p>
+                Hamara <b>Rajasthan Land Cost Calculator</b> Shayan Smart Tools ki ek behtareen peshkash hai. Yeh tool Rajasthan Revenue Department ke standards ko dhyan mein rakh kar banaya gaya hai, taaki kisan, investor aur aam nagrik bina kisi galti ke apni zameen ki market value nikal sakein.
+            </p>
+        </section>
+
+        <section style="background: #fff3e0; padding: 20px; border-radius: 10px; margin: 30px 0; border-left: 5px solid var(--raj-orange);">
+            <h3>How to Use Rajasthan Land Cost Calculator?</h3>
+            <p>Is calculator ka istemal karna behad saral hai:</p>
+            <ol>
+                <li>Sabse pehle dropdown menu se unit select karein (Pucca Bigha, Biswa, ya Biswansi).</li>
+                <li>"Enter Area" mein zameen ki quantity bharein (Example: 2 Bigha).</li>
+                <li>"Rate per Unit" mein us area ka market price ya sarkari rate likhein.</li>
+                <li><b>"Calculate Total Price"</b> button par click karein.</li>
+                <li>Result box mein total keemat ₹ (Rupees) aur Words mein turant dikh jayegi.</li>
+            </ol>
+        </section>
+
+        <h3>Rajasthan Land Unit Conversion Table</h3>
+        <p>Sateek calculation ke liye in units ka rishta samajhna zaruri hai:</p>
+        <table>
+            <thead>
+                <tr>
+                    <th>Unit Name</th>
+                    <th>Sub-Unit Relation</th>
+                    <th>In Square Feet</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>1 Pucca Bigha</td>
+                    <td>20 Biswa</td>
+                    <td>27,225 Sq Ft</td>
+                </tr>
+                <tr>
+                    <td>1 Biswa</td>
+                    <td>20 Biswansi</td>
+                    <td>1,361.25 Sq Ft</td>
+                </tr>
+                <tr>
+                    <td>1 Kucha Bigha</td>
+                    <td>1/3 Pucca Bigha</td>
+                    <td>9,075 Sq Ft</td>
+                </tr>
+                <tr>
+                    <td>1 Acre</td>
+                    <td>~1.6 Pucca Bigha</td>
+                    <td>43,560 Sq Ft</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h3>5 Practical Examples (Rajasthan Context)</h3>
+        <ol>
+            <li><b>Example 1:</b> 1 Pucca Bigha zameen ka rate ₹15 Lakh hai, toh total cost ₹15 Lakh hogi.</li>
+            <li><b>Example 2:</b> 10 Biswa plot ka rate ₹1 Lakh per Biswa hai, toh total price ₹10 Lakh hogi.</li>
+            <li><b>Example 3:</b> 2 Bigha khet ka rate ₹8 Lakh per Bigha hai, toh total value ₹16 Lakh banegi.</li>
+            <li><b>Example 4:</b> 5 Biswa plot ka rate ₹2 Lakh per Biswa hai, toh total budget ₹10 Lakh hoga.</li>
+            <li><b>Example 5:</b> 1 Acre zameen (~1.6 Bigha) agar ₹10 Lakh per Bigha hai, toh total value ₹16 Lakh hogi.</li>
+        </ol>
+
+        <h3>Frequently Asked Questions (FAQs)</h3>
+        <div>
+            <p><b>Q1. Rajasthan mein 1 Bigha mein kitna Biswa hota hai?</b><br>Ans: Rajasthan revenue standards ke anusar 1 Pucca Bigha mein 20 Biswa hote hain.</p>
+            <p><b>Q2. Pucca Bigha aur Kucha Bigha mein kya antar hai?</b><br>Ans: Pucca Bigha bada hota hai (27,225 Sq Ft), jabki 1 Pucca Bigha barabar 3 Kucha Bigha hota hai.</p>
+            <p><b>Q3. Kya DLC rate registry ke liye use hota hai?</b><br>Ans: Ji haan, Rajasthan mein registry ke waqt DLC rate (Sarkari Rate) par Stamp Duty deni hoti hai.</p>
+            <p><b>Q4. 1 Biswa kitne Square Feet ka hota hai?</b><br>Ans: Rajasthan mein 1 Biswa exactly 1,361.25 Square Feet ka hota hai.</p>
+            <p><b>Q5. Kya ye tool mobile friendly hai?</b><br>Ans: Ji haan, Shayan Smart Tools ka ye calculator har device par 100% responsive hai.</p>
+        </div>
+
+        <div style="margin-top: 30px; border-top: 1px dashed #d84315; padding-top: 20px;">
+            <p><b>Internal Links:</b> <a href="index.html">Home Dashboard</a> | <a href="rajasthan-bigha-to-sqft.html">Rajasthan Bigha Converter</a> | <a href="up-land-cost-calculator.html">UP Cost Tool</a></p>
+        </div>
+
+        <div style="margin-top: 40px; background: #f9f9f9; padding: 20px; border-radius: 5px; font-size: 13px;">
+            <p><b>Copyright Issue:</b> Is website ka code aur logic Shayan Smart Tools ki property hai. Copying strictly prohibited.</p>
+            <p><b>All Rights Reserved © 2026 Shayan Smart Tools</b></p>
+            <p><b>Disclaimer:</b> Yeh tool sirf anumanit estimation ke liye hai. Kisi bhi legal payment se pehle Patwari ya Tehsildar se verify zarur karein.</p>
+        </div>
+    </article>
+
+    <script>
+        function calculateCost() {
+            const area = document.getElementById('areaInput').value;
+            const rate = document.getElementById('rateInput').value;
+            const resArea = document.getElementById('resultArea');
+
+            if (area === "" || rate === "" || area <= 0 || rate <= 0) {
+                alert("Bhai, sahi Area aur Rate dalo!");
+                return;
+            }
+
+            let total = area * rate;
+            document.getElementById('totalPrice').innerText = total.toLocaleString('en-IN');
+            document.getElementById('priceWords').innerText = numberToWords(total) + " Rupees Only";
+            resArea.style.display = "block";
+        }
+
+        function numberToWords(num) {
+            const a = ['','One ','Two ','Three ','Four ','Five ','Six ','Seven ','Eight ','Nine ','Ten ','Eleven ','Twelve ','Thirteen ','Fourteen ','Fifteen ','Sixteen ','Seventeen ','Eighteen ','Nineteen '];
+            const b = ['', '', 'Twenty','Thirty','Forty','Fifty','Sixty','Seventy','Eighty','Ninety'];
+            
+            if ((num = num.toString()).length > 9) return 'Amount is too large';
+            let n = ('000000000' + num).substr(-9).match(/^(\d{2})(\d{2})(\d{2})(\d{1})(\d{2})$/);
+            if (!n) return ''; 
+            let str = '';
+            str += (n[1] != 0) ? (a[Number(n[1])] || b[n[1][0]] + ' ' + a[n[1][1]]) + 'Crore ' : '';
+            str += (n[2] != 0) ? (a[Number(n[2])] || b[n[2][0]] + ' ' + a[n[2][1]]) + 'Lakh ' : '';
+            str += (n[3] != 0) ? (a[Number(n[3])] || b[n[3][0]] + ' ' + a[n[3][1]]) + 'Thousand ' : '';
+            str += (n[4] != 0) ? (a[Number(n[4])] || b[n[4][0]] + ' ' + a[n[4][1]]) + 'Hundred ' : '';
+            str += (n[5] != 0) ? ((str != '') ? 'and ' : '') + (a[Number(n[5])] || b[n[5][0]] + ' ' + a[n[5][1]]) : '';
+            return str.trim();
+        }
+    </script>
+
+    <footer>
+        <p>&copy; 2026 Shayan Smart Tools. Managed by Muksidul Islam.</p>
+    </footer>
+</body>
+</html>
