@@ -7,8 +7,6 @@
     
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
     
-    <meta name="description" content="Official Assam Land Area Addition Tool. Add multiple plots in Bigha, Katha, and Lessa accurately with 5-Katha carry logic. Best SEO tool for Assam Dharitree records.">
-    
     <style>
         :root {
             --assam-green: #1b5e20;
@@ -37,11 +35,7 @@
             position: relative;
         }
 
-        .lang-switcher {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-        }
+        .lang-switcher { position: absolute; top: 20px; right: 20px; }
 
         h1 { color: var(--assam-green); text-align: center; margin-bottom: 5px; font-size: 24px; }
         .tagline { text-align: center; color: #666; margin-bottom: 30px; font-size: 14px; }
@@ -52,23 +46,15 @@
             border-radius: 10px;
             margin-bottom: 20px;
             border: 1px solid #c8e6c9;
-            animation: slideIn 0.4s ease;
         }
-
-        @keyframes slideIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
         .plot-header { font-weight: bold; color: var(--assam-green); margin-bottom: 15px; display: block; border-bottom: 1px solid #a5d6a7; }
 
-        .input-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
-            gap: 15px;
-        }
+        .input-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(80px, 1fr)); gap: 15px; }
 
         .field { display: flex; flex-direction: column; }
         .field label { font-size: 13px; font-weight: bold; margin-bottom: 5px; }
         input { padding: 12px; border: 2px solid #ddd; border-radius: 8px; text-align: center; font-size: 16px; width: 100%; box-sizing: border-box; }
-        input:focus { border-color: var(--assam-green); outline: none; box-shadow: 0 0 5px rgba(27,94,32,0.2); }
 
         .btn-box { display: flex; gap: 10px; justify-content: center; margin: 30px 0; flex-wrap: wrap; }
         .btn { padding: 12px 20px; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; transition: 0.3s; font-size: 15px; min-width: 140px; }
@@ -78,7 +64,6 @@
         
         .result-panel {
             background: #fff;
-            color: var(--text-main);
             padding: 30px;
             border-radius: 12px;
             display: none;
@@ -92,34 +77,25 @@
         .action-btns { display: flex; gap: 10px; justify-content: center; margin-top: 20px; flex-wrap: wrap; }
         .btn-pdf { background: #e74c3c; color: white; }
         .btn-share { background: #25D366; color: white; }
-        .btn-copy { background: #3498db; color: white; }
 
-        /* PDF HIDDEN STYLE */
+        /* PDF RECEIPT STYLE - Fix for White Page: We keep it visible but moved off-screen */
         #pdfReceipt {
-            width: 794px; padding: 50px; background: white; position: absolute; left: -9999px; top: -9999px; box-sizing: border-box;
+            width: 700px; padding: 50px; background: white; 
+            position: absolute; left: -5000px; top: 0;
+            box-sizing: border-box;
         }
         .pdf-header { border-bottom: 5px solid var(--assam-green); padding-bottom: 10px; display: flex; justify-content: space-between; align-items: center; }
-        .pdf-logo-text h1 { margin: 0; color: var(--assam-green); font-size: 32px; }
-        .pdf-rhino { width: 80px; opacity: 0.2; }
         .pdf-table { width: 100%; border-collapse: collapse; margin-top: 20px; }
         .pdf-table th, .pdf-table td { border: 1px solid #ddd; padding: 12px; text-align: left; }
-        .pdf-table th { background: #f1f8e9; }
 
-        /* SEO SECTION */
         .seo-section { background: white; padding: 40px; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
-        h2, h3 { color: var(--assam-green); margin-top: 35px; border-left: 5px solid var(--assam-green); padding-left: 15px; }
-        table { width: 100%; border-collapse: collapse; margin: 25px 0; }
-        th, td { border: 1px solid #ddd; padding: 15px; text-align: left; }
-        th { background: #f1f8e9; }
-
-        footer { text-align: center; padding: 40px 0; border-top: 1px solid #eee; margin-top: 50px; color: #888; font-size: 14px; }
     </style>
 </head>
 <body>
 
     <div class="tool-card">
         <div class="lang-switcher">
-            <button class="btn btn-lang" onclick="toggleLanguage()">অসমীয়া / Hindi / Eng</button>
+            <button class="btn btn-lang" onclick="toggleLanguage()">Change Language</button>
         </div>
         
         <h1 id="mainTitle">Assam Land Area Addition Tool</h1>
@@ -127,11 +103,11 @@
 
         <div id="plotsList">
             <div class="plot-container">
-                <span class="plot-header" id="ph1">Plot Detail #1</span>
+                <span class="plot-header" class="phText">Plot Detail #1</span>
                 <div class="input-grid">
-                    <div class="field"><label id="lb1">Bigha</label><input type="number" class="b-val" placeholder="0"></div>
-                    <div class="field"><label id="lk1">Katha</label><input type="number" class="k-val" placeholder="0"></div>
-                    <div class="field"><label id="ll1">Lessa</label><input type="number" class="l-val" placeholder="0"></div>
+                    <div class="field"><label class="u-b">Bigha</label><input type="number" class="b-val" placeholder="0"></div>
+                    <div class="field"><label class="u-k">Katha</label><input type="number" class="k-val" placeholder="0"></div>
+                    <div class="field"><label class="u-l">Lessa</label><input type="number" class="l-val" placeholder="0"></div>
                 </div>
             </div>
         </div>
@@ -142,95 +118,62 @@
         </div>
 
         <div id="resPanel" class="result-panel">
-            <h3 id="resHeading" style="color:var(--assam-green); border:none; margin-top:0;">Total Area Result:</h3>
+            <h3 id="resHeading" style="color:var(--assam-green); margin-top:0;">Total Area Result:</h3>
             <div class="res-row">
                 <div class="res-unit"><span id="rb">0</span><span class="u-b">Bigha</span></div>
                 <div class="res-unit"><span id="rk">0</span><span class="u-k">Katha</span></div>
                 <div class="res-unit"><span id="rl">0</span><span class="u-l">Lessa</span></div>
             </div>
-            <div style="margin-top:20px; font-size:18px; color: #555;">
-                Total Square Feet: <b id="rsq" style="color: var(--assam-green);">0</b> sq ft
-            </div>
+            <div style="margin-top:20px; font-size:18px;">Total Sq Ft: <b id="rsq">0</b></div>
 
             <div class="action-btns">
-                <button class="btn btn-pdf" onclick="downloadPDF()">Download Receipt (PDF)</button>
+                <button class="btn btn-pdf" onclick="downloadPDF()">Download PDF</button>
                 <button class="btn btn-share" onclick="shareWhatsApp()">WhatsApp</button>
-                <button class="btn btn-copy" onclick="copyData()">Copy Result</button>
             </div>
-        </div>
-    </div>
-
-    <div id="pdfReceipt">
-        <div class="pdf-header">
-            <div class="pdf-logo-text">
-                <h1>Shayan Smart Tools</h1>
-                <p>Digital Land Records | shayandigitalservice.github.io</p>
-            </div>
-            <img src="https://cdn-icons-png.flaticon.com/512/3039/3039043.png" class="pdf-rhino" alt="Assam Symbol">
-        </div>
-        <div style="margin-top: 30px;">
-            <h2 style="border-bottom: 2px solid #eee; padding-bottom: 10px;">Land Addition Report (Assam)</h2>
-            <p><strong>Report ID:</strong> SST-LAND-<span id="pdfID"></span></p>
-            <p><strong>Date:</strong> <span id="pdfDate"></span></p>
-            
-            <div style="background: #f1f8e9; padding: 20px; border-radius: 10px; margin-top: 20px;">
-                <h3 style="margin-top: 0; border: none;">Calculation Result:</h3>
-                <p style="font-size: 24px; color: #1b5e20; margin: 10px 0;">
-                    <span id="pb">0</span> Bigha, <span id="pk">0</span> Katha, <span id="pl">0</span> Lessa
-                </p>
-                <p><strong>Total Area in Sq. Ft:</strong> <span id="psq">0</span> sq. ft.</p>
-            </div>
-
-            <h3 style="margin-top: 40px;">Official Conversion Table (Assam)</h3>
-            <table class="pdf-table">
-                <tr><th>Unit</th><th>Value</th><th>Square Feet</th></tr>
-                <tr><td>1 Bigha</td><td>5 Katha</td><td>14,400 Sq. Ft.</td></tr>
-                <tr><td>1 Katha</td><td>20 Lessa</td><td>2,880 Sq. Ft.</td></tr>
-                <tr><td>1 Lessa</td><td>-</td><td>144 Sq. Ft.</td></tr>
-            </table>
-        </div>
-        <div style="margin-top: 80px; text-align: center; font-size: 12px; color: #999; border-top: 1px solid #eee; padding-top: 10px;">
-            This is an auto-generated receipt from Shayan Smart Tools. Managed by Muksidul Islam.
         </div>
     </div>
 
     <article class="seo-section">
-        <h2 id="artTitle">Assam Land Area Addition: Zameen Ka Jod Kaise Nikalein?</h2>
-        <p>Assam mein zameen ki napai (Measurement) baaki Bharat ke rajyon se kafi alag hai. Shayan Smart Tools ka yeh <b>Assam Land Area Addition Calculator</b> khaas taur par Assam ke kisanon ke liye banaya gaya hai.</p>
-        
-        <h3>Assam Land Unit Table (Dharitree Standard)</h3>
-        <table>
-            <tr><th>Unit Name</th><th>Relation</th><th>In Square Feet</th></tr>
-            <tr><td>1 Bigha</td><td>5 Katha</td><td>14,400 Sq Ft</td></tr>
-            <tr><td>1 Katha</td><td>20 Lessa</td><td>2,880 Sq Ft</td></tr>
-            <tr><td>1 Lessa</td><td>-</td><td>144 Sq Ft</td></tr>
-        </table>
+        <h2 id="seoH2">Assam Land Area Addition: Zameen Ka Jod Kaise Nikalein?</h2>
+        <p id="seoP1">Assam mein zameen ki napai baaki Bharat se alag hai. Shayan Smart Tools aapko sateek calculation deta hai.</p>
     </article>
+
+    <div id="pdfReceipt">
+        <div class="pdf-header">
+            <h1 style="color: #1b5e20;">Shayan Smart Tools</h1>
+            <img src="https://cdn-icons-png.flaticon.com/512/3039/3039043.png" style="width:60px;">
+        </div>
+        <div style="margin-top:30px;">
+            <h2>Calculation Receipt</h2>
+            <p><strong>Date:</strong> <span id="pdfDate"></span></p>
+            <p style="font-size: 22px;">Result: <span id="pb">0</span> Bigha, <span id="pk">0</span> Katha, <span id="pl">0</span> Lessa</p>
+            <p>Total Sq Ft: <span id="psq">0</span></p>
+        </div>
+    </div>
 
     <script>
         let plotIdx = 1;
         let currentLang = 'en';
 
         const langData = {
-            en: { title: "Assam Land Area Addition Tool", tag: "1 Bigha = 5 Katha | 1 Katha = 20 Lessa", plot: "Plot Detail #", add: "+ Add Plot", calc: "Calculate Total Jod", res: "Total Area Result:", b: "Bigha", k: "Katha", l: "Lessa" },
-            hi: { title: "असम भूमि क्षेत्र जोड़ कैलकुलेटर", tag: "1 बीघा = 5 कट्ठा | 1 कट्ठा = 20 लेसा", plot: "प्लॉट विवरण #", add: "+ प्लॉट जोड़ें", calc: "कुल जोड़ निकालें", res: "कुल क्षेत्रफल परिणाम:", b: "बीघा", k: "कट्ठा", l: "लेसा" },
-            as: { title: "অসম ভূমি কালি যোগ কেলকুলেটৰ", tag: "১ বিঘা = ৫ কঠা | ১ কঠা = ২০ লেচা", plot: "মাটিৰ বিৱৰণ #", add: "+ মাটি যোগ কৰক", calc: "মুঠ যোগফল নিৰ্ণয় কৰক", res: "মুঠ কালিৰ ফলাফল:", b: "বিঘা", k: "কঠা", l: "লেচা" }
+            en: { title: "Assam Land Area Addition Tool", tag: "1 Bigha = 5 Katha", add: "+ Add Plot", calc: "Calculate Total", res: "Total Area Result:", b: "Bigha", k: "Katha", l: "Lessa", seoH: "Assam Land Addition Guide", seoP: "Accurate land measurement tool for Assam." },
+            hi: { title: "असम भूमि जोड़ कैलकुलेटर", tag: "1 बीघा = 5 कट्ठा", add: "+ प्लॉट जोड़ें", calc: "कुल जोड़ निकालें", res: "कुल क्षेत्रफल:", b: "बीघा", k: "कट्ठा", l: "लेसा", seoH: "असम भूमि जोड़ गाइड", seoP: "असम के लिए सटीक भूमि मापन उपकरण।" },
+            as: { title: "অসম ভূমি যোগ কেলকুলেটৰ", tag: "১ বিঘা = ৫ কঠা", add: "+ মাটি যোগ কৰক", calc: "যোগফল উলিয়াওক", res: "মুঠ ফলাফল:", b: "বিঘা", k: "কঠা", l: "লেচা", seoH: "অসম ভূমি গণনা গাইড", seoP: "অসমৰ বাবে সঠিক ভূমি জোখ-মাখৰ সঁজুলি।" }
         };
 
         function toggleLanguage() {
             if(currentLang === 'en') currentLang = 'hi';
             else if(currentLang === 'hi') currentLang = 'as';
             else currentLang = 'en';
-            updateUI();
-        }
-
-        function updateUI() {
+            
             const d = langData[currentLang];
             document.getElementById('mainTitle').innerText = d.title;
             document.getElementById('tagLine').innerText = d.tag;
             document.getElementById('btnAdd').innerText = d.add;
             document.getElementById('btnCalc').innerText = d.calc;
             document.getElementById('resHeading').innerText = d.res;
+            document.getElementById('seoH2').innerText = d.seoH;
+            document.getElementById('seoP1').innerText = d.seoP;
             document.querySelectorAll('.u-b').forEach(e => e.innerText = d.b);
             document.querySelectorAll('.u-k').forEach(e => e.innerText = d.k);
             document.querySelectorAll('.u-l').forEach(e => e.innerText = d.l);
@@ -239,11 +182,10 @@
         function addNewPlot() {
             plotIdx++;
             const list = document.getElementById('plotsList');
+            const d = langData[currentLang];
             const div = document.createElement('div');
             div.className = 'plot-container';
-            const d = langData[currentLang];
-            div.innerHTML = `
-                <span class="plot-header">${d.plot}${plotIdx}</span>
+            div.innerHTML = `<span class="plot-header">Plot #${plotIdx}</span>
                 <div class="input-grid">
                     <div class="field"><label>${d.b}</label><input type="number" class="b-val" placeholder="0"></div>
                     <div class="field"><label>${d.k}</label><input type="number" class="k-val" placeholder="0"></div>
@@ -261,7 +203,6 @@
             if (tl >= 20) { tk += Math.floor(tl / 20); tl %= 20; }
             if (tk >= 5) { tb += Math.floor(tk / 5); tk %= 5; }
 
-            // UI Update
             document.getElementById('rb').innerText = tb;
             document.getElementById('rk').innerText = tk;
             document.getElementById('rl').innerText = tl;
@@ -269,43 +210,29 @@
             document.getElementById('rsq').innerText = totalSqft.toLocaleString();
             document.getElementById('resPanel').style.display = "block";
 
-            // Prepare PDF Data
+            // Update PDF Hidden fields
             document.getElementById('pb').innerText = tb;
             document.getElementById('pk').innerText = tk;
             document.getElementById('pl').innerText = tl;
             document.getElementById('psq').innerText = totalSqft.toLocaleString();
             document.getElementById('pdfDate').innerText = new Date().toLocaleDateString();
-            document.getElementById('pdfID').innerText = Math.floor(Math.random()*90000) + 10000;
         }
 
         function downloadPDF() {
             const element = document.getElementById('pdfReceipt');
-            const opt = {
-                margin: 0,
-                filename: 'Shayan_Smart_Tools_Receipt.pdf',
-                image: { type: 'jpeg', quality: 1 },
-                html2canvas: { scale: 2 },
-                jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
-            };
-            html2pdf().from(element).save();
+            // Mobile white page fix: momentarily adjust position
+            element.style.position = "static";
+            element.style.left = "0";
+            
+            html2pdf().from(element).save().then(() => {
+                element.style.position = "absolute";
+                element.style.left = "-5000px";
+            });
         }
 
         function shareWhatsApp() {
-            let b = document.getElementById('rb').innerText;
-            let k = document.getElementById('rk').innerText;
-            let l = document.getElementById('rl').innerText;
-            let sq = document.getElementById('rsq').innerText;
-            let text = `*Assam Land Calculation Result*%0A*Total Area:* ${b} Bigha, ${k} Katha, ${l} Lessa%0A*Sq Ft:* ${sq}%0A_Calculated via Shayan Smart Tools_%0Ahttps://shayandigitalservice.github.io/my-tools-site/`;
-            window.open(`https://wa.me/?text=${text}`, '_blank');
-        }
-
-        function copyData() {
-            let b = document.getElementById('rb').innerText;
-            let k = document.getElementById('rk').innerText;
-            let l = document.getElementById('rl').innerText;
-            let text = `${b} Bigha, ${k} Katha, ${l} Lessa (Total: ${document.getElementById('rsq').innerText} Sq Ft)`;
-            navigator.clipboard.writeText(text);
-            alert("Copied to clipboard!");
+            let text = `Result: ${document.getElementById('rb').innerText} Bigha, ${document.getElementById('rk').innerText} Katha. Check on Shayan Tools.`;
+            window.open(`https://wa.me/?text=${encodeURIComponent(text)}`, '_blank');
         }
     </script>
 </body>
