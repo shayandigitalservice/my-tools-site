@@ -4,51 +4,27 @@
     <meta charset="UTF-8">
     <title>Professional Image to PDF Converter 2026</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
-        body { background: #f1f5f9; color: #222; padding-bottom: 50px; }
-
-        /* Header */
-        .header { background: #2563eb; color: white; text-align: center; padding: 20px; font-size: 22px; font-weight: 600; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
-
-        /* Main Container */
-        .container { max-width: 600px; width: 95%; margin: 30px auto; padding: 20px; background: white; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
-
-        h2 { font-size: 18px; margin-bottom: 15px; color: #1e3a8a; border-left: 4px solid #2563eb; padding-left: 10px; }
-
-        /* Settings Grid */
-        .settings-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 20px; }
-        .setting-item label { display: block; font-size: 12px; font-weight: 600; margin-bottom: 5px; color: #555; }
-        .setting-item select { width: 100%; padding: 10px; border-radius: 8px; border: 1px solid #cbd5e1; outline: none; background: #fff; cursor: pointer; }
-
-        /* Upload Area */
-        .upload-box { border: 2px dashed #2563eb; padding: 30px; text-align: center; border-radius: 10px; cursor: pointer; transition: 0.3s; background: #f8fafc; }
-        .upload-box:hover { background: #eff6ff; }
-        .upload-box p { font-size: 14px; color: #2563eb; font-weight: 500; }
-
-        /* Preview Images */
-        .preview-area { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; margin-top: 20px; }
-        .preview-area img { width: 80px; height: 80px; object-fit: cover; border-radius: 8px; border: 1px solid #ddd; box-shadow: 2px 2px 5px rgba(0,0,0,0.1); }
-
-        /* Action Buttons */
-        .btn-group { margin-top: 20px; display: flex; flex-direction: column; gap: 10px; }
-        button { border: none; padding: 14px; border-radius: 8px; cursor: pointer; font-size: 15px; font-weight: 600; transition: 0.3s; width: 100%; }
-        .btn-create { background: #2563eb; color: white; }
-        .btn-create:hover { background: #1e40af; }
-        .btn-download { background: #10b981; color: white; display: none; }
-        .btn-download:hover { background: #059669; }
-
-        /* Status & Result */
-        .status-box { margin-top: 20px; padding: 15px; border-radius: 8px; font-size: 14px; display: none; text-align: center; line-height: 1.6; }
-        .status-success { background: #ecfdf5; border: 1px solid #10b981; color: #065f46; }
-
-        /* Footer & Links */
-        .back-link { display: block; text-align: center; margin-top: 15px; font-size: 14px; color: #64748b; text-decoration: none; }
-        .back-link:hover { color: #2563eb; }
+        * { margin:0; padding:0; box-sizing:border-box; font-family:'Poppins',sans-serif; }
+        body { background:#f1f5f9; color:#222; padding-bottom:50px; }
+        .header { background:#2563eb; color:white; text-align:center; padding:20px; font-size:22px; font-weight:600; }
+        .container { max-width:600px; width:95%; margin:30px auto; padding:20px; background:white; border-radius:12px; border:1px solid #ddd; }
+        h2 { font-size:16px; margin-bottom:15px; color:#1e3a8a; }
+        .settings-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:20px; }
+        .setting-item label { display:block; font-size:12px; font-weight:600; margin-bottom:5px; color:#555; }
+        .setting-item select { width:100%; padding:10px; border-radius:8px; border:1px solid #cbd5e1; }
+        .upload-box { border:2px dashed #2563eb; padding:30px; text-align:center; border-radius:10px; cursor:pointer; background:#f8fafc; }
+        .preview-area { display:flex; flex-wrap:wrap; gap:10px; justify-content:center; margin-top:20px; }
+        .preview-area img { width:70px; height:70px; object-fit:cover; border-radius:5px; border:1px solid #ddd; }
+        .btn-group { margin-top:20px; display:flex; flex-direction:column; gap:10px; }
+        button { border:none; padding:14px; border-radius:8px; cursor:pointer; font-size:15px; font-weight:600; transition:0.3s; }
+        .btn-create { background:#2563eb; color:white; }
+        .btn-download { background:#10b981; color:white; display:none; }
+        .result-box { margin-top:20px; padding:15px; border-radius:8px; display:none; text-align:center; font-size:14px; background:#eff6ff; border:1px solid #2563eb; }
+        .back-link { display:block; text-align:center; margin-top:15px; font-size:13px; color:#64748b; text-decoration:none; }
     </style>
 </head>
 <body>
@@ -56,103 +32,104 @@
 <div class="header">📄 Smart Image to PDF</div>
 
 <div class="container">
-    <h2>1. Conversion Settings</h2>
+    <h2>1. PDF Settings</h2>
     <div class="settings-grid">
         <div class="setting-item">
-            <label>Page Size (Layout)</label>
+            <label>Page Layout</label>
             <select id="pageSize">
                 <option value="a4">Standard A4 Size</option>
                 <option value="original">Original Image Size</option>
             </select>
         </div>
         <div class="setting-item">
-            <label>Image Quality</label>
+            <label>Quality (Compression)</label>
             <select id="quality">
-                <option value="1.0">High (100%)</option>
-                <option value="0.8" selected>Standard (80%)</option>
-                <option value="0.5">Medium (50%)</option>
-                <option value="0.2">Low (20%)</option>
+                <option value="1.0">High (Original)</option>
+                <option value="0.7" selected>Standard (70%)</option>
+                <option value="0.4">Medium (40%)</option>
+                <option value="0.1">Low (Small Size)</option>
             </select>
         </div>
     </div>
 
-    <h2>2. Upload Images</h2>
     <div class="upload-box" onclick="document.getElementById('fileInput').click()">
-        <p>Click or Drag Images Here</p>
+        <p style="color:#2563eb; font-weight:500;">Click to Upload Images</p>
         <input type="file" id="fileInput" multiple accept="image/*" style="display:none">
     </div>
 
     <div class="preview-area" id="previewArea"></div>
 
     <div class="btn-group">
-        <button class="btn-create" onclick="processPDF()">Create PDF Now</button>
+        <button class="btn-create" onclick="processPDF()">Convert to PDF</button>
         <button id="downloadBtn" class="btn-download" onclick="downloadPDF()">Download PDF</button>
     </div>
 
-    <div id="statusBox" class="status-box status-success"></div>
+    <div id="resultBox" class="result-box"></div>
 
-    <a href="index.html" class="back-link">⬅ Back to Tools Home</a>
+    <a href="index.html" class="back-link">⬅ Back to Home</a>
 </div>
 
 <script>
     const { jsPDF } = window.jspdf;
-    let imageElements = [];
+    let imagesData = [];
     let generatedPdf = null;
 
-    // File selection handle karna
     document.getElementById('fileInput').addEventListener('change', function(e) {
         const files = e.target.files;
-        const previewArea = document.getElementById('previewArea');
-        const statusBox = document.getElementById('statusBox');
-        
-        imageElements = []; // Reset array
-        previewArea.innerHTML = ""; // Clear preview
-        statusBox.style.display = "none";
+        const preview = document.getElementById('previewArea');
+        imagesData = [];
+        preview.innerHTML = "";
         document.getElementById('downloadBtn').style.display = "none";
-
-        if (files.length === 0) return;
+        document.getElementById('resultBox').style.display = "none";
 
         Array.from(files).forEach(file => {
             const reader = new FileReader();
-            reader.onload = function(event) {
+            reader.onload = (event) => {
                 const img = new Image();
                 img.src = event.target.result;
-                img.onload = function() {
-                    imageElements.push(img);
+                img.onload = () => {
+                    imagesData.push(img);
                     const thumb = document.createElement('img');
                     thumb.src = img.src;
-                    previewArea.appendChild(thumb);
-                }
-            }
+                    preview.appendChild(thumb);
+                };
+            };
             reader.readAsDataURL(file);
         });
     });
 
-    // PDF Banane ka Function
-    function processPDF() {
-        if (imageElements.length === 0) {
-            alert("Kripya pehle images upload karein!");
-            return;
-        }
+    async function processPDF() {
+        if (imagesData.length === 0) return alert("Pehle images upload karein!");
 
         const layout = document.getElementById('pageSize').value;
-        const qualityVal = parseFloat(document.getElementById('quality').value);
+        const quality = parseFloat(document.getElementById('quality').value);
         
-        // PDF Initialize
-        // Note: Layout ke basis par orientation check
+        // PDF setup
         let pdf;
         if (layout === 'original') {
             pdf = new jsPDF({
-                orientation: imageElements[0].width > imageElements[0].height ? 'l' : 'p',
+                orientation: imagesData[0].width > imagesData[0].height ? 'l' : 'p',
                 unit: 'px',
-                format: [imageElements[0].width, imageElements[0].height]
+                format: [imagesData[0].width, imagesData[0].height]
             });
         } else {
             pdf = new jsPDF('p', 'mm', 'a4');
         }
 
-        imageElements.forEach((img, index) => {
-            if (index > 0) {
+        for (let i = 0; i < imagesData.length; i++) {
+            const img = imagesData[i];
+
+            // --- Real Compression using Canvas ---
+            const canvas = document.createElement('canvas');
+            const ctx = canvas.getContext('2d');
+            canvas.width = img.width;
+            canvas.height = img.height;
+            ctx.drawImage(img, 0, 0, img.width, img.height);
+            
+            // Ye line image ko compress kar degi download se pehle
+            const compressedImgData = canvas.toDataURL('image/jpeg', quality);
+
+            if (i > 0) {
                 if (layout === 'original') {
                     pdf.addPage([img.width, img.height], img.width > img.height ? 'l' : 'p');
                 } else {
@@ -161,53 +138,30 @@
             }
 
             if (layout === 'original') {
-                // Bilkul original size par fit karna
-                pdf.addImage(img, "JPEG", 0, 0, img.width, img.height, undefined, 'FAST', qualityVal);
+                pdf.addImage(compressedImgData, 'JPEG', 0, 0, img.width, img.height);
             } else {
-                // A4 Smart Scaling (Center Alignment)
-                const pWidth = 210;
-                const pHeight = 297;
-                const margin = 10;
-                const maxWidth = pWidth - (margin * 2);
-                const maxHeight = pHeight - (margin * 2);
-                
+                const pW = 210, pH = 297, m = 10;
                 let ratio = img.width / img.height;
-                let finalW = maxWidth;
-                let finalH = finalW / ratio;
-
-                if (finalH > maxHeight) {
-                    finalH = maxHeight;
-                    finalW = finalH * ratio;
-                }
-
-                let x = (pWidth - finalW) / 2;
-                let y = (pHeight - finalH) / 2;
-
-                pdf.addImage(img, "JPEG", x, y, finalW, finalH, undefined, 'MEDIUM', qualityVal);
+                let fW = pW - (m * 2), fH = fW / ratio;
+                if (fH > (pH - (m * 2))) { fH = pH - (m * 2); fW = fH * ratio; }
+                pdf.addImage(compressedImgData, 'JPEG', (pW - fW) / 2, (pH - fH) / 2, fW, fH);
             }
-        });
+        }
 
         generatedPdf = pdf;
-
-        // File Size Calculate Karna
-        const pdfBlob = pdf.output('blob');
-        const sizeKB = (pdfBlob.size / 1024).toFixed(2);
-        const sizeMB = (pdfBlob.size / (1024 * 1024)).toFixed(2);
-        let displaySize = sizeKB > 1024 ? sizeMB + " MB" : sizeKB + " KB";
-
-        // Show Success Message
-        const statusBox = document.getElementById('statusBox');
-        statusBox.style.display = "block";
-        statusBox.innerHTML = `<strong>✅ PDF Taiyar Hai!</strong><br>File Size: ${displaySize}<br>Ab aap download kar sakte hain.`;
         
+        // Size calculation
+        const blob = pdf.output('blob');
+        const kb = (blob.size / 1024).toFixed(2);
+        
+        const resBox = document.getElementById('resultBox');
+        resBox.style.display = "block";
+        resBox.innerHTML = `<strong>✅ PDF Taiyar!</strong><br>Estimated Size: ${kb} KB<br>Quality: ${quality * 100}%`;
         document.getElementById('downloadBtn').style.display = "block";
     }
 
-    // Download Function
     function downloadPDF() {
-        if (generatedPdf) {
-            generatedPdf.save("SmartTools_Converted.pdf");
-        }
+        if (generatedPdf) generatedPdf.save("Smart_Document.pdf");
     }
 </script>
 
