@@ -34,6 +34,7 @@
             box-shadow: 0 10px 30px rgba(0,0,0,0.1);
             border-top: 8px solid var(--assam-green);
             margin-bottom: 50px;
+            position: relative;
         }
 
         h1 { color: var(--assam-green); text-align: center; margin-bottom: 5px; }
@@ -67,6 +68,8 @@
         .btn { padding: 15px 30px; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; transition: 0.3s; font-size: 16px; }
         .btn-add { background: #4caf50; color: white; }
         .btn-calc { background: var(--assam-green); color: white; flex-grow: 0.5; }
+        .btn-lang { background: #f39c12; color: white; padding: 8px 15px; font-size: 14px; position: absolute; top: 15px; right: 15px; }
+        .btn-wa { background: #25D366; color: white; margin-top: 15px; width: 100%; }
         .btn:hover { transform: scale(1.02); box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
 
         .result-panel {
@@ -81,7 +84,6 @@
         .res-row { display: flex; justify-content: space-around; font-size: 26px; font-weight: bold; }
         .res-unit span { display: block; font-size: 14px; font-weight: normal; color: #a5d6a7; margin-top: 5px; }
 
-        /* ARTICLE STYLING */
         .seo-section { background: white; padding: 40px; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
         h2, h3 { color: var(--assam-green); margin-top: 35px; border-left: 5px solid var(--assam-green); padding-left: 15px; }
         table { width: 100%; border-collapse: collapse; margin: 25px 0; }
@@ -94,43 +96,45 @@
 <body>
 
     <div class="tool-card">
-        <h1>Assam Land Area Addition Tool</h1>
+        <button class="btn btn-lang" onclick="toggleLang()">Assamese/Hindi/Eng</button>
+        <h1 id="title">Assam Land Area Addition Tool</h1>
         <p class="tagline">Assam Dharitree Standard: 1 Bigha = 5 Katha | 1 Katha = 20 Lessa</p>
 
         <div id="plotsList">
             <div class="plot-container">
-                <span class="plot-header">Plot Detail #1</span>
+                <span class="plot-header" class="plotText">Plot Detail #1</span>
                 <div class="input-grid">
-                    <div class="field"><label>Bigha</label><input type="number" class="b-val" placeholder="0"></div>
-                    <div class="field"><label>Katha</label><input type="number" class="k-val" placeholder="0"></div>
-                    <div class="field"><label>Lessa</label><input type="number" class="l-val" placeholder="0"></div>
+                    <div class="field"><label class="bText">Bigha</label><input type="number" class="b-val" placeholder="0"></div>
+                    <div class="field"><label class="kText">Katha</label><input type="number" class="k-val" placeholder="0"></div>
+                    <div class="field"><label class="lText">Lessa</label><input type="number" class="l-val" placeholder="0"></div>
                 </div>
             </div>
             <div class="plot-container">
-                <span class="plot-header">Plot Detail #2</span>
+                <span class="plot-header" class="plotText">Plot Detail #2</span>
                 <div class="input-grid">
-                    <div class="field"><label>Bigha</label><input type="number" class="b-val" placeholder="0"></div>
-                    <div class="field"><label>Katha</label><input type="number" class="k-val" placeholder="0"></div>
-                    <div class="field"><label>Lessa</label><input type="number" class="l-val" placeholder="0"></div>
+                    <div class="field"><label class="bText">Bigha</label><input type="number" class="b-val" placeholder="0"></div>
+                    <div class="field"><label class="kText">Katha</label><input type="number" class="k-val" placeholder="0"></div>
+                    <div class="field"><label class="lText">Lessa</label><input type="number" class="l-val" placeholder="0"></div>
                 </div>
             </div>
         </div>
 
         <div class="btn-box">
-            <button class="btn btn-add" onclick="addNewPlot()">+ Add Plot</button>
-            <button class="btn btn-calc" onclick="calculateTotal()">Calculate Total Jod</button>
+            <button class="btn btn-add" id="addBtn" onclick="addNewPlot()">+ Add Plot</button>
+            <button class="btn btn-calc" id="calcBtn" onclick="calculateTotal()">Calculate Total Jod</button>
         </div>
 
         <div id="resPanel" class="result-panel">
-            <h3 style="color:white; border:none; margin-top:0;">Kul Kshetrafal (Total Area):</h3>
+            <h3 id="resHeading" style="color:white; border:none; margin-top:0;">Kul Kshetrafal (Total Area):</h3>
             <div class="res-row">
-                <div class="res-unit"><span id="rb">0</span><span>Bigha</span></div>
-                <div class="res-unit"><span id="rk">0</span><span>Katha</span></div>
-                <div class="res-unit"><span id="rl">0</span><span>Lessa</span></div>
+                <div class="res-unit"><span id="rb">0</span><span class="bText">Bigha</span></div>
+                <div class="res-unit"><span id="rk">0</span><span class="kText">Katha</span></div>
+                <div class="res-unit"><span id="rl">0</span><span class="lText">Lessa</span></div>
             </div>
             <div style="margin-top:20px; font-size:16px; border-top:1px solid #2e7d32; padding-top:15px;">
                 Total Square Feet: <b id="rsq">0</b> sq ft
             </div>
+            <button class="btn btn-wa" onclick="sendWhatsApp()">Send Result on WhatsApp</button>
         </div>
     </div>
 
@@ -205,17 +209,42 @@
 
     <script>
         let plotIdx = 2;
+        let currentLang = 'en';
+
+        const langData = {
+            en: { title: "Assam Land Area Addition Tool", add: "+ Add Plot", calc: "Calculate Total Jod", res: "Kul Kshetrafal (Total Area):", b: "Bigha", k: "Katha", l: "Lessa", plot: "Plot Detail #" },
+            hi: { title: "असम भूमि क्षेत्र जोड़ कैलकुलेटर", add: "+ प्लॉट जोड़ें", calc: "कुल जोड़ निकालें", res: "कुल क्षेत्रफल (Total Area):", b: "बीघा", k: "कट्ठा", l: "लेसा", plot: "प्लॉट विवरण #" },
+            as: { title: "অসম ভূমি কালি যোগ কেলকুলেটৰ", add: "+ মাটি যোগ কৰক", calc: "মুঠ যোগফল নিৰ্ণয় কৰক", res: "মুঠ কালি (Total Area):", b: "বিঘা", k: "কঠা", l: "লেচা", plot: "মাটিৰ বিৱৰণ #" }
+        };
+
+        function toggleLang() {
+            if(currentLang === 'en') currentLang = 'hi';
+            else if(currentLang === 'hi') currentLang = 'as';
+            else currentLang = 'en';
+            
+            const d = langData[currentLang];
+            document.getElementById('title').innerText = d.title;
+            document.getElementById('addBtn').innerText = d.add;
+            document.getElementById('calcBtn').innerText = d.calc;
+            document.getElementById('resHeading').innerText = d.res;
+            document.querySelectorAll('.bText').forEach(e => e.innerText = d.b);
+            document.querySelectorAll('.kText').forEach(e => e.innerText = d.k);
+            document.querySelectorAll('.lText').forEach(e => e.innerText = d.l);
+            document.querySelectorAll('.plot-header').forEach((e, i) => e.innerText = d.plot + (i+1));
+        }
+
         function addNewPlot() {
             plotIdx++;
             const list = document.getElementById('plotsList');
             const div = document.createElement('div');
+            const d = langData[currentLang];
             div.className = 'plot-container';
             div.innerHTML = `
-                <span class="plot-header">Plot Detail #${plotIdx}</span>
+                <span class="plot-header">${d.plot}${plotIdx}</span>
                 <div class="input-grid">
-                    <div class="field"><label>Bigha</label><input type="number" class="b-val" placeholder="0"></div>
-                    <div class="field"><label>Katha</label><input type="number" class="k-val" placeholder="0"></div>
-                    <div class="field"><label>Lessa</label><input type="number" class="l-val" placeholder="0"></div>
+                    <div class="field"><label class="bText">${d.b}</label><input type="number" class="b-val" placeholder="0"></div>
+                    <div class="field"><label class="kText">${d.k}</label><input type="number" class="k-val" placeholder="0"></div>
+                    <div class="field"><label class="lText">${d.l}</label><input type="number" class="l-val" placeholder="0"></div>
                 </div>`;
             list.appendChild(div);
         }
@@ -226,9 +255,7 @@
             document.querySelectorAll('.k-val').forEach(i => tk += Number(i.value) || 0);
             document.querySelectorAll('.l-val').forEach(i => tl += Number(i.value) || 0);
 
-            // Carry Lessa to Katha (20 Lessa = 1 Katha)
             if (tl >= 20) { tk += Math.floor(tl / 20); tl %= 20; }
-            // Carry Katha to Bigha (5 Katha = 1 Bigha - Assam Special)
             if (tk >= 5) { tb += Math.floor(tk / 5); tk %= 5; }
 
             document.getElementById('rb').innerText = tb;
@@ -238,6 +265,15 @@
             let totalSqft = (tb * 14400) + (tk * 2880) + (tl * 144);
             document.getElementById('rsq').innerText = totalSqft.toLocaleString();
             document.getElementById('resPanel').style.display = "block";
+        }
+
+        function sendWhatsApp() {
+            let b = document.getElementById('rb').innerText;
+            let k = document.getElementById('rk').innerText;
+            let l = document.getElementById('rl').innerText;
+            let sq = document.getElementById('rsq').innerText;
+            let text = `*Assam Land Calculation Result*%0A*Total Area:* ${b} Bigha, ${k} Katha, ${l} Lessa%0A*Square Feet:* ${sq} sq ft%0A_Calculated via Shayan Smart Tools_`;
+            window.open(`https://wa.me/?text=${text}`, '_blank');
         }
     </script>
 
