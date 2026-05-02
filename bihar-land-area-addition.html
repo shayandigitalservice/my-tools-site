@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bihar Land Area Addition Calculator Free 2026| Bigha-Kattha-Dhur Jod Tool</title>
+    
+    <meta name="description" content="Official Bihar Land Area Addition Tool. Add multiple land plots in Bigha, Kattha, and Dhur with 20-Kattha carry forward logic. Accurate calculation for Bihar Bhulekh records.">
+    <meta name="keywords" content="Bihar Land Area Addition, Bihar Zameen ka jod, Bigha Kattha Dhur Calculator Bihar, Shayan Smart Tools Bihar, Bihar Land Calculation, Dhur to Kattha Addition">
+    <meta name="author" content="Shayan Smart Tools">
+    <meta name="robots" content="index, follow">
+
+    <style>
+        :root {
+            --bihar-red: #b71c1c;
+            --light-bg: #fff5f5;
+            --text-dark: #2c3e50;
+        }
+
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            line-height: 1.8;
+            color: var(--text-dark);
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #fcfcfc;
+        }
+
+        .tool-card {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            border-top: 8px solid var(--bihar-red);
+            margin-bottom: 50px;
+        }
+
+        h1 { color: var(--bihar-red); text-align: center; margin-bottom: 5px; }
+        .tagline { text-align: center; color: #666; margin-bottom: 30px; font-size: 14px; }
+
+        .plot-container {
+            background: var(--light-bg);
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #ffcdd2;
+            animation: fadeIn 0.4s ease;
+        }
+
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        .plot-header { font-weight: bold; color: var(--bihar-red); margin-bottom: 15px; display: block; border-bottom: 1px solid #ef9a9a; }
+
+        .input-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+            gap: 15px;
+        }
+
+        .field { display: flex; flex-direction: column; }
+        .field label { font-size: 13px; font-weight: bold; margin-bottom: 5px; }
+        input { padding: 12px; border: 2px solid #ddd; border-radius: 6px; text-align: center; font-size: 16px; }
+        input:focus { border-color: var(--bihar-red); outline: none; }
+
+        .btn-box { display: flex; gap: 15px; justify-content: center; margin: 30px 0; }
+        .btn { padding: 15px 30px; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; transition: 0.3s; font-size: 16px; }
+        .btn-add { background: #5d4037; color: white; }
+        .btn-calc { background: var(--bihar-red); color: white; flex-grow: 0.5; }
+        .btn:hover { transform: scale(1.02); box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
+
+        .result-panel {
+            background: var(--bihar-red);
+            color: white;
+            padding: 30px;
+            border-radius: 12px;
+            display: none;
+            text-align: center;
+        }
+
+        .res-row { display: flex; justify-content: space-around; font-size: 26px; font-weight: bold; }
+        .res-unit span { display: block; font-size: 14px; font-weight: normal; color: #ffcdd2; margin-top: 5px; }
+
+        /* ARTICLE STYLING */
+        .seo-section { background: white; padding: 40px; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
+        h2, h3 { color: var(--bihar-red); margin-top: 35px; border-left: 5px solid var(--bihar-red); padding-left: 15px; }
+        table { width: 100%; border-collapse: collapse; margin: 25px 0; }
+        th, td { border: 1px solid #ddd; padding: 15px; text-align: left; }
+        th { background: #fff5f5; color: var(--bihar-red); }
+
+        footer { text-align: center; padding: 40px 0; border-top: 1px solid #eee; margin-top: 50px; color: #888; font-size: 14px; }
+    </style>
+</head>
+<body>
+
+    <div class="tool-card">
+        <h1>Bihar Land Area Addition Tool</h1>
+        <p class="tagline">Bihar Standard: 1 Bigha = 20 Kattha | 1 Kattha = 20 Dhur</p>
+
+        <div id="plotsList">
+            <div class="plot-container">
+                <span class="plot-header">Zameen Ka Vivaran #1</span>
+                <div class="input-grid">
+                    <div class="field"><label>Bigha</label><input type="number" class="b-val" placeholder="0"></div>
+                    <div class="field"><label>Kattha</label><input type="number" class="k-val" placeholder="0"></div>
+                    <div class="field"><label>Dhur</label><input type="number" class="d-val" placeholder="0"></div>
+                </div>
+            </div>
+            <div class="plot-container">
+                <span class="plot-header">Zameen Ka Vivaran #2</span>
+                <div class="input-grid">
+                    <div class="field"><label>Bigha</label><input type="number" class="b-val" placeholder="0"></div>
+                    <div class="field"><label>Kattha</label><input type="number" class="k-val" placeholder="0"></div>
+                    <div class="field"><label>Dhur</label><input type="number" class="d-val" placeholder="0"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="btn-box">
+            <button class="btn btn-add" onclick="addNewPlot()">+ Aur Plot Jodein</button>
+            <button class="btn btn-calc" onclick="calculateTotal()">Total Jod Nikalein</button>
+        </div>
+
+        <div id="resPanel" class="result-panel">
+            <h3 style="color:white; border:none; margin-top:0;">Kul Kshetrafal (Total Area):</h3>
+            <div class="res-row">
+                <div class="res-unit"><span id="rb">0</span><span>Bigha</span></div>
+                <div class="res-unit"><span id="rk">0</span><span>Kattha</span></div>
+                <div class="res-unit"><span id="rd">0</span><span>Dhur</span></div>
+            </div>
+            <div style="margin-top:20px; font-size:16px; border-top:1px solid #d32f2f; padding-top:15px;">
+                Total Square Feet: <b id="rsq">0</b> sq ft
+            </div>
+        </div>
+    </div>
+
+    <article class="seo-section">
+        <h2>Bihar Land Area Addition: Zameen Ka Jod Kaise Karein?</h2>
+        <p>
+            Bihar mein zameen ka lenden aur registry hamesha <b>Bigha, Kattha aur Dhur</b> ke aadhar par hoti hai. Lekin kisanon aur aam aadmi ko tab dikkat aati hai jab unhe apne alag-alag khet ya plots ka kul jod (Total Sum) nikalna hota hai. Bihar ka land conversion system "Base 20" par chalta hai, jiske karan manual calculation mein galti hone ke kafi chances rehte hain.
+        </p>
+        <p>
+            Shayan Smart Tools ka yeh <b>Bihar Land Area Addition Calculator</b> isi samasya ka hal hai. Yeh tool Bihar ke official revenue units ke anusaar banaya gaya hai, jo automatic "Carry-Forward" logic apply karke aapko sateek parinaam deta hai.
+        </p>
+
+        <h3>Bihar Land Addition Tool Ke Fayde:</h3>
+        <ul>
+            <li><b>20-Kattha Logic:</b> Yeh tool Bihar ke standard (1 Bigha = 20 Kattha) ko follow karta hai.</li>
+            <li><b>Dhur to Kattha Conversion:</b> Jaise hi Dhur ka jod 20 hota hai, yeh automatic usey 1 Kattha maan leta hai.</li>
+            <li><b>User Friendly:</b> Aap jitne chahen utne plots ek click par jod sakte hain.</li>
+        </ul>
+
+        <h3>How to use:</h3>
+        <p>1. Plot #1 mein Bigha, Kattha aur Dhur ki value bharein.<br>2. Plot #2 mein dusre khet ki jankari likhein.<br>3. Naye plot jodne ke liye <b>"+ Aur Plot Jodein"</b> ka use karein.<br>4. Result dekhne ke liye <b>"Total Jod Nikalein"</b> par click karein.</p>
+
+        <h3>Practical Examples (Bihar Context)</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>Example</th>
+                    <th>Plot 1</th>
+                    <th>Plot 2</th>
+                    <th>Total Result</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr><td>Ex 1</td><td>1 Bigha, 15 Kattha</td><td>0 Bigha, 10 Kattha</td><td><b>2 Bigha, 5 Kattha</b></td></tr>
+                <tr><td>Ex 2</td><td>0 Bigha, 18 Kattha, 15 Dhur</td><td>0 Bigha, 2 Kattha, 10 Dhur</td><td><b>1 Bigha, 1 Kattha, 5 Dhur</b></td></tr>
+                <tr><td>Ex 3</td><td>5 Bigha, 0 Kattha</td><td>2 Bigha, 19 Kattha</td><td><b>7 Bigha, 19 Kattha</b></td></tr>
+                <tr><td>Ex 4</td><td>0 Bigha, 1 Kattha, 19 Dhur</td><td>0 Bigha, 0 Kattha, 5 Dhur</td><td><b>0 Bigha, 2 Kattha, 4 Dhur</b></td></tr>
+            </tbody>
+        </table>
+
+        <h3>Frequently Asked Questions (FAQs)</h3>
+        <div>
+            <p><b>Q1. Bihar mein 1 Bigha mein kitne Kattha hote hain?</b><br>Ans: Bihar mein 1 Bigha barabar 20 Kattha hota hai.</p>
+            <p><b>Q2. Dhur aur Kattha ka kya rishta hai?</b><br>Ans: Bihar mein 20 Dhur milkar 1 Kattha banate hain.</p>
+            <p><b>Q3. Kya ye tool khet aur plot dono ke liye hai?</b><br>Ans: Ji haan, ye har tarah ki zameen ke jod ke liye upyogi hai.</p>
+            <p><b>Q4. Kya ye registry mein help karega?</b><br>Ans: Haan, ye aapko total area samajhne mein madad karega taaki aap registry fee ka anuman laga sakein.</p>
+        </div>
+
+        <div style="margin-top: 40px; border-top: 1px dashed var(--bihar-red); padding-top: 20px;">
+            <p><b>Internal Links:</b> <a href="index.html">Home</a> | <a href="bihar-bigha-to-sqft.html">Bihar Bigha Converter</a> | <a href="bihar-land-cost-calculator.html">Bihar Cost Tool</a></p>
+            <p><b>Copyright Notice:</b> Shayan Smart Tools © 2026. All Rights Reserved. Created by Muksidul Islam.</p>
+            <p><b>Disclaimer:</b> Yeh tool keval calculation ke liye hai. Physical verification ke liye sarkari Ameen se sampark karein.</p>
+        </div>
+    </article>
+
+    <script>
+        let plotIdx = 2;
+        function addNewPlot() {
+            plotIdx++;
+            const list = document.getElementById('plotsList');
+            const div = document.createElement('div');
+            div.className = 'plot-container';
+            div.innerHTML = `
+                <span class="plot-header">Zameen Ka Vivaran #${plotIdx}</span>
+                <div class="input-grid">
+                    <div class="field"><label>Bigha</label><input type="number" class="b-val" placeholder="0"></div>
+                    <div class="field"><label>Kattha</label><input type="number" class="k-val" placeholder="0"></div>
+                    <div class="field"><label>Dhur</label><input type="number" class="d-val" placeholder="0"></div>
+                </div>`;
+            list.appendChild(div);
+        }
+
+        function calculateTotal() {
+            let tb = 0, tk = 0, td = 0;
+            document.querySelectorAll('.b-val').forEach(i => tb += Number(i.value) || 0);
+            document.querySelectorAll('.k-val').forEach(i => tk += Number(i.value) || 0);
+            document.querySelectorAll('.d-val').forEach(i => td += Number(i.value) || 0);
+
+            // Carry Dhur to Kattha (20 Dhur = 1 Kattha)
+            if (td >= 20) { tk += Math.floor(td / 20); td %= 20; }
+            // Carry Kattha to Bigha (20 Kattha = 1 Bigha)
+            if (tk >= 20) { tb += Math.floor(tk / 20); tk %= 20; }
+
+            document.getElementById('rb').innerText = tb;
+            document.getElementById('rk').innerText = tk;
+            document.getElementById('rd').innerText = td;
+            
+            // Assuming Bihar standard 27225 sqft/bigha
+            let totalSqft = (tb * 27225) + (tk * 1361.25) + (td * 68.06);
+            document.getElementById('rsq').innerText = Math.round(totalSqft).toLocaleString();
+            document.getElementById('resPanel').style.display = "block";
+        }
+    </script>
+
+    <footer>
+        <p>Shayan Smart Tools - Bihar Special Utility Hub.</p>
+    </footer>
+</body>
+</html>
