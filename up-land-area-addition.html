@@ -3,22 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>UP Land Area Addition Tool free 2026| उत्तर प्रदेश जमीन का जोड़ कैलकुलेटर</title>
+    <title>UP Land Area Addition Tool | उत्तर प्रदेश जमीन का जोड़ कैलकुलेटर | Shayan Smart Tools</title>
     
-    <meta name="description" content="Official UP Land Area Addition Tool by Shayan Smart Tools. Add multiple plots in Bigha, Biswa, and Biswansi with 20-unit carry logic. Bilingual support for Uttar Pradesh Bhulekh.">
-    <meta name="keywords" content="UP Land Area Addition, उत्तर प्रदेश जमीन का जोड़, Bigha Biswa Biswansi Calculator, UP Land Sum, Shayan Smart Tools UP, Bhulekh UP Calculator">
+    <meta name="description" content="Official UP Land Area Addition Tool by Shayan Smart Tools. Add multiple plots in Bigha, Biswa, and Biswansi with 20-unit logic. Bilingual calculator with Hinglish SEO.">
+    <meta name="keywords" content="UP Land Area Addition, उत्तर प्रदेश जमीन का जोड़, Bigha Biswa Biswansi Calculator, UP Land Sum, Shayan Smart Tools UP, Bhulekh UP Calculator, Zameen ka jod kaise kare">
     <meta name="author" content="Shayan Smart Tools">
+    <meta name="robots" content="index, follow">
 
     <style>
         :root {
             --up-blue: #0d47a1;
-            --accent-gold: #ffc107;
-            --bg-light: #f0f4f8;
+            --bg-light: #f4f7f6;
+            --white: #ffffff;
         }
 
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            line-height: 1.6;
+            line-height: 1.8;
             background-color: var(--bg-light);
             margin: 0;
             padding: 20px;
@@ -27,8 +28,9 @@
 
         .container { max-width: 1000px; margin: 0 auto; }
 
+        /* Calculator Card */
         .tool-card {
-            background: white;
+            background: var(--white);
             padding: 30px;
             border-radius: 20px;
             box-shadow: 0 15px 35px rgba(0,0,0,0.1);
@@ -36,9 +38,10 @@
             margin-bottom: 40px;
         }
 
-        h1 { color: var(--up-blue); text-align: center; margin-bottom: 10px; font-size: 24px; }
+        h1 { color: var(--up-blue); text-align: center; margin-bottom: 10px; font-size: 26px; }
+        
         .lang-toggle { text-align: center; margin-bottom: 25px; }
-        .lang-btn { background: #ddd; border: none; padding: 5px 15px; cursor: pointer; border-radius: 20px; font-weight: bold; }
+        .lang-btn { background: #ddd; border: none; padding: 6px 18px; cursor: pointer; border-radius: 20px; font-weight: bold; margin: 0 5px; transition: 0.3s; }
         .lang-btn.active { background: var(--up-blue); color: white; }
 
         .plot-entry {
@@ -47,10 +50,12 @@
             border-radius: 12px;
             margin-bottom: 15px;
             border: 1px solid #e0e0e0;
-            position: relative;
+            animation: fadeIn 0.4s ease;
         }
 
-        .plot-title { font-weight: bold; color: var(--up-blue); margin-bottom: 15px; display: block; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        .plot-title { font-weight: bold; color: var(--up-blue); margin-bottom: 15px; display: block; border-bottom: 1px solid #ddd; }
 
         .grid-inputs {
             display: grid;
@@ -63,11 +68,12 @@
         input { padding: 12px; border: 1px solid #ccc; border-radius: 8px; font-size: 16px; text-align: center; }
 
         .controls { display: flex; gap: 15px; justify-content: center; margin: 30px 0; flex-wrap: wrap; }
-        .btn { padding: 12px 25px; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; transition: 0.3s; }
+        .btn { padding: 14px 28px; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; transition: 0.3s; font-size: 15px; }
         .btn-add { background: #455a64; color: white; }
-        .btn-calc { background: var(--up-blue); color: white; }
+        .btn-calc { background: var(--up-blue); color: white; flex-grow: 0.3; }
         .btn-share { background: #25d366; color: white; }
         .btn-copy { background: #ff9800; color: white; }
+        .btn:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
 
         .result-panel {
             background: var(--up-blue);
@@ -76,25 +82,19 @@
             border-radius: 15px;
             display: none;
             text-align: center;
-            animation: bounceIn 0.5s;
         }
-
-        @keyframes bounceIn { 0% {transform: scale(0.9);} 100% {transform: scale(1);} }
 
         .res-display { display: flex; justify-content: space-around; font-size: 28px; margin: 20px 0; }
-        .res-item span { display: block; font-size: 14px; color: #bbdefb; }
+        .res-item span { display: block; font-size: 14px; color: #bbdefb; margin-top: 5px; }
 
-        /* ARTICLE */
-        .article-section { background: white; padding: 40px; border-radius: 20px; box-shadow: 0 5px 15px rgba(0,0,0,0.05); }
-        h2 { color: var(--up-blue); border-bottom: 2px solid #eee; padding-bottom: 10px; }
+        /* SEO SECTION */
+        .seo-article { background: var(--white); padding: 40px; border-radius: 20px; box-shadow: 0 5px 15px rgba(0,0,0,0.05); }
+        h2, h3 { color: var(--up-blue); border-left: 6px solid var(--up-blue); padding-left: 15px; margin-top: 30px; }
         table { width: 100%; border-collapse: collapse; margin: 20px 0; }
         th, td { border: 1px solid #ddd; padding: 12px; text-align: left; }
-        th { background: #e3f2fd; }
+        th { background: #e3f2fd; color: var(--up-blue); }
 
-        @media (max-width: 600px) {
-            .res-display { flex-direction: column; gap: 20px; }
-            .btn { width: 100%; }
-        }
+        footer { text-align: center; padding: 40px 0; color: #888; font-size: 14px; }
     </style>
 </head>
 <body>
@@ -102,105 +102,74 @@
 <div class="container">
     <div class="tool-card">
         <h1 id="mainTitle">UP Land Area Addition Tool</h1>
+        
         <div class="lang-toggle">
-            <button class="lang-btn active" onclick="setLang('en')">English</button>
-            <button class="lang-btn" onclick="setLang('hi')">हिंदी</button>
+            <button class="lang-btn active" id="enBtn" onclick="toggleLang('en')">English</button>
+            <button class="lang-btn" id="hiBtn" onclick="toggleLang('hi')">हिंदी</button>
         </div>
 
         <div id="plotsArea">
             <div class="plot-entry">
-                <span class="plot-title" data-en="Plot #1 Details" data-hi="प्लॉट #1 का विवरण">Plot #1 Details</span>
+                <span class="plot-title" id="p1Title">Plot Details #1</span>
                 <div class="grid-inputs">
-                    <div class="input-group">
-                        <label data-en="Bigha" data-hi="बीघा">Bigha</label>
-                        <input type="number" class="b-in" placeholder="0">
-                    </div>
-                    <div class="input-group">
-                        <label data-en="Biswa" data-hi="बिस्वा">Biswa</label>
-                        <input type="number" class="w-in" placeholder="0">
-                    </div>
-                    <div class="input-group">
-                        <label data-en="Biswansi" data-hi="बिस्वांसी">Biswansi</label>
-                        <input type="number" class="n-in" placeholder="0">
-                    </div>
+                    <div class="input-group"><label id="lbB1">Bigha</label><input type="number" class="b-in" placeholder="0"></div>
+                    <div class="input-group"><label id="lbW1">Biswa</label><input type="number" class="w-in" placeholder="0"></div>
+                    <div class="input-group"><label id="lbN1">Biswansi</label><input type="number" class="n-in" placeholder="0"></div>
                 </div>
             </div>
             <div class="plot-entry">
-                <span class="plot-title" data-en="Plot #2 Details" data-hi="प्लॉट #2 का विवरण">Plot #2 Details</span>
+                <span class="plot-title" id="p2Title">Plot Details #2</span>
                 <div class="grid-inputs">
-                    <div class="input-group">
-                        <label data-en="Bigha" data-hi="बीघा">Bigha</label>
-                        <input type="number" class="b-in" placeholder="0">
-                    </div>
-                    <div class="input-group">
-                        <label data-en="Biswa" data-hi="बिस्वा">Biswa</label>
-                        <input type="number" class="w-in" placeholder="0">
-                    </div>
-                    <div class="input-group">
-                        <label data-en="Biswansi" data-hi="बिस्वांसी">Biswansi</label>
-                        <input type="number" class="n-in" placeholder="0">
-                    </div>
+                    <div class="input-group"><label id="lbB2">Bigha</label><input type="number" class="b-in" placeholder="0"></div>
+                    <div class="input-group"><label id="lbW2">Biswa</label><input type="number" class="w-in" placeholder="0"></div>
+                    <div class="input-group"><label id="lbN2">Biswansi</label><input type="number" class="n-in" placeholder="0"></div>
                 </div>
             </div>
         </div>
 
         <div class="controls">
-            <button class="btn btn-add" id="btnAdd" onclick="addPlot()">+ Add More Plot</button>
-            <button class="btn btn-calc" id="btnCalc" onclick="performUPCalculation()">Calculate Total</button>
+            <button class="btn btn-add" id="btnAdd" onclick="addNewPlot()">+ Add More Plot</button>
+            <button class="btn btn-calc" id="btnCalc" onclick="calculateUPArea()">Calculate Total Area</button>
         </div>
 
         <div id="resultBox" class="result-panel">
-            <h3 id="resHeading">Total Area Result:</h3>
+            <h3 id="resHead">Total Land Area (कुल क्षेत्रफल):</h3>
             <div class="res-display">
-                <div class="res-item"><b id="outB">0</b><span data-en="Bigha" data-hi="बीघा">Bigha</span></div>
-                <div class="res-item"><b id="outW">0</b><span data-en="Biswa" data-hi="बिस्वा">Biswa</span></div>
-                <div class="res-item"><b id="outN">0</b><span data-en="Biswansi" data-hi="बिस्वांसी">Biswansi</span></div>
+                <div class="res-item"><b id="outB">0</b><span id="unitB">Bigha</span></div>
+                <div class="res-item"><b id="outW">0</b><span id="unitW">Biswa</span></div>
+                <div class="res-item"><b id="outN">0</b><span id="unitN">Biswansi</span></div>
             </div>
-            <p id="sqftLabel">Total Sq Ft: <span id="outSq">0</span></p>
+            <p id="sqLabel">Total Square Feet: <b id="outSq">0</b> sq ft</p>
             
-            <div class="controls" style="margin-top:20px;">
-                <button class="btn btn-copy" onclick="copyResult()">Copy Result</button>
-                <button class="btn btn-share" onclick="shareWhatsApp()">Share on WhatsApp</button>
+            <div class="controls">
+                <button class="btn btn-copy" onclick="copyToClipboard()">Copy Result</button>
+                <button class="btn btn-share" onclick="shareOnWhatsApp()">Share on WhatsApp</button>
             </div>
         </div>
     </div>
 
     <article class="seo-article">
-    
-    <section>
-        <h2>UP Land Area Addition: उत्तर प्रदेश जमीन का कुल जोड़ कैसे निकालें?</h2>
+        <h2>UP Land Area Addition: Uttar Pradesh Mein Zameen Ka Total Jod Kaise Nikalein?</h2>
         <p>
-            Uttar Pradesh (UP) mein zameen ki kharid-firokht (Property dealing) aur kheti ki zameen ka hisab-kitab hamesha se thoda pechida raha hai. Jab ek kisan ya property dealer ke paas UP Bhulekh (Khatauni) mein darj kayi chote-chote plots hote hain, toh unhe ek saath jodna (Total Sum) ek badi chunauti ban jati hai. 
+            Doston, Uttar Pradesh (UP) mein jab bhi hum zameen ki baat karte hain, toh sabse pehle dimaag mein <b>Bigha, Biswa aur Biswansi</b> aata hai. Halaki UP Bhulekh (official records) mein area Hectare mein darj hota hai, lekin local star par sauda aur registry hamesha local units mein hi hoti hai. Sabse badi problem tab aati hai jab aapko apne 2-3 chote plots ya khet ko ek saath jodna (Sum) hota hai.
         </p>
         <p>
-            The <b>UP Land Area Addition Tool</b> by Shayan Smart Tools is the ultimate digital solution for farmers, lekbpals, and real estate agents in Uttar Pradesh. Since the land measurement system in UP follows the <b>Bigha, Biswa, and Biswansi</b> methodology, it operates on a "Base 20" logic. This means 20 Biswansi make 1 Biswa and 20 Biswa make 1 Pucca Bigha. Our tool automates this complex carry-forward logic, ensuring 100% accuracy and saving you from manual calculation errors.
+            Agar aap ek kisan hain, property dealer hain, ya fir apne purvajon ki zameen ka hisab kar rahe hain, toh ye <b>UP Land Area Addition Tool</b> aapke liye hi bana hai. Manual calculation mein aksar "Carry Forward" ki galti ho jati hai, kyunki ye normal math nahi hai. Yahan <b>20 Biswansi milkar 1 Biswa</b> banta hai aur <b>20 Biswa milkar 1 Pucca Bigha</b>. Shayan Smart Tools ka ye calculator isi "Base 20" logic par chalta hai taaki aapka result 100% accurate rahe.
         </p>
-    </section>
 
-    <section style="background: #e3f2fd; padding: 25px; border-radius: 12px; margin: 30px 0; border-left: 5px solid #0d47a1;">
-        <h3>How to Use UP Land Addition Calculator? (उपयोग कैसे करें?)</h3>
-        <p>Is calculator ka upyog karna behad saral hai, bas niche diye gaye steps follow karein:</p>
+        <h3>Is Calculator Ko Use Kaise Karein? (Step-by-Step Guide)</h3>
         <ul style="padding-left: 20px;">
-            <li><b>Step 1:</b> Sabse pehle apne pehle khet (Plot #1) ka Bigha, Biswa aur Biswansi boxes mein bharein.</li>
-            <li><b>Step 2:</b> Dusre plot ki jankari niche wale boxes (Plot #2) mein dalein.</li>
-            <li><b>Step 3:</b> Agar aapke paas 2 se zyada plot hain, toh <b>"+ Add More Plot"</b> button par click karke naye rows jodein.</li>
-            <li><b>Step 4:</b> <b>"Calculate Total Area"</b> button par click karte hi aapko sateek parinaam (Result) mil jayega.</li>
-            <li><b>Step 5:</b> <b>"Copy"</b> ya <b>"WhatsApp Share"</b> button ka upyog karke result dusron ko bhejein.</li>
+            <li><b>Step 1:</b> Sabse pehle apne pehle plot (Plot #1) ka Bigha, Biswa aur Biswansi boxes mein fill karein.</li>
+            <li><b>Step 2:</b> Phir dusre khet (Plot #2) ki details niche wale boxes mein dalein.</li>
+            <li><b>Step 3:</b> Agar 2 se zyada plots hain, toh <b>"+ Add More Plot"</b> button par click karke naye rows jodein.</li>
+            <li><b>Step 4:</b> Sab bharne ke baad <b>"Calculate Total Area"</b> par click karein. Result aapke screen par hoga.</li>
+            <li><b>Step 5:</b> Result ko copy karke aap WhatsApp par apne client ya ghar walon ko bhej sakte hain.</li>
         </ul>
-    </section>
 
-    <section>
-        <h3>UP Land Measurement Standards (Bigha-Biswa System)</h3>
-        <p>
-            Uttar Pradesh mein zameen ki ikaiyan (Units) purnatah state revenue standards par aadharit hoti hain. Hamara tool <b>Pucca Bigha</b> ke standard calculation par kaam karta hai jo ki pure UP mein manya hai:
-        </p>
+        <h3>UP Land Measurement Units Ka Ganit (The Math)</h3>
         <table>
             <thead>
-                <tr>
-                    <th>Unit Name (इकाई)</th>
-                    <th>Relation (सम्बन्ध)</th>
-                    <th>Sq Ft (वर्ग फीट - Approx)</th>
-                </tr>
+                <tr><th>Unit Name</th><th>Relation</th><th>Approx Sq Ft</th></tr>
             </thead>
             <tbody>
                 <tr><td>1 Bigha (Pucca)</td><td>20 Biswa</td><td>27,225 Sq Ft</td></tr>
@@ -208,152 +177,100 @@
                 <tr><td>1 Biswansi</td><td>20 Kachwansi</td><td>68.06 Sq Ft</td></tr>
             </tbody>
         </table>
-        <p><i>Note: Yeh calculation Uttar Pradesh ke manak (Standard) Pucca Bigha par aadharit hai. Kucha Bigha ke liye calculation alag ho sakti hai.</i></p>
-    </section>
 
-    <section>
-        <h3>5 Practical Examples for UP Land Sum (यूपी जमीन के जोड़ के उदाहरण)</h3>
-        <p>Aaiye dekhte hain ki UP mein zameen ka jod kaise kaam karta hai:</p>
+        <h3>5 Real-Life Examples: Zameen Ka Jod Kaise Hota Hai?</h3>
         <ol>
-            <li><b>Example 1:</b> 10 Biswa + 15 Biswa = 1 Bigha 5 Biswa (Simple math mein ye 25 Biswa hota, par UP land logic mein 20 Biswa ka 1 Bigha ban jata hai).</li>
-            <li><b>Example 2:</b> 18 Biswansi + 5 Biswansi = 1 Biswa 3 Biswansi.</li>
-            <li><b>Example 3:</b> 3 Bigha 12 Biswa aur 1 Bigha 10 Biswa ka jod 5 Bigha 2 Biswa hoga.</li>
-            <li><b>Example 4:</b> Agar 3 plots jode (5 Biswansi + 10 Biswansi + 10 Biswansi), toh total 1 Biswa 5 Biswansi aayega.</li>
-            <li><b>Example 5:</b> 0.5060 Hectare record ko jab hum Bigha mein badalte hain aur jodte hain, toh sateek Biswa result milna zaruri hai.</li>
+            <li><b>Example 1:</b> Agar aapne 15 Biswa aur 10 Biswa joda, toh result 25 Biswa nahi aayega. Tool usey <b>1 Bigha aur 5 Biswa</b> dikhayega.</li>
+            <li><b>Example 2:</b> 18 Biswansi + 5 Biswansi ka jod <b>1 Biswa aur 3 Biswansi</b> hota hai.</li>
+            <li><b>Example 3:</b> 2 Bigha 15 Biswa + 1 Bigha 10 Biswa = <b>4 Bigha 5 Biswa</b>.</li>
+            <li><b>Example 4:</b> Chote plots jaise 8 Biswansi, 12 Biswansi aur 5 Biswansi ka total jod <b>1 Biswa 5 Biswansi</b> banega.</li>
+            <li><b>Example 5:</b> Hectare record ko Bigha mein badalne ke baad bhi aap is tool se unka total jod sakte hain.</li>
         </ol>
-    </section>
 
-    <section>
-        <h3>Frequently Asked Questions (FAQs) - अक्सर पूछे जाने वाले सवाल</h3>
-        <div style="margin-bottom: 20px;">
-            <p><b>Q1. यूपी में 1 बीघा में कितना बिस्वा होता है?</b><br>Ans: उत्तर प्रदेश (UP) के मानक पक्का बीघा में कुल 20 बिस्वा होते हैं।</p>
-            <p><b>Q2. बिस्वांसी और बिस्वा में क्या सम्बन्ध है?</b><br>Ans: 20 बिस्वांसी मिलकर 1 बिस्वा बनाते हैं।</p>
-            <p><b>Q3. क्या यह टूल व्हाट्सएप पर रिजल्ट शेयर कर सकता है?</b><br>Ans: जी हाँ, हमने इसमें स्पेशल 'Share on WhatsApp' बटन दिया है ताकि आप सीधे क्लाइंट को हिसाब भेज सकें।</p>
-            <p><b>Q4. क्या यह टूल 'कच्चा बीघा' सपोर्ट करता है?</b><br>Ans: यह टूल मुख्य रूप से 'पक्का बीघा' (Standard) के लिए बनाया गया है, जो आधिकारिक तौर पर मान्य है।</p>
-            <p><b>Q5. क्या इस कैलकुलेटर के लिए कोई शुल्क देना होगा?</b><br>Ans: बिल्कुल नहीं, Shayan Smart Tools के सभी कैलकुलेटर यूपी के वासियों के लिए 100% फ्री हैं।</p>
+        <h3>Frequently Asked Questions (FAQs)</h3>
+        <p><b>Q1. UP mein 1 Bigha mein kitne Biswa hote hain?</b><br>Ans: UP ke official Pucca Bigha standard ke mutabik 1 Bigha mein 20 Biswa hote hain.</p>
+        <p><b>Q2. Kya ye tool mobile par smoothly kaam karega?</b><br>Ans: Ji haan, Shayan Smart Tools 100% responsive hai.</p>
+        <p><b>Q3. Kya main result ko copy kar sakta hoon?</b><br>Ans: Haan, humne 'Copy Result' button diya hai.</p>
+
+        <div style="margin-top: 30px; border-top: 1px dashed var(--up-blue); padding-top: 25px;">
+            <p><b>Links:</b> <a href="index.html">Home</a> | <a href="up-hectare-to-land-converter.html">Hectare Converter</a> | <a href="up-bigha-to-sqft.html">Bigha to Sq Ft</a></p>
+            <p style="text-align: center;"><b>Copyright Notice:</b> Shayan Smart Tools © 2026. All Rights Reserved. Managed by Muksidul Islam.</p>
         </div>
-    </section>
-
-    <section style="margin-top: 50px; border-top: 1px dashed #0d47a1; padding-top: 25px; font-size: 14px; color: #555;">
-        <p><b>Why Shayan Smart Tools for UP Bhulekh?</b></p>
-        <p>
-            Humara maqsad Uttar Pradesh ke kisanon aur property dealers ko technical aur ganitiye (Mathematical) mushkilon se bachana hai. Yeh <b>UP Land Addition Tool</b> 100% accurate hai aur har tarah ke smartphone par smoothly chalta hai. Agar aapko koi naya feature chahiye, toh humein contact karein.
-        </p>
-        <p><b>Internal Links:</b> <a href="index.html">Dashboard</a> | <a href="up-hectare-to-land-converter.html">UP Hectare Converter</a> | <a href="up-bigha-to-sqft.html">UP Bigha to Sq Ft</a></p>
-        <hr>
-        <p style="text-align: center;"><b>Copyright Notice:</b> Shayan Smart Tools Logic and SEO Content © 2026. All Rights Reserved. Managed by Muksidul Islam.</p>
-        <p style="text-align: center; color: #999;">Disclaimer: Estimation purposes only. Please verify with UP Revenue Department (Lekhpal/Tehsil) for legal documentation.</p>
-    </section>
-
-</article>
-
+    </article>
 </div>
 
 <script>
-    let plotCount = 2;
-    let currentLang = 'en';
+    let pCount = 2;
+    let lang = 'en';
 
-    const langData = {
-        en: {
-            title: "UP Land Area Addition Tool",
-            addBtn: "+ Add More Plot",
-            calcBtn: "Calculate Total",
-            resHead: "Total Area Result:",
-            sqLabel: "Total Sq Ft: ",
-            copyMsg: "Result copied to clipboard!",
-            seo: `<h2>UP Land Area Addition: How to Sum Multiple Plots?</h2>
-                  <p>In Uttar Pradesh, land measurements follow the <b>Bigha-Biswa-Biswansi</b> system. Adding multiple plots manually can be tricky because 20 Biswansi make 1 Biswa, and 20 Biswa make 1 Bigha. Our tool automates this "Base 20" logic for 100% accuracy.</p>
-                  <h3>Key Features:</h3>
-                  <ul><li>Bilingual Support (Hindi/English)</li><li>WhatsApp Sharing for Dealers</li><li>Automatic Carry-Forward Logic</li></ul>
-                  <h3>UP Land Unit Table:</h3>
-                  <table><tr><th>Unit</th><th>Relation</th><th>Sq Feet (Approx)</th></tr>
-                  <tr><td>1 Bigha (Pucca)</td><td>20 Biswa</td><td>27,225</td></tr>
-                  <tr><td>1 Biswa</td><td>20 Biswansi</td><td>1,361</td></tr>
-                  <tr><td>1 Biswansi</td><td>-</td><td>68</td></tr></table>`
-        },
-        hi: {
-            title: "उत्तर प्रदेश जमीन जोड़ कैलकुलेटर",
-            addBtn: "+ और प्लॉट जोड़ें",
-            calcBtn: "कुल जोड़ निकालें",
-            resHead: "कुल क्षेत्रफल का परिणाम:",
-            sqLabel: "कुल स्क्वायर फीट: ",
-            copyMsg: "परिणाम कॉपी हो गया है!",
-            seo: `<h2>यूपी जमीन का जोड़: कई खेतों को एक साथ कैसे जोड़ें?</h2>
-                  <p>उत्तर प्रदेश में जमीन की माप <b>बीघा-बिस्वा-बिस्वांसी</b> प्रणाली के तहत की जाती है। हाथों से हिसाब लगाने में अक्सर गलती हो जाती है क्योंकि 20 बिस्वांसी मिलकर 1 बिस्वा और 20 बिस्वा मिलकर 1 बीघा बनाते हैं।</p>
-                  <h3>मुख्य विशेषताएं:</h3>
-                  <ul><li>हिंदी और अंग्रेजी दोनों भाषाओं में</li><li>WhatsApp शेयर करने की सुविधा</li><li>सटीक गणना (बेस 20 लॉजिक)</li></ul>
-                  <h3>यूपी लैंड यूनिट टेबल:</h3>
-                  <table><tr><th>इकाई</th><th>संबंध</th><th>वर्ग फीट (लगभग)</th></tr>
-                  <tr><td>1 बीघा (पक्का)</td><td>20 बिस्वा</td><td>27,225</td></tr>
-                  <tr><td>1 बिस्वा</td><td>20 बिस्वांसी</td><td>1,361</td></tr>
-                  <tr><td>1 बिस्वांसी</td><td>-</td><td>68</td></tr></table>`
-        }
-    };
-
-    function setLang(l) {
-        currentLang = l;
-        document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
-        event.target.classList.add('active');
+    function toggleLang(l) {
+        lang = l;
+        document.getElementById('enBtn').classList.toggle('active', l === 'en');
+        document.getElementById('hiBtn').classList.toggle('active', l === 'hi');
         
-        document.getElementById('mainTitle').innerText = langData[l].title;
-        document.getElementById('btnAdd').innerText = langData[l].addBtn;
-        document.getElementById('btnCalc').innerText = langData[l].calcBtn;
-        document.getElementById('resHeading').innerText = langData[l].resHead;
-        document.getElementById('sqftLabel').firstChild.textContent = langData[l].sqLabel;
-        document.getElementById('seoContent').innerHTML = langData[l].seo;
-
-        document.querySelectorAll('[data-en]').forEach(el => {
-            el.innerText = el.getAttribute('data-' + l);
+        // Translate UI
+        document.getElementById('mainTitle').innerText = l === 'en' ? "UP Land Area Addition Tool" : "उत्तर प्रदेश जमीन जोड़ कैलकुलेटर";
+        document.getElementById('btnAdd').innerText = l === 'en' ? "+ Add More Plot" : "+ और प्लॉट जोड़ें";
+        document.getElementById('btnCalc').innerText = l === 'en' ? "Calculate Total Area" : "कुल जोड़ निकालें";
+        document.getElementById('resHead').innerText = l === 'en' ? "Total Land Area (कुल क्षेत्रफल):" : "कुल क्षेत्रफल का परिणाम:";
+        document.getElementById('unitB').innerText = l === 'en' ? "Bigha" : "बीघा";
+        document.getElementById('unitW').innerText = l === 'en' ? "Biswa" : "बिस्वा";
+        document.getElementById('unitN').innerText = l === 'en' ? "Biswansi" : "बिस्वांसी";
+        
+        // Translate Labels in rows
+        document.querySelectorAll('label').forEach(label => {
+            if(label.innerText.includes("Bigha") || label.innerText.includes("बीघा")) label.innerText = l==='en'?"Bigha":"बीघा";
+            if(label.innerText.includes("Biswa") || label.innerText.includes("बिस्वा")) label.innerText = l==='en'?"Biswa":"बिस्वा";
+            if(label.innerText.includes("Biswansi") || label.innerText.includes("बिस्वांसी")) label.innerText = l==='en'?"Biswansi":"बिस्वांसी";
         });
     }
 
-    function addPlot() {
-        plotCount++;
+    function addNewPlot() {
+        pCount++;
+        const area = document.getElementById('plotsArea');
         const div = document.createElement('div');
         div.className = 'plot-entry';
-        div.innerHTML = `<span class="plot-title">${currentLang === 'en' ? 'Plot #'+plotCount+' Details' : 'प्लॉट #'+plotCount+' का विवरण'}</span>
+        div.innerHTML = `<span class="plot-title">${lang === 'en' ? 'Plot Details #'+pCount : 'प्लॉट विवरण #'+pCount}</span>
             <div class="grid-inputs">
-                <div class="input-group"><label>${currentLang==='en'?'Bigha':'बीघा'}</label><input type="number" class="b-in"></div>
-                <div class="input-group"><label>${currentLang==='en'?'Biswa':'बिस्वा'}</label><input type="number" class="w-in"></div>
-                <div class="input-group"><label>${currentLang==='en'?'Biswansi':'बिस्वांसी'}</label><input type="number" class="n-in"></div>
+                <div class="input-group"><label>${lang==='en'?'Bigha':'बीघा'}</label><input type="number" class="b-in" placeholder="0"></div>
+                <div class="input-group"><label>${lang==='en'?'Biswa':'बिस्वा'}</label><input type="number" class="w-in" placeholder="0"></div>
+                <div class="input-group"><label>${lang==='en'?'Biswansi':'बिस्वांसी'}</label><input type="number" class="n-in" placeholder="0"></div>
             </div>`;
-        document.getElementById('plotsArea').appendChild(div);
+        area.appendChild(div);
     }
 
-    function performUPCalculation() {
-        let tb=0, tw=0, tn=0;
-        document.querySelectorAll('.b-in').forEach(i => tb += Number(i.value)||0);
-        document.querySelectorAll('.w-in').forEach(i => tw += Number(i.value)||0);
-        document.querySelectorAll('.n-in').forEach(i => tn += Number(i.value)||0);
+    function calculateUPArea() {
+        let b=0, w=0, n=0;
+        document.querySelectorAll('.b-in').forEach(i => b += Number(i.value)||0);
+        document.querySelectorAll('.w-in').forEach(i => w += Number(i.value)||0);
+        document.querySelectorAll('.n-in').forEach(i => n += Number(i.value)||0);
 
-        if(tn >= 20) { tw += Math.floor(tn/20); tn %= 20; }
-        if(tw >= 20) { tb += Math.floor(tw/20); tw %= 20; }
+        if(n >= 20) { w += Math.floor(n/20); n %= 20; }
+        if(w >= 20) { b += Math.floor(w/20); w %= 20; }
 
-        document.getElementById('outB').innerText = tb;
-        document.getElementById('outW').innerText = tw;
-        document.getElementById('outN').innerText = tn;
+        document.getElementById('outB').innerText = b;
+        document.getElementById('outW').innerText = tw = w;
+        document.getElementById('outN').innerText = tn = n;
         
-        let totalSq = (tb * 27225) + (tw * 1361.25) + (tn * 68.06);
+        let totalSq = (b * 27225) + (w * 1361.25) + (n * 68.06);
         document.getElementById('outSq').innerText = Math.round(totalSq).toLocaleString();
         document.getElementById('resultBox').style.display = 'block';
     }
 
-    function copyResult() {
-        const text = `Total Area: ${document.getElementById('outB').innerText} Bigha, ${document.getElementById('outW').innerText} Biswa, ${document.getElementById('outN').innerText} Biswansi. Total SqFt: ${document.getElementById('outSq').innerText} - Shayan Smart Tools`;
-        navigator.clipboard.writeText(text);
-        alert(langData[currentLang].copyMsg);
+    function copyToClipboard() {
+        const t = `Total: ${document.getElementById('outB').innerText} Bigha, ${document.getElementById('outW').innerText} Biswa, ${document.getElementById('outN').innerText} Biswansi. - Shayan Smart Tools`;
+        navigator.clipboard.writeText(t);
+        alert("Copied! / कॉपी हो गया!");
     }
 
-    function shareWhatsApp() {
-        const text = `Zameen Ka Total Jod: ${document.getElementById('outB').innerText} Bigha, ${document.getElementById('outW').innerText} Biswa, ${document.getElementById('outN').innerText} Biswansi. Calculate yours here: ${window.location.href}`;
-        window.open(`https://wa.me/?text=${encodeURIComponent(text)}`, '_blank');
+    function shareOnWhatsApp() {
+        const t = `UP Zameen Total: ${document.getElementById('outB').innerText} Bigha, ${document.getElementById('outW').innerText} Biswa, ${document.getElementById('outN').innerText} Biswansi. Calculate here: ${window.location.href}`;
+        window.open(`https://wa.me/?text=${encodeURIComponent(t)}`, '_blank');
     }
-
-    setLang('en'); // Default init
 </script>
 
 <footer>
-    <p>© 2026 Shayan Smart Tools | UP Land Management | Created by Muksidul Islam</p>
+    <p>Shayan Smart Tools | Uttar Pradesh Division | Muksidul Islam</p>
 </footer>
 </body>
 </html>
