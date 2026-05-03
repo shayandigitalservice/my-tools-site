@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>West Bengal Land Area Addition Tool free 2026| পশ্চিমবঙ্গ জমির হিসাব ক্যালকুলেটর | Shayan Smart Tools</title>
+    
+    <meta name="description" content="Official West Bengal Land Area Addition Tool. Add multiple plots in Bigha, Katha, and Chatak with 16-Chatak logic. Bilingual calculator in Bangla & English for Banglarbhumi records.">
+    <meta name="keywords" content="West Bengal Land Area Addition, পশ্চিমবঙ্গ জমির হিসাব, Bigha Katha Chatak Calculator WB, WB Land Sum, Shayan Smart Tools, Banglarbhumi Area Calculator, Chatak to Katha Addition">
+    <meta name="author" content="Shayan Smart Tools">
+    <meta name="robots" content="index, follow">
+
+    <style>
+        :root {
+            --wb-blue: #0d47a1;
+            --bg-light: #f1f7ff;
+            --white: #ffffff;
+        }
+
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            line-height: 1.8;
+            background-color: var(--bg-light);
+            margin: 0;
+            padding: 20px;
+            color: #333;
+        }
+
+        .container { max-width: 1000px; margin: 0 auto; }
+
+        /* Calculator Card */
+        .tool-card {
+            background: var(--white);
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+            border-top: 10px solid var(--wb-blue);
+            margin-bottom: 40px;
+        }
+
+        h1 { color: var(--wb-blue); text-align: center; margin-bottom: 10px; font-size: 26px; }
+        
+        .lang-toggle { text-align: center; margin-bottom: 25px; }
+        .lang-btn { background: #ddd; border: none; padding: 6px 20px; cursor: pointer; border-radius: 20px; font-weight: bold; margin: 0 5px; transition: 0.3s; }
+        .lang-btn.active { background: var(--wb-blue); color: white; }
+
+        .plot-entry {
+            background: #f9f9f9;
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 15px;
+            border: 1px solid #e0e0e0;
+            animation: fadeIn 0.4s ease;
+        }
+
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        .plot-title { font-weight: bold; color: var(--wb-blue); margin-bottom: 15px; display: block; border-bottom: 1px solid #ddd; }
+
+        .grid-inputs {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+            gap: 15px;
+        }
+
+        .input-group { display: flex; flex-direction: column; }
+        label { font-size: 13px; margin-bottom: 5px; font-weight: 600; }
+        input { padding: 12px; border: 1px solid #ccc; border-radius: 8px; font-size: 16px; text-align: center; }
+
+        .controls { display: flex; gap: 15px; justify-content: center; margin: 30px 0; flex-wrap: wrap; }
+        .btn { padding: 14px 28px; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; transition: 0.3s; font-size: 15px; }
+        .btn-add { background: #455a64; color: white; }
+        .btn-calc { background: var(--wb-blue); color: white; flex-grow: 0.3; }
+        .btn-share { background: #25d366; color: white; }
+        .btn-copy { background: #ff9800; color: white; }
+        .btn:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
+
+        .result-panel {
+            background: var(--wb-blue);
+            color: white;
+            padding: 30px;
+            border-radius: 15px;
+            display: none;
+            text-align: center;
+        }
+
+        .res-display { display: flex; justify-content: space-around; font-size: 28px; margin: 20px 0; }
+        .res-item span { display: block; font-size: 14px; color: #bbdefb; margin-top: 5px; }
+
+        /* SEO SECTION */
+        .seo-article { background: var(--white); padding: 40px; border-radius: 20px; box-shadow: 0 5px 15px rgba(0,0,0,0.05); }
+        h2, h3 { color: var(--wb-blue); border-left: 6px solid var(--wb-blue); padding-left: 15px; margin-top: 30px; }
+        table { width: 100%; border-collapse: collapse; margin: 20px 0; }
+        th, td { border: 1px solid #ddd; padding: 12px; text-align: left; }
+        th { background: #e3f2fd; color: var(--wb-blue); }
+
+        footer { text-align: center; padding: 40px 0; color: #888; font-size: 14px; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="tool-card">
+        <h1 id="mainTitle">West Bengal Land Area Addition Tool</h1>
+        
+        <div class="lang-toggle">
+            <button class="lang-btn active" id="enBtn" onclick="toggleLang('en')">English</button>
+            <button class="lang-btn" id="bnBtn" onclick="toggleLang('bn')">বাংলা</button>
+        </div>
+
+        <div id="plotsArea">
+            <div class="plot-entry">
+                <span class="plot-title" id="p1Title">Plot Details #1</span>
+                <div class="grid-inputs">
+                    <div class="input-group"><label class="lbl-b">Bigha</label><input type="number" class="b-in" placeholder="0"></div>
+                    <div class="input-group"><label class="lbl-k">Katha</label><input type="number" class="k-in" placeholder="0"></div>
+                    <div class="input-group"><label class="lbl-c">Chatak</label><input type="number" class="c-in" placeholder="0"></div>
+                </div>
+            </div>
+            <div class="plot-entry">
+                <span class="plot-title" id="p2Title">Plot Details #2</span>
+                <div class="grid-inputs">
+                    <div class="input-group"><label class="lbl-b">Bigha</label><input type="number" class="b-in" placeholder="0"></div>
+                    <div class="input-group"><label class="lbl-k">Katha</label><input type="number" class="k-in" placeholder="0"></div>
+                    <div class="input-group"><label class="lbl-c">Chatak</label><input type="number" class="c-in" placeholder="0"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="controls">
+            <button class="btn btn-add" id="btnAdd" onclick="addNewPlot()">+ Add More Plot</button>
+            <button class="btn btn-calc" id="btnCalc" onclick="calculateWBTotal()">Calculate Total Area</button>
+        </div>
+
+        <div id="resultBox" class="result-panel">
+            <h3 id="resHead">Total Land Area (মোট পরিমাণ):</h3>
+            <div class="res-display">
+                <div class="res-item"><b id="outB">0</b><span id="unitB">Bigha</span></div>
+                <div class="res-item"><b id="outK">0</b><span id="unitK">Katha</span></div>
+                <div class="res-item"><b id="outC">0</b><span id="unitC">Chatak</span></div>
+            </div>
+            <p id="sqLabel">Total Square Feet: <b id="outSq">0</b> sq ft</p>
+            
+            <div class="controls">
+                <button class="btn btn-copy" id="btnCopy" onclick="copyResult()">Copy Result</button>
+                <button class="btn btn-share" id="btnShare" onclick="shareWhatsApp()">Share on WhatsApp</button>
+            </div>
+        </div>
+    </div>
+
+    <article class="seo-article">
+        <h2>West Bengal Land Area Addition: Bigha, Katha, aur Chatak ka Total Jod Kaise Karein?</h2>
+        <p>
+            Doston, West Bengal mein zameen ka calculation baaki states se thoda alag aur unique hota hai. Jab bhi hum **Banglarbhumi** portal par apna plot record dekhte hain, toh area Hectare mein hota hai. Lekin local market mein transaction hamesha **Bigha, Katha, aur Chatak** mein hota hai. Sabse badi mushkil tab hoti hai jab aapko apne 2-3 alag plots ko ek saath jodna (sum) hota hai. 
+        </p>
+        <p>
+            Shayan Smart Tools ka ye **West Bengal Land Area Addition Calculator** isi problem ka digital solution hai. Bengal mein **16 Chatak milkar 1 Katha** banta hai aur **20 Katha milkar 1 Bigha**. Manual calculation mein galti hone ke chances zyada hote hain, lekin hamara tool automatic "carry-forward" logic apply karta hai.
+        </p>
+
+        <h3>Is Calculator Ko Use Kaise Karein? (Step-by-Step)</h3>
+        <ul style="padding-left: 20px;">
+            <li><b>Step 1:</b> Sabse pehle Plot #1 ka Bigha, Katha aur Chatak value input boxes mein dalein.</li>
+            <li><b>Step 2:</b> Phir Plot #2 ki details fill karein.</li>
+            <li><b>Step 3:</b> Agar aapke paas aur bhi plots hain, toh <b>"+ Add More Plot"</b> button click karein.</li>
+            <li><b>Step 4:</b> <b>"Calculate Total Area"</b> par click karte hi result screen par hoga.</li>
+            <li><b>Step 5:</b> Result ko copy karein ya WhatsApp ke zariye apne client ko bhej dein.</li>
+        </ul>
+
+        <h3>West Bengal Land Unit Calculation Standard</h3>
+        <table>
+            <thead>
+                <tr><th>Unit Name</th><th>Sub-unit Relation</th><th>Area (Sq Ft)</th></tr>
+            </thead>
+            <tbody>
+                <tr><td>1 Bigha</td><td>20 Katha</td><td>14,400 Sq Ft</td></tr>
+                <tr><td>1 Katha</td><td>16 Chatak</td><td>720 Sq Ft</td></tr>
+                <tr><td>1 Chatak</td><td>-</td><td>45 Sq Ft</td></tr>
+            </tbody>
+        </table>
+
+        <h3>Why Bengal's Logic is Different?</h3>
+        <p>
+            Bihar aur UP mein 20 Dhur ka 1 Katha hota hai, lekin West Bengal mein **16 Chatak ka 1 Katha** mana jata hai. Isliye agar aap kisi dusre state ka calculator use karenge toh result galat aayega. Humara tool Bengal ke official revenue rules ko follow karta hai, jisme 1 Bigha 14,400 Square Feet ke barabar hota hai.
+        </p>
+
+        <h3>5 Practical Examples: WB Land Logic</h3>
+        <ol>
+            <li><b>Ex 1:</b> 10 Katha + 12 Katha = **1 Bigha 2 Katha** (20 Katha = 1 Bigha).</li>
+            <li><b>Ex 2:</b> 12 Chatak + 6 Chatak = **1 Katha 2 Chatak** (16 Chatak = 1 Katha).</li>
+            <li><b>Ex 3:</b> 1 Bigha 15 Katha + 10 Katha = **2 Bigha 5 Katha**.</li>
+            <li><b>Ex 4:</b> 8 Chatak + 8 Chatak = **1 Katha 0 Chatak**.</li>
+            <li><b>Ex 5:</b> 2 Bigha 19 Katha 15 Chatak + 1 Chatak = **3 Bigha**.</li>
+        </ol>
+
+        <h3>Frequently Asked Questions (FAQs)</h3>
+        <p><b>Q1. West Bengal mein 1 Bigha kitne Sq Ft ka hota hai?</b><br>Ans: WB mein 1 Bigha barabar 14,400 Sq Ft hota hai.</p>
+        <p><b>Q2. Chatak aur Katha ka kya rishta hai?</b><br>Ans: 16 Chatak milkar 1 Katha banate hain.</p>
+        <p><b>Q3. Kya ye calculator mobile friendly hai?</b><br>Ans: Ji haan, Shayan Smart Tools 100% responsive hai.</p>
+
+        <div style="margin-top: 30px; border-top: 1px dashed var(--wb-blue); padding-top: 25px;">
+            <p><b>Links:</b> <a href="index.html">Home</a> | <a href="west-bengal-hectare-to-land-converter.html">WB Hectare Converter</a> | <a href="west-bengal-bigha-to-sqft.html">WB Bigha to Sq Ft</a></p>
+            <p style="text-align: center;"><b>Copyright Notice:</b> Shayan Smart Tools © 2026. Managed by Muksidul Islam.</p>
+        </div>
+    </article>
+</div>
+
+<script>
+    let pCount = 2;
+    let currentL = 'en';
+
+    const trans = {
+        en: {
+            title: "West Bengal Land Area Addition Tool",
+            addBtn: "+ Add More Plot",
+            calcBtn: "Calculate Total Area",
+            resHead: "Total Land Area (মোট পরিমাণ):",
+            unitB: "Bigha", unitK: "Katha", unitC: "Chatak",
+            sqLabel: "Total Square Feet: ",
+            copyBtn: "Copy Result", shareBtn: "Share on WhatsApp",
+            copyMsg: "Result Copied!"
+        },
+        bn: {
+            title: "পশ্চিমবঙ্গ জমির হিসাব ক্যালকুলেটর",
+            addBtn: "+ আরও প্লট যোগ করুন",
+            calcBtn: "মোট পরিমাণ হিসাব করুন",
+            resHead: "জমির মোট পরিমাণ:",
+            unitB: "বিঘা", unitK: "কাঠা", unitC: "ছটাক",
+            sqLabel: "মোট স্কোয়ার ফিট: ",
+            copyBtn: "কপি করুন", shareBtn: "হোয়াটসঅ্যাপে শেয়ার করুন",
+            copyMsg: "কপি হয়েছে!"
+        }
+    };
+
+    function toggleLang(l) {
+        currentL = l;
+        document.getElementById('enBtn').classList.toggle('active', l === 'en');
+        document.getElementById('bnBtn').classList.toggle('active', l === 'bn');
+        
+        document.getElementById('mainTitle').innerText = trans[l].title;
+        document.getElementById('btnAdd').innerText = trans[l].addBtn;
+        document.getElementById('btnCalc').innerText = trans[l].calcBtn;
+        document.getElementById('resHead').innerText = trans[l].resHead;
+        document.getElementById('unitB').innerText = trans[l].unitB;
+        document.getElementById('unitK').innerText = trans[l].unitK;
+        document.getElementById('unitC').innerText = trans[l].unitC;
+        document.getElementById('sqLabel').firstChild.textContent = trans[l].sqLabel;
+        document.getElementById('btnCopy').innerText = trans[l].copyBtn;
+        document.getElementById('btnShare').innerText = trans[l].shareBtn;
+
+        document.querySelectorAll('.lbl-b').forEach(el => el.innerText = trans[l].unitB);
+        document.querySelectorAll('.lbl-k').forEach(el => el.innerText = trans[l].unitK);
+        document.querySelectorAll('.lbl-c').forEach(el => el.innerText = trans[l].unitC);
+        
+        for (let i = 1; i <= pCount; i++) {
+            const el = document.getElementById('p'+i+'Title');
+            if(el) el.innerText = l === 'en' ? 'Plot Details #'+i : 'প্লটের বিবরণ #'+i;
+        }
+    }
+
+    function addNewPlot() {
+        pCount++;
+        const area = document.getElementById('plotsArea');
+        const div = document.createElement('div');
+        div.className = 'plot-entry';
+        div.innerHTML = `<span class="plot-title" id="p${pCount}Title">${currentL === 'en' ? 'Plot Details #'+pCount : 'প্লটের বিবরণ #'+pCount}</span>
+            <div class="grid-inputs">
+                <div class="input-group"><label class="lbl-b">${trans[currentL].unitB}</label><input type="number" class="b-in" placeholder="0"></div>
+                <div class="input-group"><label class="lbl-k">${trans[currentL].unitK}</label><input type="number" class="k-in" placeholder="0"></div>
+                <div class="input-group"><label class="lbl-c">${trans[currentL].unitC}</label><input type="number" class="c-in" placeholder="0"></div>
+            </div>`;
+        area.appendChild(div);
+    }
+
+    function calculateWBTotal() {
+        let b=0, k=0, c=0;
+        document.querySelectorAll('.b-in').forEach(i => b += Number(i.value)||0);
+        document.querySelectorAll('.k-in').forEach(i => k += Number(i.value)||0);
+        document.querySelectorAll('.c-in').forEach(i => c += Number(i.value)||0);
+
+        if(c >= 16) { k += Math.floor(c/16); c %= 16; }
+        if(k >= 20) { b += Math.floor(k/20); k %= 20; }
+
+        document.getElementById('outB').innerText = b;
+        document.getElementById('outK').innerText = k;
+        document.getElementById('outC').innerText = c;
+        
+        let totalSq = (b * 14400) + (k * 720) + (c * 45);
+        document.getElementById('outSq').innerText = Math.round(totalSq).toLocaleString();
+        document.getElementById('resultBox').style.display = 'block';
+    }
+
+    function copyResult() {
+        const t = `Zameen Total: ${document.getElementById('outB').innerText} Bigha, ${document.getElementById('outK').innerText} Katha, ${document.getElementById('outC').innerText} Chatak. - Shayan Smart Tools`;
+        navigator.clipboard.writeText(t);
+        alert(trans[currentL].copyMsg);
+    }
+
+    function shareWhatsApp() {
+        const t = `WB Zameen Total: ${document.getElementById('outB').innerText} Bigha, ${document.getElementById('outK').innerText} Katha, ${document.getElementById('outC').innerText} Chatak. Calculate here: ${window.location.href}`;
+        window.open(`https://wa.me/?text=${encodeURIComponent(t)}`, '_blank');
+    }
+</script>
+
+<footer>
+    <p>© 2026 Shayan Smart Tools | West Bengal Division | Created by Muksidul Islam</p>
+</footer>
+</body>
+</html>
