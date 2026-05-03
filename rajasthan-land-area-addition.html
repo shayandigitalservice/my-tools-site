@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rajasthan Land Area Addition Tool Free 2026| राजस्थान जमीन का जोड़ कैलकुलेटर | Shayan Smart Tools</title>
+    
+    <meta name="description" content="Official Rajasthan Land Area Addition Tool. Add multiple plots in Bigha, Biswa, and Biswansi with 20-unit carry logic. Bilingual calculator for Rajasthan Bhulekh.">
+    <meta name="keywords" content="Rajasthan Land Area Addition, राजस्थान जमीन का जोड़, Bigha Biswa Biswansi Calculator, Rajasthan Land Sum, Shayan Smart Tools Rajasthan, Apna Khata Rajasthan Calculator">
+    <meta name="author" content="Shayan Smart Tools">
+    <meta name="robots" content="index, follow">
+
+    <style>
+        :root {
+            --rj-orange: #e65100;
+            --rj-yellow: #ffb300;
+            --bg-light: #fff8e1;
+            --white: #ffffff;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.8;
+            background-color: var(--bg-light);
+            margin: 0;
+            padding: 20px;
+            color: #333;
+        }
+
+        .container { max-width: 1000px; margin: 0 auto; }
+
+        .tool-card {
+            background: var(--white);
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+            border-top: 10px solid var(--rj-orange);
+            margin-bottom: 40px;
+        }
+
+        h1 { color: var(--rj-orange); text-align: center; margin-bottom: 10px; font-size: 26px; }
+        
+        .lang-toggle { text-align: center; margin-bottom: 25px; }
+        .lang-btn { background: #ddd; border: none; padding: 6px 20px; cursor: pointer; border-radius: 20px; font-weight: bold; margin: 0 5px; transition: 0.3s; }
+        .lang-btn.active { background: var(--rj-orange); color: white; }
+
+        .plot-entry {
+            background: #fffdf7;
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 15px;
+            border: 1px solid #ffe082;
+            animation: fadeIn 0.4s ease;
+        }
+
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        .plot-title { font-weight: bold; color: var(--rj-orange); margin-bottom: 15px; display: block; border-bottom: 1px solid #ffd54f; }
+
+        .grid-inputs {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+            gap: 15px;
+        }
+
+        .input-group { display: flex; flex-direction: column; }
+        label { font-size: 13px; margin-bottom: 5px; font-weight: 600; }
+        input { padding: 12px; border: 1px solid #ccc; border-radius: 8px; font-size: 16px; text-align: center; }
+
+        .controls { display: flex; gap: 15px; justify-content: center; margin: 30px 0; flex-wrap: wrap; }
+        .btn { padding: 14px 28px; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; transition: 0.3s; font-size: 15px; }
+        .btn-add { background: #5d4037; color: white; }
+        .btn-calc { background: var(--rj-orange); color: white; flex-grow: 0.3; }
+        .btn-share { background: #25d366; color: white; }
+        .btn-copy { background: #1976d2; color: white; }
+
+        .result-panel {
+            background: var(--rj-orange);
+            color: white;
+            padding: 30px;
+            border-radius: 15px;
+            display: none;
+            text-align: center;
+        }
+
+        .res-display { display: flex; justify-content: space-around; font-size: 28px; margin: 20px 0; }
+        .res-item span { display: block; font-size: 14px; color: #ffe0b2; margin-top: 5px; }
+
+        /* Modern Internal Links Design */
+        .links-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 30px;
+        }
+        .link-card {
+            background: #fff;
+            padding: 15px;
+            border-radius: 10px;
+            text-decoration: none;
+            color: var(--rj-orange);
+            font-weight: bold;
+            text-align: center;
+            border: 1px solid #ffe082;
+            transition: 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+        .link-card:hover { background: var(--rj-orange); color: white; transform: translateY(-5px); }
+
+        .seo-article { background: var(--white); padding: 40px; border-radius: 20px; box-shadow: 0 5px 15px rgba(0,0,0,0.05); margin-top: 20px; }
+        h2, h3 { color: var(--rj-orange); border-left: 6px solid var(--rj-orange); padding-left: 15px; margin-top: 30px; }
+        table { width: 100%; border-collapse: collapse; margin: 20px 0; }
+        th, td { border: 1px solid #ddd; padding: 12px; text-align: left; }
+        th { background: #fff8e1; color: var(--rj-orange); }
+
+        footer { text-align: center; padding: 40px 0; color: #888; font-size: 14px; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="tool-card">
+        <h1 id="mainTitle">Rajasthan Land Area Addition Tool</h1>
+        
+        <div class="lang-toggle">
+            <button class="lang-btn active" id="enBtn" onclick="toggleLang('en')">English</button>
+            <button class="lang-btn" id="hiBtn" onclick="toggleLang('hi')">हिंदी</button>
+        </div>
+
+        <div id="plotsArea">
+            <div class="plot-entry">
+                <span class="plot-title" id="p1Title">Plot Details #1</span>
+                <div class="grid-inputs">
+                    <div class="input-group"><label class="lbl-b">Bigha</label><input type="number" class="b-in" placeholder="0"></div>
+                    <div class="input-group"><label class="lbl-w">Biswa</label><input type="number" class="w-in" placeholder="0"></div>
+                    <div class="input-group"><label class="lbl-n">Biswansi</label><input type="number" class="n-in" placeholder="0"></div>
+                </div>
+            </div>
+            <div class="plot-entry">
+                <span class="plot-title" id="p2Title">Plot Details #2</span>
+                <div class="grid-inputs">
+                    <div class="input-group"><label class="lbl-b">Bigha</label><input type="number" class="b-in" placeholder="0"></div>
+                    <div class="input-group"><label class="lbl-w">Biswa</label><input type="number" class="w-in" placeholder="0"></div>
+                    <div class="input-group"><label class="lbl-n">Biswansi</label><input type="number" class="n-in" placeholder="0"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="controls">
+            <button class="btn btn-add" id="btnAdd" onclick="addNewPlot()">+ Add More Plot</button>
+            <button class="btn btn-calc" id="btnCalc" onclick="calculateRJTotal()">Calculate Total Area</button>
+        </div>
+
+        <div id="resultBox" class="result-panel">
+            <h3 id="resHead">Total Land Area (कुल क्षेत्रफल):</h3>
+            <div class="res-display">
+                <div class="res-item"><b id="outB">0</b><span id="unitB">Bigha</span></div>
+                <div class="res-item"><b id="outW">0</b><span id="unitW">Biswa</span></div>
+                <div class="res-item"><b id="outN">0</b><span id="unitN">Biswansi</span></div>
+            </div>
+            <p id="sqLabel">Total Square Feet: <b id="outSq">0</b> sq ft</p>
+            
+            <div class="controls">
+                <button class="btn btn-copy" id="btnCopy" onclick="copyResult()">Copy Result</button>
+                <button class="btn btn-share" id="btnShare" onclick="shareWhatsApp()">Share on WhatsApp</button>
+            </div>
+        </div>
+    </div>
+
+    <article class="seo-article">
+        <h2>Rajasthan Land Area Addition: Bigha, Biswa aur Biswansi ka Total Jod Kaise Karein?</h2>
+        <p>
+            Rajasthan mein zameen ka hisab-kitab kaafi dilchasp hai. Yahan **Apna Khata (E-Dharti)** portal par records Hectare mein hote hain, lekin jab baat kharid-farokht ki aati hai, toh log hamesha **Bigha aur Biswa** mein hi baat karte hain. Rajasthan mein alag-alag zilon mein Bigha ka size alag ho sakta hai (Pucca Bigha vs Kuchha Bigha), lekin calculation ka formula hamesha same rehta hai.
+        </p>
+        <p>
+            Shayan Smart Tools ka ye **Rajasthan Land Area Addition Calculator** kisanon aur property dealers ke liye ek vardan hai. Yahan **20 Biswansi milkar 1 Biswa** banti hai aur **20 Biswa milkar 1 Bigha**. Agar aap manually jodenge toh galti hone ka darr rehta hai, lekin hamara tool automatic logical carry-forward apply karta hai.
+        </p>
+
+        <h3>Is Calculator Ko Use Kaise Karein? (Step-by-Step)</h3>
+        <ul style="padding-left: 20px;">
+            <li><b>Step 1:</b> Sabse pehle apne pehle plot (Plot #1) ka Bigha, Biswa aur Biswansi input boxes mein bharein.</li>
+            <li><b>Step 2:</b> Dusre khet ki details fill karein.</li>
+            <li><b>Step 3:</b> Agar 2 se zyada plots hain, toh <b>"+ Add More Plot"</b> button click karke naye rows jodein.</li>
+            <li><b>Step 4:</b> <b>"Calculate Total Area"</b> par click karte hi result screen par aa jayega.</li>
+        </ul>
+
+        <h3>Rajasthan Land Units Standard Table</h3>
+        <table>
+            <thead>
+                <tr><th>Unit Name</th><th>Sub-unit Relation</th><th>Approx Area (Sq Ft)</th></tr>
+            </thead>
+            <tbody>
+                <tr><td>1 Pucca Bigha</td><td>20 Biswa</td><td>27,225 Sq Ft</td></tr>
+                <tr><td>1 Biswa</td><td>20 Biswansi</td><td>1,361.25 Sq Ft</td></tr>
+                <tr><td>1 Biswansi</td><td>-</td><td>68.06 Sq Ft</td></tr>
+            </tbody>
+        </table>
+
+        <h3>5 Practical Examples: Rajasthan Land Logic</h3>
+        <ol>
+            <li><b>Ex 1:</b> 15 Biswa + 10 Biswa = **1 Bigha 5 Biswa** (20 Biswa = 1 Bigha).</li>
+            <li><b>Ex 2:</b> 18 Biswansi + 5 Biswansi = **1 Biswa 3 Biswansi**.</li>
+            <li><b>Ex 3:</b> 2 Bigha 18 Biswa + 1 Bigha 5 Biswa = **4 Bigha 3 Biswa**.</li>
+            <li><b>Ex 4:</b> 5 Bigha 19 Biswa aur 1 Biswa milkar **6 Bigha** ban jayenge.</li>
+            <li><b>Ex 5:</b> 10 Biswansi + 15 Biswansi = **1 Biswa 5 Biswansi**.</li>
+        </ol>
+
+        <h3>Frequently Asked Questions (FAQs)</h3>
+        <p><b>Q1. Rajasthan mein 1 Bigha mein kitne Biswa hote hain?</b><br>Ans: Rajasthan ke standard revenue records ke mutabik 1 Bigha mein 20 Biswa hote hain.</p>
+        <p><b>Q2. Kya ye tool Kuchha Bigha ke liye kaam karega?</b><br>Ans: Ji haan, calculation logic (20 unit wala) same rehta hai, bas square feet value badal jati hai.</p>
+        <p><b>Q3. Kya main result WhatsApp par bhej sakta hoon?</b><br>Ans: Bilkul! Humne special WhatsApp button diya hai.</p>
+
+        <h3>Quick Access Other Tools</h3>
+        <div class="links-grid">
+            <a href="index.html" class="link-card">🏠 Main Dashboard</a>
+            <a href="rajasthan-bigha-to-sqft.html" class="link-card">📏 Bigha to Sq Ft</a>
+            <a href="rajasthan-hectare-to-bigha.html" class="link-card">🔄 Hectare to Bigha</a>
+            <a href="rajasthan-land-cost-calculator.html" class="link-card">💰 Land Cost Tool</a>
+        </div>
+
+        <div style="margin-top: 40px; border-top: 1px dashed var(--rj-orange); padding-top: 25px;">
+            <p style="text-align: center;"><b>Copyright Notice:</b> Shayan Smart Tools © 2026. All Rights Reserved. Managed by Muksidul Islam.</p>
+        </div>
+    </article>
+</div>
+
+<script>
+    let pCount = 2;
+    let currentL = 'en';
+
+    const trans = {
+        en: {
+            title: "Rajasthan Land Area Addition Tool",
+            addBtn: "+ Add More Plot",
+            calcBtn: "Calculate Total Area",
+            resHead: "Total Land Area (कुल क्षेत्रफल):",
+            unitB: "Bigha", unitW: "Biswa", unitN: "Biswansi",
+            sqLabel: "Total Square Feet: ",
+            copyBtn: "Copy Result", shareBtn: "Share on WhatsApp",
+            copyMsg: "Result Copied!"
+        },
+        hi: {
+            title: "राजस्थान जमीन जोड़ कैलकुलेटर",
+            addBtn: "+ और प्लॉट जोड़ें",
+            calcBtn: "कुल जोड़ निकालें",
+            resHead: "कुल क्षेत्रफल का परिणाम:",
+            unitB: "बीघा", unitW: "बिस्वा", unitN: "बिस्वांसी",
+            sqLabel: "कुल स्क्वायर फीट: ",
+            copyBtn: "कॉपी करें", shareBtn: "व्हाट्सएप पर शेयर करें",
+            copyMsg: "परिणाम कॉपी हो गया!"
+        }
+    };
+
+    function toggleLang(l) {
+        currentL = l;
+        document.getElementById('enBtn').classList.toggle('active', l === 'en');
+        document.getElementById('hiBtn').classList.toggle('active', l === 'hi');
+        
+        document.getElementById('mainTitle').innerText = trans[l].title;
+        document.getElementById('btnAdd').innerText = trans[l].addBtn;
+        document.getElementById('btnCalc').innerText = trans[l].calcBtn;
+        document.getElementById('resHead').innerText = trans[l].resHead;
+        document.getElementById('unitB').innerText = trans[l].unitB;
+        document.getElementById('unitW').innerText = trans[l].unitW;
+        document.getElementById('unitN').innerText = trans[l].unitN;
+        document.getElementById('sqLabel').firstChild.textContent = trans[l].sqLabel;
+        document.getElementById('btnCopy').innerText = trans[l].copyBtn;
+        document.getElementById('btnShare').innerText = trans[l].shareBtn;
+
+        document.querySelectorAll('.lbl-b').forEach(el => el.innerText = trans[l].unitB);
+        document.querySelectorAll('.lbl-w').forEach(el => el.innerText = trans[l].unitW);
+        document.querySelectorAll('.lbl-n').forEach(el => el.innerText = trans[l].unitN);
+        
+        for (let i = 1; i <= pCount; i++) {
+            const el = document.getElementById('p'+i+'Title');
+            if(el) el.innerText = l === 'en' ? 'Plot Details #'+i : 'प्लॉट विवरण #'+i;
+        }
+    }
+
+    function addNewPlot() {
+        pCount++;
+        const area = document.getElementById('plotsArea');
+        const div = document.createElement('div');
+        div.className = 'plot-entry';
+        div.innerHTML = `<span class="plot-title" id="p${pCount}Title">${currentL === 'en' ? 'Plot Details #'+pCount : 'प्लॉट विवरण #'+pCount}</span>
+            <div class="grid-inputs">
+                <div class="input-group"><label class="lbl-b">${trans[currentL].unitB}</label><input type="number" class="b-in" placeholder="0"></div>
+                <div class="input-group"><label class="lbl-w">${trans[currentL].unitW}</label><input type="number" class="w-in" placeholder="0"></div>
+                <div class="input-group"><label class="lbl-n">${trans[currentL].unitN}</label><input type="number" class="n-in" placeholder="0"></div>
+            </div>`;
+        area.appendChild(div);
+    }
+
+    function calculateRJTotal() {
+        let b=0, w=0, n=0;
+        document.querySelectorAll('.b-in').forEach(i => b += Number(i.value)||0);
+        document.querySelectorAll('.w-in').forEach(i => w += Number(i.value)||0);
+        document.querySelectorAll('.n-in').forEach(i => n += Number(i.value)||0);
+
+        if(n >= 20) { w += Math.floor(n/20); n %= 20; }
+        if(w >= 20) { b += Math.floor(w/20); w %= 20; }
+
+        document.getElementById('outB').innerText = b;
+        document.getElementById('outW').innerText = w;
+        document.getElementById('outN').innerText = n;
+        
+        let totalSq = (b * 27225) + (w * 1361.25) + (n * 68.06);
+        document.getElementById('outSq').innerText = Math.round(totalSq).toLocaleString();
+        document.getElementById('resultBox').style.display = 'block';
+    }
+
+    function copyResult() {
+        const t = `Total Area: ${document.getElementById('outB').innerText} Bigha, ${document.getElementById('outW').innerText} Biswa, ${document.getElementById('outN').innerText} Biswansi. - Shayan Smart Tools`;
+        navigator.clipboard.writeText(t);
+        alert(trans[currentL].copyMsg);
+    }
+
+    function shareWhatsApp() {
+        const t = `Rajasthan Zameen Total Jod: ${document.getElementById('outB').innerText} Bigha, ${document.getElementById('outW').innerText} Biswa, ${document.getElementById('outN').innerText} Biswansi. Calculate here: ${window.location.href}`;
+        window.open(`https://wa.me/?text=${encodeURIComponent(t)}`, '_blank');
+    }
+</script>
+
+<footer>
+    <p>© 2026 Shayan Smart Tools | Rajasthan Division | Managed by Muksidul Islam</p>
+</footer>
+</body>
+</html>
