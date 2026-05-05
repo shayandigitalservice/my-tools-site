@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bihar Irregular Land Calculator | टेढ़ी-मेढ़ी जमीन का जोड़ | Shayan Smart Tools</title>
+    
+    <meta name="description" content="Bihar Irregular Land Area Calculator by Shayan Smart Tools. Calculate tedi-medi zameen using Heron's Formula. Accuracy in Bigha, Kattha, Dhur, and Dhurki.">
+    <meta name="keywords" content="Bihar Land Calculator, Bihar Main Tedi Medi Zameen Kaise Nape, टेढ़ी-मेढ़ी जमीन का कैलकुलेटर, Irregular Land Area Bihar, Bigha Kattha Dhur Calculator, Shayan Smart Tools Bihar, Heron's Formula Bihar, Dhurki Calculator">
+    <meta name="author" content="Shayan Smart Tools">
+    <meta name="robots" content="index, follow">
+
+    <style>
+        :root {
+            --bihar-red: #b71c1c;
+            --bg-light: #fff5f5;
+            --white: #ffffff;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, sans-serif;
+            line-height: 1.8;
+            background-color: var(--bg-light);
+            margin: 0;
+            padding: 20px;
+            color: #333;
+        }
+
+        .container { max-width: 1000px; margin: 0 auto; }
+
+        .tool-card {
+            background: var(--white);
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+            border-top: 10px solid var(--bihar-red);
+            margin-bottom: 40px;
+        }
+
+        h1 { color: var(--bihar-red); text-align: center; margin-bottom: 10px; font-size: 26px; }
+        .tagline { text-align: center; color: #666; font-size: 14px; margin-bottom: 25px; }
+
+        /* Image Styling */
+        .diag-box {
+            text-align: center;
+            margin: 30px 0;
+            padding: 15px;
+            background: #ffebee;
+            border-radius: 12px;
+            border: 2px dashed var(--bihar-red);
+        }
+        .diag-box img { max-width: 100%; height: auto; border-radius: 8px; }
+
+        .input-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 20px;
+        }
+
+        .field { display: flex; flex-direction: column; }
+        label { font-size: 14px; font-weight: bold; margin-bottom: 5px; color: var(--bihar-red); }
+        input { padding: 12px; border: 2px solid #ddd; border-radius: 8px; font-size: 16px; text-align: center; }
+        input:focus { border-color: var(--bihar-red); outline: none; }
+
+        .btn-calc {
+            width: 100%;
+            padding: 15px;
+            background: var(--bihar-red);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 30px;
+            transition: 0.3s;
+        }
+
+        .result-panel {
+            background: var(--bihar-red);
+            color: white;
+            padding: 30px;
+            border-radius: 15px;
+            display: none;
+            text-align: center;
+            margin-top: 30px;
+        }
+
+        .res-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; margin: 20px 0; }
+        .res-item b { font-size: 24px; display: block; }
+        .res-item span { font-size: 14px; color: #ffcdd2; }
+
+        /* SEO & LINKS */
+        .seo-section { background: white; padding: 40px; border-radius: 20px; box-shadow: 0 5px 15px rgba(0,0,0,0.05); }
+        h2, h3 { color: var(--bihar-red); border-left: 6px solid var(--bihar-red); padding-left: 15px; margin-top: 35px; }
+        table { width: 100%; border-collapse: collapse; margin: 25px 0; }
+        th, td { border: 1px solid #ddd; padding: 12px; text-align: left; }
+        th { background: #ffebee; }
+
+        .links-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-top: 30px; }
+        .link-card { background: #fff; padding: 15px; border-radius: 10px; text-decoration: none; color: var(--bihar-red); 
+                    font-weight: bold; text-align: center; border: 1px solid #ffcdd2; transition: 0.3s; }
+        .link-card:hover { background: var(--bihar-red); color: white; }
+
+        footer { text-align: center; padding: 40px 0; color: #777; font-size: 14px; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="tool-card">
+        <h1>Bihar Irregular Land Calculator</h1>
+        <p class="tagline">बिहार की टेढ़ी-मेढ़ी जमीन की सटीक नापी (Heron's Formula)</p>
+        
+        <div class="input-grid">
+            <div class="field"><label>Side A (Feet)</label><input type="number" id="sideA" placeholder="0"></div>
+            <div class="field"><label>Side B (Feet)</label><input type="number" id="sideB" placeholder="0"></div>
+            <div class="field"><label>Side C (Feet)</label><input type="number" id="sideC" placeholder="0"></div>
+            <div class="field"><label>Side D (Feet)</label><input type="number" id="sideD" placeholder="0"></div>
+            <div class="field" style="grid-column: 1/-1;">
+                <label>Diagonal / विकर्ण (Feet)</label>
+                <input type="number" id="diagonal" placeholder="Enter Diagonal Length">
+            </div>
+        </div>
+
+        <button class="btn-calc" onclick="calculateBiharArea()">Calculate Total Area</button>
+
+        <div id="resultBox" class="result-panel">
+            <h3>Total Area Result (कुल क्षेत्रफल):</h3>
+            <div class="res-grid">
+                <div class="res-item"><b id="outB">0</b><span>Bigha (बीघा)</span></div>
+                <div class="res-item"><b id="outK">0</b><span>Kattha (कट्ठा)</span></div>
+                <div class="res-item"><b id="outD">0</b><span>Dhur (धुर)</span></div>
+                <div class="res-item"><b id="outDk">0</b><span>Dhurki (धुरकी)</span></div>
+            </div>
+            <p>Total Square Feet: <b id="outSq">0</b> Sq Ft</p>
+        </div>
+    </div>
+
+    <div class="diag-box">
+        <p style="font-weight: bold; margin-bottom: 10px; color: #b71c1c;">Zameen kaise naapein, diagram dekhein:</p>
+        <img src="land-diagram.png" alt="Bihar Irregular Land Diagram Shayan Smart Tools">
+        <p style="font-size: 13px; color: #555; margin-top:10px;">Measure Side A, B, C, D and the Diagonal (Tirchi Line).</p>
+    </div>
+
+    <article class="seo-section">
+        <h2>Bihar Land Area Addition: Tedi-Medi Zameen Kaise Naapein?</h2>
+        <p>
+            Bihar mein zameen ki napai karna koi asan kaam nahi hai, khas kar jab khet ya plot **Tedi-Medi (Irregular)** shape mein ho. Bihar ke kisan aur property dealers aksar average nikal kar zameen naapte hain, jisme dhur ya dhurki ka nuksan ho jata hai. Ek dhurki ki keemat bhi aaj ke zamane mein bohot hoti hai.
+        </p>
+        <p>
+            Shayan Smart Tools ka ye **Bihar Irregular Land Calculator** "Heron’s Formula" par kaam karta hai. Isme aapko zameen ke 4 sides aur ek tirchi line (**Diagonal**) naapni hoti hai. Ye tool automatic zameen ko do triangles mein baat kar ekdam sateek result deta hai, jo **Bihar Bhulekh** records ke liye 100% sahi hai.
+        </p>
+
+        <h3>How to Use: Step-by-Step Guide</h3>
+        <ul style="padding-left: 20px;">
+            <li>Apne tedi zameen ke charo sides (Side A, B, C, D) ko feet mein naapein.</li>
+            <li>Zameen ke ek kone se dusre kone tak ek tirchi line (Diagonal) naapein (jaisa diagram mein dikhaya gaya hai).</li>
+            <li>In 5 values ko calculator mein bharein.</li>
+            <li>Tool aapko turant **Bigha, Kattha, Dhur aur Dhurki** mein result bata dega.</li>
+        </ul>
+
+        <h3>Bihar Land Measurement Standard Table</h3>
+        <table>
+            <tr><th>Unit Name</th><th>Relation</th><th>Area (Sq Ft)</th></tr>
+            <tr><td>1 Bigha</td><td>20 Kattha</td><td>27,225 Sq Ft</td></tr>
+            <tr><td>1 Kattha</td><td>20 Dhur</td><td>1,361.25 Sq Ft</td></tr>
+            <tr><td>1 Dhur</td><td>20 Dhurki</td><td>68.06 Sq Ft</td></tr>
+        </table>
+
+        <h3>5 Practical Examples: Bihar Addition Logic</h3>
+        <ol>
+            <li><b>Ex 1:</b> Agar sides 40, 50, 45, 55 feet hain aur diagonal 70 hai, toh tool accurate Dhurki tak hisab dega.</li>
+            <li><b>Ex 2:</b> Badi khet jahan area 2 Bigha se zyada ho, wahan diagonal method hi sabse best hai.</li>
+            <li><b>Ex 3:</b> Batware ke waqt tedi zameen ko barabar baantne ke liye ye tool zaruri hai.</li>
+            <li><b>Ex 4:</b> Registry se pehle plot ki sateek napai karne ke liye dealers ise use karte hain.</li>
+            <li><b>Ex 5:</b> 20 Dhurki hote hi tool automatic usey 1 Dhur mein convert kar deta hai.</li>
+        </ol>
+
+        <h3>Frequently Asked Questions (FAQs)</h3>
+        <p><b>Q1. Bihar mein 1 Bigha mein kitna Kattha hota hai?</b><br>Ans: Bihar mein 1 Bigha = 20 Kattha hota hai.</p>
+        <p><b>Q2. Dhurki kya hoti hai?</b><br>Ans: Dhur se bhi choti unit ko Dhurki kehte hain. 20 Dhurki milkar 1 Dhur banti hai.</p>
+        <p><b>Q3. Kya bina diagonal ke area nikal sakta hai?</b><br>Ans: Nahi, tedi-medi zameen ke liye diagonal (tirchi line) naapna 100% zaruri hai.</p>
+
+        <h3>Quick Access Other Tools</h3>
+        <div class="links-grid">
+            <a href="index.html" class="link-card">🏠 Main Dashboard</a>
+            <a href="bihar-land-addition.html" class="link-card">➕ Land Addition</a>
+            <a href="bihar-bigha-to-sqft.html" class="link-card">📏 Bigha to Sq Ft</a>
+            <a href="bihar-land-cost.html" class="link-card">💰 Land Cost Tool</a>
+        </div>
+
+        <div style="margin-top: 40px; border-top: 1px dashed var(--bihar-red); padding-top: 25px; font-size: 14px;">
+            <p><b>Copyright Notice:</b> Shayan Smart Tools © 2026. All Rights Reserved. Created by Muksidul Islam.</p>
+        </div>
+    </article>
+</div>
+
+<script>
+    function calculateBiharArea() {
+        const a = parseFloat(document.getElementById('sideA').value);
+        const b = parseFloat(document.getElementById('sideB').value);
+        const c = parseFloat(document.getElementById('sideC').value);
+        const d = parseFloat(document.getElementById('sideD').value);
+        const diag = parseFloat(document.getElementById('diagonal').value);
+
+        if(!a || !b || !c || !d || !diag) { alert("Please fill all fields!"); return; }
+
+        let s1 = (a + b + diag) / 2;
+        let area1 = Math.sqrt(s1 * (s1-a) * (s1-b) * (s1-diag));
+
+        let s2 = (c + d + diag) / 2;
+        let area2 = Math.sqrt(s2 * (s2-c) * (s2-d) * (s2-diag));
+
+        let totalSqFt = area1 + area2;
+
+        // Bihar Logic (1 Bigha=27225, 1 Kattha=1361.25, 1 Dhur=68.06, 1 Dhurki=3.40)
+        let rem = totalSqFt;
+        let bigha = Math.floor(rem / 27225);
+        rem %= 27225;
+        let kattha = Math.floor(rem / 1361.25);
+        rem %= 1361.25;
+        let dhur = Math.floor(rem / 68.06);
+        rem %= 68.06;
+        let dhurki = (rem / 3.40).toFixed(2);
+
+        document.getElementById('outB').innerText = bigha;
+        document.getElementById('outK').innerText = kattha;
+        document.getElementById('outD').innerText = dhur;
+        document.getElementById('outDk').innerText = dhurki;
+        document.getElementById('outSq').innerText = Math.round(totalSqFt).toLocaleString();
+        document.getElementById('resultBox').style.display = 'block';
+    }
+</script>
+
+<footer>
+    <p>© 2026 Shayan Smart Tools | Bihar Land Solutions | Made by Muksidul Islam</p>
+</footer>
+</body>
+</html>
