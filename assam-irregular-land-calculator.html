@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="as">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Assam Irregular Land Area Calculator free 2026| টেৰা-বেকা মাটিৰ জোখ-মাপ | Shayan Smart Tools</title>
+    
+    <meta name="description" content="Official Assam Irregular Land Area Calculator by Shayan Smart Tools. Calculate Tedi-Medi zameen using Heron's Formula. Supports Bigha, Katha, Lessa in Assamese & English.">
+    <meta name="keywords" content="Assam Land Calculator,Tedi Medi Zameen ki Nap,একা -বেকা মাটিৰ জোখ, Irregular Land Area Assam, Bigha Katha Lessa Calculator, Shayan Smart Tools, Heron's Formula Land Calculator Assam, Digital Jamabandi Calculator">
+    <meta name="author" content="Shayan Smart Tools">
+    <meta name="robots" content="index, follow">
+
+    <style>
+        :root {
+            --assam-green: #1b5e20;
+            --accent-gold: #ffd600;
+            --bg-light: #f9fdf9;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, sans-serif;
+            line-height: 1.8;
+            background-color: var(--bg-light);
+            margin: 0;
+            padding: 20px;
+            color: #333;
+        }
+
+        .container { max-width: 1000px; margin: 0 auto; }
+
+        .tool-card {
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+            border-top: 10px solid var(--assam-green);
+            margin-bottom: 40px;
+        }
+
+        h1 { color: var(--assam-green); text-align: center; margin-bottom: 10px; font-size: 26px; }
+        .tagline { text-align: center; color: #666; font-size: 14px; margin-bottom: 25px; }
+
+        .lang-toggle { text-align: center; margin-bottom: 25px; }
+        .lang-btn { background: #ddd; border: none; padding: 6px 20px; cursor: pointer; border-radius: 20px; font-weight: bold; margin: 0 5px; transition: 0.3s; }
+        .lang-btn.active { background: var(--assam-green); color: white; }
+
+        /* Image Section Styling */
+        .example-img-section {
+            text-align: center;
+            margin: 40px 0;
+            padding: 20px;
+            background: #f1f8e9;
+            border-radius: 15px;
+            border: 2px dashed var(--assam-green);
+        }
+        .example-img-section img { 
+            max-width: 100%; 
+            height: auto; 
+            border-radius: 10px; 
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .input-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .field { display: flex; flex-direction: column; }
+        label { font-size: 14px; font-weight: bold; margin-bottom: 5px; color: var(--assam-green); }
+        input { padding: 12px; border: 2px solid #ddd; border-radius: 8px; font-size: 16px; text-align: center; }
+        input:focus { border-color: var(--assam-green); outline: none; }
+
+        .btn-calc {
+            width: 100%;
+            padding: 15px;
+            background: var(--assam-green);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 30px;
+            transition: 0.3s;
+        }
+        .btn-calc:hover { background: #2e7d32; transform: scale(1.01); }
+
+        .result-panel {
+            background: var(--assam-green);
+            color: white;
+            padding: 30px;
+            border-radius: 15px;
+            display: none;
+            text-align: center;
+            margin-top: 30px;
+        }
+
+        .res-row { display: flex; justify-content: space-around; font-size: 28px; font-weight: bold; margin: 15px 0; }
+        .res-item span { display: block; font-size: 14px; color: #a5d6a7; }
+
+        .seo-section { background: white; padding: 40px; border-radius: 20px; box-shadow: 0 5px 15px rgba(0,0,0,0.05); }
+        h2, h3 { color: var(--assam-green); border-left: 6px solid var(--assam-green); padding-left: 15px; margin-top: 35px; }
+        table { width: 100%; border-collapse: collapse; margin: 25px 0; }
+        th, td { border: 1px solid #ddd; padding: 12px; text-align: left; }
+        th { background: #f1f8e9; }
+
+        .links-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-top: 30px; }
+        .link-card { background: #fff; padding: 15px; border-radius: 10px; text-decoration: none; color: var(--assam-green); 
+                    font-weight: bold; text-align: center; border: 1px solid #c8e6c9; transition: 0.3s; }
+        .link-card:hover { background: var(--assam-green); color: white; }
+
+        footer { text-align: center; padding: 40px 0; color: #777; font-size: 14px; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="tool-card">
+        <h1 id="mainTitle">Assam Irregular Land Calculator</h1>
+        <p class="tagline" id="tagline">Calculate 4-sided tedi-medi zameen with 100% accuracy.</p>
+        
+        <div class="lang-toggle">
+            <button class="lang-btn active" id="enBtn" onclick="setLang('en')">English</button>
+            <button class="lang-btn" id="asBtn" onclick="setLang('as')">অসমীয়া</button>
+        </div>
+
+        <div class="input-grid">
+            <div class="field"><label id="lblA">Side A (Feet)</label><input type="number" id="sideA" placeholder="0"></div>
+            <div class="field"><label id="lblB">Side B (Feet)</label><input type="number" id="sideB" placeholder="0"></div>
+            <div class="field"><label id="lblC">Side C (Feet)</label><input type="number" id="sideC" placeholder="0"></div>
+            <div class="field"><label id="lblD">Side D (Feet)</label><input type="number" id="sideD" placeholder="0"></div>
+            <div class="field" style="grid-column: 1/-1;">
+                <label id="lblDiag">Diagonal / Tirchi Line (Feet)</label>
+                <input type="number" id="diagonal" placeholder="Enter Diagonal Length">
+            </div>
+        </div>
+
+        <button class="btn-calc" id="btnCalc" onclick="calculateArea()">Calculate Area / জোখ কৰক</button>
+
+        <div id="resultBox" class="result-panel">
+            <h3 id="resTitle">Total Land Result (অসমৰ মানদণ্ড):</h3>
+            <div class="res-row">
+                <div class="res-item"><b id="outB">0</b><span id="uB">Bigha</span></div>
+                <div class="res-item"><b id="outK">0</b><span id="uK">Katha</span></div>
+                <div class="res-item"><b id="outL">0</b><span id="uL">Lessa</span></div>
+            </div>
+            <p id="sqLabel">Total Area: <b id="outSq">0</b> Sq Ft</p>
+        </div>
+    </div>
+
+    <div class="example-img-section">
+        <p style="font-weight: bold; margin-bottom: 15px; color: #1b5e20;" id="imgNote">Measure your land like this (মাটি এনেকৈ জুখিব):</p>
+        
+        
+        
+        <p style="font-size: 13px; color: #555; margin-top:15px;" id="imgDesc">Measure Side A, B, C, D and the Diagonal (E) for 100% accuracy.</p>
+    </div>
+
+    <article class="seo-section" id="seoContent">
+        <h2>Assam Irregular Land Calculation: Tedi-Medi Zameen Kaise Naapein?</h2>
+        <p>
+            Doston, Assam mein zameen hamesha ekdam square nahi hoti. Pahari ilaka aur nadiyon ki wajah se khet aksar tedi-medi (Irregular shapes) mein hote hain. Shayan Smart Tools ka ye **Assam Irregular Land Area Calculator** Heron’s Formula ka use karke ekdam accurate results deta hai.
+        </p>
+
+        <h3>How to Use: Step-by-Step Guide</h3>
+        <p>1. Apne khet ke chaaro sides (A, B, C, D) ko feet mein naapein.<br>
+        2. Beechon-beech ek tirchi line (Diagonal) naapein.<br>
+        3. In values ko upar calculator mein bharein aur result paayein.</p>
+
+        <h3>Assam Land Measurement Standard Table</h3>
+        <table>
+            <tr><th>Unit</th><th>Relation</th><th>Area in Sq Ft</th></tr>
+            <tr><td>1 Bigha</td><td>5 Katha</td><td>14,400 Sq Ft</td></tr>
+            <tr><td>1 Katha</td><td>20 Lessa</td><td>2,880 Sq Ft</td></tr>
+            <tr><td>1 Lessa</td><td>-</td><td>144 Sq Ft</td></tr>
+        </table>
+
+        <h3>5 Practical Examples (জোখৰ উদাহৰণ)</h3>
+        <ul>
+            <li><b>Example 1:</b> Standard small plot jahan sides 40, 50, 45, 55 feet hain.</li>
+            <li><b>Example 2:</b> Badi kheti ki zameen jiska diagonal 200 feet se zyada ho.</li>
+            <li><b>Example 3:</b> Commercial plots jahan Lessa ka hisab bohot jaruri hai.</li>
+            <li><b>Example 4:</b> Partition (batwara) ke waqt tedi zameen ki napai.</li>
+            <li><b>Example 5:</b> Dharitree records ke sath match karne ke liye accurate calculation.</li>
+        </ul>
+
+        <h3>Frequently Asked Questions (FAQs)</h3>
+        <p><b>Q1. Diagonal naapna kyun zaruri hai?</b><br>Ans: Bina diagonal ke tedi zameen ka area nikalna ganit ke hisab se impossible hai.</p>
+        <p><b>Q2. Assam mein 1 Bigha kitne Katha ka hota hai?</b><br>Ans: Assam mein 1 Bigha = 5 Katha hota hai.</p>
+        <p><b>Q3. Kya ye mobile friendly hai?</b><br>Ans: Ji haan, Shayan Smart Tools har mobile par smooth chalta hai.</p>
+
+        <h3>Quick Access Other Tools</h3>
+        <div class="links-container">
+            <a href="index.html" class="link-card">🏠 Main Dashboard</a>
+            <a href="assam-bigha-to-sqft.html" class="link-card">📏 Assam Bigha Tool</a>
+            <a href="assam-land-addition.html" class="link-card">➕ Land Addition</a>
+            <a href="assam-land-cost.html" class="link-card">💰 Land Cost Tool</a>
+        </div>
+
+        <div style="margin-top: 40px; border-top: 1px dashed var(--assam-green); padding-top: 25px;">
+            <p><b>Copyright Notice:</b> Shayan Smart Tools Logic and Image © 2026. All Rights Reserved. Managed by Muksidul Islam.</p>
+        </div>
+    </article>
+</div>
+
+<script>
+    const trans = {
+        en: {
+            t: "Assam Irregular Land Calculator",
+            tg: "Calculate 4-sided tedi-medi zameen with 100% accuracy.",
+            lA: "Side A (Feet)", lB: "Side B (Feet)", lC: "Side C (Feet)", lD: "Side D (Feet)",
+            lDg: "Diagonal / Tirchi Line (Feet)",
+            b: "Calculate Area", rT: "Total Land Result:",
+            uB: "Bigha", uK: "Katha", uL: "Lessa", sq: "Total Area: ",
+            iN: "Measure your land like this (মাটি এনেকৈ জুখিব):", iD: "Measure Side A, B, C, D and the Diagonal (E) for 100% accuracy."
+        },
+        as: {
+            t: "অসমৰ টেৰা-বেকা মাটিৰ জোখ-মাপ",
+            tg: "Heron’s Formula ব্যৱহাৰ কৰি যিকোনো মাটিৰ সঠিক জোখ উলিওৱক।",
+            lA: "প্ৰথম বাহু (A) ফুটত", lB: "দ্বিতীয় বাহু (B) ফুটত", lC: "তৃতীয় বাহু (C) ফুটত", lD: "চতুৰ্থ বাহু (D) ফুটত",
+            lDg: "কর্ণ / তিৰ্যক ৰেখা (Diagonal)",
+            b: "জোখ কৰক", rT: "মাটিৰ মুঠ পৰিমাণ:",
+            uB: "বিঘা", uK: "কথা", uL: "লেচা", sq: "মুঠ মাটিকালি: ",
+            iN: "মাটি কেনেকৈ জুখিব তাৰ বাবে এই চিত্ৰখন চাওক:", iD: "চাৰিওটা বাহু আৰু সোঁমাজৰ তিৰ্যক ৰেখাডাল (E) জুখিব।"
+        }
+    };
+
+    function setLang(l) {
+        document.getElementById('enBtn').classList.toggle('active', l==='en');
+        document.getElementById('asBtn').classList.toggle('active', l==='as');
+        document.getElementById('mainTitle').innerText = trans[l].t;
+        document.getElementById('tagline').innerText = trans[l].tg;
+        document.getElementById('lblA').innerText = trans[l].lA;
+        document.getElementById('lblB').innerText = trans[l].lB;
+        document.getElementById('lblC').innerText = trans[l].lC;
+        document.getElementById('lblD').innerText = trans[l].lD;
+        document.getElementById('lblDiag').innerText = trans[l].lDg;
+        document.getElementById('btnCalc').innerText = trans[l].b;
+        document.getElementById('resTitle').innerText = trans[l].rT;
+        document.getElementById('uB').innerText = trans[l].uB;
+        document.getElementById('uK').innerText = trans[l].uK;
+        document.getElementById('uL').innerText = trans[l].uL;
+        document.getElementById('sqLabel').firstChild.textContent = trans[l].sq;
+        document.getElementById('imgNote').innerText = trans[l].iN;
+        document.getElementById('imgDesc').innerText = trans[l].iD;
+    }
+
+    function calculateArea() {
+        const a = parseFloat(document.getElementById('sideA').value);
+        const b = parseFloat(document.getElementById('sideB').value);
+        const c = parseFloat(document.getElementById('sideC').value);
+        const d = parseFloat(document.getElementById('sideD').value);
+        const diag = parseFloat(document.getElementById('diagonal').value);
+
+        if(!a || !b || !c || !d || !diag) { alert("Please fill all fields!"); return; }
+
+        let s1 = (a + b + diag) / 2;
+        let area1 = Math.sqrt(s1 * (s1-a) * (s1-b) * (s1-diag));
+
+        let s2 = (c + d + diag) / 2;
+        let area2 = Math.sqrt(s2 * (s2-c) * (s2-d) * (s2-diag));
+
+        let totalSqFt = area1 + area2;
+
+        let rem = totalSqFt;
+        let bigha = Math.floor(rem / 14400);
+        rem %= 14400;
+        let katha = Math.floor(rem / 2880);
+        rem %= 2880;
+        let lessa = (rem / 144).toFixed(2);
+
+        document.getElementById('outB').innerText = bigha;
+        document.getElementById('outK').innerText = katha;
+        document.getElementById('outL').innerText = lessa;
+        document.getElementById('outSq').innerText = Math.round(totalSqFt).toLocaleString();
+        document.getElementById('resultBox').style.display = 'block';
+    }
+</script>
+
+<footer>
+    <p>© 2026 Shayan Smart Tools | Expert Land Analysis for Assam | Made in Sonitpur</p>
+</footer>
+</body>
+</html>
