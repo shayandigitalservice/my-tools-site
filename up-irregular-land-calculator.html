@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UP Irregular Land Calculator | यूपी टेढ़ी-मेढ़ी जमीन का जोड़ | Shayan Smart Tools</title>
+    
+    <meta name="description" content="UP Irregular Land Area Calculator by Shayan Smart Tools.UP Main Tedi Medi Zameen Kaise nape.Calculate tedi-medi zameen using Heron's Formula in Uttar Pradesh. Accuracy in Bigha, Biswa, and Biswansi.">
+    <meta name="keywords" content="UP Land Calculator, यूपी जमीन कैलकुलेटर, Irregular Land Area UP, Bigha Biswa Biswansi Calculator, Shayan Smart Tools UP, Heron's Formula UP, Bhulekh UP Calculator">
+    <meta name="author" content="Shayan Smart Tools">
+    <meta name="robots" content="index, follow">
+
+    <style>
+        :root {
+            --up-blue: #0d47a1;
+            --bg-light: #f0f4f8;
+            --white: #ffffff;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, sans-serif;
+            line-height: 1.8;
+            background-color: var(--bg-light);
+            margin: 0;
+            padding: 20px;
+            color: #333;
+        }
+
+        .container { max-width: 1000px; margin: 0 auto; }
+
+        .tool-card {
+            background: var(--white);
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+            border-top: 10px solid var(--up-blue);
+            margin-bottom: 40px;
+        }
+
+        h1 { color: var(--up-blue); text-align: center; margin-bottom: 10px; font-size: 26px; }
+        
+        .lang-toggle { text-align: center; margin-bottom: 25px; }
+        .lang-btn { background: #ddd; border: none; padding: 6px 20px; cursor: pointer; border-radius: 20px; font-weight: bold; margin: 0 5px; transition: 0.3s; }
+        .lang-btn.active { background: var(--up-blue); color: white; }
+
+        .diag-box {
+            text-align: center;
+            margin: 30px 0;
+            padding: 15px;
+            background: #e3f2fd;
+            border-radius: 12px;
+            border: 2px dashed var(--up-blue);
+        }
+        .diag-box img { max-width: 100%; height: auto; border-radius: 8px; }
+
+        .input-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 20px;
+        }
+
+        .field { display: flex; flex-direction: column; }
+        label { font-size: 14px; font-weight: bold; margin-bottom: 5px; color: var(--up-blue); }
+        input { padding: 12px; border: 2px solid #ddd; border-radius: 8px; font-size: 16px; text-align: center; }
+
+        .btn-calc {
+            width: 100%;
+            padding: 15px;
+            background: var(--up-blue);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 30px;
+        }
+
+        .result-panel {
+            background: var(--up-blue);
+            color: white;
+            padding: 30px;
+            border-radius: 15px;
+            display: none;
+            text-align: center;
+            margin-top: 30px;
+        }
+
+        .res-grid { display: flex; justify-content: space-around; font-size: 28px; font-weight: bold; margin: 15px 0; }
+        .res-item span { display: block; font-size: 14px; color: #bbdefb; }
+
+        .seo-section { background: white; padding: 40px; border-radius: 20px; box-shadow: 0 5px 15px rgba(0,0,0,0.05); }
+        h2, h3 { color: var(--up-blue); border-left: 6px solid var(--up-blue); padding-left: 15px; margin-top: 35px; }
+        table { width: 100%; border-collapse: collapse; margin: 25px 0; }
+        th, td { border: 1px solid #ddd; padding: 12px; text-align: left; }
+        th { background: #e3f2fd; }
+
+        .links-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-top: 30px; }
+        .link-card { background: #fff; padding: 15px; border-radius: 10px; text-decoration: none; color: var(--up-blue); 
+                    font-weight: bold; text-align: center; border: 1px solid #bbdefb; transition: 0.3s; }
+        .link-card:hover { background: var(--up-blue); color: white; }
+
+        footer { text-align: center; padding: 40px 0; color: #777; font-size: 14px; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="tool-card">
+        <h1 id="mainTitle">UP Irregular Land Calculator</h1>
+        
+        <div class="lang-toggle">
+            <button class="lang-btn active" id="enBtn" onclick="setLang('en')">English</button>
+            <button class="lang-btn" id="hiBtn" onclick="setLang('hi')">हिंदी</button>
+        </div>
+
+        <div class="input-grid">
+            <div class="field"><label id="lblA">Side A (Feet)</label><input type="number" id="sideA" placeholder="0"></div>
+            <div class="field"><label id="lblB">Side B (Feet)</label><input type="number" id="sideB" placeholder="0"></div>
+            <div class="field"><label id="lblC">Side C (Feet)</label><input type="number" id="sideC" placeholder="0"></div>
+            <div class="field"><label id="lblD">Side D (Feet)</label><input type="number" id="sideD" placeholder="0"></div>
+            <div class="field" style="grid-column: 1/-1;">
+                <label id="lblDiag">Diagonal / विकर्ण (Feet)</label>
+                <input type="number" id="diagonal" placeholder="Enter Diagonal Length">
+            </div>
+        </div>
+
+        <button class="btn-calc" id="btnCalc" onclick="calculateUPArea()">Calculate Area</button>
+
+        <div id="resultBox" class="result-panel">
+            <h3 id="resTitle">Total Land Result (यूपी मानक):</h3>
+            <div class="res-grid">
+                <div class="res-item"><b id="outB">0</b><span id="uB">Bigha</span></div>
+                <div class="res-item"><b id="outW">0</b><span id="uW">Biswa</span></div>
+                <div class="res-item"><b id="outN">0</b><span id="uN">Biswansi</span></div>
+            </div>
+            <p id="sqLabel">Total Area: <b id="outSq">0</b> Sq Ft</p>
+        </div>
+    </div>
+
+    <div class="diag-box">
+        <p style="font-weight: bold; margin-bottom: 10px; color: #0d47a1;" id="imgNote">Zameen kaise naapein, diagram dekhein:</p>
+        <img src="land-diagram.png" alt="UP Irregular Land Diagram Shayan Smart Tools">
+        <p style="font-size: 13px; color: #555; margin-top:10px;" id="imgDesc">Measure Side A, B, C, D and the Diagonal (E).</p>
+    </div>
+
+    <article class="seo-section">
+        <h2>Uttar Pradesh Irregular Land Calculation: Tedi-Medi Zameen Kaise Naapein?</h2>
+        <p>
+            Uttar Pradesh mein khet aksar tedi-medi shapes mein hote hain. UP ke kisan aksar average method use karte hain jisse Biswansi ka nuksan hota hai. Shayan Smart Tools ka ye **UP Irregular Land Calculator** Heron's Formula par base hai, jo 100% accurate hai.
+        </p>
+
+        <h3>How to Use (उपयोग कैसे करें):</h3>
+        <p>Sabse pehle khet ki charo sides naapein, phir ek tirchi line (diagonal) naapein. In values ko calculator mein daalein aur UP Bhulekh ke hisab se Bigha-Biswa ka jod paayein.</p>
+
+        <h3>UP Land Standard Table</h3>
+        <table>
+            <tr><th>Unit</th><th>Relation</th><th>Area (Sq Ft)</th></tr>
+            <tr><td>1 Pucca Bigha</td><td>20 Biswa</td><td>27,225 Sq Ft</td></tr>
+            <tr><td>1 Biswa</td><td>20 Biswansi</td><td>1,361.25 Sq Ft</td></tr>
+            <tr><td>1 Biswansi</td><td>-</td><td>68.06 Sq Ft</td></tr>
+        </table>
+
+        <h3>FAQs</h3>
+        <p><b>Q1. UP mein 1 Bigha kitne Biswa ka hota hai?</b><br>Ans: UP mein standard 1 Bigha = 20 Biswa hota hai.</p>
+        <p><b>Q2. Kya ye tool Pucca Bigha calculate karta hai?</b><br>Ans: Ji haan, ye standard 27,225 sq ft ke hisab se kaam karta hai.</p>
+
+        <h3>Quick Access Other Tools</h3>
+        <div class="links-grid">
+            <a href="index.html" class="link-card">🏠 Main Dashboard</a>
+            <a href="up-land-addition.html" class="link-card">➕ UP Land Addition</a>
+            <a href="up-bigha-to-sqft.html" class="link-card">📏 Bigha to Sq Ft</a>
+        </div>
+
+        <div style="margin-top: 40px; border-top: 1px dashed var(--up-blue); padding-top: 25px;">
+            <p><b>Copyright Notice:</b> Shayan Smart Tools © 2026. All Rights Reserved. Managed by Muksidul Islam.</p>
+        </div>
+    </article>
+</div>
+
+<script>
+    const trans = {
+        en: {
+            t: "UP Irregular Land Calculator",
+            lA: "Side A (Feet)", lB: "Side B (Feet)", lC: "Side C (Feet)", lD: "Side D (Feet)",
+            lDg: "Diagonal / Tirchi Line (Feet)", b: "Calculate Area",
+            rT: "Total Land Result (Standard):", uB: "Bigha", uW: "Biswa", uN: "Biswansi",
+            sq: "Total Area: ", iN: "How to measure land, see diagram:", iD: "Measure Side A, B, C, D and the Diagonal (E)."
+        },
+        hi: {
+            t: "यूपी टेढ़ी-मेढ़ी जमीन कैलकुलेटर",
+            lA: "पहली भुजा (A) फुट में", lB: "दूसरी भुजा (B) फुट में", lC: "तीसरी भुजा (C) फुट में", lD: "चौथी भुजा (D) फुट में",
+            lDg: "विकर्ण / तिरछी लाइन (Diagonal)", b: "क्षेत्रफल निकालें",
+            rT: "कुल क्षेत्रफल का परिणाम:", uB: "बीघा", uW: "बिस्वा", uN: "बिस्वांसी",
+            sq: "कुल क्षेत्रफल: ", iN: "जमीन कैसे नापें, डायग्राम देखें:", iD: "चारों भुजाएं और एक विकर्ण (E) जरूर नापें।"
+        }
+    };
+
+    function setLang(l) {
+        document.getElementById('enBtn').classList.toggle('active', l==='en');
+        document.getElementById('hiBtn').classList.toggle('active', l==='hi');
+        document.getElementById('mainTitle').innerText = trans[l].t;
+        document.getElementById('lblA').innerText = trans[l].lA;
+        document.getElementById('lblB').innerText = trans[l].lB;
+        document.getElementById('lblC').innerText = trans[l].lC;
+        document.getElementById('lblD').innerText = trans[l].lD;
+        document.getElementById('lblDiag').innerText = trans[l].lDg;
+        document.getElementById('btnCalc').innerText = trans[l].b;
+        document.getElementById('resTitle').innerText = trans[l].rT;
+        document.getElementById('uB').innerText = trans[l].uB;
+        document.getElementById('uW').innerText = trans[l].uW;
+        document.getElementById('uN').innerText = trans[l].uN;
+        document.getElementById('sqLabel').firstChild.textContent = trans[l].sq;
+        document.getElementById('imgNote').innerText = trans[l].iN;
+        document.getElementById('imgDesc').innerText = trans[l].iD;
+    }
+
+    function calculateUPArea() {
+        const a = parseFloat(document.getElementById('sideA').value);
+        const b = parseFloat(document.getElementById('sideB').value);
+        const c = parseFloat(document.getElementById('sideC').value);
+        const d = parseFloat(document.getElementById('sideD').value);
+        const diag = parseFloat(document.getElementById('diagonal').value);
+
+        if(!a || !b || !c || !d || !diag) { alert("Please fill all fields!"); return; }
+
+        let s1 = (a + b + diag) / 2;
+        let area1 = Math.sqrt(s1 * (s1-a) * (s1-b) * (s1-diag));
+        let s2 = (c + d + diag) / 2;
+        let area2 = Math.sqrt(s2 * (s2-c) * (s2-d) * (s2-diag));
+        let totalSqFt = area1 + area2;
+
+        let rem = totalSqFt;
+        let bigha = Math.floor(rem / 27225);
+        rem %= 27225;
+        let biswa = Math.floor(rem / 1361.25);
+        rem %= 1361.25;
+        let biswansi = (rem / 68.06).toFixed(2);
+
+        document.getElementById('outB').innerText = bigha;
+        document.getElementById('outW').innerText = biswa;
+        document.getElementById('outN').innerText = biswansi;
+        document.getElementById('outSq').innerText = Math.round(totalSqFt).toLocaleString();
+        document.getElementById('resultBox').style.display = 'block';
+    }
+</script>
+
+<footer>
+    <p>© 2026 Shayan Smart Tools | UP Land Solutions | Managed by Muksidul Islam</p>
+</footer>
+</body>
+</html>
