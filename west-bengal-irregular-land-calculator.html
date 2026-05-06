@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>West Bengal Irregular Land Calculator | জমি পরিমাপ ক্যালকুলেটর | Shayan Smart Tools</title>
+    
+    <meta name="description" content="West Bengal Irregular Land Area Calculator by Shayan Smart Tools. Calculate tedi-medi zameen using Heron's Formula. Accuracy in Decimal, Kottah, and Chatak for WB.">
+    <meta name="keywords" content="West Bengal Land Calculator, জমি পরিমাপ, Irregular Land Area WB, Decimal Kottah Chatak Calculator, Shayan Smart Tools West Bengal, Jomir Hisab, Banglarbhumi Calculator">
+    <meta name="author" content="Shayan Smart Tools">
+    <meta name="robots" content="index, follow">
+
+    <style>
+        :root {
+            --wb-maroon: #880e4f;
+            --bg-light: #fce4ec;
+            --white: #ffffff;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, sans-serif;
+            line-height: 1.8;
+            background-color: var(--bg-light);
+            margin: 0;
+            padding: 20px;
+            color: #333;
+        }
+
+        .container { max-width: 1000px; margin: 0 auto; }
+
+        .tool-card {
+            background: var(--white);
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+            border-top: 10px solid var(--wb-maroon);
+            margin-bottom: 40px;
+        }
+
+        h1 { color: var(--wb-maroon); text-align: center; margin-bottom: 10px; font-size: 26px; }
+        
+        .lang-toggle { text-align: center; margin-bottom: 25px; }
+        .lang-btn { background: #ddd; border: none; padding: 6px 20px; cursor: pointer; border-radius: 20px; font-weight: bold; margin: 0 5px; transition: 0.3s; }
+        .lang-btn.active { background: var(--wb-maroon); color: white; }
+
+        .diag-box {
+            text-align: center;
+            margin: 30px 0;
+            padding: 15px;
+            background: #f8bbd0;
+            border-radius: 12px;
+            border: 2px dashed var(--wb-maroon);
+        }
+        .diag-box img { max-width: 100%; height: auto; border-radius: 8px; }
+
+        .input-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 20px;
+        }
+
+        .field { display: flex; flex-direction: column; }
+        label { font-size: 14px; font-weight: bold; margin-bottom: 5px; color: var(--wb-maroon); }
+        input { padding: 12px; border: 2px solid #ddd; border-radius: 8px; font-size: 16px; text-align: center; }
+
+        .btn-calc {
+            width: 100%;
+            padding: 15px;
+            background: var(--wb-maroon);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 30px;
+        }
+
+        .result-panel {
+            background: var(--wb-maroon);
+            color: white;
+            padding: 30px;
+            border-radius: 15px;
+            display: none;
+            text-align: center;
+            margin-top: 30px;
+        }
+
+        .res-grid { display: flex; justify-content: space-around; font-size: 24px; font-weight: bold; margin: 15px 0; flex-wrap: wrap; gap: 10px; }
+        .res-item { background: rgba(255,255,255,0.1); padding: 10px 20px; border-radius: 10px; min-width: 120px; }
+        .res-item span { display: block; font-size: 14px; color: #f8bbd0; }
+
+        .seo-section { background: white; padding: 40px; border-radius: 20px; box-shadow: 0 5px 15px rgba(0,0,0,0.05); }
+        h2, h3 { color: var(--wb-maroon); border-left: 6px solid var(--wb-maroon); padding-left: 15px; margin-top: 35px; }
+        table { width: 100%; border-collapse: collapse; margin: 25px 0; }
+        th, td { border: 1px solid #ddd; padding: 12px; text-align: left; }
+        th { background: #f8bbd0; }
+
+        .links-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-top: 30px; }
+        .link-card { background: #fff; padding: 15px; border-radius: 10px; text-decoration: none; color: var(--wb-maroon); 
+                    font-weight: bold; text-align: center; border: 1px solid #f8bbd0; transition: 0.3s; }
+        .link-card:hover { background: var(--wb-maroon); color: white; }
+
+        footer { text-align: center; padding: 40px 0; color: #777; font-size: 14px; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="tool-card">
+        <h1 id="mainTitle">West Bengal Irregular Land Calculator</h1>
+        
+        <div class="lang-toggle">
+            <button class="lang-btn active" id="enBtn" onclick="setLang('en')">English</button>
+            <button class="lang-btn" id="bnBtn" onclick="setLang('bn')">বাংলা</button>
+        </div>
+
+        <div class="input-grid">
+            <div class="field"><label id="lblA">Side A (Feet)</label><input type="number" id="sideA" placeholder="0"></div>
+            <div class="field"><label id="lblB">Side B (Feet)</label><input type="number" id="sideB" placeholder="0"></div>
+            <div class="field"><label id="lblC">Side C (Feet)</label><input type="number" id="sideC" placeholder="0"></div>
+            <div class="field"><label id="lblD">Side D (Feet)</label><input type="number" id="sideD" placeholder="0"></div>
+            <div class="field" style="grid-column: 1/-1;">
+                <label id="lblDiag">Diagonal / তির্যক রেখা (Feet)</label>
+                <input type="number" id="diagonal" placeholder="Enter Diagonal Length">
+            </div>
+        </div>
+
+        <button class="btn-calc" id="btnCalc" onclick="calculateWBArea()">Calculate Area</button>
+
+        <div id="resultBox" class="result-panel">
+            <h3 id="resTitle">Total Land Result (পশ্চিমবঙ্গ মান):</h3>
+            <div class="res-grid">
+                <div class="res-item"><b id="outD">0</b><span id="uD">Decimal</span></div>
+                <div class="res-item"><b id="outK">0</b><span id="uK">Kottah</span></div>
+                <div class="res-item"><b id="outC">0</b><span id="uC">Chatak</span></div>
+            </div>
+            <p id="sqLabel">Total Area: <b id="outSq">0</b> Sq Ft</p>
+        </div>
+    </div>
+
+    <div class="diag-box">
+        <p style="font-weight: bold; margin-bottom: 10px; color: #880e4f;" id="imgNote">How to measure land, see diagram:</p>
+        <img src="land-diagram.png" alt="West Bengal Irregular Land Diagram Shayan Smart Tools">
+        <p style="font-size: 13px; color: #555; margin-top:10px;" id="imgDesc">Measure Side A, B, C, D and the Diagonal (E).</p>
+    </div>
+
+    <article class="seo-section">
+        <h2>West Bengal Irregular Land Calculation: Tedi-Medi Zameen Kaise Naapein?</h2>
+        <p>
+            West Bengal mein jomir hisab (land measurement) kafi purana aur unique hai. Rural areas mein aaj bhi **Decimal (Shotok)** ka use hota hai, wahi residential areas mein **Kottah aur Chatak** sabse popular hai. Jab zameen tedi-medi (Irregular) hoti hai, toh sirf average nikalne se sateek result nahi milta.
+        </p>
+        <p>
+            Shayan Smart Tools ka ye **WB Irregular Land Calculator** Heron's Formula ka use karke aapki zameen ka ekdam sateek hisab nikalta hai. Aapko bas chaaro sides aur ek diagonal naapna hai.
+        </p>
+
+        <h3>Measurement Units in West Bengal (পশ্চিমবঙ্গের একক)</h3>
+        <table>
+            <tr><th>Unit</th><th>Relation</th><th>Area (Sq Ft)</th></tr>
+            <tr><td>1 Decimal (Shotok)</td><td>-</td><td>435.6 Sq Ft</td></tr>
+            <tr><td>1 Kottah (Katha)</td><td>16 Chatak</td><td>720 Sq Ft</td></tr>
+            <tr><td>1 Chatak</td><td>20 Gunda</td><td>45 Sq Ft</td></tr>
+        </table>
+
+        <h3>Frequently Asked Questions (FAQs)</h3>
+        <p><b>Q1. West Bengal mein 1 Kottah kitne sq ft ka hota hai?</b><br>Ans: WB mein standard 1 Kottah = 720 Square Feet hota hai.</p>
+        <p><b>Q2. Decimal aur Shotok kya ek hi hai?</b><br>Ans: Ji haan, West Bengal mein Decimal ko hi Shotok ya Satak kaha jata hai.</p>
+
+        <h3>Quick Access Other Tools</h3>
+        <div class="links-grid">
+            <a href="index.html" class="link-card">🏠 Main Dashboard</a>
+            <a href="wb-land-addition.html" class="link-card">➕ WB Land Addition</a>
+            <a href="wb-decimal-to-kottah.html" class="link-card">📏 Decimal to Kottah</a>
+        </div>
+
+        <div style="margin-top: 40px; border-top: 1px dashed var(--wb-maroon); padding-top: 25px;">
+            <p><b>Copyright Notice:</b> Shayan Smart Tools © 2026. All Rights Reserved. Managed by Muksidul Islam.</p>
+        </div>
+    </article>
+</div>
+
+<script>
+    const trans = {
+        en: {
+            t: "West Bengal Irregular Land Calculator",
+            lA: "Side A (Feet)", lB: "Side B (Feet)", lC: "Side C (Feet)", lD: "Side D (Feet)",
+            lDg: "Diagonal / Tirchi Line (Feet)", b: "Calculate Area",
+            rT: "Total Land Result (WB Standard):", uD: "Decimal", uK: "Kottah", uC: "Chatak",
+            sq: "Total Area: ", iN: "How to measure land, see diagram:", iD: "Measure Side A, B, C, D and the Diagonal (E)."
+        },
+        bn: {
+            t: "পশ্চিমবঙ্গ জমি পরিমাপ ক্যালকুলেটর",
+            lA: "প্রথম বাহু (A) ফুট", lB: "দ্বিতীয় বাহু (B) ফুট", lC: "তৃতীয় বাহু (C) ফুট", lD: "চতুর্থ বাহু (D) ফুট",
+            lDg: "তির্যক রেখা / কর্ণ (Diagonal)", b: "পরিমাপ করুন",
+            rT: "মোট জমির পরিমাণ:", uD: "ডেসিমেল (শতক)", uK: "কাঠা", uC: "ছটাক",
+            sq: "মোট ক্ষেত্রফল: ", iN: "জমি কিভাবে মাপবেন, ছবি দেখুন:", iD: "চারটি বাহু এবং মাঝের তির্যক রেখা (E) মাপুন।"
+        }
+    };
+
+    function setLang(l) {
+        document.getElementById('enBtn').classList.toggle('active', l==='en');
+        document.getElementById('bnBtn').classList.toggle('active', l==='bn');
+        document.getElementById('mainTitle').innerText = trans[l].t;
+        document.getElementById('lblA').innerText = trans[l].lA;
+        document.getElementById('lblB').innerText = trans[l].lB;
+        document.getElementById('lblC').innerText = trans[l].lC;
+        document.getElementById('lblD').innerText = trans[l].lD;
+        document.getElementById('lblDiag').innerText = trans[l].lDg;
+        document.getElementById('btnCalc').innerText = trans[l].b;
+        document.getElementById('resTitle').innerText = trans[l].rT;
+        document.getElementById('uD').innerText = trans[l].uD;
+        document.getElementById('uK').innerText = trans[l].uK;
+        document.getElementById('uC').innerText = trans[l].uC;
+        document.getElementById('sqLabel').firstChild.textContent = trans[l].sq;
+        document.getElementById('imgNote').innerText = trans[l].iN;
+        document.getElementById('imgDesc').innerText = trans[l].iD;
+    }
+
+    function calculateWBArea() {
+        const a = parseFloat(document.getElementById('sideA').value);
+        const b = parseFloat(document.getElementById('sideB').value);
+        const c = parseFloat(document.getElementById('sideC').value);
+        const d = parseFloat(document.getElementById('sideD').value);
+        const diag = parseFloat(document.getElementById('diagonal').value);
+
+        if(!a || !b || !c || !d || !diag) { alert("Please fill all fields!"); return; }
+
+        let s1 = (a + b + diag) / 2;
+        let area1 = Math.sqrt(s1 * (s1-a) * (s1-b) * (s1-diag));
+        let s2 = (c + d + diag) / 2;
+        let area2 = Math.sqrt(s2 * (s2-c) * (s2-d) * (s2-diag));
+        let totalSqFt = area1 + area2;
+
+        // WB Logic (1 Decimal = 435.6, 1 Kottah = 720, 1 Chatak = 45)
+        let decimal = (totalSqFt / 435.6).toFixed(2);
+        
+        let rem = totalSqFt;
+        let kottah = Math.floor(rem / 720);
+        rem %= 720;
+        let chatak = (rem / 45).toFixed(2);
+
+        document.getElementById('outD').innerText = decimal;
+        document.getElementById('outK').innerText = kottah;
+        document.getElementById('outC').innerText = chatak;
+        document.getElementById('outSq').innerText = Math.round(totalSqFt).toLocaleString();
+        document.getElementById('resultBox').style.display = 'block';
+    }
+</script>
+
+<footer>
+    <p>© 2026 Shayan Smart Tools | West Bengal Division | Managed by Muksidul Islam</p>
+</footer>
+</body>
+</html>
