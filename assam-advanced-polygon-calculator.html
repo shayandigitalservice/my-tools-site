@@ -6,55 +6,68 @@
     <title>Assam Advanced Polygon Land Calculator | বহুভুজ মাটিৰ জোখ-মাপ | Shayan Smart Tools</title>
     
     <meta name="description" content="Calculate complex irregular land in Assam using the Multi-Triangle Polygon method. Get results in Bigha, Katha, Lessa, Hectare, and Acre. Official Shayan Smart Tools.">
-    <meta name="keywords" content="Assam Polygon Land Calculator, বহুভুজ মাটিৰ জোখ, Multi Triangle Land Area Assam, Bigha Katha Lessa Calculator, Shayan Smart Tools, Heron's Formula Multi-Plot, Dharitree Assam Area Calculator">
-    <meta name="author" content="Shayan Smart Tools">
-    <meta name="robots" content="index, follow">
+    <meta name="keywords" content="Assam Land Calculator, বহুভুজ মাটিৰ জোখ, Multi Triangle Land Area Assam, Bigha Katha Lessa Calculator, Shayan Smart Tools, Heron's Formula Multi-Plot">
 
     <style>
         :root {
             --assam-green: #1b5e20;
             --white: #ffffff;
             --light-bg: #f4f9f4;
+            --soft-gray: #f8f9fa;
         }
 
         body {
-            font-family: 'Segoe UI', Tahoma, sans-serif;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             line-height: 1.6;
             background-color: var(--light-bg);
             margin: 0;
-            padding: 10px;
+            padding: 15px;
             color: #333;
         }
 
-        .main-wrapper { max-width: 900px; margin: 0 auto; }
+        .main-wrapper { max-width: 800px; margin: 0 auto; }
 
-        h1 { color: var(--assam-green); text-align: center; font-size: 24px; margin-bottom: 5px; }
-        .sub-text { text-align: center; font-size: 14px; color: #666; margin-bottom: 20px; }
+        h1 { color: var(--assam-green); text-align: center; font-size: 22px; margin-bottom: 5px; }
+        .sub-text { text-align: center; font-size: 13px; color: #666; margin-bottom: 20px; padding: 0 10px; }
 
         .lang-toggle { text-align: center; margin-bottom: 20px; }
-        .lang-btn { background: #ddd; border: none; padding: 8px 25px; cursor: pointer; border-radius: 25px; font-weight: bold; margin: 0 5px; transition: 0.3s; }
+        .lang-btn { background: #ddd; border: none; padding: 10px 25px; cursor: pointer; border-radius: 25px; font-weight: bold; margin: 5px; transition: 0.3s; font-size: 14px; }
         .lang-btn.active { background: var(--assam-green); color: white; }
 
         /* Triangle Card Design */
         .triangle-card {
             background: var(--white);
             padding: 20px;
-            border-radius: 12px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
-            margin-bottom: 15px;
-            border-left: 5px solid var(--assam-green);
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.06);
+            margin-bottom: 20px;
+            border-left: 6px solid var(--assam-green);
         }
-        .triangle-header { font-weight: bold; color: var(--assam-green); margin-bottom: 15px; display: block; border-bottom: 1px solid #eee; }
+        .triangle-header { font-weight: bold; color: var(--assam-green); margin-bottom: 15px; display: block; border-bottom: 1px solid #eee; padding-bottom: 5px; }
 
-        .input-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+        /* Responsive Grid for Inputs */
+        .input-row { 
+            display: grid; 
+            grid-template-columns: repeat(3, 1fr); 
+            gap: 15px; 
+        }
+
+        /* Mobile Fix for Inputs */
+        @media (max-width: 480px) {
+            .input-row { grid-template-columns: 1fr; }
+            h1 { font-size: 19px; }
+        }
+
         .input-group { display: flex; flex-direction: column; }
-        label { font-size: 12px; font-weight: bold; margin-bottom: 5px; }
-        input { padding: 10px; border: 1px solid #ccc; border-radius: 5px; text-align: center; font-size: 16px; }
+        label { font-size: 12px; font-weight: bold; margin-bottom: 5px; color: #555; }
+        input { padding: 12px; border: 1px solid #ddd; border-radius: 8px; text-align: center; font-size: 16px; background: #fafafa; }
+        input:focus { border-color: var(--assam-green); outline: none; background: #fff; }
 
-        .controls { display: flex; gap: 10px; margin: 20px 0; }
-        .btn { flex: 1; padding: 15px; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; font-size: 16px; transition: 0.3s; }
+        .controls { display: flex; gap: 10px; margin: 25px 0; }
+        .btn { flex: 1; padding: 15px; border: none; border-radius: 10px; font-weight: bold; cursor: pointer; font-size: 15px; transition: 0.3s; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
         .btn-add { background: #5d4037; color: white; }
         .btn-calc { background: var(--assam-green); color: white; }
+        .btn:active { transform: scale(0.98); }
 
         /* Result Section */
         .result-box {
@@ -64,31 +77,59 @@
             border-radius: 15px;
             display: none;
             margin-top: 20px;
+            animation: slideUp 0.5s ease;
         }
-        .result-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(100px, 1fr)); gap: 15px; margin-top: 15px; }
-        .res-item { text-align: center; border: 1px solid #455a64; padding: 10px; border-radius: 8px; }
+        @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+
+        .result-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(110px, 1fr)); gap: 12px; margin-top: 15px; }
+        .res-item { text-align: center; border: 1px solid #455a64; padding: 12px; border-radius: 10px; background: rgba(255,255,255,0.05); }
         .res-item b { display: block; font-size: 18px; color: #81c784; }
-        .res-item span { font-size: 11px; text-transform: uppercase; }
+        .res-item span { font-size: 11px; text-transform: uppercase; color: #b0bec5; }
 
         /* Example Image Section */
-        .image-container { text-align: center; margin: 30px 0; padding: 15px; background: #e8f5e9; border-radius: 10px; border: 2px dashed var(--assam-green); }
-        .image-container img { max-width: 100%; height: auto; border-radius: 5px; }
+        .image-container { text-align: center; margin: 30px 0; padding: 20px; background: #e8f5e9; border-radius: 15px; border: 2px dashed var(--assam-green); }
+        .image-container img { max-width: 100%; height: auto; border-radius: 10px; }
 
-        /* SEO SECTION */
-        .seo-content { background: white; padding: 25px; border-radius: 12px; margin-top: 20px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
-        h2, h3 { color: var(--assam-green); margin-top: 25px; }
-        table { width: 100%; border-collapse: collapse; margin: 20px 0; font-size: 14px; }
-        th, td { border: 1px solid #ddd; padding: 10px; text-align: left; }
-        th { background: #f1f8e9; }
+        /* Professional Internal Links UI */
+        .ui-links-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 12px;
+            margin-top: 20px;
+        }
+        .ui-link-card {
+            background: var(--white);
+            padding: 15px;
+            border-radius: 12px;
+            text-decoration: none;
+            color: #333;
+            text-align: center;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            border: 1px solid #eee;
+            transition: 0.3s;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+        }
+        .ui-link-card:hover { border-color: var(--assam-green); transform: translateY(-3px); box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
+        .ui-link-card .link-icon { font-size: 24px; }
+        .ui-link-card .link-text { font-size: 13px; font-weight: bold; color: var(--assam-green); }
 
-        footer { text-align: center; padding: 30px 0; color: #888; font-size: 13px; }
+        .seo-content { background: white; padding: 25px; border-radius: 15px; margin-top: 20px; box-shadow: 0 2px 10px rgba(0,0,0,0.04); }
+        h2, h3 { color: var(--assam-green); margin-top: 30px; font-size: 1.3rem; }
+        table { width: 100%; border-collapse: collapse; margin: 20px 0; font-size: 14px; overflow-x: auto; display: block; }
+        th, td { border: 1px solid #eee; padding: 12px; text-align: left; }
+        th { background: #f1f8e9; color: var(--assam-green); }
+
+        footer { text-align: center; padding: 40px 0; color: #888; font-size: 13px; }
     </style>
 </head>
 <body>
 
 <div class="main-wrapper">
     <h1 id="mainTitle">Assam Advanced Polygon Land Calculator</h1>
-    <p class="sub-text" id="subText">Calculate very complex irregular shapes by dividing them into triangles.</p>
+    <p class="sub-text" id="subText">Calculate complex irregular shapes by dividing them into triangles.</p>
 
     <div class="lang-toggle">
         <button class="lang-btn active" id="enBtn" onclick="setLang('en')">English</button>
@@ -99,9 +140,9 @@
         <div class="triangle-card">
             <span class="triangle-header" id="t1Head">Triangle #1 (প্ৰথম ত্ৰিভুজ)</span>
             <div class="input-row">
-                <div class="input-group"><label>Side A (Feet)</label><input type="number" class="side-a" placeholder="0"></div>
-                <div class="input-group"><label>Side B (Feet)</label><input type="number" class="side-b" placeholder="0"></div>
-                <div class="input-group"><label>Side C (Feet)</label><input type="number" class="side-c" placeholder="0"></div>
+                <div class="input-group"><label id="lblA">Side A (Feet)</label><input type="number" class="side-a" placeholder="0"></div>
+                <div class="input-group"><label id="lblB">Side B (Feet)</label><input type="number" class="side-b" placeholder="0"></div>
+                <div class="input-group"><label id="lblC">Side C (Feet)</label><input type="number" class="side-c" placeholder="0"></div>
             </div>
         </div>
     </div>
@@ -132,55 +173,45 @@
 
     <article class="seo-content">
         <h2>Assam Advanced Polygon Land Calculator: Complex Tedi-Medi Zameen ka Sateek Hisab</h2>
-        <p>
-            Assam mein zyadatar zameen ki boundaries nadiyon, pahadon ya purane raste ki wajah se bohot zyada tedi-medi hoti hain. Jab zameen ke 4 se zyada konne (corners) hote hain, toh use "Polygon" kaha jata hai. Aisi zameen ko naapne ke liye normal "Length x Breadth" formula kabhi kaam nahi karta. Iske liye sabse best method hai **"Multi-Triangle Method"**.
-        </p>
-        <p>
-            Shayan Smart Tools ka ye **Advanced Polygon Land Calculator** isi principle par kaam karta hai. Aap apni badi zameen ko chhote-chhote triangles mein baant lijiye (jaisa ki upar diagram mein dikhaya gaya hai) aur har triangle ki sides ko is tool mein bhariye. Ye tool Heron’s Formula ka use karke har hisse ka area nikalega aur end mein sabko jodkar Assam ke standard **Bigha, Katha, Lessa** mein convert kar dega.
-        </p>
+        <p>Assam mein zyadatar zameen ki boundaries nadiyon, pahadon ya purane raste ki wajah se bohot zyada tedi-medi hoti hain. Normal length x breadth formula yahan fail ho jata hai. Isliye Multi-Triangle method sabse best hai.</p>
 
         <h3>How to Use This Tool? (কিদৰে ব্যৱহাৰ কৰিব?)</h3>
-        <ol>
-            <li>Apni zameen ke nakshe par nazar daaliye aur usey triangles (trivhuj) mein baantiye.</li>
-            <li>Har triangle ki teeno sides (A, B, C) ko feet mein naapiye.</li>
-            <li>Tool mein pehle triangle ki values bhariye.</li>
-            <li>Agar 1 se zyada triangles hain, toh <b>"+ Add Triangle"</b> button click karke aur boxes jodiye.</li>
-            <li>Last mein <b>"Calculate"</b> par click karte hi aapko Hectare se lekar Lessa tak ka saara data mil jayega.</li>
-        </ol>
+        <p>Apni zameen ko triangles mein divide karein aur har triangle ki teeno sides ka map yahan enter karein. Tool Heron's formula use karke aapko sateek area nikal kar dega.</p>
 
-        <h3>Assam Land Unit Table (অসমৰ ভূমি মাপৰ তালিকা)</h3>
+        <h3>Assam Land Unit Table</h3>
         <table>
             <tr><th>Unit Name</th><th>Sub-unit Relation</th><th>Sq Feet</th></tr>
             <tr><td>1 Bigha</td><td>5 Katha</td><td>14,400 Sq Ft</td></tr>
             <tr><td>1 Katha</td><td>20 Lessa</td><td>2,880 Sq Ft</td></tr>
-            <tr><td>1 Lessa</td><td>144 Sq Ft</td><td>144 Sq Ft</td></tr>
-            <tr><td>1 Acre</td><td>3.025 Bigha</td><td>43,560 Sq Ft</td></tr>
-            <tr><td>1 Hectare</td><td>7.47 Bigha</td><td>1,07,639 Sq Ft</td></tr>
+            <tr><td>1 Lessa</td><td>-</td><td>144 Sq Ft</td></tr>
         </table>
 
-        <h3>5 Practical Examples</h3>
-        <p><b>Example 1:</b> Agar aapka plot L-shape hai, toh usey 2 triangles mein baantein. Side values daalne par result ekdam accurate aayega.</p>
-        <p><b>Example 2:</b> 5 konne wali zameen (Pentagon) ko 3 triangles mein baanta jata hai.</p>
-        <p><b>Example 3:</b> Nadi ke kinare wali zameen jahan boundaries golai mein hon, wahan chhote-chhote triangles banakar sateek napai ki jati hai.</p>
-        <p><b>Example 4:</b> Badi chai bagan (Tea Garden) ki zameen ko Hectare se Bigha mein badalne ke liye ye tool best hai.</p>
-        <p><b>Example 5:</b> Dharitree records ke sath physical measurement match karne ke liye is tool ka upyog karein.</p>
+        <h3>FAQs</h3>
+        <p><b>Q1. Heron's Formula kya hai?</b><br>Ans: Ye formula triangles ka area nikalne ke liye use kiya jata hai.</p>
+        <p><b>Q2. Kya ye mobile friendly hai?</b><br>Ans: Ji haan, Shayan Smart Tools mobile par bohot fast chalta hai.</p>
 
-        <h3>Frequently Asked Questions (FAQs)</h3>
-        <p><b>Q1. Heron's Formula kya hai?</b><br>Ans: Ye ek mathematical formula hai jo kisi bhi triangle ka area nikalta hai agar uski teeno sides pata hon.</p>
-        <p><b>Q2. Assam mein 1 Bigha mein kitne Lessa hote hain?</b><br>Ans: 1 Bigha = 100 Lessa (kyunki 1 Bigha = 5 Katha aur 1 Katha = 20 Lessa).</p>
-        <p><b>Q3. Kya ye tool mobile friendly hai?</b><br>Ans: Ji haan, Shayan Smart Tools khas taur par mobile users ke liye design kiya gaya hai.</p>
-        <p><b>Q4. Kya main meter mein measurement le sakta hoon?</b><br>Ans: Ye tool feet mein input leta hai, lekin result meter mein bhi dikhata hai.</p>
-        <p><b>Q5. Is tool ki accuracy kitni hai?</b><br>Ans: Ye 100% accurate hai agar aapki physical measurement sahi hai.</p>
-
-        <h3>Quick Access Internal Links</h3>
-        <div style="display: flex; gap: 10px; flex-wrap: wrap; margin-top: 20px;">
-            <a href="index.html" style="background:#eee; padding:10px; border-radius:5px; text-decoration:none; color:black;">🏠 Home</a>
-            <a href="assam-land-addition.html" style="background:#eee; padding:10px; border-radius:5px; text-decoration:none; color:black;">➕ Land Addition</a>
-            <a href="assam-bigha-to-sqft.html" style="background:#eee; padding:10px; border-radius:5px; text-decoration:none; color:black;">📏 Bigha to SqFt</a>
+        <h3 id="linksTitle">Explore More Land Tools</h3>
+        <div class="ui-links-container">
+            <a href="index.html" class="ui-link-card">
+                <span class="link-icon">🏠</span>
+                <span class="link-text">Home Dashboard</span>
+            </a>
+            <a href="assam-land-addition.html" class="ui-link-card">
+                <span class="link-icon">➕</span>
+                <span class="link-text">Land Addition</span>
+            </a>
+            <a href="assam-bigha-to-sqft.html" class="ui-link-card">
+                <span class="link-icon">📏</span>
+                <span class="link-text">Bigha to SqFt</span>
+            </a>
+            <a href="assam-land-cost-calculator.html" class="ui-link-card">
+                <span class="link-icon">💰</span>
+                <span class="link-text">Land Cost Tool</span>
+            </a>
         </div>
 
         <hr style="margin: 30px 0; border: 0; border-top: 1px solid #eee;">
-        <p style="font-size: 12px; color: #999;"><b>Copyright Notice:</b> Shayan Smart Tools © 2026. All Rights Reserved. Coding and SEO by Muksidul Islam.</p>
+        <p style="font-size: 12px; color: #999;"><b>Copyright Notice:</b> Shayan Smart Tools © 2026. All Rights Reserved. Managed by Muksidul Islam.</p>
     </article>
 </div>
 
@@ -194,14 +225,16 @@
             st: "Calculate very complex irregular shapes by dividing them into triangles.",
             add: "+ Add Triangle", calc: "Calculate Total Area", res: "Calculated Result (ফলাফল):",
             iN: "How to measure complex land? (জটিল মাটি কেনেকৈ জুখিব?)",
-            iD: "Divide your land into multiple triangles and measure all sides as shown above."
+            iD: "Divide your land into multiple triangles and measure all sides as shown above.",
+            lA: "Side A (Feet)", lB: "Side B (Feet)", lC: "Side C (Feet)"
         },
         as: {
             t: "অসমৰ উন্নত বহুভুজ ভূমি কেলকুলেটৰ",
             st: "মাটিখিনিক ত্ৰিভুজত ভাগ কৰি অতি জটিল অনিয়মিত আকৃতিৰ জোখ কৰক।",
             add: "+ ত্ৰিভুজ যোগ কৰক", calc: "মুঠ মাটিকালি গণনা কৰক", res: "গণনা কৰা ফলাফল:",
             iN: "জটিল মাটি কেনেকৈ জুখিব?",
-            iD: "আপোনাৰ মাটিখিনিক একাধিক ত্ৰিভুজত ভাগ কৰক আৰু ওপৰত দেখুওৱাৰ দৰে সকলো দিশ জুখিব।"
+            iD: "আপোনাৰ মাটিখিনিক একাধিক ত্ৰিভুজত ভাগ কৰক আৰু ওপৰত দেখুওৱাৰ দৰে সকলো দিশ জুখিব।",
+            lA: "প্ৰথম বাহু", lB: "দ্বিতীয় বাহু", lC: "তৃতীয় বাহু"
         }
     };
 
@@ -216,6 +249,12 @@
         document.getElementById('resHead').innerText = trans[l].res;
         document.getElementById('imgTitle').innerText = trans[l].iN;
         document.getElementById('imgDesc').innerText = trans[l].iD;
+        
+        document.querySelectorAll('label').forEach(lbl => {
+            if(lbl.id === 'lblA') lbl.innerText = trans[l].lA;
+            if(lbl.id === 'lblB') lbl.innerText = trans[l].lB;
+            if(lbl.id === 'lblC') lbl.innerText = trans[l].lC;
+        });
     }
 
     function addTriangle() {
@@ -225,9 +264,9 @@
         div.className = 'triangle-card';
         div.innerHTML = `<span class="triangle-header">Triangle #${tCount}</span>
             <div class="input-row">
-                <div class="input-group"><label>Side A (Feet)</label><input type="number" class="side-a" placeholder="0"></div>
-                <div class="input-group"><label>Side B (Feet)</label><input type="number" class="side-b" placeholder="0"></div>
-                <div class="input-group"><label>Side C (Feet)</label><input type="number" class="side-c" placeholder="0"></div>
+                <div class="input-group"><label>${trans[currentL].lA}</label><input type="number" class="side-a" placeholder="0"></div>
+                <div class="input-group"><label>${trans[currentL].lB}</label><input type="number" class="side-b" placeholder="0"></div>
+                <div class="input-group"><label>${trans[currentL].lC}</label><input type="number" class="side-c" placeholder="0"></div>
             </div>`;
         area.appendChild(div);
     }
@@ -252,7 +291,6 @@
 
         if(totalSqFt <= 0) { alert("Please enter valid sides!"); return; }
 
-        // Conversions
         document.getElementById('outSq').innerText = Math.round(totalSqFt).toLocaleString();
         document.getElementById('outMt').innerText = (totalSqFt / 10.764).toFixed(2);
         document.getElementById('outAc').innerText = (totalSqFt / 43560).toFixed(4);
@@ -270,12 +308,8 @@
         document.getElementById('outL').innerText = lessa;
 
         document.getElementById('resultBox').style.display = 'block';
-        window.scrollTo(0, document.getElementById('resultBox').offsetTop - 20);
+        window.scrollTo({ top: document.getElementById('resultBox').offsetTop - 20, behavior: 'smooth' });
     }
 </script>
-
-<footer>
-    <p>© 2026 Shayan Smart Tools | Multi-Triangle Polygon System | Managed by Muksidul Islam</p>
-</footer>
 </body>
 </html>
