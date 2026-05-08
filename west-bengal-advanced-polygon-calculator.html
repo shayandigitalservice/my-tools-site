@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>West Bengal Advanced Polygon Land Calculator free 2026| পশ্চিমবঙ্গ জমি পরিমাপ | Shayan Smart Tools</title>
+    
+    <meta name="description" content="Calculate complex irregular land in West Bengal using the Multi-Triangle Polygon method. Get results in Decimal, Kottah, Chatak, Hectare, and Acre. 100% Accurate.">
+    <meta name="keywords" content="West Bengal Land Calculator, জমি পরিমাপ ক্যালকুলেটর, Multi Triangle Land Area WB, Decimal Kottah Chatak Calculator, Shayan Smart Tools West Bengal, Jomir Hisab, Banglarbhumi Area Calculator">
+    <meta name="author" content="Shayan Smart Tools">
+    <meta name="robots" content="index, follow">
+
+    <style>
+        :root {
+            --wb-maroon: #880e4f;
+            --white: #ffffff;
+            --light-bg: #fce4ec;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, sans-serif;
+            line-height: 1.6;
+            background-color: var(--light-bg);
+            margin: 0;
+            padding: 15px;
+            color: #333;
+        }
+
+        .main-wrapper { max-width: 800px; margin: 0 auto; }
+
+        h1 { color: var(--wb-maroon); text-align: center; font-size: 22px; margin-bottom: 5px; }
+        .sub-text { text-align: center; font-size: 13px; color: #666; margin-bottom: 20px; }
+
+        .lang-toggle { text-align: center; margin-bottom: 20px; }
+        .lang-btn { background: #ddd; border: none; padding: 10px 25px; cursor: pointer; border-radius: 25px; font-weight: bold; margin: 5px; transition: 0.3s; }
+        .lang-btn.active { background: var(--wb-maroon); color: white; }
+
+        .triangle-card {
+            background: var(--white);
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.06);
+            margin-bottom: 20px;
+            border-left: 6px solid var(--wb-maroon);
+        }
+        .triangle-header { font-weight: bold; color: var(--wb-maroon); margin-bottom: 15px; display: block; border-bottom: 1px solid #eee; padding-bottom: 5px; }
+
+        .input-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; }
+
+        @media (max-width: 480px) {
+            .input-row { grid-template-columns: 1fr; }
+        }
+
+        .input-group { display: flex; flex-direction: column; }
+        label { font-size: 12px; font-weight: bold; margin-bottom: 5px; color: #555; }
+        input { padding: 12px; border: 1px solid #ddd; border-radius: 8px; text-align: center; font-size: 16px; background: #fafafa; }
+        input:focus { border-color: var(--wb-maroon); outline: none; }
+
+        .controls { display: flex; gap: 10px; margin: 25px 0; }
+        .btn { flex: 1; padding: 15px; border: none; border-radius: 10px; font-weight: bold; cursor: pointer; font-size: 15px; transition: 0.3s; }
+        .btn-add { background: #5d4037; color: white; }
+        .btn-calc { background: var(--wb-maroon); color: white; }
+
+        .result-box {
+            background: #263238;
+            color: white;
+            padding: 25px;
+            border-radius: 15px;
+            display: none;
+            margin-top: 20px;
+        }
+
+        .result-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(110px, 1fr)); gap: 12px; margin-top: 15px; }
+        .res-item { text-align: center; border: 1px solid #455a64; padding: 12px; border-radius: 10px; background: rgba(255,255,255,0.05); }
+        .res-item b { display: block; font-size: 18px; color: #f8bbd0; }
+        .res-item span { font-size: 11px; text-transform: uppercase; color: #b0bec5; }
+
+        .image-container { text-align: center; margin: 30px 0; padding: 20px; background: #f8bbd0; border-radius: 15px; border: 2px dashed var(--wb-maroon); }
+        .image-container img { max-width: 100%; height: auto; border-radius: 10px; }
+
+        .ui-links-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 12px;
+            margin-top: 20px;
+        }
+        .ui-link-card {
+            background: var(--white);
+            padding: 15px;
+            border-radius: 12px;
+            text-decoration: none;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            border: 1px solid #eee;
+            transition: 0.3s;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+        }
+        .ui-link-card:hover { border-color: var(--wb-maroon); transform: translateY(-3px); }
+        .ui-link-card .link-text { font-size: 13px; font-weight: bold; color: var(--wb-maroon); }
+
+        .seo-content { background: white; padding: 25px; border-radius: 15px; margin-top: 20px; box-shadow: 0 2px 10px rgba(0,0,0,0.04); }
+        h2, h3 { color: var(--wb-maroon); margin-top: 30px; }
+        table { width: 100%; border-collapse: collapse; margin: 20px 0; font-size: 14px; display: block; overflow-x: auto; }
+        th, td { border: 1px solid #eee; padding: 12px; text-align: left; }
+        th { background: #f8bbd0; color: var(--wb-maroon); }
+
+        footer { text-align: center; padding: 40px 0; color: #888; font-size: 13px; }
+    </style>
+</head>
+<body>
+
+<div class="main-wrapper">
+    <h1 id="mainTitle">West Bengal Advanced Polygon Land Calculator</h1>
+    <p class="sub-text" id="subText">Calculate very complex irregular shapes by dividing them into triangles.</p>
+
+    <div class="lang-toggle">
+        <button class="lang-btn active" id="enBtn" onclick="setLang('en')">English</button>
+        <button class="lang-btn" id="bnBtn" onclick="setLang('bn')">বাংলা</button>
+    </div>
+
+    <div id="triangleArea">
+        <div class="triangle-card">
+            <span class="triangle-header" id="t1Head">Triangle #1 (প্রথম ত্রিভুজ)</span>
+            <div class="input-row">
+                <div class="input-group"><label id="lblA">Side A (Feet)</label><input type="number" class="side-a" placeholder="0"></div>
+                <div class="input-group"><label id="lblB">Side B (Feet)</label><input type="number" class="side-b" placeholder="0"></div>
+                <div class="input-group"><label id="lblC">Side C (Feet)</label><input type="number" class="side-c" placeholder="0"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="controls">
+        <button class="btn btn-add" id="btnAdd" onclick="addTriangle()">+ Add Triangle</button>
+        <button class="btn btn-calc" id="btnCalc" onclick="calculateTotalArea()">Calculate Total Area</button>
+    </div>
+
+    <div id="resultBox" class="result-box">
+        <h3 style="margin-top:0; color: #f8bbd0;" id="resHead">Calculated Result (ফলাফল):</h3>
+        <div class="result-grid">
+            <div class="res-item"><b id="outD">0</b><span id="uD">Decimal</span></div>
+            <div class="res-item"><b id="outK">0</b><span id="uK">Kottah</span></div>
+            <div class="res-item"><b id="outC">0</b><span id="uC">Chatak</span></div>
+            <div class="res-item"><b id="outAc">0</b><span id="uAc">Acre</span></div>
+            <div class="res-item"><b id="outHe">0</b><span id="uHe">Hectare</span></div>
+            <div class="res-item"><b id="outSq">0</b><span id="uSq">Sq Feet</span></div>
+            <div class="res-item"><b id="outMt">0</b><span id="uMt">Sq Meter</span></div>
+        </div>
+    </div>
+
+    <div class="image-container">
+        <h3 style="margin-top:0;" id="imgTitle">How to measure complex land? (জটিল জমি কিভাবে মাপবেন?)</h3>
+        <img src="land-diagram.png" alt="Multi Triangle Land Measurement Diagram WB">
+        <p id="imgDesc" style="font-size: 13px; color: #555; margin-top:10px;">Divide your land into multiple triangles and measure all sides as shown above.</p>
+    </div>
+
+    <article class="seo-content">
+        <h2>West Bengal Advanced Polygon Land Calculator: Complex Jomir Hisab Solution</h2>
+        <p>
+            West Bengal mein jomir hisab (land measurement) kafi purana aur unique hai. Rural areas mein aaj bhi **Decimal (Shotok)** ka use hota hai, wahi residential areas mein **Kottah aur Chatak** sabse popular hai. Jab zameen tedi-medi (Polygon) hoti hai, toh sirf average nikalne se sateek result nahi milta.
+        </p>
+        <p>
+            Shayan Smart Tools ka ye **WB Advanced Polygon Land Calculator** Heron's Formula ka use karke aapki zameen ka ekdam sateek hisab nikalta hai. Aapko bas chaaro sides aur ek diagonal naapna hai, ya agar 5 se zyada konne hain toh use kai triangles mein baant kar yahan enter karein.
+        </p>
+
+        <h3>কিভাবে ব্যবহার করবেন? (Step-by-Step Guide)</h3>
+        <ol>
+            <li>আপনার জমিকে ত্রিভুজে ভাগ করুন (ডায়াগ্রাম দেখুন)।</li>
+            <li>প্রতিটি ত্রিভুজের তিনটি বাহু ফুট এককে মেপে নিন।</li>
+            <li>টুলে প্রথম ত্রিভুজের মানগুলি লিখুন।</li>
+            <li><b>"+ Add Triangle"</b> বাটনে ক্লিক করে বাকি ত্রিভুজগুলোর তথ্য যোগ করুন।</li>
+            <li>ক্যালকুলেট বাটনে ক্লিক করলেই আপনি পশ্চিমবঙ্গ স্ট্যান্ডার্ড অনুযায়ী সঠিক ফলাফল পাবেন।</li>
+        </ol>
+
+        <h3>West Bengal Land Measurement Table (পশ্চিমবঙ্গ ভূমি মাপের তালিকা)</h3>
+        <table>
+            <tr><th>Unit (একক)</th><th>Relation (সম্পর্ক)</th><th>Sq Ft (বর্গ ফুট)</th></tr>
+            <tr><td>1 Decimal (Shotok)</td><td>-</td><td>435.6 Sq Ft</td></tr>
+            <tr><td>1 Kottah (Katha)</td><td>16 Chatak</td><td>720 Sq Ft</td></tr>
+            <tr><td>1 Chatak</td><td>20 Gunda</td><td>45 Sq Ft</td></tr>
+            <tr><td>1 Bigha (Standard)</td><td>20 Kottah</td><td>14,400 Sq Ft</td></tr>
+        </table>
+
+        <h3>5 Practical Examples: WB Multi-Plot Calculation</h3>
+        <ul>
+            <li><b>Example 1: Urban L-Shape Plot:</b> Do triangles mein baant kar naapein, Kottah-Chatak ka accurate result paayein.</li>
+            <li><b>Example 2: 5 corners rural land:</b> Teen triangles ka upyog karke sateek Decimal result nikalein.</li>
+            <li><b>Example 3: Village Roadside Land:</b> Badi khet jahan boundaries tedi hon, wahan 4-5 triangles jodiye.</li>
+            <li><b>Example 4: Banglarbhumi records check:</b> Physical measurement ko portal data se match karne ke liye.</li>
+            <li><b>Example 5: Family Partition:</b> Tedi-medi jomi ke barabar batware ke liye sateek map.</li>
+        </ul>
+
+        <h3>Frequently Asked Questions (FAQs)</h3>
+        <p><b>Q1. West Bengal mein 1 Kottah kitne sq ft ka hota hai?</b><br>Ans: West Bengal mein standard 1 Kottah = 720 Sq Ft hota hai.</p>
+        <p><b>Q2. Shotok aur Decimal kya alag hain?</b><br>Ans: Nahi, West Bengal mein Decimal ko hi Shotok ya Satak kaha jata hai.</p>
+
+        <h3 id="linksTitle">West Bengal Special Land Tools</h3>
+        <div class="ui-links-container">
+            <a href="index.html" class="ui-link-card">🏠 <span class="link-text">Home Dashboard</span></a>
+            <a href="wb-land-addition.html" class="ui-link-card">➕ <span class="link-text">Land Addition</span></a>
+            <a href="wb-decimal-to-kottah.html" class="ui-link-card">📏 <span class="link-text">Decimal to Kottah</span></a>
+            <a href="wb-land-cost-calculator.html" class="ui-link-card">💰 <span class="link-text">Land Cost Tool</span></a>
+        </div>
+
+        <div style="margin-top: 50px; border-top: 1px dashed var(--wb-maroon); padding-top: 25px;">
+            <p style="font-size: 12px; color: #777;">
+                <b>Copyright Notice:</b> Shayan Smart Tools © 2026. All Rights Reserved. Managed by Muksidul Islam
+            </p>
+        </div>
+    </article>
+</div>
+
+<script>
+    let tCount = 1;
+    let curL = 'en';
+
+    const trans = {
+        en: {
+            t: "West Bengal Advanced Polygon Land Calculator",
+            st: "Calculate very complex irregular shapes by dividing them into triangles.",
+            add: "+ Add Triangle", calc: "Calculate Total Area", res: "Calculated Result (ফলাফল):",
+            iN: "How to measure complex land?", iD: "Divide your land into multiple triangles and measure all sides.",
+            lA: "Side A (Feet)", lB: "Side B (Feet)", lC: "Side C (Feet)"
+        },
+        bn: {
+            t: "পশ্চিমবঙ্গ উন্নত বহুভুজ ভূমি ক্যালকুলেটর",
+            st: "আপনার জমিকে ত্রিভুজে ভাগ করে জটিল আকৃতিল জমির সঠিক পরিমাপ করুন।",
+            add: "+ ত্রিভুজ যোগ করুন", calc: "মোট ফলাফল দেখুন", res: "গণনা করা ফলাফল:",
+            iN: "জটিল জমি কিভাবে মাপবেন?", iD: "আপনার জমিকে একাধিক ত্রিভুজে ভাগ করুন এবং সব বাহু মেপে নিন।",
+            lA: "প্রথম বাহু", lB: "দ্বিতীয় বাহু", lC: "তৃতীয় বাহু"
+        }
+    };
+
+    function setLang(l) {
+        curL = l;
+        document.getElementById('enBtn').classList.toggle('active', l==='en');
+        document.getElementById('bnBtn').classList.toggle('active', l==='bn');
+        document.getElementById('mainTitle').innerText = trans[l].t;
+        document.getElementById('subText').innerText = trans[l].st;
+        document.getElementById('btnAdd').innerText = trans[l].add;
+        document.getElementById('btnCalc').innerText = trans[l].calc;
+        document.getElementById('resHead').innerText = trans[l].res;
+        document.getElementById('imgTitle').innerText = trans[l].iN;
+        document.getElementById('imgDesc').innerText = trans[l].iD;
+        document.querySelectorAll('label').forEach(lbl => {
+            if(lbl.id==='lblA') lbl.innerText = trans[l].lA;
+            if(lbl.id==='lblB') lbl.innerText = trans[l].lB;
+            if(lbl.id==='lblC') lbl.innerText = trans[l].lC;
+        });
+    }
+
+    function addTriangle() {
+        tCount++;
+        const area = document.getElementById('triangleArea');
+        const div = document.createElement('div');
+        div.className = 'triangle-card';
+        div.innerHTML = `<span class="triangle-header">Triangle #${tCount}</span>
+            <div class="input-row">
+                <div class="input-group"><label>${trans[curL].lA}</label><input type="number" class="side-a" placeholder="0"></div>
+                <div class="input-group"><label>${trans[curL].lB}</label><input type="number" class="side-b" placeholder="0"></div>
+                <div class="input-group"><label>${trans[curL].lC}</label><input type="number" class="side-c" placeholder="0"></div>
+            </div>`;
+        area.appendChild(div);
+    }
+
+    function calculateTotalArea() {
+        let totalSqFt = 0;
+        const aL = document.querySelectorAll('.side-a');
+        const bL = document.querySelectorAll('.side-b');
+        const cL = document.querySelectorAll('.side-c');
+
+        for(let i=0; i<aL.length; i++) {
+            let a = parseFloat(aL[i].value) || 0;
+            let b = parseFloat(bL[i].value) || 0;
+            let c = parseFloat(cL[i].value) || 0;
+            if(a>0 && b>0 && c>0) {
+                let s = (a+b+c)/2;
+                let ar = Math.sqrt(s*(s-a)*(s-b)*(s-c));
+                if(!isNaN(ar)) totalSqFt += ar;
+            }
+        }
+
+        if(totalSqFt <= 0) { alert("Please enter valid measurements!"); return; }
+
+        document.getElementById('outSq').innerText = Math.round(totalSqFt).toLocaleString();
+        document.getElementById('outMt').innerText = (totalSqFt / 10.764).toFixed(2);
+        document.getElementById('outAc').innerText = (totalSqFt / 43560).toFixed(4);
+        document.getElementById('outHe').innerText = (totalSqFt / 107639).toFixed(4);
+
+        // WB Logic (1 Decimal = 435.6, 1 Kottah = 720, 1 Chatak = 45)
+        document.getElementById('outD').innerText = (totalSqFt / 435.6).toFixed(2);
+        
+        let rem = totalSqFt;
+        let kottah = Math.floor(rem / 720); rem %= 720;
+        let chatak = (rem / 45).toFixed(2);
+
+        document.getElementById('outK').innerText = kottah;
+        document.getElementById('outC').innerText = chatak;
+        document.getElementById('resultBox').style.display = 'block';
+    }
+</script>
+</body>
+</html>
