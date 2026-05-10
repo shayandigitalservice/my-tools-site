@@ -15,43 +15,48 @@
     body { background-color: #fcfcfc; color: #101828; line-height: 1.6; }
 
     /* --- Header & Logo Section --- */
-    header {
+    /* --- Fix Header & Logo --- */
+header {
     display: flex; 
     justify-content: space-between; 
     align-items: center;
     padding: 10px 5%; 
-    background: transparent; /* White hataya */
-    border-bottom: none; /* Line hatayi */
-    position: absolute; /* Image ke upar set kiya */
+    background: transparent; 
+    position: absolute; 
     top: 0; 
     left: 0; 
     width: 100%; 
     z-index: 1000;
+    border-bottom: none;
 }
 
-/* Links aur Logo ka color white taaki dark image par dikhe */
-.logo { color: #ffffff; }
-.nav-links a { color: #ffffff; }
-.menu-toggle { color: #ffffff; }
+/* Isse text white dikhega dark photo par */
+.logo { 
+    display: flex; 
+    align-items: center; 
+    text-decoration: none; 
+    color: #ffffff !important; /* Force white color */
+    font-size: 20px; 
+    font-weight: bold; 
+}
 
-    .logo { display: flex; align-items: center; text-decoration: none; color: #101828; font-size: 20px; font-weight: bold; }
-    .logo img { height: 50px; width: 50px; border-radius: 10px; margin-right: 12px; object-fit: cover; }
-    .logo span { color: #45cafd; margin-left: 4px; }
-    
-    .nav-links { display: flex; gap: 15px; align-items: center; }
-    .nav-links a { text-decoration: none; color: #667085; font-size: 13px; font-weight: 600; transition: 0.3s; }
-    .nav-links a:hover { color: #45cafd; }
+.logo img { height: 50px; width: 50px; border-radius: 10px; margin-right: 12px; object-fit: cover; }
+.logo span { color: #45cafd; margin-left: 4px; }
 
-    .auth-group { display: flex; gap: 10px; align-items: center; margin-left: 10px; }
-    .btn-login { text-decoration: none; color: #45cafd; font-size: 13px; font-weight: bold; padding: 6px 15px; border: 1px solid #45cafd; border-radius: 20px; }
-    .btn-signup { text-decoration: none; background: #45cafd; color: white; font-size: 13px; font-weight: bold; padding: 6px 18px; border-radius: 20px; }
+.nav-links a { 
+    text-decoration: none; 
+    color: #ffffff !important; /* Force white color */
+    font-size: 13px; 
+    font-weight: 600; 
+    transition: 0.3s; 
+}
 
-    .menu-toggle { display: none; font-size: 22px; cursor: pointer; color: #101828; }
+.menu-toggle { color: #ffffff !important; }
 
     /* --- Hero Section & NEW Sliding Background Logic --- */
-    .hero {
+    ..hero {
     position: relative; 
-    height: 350px; /* 500px se 350px kar diya */
+    height: 380px; /* Perfect height */
     width: 100%;
     overflow: hidden; 
     display: flex; 
@@ -62,15 +67,19 @@
     color: white;
 }
 
-/* Content ko thoda niche shift karne ke liye taaki header se na takraye */
 .hero-content { 
     position: relative; 
     z-index: 3; 
     max-width: 850px; 
     width: 100%; 
     padding: 0 20px; 
-    margin-top: 40px; 
+    margin-top: 60px; /* Header se gap maintain karne ke liye */
 }
+
+/* Font size adjust for smaller hero */
+.hero h1 { font-size: 32px; margin-bottom: 10px; }
+.hero p { font-size: 16px; margin-bottom: 20px; }
+
 
     
     /* Dark Overlay: Ye images ko dark rakhega taaki text saaf dikhe */
@@ -153,12 +162,15 @@
     .youtube-hover:hover { color: #FF0000; transform: scale(1.1); }
     .facebook-hover:hover { color: #1877F2; transform: scale(1.1); }
     .pinterest-hover:hover { color: #BD081C; transform: scale(1.1); }
-
-    @media (max-width: 900px) {
+@media (max-width: 900px) {
     .nav-links { 
-        background: #101828; /* Mobile menu open hone par dark background */
-        top: 0; 
-        padding-top: 70px; 
+        background: #101828 !important; /* Mobile menu ke liye solid dark background */
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        padding: 80px 20px 20px;
+        z-index: -1;
     }
 }
 
