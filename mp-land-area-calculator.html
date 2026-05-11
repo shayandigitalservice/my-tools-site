@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MP Land Area Calculator free 2026| मध्य प्रदेश ज़मीन कैलकुलेटर | Shayan Smart Tools</title>
+    
+    <meta name="description" content="Calculate land area in Madhya Pradesh (MP). Accurate Bigha, Katha, Decimal, Hectare and Acre converter for MP Land Records. Shayan Smart Tools 2026.">
+    <meta name="keywords" content="MP land calculator, Bigha to Acre MP, Madhya Pradesh Land Measurement, MP Bhulekh Calculator, Shayan Smart Tools, Bigha to Sq Ft MP">
+    <meta name="author" content="Muksidul Islam">
+
+    <style>
+        /* Minimalist & Clean Design - No Container Box */
+        :root {
+            --mp-orange: #e65100;
+            --mp-dark: #263238;
+            --accent: #ff9800;
+        }
+
+        body { 
+            font-family: 'Segoe UI', Roboto, sans-serif; 
+            margin: 0; 
+            padding: 20px; 
+            background-color: #ffffff; 
+            color: #333; 
+            line-height: 1.6;
+        }
+
+        .tool-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .tool-header h1 {
+            color: var(--mp-orange);
+            font-size: 2.2rem;
+            margin-bottom: 10px;
+        }
+
+        /* Language Switcher */
+        .lang-flex {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .l-btn {
+            padding: 8px 25px;
+            border: 2px solid var(--mp-orange);
+            background: transparent;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 700;
+            color: var(--mp-orange);
+            transition: 0.3s;
+        }
+
+        .l-btn.active {
+            background: var(--mp-orange);
+            color: #fff;
+        }
+
+        /* Input Section - Open Design */
+        .input-wrapper {
+            max-width: 800px;
+            margin: 0 auto 40px auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+        }
+
+        .input-group label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: var(--mp-dark);
+            font-size: 14px;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 14px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 16px;
+            outline: none;
+            box-sizing: border-box;
+        }
+
+        input:focus { border-color: var(--mp-orange); box-shadow: 0 0 5px rgba(230, 81, 0, 0.2); }
+
+        .calc-btn {
+            max-width: 800px;
+            margin: 0 auto;
+            display: block;
+            width: 100%;
+            padding: 18px;
+            background: var(--mp-orange);
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            font-size: 18px;
+            font-weight: 800;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* Results Display */
+        .result-area {
+            max-width: 800px;
+            margin: 40px auto;
+            display: none;
+            border-top: 2px solid #eee;
+            padding-top: 30px;
+        }
+
+        .mp-highlight {
+            background: #fff3e0;
+            padding: 25px;
+            text-align: center;
+            border-radius: 8px;
+            margin-bottom: 25px;
+        }
+
+        .mp-highlight span { font-size: 14px; color: #666; display: block; }
+        .mp-highlight strong { font-size: 28px; color: var(--mp-orange); }
+
+        .grid-results {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+        }
+
+        .res-box {
+            padding: 15px;
+            border-bottom: 1px solid #f0f0f0;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .res-box b { color: var(--mp-orange); }
+
+        .action-btns {
+            display: flex;
+            gap: 10px;
+            margin-top: 30px;
+        }
+
+        .act-btn { flex: 1; padding: 12px; border: none; border-radius: 4px; font-weight: bold; cursor: pointer; color: #fff; }
+
+        /* SEO Content Section */
+        .seo-wrapper {
+            max-width: 1000px;
+            margin: 80px auto 40px auto;
+        }
+
+        .seo-wrapper h2 {
+            color: var(--mp-orange);
+            border-left: 5px solid var(--mp-dark);
+            padding-left: 15px;
+            margin-top: 40px;
+        }
+
+        table { width: 100%; border-collapse: collapse; margin: 25px 0; }
+        th, td { padding: 15px; border: 1px solid #eee; text-align: left; }
+        th { background: #fafafa; }
+
+        .internal-links {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin: 40px 0;
+        }
+
+        .i-link {
+            text-decoration: none;
+            padding: 15px;
+            background: #fff;
+            border: 1px solid var(--mp-orange);
+            color: var(--mp-orange);
+            text-align: center;
+            font-weight: 700;
+            border-radius: 4px;
+            transition: 0.3s;
+        }
+
+        .i-link:hover { background: var(--mp-orange); color: #fff; }
+
+        @media (max-width: 600px) { .grid-results { grid-template-columns: 1fr; } }
+    </style>
+</head>
+<body>
+
+<div class="tool-header">
+    <h1 id="h1Title">MP Land Area Calculator</h1>
+    <p id="pSub">Convert Square Feet/Meters to MP Bigha, Katha & Decimal instantly.</p>
+</div>
+
+<div class="lang-flex">
+    <button class="l-btn active" id="btnEn" onclick="changeLang('en')">English</button>
+    <button class="l-btn" id="btnHi" onclick="changeLang('hi')">हिन्दी</button>
+</div>
+
+<div class="input-wrapper">
+    <div class="input-group">
+        <label id="lblLen">Length (Lambai)</label>
+        <input type="number" id="length" placeholder="Enter length">
+    </div>
+    <div class="input-group">
+        <label id="lblWid">Width (Chaudai)</label>
+        <input type="number" id="width" placeholder="Enter width">
+    </div>
+    <div class="input-group">
+        <label id="lblUnit">Select Unit</label>
+        <select id="unitIn">
+            <option value="ft">Feet (फुट)</option>
+            <option value="mt">Meter (मीटर)</option>
+        </select>
+    </div>
+</div>
+
+<button class="calc-btn" onclick="calculateMP()" id="btnText">Calculate Area</button>
+
+<div id="resultBox" class="result-area">
+    <div class="mp-highlight">
+        <span id="resFmt">MP Standard Land Result:</span>
+        <strong id="bkdText">0 Bigha, 0 Katha, 0 Decimal</strong>
+    </div>
+
+    <div class="grid-results">
+        <div class="res-box"><span>Square Feet:</span> <b id="rFt">0</b></div>
+        <div class="res-box"><span>Square Meter:</span> <b id="rMt">0</b></div>
+        <div class="res-box"><span>Total Acre:</span> <b id="rAc">0</b></div>
+        <div class="res-box"><span>Total Hectare:</span> <b id="rHc">0</b></div>
+        <div class="res-box"><span>Total Biswa:</span> <b id="rBw">0</b></div>
+        <div class="res-box"><span>Gunjawari:</span> <b id="rGj">0</b></div>
+    </div>
+
+    <div class="action-btns">
+        <button class="act-btn" style="background:#555;" onclick="copyData()">📋 Copy Result</button>
+        <button class="act-btn" style="background:#25d366;" onclick="shareWA()">📲 Share on WhatsApp</button>
+    </div>
+</div>
+
+<article class="seo-wrapper">
+    <h2 id="seoTitle">Madhya Pradesh Land Measurement: Complete Guide 2026</h2>
+    <p>Madhya Pradesh (MP) mein zameen ki mapi (Land Measurement) ke liye vividh tareeke apnaye jate hain. MP ke kuch hisso mein (jaise Gwalior division) UP se milta-julta Bigha chalta hai, wahi Indore aur Bhopal division mein standard sarkari mapi Hectare aur Acre mein hoti hai. Hamara **MP Land Area Calculator** aapko in sabhi units ke beech sateek conversion deta hai.</p>
+
+    <h3>MP Land Units Table (मध्य प्रदेश भू-मापन तालिका)</h3>
+    <p>MP mein 1 Bigha ka size alag ho sakta hai, lekin revenue records ke liye niche di gayi values standard mani jati hain:</p>
+    <table>
+        <tr><th>Unit Name</th><th>Area in Sq. Ft.</th><th>Relationship</th></tr>
+        <tr><td>1 Decimal</td><td>435.6 Sq. Ft.</td><td>Lowest Unit</td></tr>
+        <tr><td>1 Katha / Biswa</td><td>1,361.25 Sq. Ft.</td><td>20 Biswansi</td></tr>
+        <tr><td>1 Bigha (Standard)</td><td>27,225 Sq. Ft.</td><td>20 Katha</td></tr>
+        <tr><td>1 Acre</td><td>43,560 Sq. Ft.</td><td>1.6 Bigha</td></tr>
+        <tr><td>1 Hectare</td><td>1,07,639 Sq. Ft.</td><td>3.95 Bigha</td></tr>
+    </table>
+
+    <h3>How to Use MP Land Calculator Tool?</h3>
+    <p>MP mein zameen ki napai ke liye aapko niche diye gaye saral steps follow karne honge:</p>
+    <ul>
+        <li><b>Step 1:</b> Sabse pehle apni zameen ki lambai (Length) ko feet ya meter mein darj karein.</li>
+        <li><b>Step 2:</b> Zameen ki chaudai (Width) darj karein.</li>
+        <li><b>Step 3:</b> Units chunne ke baad 'Calculate' par click karein. Hamara advanced algorithm MP ke local Bigha-Katha format mein result nikal dega.</li>
+    </ul>
+
+    <h2>5 Practical Examples of MP Land Calculation</h2>
+    <div style="background: #fdf2f2; padding: 25px; border-left: 5px solid var(--mp-orange); border-radius: 8px;">
+        <p><b>1. Small Residential Plot:</b> Agar koi plot 30x40 feet ka hai, toh wo 1,200 sq ft hota hai, jo lagbhag 2.75 Decimal ke barabar hai.</p>
+        <p><b>2. Farming Land (Bhopal):</b> 200 ft x 220 ft ka khet 44,000 sq ft hota hai, jo lagbhag 1 Acre aur 1.6 Bigha banta hai.</p>
+        <p><b>3. Commercial Space:</b> 50x100 feet ka area 5,000 sq ft hota hai, jo MP mein lagbhag 3.6 Katha kehlata hai.</p>
+        <p><b>4. Gwalior Division Bigha:</b> Gwalior side mein 27,225 sq ft ka standard Bigha chalta hai, jo hamara tool default calculate karta hai.</p>
+        <p><b>5. Hectare Conversion:</b> Agar aapke MP Bhulekh par 1.000 Hectare likha hai, toh hamara tool use 1,07,639 sq ft dikhayega.</p>
+    </div>
+
+    <h2>FAQs: Madhya Pradesh Land Records & Bhulekh</h2>
+    <p><b>Q1: MP mein 1 Bigha mein kitne Katha hote hain?</b><br>Ans: Madhya Pradesh ke adhiktar districts mein 1 Bigha mein 20 Katha (Biswa) hote hain.</p>
+    <p><b>Q2: Decimal unit ka kya upyog hai?</b><br>Ans: Decimal unit ka use chote plots ya residential area ki mapi ke liye hota hai. 100 Decimal milkar 1 Acre bante hain.</p>
+    <p><b>Q3: Kya MP mein Bigha ka size badalta hai?</b><br>Ans: Haan, local riwaaj ke hisaab se kacha aur pakka bigha ho sakta hai, lekin sarkari registry mein Acre/Hectare hi valid hai.</p>
+    <p><b>Q4: 1 Hectare mein kitne Bigha hote hain?</b><br>Ans: Standard mapi ke hisaab se 1 Hectare mein lagbhag 3.95 Bigha hote hain.</p>
+    <p><b>Q5. Is tool ko kisne develop kiya?</b><br>Ans: Ise Shayan Smart Tools (Muksidul Islam) ne MP ke kisanon aur dealers ke liye banaya hai.</p>
+
+    <h3>Internal Links for Faster Navigation</h3>
+    <div class="internal-links">
+        <a href="up-land-calculator.html" class="i-link">UP Land Tool</a>
+        <a href="bihar-land-calculator.html" class="i-link">Bihar Land Tool</a>
+        <a href="rajasthan-land-calculator.html" class="i-link">Rajasthan Tool</a>
+        <a href="land-cost-calculator.html" class="i-link">Price Calculator</a>
+    </div>
+
+    <div style="margin-top:50px; padding:30px; background:#f9f9f9; border:1px solid #ddd; text-align:center;">
+        <h3 style="color:var(--mp-dark);">© 2026 Shayan Smart Tools - All Rights Reserved</h3>
+        <p style="font-size:12px; color:#999;">Is tool ka coding aur design logic Muksidul Islam dwara banaya gaya hai. Copy karna kanoonan dandniya hai.</p>
+    </div>
+</article>
+
+<script>
+    let currentL = 'en';
+    const ui = {
+        en: { h1:"MP Land Area Calculator", sub:"Convert Square Feet/Meters to MP Bigha, Katha & Decimal instantly.", ll:"Length (Lambai)", lw:"Width (Chaudai)", lu:"Select Unit", bt:"Calculate Area", rf:"MP Standard Land Result:", b:"Bigha", k:"Katha", d:"Decimal" },
+        hi: { h1:"मध्य प्रदेश ज़मीन कैलकुलेटर", sub:"स्क्वायर फीट/मीटर को बीघा, कट्ठा और डेसिमल में बदलें।", ll:"लंबाई (Feet/Meter)", lw:"चौड़ाई (Feet/Meter)", lu:"इकाई चुनें", bt:"क्षेत्रफल निकालें", rf:"एमपी स्टैंडर्ड लैंड रिजल्ट:", b:"बीघा", k:"कट्ठा", d:"डेसिमल" }
+    };
+
+    function changeLang(l) {
+        currentL = l;
+        document.getElementById('btnEn').classList.toggle('active', l==='en');
+        document.getElementById('btnHi').classList.toggle('active', l==='hi');
+        document.getElementById('h1Title').innerText = ui[l].h1;
+        document.getElementById('pSub').innerText = ui[l].sub;
+        document.getElementById('lblLen').innerText = ui[l].ll;
+        document.getElementById('lblWid').innerText = ui[l].lw;
+        document.getElementById('lblUnit').innerText = ui[l].lu;
+        document.getElementById('btnText').innerText = ui[l].bt;
+        document.getElementById('resFmt').innerText = ui[l].rf;
+    }
+
+    function calculateMP() {
+        let l = parseFloat(document.getElementById('length').value);
+        let w = parseFloat(document.getElementById('width').value);
+        let u = document.getElementById('unitIn').value;
+
+        if(!l || !w) { alert("Please enter length and width!"); return; }
+
+        let sqft = (u === 'ft') ? (l * w) : (l * w * 10.7639);
+        
+        // MP Logic: 1 Bigha = 27225 sqft, 1 Katha = 1361.25 sqft, 1 Decimal = 435.6 sqft
+        const BIGHA = 27225;
+        const KATHA = 1361.25;
+        const DECIMAL = 435.6;
+
+        let tempSqft = sqft;
+        let bigha = Math.floor(tempSqft / BIGHA); tempSqft %= BIGHA;
+        let katha = Math.floor(tempSqft / KATHA); tempSqft %= KATHA;
+        let decimal = (tempSqft / DECIMAL).toFixed(2);
+
+        document.getElementById('bkdText').innerText = `${bigha} ${ui[currentL].b}, ${katha} ${ui[currentL].k}, ${decimal} ${ui[currentL].d}`;
+        document.getElementById('rFt').innerText = sqft.toLocaleString();
+        document.getElementById('rMt').innerText = (sqft / 10.7639).toFixed(2);
+        document.getElementById('rAc').innerText = (sqft / 43560).toFixed(4);
+        document.getElementById('rHc').innerText = (sqft / 107639).toFixed(4);
+        document.getElementById('rBw').innerText = (sqft / 1361.25).toFixed(2);
+        document.getElementById('rGj').innerText = (sqft / 100).toFixed(2);
+
+        document.getElementById('resultBox').style.display = 'block';
+        document.getElementById('resultBox').scrollIntoView({ behavior: 'smooth' });
+    }
+
+    function copyData() {
+        navigator.clipboard.writeText("MP Land Result: " + document.getElementById('bkdText').innerText + " - By Shayan Smart Tools");
+        alert("Result Copied!");
+    }
+
+    function shareWA() {
+        let msg = encodeURIComponent("MP Land Measurement Result:\n" + document.getElementById('bkdText').innerText + "\n\nCalculate more at Shayan Smart Tools");
+        window.open("https://wa.me/?text=" + msg);
+    }
+</script>
+
+</body>
+</html>
