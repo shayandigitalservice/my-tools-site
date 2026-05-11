@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Punjab Land Area Calculator free 2026| ਪੰਜਾਬ ਜ਼ਮੀਨ ਦਾ ਕੈਲਕੁਲੇਟਰ | Shayan Smart Tools</title>
+    
+    <meta name="description" content="Calculate land area in Punjab (Killa, Kanal, Marla). Official 2026 Punjab land measurement tool with English & Punjabi support. Best for Jamabandi records.">
+    <meta name="keywords" content="Punjab land calculator, Killa to Kanal Punjab, Marla to Sq Ft Punjab, ਪੰਜਾਬ ਜ਼ਮੀਨ ਦਾ ਕੈਲਕੁਲੇਟਰ, Shayan Smart Tools, Punjab Land Measurement">
+    <meta name="author" content="Muksidul Islam">
+    <meta name="robots" content="index, follow">
+
+    <meta property="og:title" content="Punjab Land Area Calculator | Shayan Smart Tools">
+    <meta property="og:description" content="Professional Killa-Kanal-Marla converter for Punjab. Accurate, bilingual, and easy to use.">
+    <meta property="og:type" content="website">
+
+    <style>
+        :root {
+            --pj-gold: #ffcc00;
+            --pj-blue: #003366;
+            --white: #ffffff;
+        }
+
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 15px;
+            color: #333;
+        }
+
+        .tool-wrapper {
+            max-width: 650px;
+            margin: 20px auto;
+            background: var(--white);
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            border-top: 8px solid var(--pj-blue);
+        }
+
+        /* Language Switcher */
+        .lang-box {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 25px;
+        }
+
+        .lang-btn {
+            padding: 8px 20px;
+            border: 2px solid var(--pj-blue);
+            background: transparent;
+            color: var(--pj-blue);
+            font-weight: bold;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .lang-btn.active {
+            background: var(--pj-blue);
+            color: var(--pj-gold);
+        }
+
+        .input-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        label { display: block; font-weight: 700; margin-bottom: 8px; color: var(--pj-blue); }
+        input, select {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 16px;
+            box-sizing: border-box;
+        }
+
+        input:focus { border-color: var(--pj-blue); outline: none; }
+
+        .btn-calc {
+            width: 100%;
+            background: var(--pj-blue);
+            color: var(--pj-gold);
+            border: none;
+            padding: 15px;
+            font-size: 18px;
+            font-weight: 800;
+            border-radius: 10px;
+            cursor: pointer;
+            text-transform: uppercase;
+        }
+
+        /* Results Box */
+        .result-card {
+            margin-top: 25px;
+            padding: 20px;
+            background: #fdf9e6;
+            border-radius: 12px;
+            border-left: 6px solid var(--pj-gold);
+            display: none;
+        }
+
+        .main-res {
+            font-size: 24px;
+            color: var(--pj-blue);
+            text-align: center;
+            display: block;
+            margin: 10px 0;
+            font-weight: 800;
+        }
+
+        .utility-btns {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .util-btn {
+            flex: 1;
+            padding: 10px;
+            border: none;
+            border-radius: 6px;
+            font-weight: bold;
+            cursor: pointer;
+            color: white;
+        }
+
+        .copy-btn { background: #555; }
+        .share-btn { background: #25d366; }
+
+        /* SEO & Internal Links Design */
+        .seo-section { max-width: 900px; margin: 40px auto; line-height: 1.8; }
+        .grid-links {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 15px;
+            margin: 30px 0;
+        }
+        .link-card {
+            background: white;
+            padding: 15px;
+            text-align: center;
+            border-radius: 10px;
+            text-decoration: none;
+            color: var(--pj-blue);
+            font-weight: bold;
+            border: 2px solid #f0f0f0;
+            transition: 0.3s;
+        }
+        .link-card:hover { border-color: var(--pj-blue); transform: translateY(-3px); }
+        
+        table { width: 100%; border-collapse: collapse; margin: 20px 0; }
+        th, td { border: 1px solid #ddd; padding: 12px; text-align: left; }
+        th { background: var(--pj-blue); color: white; }
+    </style>
+</head>
+<body>
+
+<div class="tool-wrapper">
+    <div class="lang-box">
+        <button class="lang-btn active" onclick="switchLang('en')">English</button>
+        <button class="lang-btn" onclick="switchLang('pj')">ਪੰਜਾਬੀ</button>
+    </div>
+
+    <h2 id="toolTitle" style="text-align:center; color: var(--pj-blue);">Punjab Land Area Calculator</h2>
+    
+    <div class="input-row">
+        <div class="field">
+            <label id="lblLen">Length (Feet)</label>
+            <input type="number" id="length" placeholder="Enter Length">
+        </div>
+        <div class="field">
+            <label id="lblWid">Width (Feet)</label>
+            <input type="number" id="width" placeholder="Enter Width">
+        </div>
+    </div>
+
+    <button class="btn-calc" onclick="calculatePunjabLand()" id="btnText">CALCULATE RESULT</button>
+
+    <div id="resultCard" class="result-card">
+        <span id="resHeading" style="font-size: 14px; font-weight: bold; color: #666;">Punjab Standard Result:</span>
+        <strong id="kkmText" class="main-res">0 Killa, 0 Kanal, 0 Marla</strong>
+        
+        <div style="font-size: 14px; border-top: 1px solid #eee; padding-top:10px;">
+            <p>Total Sq. Ft: <span id="resSqft">0</span></p>
+            <p>Total Acre: <span id="resAcre">0</span></p>
+        </div>
+
+        <div class="utility-btns">
+            <button class="util-btn copy-btn" onclick="copyResult()">📋 Copy</button>
+            <button class="util-btn share-btn" onclick="shareWA()">📲 WhatsApp</button>
+        </div>
+    </div>
+</div>
+
+<div class="seo-section">
+    <h1 id="seoH1" style="color: var(--pj-blue); text-align: center;">Punjab Land Area Calculator: Killa, Kanal & Marla Converter</h1>
+    
+    <p id="introP">Punjab mein zameen ki napai (Land Measurement) ka ek purana aur sateek riwaaj hai jo Killa, Kanal, aur Marla par adharit hai. Jamabandi ho ya Registry, Punjab ke farmers aur property dealers hamesha inhi units ka istemal karte hain. Hamara tool 2026 ke updated revenue laws ke mutabik sateek calculations deta hai.</p>
+
+    <h2 id="howH">How to Use the Punjab Land Tool?</h2>
+    <ul id="howSteps">
+        <li>Feet mein apni zameen ki lambai (Length) aur chaudai (Width) naapiye.</li>
+        <li>Inputs box mein values enter kijiye.</li>
+        <li>Punjab standard result pane ke liye 'Calculate' click karein.</li>
+        <li>Aap results ko Punjabi ya English kisi bhi language mein dekh aur share kar sakte hain.</li>
+    </ul>
+
+    <h2 id="tblH">Punjab Land Units Standard Table</h2>
+    <table>
+        <tr><th>Unit Name</th><th>Area in Sq. Ft.</th><th>Conversion</th></tr>
+        <tr><td>1 Marla</td><td>272.25 Sq. Ft.</td><td>Lowest Unit</td></tr>
+        <tr><td>1 Kanal</td><td>5,445 Sq. Ft.</td><td>20 Marla</td></tr>
+        <tr><td>1 Killa / Acre</td><td>43,560 Sq. Ft.</td><td>8 Kanal</td></tr>
+        <tr><td>1 Hectare</td><td>1,07,639 Sq. Ft.</td><td>2.47 Acre</td></tr>
+    </table>
+
+    <h2>Example Calculations</h2>
+    <div style="background: #eef2ff; padding: 20px; border-radius: 10px; border-left: 5px solid var(--pj-blue);">
+        1. <strong>Standard Killa:</strong> 220ft x 198ft = 43,560 sq ft (1 Killa).<br>
+        2. <strong>Small Plot:</strong> 30ft x 45ft = 1,361 sq ft (Approx 5 Marla).<br>
+        3. <strong>Commercial:</strong> 60ft x 90ft = 5,400 sq ft (Almost 1 Kanal).
+    </div>
+
+    <h2 id="faqH">Frequently Asked Questions (FAQs)</h2>
+    <div style="margin-bottom: 15px;">
+        <strong>Q1: Punjab mein 1 Killa kitna hota hai?</strong><br>
+        Ans: Punjab mein 1 Killa 1 Acre ke barabar hota hai, yani 43,560 Square Feet.
+    </div>
+    <div style="margin-bottom: 15px;">
+        <strong>Q2: 1 Kanal mein kitne Marla hote hain?</strong><br>
+        Ans: Standard Punjab measurement ke mutabik 1 Kanal mein 20 Marla hote hain.
+    </div>
+
+    <h2 style="color: var(--pj-blue);">Explore More Land Tools</h2>
+    <div class="grid-links">
+        <a href="assam-land-calculator.html" class="link-card">🏡 Assam Land Tool</a>
+        <a href="up-land-calculator.html" class="link-card">🏠 UP Land Tool</a>
+        <a href="bihar-land-calculator.html" class="link-card">🏘️ Bihar Land Tool</a>
+        <a href="land-cost-calculator.html" class="link-card">💰 Land Cost Calc</a>
+    </div>
+
+    <div style="margin-top: 50px; padding: 25px; background: #fff5f5; border: 2px solid #feb2b2; border-radius: 12px;">
+        <h3 style="color: #c53030; margin-top:0;">⚠️ Copyright & Rights Reserved</h3>
+        <p style="font-size: 14px;"><strong>Copyright © 2026 Shayan Smart Tools.</strong> All rights reserved. Is tool ki coding aur unique logic copy karna kanoonan jurm hai. Legal action will be taken against content theft.</p>
+    </div>
+</div>
+
+<script>
+    const translations = {
+        en: {
+            title: "Punjab Land Area Calculator",
+            len: "Length (Feet)",
+            wid: "Width (Feet)",
+            btn: "CALCULATE RESULT",
+            heading: "Punjab Standard Result:",
+            intro: "Punjab mein zameen ki napai ka ek purana aur sateek riwaaj hai...",
+            unitKilla: "Killa", unitKanal: "Kanal", unitMarla: "Marla"
+        },
+        pj: {
+            title: "ਪੰਜਾਬ ਜ਼ਮੀਨ ਦਾ ਕੈਲਕੁਲੇਟਰ",
+            len: "ਲੰਬਾਈ (ਫੁੱਟ)",
+            wid: "ਚੌੜਾਈ (ਫੁੱਟ)",
+            btn: "ਨਤੀਜਾ ਦੇਖੋ",
+            heading: "ਪੰਜਾਬ ਸਟੈਂਡਰਡ ਨਤੀਜਾ:",
+            intro: "ਪੰਜਾਬ ਵਿੱਚ ਜ਼ਮੀਨ ਦੀ ਮਾਪ ਕਿੱਲਾ, ਕਨਾਲ ਅਤੇ ਮਰਲੇ ਵਿੱਚ ਕੀਤੀ ਜਾਂਦੀ ਹੈ...",
+            unitKilla: "ਕਿੱਲਾ", unitKanal: "ਕਨਾਲ", unitMarla: "ਮਰਲਾ"
+        }
+    };
+
+    let currentLang = 'en';
+
+    function switchLang(lang) {
+        currentLang = lang;
+        document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
+        event.target.classList.add('active');
+        
+        document.getElementById('toolTitle').innerText = translations[lang].title;
+        document.getElementById('lblLen').innerText = translations[lang].len;
+        document.getElementById('lblWid').innerText = translations[lang].wid;
+        document.getElementById('btnText').innerText = translations[lang].btn;
+        document.getElementById('resHeading').innerText = translations[lang].heading;
+        if(document.getElementById('resultCard').style.display === "block") calculatePunjabLand();
+    }
+
+    function calculatePunjabLand() {
+        const length = parseFloat(document.getElementById('length').value);
+        const width = parseFloat(document.getElementById('width').value);
+
+        if (!length || !width) { alert("Please enter values"); return; }
+
+        const sqft = length * width;
+        const KILLA_SQFT = 43560;
+        const KANAL_SQFT = 5445;
+        const MARLA_SQFT = 272.25;
+
+        let tempSqft = sqft;
+        const killa = Math.floor(tempSqft / KILLA_SQFT);
+        tempSqft %= KILLA_SQFT;
+
+        const kanal = Math.floor(tempSqft / KANAL_SQFT);
+        tempSqft %= KANAL_SQFT;
+
+        const marla = (tempSqft / MARLA_SQFT).toFixed(2);
+
+        const resText = `${killa} ${translations[currentLang].unitKilla}, ${kanal} ${translations[currentLang].unitKanal}, ${marla} ${translations[currentLang].unitMarla}`;
+        
+        document.getElementById('kkmText').innerText = resText;
+        document.getElementById('resSqft').innerText = sqft.toLocaleString() + " sq.ft";
+        document.getElementById('resAcre').innerText = (sqft / 43560).toFixed(4);
+        document.getElementById('resultCard').style.display = "block";
+    }
+
+    function copyResult() {
+        const text = document.getElementById('kkmText').innerText;
+        navigator.clipboard.writeText("Punjab Land Result: " + text + " - Calculated by Shayan Smart Tools");
+        alert("Copied to clipboard!");
+    }
+
+    function shareWA() {
+        const text = encodeURIComponent("Punjab Land Measurement Result: " + document.getElementById('kkmText').innerText + " \nCheck more at Shayan Smart Tools");
+        window.open(`https://wa.me/?text=${text}`, '_blank');
+    }
+</script>
+
+</body>
+</html>
