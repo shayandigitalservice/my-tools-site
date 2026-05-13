@@ -3,219 +3,190 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tamil Nadu Land Area Calculator free 2026| தமிழ்நாடு நில| Shayan Smart Tools</title>
+    <title>Tamil Nadu Land Area Calculator | தமிழ்நாடு நில அளவீடு | Shayan Smart Tools</title>
     
     <!-- STRONG SEO META TAGS -->
-    <meta name="description" content="Calculate land area in Tamil Nadu. Accurate Ground, Cent, Ankanam, Acre, and Hectare converter. Professional Tamil Nadu land measurement tool 2026.">
-    <meta name="keywords" content="Tamil Nadu land calculator, Cent to Sq Ft Tamil Nadu, Ground to Cent converter, Shayan Smart Tools, TN Land Records Calculator">
+    <meta name="description" content="Official Tamil Nadu Land Area Calculator 2026. Calculate Ground, Cent, and Acre accurately. Bilingual support (English & Tamil). Accurate TN land measurement.">
+    <meta name="keywords" content="Tamil Nadu land calculator, Cent to Sq Ft Tamil Nadu, நில அளவீடு கால்குலேட்டர், Ground to Cent converter, Shayan Smart Tools, TN Land Records">
     <meta name="author" content="Muksidul Islam">
 
     <style>
         :root {
             --tn-gold: #ff9800;
-            --tn-dark: #37474f;
-            --accent: #ff5722;
+            --tn-dark: #263238;
+            --white: #ffffff;
+            --bg: #fafafa;
         }
 
-        body { 
-            font-family: 'Segoe UI', Roboto, sans-serif; 
-            margin: 0; 
-            padding: 20px; 
-            background-color: #ffffff; 
-            color: #333; 
+        body { font-family: 'Poppins', sans-serif; background-color: var(--bg); margin: 0; padding: 10px; color: #333; }
+        .container { max-width: 800px; margin: 0 auto; }
+
+        header {
+            background: linear-gradient(135deg, var(--tn-dark), #102027);
+            color: var(--tn-gold); padding: 40px 20px; border-radius: 25px; text-align: center;
+            border-bottom: 6px solid var(--tn-gold); margin-bottom: 30px;
         }
 
-        .tool-header { text-align: center; margin-bottom: 40px; }
-        .tool-header h1 { color: var(--tn-dark); font-size: 2rem; border-bottom: 4px solid var(--tn-gold); display: inline-block; padding-bottom: 10px; }
+        .lang-switch { display: flex; justify-content: center; gap: 10px; margin-bottom: 25px; }
+        .l-btn { padding: 10px 25px; border-radius: 50px; border: 2px solid var(--tn-dark); background: white; cursor: pointer; font-weight: 700; transition: 0.3s; }
+        .l-btn.active { background: var(--tn-dark); color: var(--tn-gold); }
 
-        .input-wrapper {
-            max-width: 800px;
-            margin: 0 auto 40px auto;
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 20px;
-        }
+        /* Minimalist Design - No Container Box */
+        .input-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 15px; margin-bottom: 25px; }
+        label { display: block; font-size: 13px; font-weight: 700; color: var(--tn-dark); margin-bottom: 8px; }
+        input, select { width: 100%; padding: 14px; border: 1px solid #ddd; border-radius: 12px; font-size: 16px; box-sizing: border-box; }
+        input:focus { border-color: var(--tn-gold); outline: none; box-shadow: 0 0 8px rgba(255,152,0,0.2); }
 
-        .input-group label { display: block; font-weight: 600; margin-bottom: 8px; font-size: 14px; }
-        input, select { width: 100%; padding: 14px; border: 1px solid #ddd; border-radius: 4px; font-size: 16px; outline: none; box-sizing: border-box; }
-        input:focus { border-color: var(--tn-gold); }
+        .btn-calc { width: 100%; padding: 20px; background: var(--tn-dark); color: var(--tn-gold); border: none; border-radius: 15px; font-size: 18px; font-weight: 800; cursor: pointer; transition: 0.3s; text-transform: uppercase; }
+        .btn-calc:hover { transform: translateY(-3px); box-shadow: 0 15px 20px rgba(0,0,0,0.1); }
 
-        .calc-btn {
-            max-width: 800px;
-            margin: 0 auto;
-            display: block;
-            width: 100%;
-            padding: 18px;
-            background: var(--tn-dark);
-            color: var(--tn-gold);
-            border: none;
-            border-radius: 4px;
-            font-size: 18px;
-            font-weight: 800;
-            cursor: pointer;
-            text-transform: uppercase;
-        }
-
-        .result-area {
-            max-width: 800px;
-            margin: 40px auto;
-            display: none;
-            border-top: 2px solid #eee;
-            padding-top: 30px;
-        }
-
-        .tn-highlight {
-            background: #eceff1;
-            padding: 25px;
-            text-align: center;
-            border-radius: 8px;
-            margin-bottom: 25px;
-            border: 2px solid var(--tn-gold);
-        }
-
-        .tn-highlight strong { font-size: 28px; color: var(--tn-dark); }
-
-        .grid-results { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; }
-        .res-box { padding: 15px; border-bottom: 1px solid #f0f0f0; display: flex; justify-content: space-between; }
-        .res-box b { color: var(--accent); }
-
-        .seo-wrapper { max-width: 1000px; margin: 80px auto 40px auto; line-height: 1.8; }
-        .seo-wrapper h2 { color: var(--tn-dark); border-left: 5px solid var(--tn-gold); padding-left: 15px; margin-top: 40px; }
+        /* RESULTS UI */
+        .res-panel { background: #1a1a1a; color: white; padding: 30px; border-radius: 25px; margin-top: 30px; display: none; border: 2px solid var(--tn-gold); }
+        .res-main { background: rgba(255, 152, 0, 0.1); padding: 20px; border-radius: 15px; text-align: center; border: 1px dashed var(--tn-gold); margin-bottom: 25px; }
+        .res-main strong { font-size: 26px; color: var(--tn-gold); display: block; margin-top: 5px; }
         
-        table { width: 100%; border-collapse: collapse; margin: 25px 0; }
-        th, td { padding: 15px; border: 1px solid #eee; text-align: left; }
-        th { background: #fdf5e6; }
+        .res-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+        .res-item { background: rgba(255,255,255,0.05); padding: 12px; border-radius: 10px; display: flex; justify-content: space-between; font-size: 14px; }
+        .res-item b { color: var(--tn-gold); }
 
-        .links-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin: 40px 0; }
-        .btn-link { 
-            background: white; padding: 15px; border-radius: 10px; text-decoration: none; 
-            text-align: center; color: var(--tn-dark); font-weight: 700; 
-            border: 2px solid var(--tn-gold); transition: 0.3s; 
-        }
-        .btn-link:hover { background: var(--tn-gold); color: white; }
+        .util-grid { display: flex; gap: 10px; margin-top: 25px; }
+        .u-btn { flex: 1; padding: 15px; border-radius: 12px; border: none; font-weight: bold; cursor: pointer; color: white; }
 
-        @media (max-width: 600px) { .grid-results { grid-template-columns: 1fr; } }
+        /* SEO SECTION */
+        .seo-content { background: white; padding: 45px; border-radius: 30px; margin-top: 50px; line-height: 1.8; }
+        .seo-content h2 { color: var(--tn-dark); border-left: 6px solid var(--tn-gold); padding-left: 15px; margin-top: 40px; }
+        table { width: 100%; border-collapse: collapse; margin: 25px 0; font-size: 14px; }
+        th, td { padding: 15px; border: 1px solid #e2e8f0; text-align: left; }
+        th { background: #fdf5e6; color: var(--tn-dark); }
+
+        .links-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 15px; margin-top: 30px; }
+        .link-btn { background: #fff; padding: 15px; border-radius: 15px; text-decoration: none; color: var(--tn-dark); font-weight: 700; text-align: center; border: 2px solid #eee; transition: 0.3s; }
+        .link-btn:hover { border-color: var(--tn-gold); transform: translateY(-3px); }
+
+        @media (max-width: 600px) { .res-grid { grid-template-columns: 1fr; } .seo-content { padding: 20px; } }
     </style>
 </head>
 <body>
 
-<div class="tool-header">
-    <h1>Tamil Nadu Land Area Calculator</h1>
-    <p>Professional Ground, Cent & Acre Converter for TN Land Records.</p>
-</div>
+<div class="container">
+    <header>
+        <h1 id="mTitle">Tamil Nadu Land Area Calculator</h1>
+        <p id="sTitle">Professional tool for Ground, Cent, & Acre measurement.</p>
+    </header>
 
-<div class="input-wrapper">
-    <div class="input-group">
-        <label>Length</label>
-        <input type="number" id="length" placeholder="Enter length">
-    </div>
-    <div class="input-group">
-        <label>Width</label>
-        <input type="number" id="width" placeholder="Enter width">
-    </div>
-    <div class="input-group">
-        <label>Input Unit</label>
-        <select id="unitIn">
-            <option value="ft">Feet (ft)</option>
-            <option value="mt">Meter (m)</option>
-        </select>
-    </div>
-</div>
-
-<button class="calc-btn" onclick="calculateTN()">Calculate Land Area</button>
-
-<div id="resultBox" class="result-area">
-    <div class="tn-highlight">
-        <span>Tamil Nadu Standard Format:</span><br>
-        <strong id="mainRes">0 Ground, 0 Cent</strong>
+    <div class="lang-switch">
+        <button class="l-btn active" id="enBtn" onclick="setLang('en')">English</button>
+        <button class="l-btn" id="taBtn" onclick="setLang('ta')">தமிழ்</button>
     </div>
 
-    <div class="grid-results">
-        <div class="res-box"><span>Square Feet:</span> <b id="rFt">0</b></div>
-        <div class="res-box"><span>Square Meter:</span> <b id="rMt">0</b></div>
-        <div class="res-box"><span>Total Acre:</span> <b id="rAc">0</b></div>
-        <div class="res-box) "><span>Total Hectare:</span> <b id="rHc">0</b></div>
-        <div class="res-box"><span>Ankanam:</span> <b id="rAn">0</b></div>
-        <div class="res-box"><span>Sq. Yards:</span> <b id="rYd">0</b></div>
+    <div class="input-grid">
+        <div class="input-box"><label id="lLen">Length</label><input type="number" id="len" placeholder="0"></div>
+        <div class="input-box"><label id="lWid">Width</label><input type="number" id="wid" placeholder="0"></div>
+        <div class="input-box">
+            <label id="lUnit">Input Unit</label>
+            <select id="unit">
+                <option value="ft">Feet (அடி)</option>
+                <option value="mt">Meter (மீட்டர்)</option>
+            </select>
+        </div>
+    </div>
+    <button class="btn-calc" onclick="calculate()" id="btnText">Calculate Area Now</button>
+
+    <div id="resPanel" class="res-panel">
+        <div class="res-main">
+            <span id="resSub">Tamil Nadu Standard Format:</span>
+            <strong id="mainRes">0 Ground, 0 Cent</strong>
+        </div>
+        <div class="res-grid">
+            <div class="res-item"><span>Sq. Feet:</span> <b id="rFt">0</b></div>
+            <div class="res-item"><span>Sq. Meter:</span> <b id="rMt">0</b></div>
+            <div class="res-item"><span>Acre:</span> <b id="rAc">0</b></div>
+            <div class="res-item"><span>Hectare:</span> <b id="rHc">0</b></div>
+            <div class="res-item"><span>Ankanam:</span> <b id="rAk">0</b></div>
+            <div class="res-item"><span>Sq. Yard:</span> <b id="rYd">0</b></div>
+        </div>
+        <div class="util-grid">
+            <button class="u-btn" onclick="copyData()" style="background:#455a64;">📋 Copy</button>
+            <button class="u-btn" onclick="shareWA()" style="background:#2e7d32;">📲 WhatsApp</button>
+        </div>
     </div>
 
-    <div style="display: flex; gap: 10px; margin-top: 30px;">
-        <button onclick="copyData()" style="flex:1; padding:15px; border:none; border-radius:4px; background:#455a64; color:white; font-weight:bold; cursor:pointer;">Copy</button>
-        <button onclick="shareWA()" style="flex:1; padding:15px; border:none; border-radius:4px; background:#25d366; color:white; font-weight:bold; cursor:pointer;">WhatsApp</button>
-    </div>
-</div>
+    <article class="seo-content">
+        <h2 id="seoH">Tamil Nadu Land Measurement: Complete Professional Guide</h2>
+        <p>Tamil Nadu mein zameen ki napai (நில அளவீடு) ke liye Ground aur Cent ka upyog sabse zyada hota hai. Chennai jaise shehron mein 'Ground' sabse popular unit hai, jabki kheti ki zameen ke liye 'Cent' aur 'Acre' ka istemal kiya jata hai. Shayan Smart Tools ka ye **Tamil Nadu Land Area Calculator** 2026 ke updated revenue standards par kaam karta hai.</p>
 
-<article class="seo-wrapper">
-    <h2 id="introH">Tamil Nadu Land Area Calculator: Ground, Cent aur Acre ka Sateek Hisab</h2>
-    <p id="introP">
-        Tamil Nadu mein zameen ki napai (நில அளவீடு) baki India se kaafi alag hai. Yahan shehri ilakon (urban areas) mein **'Ground'** ka prayog hota hai, jabki khet aur bade plots ke liye **'Cent'** aur **'Acre'** ka istemal kiya jata hai. Shayan Smart Tools ka ye **Tamil Nadu Land Area Calculator** 2026 ke updated revenue standards par adharit hai, jo aapko Length aur Width ke aadhar par sateek result deta hai.
-    </p>
-
-    <h3>How to Use This Tool (பயன்படுத்துவது எப்படி?)</h3>
-    <ol>
-        <li><b>Input Units:</b> Sabse pehle apni zameen ki lambai (Length) aur chaudai (Width) feet ya meter mein enter karein.</li>
-        <li><b>Conversion:</b> 'Calculate' button par click karte hi tool Square Feet ko Tamil Nadu ke local units mein badal dega.</li>
-        <li><b>Results:</b> Aapko ek hi screen par Ground, Cent, Acre aur Hectare ka breakdown mil jayega.</li>
-    </ol>
-
-    <h3>Tamil Nadu Land Unit Standard Table</h3>
-    <p>Tamil Nadu ke revenue records aur property deals mein niche di gayi table sabse zyada kaam aati hai:</p>
-    <table>
-        <thead>
-            <tr>
-                <th>Unit Name (பெயர்)</th>
-                <th>Standard Square Feet</th>
-                <th>TN Relation</th>
-            </tr>
-        </thead>
-        <tbody>
+        <h3>Understanding TN Land Units (தமிழ்நாடு நில அலகுகள்)</h3>
+        <table>
+            <tr><th>Unit Name (பெயர்)</th><th>Area in Sq. Ft.</th><th>Logic</th></tr>
             <tr><td>1 Cent (சென்ட்)</td><td>435.6 Sq Ft</td><td>Standard Unit</td></tr>
-            <tr><td>1 Ground (கிரவுண்ட்)</td><td>2,400 Sq Ft</td><td>Used in Urban Areas</td></tr>
+            <tr><td>1 Ground (கிரவுண்ட்)</td><td>2,400 Sq Ft</td><td>Urban TN Standard</td></tr>
             <tr><td>1 Acre (ஏக்கர்)</td><td>43,560 Sq Ft</td><td>100 Cents</td></tr>
-            <tr><td>1 Hectare (ஹெக்டேர்)</td><td>1,07,639 Sq Ft</td><td>~2.47 Acres</td></tr>
-        </tbody>
-    </table>
+            <tr><td>1 Hectare (ஹெக்டேர்)</td><td>1,07,639 Sq Ft</td><td>2.47 Acres</td></tr>
+        </table>
 
-    <h3>5 Practical Examples for TN Real Estate</h3>
-    <ul>
-        <li><b>Example 1: Urban Plot (Chennai):</b> 40 ft x 60 ft ka plot pura **1 Ground** (2,400 sq ft) hota hai.</li>
-        <li><b>Example 2: Residential Cent:</b> 2,178 sq ft ka plot pura **5 Cent** ke barabar hota hai.</li>
-        <li><b>Example 3: Agriculture Land:</b> 1 Acre zameen mein pura **100 Cent** hote hain.</li>
-        <li><b>Example 4: Commercial Space:</b> 12,000 sq ft ka area Tamil Nadu mein pura **5 Ground** kehlata hai.</li>
-        <li><b>Example 5: Hectare to Cent:</b> 1 Hectare zameen lagbhag **247 Cent** ke barabar hoti hai.</li>
-    </ul>
+        <h3>How to use Tamil Nadu Land Calculator?</h3>
+        <ol>
+            <li><b>Units:</b> Sabse pehle apni zameen ki Length aur Width Feet ya Meter mein darj karein.</li>
+            <li><b>Switch Language:</b> Aap English ya Tamil buttons ka istemal karke local language mein results dekh sakte hain.</li>
+            <li><b>Instant Results:</b> 'Calculate' par click karte hi tool Square Feet ko Ground aur Cent mein badal dega.</li>
+        </ol>
 
-    <h3>Why Trust Shayan Smart Tools?</h3>
-    <p>
-        Tamil Nadu ke land measurements bohot specific hote hain. Humne is tool ko vishesh roop se TN ke users ke liye design kiya hai taaki registry aur batware ke waqt koi galti na ho. Hamara tool mobile par 100% responsive hai aur fast results deta hai.
-    </p>
+        <h2>5 Practical Examples of Tamil Nadu Land Plots</h2>
+        <ul>
+            <li><b>Example 1: Urban Plot (Chennai):</b> Agar plot 40x60 feet hai, toh wo pura **1 Ground** (2,400 sq ft) hota hai.</li>
+            <li><b>Example 2: Small House Plot:</b> 2,178 sq ft ka plot pura **5 Cent** ke barabar hota hai.</li>
+            <li><b>Example 3: Agriculture Land:</b> 1 Acre zameen mein pura **100 Cent** hote hain.</li>
+            <li><b>Example 4: Commercial Space:</b> 12,000 sq ft ka area Tamil Nadu mein pura **5 Ground** kehlata hai.</li>
+            <li><b>Example 5: Hectare Record:</b> 1 Hectare zameen lagbhag **247 Cent** ke barabar hoti hai.</li>
+        </ul>
 
-    <h3>Frequently Asked Questions (FAQs)</h3>
-    <p><b>Q1. Tamil Nadu mein 1 Ground kitne square feet ka hota hai?</b><br>Ans: Tamil Nadu mein standard 1 Ground **2,400 Square Feet** ka hota hai.</p>
-    <p><b>Q2. 1 Cent mein kitne square feet hote hain?</b><br>Ans: 1 Cent mein sateek **435.6 Square Feet** hote hain.</p>
-    <p><b>Q3. Kya ye tool Hectare ko Cent mein badal sakta hai?</b><br>Ans: Ji haan, ye tool sabhi units ko ek sath calculate karta hai.</p>
-    <p><b>Q4. 1 Acre mein kitne Ground hote hain?</b><br>Ans: 1 Acre mein lagbhag 18.15 Ground hote hain.</p>
-    <p><b>Q5. Is tool ko kisne develop kiya hai?</b><br>Ans: Ise Shayan Smart Tools (Muksidul Islam) ne design kiya hai.</p>
+        <h2>FAQs: Tamil Nadu Land Records</h2>
+        <p><b>Q1. Tamil Nadu mein 1 Ground kitne square feet ka hota hai?</b><br>Ans: Tamil Nadu mein standard 1 Ground **2,400 Square Feet** ka hota hai.</p>
+        <p><b>Q2. 1 Cent mein kitne square feet hote hain?</b><br>Ans: 1 Cent mein sateek **435.6 Square Feet** hote hain.</p>
+        <p><b>Q3. 1 Acre mein kitne Ground hote hain?</b><br>Ans: 1 Acre mein lagbhag **18.15 Ground** hote hain.</p>
+        <p><b>Q4. Ankanam unit kahan use hoti hai?</b><br>Ans: Ankanam mukhya roop se Nellore aur AP border se lage TN ke ilakon mein use hoti hai (1 Ankanam = 72 sq ft).</p>
+        <p><b>Q5. Is tool ko kisne develop kiya?</b><br>Ans: Ise Shayan Smart Tools (Muksidul Islam) ne TN ke logo ke liye banaya hai.</p>
 
-    <h3>Important TN Land Tools</h3>
-    <div class="links-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 15px; margin-top: 20px;">
-        <a href="tn-land-calculator.html" class="link-btn" style="background: #fff; padding: 15px; border-radius: 10px; text-decoration: none; color: #37474f; font-weight: 700; border: 2px solid #ff9800; text-align: center;">🏡 TN Land Area Calc</a>
-        <a href="tn-unit-converter.html" class="link-btn" style="background: #fff; padding: 15px; border-radius: 10px; text-decoration: none; color: #37474f; font-weight: 700; border: 2px solid #ff9800; text-align: center;">🔄 TN Unit Converter</a>
-        <a href="tn-land-cost.html" class="link-btn" style="background: #fff; padding: 15px; border-radius: 10px; text-decoration: none; color: #37474f; font-weight: 700; border: 2px solid #ff9800; text-align: center;">💰 TN Land Cost Tool</a>
-        <a href="tn-land-partition.html" class="link-btn" style="background: #fff; padding: 15px; border-radius: 10px; text-decoration: none; color: #37474f; font-weight: 700; border: 2px solid #ff9800; text-align: center;">⚖️ TN Land Partition</a>
-    </div>
+        <h3 style="text-align:center; margin-top:50px;">Explore More Tools</h3>
+        <div class="links-grid">
+            <a href="karnataka-land-calculator.html" class="link-btn">🏡 KA Land Tool</a>
+            <a href="ap-land-calculator.html" class="link-btn">☀️ AP Land Tool</a>
+            <a href="land-cost-calculator.html" class="link-btn">💰 Land Cost Calc</a>
+            <a href="land-partition-tool.html" class="link-btn">⚖️ Land Partition</a>
+        </div>
 
-    <div style="margin-top: 60px; padding-top: 30px; border-top: 1px dashed #ccc; text-align: center; color: #888; font-size: 13px;">
-        <p><b>Copyright Notice:</b> TN Land Calculator logic, UI design, and SEO content are the property of <b>Muksidul Islam</b>. All Rights Reserved © 2026.</p>
-    </div>
-</article>
-
+        <div style="margin-top:60px; padding:30px; background:#fff5f5; border:2px solid #feb2b2; border-radius:15px; text-align:center;">
+            <h3 style="color:#c53030; margin-top:0;">⚠️ Copyright & Rights Reserved</h3>
+            <p style="font-size:13px;">Copyright © 2026 Shayan Smart Tools. All rights reserved. Content and logic managed by Muksidul Islam. Copying content is prohibited.</p>
+        </div>
+    </article>
+</div>
 
 <script>
-    function calculateTN() {
-        let l = parseFloat(document.getElementById('length').value);
-        let w = parseFloat(document.getElementById('width').value);
-        let u = document.getElementById('unitIn').value;
+    let cL = 'en';
+    const dict = {
+        en: { mt:"Tamil Nadu Land Area Calculator", st:"Professional tool for Ground, Cent, & Acre measurement.", ll:"Length", lw:"Width", lu:"Input Unit", bt:"Calculate Area Now", sub:"Tamil Nadu Standard Format:", g:"Ground", c:"Cent" },
+        ta: { mt:"தமிழ்நாடு நில அளவீடு கால்குலேட்டர்", st:"கிரவுண்ட், சென்ட் மற்றும் ஏக்கர் அளவீட்டிற்கான தொழில்முறை கருவி.", ll:"நீளம்", lw:"அகலம்", lu:"அலகு தேர்வு", bt:"இப்போது கணக்கிடுங்கள்", sub:"தமிழ்நாடு தரநிலை வடிவம்:", g:"கிரவுண்ட்", c:"சென்ட்" }
+    };
+
+    function setLang(l) {
+        cL = l;
+        document.getElementById('enBtn').classList.toggle('active', l==='en');
+        document.getElementById('taBtn').classList.toggle('active', l==='ta');
+        document.getElementById('mTitle').innerText = dict[l].mt;
+        document.getElementById('sTitle').innerText = dict[l].st;
+        document.getElementById('lLen').innerText = dict[l].ll;
+        document.getElementById('lWid').innerText = dict[l].lw;
+        document.getElementById('lUnit').innerText = dict[l].lu;
+        document.getElementById('btnText').innerText = dict[l].bt;
+        document.getElementById('resSub').innerText = dict[l].sub;
+        if(document.getElementById('resPanel').style.display === 'block') calculate();
+    }
+
+    function calculate() {
+        let l = parseFloat(document.getElementById('len').value)||0;
+        let w = parseFloat(document.getElementById('wid').value)||0;
+        let u = document.getElementById('unit').value;
 
         if(!l || !w) { alert("Please enter values!"); return; }
 
@@ -225,28 +196,27 @@
         let ground = Math.floor(sqft / 2400); let rem = sqft % 2400;
         let cent = (rem / 435.6).toFixed(2);
 
-        document.getElementById('mainRes').innerText = `${ground} Ground, ${cent} Cent`;
+        document.getElementById('mainRes').innerText = `${ground} ${dict[cL].g}, ${cent} ${dict[cL].c}`;
         document.getElementById('rFt').innerText = sqft.toLocaleString();
         document.getElementById('rMt').innerText = (sqft / 10.7639).toFixed(2);
         document.getElementById('rAc').innerText = (sqft / 43560).toFixed(4);
         document.getElementById('rHc').innerText = (sqft / 107639).toFixed(4);
-        document.getElementById('rAn').innerText = (sqft / 72).toFixed(2);
+        document.getElementById('rAk').innerText = (sqft / 72).toFixed(2);
         document.getElementById('rYd').innerText = (sqft / 9).toFixed(2);
-
-        document.getElementById('resultBox').style.display = 'block';
-        document.getElementById('resultBox').scrollIntoView({ behavior: 'smooth' });
+        
+        document.getElementById('resPanel').style.display = 'block';
+        document.getElementById('resPanel').scrollIntoView({behavior: 'smooth'});
     }
 
     function copyData() {
-        navigator.clipboard.writeText("TN Land Result: " + document.getElementById('mainRes').innerText);
+        navigator.clipboard.writeText("TN Land Result: " + document.getElementById('mainRes').innerText + " - By Shayan Smart Tools");
         alert("Copied!");
     }
 
     function shareWA() {
-        let msg = encodeURIComponent("TN Land Result:\n" + document.getElementById('mainRes').innerText + "\n\nShayan Smart Tools");
-        window.open("https://wa.me/?text=" + msg);
+        let t = encodeURIComponent("Tamil Nadu Land Result:\n" + document.getElementById('mainRes').innerText + "\n\nCalculate more at Shayan Smart Tools");
+        window.open("https://wa.me/?text=" + t);
     }
 </script>
-
 </body>
 </html>
