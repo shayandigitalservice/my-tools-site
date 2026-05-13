@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tamil Nadu Land Area Calculator free 2026| தமிழ்நாடு நில| Shayan Smart Tools</title>
+    
+    <!-- STRONG SEO META TAGS -->
+    <meta name="description" content="Calculate land area in Tamil Nadu. Accurate Ground, Cent, Ankanam, Acre, and Hectare converter. Professional Tamil Nadu land measurement tool 2026.">
+    <meta name="keywords" content="Tamil Nadu land calculator, Cent to Sq Ft Tamil Nadu, Ground to Cent converter, Shayan Smart Tools, TN Land Records Calculator">
+    <meta name="author" content="Muksidul Islam">
+
+    <style>
+        :root {
+            --tn-gold: #ff9800;
+            --tn-dark: #37474f;
+            --accent: #ff5722;
+        }
+
+        body { 
+            font-family: 'Segoe UI', Roboto, sans-serif; 
+            margin: 0; 
+            padding: 20px; 
+            background-color: #ffffff; 
+            color: #333; 
+        }
+
+        .tool-header { text-align: center; margin-bottom: 40px; }
+        .tool-header h1 { color: var(--tn-dark); font-size: 2rem; border-bottom: 4px solid var(--tn-gold); display: inline-block; padding-bottom: 10px; }
+
+        .input-wrapper {
+            max-width: 800px;
+            margin: 0 auto 40px auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+        }
+
+        .input-group label { display: block; font-weight: 600; margin-bottom: 8px; font-size: 14px; }
+        input, select { width: 100%; padding: 14px; border: 1px solid #ddd; border-radius: 4px; font-size: 16px; outline: none; box-sizing: border-box; }
+        input:focus { border-color: var(--tn-gold); }
+
+        .calc-btn {
+            max-width: 800px;
+            margin: 0 auto;
+            display: block;
+            width: 100%;
+            padding: 18px;
+            background: var(--tn-dark);
+            color: var(--tn-gold);
+            border: none;
+            border-radius: 4px;
+            font-size: 18px;
+            font-weight: 800;
+            cursor: pointer;
+            text-transform: uppercase;
+        }
+
+        .result-area {
+            max-width: 800px;
+            margin: 40px auto;
+            display: none;
+            border-top: 2px solid #eee;
+            padding-top: 30px;
+        }
+
+        .tn-highlight {
+            background: #eceff1;
+            padding: 25px;
+            text-align: center;
+            border-radius: 8px;
+            margin-bottom: 25px;
+            border: 2px solid var(--tn-gold);
+        }
+
+        .tn-highlight strong { font-size: 28px; color: var(--tn-dark); }
+
+        .grid-results { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; }
+        .res-box { padding: 15px; border-bottom: 1px solid #f0f0f0; display: flex; justify-content: space-between; }
+        .res-box b { color: var(--accent); }
+
+        .seo-wrapper { max-width: 1000px; margin: 80px auto 40px auto; line-height: 1.8; }
+        .seo-wrapper h2 { color: var(--tn-dark); border-left: 5px solid var(--tn-gold); padding-left: 15px; margin-top: 40px; }
+        
+        table { width: 100%; border-collapse: collapse; margin: 25px 0; }
+        th, td { padding: 15px; border: 1px solid #eee; text-align: left; }
+        th { background: #fdf5e6; }
+
+        .links-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin: 40px 0; }
+        .btn-link { 
+            background: white; padding: 15px; border-radius: 10px; text-decoration: none; 
+            text-align: center; color: var(--tn-dark); font-weight: 700; 
+            border: 2px solid var(--tn-gold); transition: 0.3s; 
+        }
+        .btn-link:hover { background: var(--tn-gold); color: white; }
+
+        @media (max-width: 600px) { .grid-results { grid-template-columns: 1fr; } }
+    </style>
+</head>
+<body>
+
+<div class="tool-header">
+    <h1>Tamil Nadu Land Area Calculator</h1>
+    <p>Professional Ground, Cent & Acre Converter for TN Land Records.</p>
+</div>
+
+<div class="input-wrapper">
+    <div class="input-group">
+        <label>Length</label>
+        <input type="number" id="length" placeholder="Enter length">
+    </div>
+    <div class="input-group">
+        <label>Width</label>
+        <input type="number" id="width" placeholder="Enter width">
+    </div>
+    <div class="input-group">
+        <label>Input Unit</label>
+        <select id="unitIn">
+            <option value="ft">Feet (ft)</option>
+            <option value="mt">Meter (m)</option>
+        </select>
+    </div>
+</div>
+
+<button class="calc-btn" onclick="calculateTN()">Calculate Land Area</button>
+
+<div id="resultBox" class="result-area">
+    <div class="tn-highlight">
+        <span>Tamil Nadu Standard Format:</span><br>
+        <strong id="mainRes">0 Ground, 0 Cent</strong>
+    </div>
+
+    <div class="grid-results">
+        <div class="res-box"><span>Square Feet:</span> <b id="rFt">0</b></div>
+        <div class="res-box"><span>Square Meter:</span> <b id="rMt">0</b></div>
+        <div class="res-box"><span>Total Acre:</span> <b id="rAc">0</b></div>
+        <div class="res-box) "><span>Total Hectare:</span> <b id="rHc">0</b></div>
+        <div class="res-box"><span>Ankanam:</span> <b id="rAn">0</b></div>
+        <div class="res-box"><span>Sq. Yards:</span> <b id="rYd">0</b></div>
+    </div>
+
+    <div style="display: flex; gap: 10px; margin-top: 30px;">
+        <button onclick="copyData()" style="flex:1; padding:15px; border:none; border-radius:4px; background:#455a64; color:white; font-weight:bold; cursor:pointer;">Copy</button>
+        <button onclick="shareWA()" style="flex:1; padding:15px; border:none; border-radius:4px; background:#25d366; color:white; font-weight:bold; cursor:pointer;">WhatsApp</button>
+    </div>
+</div>
+
+<article class="seo-wrapper">
+    <h2>Tamil Nadu Land Measurement: Ground and Cent Guide</h2>
+    <p>Tamil Nadu mein zameen ki napai ke liye **Ground aur Cent** sabse lokpriya units hain. Chennai jaise shehron mein zameen 'Ground' mein maapi jati hai, jabki kheti ki zameen ke liye 'Cent' aur 'Acre' ka istemal hota hai. Hamara advanced **Tamil Nadu Land Area Calculator** 2026 ke updated revenue standards par kaam karta hai.</p>
+
+    <h3>TN Land Units Table (தமிழ்நாடு நில அளவீடு)</h3>
+    <table>
+        <tr><th>Unit Name</th><th>Area in Sq. Ft.</th><th>Conversion Logic</th></tr>
+        <tr><td>1 Cent</td><td>435.6 Sq. Ft.</td><td>Standard Unit</td></tr>
+        <tr><td>1 Ground</td><td>2,400 Sq. Ft.</td><td>Used in Urban TN</td></tr>
+        <tr><td>1 Acre</td><td>43,560 Sq. Ft.</td><td>100 Cents</td></tr>
+        <tr><td>1 Hectare</td><td>1,07,639 Sq. Ft.</td><td>2.47 Acres</td></tr>
+    </table>
+
+    <h3>5 Practical Examples for TN Real Estate</h3>
+    <ul>
+        <li><b>Example 1: Standard Ground Plot:</b> 40 ft x 60 ft ka plot pura 1 Ground (2,400 sq ft) hota hai.</li>
+        <li><b>Example 2: Residential Cent:</b> 2,178 sq ft ka plot pura 5 Cent hota hai.</li>
+        <li><b>Example 3: Farm Land:</b> 1 Acre zameen mein pura 100 Cent hote hain.</li>
+        <li><b>Example 4: Commercial Space:</b> 10,000 sq ft ka showroom lagbhag 4.16 Ground banta hai.</li>
+        <li><b>Example 5: Hectare to Cent:</b> 1 Hectare mein lagbhag 247 Cent hote hain.</li>
+    </ul>
+
+    <h2>FAQs: Tamil Nadu Land Records</h2>
+    <p><b>Q1: 1 Ground mein kitne square feet hote hain?</b><br>Ans: Tamil Nadu mein 1 Ground pura 2,400 Square Feet ka hota hai.</p>
+    <p><b>Q2: 1 Cent aur Acre ka kya rishta hai?</b><br>Ans: 1 Acre mein sateek 100 Cent hote hain.</p>
+    <p><b>Q3. Is tool ko kisne banaya?</b><br>Ans: Ise Shayan Smart Tools (Muksidul Islam) ne Tamil Nadu ke logo ke liye banaya hai.</p>
+
+    <h3>Important TN Land Tools</h3>
+    <div class="links-grid">
+        <a href="tn-land-calculator.html" class="btn-link">🏡 Land Area Calc</a>
+        <a href="tn-unit-converter.html" class="btn-link">🔄 Unit Converter</a>
+        <a href="tn-land-cost.html" class="btn-link">💰 Land Cost Tool</a>
+        <a href="tn-land-partition.html" class="btn-link">⚖️ Land Partition</a>
+    </div>
+
+    <div style="margin-top:50px; border-top:1px dashed #ccc; padding-top:20px; text-align:center; font-size:12px; color:#888;">
+        <p>Copyright © 2026 Shayan Smart Tools. All Rights Reserved. Managed by Muksidul Islam.</p>
+    </div>
+</article>
+
+<script>
+    function calculateTN() {
+        let l = parseFloat(document.getElementById('length').value);
+        let w = parseFloat(document.getElementById('width').value);
+        let u = document.getElementById('unitIn').value;
+
+        if(!l || !w) { alert("Please enter values!"); return; }
+
+        let sqft = (u === 'ft') ? (l * w) : (l * w * 10.7639);
+        
+        // TN Logic: 1 Ground = 2400 sqft, 1 Cent = 435.6 sqft
+        let ground = Math.floor(sqft / 2400); let rem = sqft % 2400;
+        let cent = (rem / 435.6).toFixed(2);
+
+        document.getElementById('mainRes').innerText = `${ground} Ground, ${cent} Cent`;
+        document.getElementById('rFt').innerText = sqft.toLocaleString();
+        document.getElementById('rMt').innerText = (sqft / 10.7639).toFixed(2);
+        document.getElementById('rAc').innerText = (sqft / 43560).toFixed(4);
+        document.getElementById('rHc').innerText = (sqft / 107639).toFixed(4);
+        document.getElementById('rAn').innerText = (sqft / 72).toFixed(2);
+        document.getElementById('rYd').innerText = (sqft / 9).toFixed(2);
+
+        document.getElementById('resultBox').style.display = 'block';
+        document.getElementById('resultBox').scrollIntoView({ behavior: 'smooth' });
+    }
+
+    function copyData() {
+        navigator.clipboard.writeText("TN Land Result: " + document.getElementById('mainRes').innerText);
+        alert("Copied!");
+    }
+
+    function shareWA() {
+        let msg = encodeURIComponent("TN Land Result:\n" + document.getElementById('mainRes').innerText + "\n\nShayan Smart Tools");
+        window.open("https://wa.me/?text=" + msg);
+    }
+</script>
+
+</body>
+</html>
