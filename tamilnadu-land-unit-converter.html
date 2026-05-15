@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tamil Nadu Land Unit Converter free 2026| தமிழ்நாடு நில அலகுகள் | Shayan Smart Tools</title>
+    
+    <meta name="description" content="Tamil Nadu Land Unit Converter: Convert Ground, Cent, and Ankanam to Hectare, Acre, and Sq Ft. Official 2026 TN land measurement tool by Shayan Smart Tools.">
+    <meta name="keywords" content="Tamil Nadu Land Converter, Cent to Ground TN, Ankanam to Sq Ft, தமிழ்நாடு நில அளவீடு, Shayan Smart Tools, TN Land Units, Ground to Sq Ft Tamil Nadu">
+    <meta name="author" content="Muksidul Islam">
+
+    <style>
+        :root {
+            --tn-gold: #ff9800;
+            --tn-dark: #263238;
+            --white: #ffffff;
+            --bg: #fafafa;
+        }
+
+        body { font-family: 'Poppins', sans-serif; background-color: var(--bg); margin: 0; padding: 10px; color: #333; }
+        .container { max-width: 850px; margin: 0 auto; }
+
+        header {
+            background: linear-gradient(135deg, var(--tn-dark), #102027);
+            color: var(--tn-gold); padding: 40px 20px; border-radius: 25px; text-align: center;
+            border-bottom: 6px solid var(--tn-gold); margin-bottom: 30px;
+        }
+
+        .lang-switch { display: flex; justify-content: center; gap: 10px; margin-bottom: 25px; }
+        .l-btn { padding: 10px 25px; border-radius: 50px; border: 2px solid var(--tn-dark); background: white; cursor: pointer; font-weight: 700; transition: 0.3s; color: var(--tn-dark); }
+        .l-btn.active { background: var(--tn-dark); color: var(--tn-gold); }
+
+        /* Input Grid */
+        .input-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 15px; margin-bottom: 25px; }
+        label { display: block; font-size: 12px; font-weight: 800; color: var(--tn-dark); margin-bottom: 8px; text-transform: uppercase; }
+        input { width: 100%; padding: 15px; border: 1px solid #ddd; border-radius: 12px; font-size: 16px; box-sizing: border-box; outline: none; transition: 0.3s; }
+        input:focus { border-color: var(--tn-gold); background: #fff; box-shadow: 0 0 8px rgba(255,152,0,0.1); }
+
+        .btn-calc { width: 100%; padding: 20px; background: var(--tn-dark); color: var(--tn-gold); border: none; border-radius: 15px; font-size: 18px; font-weight: 800; cursor: pointer; transition: 0.3s; text-transform: uppercase; }
+        .btn-calc:hover { transform: translateY(-3px); box-shadow: 0 10px 20px rgba(0,0,0,0.2); }
+
+        /* RESULTS UI */
+        .res-panel { background: #1a1a1a; color: white; padding: 30px; border-radius: 25px; margin-top: 30px; display: none; border: 2px solid var(--tn-gold); }
+        .res-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; }
+        .res-item { background: rgba(255,255,255,0.05); padding: 15px; border-radius: 12px; display: flex; justify-content: space-between; align-items: center; border-left: 4px solid var(--tn-gold); }
+        .res-item span { font-size: 13px; color: #aaa; }
+        .res-item b { font-size: 18px; color: var(--tn-gold); }
+
+        .util-btns { display: flex; gap: 10px; margin-top: 25px; }
+        .u-btn { flex: 1; padding: 15px; border-radius: 12px; border: none; font-weight: 800; cursor: pointer; transition: 0.3s; color: white; }
+
+        /* SEO CONTENT SECTION */
+        .seo-content { background: white; padding: 40px; border-radius: 30px; margin-top: 50px; line-height: 1.8; }
+        .seo-content h2 { color: var(--tn-dark); border-left: 6px solid var(--tn-gold); padding-left: 15px; margin-top: 40px; }
+        table { width: 100%; border-collapse: collapse; margin: 25px 0; }
+        th, td { padding: 15px; border: 1px solid #f1f5f9; text-align: left; }
+        th { background: #fdf5e6; color: var(--tn-dark); }
+
+        .links-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 15px; margin-top: 30px; }
+        .link-btn { background: #fff; padding: 15px; border-radius: 15px; text-decoration: none; color: var(--tn-dark); font-weight: 700; text-align: center; border: 2px solid #eee; transition: 0.3s; }
+        .link-btn:hover { border-color: var(--tn-gold); transform: translateY(-3px); }
+
+        @media (max-width: 600px) { .res-grid { grid-template-columns: 1fr; } }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <h1 id="mTitle">Tamil Nadu Land Unit Converter</h1>
+        <p id="sTitle">Multi-Unit conversion for Ground, Cent, & Ankanam in TN.</p>
+    </header>
+
+    <div class="lang-switch">
+        <button class="l-btn active" id="enBtn" onclick="setLang('en')">English</button>
+        <button class="l-btn" id="taBtn" onclick="setLang('ta')">தமிழ்</button>
+    </div>
+
+    <div class="input-grid">
+        <div class="input-box"><label id="lGr">Ground (கிரவுண்ட்)</label><input type="number" id="gr" placeholder="0"></div>
+        <div class="input-box"><label id="lCe">Cent (சென்ட்)</label><input type="number" id="ce" placeholder="0"></div>
+        <div class="input-box"><label id="lAk">Ankanam (அங்கணம்)</label><input type="number" id="ak" placeholder="0"></div>
+    </div>
+    <button class="btn-calc" onclick="convertTNLand()" id="btnText">Convert Units Now</button>
+
+    <div id="resPanel" class="res-panel">
+        <h3 id="resHead" style="color: var(--tn-gold); margin-top: 0; text-align: center;">Conversion Results</h3>
+        <div class="res-grid">
+            <div class="res-item"><span>Square Feet:</span> <b id="rFt">0</b></div>
+            <div class="res-item"><span>Square Meter:</span> <b id="rMt">0</b></div>
+            <div class="res-item"><span>Total Acre:</span> <b id="rAc">0</b></div>
+            <div class="res-item"><span>Total Hectare:</span> <b id="rHc">0</b></div>
+            <div class="res-item"><span>Total Cents:</span> <b id="rCent">0</b></div>
+            <div class="res-item"><span>Total Grounds:</span> <b id="rGround">0</b></div>
+            <div class="res-item"><span>Square Yards:</span> <b id="rYd">0</b></div>
+            <div class="res-item"><span>Ankanam:</span> <b id="rAnk">0</b></div>
+        </div>
+        <div class="util-btns">
+            <button class="u-btn" onclick="copyData()" style="background:#455a64;">📋 Copy All</button>
+            <button class="u-btn" onclick="shareWA()" style="background:#2e7d32;">📲 WhatsApp</button>
+        </div>
+    </div>
+
+    <article class="seo-content">
+        <h2 id="seoH">Tamil Nadu Land Unit Converter: Ground, Cent & Acre Professional Guide</h2>
+        <p>Tamil Nadu mein zameen ki mapi (நில அளவீடு) ke liye sahi conversion tool hona bohot zaroori hai. Hamara **Tamil Nadu Land Unit Converter** ek advanced multi-unit tool hai jo TN ke users ko Ground, Cent aur Ankanam ko ek saath enter karne ki suvidha deta hai. Ye tool 2026 ke updated standards par kaam karta hai.</p>
+
+        <h3>Tamil Nadu Land Measurement Table (நில அளவீட்டு அட்டவணை)</h3>
+        <table>
+            <tr><th>Unit Name (பெயர்)</th><th>Relation (தொடர்பு)</th><th>Area in Sq. Ft.</th></tr>
+            <tr><td>1 Cent (சென்ட்)</td><td>Standard Agriculture Unit</td><td>435.6 Sq Ft</td></tr>
+            <tr><td>1 Ground (கிரவுண்ட்)</td><td>Urban Tamil Nadu Unit</td><td>2,400 Sq Ft</td></tr>
+            <tr><td>1 Ankanam (அங்கணம்)</td><td>Border & Regional Unit</td><td>72 Sq Ft</td></tr>
+            <tr><td>1 Acre (ஏக்கர்)</td><td>100 Cents / 18.15 Grounds</td><td>43,560 Sq Ft</td></tr>
+        </table>
+
+        <h3>How to use Tamil Nadu Unit Converter? (பயன்படுத்துவது எப்படி?)</h3>
+        <ol>
+            <li>Apne land documents (Patta/Chitta) ke hisab se Ground, Cent aur Ankanam boxes mein bhariye.</li>
+            <li>Agar aapke paas sirf ek hi unit hai, toh baaki boxes ko '0' ya khali chod dein.</li>
+            <li>"Convert Units Now" button par click karein.</li>
+            <li>Tool turant Square Feet, Acre aur Hectare ka sateek parinaam dikha dega.</li>
+        </ol>
+
+        <h2>5 Practical Examples of Tamil Nadu Land Conversion</h2>
+        <ul>
+            <li><b>Example 1: Urban Plot (Chennai):</b> 1 Ground enter karne par result 2,400 Sq Ft aur lagbhag 5.5 Cent dikhayega.</li>
+            <li><b>Example 2: Agriculture Cent:</b> 100 Cent zameen sateek 1 Acre ke barabar hoti hai.</li>
+            <li><b>Example 3: Mixed Units:</b> 2 Ground aur 10 Cent milkar total 9,156 Sq Ft bante hain.</li>
+            <li><b>Example 4: Ankanam Logic:</b> 100 Ankanam zameen pura 7,200 Sq Ft yaani ki 3 Ground ke barabar hoti hai.</li>
+            <li><b>Example 5: Hectare Record:</b> 1 Hectare mein lagbhag 247 Cent ya 44.8 Ground hote hain.</li>
+        </ul>
+
+        <h2>Frequently Asked Questions (FAQs)</h2>
+        <p><b>Q1. Tamil Nadu mein 1 Ground kitne Sq Ft ka hota hai?</b><br>Ans: Tamil Nadu mein standard 1 Ground 2,400 Square Feet ka hota hai.</p>
+        <p><b>Q2. 1 Cent mein kitne Square Feet hote hain?</b><br>Ans: 1 Cent mein sateek 435.6 Square Feet hote hain.</p>
+        <p><b>Q3. Ankanam unit ka kya matlab hai?</b><br>Ans: Ankanam mukhya roop se TN aur AP border ke ilakon mein use hota hai (1 Ankanam = 72 Sq Ft).</p>
+        <p><b>Q4. 1 Acre mein kitne Cent hote hain?</b><br>Ans: 1 Acre mein sateek 100 Cent hote hain.</p>
+        <p><b>Q5. Is tool ko kisne develop kiya?</b><br>Ans: Ise Shayan Smart Tools (Muksidul Islam) ne Tamil Nadu ke logo ke liye banaya hai.</p>
+
+        <h3 style="text-align:center; margin-top:50px;">Explore More Tools</h3>
+        <div class="links-grid">
+            <a href="tamilnadu-land-area-calculator.html" class="link-btn">🏡 TN Land Area Calc</a>
+            <a href="karnataka-land-unit-converter.html" class="link-btn">🔄 Karnataka Tool</a>
+            <a href="ap-land-unit-converter.html" class="link-btn">🏢 AP Unit Tool</a>
+            <a href="land-cost-calculator.html" class="link-btn">💰 Price Calc</a>
+        </div>
+
+        <div style="margin-top:60px; padding:30px; background:#fff5f5; border:2px solid #feb2b2; border-radius:15px; text-align:center;">
+            <h3 style="color:#c53030; margin-top:0;">© 2026 Shayan Smart Tools</h3>
+            <p style="font-size:12px; color:#999;">Copyright © 2026 Shayan Smart Tools. Managed by Muksidul Islam. Copying content is prohibited.</p>
+        </div>
+    </article>
+</div>
+
+<script>
+    let cL = 'en';
+    const dict = {
+        en: { mt:"Tamil Nadu Land Unit Converter", st:"Multi-Unit conversion for Ground, Cent, & Ankanam in TN.", bt:"Convert Units Now", lg:"Ground (கிரவுண்ட்)", lc:"Cent (சென்ட்)", la:"Ankanam (அங்கணம்)", rh:"Conversion Results" },
+        ta: { mt:"தமிழ்நாடு நில அலகு கன்வர்ட்டர்", st:"கிரவுண்ட், சென்ட் மற்றும் அங்கணம் ஆகியவற்றிற்கான மல்டி-யூனிட் கன்வர்ஷன்.", bt:"இப்போது மாற்றவும்", lg:"கிரவுண்ட்", lc:"சென்ட்", la:"அங்கணம்", rh:"மாற்றப்பட்ட முடிவுகள்" }
+    };
+
+    function setLang(l) {
+        cL = l;
+        document.getElementById('enBtn').classList.toggle('active', l==='en');
+        document.getElementById('taBtn').classList.toggle('active', l==='ta');
+        document.getElementById('mTitle').innerText = dict[l].mt;
+        document.getElementById('sTitle').innerText = dict[l].st;
+        document.getElementById('lGr').innerText = dict[l].lg;
+        document.getElementById('lCe').innerText = dict[l].lc;
+        document.getElementById('lAk').innerText = dict[l].la;
+        document.getElementById('btnText').innerText = dict[l].bt;
+        document.getElementById('resHead').innerText = dict[l].rh;
+        if(document.getElementById('resPanel').style.display === 'block') convertTNLand();
+    }
+
+    function convertTNLand() {
+        let gr = parseFloat(document.getElementById('gr').value)||0;
+        let ce = parseFloat(document.getElementById('ce').value)||0;
+        let ak = parseFloat(document.getElementById('ak').value)||0;
+
+        if(!gr && !ce && !ak) { alert("Please enter some value!"); return; }
+
+        // Logic: 1 Ground=2400, 1 Cent=435.6, 1 Ankanam=72
+        let totalSqft = (gr * 2400) + (ce * 435.6) + (ak * 72);
+        
+        document.getElementById('rFt').innerText = totalSqft.toLocaleString(undefined, {maximumFractionDigits: 2});
+        document.getElementById('rMt').innerText = (totalSqft / 10.7639).toFixed(2);
+        document.getElementById('rAc').innerText = (totalSqft / 43560).toFixed(4);
+        document.getElementById('rHc').innerText = (totalSqft / 107639).toFixed(4);
+        document.getElementById('rCent').innerText = (totalSqft / 435.6).toFixed(2);
+        document.getElementById('rGround').innerText = (totalSqft / 2400).toFixed(2);
+        document.getElementById('rYd').innerText = (totalSqft / 9).toFixed(2);
+        document.getElementById('rAnk').innerText = (totalSqft / 72).toFixed(2);
+
+        document.getElementById('resPanel').style.display = 'block';
+        document.getElementById('resPanel').scrollIntoView({behavior: 'smooth'});
+    }
+
+    function copyData() {
+        let res = `TN Land Conversion Results:\nSq Ft: ${document.getElementById('rFt').innerText}\nAcre: ${document.getElementById('rAc').innerText}\nTool by Shayan Smart Tools`;
+        navigator.clipboard.writeText(res);
+        alert("Results Copied!");
+    }
+
+    function shareWA() {
+        let t = encodeURIComponent(`TN Land Units Result:\nSq Ft: ${document.getElementById('rFt').innerText}\nHectare: ${document.getElementById('rHc').innerText}\nCheck at Shayan Smart Tools`);
+        window.open("https://wa.me/?text=" + t);
+    }
+</script>
+</body>
+</html>
