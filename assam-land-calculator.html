@@ -73,6 +73,13 @@
         /* Printable Premium Elements hidden on web UI view */
         .print-header-block, .print-footer-block { display: none; }
 
+        /* Standard Vector Logo Badge for Web View */
+        .sst-logo-badge {
+            display: inline-flex; align-items: center; justify-content: center;
+            width: 32px; height: 32px; background: #fff; border-radius: 8px;
+            color: var(--dark-green); font-weight: 900; font-size: 14px; border: 2px solid #81c784;
+        }
+
         .util-btns { display: flex; gap: 10px; margin-top: 25px; }
         .u-btn { flex: 1; padding: 15px; border-radius: 12px; border: none; font-weight: 800; cursor: pointer; transition: 0.3s; color: white; font-size: 14px; }
 
@@ -121,6 +128,14 @@
                 border-bottom: 2px solid var(--forest-green) !important;
                 padding-bottom: 12px;
                 margin-bottom: 20px;
+            }
+
+            /* Formal Printable Brand Logo Badge Setup */
+            .sst-logo-badge {
+                background: var(--forest-green) !important;
+                color: #ffffff !important;
+                border: 2px solid var(--dark-green) !important;
+                display: inline-flex !important;
             }
 
             .bkl-special {
@@ -191,8 +206,10 @@
 
     <div id="resPanel" class="res-panel">
         
+        <!-- Premium Header Area with Restored Branding Badge Seal -->
         <div class="print-header-block">
-            <div style="display: flex; justify-content: center; align-items: center; gap: 10px; margin-bottom: 5px;">
+            <div style="display: flex; justify-content: center; align-items: center; gap: 12px; margin-bottom: 8px;">
+                <div class="sst-logo-badge">SST</div>
                 <h2 style="font-size: 22px; color: #1b5e20; margin: 0; font-weight: 900; letter-spacing: 1px;">SHAYAN SMART TOOLS</h2>
             </div>
             <p style="font-size: 11px; color: #2e7d32; font-weight: bold; margin: 0 0 10px 0; letter-spacing: 0.5px; text-transform: uppercase;">ASSAM REVENUE LAND VALUATION SUMMARY - 2026</p>
@@ -269,7 +286,6 @@
         </ul>
 
         <h2 style="color: #2e7d32;">Land Measurement Units in Assam (Standard Table)</h2>
-        <p>Assam mein 1 Bigha ka size 14,400 Square Feet hota hai. Niche di gayi table aapko units ko samajhne mein madad karegi:</p>
         <table>
             <tr style="background-color: #2e7d32; color: white; text-align: left;">
                 <th style="padding: 15px; border: 1px solid #ddd;">Unit Name</th>
@@ -319,7 +335,6 @@
 </div>
 
 <script>
-    // Security Script Restored
     document.addEventListener('contextmenu', e => e.preventDefault());
     document.onkeydown = function(e) {
         if (e.ctrlKey && (e.keyCode === 67 || e.keyCode === 85 || e.keyCode === 73)) {
@@ -369,10 +384,9 @@
         let sqmt = sqft / 10.7639;
 
         const BIGHA_SQFT = 14400;
-        const KATHA_SQFT = 2880;  // Fixed according to standard Assam metrics (14400 / 5)
-        const LESSA_SQFT = 144;   // Fixed according to standard Assam metrics (2880 / 20)
+        const KATHA_SQFT = 2880;  
+        const LESSA_SQFT = 144;   
 
-        // Bigha - Katha - Lessa Breakdown logic
         let tempSqft = sqft;
         const bighas = Math.floor(tempSqft / BIGHA_SQFT);
         tempSqft %= BIGHA_SQFT;
@@ -382,14 +396,12 @@
 
         const lessas = (tempSqft / LESSA_SQFT).toFixed(2);
 
-        // Update Text String based on Active Language
         if (cL === 'en') {
             document.getElementById('bklText').innerText = `${bighas} Bigha, ${kathas} Katha, ${lessas} Lessa`;
         } else {
             document.getElementById('bklText').innerText = `${bighas} বিঘা, ${kathas} কথা, ${lessas} লেচা`;
         }
 
-        // Fill Results List
         document.getElementById('resSqft').innerText = sqft.toLocaleString(undefined, {maximumFractionDigits: 2}) + " sq.ft";
         document.getElementById('resSqmt').innerText = sqmt.toLocaleString(undefined, {maximumFractionDigits: 2}) + " sq.m";
         document.getElementById('resBigha').innerText = (sqft / BIGHA_SQFT).toFixed(4);
@@ -398,7 +410,6 @@
         document.getElementById('resAcre').innerText = (sqft / 43560).toFixed(4);
         document.getElementById('resHectare').innerText = (sqft / 107639).toFixed(4);
 
-        // Real-Time Documentation Track Feed Config
         let options = { timeZone: 'Asia/Kolkata', day: 'numeric', month: 'long', year: 'numeric' };
         let today = new Date().toLocaleDateString('en-IN', options);
         document.getElementById('pDocDate').innerText = today + " (INDIA STANDARD TIME)";
