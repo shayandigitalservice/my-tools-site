@@ -62,8 +62,8 @@
         .link-btn { background: #fff; padding: 15px; border-radius: 15px; text-decoration: none; color: var(--ap-blue); font-weight: 700; text-align: center; border: 2px solid #e2e8f0; transition: 0.3s; }
         .link-btn:hover { border-color: var(--ap-orange); transform: translateY(-3px); }
 
-        /* Hidden PDF Template Container styling */
-        #pdf-hidden-container { display: none; }
+        /* FIX: Element ko hidden rakhne ka sateek tarika bina display:none lagaye */
+        .pdf-offscreen { position: absolute; left: -9999px; top: 0; width: 750px; }
 
         @media (max-width: 600px) { .res-grid { grid-template-columns: 1fr; } }
     </style>
@@ -107,8 +107,8 @@
         </div>
     </div>
 
-    <div id="pdf-hidden-container">
-        <div id="pdf-report-template" style="padding: 30px; background: #ffffff; font-family: Arial, sans-serif; border: 1px solid #eaecf0; max-width: 800px; margin: 0 auto; color: #101828;">
+    <div id="pdf-container-div" class="pdf-offscreen">
+        <div id="pdf-report-template" style="padding: 30px; background: #ffffff; font-family: Arial, sans-serif; border: 1px solid #eaecf0; width: 100%; color: #101828;">
             
             <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 3px solid #003399; padding-bottom: 15px; margin-bottom: 20px;">
                 <div>
@@ -161,7 +161,7 @@
 
     <article class="seo-content">
         <h2 id="seoH">Andhra Pradesh Land Unit Converter: Ankanam, Gajam & Cent Professional Guide</h2>
-        <p>Andhra Pradesh (AP) mein zameen ki mapi (భూమి కొలతలు) ke liye sahi conversion tool hona bohot zaroori hai. Hamara **Andhra Pradesh Land Unit Converter** ek advanced multi-unit tool hai jo AP ke users ko Ankanam, Gajam aur Cent ko ek saath enter karne ki suvidha deta hai. Ye tool 2026 ke updated Meebhoomi standards par kaam karta.</p>
+        <p>Andhra Pradesh (AP) mein zameen ki mapi (భూమి కొలతలు) ke liye sahi conversion tool hona bohot zaroori hai. Hamara **Andhra Pradesh Land Unit Converter** ek advanced multi-unit tool hai jo AP ke users ko Ankanam, Gajam aur Cent ko ek saath enter karne ki suvidha deta hai. Ye tool 2026 ke updated Meebhoomi standards par kaam karta hai.</p>
 
         <h3>Andhra Pradesh Land Measurement Table (ఆంధ్రప్రదేశ్ భూమి కొలతలు)</h3>
         <table>
@@ -239,7 +239,6 @@
 
         if(!an && !ga && !ce) { alert("Please enter some value!"); return; }
 
-        // Logic: 1 Ankanam=72, 1 Gajam=9, 1 Cent=435.6
         let totalSqft = (an * 72) + (ga * 9) + (ce * 435.6);
         
         document.getElementById('rFt').innerText = totalSqft.toLocaleString(undefined, {maximumFractionDigits: 2});
@@ -256,41 +255,35 @@
     }
 
     function generateLandPDF() {
-        // Validation check taaki khali data download na ho
         let an = parseFloat(document.getElementById('an').value)||0;
         let ga = parseFloat(document.getElementById('ga').value)||0;
         let ce = parseFloat(document.getElementById('ce').value)||0;
         if(!an && !ga && !ce) { alert("Please calculate first before downloading PDF!"); return; }
 
-        // 1. Current Date
         const today = new Date();
         document.getElementById('pdf-date').innerText = today.toLocaleDateString('en-IN');
 
-        // 2. Fetching elements mapping correctly with real output IDs
         document.getElementById('pdf-input-val').innerText = `${an} Ankanam | ${ga} Gajam | ${ce} Cent`;
         document.getElementById('pdf-sqft-val').innerText = document.getElementById('rFt').innerText + " Sq.Ft";
         document.getElementById('pdf-acre-val').innerText = document.getElementById('rAc').innerText + " Acre";
         document.getElementById('pdf-hectare-val').innerText = document.getElementById('rHc').innerText + " Hectare";
 
-        // 3. Setup container execution
         const element = document.getElementById('pdf-report-template');
-        const container = document.getElementById('pdf-hidden-container');
-        
-        // Force display temporarily so html2pdf can target cleanly
-        container.style.display = "block";
         const filename = 'AP_Land_Report_' + today.getDate() + '_' + (today.getMonth()+1) + '.pdf';
         
+        // FIX: High-quality canvas and rendering options
         const opt = {
             margin:       15,
             filename:     filename,
             image:        { type: 'jpeg', quality: 0.98 },
-            html2canvas:  { scale: 2, useCORS: true }, 
+            html2canvas:  { scale: 2, useCORS: true, logging: false, letterRendering: true }, 
             jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' } 
         };
 
-        // 4. Generate and hide back container safely
-        html2pdf().set(opt).from(element).save().then(() => {
-            container.style.display = "none";
+        // Run html2pdf completely fine
+        html2pdf().set(opt).from(element).save().catch(err => {
+            console.error("PDF Generation Error: ", err);
+            alert("Something went wrong while creating PDF. Please try again.");
         });
     }
 
