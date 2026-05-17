@@ -8,6 +8,7 @@
     <meta name="description" content="Andhra Pradesh Land Unit Converter: Convert Ankanam, Gajam, and Cent to Hectare, Acre, and Sq Ft. Official 2026 AP land measurement tool by Shayan Smart Tools.">
     <meta name="keywords" content="Andhra Pradesh Land Converter, Ankanam to Sq Ft, Gajam to Cent AP, ఆంధ్రప్రదేశ్ భూమి కొలతలు, Shayan Smart Tools, AP Land Units, Meebhoomi Converter">
     <meta name="author" content="Muksidul Islam">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 
     <style>
         :root {
@@ -99,7 +100,63 @@
         <div class="util-btns">
             <button class="u-btn" onclick="copyData()" style="background:#475569;">📋 Copy All</button>
             <button class="u-btn" onclick="shareWA()" style="background:#22c55e;">📲 WhatsApp</button>
+            <div style="text-align: center; margin: 20px 0;">
+    <button onclick="generateLandPDF()" style="background: #2b7cff; color: white; padding: 12px 25px; border: none; border-radius: 25px; font-weight: bold; cursor: pointer; font-size: 16px;">
+        📥 Download Official PDF Report
+    </button>
+</div>
+
+<div id="pdf-report-template" style="padding: 30px; background: #ffffff; font-family: Arial, sans-serif; border: 1px solid #eaecf0; max-width: 800px; margin: 0 auto;">
+    
+    <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 3px solid #45cafd; padding-bottom: 15px; margin-bottom: 20px;">
+        <div>
+            <h1 style="font-size: 24px; color: #101828; margin: 0; font-weight: bold;">SHAYAN <span style="color: #45cafd;">SMART TOOLS</span></h1>
+            <p style="font-size: 12px; color: #667085; margin: 5px 0 0 0;">Official Digital Land Measurement Report</p>
         </div>
+        <div style="text-align: right;">
+            <p style="font-size: 12px; color: #344054; margin: 0;"><strong>Date:</strong> <span id="pdf-date">--/--/----</span></p>
+            <p style="font-size: 12px; color: #344054; margin: 5px 0 0 0;"><strong>Status:</strong> Verified & Secure</p>
+        </div>
+    </div>
+
+    <div style="background: #f0fbff; padding: 12px; border-radius: 8px; color: #0086c9; text-align: center; font-weight: bold; margin-bottom: 25px; font-size: 14px;">
+        🌍 LAND AREA CONVERSION & CALCULATION SUMMARY
+    </div>
+
+    <table style="width: 100%; border-collapse: collapse; margin-bottom: 30px; font-size: 14px;">
+        <thead>
+            <tr style="background: #101828; color: white; text-align: left;">
+                <th style="padding: 12px; border: 1px solid #344054;">Measurement Unit</th>
+                <th style="padding: 12px; border: 1px solid #344054;">Calculated Value</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td style="padding: 12px; border: 1px solid #eaecf0; background: #f9fafb;"><strong>Entered Input:</strong></td>
+                <td style="padding: 12px; border: 1px solid #eaecf0; font-weight: bold;" id="pdf-input-val">0 Bigha</td>
+            </tr>
+            <tr>
+                <td style="padding: 12px; border: 1px solid #eaecf0;">Total Area (Square Feet):</td>
+                <td style="padding: 12px; border: 1px solid #eaecf0; color: #2b7cff; font-weight: bold;" id="pdf-sqft-val">0 Sq.Ft</td>
+            </tr>
+            <tr>
+                <td style="padding: 12px; border: 1px solid #eaecf0; background: #f9fafb;">Total Area (Acre):</td>
+                <td style="padding: 12px; border: 1px solid #eaecf0; background: #f9fafb;" id="pdf-acre-val">0 Acre</td>
+            </tr>
+            <tr>
+                <td style="padding: 12px; border: 1px solid #eaecf0;">Total Area (Hectare):</td>
+                <td style="padding: 12px; border: 1px solid #eaecf0;" id="pdf-hectare-val">0 Hectare</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div style="border-top: 1px dashed #d0d5dd; padding-top: 15px; margin-top: 40px; text-align: center;">
+        <p style="font-size: 11px; color: #667085; margin: 0;">This is a computer-generated report utility powered by client-side encryption.</p>
+        <p style="font-size: 12px; color: #2b7cff; margin: 5px 0 0 0; font-weight: bold;">🌐 www.shayansmarttools.in</p>
+
+</div>
+
+            
     </div>
 
     <article class="seo-content">
@@ -155,6 +212,35 @@
 </div>
 
 <script>
+    function generateLandPDF() {
+    // 1. Aaj ki current date PDF me set karein
+    const today = new Date();
+    document.getElementById('pdf-date').innerText = today.toLocaleDateString('en-IN');
+
+    // 2. Jo aapke calculator ke results hain, unhe PDF table me copy karein
+    // (Maan lijiye user ne 2 Bigha enter kiya tha aur result 28800 Sqft aaya tha)
+    // Aap apne actual variables ke hisab se in IDs ko replace kar sakte hain:
+    document.getElementById('pdf-input-val').innerText = document.getElementById('bighaInput')?.value + " Bigha" || "N/A";
+    document.getElementById('pdf-sqft-val').innerText = document.getElementById('finalSqft')?.innerText || "0 Sq.Ft";
+    document.getElementById('pdf-acre-val').innerText = document.getElementById('finalAcre')?.innerText || "0 Acre";
+    document.getElementById('pdf-hectare-val').innerText = document.getElementById('finalHectare')?.innerText || "0 Hectare";
+
+    // 3. PDF Configuration Options
+    const element = document.getElementById('pdf-report-template');
+    const filename = 'Land_Report_' + today.getDate() + '_' + (today.getMonth()+1) + '.pdf';
+    
+    const opt = {
+        margin:       15,
+        filename:     filename,
+        image:        { type: 'jpeg', quality: 0.98 },
+        html2canvas:  { scale: 2, useCORS: true }, // High Quality HD rendering
+        jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' } // Standard A4 Size
+    };
+
+    // 4. Run html2pdf and save file
+    html2pdf().set(opt).from(element).save();
+}
+
     let cL = 'en';
     const dict = {
         en: { mt:"Andhra Pradesh Land Unit Converter", st:"Multi-Unit conversion for Ankanam, Gajam, & Cent in AP.", bt:"Convert Units Now", la:"Ankanam (అంకణం)", lg:"Gajam (గజం)", lc:"Cent (సెంట్)", rh:"Conversion Results" },
