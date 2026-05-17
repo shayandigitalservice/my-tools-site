@@ -53,7 +53,7 @@
         .btn-convert { background-color: var(--assam-green); color: white; padding: 18px 45px; border: none; border-radius: 15px; font-size: 18px; font-weight: 800; cursor: pointer; transition: 0.3s; width: 100%; max-width: 350px; text-transform: uppercase; }
         .btn-convert:hover { transform: translateY(-3px); box-shadow: 0 10px 20px rgba(46,125,50,0.2); }
 
-        /* RESULTS UI - Vertical Card Panel */
+        /* RESULTS UI - Clean Vertical Layout */
         .res-panel { background: #0f172a; color: white; padding: 25px; border-radius: 25px; margin-top: 30px; display: none; border: 2px solid var(--assam-green); position: relative; text-align: left; }
         .res-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; }
         .res-item { background: rgba(255,255,255,0.05); padding: 15px; border-radius: 12px; display: flex; flex-direction: column; align-items: flex-start; gap: 5px; border-left: 4px solid var(--assam-green); }
@@ -105,7 +105,7 @@
             .print-header-block {
                 display: block !important;
                 text-align: center;
-                border-bottom: 2px solid var(--forest-green) !important;
+                border-bottom: 2px solid var(--assam-green) !important;
                 padding-bottom: 12px;
                 margin-bottom: 20px;
             }
@@ -158,7 +158,6 @@
 
         <div id="resPanel" class="res-panel">
             
-            <!-- Verified Header Block with Logo asset validation -->
             <div class="print-header-block">
                 <div style="display: flex; justify-content: center; align-items: center; gap: 10px; margin-bottom: 5px;">
                     <img src="favicon.png" alt="SST" style="width: 30px; height: 30px;">
@@ -330,7 +329,6 @@
     </article>
 
     <script>
-        // Security protections script integrated
         document.addEventListener('contextmenu', e => e.preventDefault());
         document.onkeydown = function(e) {
             if (e.ctrlKey && (e.keyCode === 67 || e.keyCode === 85 || e.keyCode === 73)) {
@@ -366,7 +364,6 @@
                 return;
             }
 
-            // Assam Revenue division configurations: 1 Bigha = 14400 Sq Ft
             let sqft = bigha * 14400;
             let sqm = sqft / 10.7639;
             let katha = bigha * 5;
@@ -376,13 +373,11 @@
 
             document.getElementById('resSqft').innerText = sqft.toLocaleString(undefined, {maximumFractionDigits: 2}) + " sq ft";
             document.getElementById('resSqm').innerText = sqm.toLocaleString(undefined, {maximumFractionDigits: 2}) + " sq m";
-            document.getElementById('resKatha').innerText = katha.toFixed(2);
-            document.getElementById('resLessa').innerText = lessasString(bighasCount = bigha); 
-            document.getElementById('resLessa').innerText = lessa.toFixed(2);
+            document.getElementById('resKatha').innerText = katha.toLocaleString(undefined, {maximumFractionDigits: 2});
+            document.getElementById('resLessa').innerText = lessa.toLocaleString(undefined, {maximumFractionDigits: 2});
             document.getElementById('resAcre').innerText = acre.toFixed(4);
             document.getElementById('resHectare').innerText = hectare.toFixed(4);
 
-            // Print Header System Info Sync
             let options = { timeZone: 'Asia/Kolkata', day: 'numeric', month: 'long', year: 'numeric' };
             let today = new Date().toLocaleDateString('en-IN', options);
             document.getElementById('pDocDate').innerText = today + " (INDIA STANDARD TIME)";
