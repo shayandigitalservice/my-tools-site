@@ -6,7 +6,7 @@
     <title>Assam Land Area Calculator | Bigha, Katha, Lessa Converter 2026</title>
     <meta name="description" content="Calculate land area in Assam using Length & Width. Accurate Bigha, Katha, and Lessa converter by Shayan Smart Tools. Best tool for Assam land measurement.">
     <meta name="keywords" content="Assam land calculator, bigha to katha assam, lessa to bigha, land measurement assam, Shayan Smart Tools">
-    <meta name="author" content="Muksidul Islam">
+    <meta name="author" content="Shayan Smart Tools">
     <meta name="robots" content="index, follow">
 
     <meta property="og:title" content="Assam Land Area Calculator | Shayan Smart Tools">
@@ -25,7 +25,7 @@
       "operatingSystem": "All",
       "author": {
         "@type": "Person",
-        "name": "Muksidul Islam"
+        "name": "Shayan Smart Tools"
       }
     }
     </script>
@@ -58,12 +58,36 @@
             box-shadow: 0 4px 15px rgba(46, 125, 50, 0.1);
         }
 
+        .lang-switch { 
+            display: flex; 
+            justify-content: center; 
+            gap: 12px; 
+            margin-bottom: 25px; 
+        }
+        
+        .l-btn { 
+            padding: 10px 25px; 
+            border-radius: 50px; 
+            border: 2px solid var(--as-green); 
+            background: white; 
+            cursor: pointer; 
+            font-weight: 700; 
+            transition: all 0.3s ease; 
+            color: var(--as-green); 
+            font-size: 14px;
+        }
+        
+        .l-btn.active { 
+            background: var(--as-green); 
+            color: white; 
+            box-shadow: 0 4px 10px rgba(46, 125, 50, 0.2);
+        }
+
         .input-section {
             display: flex;
             gap: 15px;
             flex-wrap: wrap;
             margin-bottom: 20px;
-            margin-top: 20px;
         }
 
         .field {
@@ -121,7 +145,7 @@
 
         .btn-convert:active { background: var(--as-dark-green); }
 
-        /* RESULTS UI - Clean Modern Dark Panel */
+        /* RESULTS UI */
         .res-panel {
             background: #0f172a;
             color: white;
@@ -235,7 +259,7 @@
                 box-shadow: none !important;
             }
 
-            .input-section, .btn-convert, .util-btns, h2, br, div[style*="text-align: center"], .seo-content { 
+            .lang-switch, .input-section, .btn-convert, .util-btns, h2, br, div[style*="text-align: center"], .seo-content { 
                 display: none !important; 
             }
             
@@ -292,19 +316,24 @@
 <body>
 
 <div class="measurement-tool">
-    <h2 style="text-align:center; color: var(--as-dark-green); margin-top: 0;">Land Measurement Calculator (Assam)</h2>
+    <h2 style="text-align:center; color: var(--as-dark-green); margin-top: 0;" id="mTitle">Land Measurement Calculator (Assam)</h2>
     
+    <div class="lang-switch">
+        <button class="l-btn active" id="enBtn" onclick="setLang('en')">English</button>
+        <button class="l-btn" id="asBtn" onclick="setLang('as')">অসমীয়া</button>
+    </div>
+
     <div class="input-section">
         <div class="field">
-            <label>Length (Lambai)</label>
+            <label id="lLen">Length (Lambai)</label>
             <input type="number" id="length" placeholder="Enter length" min="0" step="any">
         </div>
         <div class="field">
-            <label>Width (Chaudai)</label>
+            <label id="lWid">Width (Chaudai)</label>
             <input type="number" id="width" placeholder="Enter width" min="0" step="any">
         </div>
         <div class="field">
-            <label>Unit</label>
+            <label id="lUni">Unit</label>
             <select id="unitType">
                 <option value="ft">Feet (ft)</option>
                 <option value="mt">Meter (m)</option>
@@ -312,35 +341,42 @@
         </div>
     </div>
 
-    <button class="btn-convert" onclick="calculateLand()">CONVERT NOW</button>
+    <button class="btn-convert" onclick="calculateLand()" id="btnText">CONVERT NOW</button>
 
-    <!-- PREMIUM INTEGRATED RESULTS AREA -->
+    <!-- INTEGRATED RESULTS PANEL -->
     <div id="resultArea" class="res-panel" style="display:none;">
         
-        <!-- Print Header Dynamic Setup -->
+        <!-- Print Header Setup with Logo and Business Name -->
         <div class="print-header-block">
-            <h2 style="font-size: 24px; color: #1b5e20; margin: 0; font-weight: 900; letter-spacing: 0.5px;">SHAYAN SMART TOOLS</h2>
+            <div style="display: flex; justify-content: center; align-items: center; gap: 10px; margin-bottom: 5px;">
+                <img src="favicon.png" alt="SST" style="width: 30px; height: 30px;" onerror="this.style.display='none'">
+                <h2 style="font-size: 24px; color: #1b5e20; margin: 0; font-weight: 900; letter-spacing: 0.5px;">SHAYAN SMART TOOLS</h2>
+            </div>
             <p style="font-size: 11px; color: #ff6600; font-weight: bold; margin: 5px 0 12px 0; letter-spacing: 0.5px; text-transform: uppercase;">ASSAM LAND REGION METRICS WORKSHEET - 2026</p>
             
             <div style="background: #f8fafc; border: 1px solid #cbd5e1; padding: 10px; border-radius: 4px; display: grid; grid-template-columns: 1fr 1fr; font-size: 11px; text-align: left; gap: 5px; color: #334155;">
                 <div><strong>DOCUMENT REF:</strong> <span id="pDocRef" style="color:#1b5e20; font-weight:bold;">SST-AS-0000</span></div>
                 <div style="text-align: right;"><strong>DATE:</strong> <span id="pDocDate">--/--/----</span></div>
                 <div><strong>JURISDICTION:</strong> State of Assam (অসম)</div>
-                <div style="text-align: right;"><strong>STATUS:</strong> Digitally Secured Summary Sheet</div>
+                <div style="text-align: right;"><strong>DEVELOPER:</strong> Shayan Smart Tools</div>
             </div>
         </div>
 
         <div class="bkl-special">
-            <span style="display:block; font-size: 13px; color: #94a3b8; font-weight: bold; text-transform: uppercase; margin-bottom: 5px;">Assam Standard Format:</span>
+            <span style="display:block; font-size: 13px; color: #94a3b8; font-weight: bold; text-transform: uppercase; margin-bottom: 5px;" id="rSFormat">Assam Standard Format:</span>
             <strong id="bklText" style="font-size: 24px; color: #68d391;">0 Bigha, 0 Katha, 0 Lessa</strong>
         </div>
 
+        <!-- All 7 Required Land Metrics Grid View -->
         <div class="res-grid">
             <div class="res-item" id="print-input-row" style="display:none;"><span>Initial Dimensions Fed:</span> <strong id="rInputVal" style="color: var(--as-orange);">0</strong></div>
-            <div class="res-item"><span>Total Square Feet:</span> <strong id="resSqft">0</strong></div>
-            <div class="res-item"><span>Total Bigha Value:</span> <strong id="resBigha">0</strong></div>
-            <div class="res-item"><span>Total Acre Value:</span> <strong id="resAcre">0</strong></div>
-            <div class="res-item"><span>Total Hectare Value:</span> <strong id="resHectare">0</strong></div>
+            <div class="res-item"><span id="rFt">Total Square Feet:</span> <strong id="resSqft">0</strong></div>
+            <div class="res-item"><span id="rMt">Total Square Meter:</span> <strong id="resSqmt">0</strong></div>
+            <div class="res-item"><span id="rHc">Total Hectare Value:</span> <strong id="resHectare">0</strong></div>
+            <div class="res-item"><span id="rAc">Total Acre Value:</span> <strong id="resAcre">0</strong></div>
+            <div class="res-item"><span id="rBg">Total Bigha Value:</span> <strong id="resBigha">0</strong></div>
+            <div class="res-item"><span id="rKt">Total Katha Value:</span> <strong id="resKatha">0</strong></div>
+            <div class="res-item"><span id="rLs">Total Lessa Value:</span> <strong id="resLessa">0</strong></div>
         </div>
 
         <!-- Print Footer Block Setup -->
@@ -349,7 +385,7 @@
                 <p style="margin: 0; font-weight: bold; color: #1b5e20; text-transform: uppercase; font-size: 12px;">🔒 VALIDATION METRICS AND DISCLAIMER NOTICE</p>
                 <p style="margin: 5px 0 0 0;">This sheet is an auto-compiled computation generated via Indian Standard Conversion Logics. For legal registration processes, verify parameters directly via the Revenue Dharitree Portal of Assam.</p>
                 <div style="display: inline-block; border: 1px dashed #1b5e20; padding: 6px 20px; border-radius: 4px; margin-top: 12px; background: #f1f8e9; font-weight: bold; color: #1b5e20; text-transform: uppercase;">
-                    SHAYAN SMART TOOLS - OFFICIAL ASSAM CALCULATOR
+                    SHAYAN SMART TOOLS [SST SEAL] - OFFICIAL UNIT PLATFORM
                 </div>
                 <p style="margin: 8px 0 0 0; font-weight: bold; color: #ff6600;">🌐 ACCESS LINK: www.shayansmarttools.in</p>
             </div>
@@ -357,9 +393,9 @@
 
         <!-- Featured Actions Layout Row -->
         <div class="util-btns">
-            <button class="u-btn" onclick="copyData()" style="background:#475569;">📋 Copy Results</button>
-            <button class="u-btn" onclick="shareWA()" style="background:#22c55e;">📲 WhatsApp</button>
-            <button class="u-btn" onclick="printLandReport()" style="background:#2b7cff;">🖨️ Print Report</button>
+            <button class="u-btn" onclick="copyData()" style="background:#475569;" id="bCopy">📋 Copy Results</button>
+            <button class="u-btn" onclick="shareWA()" style="background:#22c55e;" id="bWhat">📲 WhatsApp</button>
+            <button class="u-btn" onclick="printLandReport()" style="background:#2b7cff;" id="bPrin">🖨️ Print Report</button>
         </div>
 
     </div>
@@ -391,7 +427,6 @@
     </ul>
 
     <h2 style="color: #2e7d32;">Land Measurement Units in Assam (Standard Table)</h2>
-    <p>Assam mein 1 Bigha ka size 14,400 Square Feet hota hai. Niche di gayi table aapko units ko samajhne mein madad karegi:</p>
     <table style="width: 100%; border-collapse: collapse; margin: 20px 0; box-shadow: 0 2px 5px rgba(0,0,0,0.1);">
         <thead>
             <tr style="background-color: #2e7d32; color: white; text-align: left;">
@@ -461,6 +496,49 @@
         }
     };
 
+    let cL = 'en';
+    const dict = {
+        en: {
+            mt: "Land Measurement Calculator (Assam)", btn: "CONVERT NOW", lla: "Length (Lambai)", lwi: "Width (Chaudai)", lun: "Unit",
+            sf: "Assam Standard Format:", rft: "Total Square Feet:", rmt: "Total Square Meter:", rhc: "Total Hectare Value:",
+            rac: "Total Acre Value:", rbg: "Total Bigha Value:", rkt: "Total Katha Value:", rls: "Total Lessa Value:",
+            bco: "📋 Copy Results", bwh: "📲 WhatsApp", bpr: "🖨️ Print Report"
+        },
+        as: {
+            mt: "ভূমি জোখ-মাখ কেলকুলেটৰ (অসম)", btn: "এতিয়াই ৰূপান্তৰ কৰক", lla: "দীঘ (Lambai)", lwi: "প্ৰস্থ (Chaudai)", lun: "একক (Unit)",
+            sf: "অসম মানদণ্ড ফৰ্মেট:", rft: "মুঠ বৰ্গ ফুট (Sq.Ft):", rmt: "মুঠ বৰ্গ মিটাৰ (Sq.Mt):", rhc: "মুঠ হেক্টৰ মান:",
+            rac: "মুঠ একৰ মান:", rbg: "মুঠ বিঘা মান:", rkt: "মুঠ কঠা মান:", rls: "মুঠ লেচা মান:",
+            bco: "📋 ফলাফল কপি কৰক", bwh: "📲 হোৱাটছএপ", bpr: "🖨️ ৰিপৰ্ট প্ৰিন্ট কৰক"
+        }
+    };
+
+    function setLang(l) {
+        cL = l;
+        document.getElementById('enBtn').classList.toggle('active', l==='en');
+        document.getElementById('asBtn').classList.toggle('active', l==='as');
+        
+        document.getElementById('mTitle').innerText = dict[l].mt;
+        document.getElementById('btnText').innerText = dict[l].btn;
+        document.getElementById('lLen').innerText = dict[l].lla;
+        document.getElementById('lWid').innerText = dict[l].lwi;
+        document.getElementById('lUni').innerText = dict[l].lun;
+        
+        document.getElementById('rSFormat').innerText = dict[l].sf;
+        document.getElementById('rFt').innerText = dict[l].rft;
+        document.getElementById('rMt').innerText = dict[l].rmt;
+        document.getElementById('rHc').innerText = dict[l].rhc;
+        document.getElementById('rAc').innerText = dict[l].rac;
+        document.getElementById('rBg').innerText = dict[l].rbg;
+        document.getElementById('rKt').innerText = dict[l].rkt;
+        document.getElementById('rLs').innerText = dict[l].rls;
+        
+        document.getElementById('bCopy').innerText = dict[l].bco;
+        document.getElementById('bWhat').innerText = dict[l].bwh;
+        document.getElementById('bPrin').innerText = dict[l].bpr;
+
+        if(document.getElementById('resultArea').style.display === 'block') calculateLand();
+    }
+
     function calculateLand() {
         const length = parseFloat(document.getElementById('length').value);
         const width = parseFloat(document.getElementById('width').value);
@@ -478,17 +556,19 @@
         }
 
         let sqft = 0;
+        let sqmt = 0;
         if (unit === "ft") {
             sqft = length * width;
+            sqmt = sqft / 10.7639;
         } else {
-            sqft = (length * width) * 10.7639;
+            sqmt = length * width;
+            sqft = sqmt * 10.7639;
         }
 
         const BIGHA_SQFT = 14400;
-        const KATHA_SQFT = 2880;  // Fixed according to Assam Standard Table (2880 Sq Ft)
-        const LESSA_SQFT = 144;   // Fixed according to Assam Standard Table (144 Sq Ft)
+        const KATHA_SQFT = 2880;  
+        const LESSA_SQFT = 144;   
 
-        // Bigha - Katha - Lessa Breakdown Logic
         let tempSqft = sqft;
         const bighas = Math.floor(tempSqft / BIGHA_SQFT);
         tempSqft %= BIGHA_SQFT;
@@ -499,13 +579,21 @@
         const lessas = (tempSqft / LESSA_SQFT).toFixed(2);
 
         // Core Values Injection
-        document.getElementById('bklText').innerText = `${bighas} Bigha, ${kathas} Katha, ${lessas} Lessa`;
+        if (cL === 'en') {
+            document.getElementById('bklText').innerText = `${bighas} Bigha, ${kathas} Katha, ${lessas} Lessa`;
+        } else {
+            document.getElementById('bklText').innerText = `${bighas} বিঘা, ${kathas} কঠা, ${lessas} লেচা`;
+        }
+        
         document.getElementById('resSqft').innerText = sqft.toLocaleString(undefined, {maximumFractionDigits: 2}) + " sq.ft";
+        document.getElementById('resSqmt').innerText = sqmt.toLocaleString(undefined, {maximumFractionDigits: 2}) + " sq.m";
         document.getElementById('resBigha').innerText = (sqft / BIGHA_SQFT).toFixed(4);
+        document.getElementById('resKatha').innerText = (sqft / KATHA_SQFT).toFixed(4);
+        document.getElementById('resLessa').innerText = (sqft / LESSA_SQFT).toFixed(4);
         document.getElementById('resAcre').innerText = (sqft / 43560).toFixed(4);
         document.getElementById('resHectare').innerText = (sqft / 107639).toFixed(4);
 
-        // Print Sheet Information Preparation
+        // Print Sheet Metrics setup
         let options = { timeZone: 'Asia/Kolkata', day: 'numeric', month: 'long', year: 'numeric' };
         let today = new Date().toLocaleDateString('en-IN', options);
         document.getElementById('pDocDate').innerText = today + " (IST)";
@@ -514,7 +602,7 @@
         let randID = Math.floor(1000000000 + Math.random() * 9000000000);
         document.getElementById('pDocRef').innerText = `SST-AS-${randID}`;
 
-        // View Interface Reveal
+        // Interface Reveal
         resultArea.style.display = "block";
         resultArea.scrollIntoView({behavior: 'smooth'});
     }
@@ -536,14 +624,17 @@
                           `---------------------------------\n` +
                           `Assam Format: ${document.getElementById('bklText').innerText}\n` +
                           `Square Feet: ${document.getElementById('resSqft').innerText}\n` +
+                          `Square Meter: ${document.getElementById('resSqmt').innerText}\n` +
                           `Total Bigha: ${document.getElementById('resBigha').innerText}\n` +
+                          `Total Katha: ${document.getElementById('resKatha').innerText}\n` +
+                          `Total Lessa: ${document.getElementById('resLessa').innerText}\n` +
                           `Total Acre: ${document.getElementById('resAcre').innerText}\n` +
                           `Calculated via Shayan Smart Tools`;
         
         navigator.clipboard.writeText(textSummary).then(() => {
             alert("Results summary text copied to clipboard successfully!");
         }).catch(() => {
-            alert("Execution failed while attempting to copy data structures.");
+            alert("Execution failed while attempting to copy data.");
         });
     }
 
@@ -552,6 +643,7 @@
             `Assam Land Area Conversion Report:\n` +
             `🔹 Format: ${document.getElementById('bklText').innerText}\n` +
             `🔹 Sq Ft: ${document.getElementById('resSqft').innerText}\n` +
+            `🔹 Bigha: ${document.getElementById('resBigha').innerText}\n` +
             `🔹 Acre: ${document.getElementById('resAcre').innerText}\n\n` +
             `Processed instantly via Shayan Smart Tools`
         );
