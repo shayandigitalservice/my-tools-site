@@ -8,6 +8,7 @@
     <meta name="description" content="Andhra Pradesh Land Unit Converter: Convert Ankanam, Gajam, and Cent to Hectare, Acre, and Sq Ft. Official 2026 AP land measurement tool by Shayan Smart Tools.">
     <meta name="keywords" content="Andhra Pradesh Land Converter, Ankanam to Sq Ft, Gajam to Cent AP, ఆంధ్రప్రదేశ్ భూమి కొలతలు, Shayan Smart Tools, AP Land Units, Meebhoomi Converter">
     <meta name="author" content="Muksidul Islam">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 
     <style>
         :root {
@@ -47,7 +48,7 @@
         .res-item span { font-size: 13px; color: #94a3b8; }
         .res-item b { font-size: 18px; color: var(--ap-orange); }
 
-        .util-btns { display: flex; gap: 10px; margin-top: 25px; }
+        .util-btns { display: flex; gap: 10px; margin-top: 25px; margin-bottom: 25px; }
         .u-btn { flex: 1; padding: 15px; border-radius: 12px; border: none; font-weight: 800; cursor: pointer; transition: 0.3s; color: white; }
 
         /* SEO CONTENT SECTION */
@@ -61,63 +62,14 @@
         .link-btn { background: #fff; padding: 15px; border-radius: 15px; text-decoration: none; color: var(--ap-blue); font-weight: 700; text-align: center; border: 2px solid #e2e8f0; transition: 0.3s; }
         .link-btn:hover { border-color: var(--ap-orange); transform: translateY(-3px); }
 
-        /* FIX: display:none ke bajaye height aur opacity 0 kiya taaki browser render kar sake */
-        .print-section-only { 
-            height: 0; 
-            overflow: hidden; 
-            opacity: 0; 
-            position: absolute; 
-            z-index: -999;
-        }
-
-        /* 🔥 AIRTIGHT FORCE PRINT CONFIGURATION */
-        @media print {
-            /* Pure page ke colors ko force enable karna mobile aur desktop par */
-            * {
-                -webkit-print-color-adjust: exact !important;
-                print-color-adjust: exact !important;
-                color-adjust: exact !important;
-            }
-            
-            body { background: #ffffff !important; color: #000000 !important; padding: 0; margin: 0; }
-            .container, header, .lang-switch, .input-grid, .btn-calc, .res-panel, .seo-content { display: none !important; }
-            
-            .print-section-only { 
-                display: block !important; 
-                height: auto !important;
-                overflow: visible !important;
-                opacity: 1 !important;
-                position: relative !important;
-                width: 100% !important; 
-                z-index: 999 !important;
-            }
-            
-            #pdf-report-template { 
-                background: #ffffff !important;
-                border: none !important; 
-                padding: 10px !important; 
-                margin: 0 auto !important; 
-            }
-            
-            /* Watermark design injection */
-            #pdf-report-template::before {
-                content: "";
-                position: absolute;
-                top: 55%; left: 50%;
-                transform: translate(-50%, -50%);
-                width: 400px; height: 400px;
-                background-image: url('https://images.unsplash.com/photo-1621688630616-23136209590b?auto=format&fit=crop&w=500&q=80') !important;
-                background-size: contain !important;
-                background-position: center !important;
-                background-repeat: no-repeat !important;
-                opacity: 0.08 !important; 
-                z-index: -1;
-            }
-
-            th { background-color: #003399 !important; color: #ffffff !important; padding: 12px !important; }
-            td { border: 1px solid #cbd5e1 !important; padding: 12px !important; }
-            .pdf-header-box { border-bottom: 3px solid #003399 !important; }
-            .pdf-summary-bar { background-color: #f0fbff !important; color: #003399 !important; border: 1px solid #cbd5e1 !important; }
+        /* Document display styling directly visible on container panel */
+        #pdf-report-template { 
+            padding: 25px; 
+            background: #ffffff; 
+            border-radius: 12px; 
+            color: #101828; 
+            margin-top: 25px; 
+            border: 1px solid #cbd5e1;
         }
     </style>
 </head>
@@ -157,21 +109,18 @@
         <div class="util-btns">
             <button class="u-btn" onclick="copyData()" style="background:#475569;">📋 Copy All</button>
             <button class="u-btn" onclick="shareWA()" style="background:#22c55e;">📲 WhatsApp</button>
-            <button class="u-btn" onclick="printLandReport()" style="background:#2b7cff;">🖨️ Print / Save Report</button>
+            <button class="u-btn" onclick="generateLandPDF()" style="background:#2b7cff;">📥 Download PDF Report</button>
         </div>
-    </div>
 
-    <div class="print-section-only">
-        <div id="pdf-report-template" style="background: #ffffff; font-family: Arial, sans-serif; position: relative;">
-            
-            <div class="pdf-header-box" style="display: flex; justify-content: space-between; align-items: center; border-bottom: 3px solid #003399; padding-bottom: 15px; margin-bottom: 20px;">
-                <div>
-                    <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 5px;">
-                        <img src="favicon.png" alt="Logo" style="width: 32px; height: 32px; object-fit: contain; border-radius: 4px;" onerror="this.style.display='none'">
-                        <h1 style="font-size: 22px; color: #101828; margin: 0; font-weight: bold; letter-spacing: 0.5px;">SHAYAN <span style="color: #ff6600;">SMART TOOLS</span></h1>
+        <div id="pdf-report-template">
+            <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 3px solid #003399; padding-bottom: 15px; margin-bottom: 20px;">
+                <div style="text-align: left;">
+                    <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 5px;">
+                        <img src="favicon.png" alt="Logo" style="width: 28px; height: 28px; object-fit: contain; border-radius: 4px;" onerror="this.style.display='none'">
+                        <h1 style="font-size: 18px; color: #101828; margin: 0; font-weight: bold; letter-spacing: 0.3px;">SHAYAN <span style="color: #ff6600;">SMART TOOLS</span></h1>
                     </div>
-                    <p style="font-size: 13px; color: #003399; margin: 0; font-weight: bold; text-transform: uppercase;">📍 State: Andhra Pradesh (ఆంధ్రప్రదేశ్)</p>
-                    <p style="font-size: 11px; color: #667085; margin: 3px 0 0 0;">Official Digital Land Measurement Revenue Report</p>
+                    <p style="font-size: 12px; color: #003399; margin: 0; font-weight: bold; text-transform: uppercase;">📍 State: Andhra Pradesh (ఆంధ్రప్రదేశ్)</p>
+                    <p style="font-size: 10px; color: #667085; margin: 2px 0 0 0;">Official Digital Land Measurement Summary Sheet</p>
                 </div>
                 <div style="text-align: right;">
                     <p style="font-size: 11px; color: #344054; margin: 0;"><strong>Date:</strong> <span id="pdf-date">--/--/----</span></p>
@@ -179,20 +128,20 @@
                 </div>
             </div>
 
-            <div class="pdf-summary-bar" style="background: #f0fbff; padding: 10px; border-radius: 8px; color: #003399; text-align: center; font-weight: bold; margin-bottom: 20px; font-size: 13px; border: 1px solid #cbd5e1;">
-                🌍 AP LAND UNIT CONVERSION COMPLETE ACCOUNTABILITY REPORT
+            <div style="background: #f0fbff; padding: 10px; border-radius: 8px; color: #003399; text-align: center; font-weight: bold; margin-bottom: 20px; font-size: 12px; border: 1px solid #cbd5e1;">
+                🌍 REVENUE CONVERSION DATA SPECIFICATION REPORT
             </div>
 
-            <table style="width: 100%; border-collapse: collapse; margin-bottom: 25px; font-size: 13px; color: #101828;">
+            <table style="width: 100%; border-collapse: collapse; margin-bottom: 20px; font-size: 12px; color: #101828; text-align: left;">
                 <thead>
-                    <tr style="background: #003399; color: white; text-align: left;">
-                        <th style="padding: 10px; border: 1px solid #cbd5e1; color: white;">Measurement Parameter / Unit</th>
+                    <tr style="background: #003399; color: white;">
+                        <th style="padding: 10px; border: 1px solid #cbd5e1; color: white;">Measurement Unit / Parameter</th>
                         <th style="padding: 10px; border: 1px solid #cbd5e1; color: white;">Calculated Absolute Value</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr style="background: #f9fafb;">
-                        <td style="padding: 10px; border: 1px solid #cbd5e1;"><strong>User Entered Initial Inputs:</strong></td>
+                        <td style="padding: 10px; border: 1px solid #cbd5e1;"><strong>User Input Feed:</strong></td>
                         <td style="padding: 10px; border: 1px solid #cbd5e1; font-weight: bold; color: #ff6600;" id="pdf-input-val">0 Ankanam | 0 Gajam | 0 Cent</td>
                     </tr>
                     <tr>
@@ -213,21 +162,21 @@
                     </tr>
                     <tr>
                         <td style="padding: 10px; border: 1px solid #cbd5e1;">Total Calculated Ankanams:</td>
-                        <td style="padding: 10px; border: 1px solid #cbd5e1;" id="pdf-ank-val">0</td>
+                        <td style="padding: 10px; border: 1px solid #cbd5e1;" id="pdf-ank-val">0 Ankanams</td>
                     </tr>
                     <tr>
-                        <td style="padding: 10px; border: 1px solid #cbd5e1;">Total Calculated Gajams (Sq. Yards):</td>
-                        <td style="padding: 10px; border: 1px solid #cbd5e1;" id="pdf-gaj-val">0</td>
+                        <td style="padding: 10px; border: 1px solid #cbd5e1;">Total Calculated Gajams (Sq.Yards):</td>
+                        <td style="padding: 10px; border: 1px solid #cbd5e1;" id="pdf-gaj-val">0 Gajams</td>
                     </tr>
                     <tr>
                         <td style="padding: 10px; border: 1px solid #cbd5e1;">Total Calculated Cents:</td>
-                        <td style="padding: 10px; border: 1px solid #cbd5e1;" id="pdf-cent-val">0</td>
+                        <td style="padding: 10px; border: 1px solid #cbd5e1;" id="pdf-cent-val">0 Cents</td>
                     </tr>
                 </tbody>
             </table>
 
-            <div style="border-top: 1px dashed #d0d5dd; padding-top: 10px; text-align: center; margin-top: 30px;">
-                <p style="font-size: 10px; color: #667085; margin: 0;">This is a system-verified client-side computational summary report.</p>
+            <div style="border-top: 1px dashed #d0d5dd; padding-top: 10px; text-align: center; margin-top: 20px;">
+                <p style="font-size: 10px; color: #667085; margin: 0;">This is a system-verified client-side computational framework document report.</p>
                 <p style="font-size: 11px; color: #003399; margin: 4px 0 0 0; font-weight: bold;">🌐 www.shayansmarttools.in</p>
             </div>
         </div>
@@ -235,7 +184,7 @@
 
     <article class="seo-content">
         <h2 id="seoH">Andhra Pradesh Land Unit Converter: Ankanam, Gajam & Cent Professional Guide</h2>
-        <p>Andhra Pradesh (AP) mein zameen ki mapi (భూమి కొలతలు) ke liye sahi conversion tool hona bohot zaroori hai. Hamara **Andhra Pradesh Land Unit Converter** ek advanced multi-unit tool hai jo AP ke users ko Ankanam, Gajam aur Cent ko ek saath enter karne ki suvidha deta hai. Ye tool 2026 ke updated Meebhoomi standards par kaam karta hai.</p>
+        <p>Andhra Pradesh (AP) mein zameen ki mapi (భూమి కొలతలు) ke liye sahi conversion tool hona bohot zaroori hai. Hamara **Andhra Pradesh Land Unit Converter** ek advanced multi-unit tool hai jo AP ke users ko Ankanam, Gajam aur Cent ko ek saath enter karne ki suvidha deta hai. Ye tool 2026 ke updated Meebhoomi standards par kaam karta.</p>
 
         <h3>Andhra Pradesh Land Measurement Table (ఆంధ్రప్రదేశ్ భూమి కొలతలు)</h3>
         <table>
@@ -332,7 +281,7 @@
         document.getElementById('rYd').innerText = f_gaj;
         document.getElementById('rCent').innerText = f_cent;
 
-        // Background me full parameters tables ko compile karna
+        // Directly update visible document content instantly
         const today = new Date();
         document.getElementById('pdf-date').innerText = today.toLocaleDateString('en-IN');
         document.getElementById('pdf-input-val').innerText = `${an} Ankanam | ${ga} Gajam | ${ce} Cent`;
@@ -341,20 +290,35 @@
         document.getElementById('pdf-acre-val').innerText = f_ac + " Acre";
         document.getElementById('pdf-hectare-val').innerText = f_hc + " Hectare";
         document.getElementById('pdf-ank-val').innerText = f_ank + " Ankanams";
-        document.getElementById('pdf-gaj-val').innerText = f_gaj + " Gajams (Sq.Yards)";
+        document.getElementById('pdf-gaj-val').innerText = f_gaj + " Gajams";
         document.getElementById('pdf-cent-val').innerText = f_cent + " Cents";
 
         document.getElementById('resPanel').style.display = 'block';
         document.getElementById('resPanel').scrollIntoView({behavior: 'smooth'});
     }
 
-    function printLandReport() {
+    function generateLandPDF() {
         let an = parseFloat(document.getElementById('an').value)||0;
         let ga = parseFloat(document.getElementById('ga').value)||0;
         let ce = parseFloat(document.getElementById('ce').value)||0;
-        if(!an && !ga && !ce) { alert("Please calculate first before printing!"); return; }
+        if(!an && !ga && !ce) { alert("Please calculate first before downloading!"); return; }
 
-        window.print();
+        const element = document.getElementById('pdf-report-template');
+        const filename = 'AP_Land_Report_' + new Date().getDate() + '.pdf';
+        
+        // Airtight JS configuration options
+        const opt = {
+            margin:       10,
+            filename:     filename,
+            image:        { type: 'jpeg', quality: 0.98 },
+            html2canvas:  { scale: 2, useCORS: true, logging: false }, 
+            jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' } 
+        };
+
+        // Standard dynamic execution code block
+        html2pdf().set(opt).from(element).save().catch(err => {
+            console.error("Error generating file: ", err);
+        });
     }
 
     function copyData() {
