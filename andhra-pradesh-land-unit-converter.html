@@ -47,7 +47,7 @@
         .res-item span { font-size: 13px; color: #94a3b8; }
         .res-item b { font-size: 18px; color: var(--ap-orange); }
 
-        .util-btns { display: flex; gap: 10px; margin-top: 25px; margin-bottom: 30px; }
+        .util-btns { display: flex; gap: 10px; margin-top: 25px; }
         .u-btn { flex: 1; padding: 15px; border-radius: 12px; border: none; font-weight: 800; cursor: pointer; transition: 0.3s; color: white; }
 
         /* SEO CONTENT SECTION */
@@ -61,15 +61,42 @@
         .link-btn { background: #fff; padding: 15px; border-radius: 15px; text-decoration: none; color: var(--ap-blue); font-weight: 700; text-align: center; border: 2px solid #e2e8f0; transition: 0.3s; }
         .link-btn:hover { border-color: var(--ap-orange); transform: translateY(-3px); }
 
-        #pdf-report-template { padding: 25px; background: #ffffff; border-radius: 12px; color: #101828; margin-top: 25px; border: 1px solid #cbd5e1; }
+        /* Screen par PDF template hamesha chhupa rahega */
+        .print-section-only { display: none; }
 
-        /* 🔥 MAGIC PRINT CSS: Print karte waqt sirf report dikhegi, baaki sab gayab! */
+        /* 🔥 ADVANCED PRINT CSS CONFIGURATION */
         @media print {
-            body { background: white; color: black; padding: 0; margin: 0; }
-            header, .lang-switch, .input-grid, .btn-calc, .res-grid, .util-btns, #resHead, .seo-content { display: none !important; }
-            .res-panel { background: white !important; border: none !important; padding: 0 !important; margin: 0 !important; display: block !important; }
-            #pdf-report-template { border: none !important; padding: 0 !important; margin: 0 !important; width: 100% !important; display: block !important; }
+            body { background: #ffffff; color: #000000; padding: 0; margin: 0; }
+            .container, header, .lang-switch, .input-grid, .btn-calc, .res-panel, .seo-content { display: none !important; }
+            
+            .print-section-only { 
+                display: block !important; 
+                position: relative;
+                width: 100% !important; 
+                box-sizing: border-box;
+                padding: 10px;
+            }
+            
+            /* Watermark background image style */
+            #pdf-report-template::before {
+                content: "";
+                position: absolute;
+                top: 50%; left: 50%;
+                transform: translate(-50%, -50%);
+                width: 450px; height: 450px;
+                /* AP historical state monument structure image link */
+                background-image: url('https://images.unsplash.com/photo-1621688630616-23136209590b?auto=format&fit=crop&w=500&q=80');
+                background-size: contain;
+                background-position: center;
+                background-repeat: no-repeat;
+                opacity: 0.06; /* Halka coloring watermark look */
+                z-index: -1;
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+
             th { background: #003399 !important; color: white !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+            td { background: transparent !important; }
         }
     </style>
 </head>
@@ -111,52 +138,75 @@
             <button class="u-btn" onclick="shareWA()" style="background:#22c55e;">📲 WhatsApp</button>
             <button class="u-btn" onclick="printLandReport()" style="background:#2b7cff;">🖨️ Print / Save Report</button>
         </div>
+    </div>
 
-        <div id="pdf-report-template">
+    <div class="print-section-only">
+        <div id="pdf-report-template" style="padding: 30px; background: #ffffff; font-family: Arial, sans-serif; position: relative;">
+            
             <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 3px solid #003399; padding-bottom: 15px; margin-bottom: 20px;">
                 <div>
-                    <h1 style="font-size: 20px; color: #101828; margin: 0; font-weight: bold;">SHAYAN <span style="color: #ff6600;">SMART TOOLS</span></h1>
-                    <p style="font-size: 11px; color: #667085; margin: 5px 0 0 0;">Official Digital Land Measurement Report (Andhra Pradesh)</p>
+                    <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 5px;">
+                        <img src="favicon.png" alt="Shayan Smart Tools" style="width: 32px; height: 32px; object-fit: contain; border-radius: 4px;" onerror="this.style.display='none'">
+                        <h1 style="font-size: 22px; color: #101828; margin: 0; font-weight: bold; letter-spacing: 0.5px;">SHAYAN <span style="color: #ff6600;">SMART TOOLS</span></h1>
+                    </div>
+                    <p style="font-size: 13px; color: #003399; margin: 0; font-weight: bold; text-transform: uppercase;">📍 State: Andhra Pradesh (ఆంధ్రప్రదేశ్)</p>
+                    <p style="font-size: 11px; color: #667085; margin: 3px 0 0 0;">Official Digital Land Measurement Revenue Report</p>
                 </div>
                 <div style="text-align: right;">
                     <p style="font-size: 11px; color: #344054; margin: 0;"><strong>Date:</strong> <span id="pdf-date">--/--/----</span></p>
-                    <p style="font-size: 11px; color: #344054; margin: 3px 0 0 0;"><strong>Status:</strong> Verified & Secure</p>
+                    <p style="font-size: 11px; color: #344054; margin: 4px 0 0 0;"><strong>Status:</strong> Verified & Secure</p>
                 </div>
             </div>
 
-            <div style="background: #f0fbff; padding: 10px; border-radius: 8px; color: #003399; text-align: center; font-weight: bold; margin-bottom: 20px; font-size: 13px; border: 1px solid #cbd5e1;">
-                🌍 AP LAND AREA CONVERSION & CALCULATION SUMMARY
+            <div style="background: #f0fbff; padding: 10px; border-radius: 8px; color: #003399; text-align: center; font-weight: bold; margin-bottom: 20px; font-size: 13px; border: 1px solid #cbd5e1; -webkit-print-color-adjust: exact; print-color-adjust: exact;">
+                🌍 AP LAND UNIT CONVERSION COMPLETE ACCOUNTABILITY REPORT
             </div>
 
-            <table style="width: 100%; border-collapse: collapse; margin-bottom: 20px; font-size: 13px; color: #101828;">
+            <table style="width: 100%; border-collapse: collapse; margin-bottom: 25px; font-size: 13px; color: #101828;">
                 <thead>
                     <tr style="background: #003399; color: white; text-align: left;">
-                        <th style="padding: 10px; border: 1px solid #cbd5e1; color: white;">Measurement Unit</th>
-                        <th style="padding: 10px; border: 1px solid #cbd5e1; color: white;">Calculated Value</th>
+                        <th style="padding: 10px; border: 1px solid #cbd5e1; color: white;">Measurement Parameter / Unit</th>
+                        <th style="padding: 10px; border: 1px solid #cbd5e1; color: white;">Calculated Absolute Value</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td style="padding: 10px; border: 1px solid #eaecf0; background: #f9fafb;"><strong>Entered Inputs:</strong></td>
-                        <td style="padding: 10px; border: 1px solid #eaecf0; font-weight: bold; color: #ff6600;" id="pdf-input-val">0 Ankanam | 0 Gajam | 0 Cent</td>
+                    <tr style="background: #f9fafb;">
+                        <td style="padding: 10px; border: 1px solid #cbd5e1;"><strong>User Entered Initial Inputs:</strong></td>
+                        <td style="padding: 10px; border: 1px solid #cbd5e1; font-weight: bold; color: #ff6600;" id="pdf-input-val">0 Ankanam | 0 Gajam | 0 Cent</td>
                     </tr>
                     <tr>
-                        <td style="padding: 10px; border: 1px solid #eaecf0;">Total Area (Square Feet):</td>
-                        <td style="padding: 10px; border: 1px solid #eaecf0; color: #003399; font-weight: bold;" id="pdf-sqft-val">0 Sq.Ft</td>
+                        <td style="padding: 10px; border: 1px solid #cbd5e1;">Total Area (Square Feet - Sq.Ft):</td>
+                        <td style="padding: 10px; border: 1px solid #cbd5e1; color: #003399; font-weight: bold;" id="pdf-sqft-val">0 Sq.Ft</td>
                     </tr>
                     <tr>
-                        <td style="padding: 10px; border: 1px solid #eaecf0; background: #f9fafb;">Total Area (Acre):</td>
-                        <td style="padding: 10px; border: 1px solid #eaecf0; background: #f9fafb; font-weight: bold;" id="pdf-acre-val">0 Acre</td>
+                        <td style="padding: 10px; border: 1px solid #cbd5e1;">Total Area (Square Meter - Sq.Mt):</td>
+                        <td style="padding: 10px; border: 1px solid #cbd5e1; font-weight: bold;" id="pdf-sqmt-val">0 Sq.Mt</td>
                     </tr>
                     <tr>
-                        <td style="padding: 10px; border: 1px solid #eaecf0;">Total Area (Hectare):</td>
-                        <td style="padding: 10px; border: 1px solid #eaecf0; font-weight: bold;" id="pdf-hectare-val">0 Hectare</td>
+                        <td style="padding: 10px; border: 1px solid #cbd5e1;">Total Area (Acres):</td>
+                        <td style="padding: 10px; border: 1px solid #cbd5e1; color: #ff6600; font-weight: bold;" id="pdf-acre-val">0 Acre</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 10px; border: 1px solid #cbd5e1;">Total Area (Hectares):</td>
+                        <td style="padding: 10px; border: 1px solid #cbd5e1; font-weight: bold;" id="pdf-hectare-val">0 Hectare</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 10px; border: 1px solid #cbd5e1;">Total Calculated Ankanams:</td>
+                        <td style="padding: 10px; border: 1px solid #cbd5e1;" id="pdf-ank-val">0</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 10px; border: 1px solid #cbd5e1;">Total Calculated Gajams (Sq. Yards):</td>
+                        <td style="padding: 10px; border: 1px solid #cbd5e1;" id="pdf-gaj-val">0</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 10px; border: 1px solid #cbd5e1;">Total Calculated Cents:</td>
+                        <td style="padding: 10px; border: 1px solid #cbd5e1;" id="pdf-cent-val">0</td>
                     </tr>
                 </tbody>
             </table>
 
-            <div style="border-top: 1px dashed #d0d5dd; padding-top: 10px; text-align: center;">
-                <p style="font-size: 10px; color: #667085; margin: 0;">This is a computer-generated report utility powered by client-side architecture.</p>
+            <div style="border-top: 1px dashed #d0d5dd; padding-top: 10px; text-align: center; margin-top: 30px;">
+                <p style="font-size: 10px; color: #667085; margin: 0;">This is a system-verified client-side computational summary report.</p>
                 <p style="font-size: 11px; color: #003399; margin: 4px 0 0 0; font-weight: bold;">🌐 www.shayansmarttools.in</p>
             </div>
         </div>
@@ -244,35 +294,46 @@
 
         let totalSqft = (an * 72) + (ga * 9) + (ce * 435.6);
         
-        document.getElementById('rFt').innerText = totalSqft.toLocaleString(undefined, {maximumFractionDigits: 2});
-        document.getElementById('rMt').innerText = (totalSqft / 10.7639).toFixed(2);
-        document.getElementById('rAc').innerText = (totalSqft / 43560).toFixed(4);
-        document.getElementById('rHc').innerText = (totalSqft / 107639).toFixed(4);
-        document.getElementById('rAnk').innerText = (totalSqft / 72).toFixed(2);
-        document.getElementById('rGaj').innerText = (totalSqft / 9).toFixed(2);
-        document.getElementById('rYd').innerText = (totalSqft / 9).toFixed(2);
-        document.getElementById('rCent').innerText = (totalSqft / 435.6).toFixed(2);
+        let f_ft = totalSqft.toLocaleString(undefined, {maximumFractionDigits: 2});
+        let f_mt = (totalSqft / 10.7639).toFixed(2);
+        let f_ac = (totalSqft / 43560).toFixed(4);
+        let f_hc = (totalSqft / 107639).toFixed(4);
+        let f_ank = (totalSqft / 72).toFixed(2);
+        let f_gaj = (totalSqft / 9).toFixed(2);
+        let f_cent = (totalSqft / 435.6).toFixed(2);
 
-        // PDF Template table data injection
+        document.getElementById('rFt').innerText = f_ft;
+        document.getElementById('rMt').innerText = f_mt;
+        document.getElementById('rAc').innerText = f_ac;
+        document.getElementById('rHc').innerText = f_hc;
+        document.getElementById('rAnk').innerText = f_ank;
+        document.getElementById('rGaj').innerText = f_gaj;
+        document.getElementById('rYd').innerText = f_gaj;
+        document.getElementById('rCent').innerText = f_cent;
+
+        // Ekdam chupchap background me saara data printable template table me map karna
         const today = new Date();
         document.getElementById('pdf-date').innerText = today.toLocaleDateString('en-IN');
         document.getElementById('pdf-input-val').innerText = `${an} Ankanam | ${ga} Gajam | ${ce} Cent`;
-        document.getElementById('pdf-sqft-val').innerText = totalSqft.toLocaleString(undefined, {maximumFractionDigits: 2}) + " Sq.Ft";
-        document.getElementById('pdf-acre-val').innerText = (totalSqft / 43560).toFixed(4) + " Acre";
-        document.getElementById('pdf-hectare-val').innerText = (totalSqft / 107639).toFixed(4) + " Hectare";
+        document.getElementById('pdf-sqft-val').innerText = f_ft + " Sq.Ft";
+        document.getElementById('pdf-sqmt-val').innerText = f_mt + " Sq.Mt";
+        document.getElementById('pdf-acre-val').innerText = f_ac + " Acre";
+        document.getElementById('pdf-hectare-val').innerText = f_hc + " Hectare";
+        document.getElementById('pdf-ank-val').innerText = f_ank + " Ankanams";
+        document.getElementById('pdf-gaj-val').innerText = f_gaj + " Gajams (Sq.Yards)";
+        document.getElementById('pdf-cent-val').innerText = f_cent + " Cents";
 
         document.getElementById('resPanel').style.display = 'block';
         document.getElementById('resPanel').scrollIntoView({behavior: 'smooth'});
     }
 
-    // New Native Fail-Proof Print Logic
     function printLandReport() {
         let an = parseFloat(document.getElementById('an').value)||0;
         let ga = parseFloat(document.getElementById('ga').value)||0;
         let ce = parseFloat(document.getElementById('ce').value)||0;
         if(!an && !ga && !ce) { alert("Please calculate first before printing!"); return; }
 
-        // Sirf 1 line ka jaadu jo direct system printer option trigger karega
+        // Native Print execution
         window.print();
     }
 
