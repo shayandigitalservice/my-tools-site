@@ -41,27 +41,32 @@
         }
 
         body {
-            font-family: 'Segoe UI', Arial, sans-serif;
+            font-family: 'Poppins', 'Segoe UI', Arial, sans-serif;
             background-color: var(--bg);
             margin: 0;
-            padding: 20px 10px;
-            color: #333;
+            padding: 10px;
+            color: #334155;
         }
 
-        .measurement-tool {
-            max-width: 650px;
+        .container {
+            max-width: 850px;
             margin: 0 auto;
-            background: white;
-            padding: 30px 25px;
-            border-radius: 25px;
-            border-bottom: 6px solid var(--as-green);
-            box-shadow: 0 4px 15px rgba(46, 125, 50, 0.1);
+        }
+
+        header {
+            background: linear-gradient(135deg, var(--as-green), #1b5e20);
+            color: #fff; 
+            padding: 40px 20px; 
+            border-radius: 25px; 
+            text-align: center;
+            border-bottom: 6px solid var(--as-orange); 
+            margin-bottom: 30px;
         }
 
         .lang-switch { 
             display: flex; 
             justify-content: center; 
-            gap: 12px; 
+            gap: 10px; 
             margin-bottom: 25px; 
         }
         
@@ -72,89 +77,78 @@
             background: white; 
             cursor: pointer; 
             font-weight: 700; 
-            transition: all 0.3s ease; 
+            transition: 0.3s; 
             color: var(--as-green); 
-            font-size: 14px;
         }
         
         .l-btn.active { 
             background: var(--as-green); 
             color: white; 
-            box-shadow: 0 4px 10px rgba(46, 125, 50, 0.2);
         }
 
-        .input-section {
-            display: flex;
-            gap: 15px;
-            flex-wrap: wrap;
-            margin-bottom: 20px;
+        /* Input Grid Styling */
+        .input-grid { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); 
+            gap: 15px; 
+            margin-bottom: 25px; 
         }
 
-        .field {
-            flex: 1;
-            min-width: 140px;
+        label { 
+            display: block; 
+            font-size: 12px; 
+            font-weight: 800; 
+            color: var(--as-green); 
+            margin-bottom: 8px; 
+            text-transform: uppercase; 
         }
 
-        label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: 700;
-            font-size: 13px;
-            color: var(--as-dark-green);
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-
-        input, select {
-            width: 100%;
-            padding: 14px;
-            border: 2px solid #cbd5e1;
-            border-radius: 10px;
-            font-size: 16px;
-            box-sizing: border-box;
-            outline: none;
-            transition: all 0.3s ease;
-            font-weight: 600;
+        input, select { 
+            width: 100%; 
+            padding: 15px; 
+            border: 1px solid #cbd5e1; 
+            border-radius: 12px; 
+            font-size: 16px; 
+            box-sizing: border-box; 
+            outline: none; 
+            transition: 0.3s; 
         }
 
         input:focus, select:focus { 
-            border-color: var(--as-green); 
-            box-shadow: 0 0 0 4px rgba(46, 125, 50, 0.15);
+            border-color: var(--as-orange); 
+            background: #fff; 
+            box-shadow: 0 0 8px rgba(255,102,0,0.1); 
         }
 
-        .btn-convert {
-            width: 100%;
-            background: var(--as-green);
-            color: white;
-            border: none;
-            padding: 18px;
-            font-size: 18px;
-            font-weight: bold;
-            border-radius: 12px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            box-shadow: 0 4px 10px rgba(46, 125, 50, 0.2);
+        .btn-calc { 
+            width: 100%; 
+            padding: 20px; 
+            background: var(--as-green); 
+            color: #fff; 
+            border: none; 
+            border-radius: 15px; 
+            font-size: 18px; 
+            font-weight: 800; 
+            cursor: pointer; 
+            transition: 0.3s; 
+            text-transform: uppercase; 
         }
 
-        .btn-convert:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgba(46, 125, 50, 0.35);
+        .btn-calc:hover { 
+            transform: translateY(-3px); 
+            box-shadow: 0 10px 20px rgba(46,125,50,0.2); 
         }
 
-        .btn-convert:active { background: var(--as-dark-green); }
-
-        /* RESULTS WEB VIEW STYLE */
-        .res-panel {
-            background: #0f172a;
-            color: white;
-            padding: 25px;
-            border-radius: 20px;
-            margin-top: 30px;
-            border: 2px solid var(--as-green);
-            position: relative;
-            box-shadow: 0 10px 30px rgba(15, 23, 42, 0.3);
+        /* RESULTS UI - Clean Vertical Layout */
+        .res-panel { 
+            background: #0f172a; 
+            color: white; 
+            padding: 25px; 
+            border-radius: 25px; 
+            margin-top: 30px; 
+            display: none; 
+            border: 2px solid var(--as-orange); 
+            position: relative; 
         }
 
         .bkl-special {
@@ -166,79 +160,120 @@
             border: 1px dashed var(--as-green);
         }
 
-        .res-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 12px;
+        .res-grid { 
+            display: grid; 
+            grid-template-columns: repeat(2, 1fr); 
+            gap: 15px; 
         }
 
-        .res-item {
-            background: rgba(255, 255, 255, 0.04);
-            padding: 12px 15px;
-            border-radius: 10px;
-            display: flex;
-            flex-direction: column;
-            align-items: flex-start;
-            gap: 4px;
-            border-left: 4px solid var(--as-green);
+        .res-item { 
+            background: rgba(255,255,255,0.05); 
+            padding: 15px; 
+            border-radius: 12px; 
+            display: flex; 
+            flex-direction: column; 
+            align-items: flex-start; 
+            gap: 5px; 
+            border-left: 4px solid var(--as-orange); 
         }
 
-        .res-item span {
-            font-size: 11px;
-            color: #94a3b8;
-            font-weight: bold;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
+        .res-item span { 
+            font-size: 12px; 
+            color: #94a3b8; 
+            font-weight: bold; 
         }
 
-        .res-item strong {
-            font-size: 18px;
-            color: #ffffff;
-            word-break: break-all;
+        .res-item b { 
+            font-size: 18px; 
+            color: var(--as-orange); 
+            word-break: break-all; 
         }
 
-        /* Utility Feature Buttons */
-        .util-btns {
-            display: flex;
-            gap: 12px;
-            margin-top: 25px;
-            flex-wrap: wrap;
-        }
-
-        .u-btn {
-            flex: 1;
-            min-width: 130px;
-            padding: 14px;
-            border-radius: 10px;
-            border: none;
-            font-weight: 800;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            color: white;
-            font-size: 13px;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 6px;
-        }
-
-        .u-btn:hover {
-            transform: translateY(-2px);
-            filter: brightness(1.1);
-        }
-
-        /* Printable Dynamic Blocks View Controls */
+        /* Printable Premium Elements hidden on web UI view */
         .print-header-block, .print-footer-block { display: none; }
 
-        @media (max-width: 600px) {
-            .res-grid { grid-template-columns: 1fr; }
-            .input-section { grid-template-columns: 1fr; }
-            .measurement-tool { padding: 20px 15px; }
+        .util-btns { 
+            display: flex; 
+            gap: 10px; 
+            margin-top: 25px; 
         }
 
-        /* 🔥 OFFICIAL HIGH-PREMIUM ORIGINAL SHEET PRINT FORMAT 🔥 */
+        .u-btn { 
+            flex: 1; 
+            padding: 15px; 
+            border-radius: 12px; 
+            border: none; 
+            font-weight: 800; 
+            cursor: pointer; 
+            transition: 0.3s; 
+            color: white; 
+            font-size: 14px; 
+        }
+
+        /* SEO CONTENT SECTION */
+        .seo-content { 
+            background: white; 
+            padding: 40px; 
+            border-radius: 30px; 
+            margin-top: 50px; 
+            line-height: 1.8; 
+            border: 1px solid #e2e8f0; 
+        }
+
+        .seo-content h2 { 
+            color: var(--as-green); 
+            border-left: 6px solid var(--as-orange); 
+            padding-left: 15px; 
+            margin-top: 40px; 
+        }
+
+        table { 
+            width: 100%; 
+            border-collapse: collapse; 
+            margin: 25px 0; 
+        }
+
+        th, td { 
+            padding: 15px; 
+            border: 1px solid #e2e8f0; 
+            text-align: left; 
+        }
+
+        th { 
+            background: #f8fafc; 
+            color: var(--as-green); 
+        }
+
+        .links-grid { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); 
+            gap: 15px; 
+            margin-top: 30px; 
+        }
+
+        .link-btn { 
+            background: #fff; 
+            padding: 15px; 
+            border-radius: 15px; 
+            text-decoration: none; 
+            color: var(--as-green); 
+            font-weight: 700; 
+            text-align: center; 
+            border: 2px solid #e2e8f0; 
+            transition: 0.3s; 
+        }
+
+        .link-btn:hover { 
+            border-color: var(--as-orange); 
+            transform: translateY(-3px); 
+        }
+
+        @media (max-width: 600px) { 
+            .res-grid { grid-template-columns: 1fr; } 
+            .res-item b { font-size: 16px; }
+        }
+
+        /* 🔥 HIGH-PREMIUM GOVERNMENT STYLE PRINT CONFIGURATION 🔥 */
         @media print {
             * {
                 -webkit-print-color-adjust: exact !important;
@@ -248,38 +283,30 @@
             @page { margin: 15mm; size: A4 portrait; }
             body { background: #ffffff !important; color: #000000 !important; padding: 0; margin: 0; }
             
-            .measurement-tool {
-                display: block !important;
-                background: #ffffff !important;
-                max-width: 100% !important;
-                padding: 25px !important;
+            /* Clean web components */
+            .container > header, .lang-switch, .input-grid, .btn-calc, .util-btns, #resHead, .seo-content, div[style*="text-align: center"] { display: none !important; }
+            
+            /* Transform into formal verified document sheet layout */
+            .res-panel { 
+                display: block !important; 
+                background: #ffffff !important; 
+                color: #000000 !important; 
+                padding: 25px !important; 
                 margin: 0 !important;
-                border: 2px solid #003399 !important; /* Premium formal outer blue box wrap style */
+                width: 100% !important;
+                box-sizing: border-box;
+                border: 3px double #003399 !important; /* Premium Document Frame border look */
                 border-radius: 0px !important;
-                box-shadow: none !important;
-            }
-
-            .lang-switch, .input-section, .btn-convert, .util-btns, h2, br, div[style*="text-align: center"], .seo-content { 
-                display: none !important; 
+                position: relative;
             }
             
-            .res-panel {
-                display: block !important;
-                background: transparent !important;
-                color: #000000 !important;
-                padding: 0 !important;
-                margin: 0 !important;
-                border: none !important;
-                box-shadow: none !important;
-            }
-
-            /* Formal Screenshot Matching Header Alignment layout styling */
+            /* Premium Government Style Top Layout Banner (Matches your template image layout perfectly) */
             .print-header-block {
                 display: block !important;
                 text-align: left;
                 border-bottom: 2px solid #003399 !important;
-                padding-bottom: 15px;
-                margin-bottom: 25px;
+                padding-bottom: 12px;
+                margin-bottom: 20px;
             }
 
             .bkl-special {
@@ -292,12 +319,13 @@
             }
             .bkl-special strong { color: #003399 !important; }
 
+            /* Convert vertical flex grid items to plain data list rows for printing */
             .res-grid { display: block !important; margin-top: 15px; }
-            .res-item {
-                background: transparent !important;
+            .res-item { 
+                background: transparent !important; 
                 border: none !important;
                 border-bottom: 1px solid #e2e8f0 !important;
-                padding: 12px 6px !important;
+                padding: 10px 4px !important;
                 display: flex !important;
                 flex-direction: row !important;
                 justify-content: space-between !important;
@@ -305,49 +333,47 @@
                 border-radius: 0px !important;
             }
             .res-item span { color: #1e293b !important; font-size: 13px !important; font-weight: 600 !important; text-transform: uppercase; }
-            .res-item strong { color: #003399 !important; font-size: 15px !important; font-weight: 700 !important; }
+            .res-item b { color: #003399 !important; font-size: 15px !important; font-weight: 700 !important; }
 
+            /* Centered Bottom Verification Layout Block */
             .print-footer-block {
                 display: block !important;
                 text-align: center;
-                margin-top: 50px;
+                margin-top: 40px;
                 border-top: 1px solid #cbd5e1 !important;
-                padding-top: 25px;
+                padding-top: 20px;
             }
         }
     </style>
 </head>
 <body>
 
-<div class="measurement-tool">
-    <h2 style="text-align:center; color: var(--as-dark-green); margin-top: 0;" id="mTitle">Land Measurement Calculator (Assam)</h2>
-    
+<div class="container">
+    <header>
+        <h1 id="mTitle">Land Measurement Calculator (Assam)</h1>
+        <p id="sTitle">Multi-Unit conversion for Bigha, Katha, & Lessa in Assam.</p>
+    </header>
+
     <div class="lang-switch">
         <button class="l-btn active" id="enBtn" onclick="setLang('en')">English</button>
         <button class="l-btn" id="asBtn" onclick="setLang('as')">অসমীয়া</button>
     </div>
 
-    <div class="input-section">
-        <div class="field">
-            <label id="lLen">Length (Lambai)</label>
-            <input type="number" id="length" placeholder="Enter length" min="0" step="any">
-        </div>
-        <div class="field">
-            <label id="lWid">Width (Chaudai)</label>
-            <input type="number" id="width" placeholder="Enter width" min="0" step="any">
-        </div>
-        <div class="field">
-            <label id="lUni">Unit</label>
+    <div class="input-grid">
+        <div class="input-box"><label id="lLen">Length (Lambai)</label><input type="number" id="length" placeholder="Enter length" min="0" step="any"></div>
+        <div class="input-box"><label id="lWid">Width (Chaudai)</label><input type="number" id="width" placeholder="Enter width" min="0" step="any"></div>
+        <div class="input-box"><label id="lUni">Unit</label>
             <select id="unitType">
                 <option value="ft">Feet (ft)</option>
                 <option value="mt">Meter (m)</option>
             </select>
         </div>
     </div>
+    <div style="margin-bottom: 10px;">
+        <button class="btn-calc" onclick="calculateLand()" id="btnText">CONVERT NOW</button>
+    </div>
 
-    <button class="btn-convert" onclick="calculateLand()" id="btnText">CONVERT NOW</button>
-
-    <div id="resultArea" class="res-panel" style="display:none;">
+    <div id="resPanel" class="res-panel">
         
         <div class="print-header-block">
             <div style="display: flex; align-items: center; justify-content: flex-start; gap: 15px; margin-bottom: 5px;">
@@ -358,135 +384,133 @@
                 </div>
             </div>
             
-            <div style="background: #f8fafc; border: 1px solid #cbd5e1; padding: 10px; border-radius: 4px; display: grid; grid-template-columns: 1fr 1fr; font-size: 11px; text-align: left; gap: 6px; color: #334155; font-family: 'Segoe UI', Arial, sans-serif; margin-top: 15px;">
-                <div><strong>DOCUMENT REF:</strong> <span id="pDocRef" style="color:#003399; font-weight:bold;">SST-AS-00000000</span></div>
+            <div style="background: #f8fafc; border: 1px solid #cbd5e1; padding: 10px; border-radius: 4px; display: grid; grid-template-columns: 1fr 1fr; font-size: 11px; text-align: left; gap: 5px; color: #334155; font-family: 'Segoe UI', Arial, sans-serif; margin-top: 15px;">
+                <div><strong>DOCUMENT REF:</strong> <span id="pDocRef" style="color:#003399; font-weight:bold;">SST-AS-0000</span></div>
                 <div style="text-align: right;"><strong>DATE:</strong> <span id="pDocDate">--/--/----</span></div>
                 <div><strong>JURISDICTION:</strong> State of Assam (অসম)</div>
                 <div style="text-align: right;"><strong>STATUS:</strong> Digitally Secured & Certified</div>
             </div>
         </div>
 
+        <h3 id="resHead" style="color: var(--as-orange); margin-top: 0; text-align: center;">Conversion Results</h3>
+        
         <div class="bkl-special">
             <span style="display:block; font-size: 13px; color: #94a3b8; font-weight: bold; text-transform: uppercase; margin-bottom: 5px;" id="rSFormat">Assam Standard Format:</span>
-            <strong id="bklText" style="font-size: 24px; color: #68d391;">0 Bigha, 0 Katha, 0 Lessa</strong>
+            <strong id="bklText" style="font-size: 24px; color: #2e7d32;">0 Bigha, 0 Katha, 0 Lessa</strong>
         </div>
 
         <div class="res-grid">
-            <div class="res-item" id="print-input-row" style="display:none;"><span>Initial Data Input Feed:</span> <strong id="rInputVal" style="color: #ff6600;">0</strong></div>
-            <div class="res-item"><span id="rFt">Square Feet (Sq.Ft):</span> <strong id="resSqft">0</strong></div>
-            <div class="res-item"><span id="rMt">Square Meter (Sq.Mt):</span> <strong id="resSqmt">0</strong></div>
-            <div class="res-item"><span id="rHc">Total Hectare Value:</span> <strong id="resHectare">0</strong></div>
-            <div class="res-item"><span id="rAc">Total Acre Value:</span> <strong id="resAcre">0</strong></div>
-            <div class="res-item"><span id="rBg">Calculated Bighas:</span> <strong id="resBigha">0</strong></div>
-            <div class="res-item"><span id="rKt">Calculated Kathas:</span> <strong id="resKatha">0</strong></div>
-            <div class="res-item"><span id="rLs">Calculated Lessas:</span> <strong id="resLessa">0</strong></div>
+            <div class="res-item" id="print-input-row" style="display:none;"><span style="color:#ff6600; font-weight: 800;">Initial Data Input Feed:</span> <b id="rInputVal" style="color:#ff6600; font-weight: 800;">0</b></div>
+            
+            <div class="res-item"><span id="rFt">Square Feet (Sq.Ft):</span> <b id="resSqft">0</b></div>
+            <div class="res-item"><span id="rMt">Square Meter (Sq.Mt):</span> <b id="resSqmt">0</b></div>
+            <div class="res-item"><span id="rHc">Total Hectare Value:</span> <b id="resHectare">0</b></div>
+            <div class="res-item"><span id="rAc">Total Acre Value:</span> <b id="resAcre">0</b></div>
+            <div class="res-item"><span id="rBg">Calculated Bighas:</span> <b id="resBigha">0</b></div>
+            <div class="res-item"><span id="rKt">Calculated Kathas:</span> <b id="resKatha">0</b></div>
+            <div class="res-item"><span id="rLs">Calculated Lessas:</span> <b id="resLessa">0</b></div>
         </div>
-
+        
         <div class="print-footer-block">
-            <div style="margin: 0 auto; max-width: 90%; font-size: 11px; color: #475569; line-height: 1.6; text-align: center; font-family: 'Segoe UI', Arial, sans-serif;">
-                <p style="margin: 0; font-weight: bold; color: #003399; text-transform: uppercase; font-size: 11px;">🔒 SECURITY DISCLAIMER & VERIFICATION NOTICE</p>
-                <p style="margin: 6px 0 0 0; color: #475569;">This computation is an automated generated metrics summary sheet, digitally verified via client-side algorithms under Indian Revenue Unit Standards. For formal legal transactions or land mutations, consult official Dharitree records.</p>
+            <div style="margin: 0 auto; max-width: 85%; font-size: 11px; color: #475569; line-height: 1.6; text-align: center;">
+                <p style="margin: 0; font-weight: bold; color: #003399; text-transform: uppercase; font-size: 12px;">🔒 SECURITY DISCLAIMER & VERIFICATION NOTICE</p>
+                <p style="margin: 6px 0 0 0;">This computation is an automated generated metrics summary sheet, digitally verified via client-side algorithms under Indian Revenue Unit Standards. For formal legal transactions or land mutations, consult official Dharitree records.</p>
                 
                 <div style="display: inline-block; border: 1px dashed #003399; padding: 6px 20px; border-radius: 4px; margin-top: 15px; margin-bottom: 12px; background: #f8fafc; font-size: 10px; font-weight: bold; color: #003399; text-transform: uppercase; letter-spacing: 0.5px;">
                     SHAYAN SMART TOOLS [SST SEAL] - OFFICIAL UNIT PLATFORM
                 </div>
                 
-                <p style="margin: 5px 0 0 0; font-size: 11px; font-weight: bold; color: #ff6600;">🌐 SST OFFICIAL ACCESS: www.shayansmarttools.in</p>
+                <p style="margin: 5px 0 0 0; font-size: 12px; font-weight: bold; color: #ff6600;">🌐 SST OFFICIAL ACCESS: www.shayansmarttools.in</p>
             </div>
         </div>
 
         <div class="util-btns">
-            <button class="u-btn" onclick="copyData()" style="background:#475569;" id="bCopy">📋 Copy Results</button>
+            <button class="u-btn" onclick="copyData()" style="background:#475569;" id="bCopy">📋 Copy All</button>
             <button class="u-btn" onclick="shareWA()" style="background:#22c55e;" id="bWhat">📲 WhatsApp</button>
-            <button class="u-btn" onclick="printLandReport()" style="background:#2b7cff;" id="bPrin">🖨️ Print Report</button>
+            <button class="u-btn" onclick="printLandReport()" style="background:#2b7cff;" id="bPrin">🖨️ Print / Save Report</button>
+        </div>
+    </div>
+
+    <article class="seo-content">
+        <h1 style="color: #1b5e20; font-size: 2.5rem; text-align: center; margin-bottom: 30px;">
+            Assam Land Area Calculator: Professional Bigha, Katha & Lessa Converter 2026
+        </h1>
+
+        <section>
+            <p>Assam mein zameen ki naap-jokh (Land Measurement) karna baaki India ke muqable thoda alag aur pechida ho sakta hai. Yahan ka local system mukhya roop se <strong>Bigha, Katha, aur Lessa</strong> par adharit hai. Agar aap Tezpur, Sonitpur, Guwahati, ya Assam ke kisi bhi kone mein zameen kharidne ya bechne ka soch rahe hain, toh sahi area nikalna sabse pehla kadam hai. Humara yeh advance <strong>Assam Land Area Calculator</strong> aapko Length aur Width ke aadhar par accurate results deta hai.</p>
+            
+            <p>Aap humare <a href="land-cost-calculator.html" style="color: #2e7d32; font-weight: bold;">Land Cost Calculator</a> ka bhi istemal kar sakte hain taaki zameen ki kimat ka sahi anuman lagaya ja sake. Iske alawa, agar aap poore Bharat ke liye calculation chahte hain, toh humara <a href="farm-land-calculator.html" style="color: #2e7d32; font-weight: bold;">Farm Land Calculator India</a> zaroor try karein.</p>
+        </section>
+
+        <h2 style="color: #2e7d32; border-bottom: 2px solid #eee; padding-bottom: 10px;">How to Use Assam Land Measurement Tool?</h2>
+        <p>Is tool ko use karna bahut hi saral hai. Aapko kisi bhi technical knowledge ki zaroorat nahi hai. Bas niche diye gaye steps follow karein:</p>
+        <ul style="list-style-type: square; padding-left: 20px;">
+            <li><strong>Step 1:</strong> Apni zameen ki total <strong>Length (Lambai)</strong> feet ya meter mein enter karein.</li>
+            <li><strong>Step 2:</strong> Zameen ki total <strong>Width (Chaudai)</strong> enter karein.</li>
+            <li><strong>Step 3:</strong> Unit select karein (Feet ya Meter) aur "CONVERT" par click karein.</li>
+            <li><strong>Step 4:</strong> Result mein aapko Bigha, Katha, aur Lessa ka complete breakdown dikhega.</li>
+        </ul>
+
+        <h2 style="color: #2e7d32;">Land Measurement Units in Assam (Standard Table)</h2>
+        <table style="width: 100%; border-collapse: collapse; margin: 20px 0; box-shadow: 0 2px 5px rgba(0,0,0,0.1);">
+            <thead>
+                <tr style="background-color: #2e7d32; color: white; text-align: left;">
+                    <th style="padding: 15px; border: 1px solid #ddd;">Unit Name</th>
+                    <th style="padding: 15px; border: 1px solid #ddd;">Area in Sq. Ft.</th>
+                    <th style="padding: 15px; border: 1px solid #ddd;">Conversion Logic</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr><td style="padding: 12px; border: 1px solid #ddd;">1 Lessa</td><td style="padding: 12px; border: 1px solid #ddd;">144 Sq. Ft.</td><td style="padding: 12px; border: 1px solid #ddd;">Smallest Unit</td></tr>
+                <tr style="background: #f9f9f9;"><td style="padding: 12px; border: 1px solid #ddd;">1 Katha</td><td style="padding: 12px; border: 1px solid #ddd;">2,880 Sq. Ft.</td><td style="padding: 12px; border: 1px solid #ddd;">20 Lessa</td></tr>
+                <tr><td style="padding: 12px; border: 1px solid #ddd;">1 Bigha</td><td style="padding: 12px; border: 1px solid #ddd;">14,400 Sq. Ft.</td><td style="padding: 12px; border: 1px solid #ddd;">5 Katha</td></tr>
+                <tr style="background: #f9f9f9;"><td style="padding: 12px; border: 1px solid #ddd;">1 Acre</td><td style="padding: 12px; border: 1px solid #ddd;">43,560 Sq. Ft.</td><td style="padding: 12px; border: 1px solid #ddd;">3.025 Bigha</td></tr>
+                <tr><td style="padding: 12px; border: 1px solid #ddd;">1 Hectare</td><td style="padding: 12px; border: 1px solid #ddd;">1,07,639 Sq. Ft.</td><td style="padding: 12px; border: 1px solid #ddd;">7.47 Bigha</td></tr>
+            </tbody>
+        </table>
+
+        <h2 style="color: #2e7d32;">Calculation Example (Sahi Naap Kaise Nikalein)</h2>
+        <p>Maan lijiye aapne Tezpur mein ek plot dekha jiski lambai 120 feet hai aur chaudai 60 feet hai. Toh uski calculation kuch is tarah hogi:</p>
+        <div style="background: #f1f8e9; padding: 20px; border-radius: 8px; border-left: 6px solid #2e7d32;">
+            Total Square Feet = 120 ft × 60 ft = <strong>7,200 sq. ft.</strong><br>
+            Ab isse Bigha mein badalne ke liye:<br>
+            7,200 / 14,400 = <strong>0.5 Bigha</strong> (Yaani ki 2 Katha aur 10 Lessa).
+        </div>
+        <div style="background: #eff6ff; border-left: 5px solid #2563eb; padding: 20px; border-radius: 0 10px 10px 0; margin-bottom: 30px; margin-top: 20px;">
+            <strong style="color: #1e3a8a; font-size: 15px;">📖 Professional Guide:</strong><br> 
+            <a href="assam.land.calculator.html" style="color: #2563eb; font-weight: 700; text-decoration: underline; font-size: 14px;"> Assam Land Calculator Guide Step-by-Step</a>
+        </div>
+        
+        <h2 style="color: #2e7d32;">Frequently Asked Questions (FAQs)</h2>
+        <div style="margin-bottom: 20px;">
+            <h4 style="margin-bottom: 5px;">Q1: Assam mein 1 Bigha mein kitne Katha hote hain?</h4>
+            <p style="margin-top: 0;">Ans: Assam ke standard revenue system ke anusar, 1 Bigha mein total 5 Katha hote hain.</p>
+        </div>
+        <div style="margin-bottom: 20px;">
+            <h4 style="margin-bottom: 5px;">Q2: Lessa unit ka kya matlab hai?</h4>
+            <p style="margin-top: 0;">Ans: Lessa Assam ki sabse choti naapne ki ikai (unit) hai. 20 Lessa milkar 1 Katha banate hain aur 100 Lessa milkar 1 Bigha.</p>
+        </div>
+        <div style="margin-bottom: 20px;">
+            <h4 style="margin-bottom: 5px;">Q3: Kya yeh calculator mobile par kaam karega?</h4>
+            <p style="margin-top: 0;">Ans: Haan, Shayan Smart Tools ke sabhi tools 100% mobile-responsive hain aur aap inhe kahin bhi use kar sakte hain.</p>
         </div>
 
-    </div>
-</div>
-
-<div style="text-align: center; margin-top: 20px;">
-    <a href="index.html" style="color: var(--as-green); font-weight: bold; text-decoration: none;">⬅ Back to All Tools</a>
-</div>
-
-<div class="seo-content" style="font-family: 'Segoe UI', Arial, sans-serif; line-height: 1.8; color: #333; max-width: 1000px; margin: 40px auto; padding: 20px;">
-    <h1 style="color: #1b5e20; font-size: 2.5rem; text-align: center; margin-bottom: 30px;">
-        Assam Land Area Calculator: Professional Bigha, Katha & Lessa Converter 2026
-    </h1>
-
-    <section>
-        <p>Assam mein zameen ki naap-jokh (Land Measurement) karna baaki India ke muqable thoda alag aur pechida ho sakta hai. Yahan ka local system mukhya roop se <strong>Bigha, Katha, aur Lessa</strong> par adharit hai. Agar aap Tezpur, Sonitpur, Guwahati, ya Assam ke kisi bhi kone mein zameen kharidne ya bechne ka soch rahe hain, toh sahi area nikalna sabse pehla kadam hai. Humara yeh advance <strong>Assam Land Area Calculator</strong> aapko Length aur Width ke aadhar par accurate results deta hai.</p>
+        <h2 style="color: #2e7d32;">Assam Land Records and Dharitree Portal</h2>
+        <p>Zameen ki naap ke saath-saath dastawezo ki jankari hona bhi zaroori hai. Assam mein 'Dharitree' portal ke zariye aap apna Jamabandi aur Dag Number check kar sakte hain. Jab bhi aap humara calculator use karke area nikaalein, toh use apne sarkari patta se zaroor match karein. Aksar log Bigha aur Acre ke beech confuse ho jate hain, isliye humne is tool mein dono options diye hain.</p>
         
-        <p>Aap humare <a href="land-cost-calculator.html" style="color: #2e7d32; font-weight: bold;">Land Cost Calculator</a> ka bhi istemal kar sakte hain taaki zameen ki kimat ka sahi anuman lagaya ja sake. Iske alawa, agar aap poore Bharat ke liye calculation chahte hain, toh humara <a href="farm-land-calculator.html" style="color: #2e7d32; font-weight: bold;">Farm Land Calculator India</a> zaroor try karein.</p>
-    </section>
+        <p>Hamara maksad Assam ke har vyakti ko digital takat dena hai taaki koi bhi unhe zameen ke mamle mein gumrah na kar sake. Yeh tool na sirf builders balki aam kisanon ke liye bhi utna hi faydemand hai. Humene isme latest 2026 ke measurement algorithms ka use kiya hai.</p>
 
-    <h2 style="color: #2e7d32; border-bottom: 2px solid #eee; padding-bottom: 10px;">How to Use Assam Land Measurement Tool?</h2>
-    <p>Is tool ko use karna bahut hi saral hai. Aapko kisi bhi technical knowledge ki zaroorat nahi hai. Bas niche diye gaye steps follow karein:</p>
-    <ul style="list-style-type: square; padding-left: 20px;">
-        <li><strong>Step 1:</strong> Apni zameen ki total <strong>Length (Lambai)</strong> feet ya meter mein enter karein.</li>
-        <li><strong>Step 2:</strong> Zameen ki total <strong>Width (Chaudai)</strong> enter karein.</li>
-        <li><strong>Step 3:</strong> Unit select karein (Feet ya Meter) aur "CONVERT" par click karein.</li>
-        <li><strong>Step 4:</strong> Result mein aapko Bigha, Katha, aur Lessa ka complete breakdown dikhega.</li>
-    </ul>
-
-    <h2 style="color: #2e7d32;">Land Measurement Units in Assam (Standard Table)</h2>
-    <table style="width: 100%; border-collapse: collapse; margin: 20px 0; box-shadow: 0 2px 5px rgba(0,0,0,0.1);">
-        <thead>
-            <tr style="background-color: #2e7d32; color: white; text-align: left;">
-                <th style="padding: 15px; border: 1px solid #ddd;">Unit Name</th>
-                <th style="padding: 15px; border: 1px solid #ddd;">Area in Sq. Ft.</th>
-                <th style="padding: 15px; border: 1px solid #ddd;">Conversion Logic</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr><td style="padding: 12px; border: 1px solid #ddd;">1 Lessa</td><td style="padding: 12px; border: 1px solid #ddd;">144 Sq. Ft.</td><td style="padding: 12px; border: 1px solid #ddd;">Smallest Unit</td></tr>
-            <tr style="background: #f9f9f9;"><td style="padding: 12px; border: 1px solid #ddd;">1 Katha</td><td style="padding: 12px; border: 1px solid #ddd;">2,880 Sq. Ft.</td><td style="padding: 12px; border: 1px solid #ddd;">20 Lessa</td></tr>
-            <tr><td style="padding: 12px; border: 1px solid #ddd;">1 Bigha</td><td style="padding: 12px; border: 1px solid #ddd;">14,400 Sq. Ft.</td><td style="padding: 12px; border: 1px solid #ddd;">5 Katha</td></tr>
-            <tr style="background: #f9f9f9;"><td style="padding: 12px; border: 1px solid #ddd;">1 Acre</td><td style="padding: 12px; border: 1px solid #ddd;">43,560 Sq. Ft.</td><td style="padding: 12px; border: 1px solid #ddd;">3.025 Bigha</td></tr>
-            <tr><td style="padding: 12px; border: 1px solid #ddd;">1 Hectare</td><td style="padding: 12px; border: 1px solid #ddd;">1,07,639 Sq. Ft.</td><td style="padding: 12px; border: 1px solid #ddd;">7.47 Bigha</td></tr>
-        </tbody>
-    </table>
-
-    <h2 style="color: #2e7d32;">Calculation Example (Sahi Naap Kaise Nikalein)</h2>
-    <p>Maan lijiye aapne Tezpur mein ek plot dekha jiski lambai 120 feet hai aur chaudai 60 feet hai. Toh uski calculation kuch is tarah hogi:</p>
-    <div style="background: #f1f8e9; padding: 20px; border-radius: 8px; border-left: 6px solid #2e7d32;">
-        Total Square Feet = 120 ft × 60 ft = <strong>7,200 sq. ft.</strong><br>
-        Ab isse Bigha mein badalne ke liye:<br>
-        7,200 / 14,400 = <strong>0.5 Bigha</strong> (Yaani ki 2 Katha aur 10 Lessa).
-    </div>
-    <div style="background: #eff6ff; border-left: 5px solid #2563eb; padding: 20px; border-radius: 0 10px 10px 0; margin-bottom: 30px; margin-top: 20px;">
-        <strong style="color: #1e3a8a; font-size: 15px;">📖 Professional Guide:</strong><br> 
-        <a href="assam.land.calculator.html" style="color: #2563eb; font-weight: 700; text-decoration: underline; font-size: 14px;"> Assam Land Calculator Guide Step-by-Step</a>
-    </div>
-    
-    <h2 style="color: #2e7d32;">Frequently Asked Questions (FAQs)</h2>
-    <div style="margin-bottom: 20px;">
-        <h4 style="margin-bottom: 5px;">Q1: Assam mein 1 Bigha mein kitne Katha hote hain?</h4>
-        <p style="margin-top: 0;">Ans: Assam ke standard revenue system ke anusar, 1 Bigha mein total 5 Katha hote hain.</p>
-    </div>
-    <div style="margin-bottom: 20px;">
-        <h4 style="margin-bottom: 5px;">Q2: Lessa unit ka kya matlab hai?</h4>
-        <p style="margin-top: 0;">Ans: Lessa Assam ki sabse choti naapne ki ikai (unit) hai. 20 Lessa milkar 1 Katha banate hain aur 100 Lessa milkar 1 Bigha.</p>
-    </div>
-    <div style="margin-bottom: 20px;">
-        <h4 style="margin-bottom: 5px;">Q3: Kya yeh calculator mobile par kaam karega?</h4>
-        <p style="margin-top: 0;">Ans: Haan, Shayan Smart Tools ke sabhi tools 100% mobile-responsive hain aur aap inhe kahin bhi use kar sakte hain.</p>
-    </div>
-
-    <h2 style="color: #2e7d32;">Assam Land Records and Dharitree Portal</h2>
-    <p>Zameen ki naap ke saath-saath dastawezo ki jankari hona bhi zaroori hai. Assam mein 'Dharitree' portal ke zariye aap apna Jamabandi aur Dag Number check kar sakte hain. Jab bhi aap humara calculator use karke area nikaalein, toh use apne sarkari patta se zaroor match karein. Aksar log Bigha aur Acre ke beech confuse ho jate hain, isliye humne is tool mein dono options diye hain.</p>
-    
-    <p>Hamara maksad Assam ke har vyakti ko digital takat dena hai taaki koi bhi unhe zameen ke mamle mein gumrah na kar sake. Yeh tool na sirf builders balki aam kisanon ke liye bhi utna hi faydemand hai. Humene isme latest 2026 ke measurement algorithms ka use kiya hai.</p>
-
-    <div style="margin-top: 60px; padding: 30px; border: 2px solid #ffccd5; background-color: #fff5f5; border-radius: 12px;">
-        <h3 style="color: #c53030; margin-top: 0;">🚫 Copyright Infringement Warning</h3>
-        <p style="font-size: 14px; color: #333;">
-            <strong>Copyright © 2026 Shayan Smart Tools. All Rights Reserved.</strong><br><br>
-            Is website ka content, design, aur calculation logic <strong>Indian Copyright Act, 1957</strong> ke tahat protected hai. Kisi bhi tarah se is content ko copy karna, duplicate website banana, ya bina ijazat ke commercial use karna kanoonan apradh hai.
-        </p>
-        <p style="font-size: 13px; color: #666;">
-            Hum regular basis par Google Search Console aur DMCA tools ke zariye internet ko scan karte hain. Agar koi bhi website humara code ya content churate hue payi gayi, toh bina kisi notice ke us par <strong>Legal Action</strong> liya jayega aur hosting provider ko shikayat karke website band karwayi jayegi.
-        </p>
-    </div>
+        <div style="margin-top: 60px; padding: 30px; border: 2px solid #ffccd5; background-color: #fff5f5; border-radius: 12px;">
+            <h3 style="color: #c53030; margin-top: 0;">🚫 Copyright Infringement Warning</h3>
+            <p style="font-size: 14px; color: #333;">
+                <strong>Copyright © 2026 Shayan Smart Tools. All Rights Reserved.</strong><br><br>
+                Is website ka content, design, aur calculation logic <strong>Indian Copyright Act, 1957</strong> ke tahat protected hai. Kisi bhi tarah se is content ko copy karna, duplicate website banana, ya bina ijazat ke commercial use karna kanoonan apradh hai.
+            </p>
+            <p style="font-size: 13px; color: #666;">
+                Hum regular basis par Google Search Console aur DMCA tools ke zariye internet ko scan karte hain. Agar koi bhi website humara code ya content churate hue payi gayi, toh bina kisi notice ke us par <strong>Legal Action</strong> liya jayega aur hosting provider ko shikayat karke website band karwayi jayegi.
+            </p>
+        </div>
+    </article>
 </div>
 
 <script>
@@ -504,7 +528,7 @@
             mt: "Land Measurement Calculator (Assam)", btn: "CONVERT NOW", lla: "Length (Lambai)", lwi: "Width (Chaudai)", lun: "Unit",
             sf: "Assam Standard Format:", rft: "Square Feet (Sq.Ft):", rmt: "Square Meter (Sq.Mt):", rhc: "Total Hectare Value:",
             rac: "Total Acre Value:", rbg: "Calculated Bighas:", rkt: "Calculated Kathas:", rls: "Calculated Lessas:",
-            bco: "📋 Copy Results", bwh: "📲 WhatsApp", bpr: "🖨️ Print Report"
+            bco: "📋 Copy All", bwh: "📲 WhatsApp", bpr: "🖨️ Print / Save Report"
         },
         as: {
             mt: "ভূমি জোখ-মাখ কেলকুলেটৰ (অসম)", btn: "এতিয়াই ৰূপান্তৰ কৰক", lla: "দীঘ (Lambai)", lwi: "প্ৰস্থ (Chaudai)", lun: "একক (Unit)",
@@ -526,26 +550,26 @@
         document.getElementById('lUni').innerText = dict[l].lun;
         
         document.getElementById('rSFormat').innerText = dict[l].sf;
-        document.getElementById('rFt').innerText = dict[l].rft;
-        document.getElementById('rMt').innerText = dict[l].rmt;
-        document.getElementById('rHc').innerText = dict[l].rhc;
-        document.getElementById('rAc').innerText = dict[l].rac;
-        document.getElementById('rBg').innerText = dict[l].rbg;
-        document.getElementById('rKt').innerText = dict[l].rkt;
-        document.getElementById('rLs').innerText = dict[l].rls;
+        document.getElementById('rFt').firstChild.textContent = dict[l].rft;
+        document.getElementById('rMt').firstChild.textContent = dict[l].rmt;
+        document.getElementById('rHc').firstChild.textContent = dict[l].rhc;
+        document.getElementById('rAc').firstChild.textContent = dict[l].rac;
+        document.getElementById('rBg').firstChild.textContent = dict[l].rbg;
+        document.getElementById('rKt').firstChild.textContent = dict[l].rkt;
+        document.getElementById('rLs').firstChild.textContent = dict[l].rls;
         
         document.getElementById('bCopy').innerText = dict[l].bco;
         document.getElementById('bWhat').innerText = dict[l].bwh;
         document.getElementById('bPrin').innerText = dict[l].bpr;
 
-        if(document.getElementById('resultArea').style.display === 'block') calculateLand();
+        if(document.getElementById('resPanel').style.display === 'block') calculateLand();
     }
 
     function calculateLand() {
         const length = parseFloat(document.getElementById('length').value);
         const width = parseFloat(document.getElementById('width').value);
         const unit = document.getElementById('unitType').value;
-        const resultArea = document.getElementById('resultArea');
+        const resPanel = document.getElementById('resPanel');
 
         if (length < 0 || width < 0) {
             alert("Dimensions cannot be negative!");
@@ -589,11 +613,11 @@
         
         document.getElementById('resSqft').innerText = sqft.toLocaleString(undefined, {maximumFractionDigits: 1});
         document.getElementById('resSqmt').innerText = sqmt.toLocaleString(undefined, {maximumFractionDigits: 2});
-        document.getElementById('resBigha').innerText = (sqft / BIGHA_SQFT).toLocaleString(undefined, {maximumFractionDigits: 4});
-        document.getElementById('resKatha').innerText = (sqft / KATHA_SQFT).toLocaleString(undefined, {maximumFractionDigits: 4});
-        document.getElementById('resLessa').innerText = (sqft / LESSA_SQFT).toLocaleString(undefined, {maximumFractionDigits: 4});
-        document.getElementById('resAcre').innerText = (sqft / 43560).toLocaleString(undefined, {maximumFractionDigits: 4});
-        document.getElementById('resHectare').innerText = (sqft / 107639).toLocaleString(undefined, {maximumFractionDigits: 4});
+        document.getElementById('resBigha').innerText = (sqft / BIGHA_SQFT).toFixed(4);
+        document.getElementById('resKatha').innerText = (sqft / KATHA_SQFT).toFixed(4);
+        document.getElementById('resLessa').innerText = (sqft / LESSA_SQFT).toFixed(4);
+        document.getElementById('resAcre').innerText = (sqft / 43560).toFixed(4);
+        document.getElementById('resHectare').innerText = (sqft / 107639).toFixed(4);
 
         // Real-Time Dynamic Document Metric Feed
         let options = { timeZone: 'Asia/Kolkata', day: 'numeric', month: 'short', year: 'numeric' };
@@ -605,13 +629,13 @@
         document.getElementById('pDocRef').innerText = `SST-AS-${randID}`;
 
         // View Trigger Reveal
-        resultArea.style.display = "block";
-        resultArea.scrollIntoView({behavior: 'smooth'});
+        resPanel.style.display = 'block';
+        resPanel.scrollIntoView({behavior: 'smooth'});
     }
 
     function printLandReport() {
-        const resultArea = document.getElementById('resultArea');
-        if (resultArea.style.display === "none") {
+        const resPanel = document.getElementById('resPanel');
+        if (resPanel.style.display === "none" || resPanel.style.display === "") {
             alert("Please calculate values first before compiling print sheets!");
             return;
         }
@@ -652,6 +676,5 @@
         window.open("https://wa.me/?text=" + formattedMessage);
     }
 </script>
-
 </body>
 </html>
