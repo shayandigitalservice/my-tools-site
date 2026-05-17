@@ -41,11 +41,14 @@
         .btn-calc:hover { transform: translateY(-3px); box-shadow: 0 10px 20px rgba(0,51,153,0.2); }
 
         /* RESULTS UI - Clean Vertical One-by-One Layout */
-        .res-panel { background: #0f172a; color: white; padding: 25px; border-radius: 25px; margin-top: 30px; display: none; border: 2px solid var(--ap-orange); }
+        .res-panel { background: #0f172a; color: white; padding: 25px; border-radius: 25px; margin-top: 30px; display: none; border: 2px solid var(--ap-orange); position: relative; }
         .res-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; }
         .res-item { background: rgba(255,255,255,0.05); padding: 15px; border-radius: 12px; display: flex; flex-direction: column; align-items: flex-start; gap: 5px; border-left: 4px solid var(--ap-orange); }
         .res-item span { font-size: 12px; color: #94a3b8; font-weight: bold; }
         .res-item b { font-size: 18px; color: var(--ap-orange); word-break: break-all; }
+
+        /* Printable Header hidden on screen */
+        .print-header { display: none; }
 
         .util-btns { display: flex; gap: 10px; margin-top: 25px; }
         .u-btn { flex: 1; padding: 15px; border-radius: 12px; border: none; font-weight: 800; cursor: pointer; transition: 0.3s; color: white; font-size: 14px; }
@@ -61,15 +64,12 @@
         .link-btn { background: #fff; padding: 15px; border-radius: 15px; text-decoration: none; color: var(--ap-blue); font-weight: 700; text-align: center; border: 2px solid #e2e8f0; transition: 0.3s; }
         .link-btn:hover { border-color: var(--ap-orange); transform: translateY(-3px); }
 
-        /* Master Hack: Screen par normal render hone do, par position out-of-screen rakho takki layout kharab na ho aur mobile engine blank na kare */
-        .print-section-only {
-            position: absolute;
-            left: -9999px;
-            top: 0;
-            width: 750px;
+        @media (max-width: 600px) { 
+            .res-grid { grid-template-columns: 1fr; } 
+            .res-item b { font-size: 16px; }
         }
 
-        /* 🔥 OFFICIAL AIRTIGHT SYSTEM PRINT CONFIGURATION */
+        /* 🔥 OFFICIAL AIRTIGHT PRINT ENGINE CONFIGURATION 🔥 */
         @media print {
             * {
                 -webkit-print-color-adjust: exact !important;
@@ -77,23 +77,44 @@
                 color-adjust: exact !important;
             }
             body { background: #ffffff !important; color: #000000 !important; padding: 0; margin: 0; }
-            .container, header, .lang-switch, .input-grid, .btn-calc, .res-panel, .seo-content { display: none !important; }
+            /* Hide everything except the main active results panel */
+            .container > header, .lang-switch, .input-grid, .btn-calc, .util-btns, #resHead, .seo-content { display: none !important; }
             
-            .print-section-only { 
+            /* Convert Dark Results Panel into clean white report card */
+            .res-panel { 
                 display: block !important; 
-                position: relative !important;
-                left: 0 !important;
-                width: 100% !important; 
-                z-index: 9999 !important;
+                background: #ffffff !important; 
+                color: #000000 !important; 
+                border: none !important; 
+                padding: 10px !important; 
+                margin: 0 !important;
+                width: 100% !important;
             }
-            #pdf-report-template { border: none !important; padding: 15px !important; }
-            th { background-color: #003399 !important; color: #ffffff !important; }
-            td { border: 1px solid #cbd5e1 !important; }
-        }
+            
+            /* Show beautiful customized print header dynamically */
+            .print-header {
+                display: flex !important;
+                justify-content: space-between;
+                align-items: center;
+                border-bottom: 3px solid #003399 !important;
+                padding-bottom: 12px;
+                margin-bottom: 20px;
+            }
 
-        @media (max-width: 600px) { 
-            .res-grid { grid-template-columns: 1fr; } 
-            .res-item b { font-size: 16px; }
+            /* Convert Grid items into dynamic rows for perfect formal printing */
+            .res-grid { display: block !important; }
+            .res-item { 
+                background: transparent !important; 
+                border: none !important;
+                border-bottom: 1px dashed #cbd5e1 !important;
+                padding: 10px 0 !important;
+                display: flex !important;
+                flex-direction: row !important;
+                justify-content: space-between !important;
+                align-items: center !important;
+            }
+            .res-item span { color: #334155 !important; font-size: 14px !important; }
+            .res-item b { color: #003399 !important; font-size: 16px !important; }
         }
     </style>
 </head>
@@ -115,11 +136,31 @@
         <div class="input-box"><label id="lGa">Gajam (గజం)</label><input type="number" id="ga" placeholder="0"></div>
         <div class="input-box"><label id="lCe">Cent (సెంట్)</label><input type="number" id="ce" placeholder="0"></div>
     </div>
-    <button class="btn-calc" onclick="convertAPLand()" id="btnText">Convert Units Now</button>
+    <div style="margin-bottom: 10px;">
+        <button class="btn-calc" onclick="convertAPLand()" id="btnText">Convert Units Now</button>
+    </div>
 
     <div id="resPanel" class="res-panel">
+        
+        <div class="print-header">
+            <div style="text-align: left;">
+                <div style="display: flex; align-items: center; gap: 6px; margin-bottom: 3px;">
+                    <img src="favicon.png" alt="Logo" style="width: 24px; height: 24px; object-fit: contain;" onerror="this.style.display='none'">
+                    <h2 style="font-size: 18px; color: #101828; margin: 0; font-weight: bold;">SHAYAN <span style="color: #ff6600;">SMART TOOLS</span></h2>
+                </div>
+                <p style="font-size: 12px; color: #003399; margin: 0; font-weight: bold; text-transform: uppercase;">📍 State: Andhra Pradesh (ఆంధ్రప్రదేశ్)</p>
+            </div>
+            <div style="text-align: right; font-size: 11px; color: #475569;">
+                <p style="margin: 0;"><strong>Date:</strong> <span id="pdf-date">--/--/----</span></p>
+                <p style="margin: 3px 0 0 0;"><strong>Status:</strong> Secure Summary</p>
+            </div>
+        </div>
+
         <h3 id="resHead" style="color: var(--ap-orange); margin-top: 0; text-align: center;">Conversion Results</h3>
+        
         <div class="res-grid">
+            <div class="res-item" id="print-input-row" style="display:none;"><span style="color:#ff6600;">Entered Feed Values:</span> <b id="rInputVal" style="color:#ff6600;">0</b></div>
+            
             <div class="res-item"><span>Square Feet:</span> <b id="rFt">0</b></div>
             <div class="res-item"><span>Square Meter:</span> <b id="rMt">0</b></div>
             <div class="res-item"><span>Total Acre:</span> <b id="rAc">0</b></div>
@@ -134,78 +175,6 @@
             <button class="u-btn" onclick="copyData()" style="background:#475569;">📋 Copy All</button>
             <button class="u-btn" onclick="shareWA()" style="background:#22c55e;">📲 WhatsApp</button>
             <button class="u-btn" onclick="printLandReport()" style="background:#2b7cff;">🖨️ Print / Save Report</button>
-        </div>
-    </div>
-
-    <div class="print-section-only">
-        <div id="pdf-report-template" style="background: #ffffff; font-family: Arial, sans-serif; padding: 20px;">
-            
-            <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 3px solid #003399; padding-bottom: 15px; margin-bottom: 20px;">
-                <div style="text-align: left;">
-                    <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 5px;">
-                        <img src="favicon.png" alt="Logo" style="width: 28px; height: 28px; object-fit: contain; border-radius: 4px;" onerror="this.style.display='none'">
-                        <h1 style="font-size: 20px; color: #101828; margin: 0; font-weight: bold;">SHAYAN <span style="color: #ff6600;">SMART TOOLS</span></h1>
-                    </div>
-                    <p style="font-size: 13px; color: #003399; margin: 0; font-weight: bold; text-transform: uppercase;">📍 State: Andhra Pradesh (ఆంధ్రప్రదేశ్)</p>
-                    <p style="font-size: 10px; color: #667085; margin: 2px 0 0 0;">Official Digital Land Measurement Revenue Report</p>
-                </div>
-                <div style="text-align: right;">
-                    <p style="font-size: 11px; color: #344054; margin: 0;"><strong>Date:</strong> <span id="pdf-date">--/--/----</span></p>
-                    <p style="font-size: 11px; color: #344054; margin: 4px 0 0 0;"><strong>Status:</strong> Verified & Secure</p>
-                </div>
-            </div>
-
-            <div style="background: #f0fbff; padding: 10px; border-radius: 8px; color: #003399; text-align: center; font-weight: bold; margin-bottom: 20px; font-size: 12px; border: 1px solid #cbd5e1;">
-                🌍 AP LAND UNIT CONVERSION COMPLETE ACCOUNTABILITY REPORT
-            </div>
-
-            <table style="width: 100%; border-collapse: collapse; margin-bottom: 20px; font-size: 12px; color: #101828; text-align: left;">
-                <thead>
-                    <tr style="background: #003399; color: white;">
-                        <th style="padding: 10px; border: 1px solid #cbd5e1; color: white;">Measurement Parameter / Unit</th>
-                        <th style="padding: 10px; border: 1px solid #cbd5e1; color: white;">Calculated Absolute Value</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr style="background: #f9fafb;">
-                        <td style="padding: 10px; border: 1px solid #cbd5e1;"><strong>User Entered Initial Inputs:</strong></td>
-                        <td style="padding: 10px; border: 1px solid #cbd5e1; font-weight: bold; color: #ff6600;" id="pdf-input-val">0 Ankanam | 0 Gajam | 0 Cent</td>
-                    </tr>
-                    <tr>
-                        <td style="padding: 10px; border: 1px solid #cbd5e1;">Total Area (Square Feet - Sq.Ft):</td>
-                        <td style="padding: 10px; border: 1px solid #cbd5e1; color: #003399; font-weight: bold;" id="pdf-sqft-val">0 Sq.Ft</td>
-                    </tr>
-                    <tr>
-                        <td style="padding: 10px; border: 1px solid #cbd5e1;">Total Area (Square Meter - Sq.Mt):</td>
-                        <td style="padding: 10px; border: 1px solid #cbd5e1; font-weight: bold;" id="pdf-sqmt-val">0 Sq.Mt</td>
-                    </tr>
-                    <tr>
-                        <td style="padding: 10px; border: 1px solid #cbd5e1;">Total Area (Acres):</td>
-                        <td style="padding: 10px; border: 1px solid #cbd5e1; color: #ff6600; font-weight: bold;" id="pdf-acre-val">0 Acre</td>
-                    </tr>
-                    <tr>
-                        <td style="padding: 10px; border: 1px solid #cbd5e1;">Total Area (Hectares):</td>
-                        <td style="padding: 10px; border: 1px solid #cbd5e1; font-weight: bold;" id="pdf-hectare-val">0 Hectare</td>
-                    </tr>
-                    <tr>
-                        <td style="padding: 10px; border: 1px solid #cbd5e1;">Total Calculated Ankanams:</td>
-                        <td style="padding: 10px; border: 1px solid #cbd5e1;" id="pdf-ank-val">0</td>
-                    </tr>
-                    <tr>
-                        <td style="padding: 10px; border: 1px solid #cbd5e1;">Total Calculated Gajams (Sq. Yards):</td>
-                        <td style="padding: 10px; border: 1px solid #cbd5e1;" id="pdf-gaj-val">0</td>
-                    </tr>
-                    <tr>
-                        <td style="padding: 10px; border: 1px solid #cbd5e1;">Total Calculated Cents:</td>
-                        <td style="padding: 10px; border: 1px solid #cbd5e1;" id="pdf-cent-val">0</td>
-                    </tr>
-                </tbody>
-            </table>
-
-            <div style="border-top: 1px dashed #d0d5dd; padding-top: 10px; text-align: center; margin-top: 30px;">
-                <p style="font-size: 10px; color: #667085; margin: 0;">This is a system-verified client-side computational summary report.</p>
-                <p style="font-size: 11px; color: #003399; margin: 4px 0 0 0; font-weight: bold;">🌐 www.shayansmarttools.in</p>
-            </div>
         </div>
     </div>
 
@@ -308,17 +277,9 @@
         document.getElementById('rYd').innerText = f_gaj;
         document.getElementById('rCent').innerText = f_cent;
 
-        // Dynamic print template population
-        const today = new Date();
-        document.getElementById('pdf-date').innerText = today.toLocaleDateString('en-IN');
-        document.getElementById('pdf-input-val').innerText = `${an} Ankanam | ${ga} Gajam | ${ce} Cent`;
-        document.getElementById('pdf-sqft-val').innerText = f_ft + " Sq.Ft";
-        document.getElementById('pdf-sqmt-val').innerText = f_mt + " Sq.Mt";
-        document.getElementById('pdf-acre-val').innerText = f_ac + " Acre";
-        document.getElementById('pdf-hectare-val').innerText = f_hc + " Hectare";
-        document.getElementById('pdf-ank-val').innerText = f_ank + " Ankanams";
-        document.getElementById('pdf-gaj-val').innerText = f_gaj + " Gajams";
-        document.getElementById('pdf-cent-val').innerText = f_cent + " Cents";
+        // Populate print dates and values inside panel cleanly
+        document.getElementById('pdf-date').innerText = new Date().toLocaleDateString('en-IN');
+        document.getElementById('rInputVal').innerText = `${an} Ankanam, ${ga} Gajam, ${ce} Cent`;
 
         document.getElementById('resPanel').style.display = 'block';
         document.getElementById('resPanel').scrollIntoView({behavior: 'smooth'});
@@ -330,7 +291,14 @@
         let ce = parseFloat(document.getElementById('ce').value)||0;
         if(!an && !ga && !ce) { alert("Please calculate first before printing!"); return; }
 
+        // Dynamic insertion toggle for print stream layout
+        const printRow = document.getElementById('print-input-row');
+        printRow.style.display = "flex";
+        
         window.print();
+        
+        // Hide row right back post action complete execution
+        printRow.style.display = "none";
     }
 
     function copyData() {
