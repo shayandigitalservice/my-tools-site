@@ -1,0 +1,620 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Haryana Land Cost & Registry Fees Calculator 2026 | Shayan Smart Tools</title>
+    
+    <meta name="description" content="Official Haryana Land Cost & Registry Fees Calculator 2026. Calculate exact stamp duty and slab-based registration fees for Haryana. Includes internal links by Shayan Smart Tools.">
+    <meta name="keywords" content="Haryana land cost calculator, Registry fees in Haryana 2026, Stamp duty Haryana, हरियाणा रजिस्ट्री कैलकुलेटर, Shayan Smart Tools, Jamabandi Haryana, Haryana circle rate calculator">
+    <meta name="author" content="Muksidul islam">
+    <meta name="robots" content="index, follow">
+
+    <style>
+        :root {
+            --hr-green: #2e7d32;
+            --hr-blue: #1565c0;
+            --text-dark: #334155;
+            --white: #ffffff;
+            --bg-light: #f1f8e9;
+            --bg: #f8fafc;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            line-height: 1.6;
+            color: var(--text-dark);
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: var(--bg);
+        }
+
+        .tool-wrapper { padding: 20px 0; text-align: center; }
+        
+        header {
+            background: linear-gradient(135deg, var(--hr-green), #1b5e20);
+            color: #fff; padding: 40px 20px; border-radius: 25px; text-align: center;
+            border-bottom: 6px solid var(--hr-blue); margin-bottom: 30px;
+        }
+        header h1 { color: white; margin: 0 0 10px 0; font-size: 28px; text-transform: uppercase; }
+        header p { color: #e8f5e9; margin: 0; font-size: 16px; }
+
+        /* Language Switcher */
+        .lang-switch { display: flex; justify-content: center; gap: 12px; margin-bottom: 30px; }
+        .l-btn {
+            padding: 10px 25px; border: 2px solid var(--hr-green); background: white;
+            border-radius: 50px; cursor: pointer; font-weight: 700; color: var(--hr-green); transition: 0.3s;
+        }
+        .l-btn.active { background: var(--hr-green); color: white; }
+
+        /* Input Grid Layout */
+        .input-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px; max-width: 750px; margin: 0 auto 25px auto;
+        }
+        .input-group { text-align: left; }
+        label { display: block; font-weight: bold; margin-bottom: 8px; font-size: 14px; color: var(--hr-green); text-transform: uppercase; }
+        input, select {
+            width: 100%; padding: 15px; border: 1px solid #cbd5e1; border-radius: 12px;
+            font-size: 16px; box-sizing: border-box; outline: none; transition: 0.3s; background: var(--white);
+        }
+        input:focus, select:focus { border-color: var(--hr-blue); background: #fff; box-shadow: 0 0 8px rgba(21,101,192,0.1); }
+
+        .btn-calc {
+            background-color: var(--hr-blue); color: white; padding: 18px 45px;
+            border: none; border-radius: 12px; font-size: 18px; font-weight: 800; cursor: pointer;
+            transition: 0.3s; width: 100%; max-width: 750px; text-transform: uppercase; letter-spacing: 1px;
+        }
+        .btn-calc:hover { transform: translateY(-3px); box-shadow: 0 10px 20px rgba(21, 101, 192, 0.2); }
+
+        /* RESULTS UI - Vertical Card Panel Layout */
+        .res-panel {
+            margin-top: 35px; display: none; text-align: left; background: #0f172a; color: white;
+            padding: 25px; border-radius: 25px; max-width: 650px; margin-left: auto; margin-right: auto;
+            border: 2px solid var(--hr-green); position: relative;
+        }
+        .res-panel h3 { margin-top: 0; text-align: center; color: #81c784; font-size: 1.4rem; margin-bottom: 20px; }
+        
+        .res-grid { display: grid; grid-template-columns: repeat(1, 1fr); gap: 15px; }
+        .res-item { background: rgba(255,255,255,0.05); padding: 15px; border-radius: 12px; display: flex; flex-direction: row; justify-content: space-between; align-items: center; border-left: 4px solid var(--hr-green); }
+        .res-item span { font-size: 14px; color: #94a3b8; font-weight: bold; }
+        .res-item b { font-size: 18px; color: #81c784; word-break: break-all; }
+        .res-item.total-row { border-left: 4px solid #ff4d4d; background: rgba(255, 77, 77, 0.1); }
+        .res-item.total-row span { color: #ff8080; }
+        .res-item.total-row b { color: #ff4d4d; font-size: 22px; }
+
+        .print-header-block, .print-footer-block { display: none; }
+
+        .util-btns { display: flex; gap: 12px; margin-top: 25px; }
+        .u-btn { flex: 1; padding: 15px; border: none; border-radius: 12px; font-weight: 800; cursor: pointer; color: white; font-size: 14px; text-align: center; transition: 0.3s; }
+
+        /* 🔥 CLEAN FIXED SEO ARTICLE LAYER - NO WRAPPER LAYOUT CONTAINER CARD */
+        .seo-article { 
+            background: #ffffff !important; 
+            padding: 40px; 
+            border-radius: 30px; 
+            margin-top: 50px; 
+            line-height: 1.8; 
+            border: 1px solid #e2e8f0;
+            color: #334155 !important;
+            text-align: left;
+        }
+        .seo-article .seo-header-block {
+            text-align: center; 
+            border-bottom: 3px solid var(--hr-green); 
+            padding-bottom: 20px; 
+            margin-bottom: 30px;
+            background: transparent !important;
+        }
+        .seo-article h2 { 
+            color: var(--hr-green) !important; 
+            font-size: 28px !important;
+            margin-bottom: 10px !important;
+            border-left: 6px solid var(--hr-blue); 
+            padding-left: 15px; 
+            margin-top: 40px;
+        }
+        .seo-article .seo-header-block h2 {
+            border-left: none !important;
+            padding-left: 0 !important;
+            margin-top: 0 !important;
+        }
+        .seo-article h3 { color: var(--hr-green) !important; margin-top: 30px; }
+        .seo-article p { color: #334155 !important; font-size: 16px; }
+        
+        .seo-article table { width: 100%; border-collapse: collapse; margin: 25px 0; }
+        .seo-article th, .seo-article td { border: 1px solid #e2e8f0; padding: 15px; text-align: left; color: #334155 !important; }
+        .seo-article th { background-color: #f1f8e9; color: var(--hr-green) !important; }
+
+        /* 🔥 STYLISH INTERNAL LINKS DASHBOARD GRID */
+        .sst-dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 16px;
+            margin: 40px 0;
+            width: 100%;
+            box-sizing: border-box;
+        }
+        .sst-dash-btn {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            background: #ffffff;
+            padding: 18px 20px;
+            border-radius: 16px;
+            text-decoration: none;
+            color: var(--hr-blue) !important;
+            font-weight: 700;
+            font-size: 15px;
+            border: 1px solid #e2e8f0;
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            box-sizing: border-box;
+        }
+        .sst-dash-icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 42px;
+            height: 42px;
+            background: #fffbf7;
+            border-radius: 12px;
+            font-size: 20px;
+            border: 1px solid #c8e6c9;
+            transition: transform 0.3s ease;
+        }
+        .sst-dash-title { flex: 1; line-height: 1.3; text-align: left; }
+        .sst-dash-btn:hover {
+            border-color: var(--hr-blue);
+            transform: translateY(-4px);
+            box-shadow: 0 12px 20px rgba(21, 101, 192, 0.1);
+            background: linear-gradient(135deg, #ffffff, var(--bg-light));
+        }
+        .sst-dash-btn:hover .sst-dash-icon { transform: scale(1.1) rotate(5deg); background: var(--hr-blue); color: #fff; }
+
+        @media (max-width: 600px) { 
+            input, select, .btn-calc, .res-panel { max-width: 100%; } 
+            .seo-article { padding: 20px; }
+            .seo-article h2 { font-size: 22px !important; }
+            .sst-dashboard-grid { grid-template-columns: 1fr; gap: 12px; }
+            .sst-dash-btn { padding: 15px 18px; }
+        }
+
+        /* 🔥 PREMIUM GOVERNMENT STYLE PRINT RULES CONFIGURATION 🔥 */
+        @media print {
+            * {
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+                color-adjust: exact !important;
+            }
+            @page { margin: 15mm; size: A4 portrait; }
+            body { background: #ffffff !important; color: #000000 !important; padding: 0; margin: 0; }
+            
+            .tool-wrapper > header, .lang-switch, .input-grid, .btn-calc, .util-btns, #resHead, .seo-article, .back-btn { display: none !important; }
+            
+            .res-panel { 
+                display: block !important; 
+                background: #ffffff !important; 
+                color: #000000 !important; 
+                padding: 25px !important; 
+                margin: 0 !important;
+                width: 100% !important;
+                box-sizing: border-box;
+                border: 3px double var(--hr-green) !important; 
+                border-radius: 0px !important;
+            }
+            
+            .print-header-block {
+                display: block !important;
+                text-align: center;
+                border-bottom: 2px solid var(--hr-green) !important;
+                padding-bottom: 12px;
+                margin-bottom: 20px;
+            }
+            .print-header-block img { display: inline-block !important; }
+
+            .res-grid { display: block !important; margin-top: 15px; }
+            .res-item { 
+                background: transparent !important; 
+                border: none !important;
+                border-bottom: 1px solid #e2e8f0 !important;
+                padding: 12px 4px !important;
+                display: flex !important;
+                flex-direction: row !important;
+                justify-content: space-between !important;
+                align-items: center !important;
+                border-radius: 0px !important;
+            }
+            .res-item span { color: #1e293b !important; font-size: 13px !important; font-weight: 600 !important; text-transform: uppercase; }
+            .res-item b { color: #1b5e20 !important; font-size: 15px !important; font-weight: 700 !important; }
+            .res-item.total-row b { color: #b71c1c !important; font-size: 17px !important; }
+
+            .print-footer-block {
+                display: block !important;
+                text-align: center;
+                margin-top: 40px;
+                border-top: 1px solid #cbd5e1 !important;
+                padding-top: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="tool-wrapper">
+        <header>
+            <h1 id="mTitle">Haryana Land Cost & Registry Calculator</h1>
+            <p id="sTitle">Calculate land value, stamp duty, and total registration costs in Haryana instantly</p>
+        </header>
+
+        <div class="lang-switch">
+            <button class="l-btn active" id="enBtn" onclick="setLang('en')">English</button>
+            <button class="l-btn" id="hiBtn" onclick="setLang('hi')">हिंदी</button>
+        </div>
+
+        <div class="input-grid">
+            <div class="input-group">
+                <label for="unitSelect" id="lblUnit">Select Area Unit</label>
+                <select id="unitSelect">
+                    <option value="gaj">Square Yards (Gaj / गज)</option>
+                    <option value="marla">Marla (मरला)</option>
+                    <option value="kanal">कनाल (Kanal)</option>
+                    <option value="killa">Killa / Acre (किल्ला)</option>
+                </select>
+            </div>
+
+            <div class="input-group">
+                <label for="areaInput" id="lblArea">Enter Total Area</label>
+                <input type="number" id="areaInput" placeholder="Example: 10" step="any">
+            </div>
+
+            <div class="input-group">
+                <label for="rateInput" id="lblRate">Collector/Circle Rate (per Unit)</label>
+                <input type="number" id="rateInput" placeholder="Enter Rate in ₹" step="any">
+            </div>
+
+            <div class="input-group">
+                <label for="areaType" id="lblAreaType">Property Location Type</label>
+                <select id="areaType">
+                    <option value="urban">Urban (Corporation/Municipality)</option>
+                    <option value="rural">Rural (Panchayat/Gramin Area)</option>
+                </select>
+            </div>
+
+            <div class="input-group">
+                <label for="genderSelect" id="lblGender">Buyer Ownership Category</label>
+                <select id="genderSelect">
+                    <option value="male">Male Buyer</option>
+                    <option value="female">Female Buyer</option>
+                    <option value="joint">Joint (Male + Female)</option>
+                </select>
+            </div>
+        </div>
+
+        <button class="btn-calc" onclick="calculateHaryanaLandCost()" id="btnText">Calculate Valuation Now</button>
+
+        <div id="resPanel" class="res-panel">
+            
+            <div class="print-header-block">
+                <div style="display: flex; justify-content: center; align-items: center; gap: 10px; margin-bottom: 5px;">
+                    <img src="favicon.png" alt="SST" style="width: 30px; height: 30px;">
+                    <h2 style="font-size: 22px; color: #1b5e20; margin: 0; font-weight: 900; letter-spacing: 1px;">SHAYAN SMART TOOLS</h2>
+                </div>
+                <p style="font-size: 11px; color: var(--hr-blue); font-weight: bold; margin: 0 0 10px 0; letter-spacing: 0.5px; text-transform: uppercase;">HARYANA JAMABANDI REVENUE REGISTRATION SUMMARY - 2026</p>
+                
+                <div style="background: #f8fafc; border: 1px solid #cbd5e1; padding: 10px; border-radius: 4px; display: grid; grid-template-columns: 1fr 1fr; font-size: 11px; text-align: left; gap: 5px; color: #334155;">
+                    <div><strong>DOCUMENT REF:</strong> <span id="pDocRef" style="color:#1b5e20; font-weight:bold;">SST-HR-REG-0000</span></div>
+                    <div><strong>DATE:</strong> <span id="pDocDate" style="color:#1b5e20; font-weight:bold;">--/--/----</span></div>
+                    <div><strong>JURISDICTION:</strong> State of Haryana (हरियाणा)</div>
+                    <div style="text-align: right;"><strong>STATUS:</strong> Digitally Verified Report</div>
+                </div>
+            </div>
+
+            <h3 id="resHead">Official Property Valuation Invoice</h3>
+            
+            <div class="res-grid">
+                <div class="res-item" id="print-input-row" style="display:none;"><span style="color:var(--hr-blue); font-weight: 800;">Initial Input Feed:</span> <b id="rInputVal" style="color:var(--hr-blue); font-weight: 800;">0 Units</b></div>
+                
+                <div class="res-item"><span id="rLc">Total Pure Land Cost:</span> <b id="outLandCost">₹0</b></div>
+                <div class="res-item"><span id="rSd">Stamp Duty Amount:</span> <b id="outStampDuty">₹0</b></div>
+                <div class="res-item"><span id="rRf">Registration Fees (Slab Capped):</span> <b id="outRegFees">₹0</b></div>
+                <div class="res-item total-row"><span id="rGt">Grand Total Property Budget:</span> <b id="outGrandTotal">₹0</b></div>
+            </div>
+
+            <div class="print-footer-block">
+                <div style="margin: 0 auto; max-width: 85%; font-size: 11px; color: #475569; line-height: 1.6; text-align: center;">
+                    <p style="margin: 0; font-weight: bold; color: #1b5e20; text-transform: uppercase; font-size: 12px;">🔒 SECURITY DISCLAIMER & VERIFICATION NOTICE</p>
+                    <p style="margin: 6px 0 0 0;">This computation is an automated metrics compilation sheet, generated via standard statutory norms of Haryana Revenue Department for 2026. Meticulously verify measurements and collector definitions via Jamabandi Haryana Portal prior to deep execution.</p>
+                    
+                    <div style="display: inline-block; border: 1px dashed #1b5e20; padding: 6px 20px; border-radius: 4px; margin-top: 15px; margin-bottom: 12px; background: #f8fafc; font-size: 10px; font-weight: bold; color: #1b5e20; text-transform: uppercase; letter-spacing: 0.5px;">
+                        SHAYAN SMART TOOLS [SST SEAL] - OFFICIAL UNIT PLATFORM
+                    </div>
+                    <p style="margin: 5px 0 0 0; font-size: 12px; font-weight: bold; color: var(--hr-green);">🌐 SST OFFICIAL ACCESS: www.shayansmarttools.in</p>
+                </div>
+            </div>
+
+            <div class="util-btns">
+                <button class="u-btn" onclick="copyInvoice()" style="background:#475569;">📋 Copy Statement</button>
+                <button class="u-btn" onclick="shareInvoiceWA()" style="background:#22c55e;">📲 WhatsApp</button>
+                <button class="u-btn" onclick="printLandReport()" style="background:#2b7cff;">🖨️ Print Report</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="back-btn" style="text-align: center; margin-top: 10px;">
+        <a href="index.html" style="color: var(--hr-green); text-decoration: none; font-weight: bold;">⬅ Back to All Tools</a>
+    </div>
+
+    <article class="seo-article">
+        <div class="seo-header-block">
+            <h2>Haryana Property Registration and Land Cost Valuation Rules 2026</h2>
+            <p style="font-size: 18px; color: #555; margin: 5px 0 0 0;">Official Haryana Land Cost & Registry Fees Calculator 2026. Calculate exact stamp duty and slab-based registration fees for Haryana.</p>
+        </div>
+
+        <section>
+            <p>
+                Haryana mein agricultural lands, industrial properties, ya shehri residential plots kharidte samay **Land Cost Valuation** aur revenue department ki **Registry Charges** ka calculation transparently samajhna behad zaroori hai. Haryana government ke strict guidelines ke mutabik registry ke waqt Collector Rate (jise Circle Rate ya DC rate bhi kehte hain) ke aadhar par stamp duty lagti hai. Shayan Smart Tools ka ye **Haryana Land Cost & Registry Calculator** is calculation ko 100% accurate roop se execute karta hai.
+            </p>
+        </section>
+
+        <section>
+            <h2>Official Property Registry Duty Structure in Haryana 2026</h2>
+            <p>Haryana Government ke revenue acts ke anusar, urban aur rural regions ke liye duty structure is prakar nirdharit kiya gaya hai:</p>
+            <div style="overflow-x: auto;">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Buyer Category</th>
+                            <th>Urban Areas Duty</th>
+                            <th>Rural Areas Duty</th>
+                            <th>Registration Fees Limits</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><b>Male (पुरुष)</b></td>
+                            <td>7% of Property Value</td>
+                            <td>5% of Property Value</td>
+                            <td>Slab Based (Max ₹50,000 Cap)</td>
+                        </tr>
+                        <tr>
+                            <td><b>Female (महिला)</b></td>
+                            <td>5% of Property Value</td>
+                            <td>3% of Property Value</td>
+                            <td>Slab Based (Max ₹50,000 Cap)</td>
+                        </tr>
+                        <tr>
+                            <td><b>Joint (Male + Female)</b></td>
+                            <td>6% of Property Value</td>
+                            <td>4% of Property Value</td>
+                            <td>Slab Based (Max ₹50,000 Cap)</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <section>
+            <h2>Haryana Registration Fee Slabs Explained</h2>
+            <p>Haryana mein flat 1% logic ke bajay strict structural slabs hote hain:</p>
+            <ul>
+                <li>₹5 Lakh tak ki property par: Flat ₹1,000</li>
+                <li>₹5 Lakh se ₹10 Lakh tak: Flat ₹2,000</li>
+                <li>₹10 Lakh se ₹25 Lakh tak: Flat ₹5,000</li>
+                <li>₹25 Lakh se ₹50 Lakh tak: Flat ₹10,000</li>
+                <li>₹50 Lakh se ₹1 Crore tak: Flat ₹25,000</li>
+                <li>₹1 Crore se upar ki sabhi properties par: Maximum **₹50,000** boundary cap lagti hai.</li>
+            </ul>
+        </section>
+
+        <section>
+            <h2>How to Use Haryana Land Cost & Registry Tool?</h2>
+            <ol>
+                <li>Sabse pehle bhasha badalney ke liye **English** ya **Hindi** toggle select karein.</li>
+                <li>**"Select Area Unit"** dropdown se Gaj (Square Yards), Marla, Kanal, ya Killa chunein.</li>
+                <li>Zameen ka accurate volume darj karein aur us area ka official circle rate likhein.</li>
+                <li>Zameen ki location (Urban ya Rural) aur buyer ki category darj karke compute karein.</li>
+            </ol>
+        </section>
+
+        <section>
+            <h2>5 Practical Examples of Property Purchases in Haryana</h2>
+            <ul>
+                <li><b>Example 1 (Urban Plot in Gurugram):</b> Ek male buyer ne 100 Gaj ka plot ₹50,000 per gaj ke rate se kharida, toh total price ₹50,00,000 hui. Is par 7% Urban stamp duty (₹3,50,000) aur slab ke mutabik ₹10,000 registration fees lagegi.</li>
+                <li><b>Example 2 (Agricultural Land in Ambala):</b> Dropdown se Killa select karke female name par rural land enter karne se flat 3% stamp duty calculate hogi.</li>
+                <li><b>Example 3 (High-Value Asset Capping):</b> Agar property ki cost ₹2 Crore hai, toh system registration fee ko automatic strict boundary ke mutabik ₹50,00,000 slab check karke **₹50,000** par lock kar dega.</li>
+                <li><b>Example 4 (Joint Registry Advantage):</b> Urban areas mein joint select karne par module 6% dynamic rule execute karega.</li>
+                <li><b>Example 5 (Legal Mutation Process):</b> Haryana Jamabandi records par nam chadhane se pehle Tehsil registration transparently hamare system se verify ki ja sakti hai.</li>
+            </ul>
+        </section>
+
+        <section>
+            <h2>Frequently Asked Questions (FAQs)</h2>
+            <p><b>Q1. Haryana mein registry stamp duty par mahilaon ko kya discount milta hai?</b><br>Ans: Haryana government male buyers ke mukable female buyers ko stamp duty par pure 2% ki standard relaxation pradan karti hai.</p>
+            <p><b>Q2. Kya Haryana mein registration fee unlimited hoti hai?</b><br>Ans: Nahi, property ki value chahe kitni bhi high ho, maximum registration fee limit strictly **₹50,000** par capped hai.</p>
+            <p><b>Q3. Urban aur Rural property duties mein kya antar hai?</b><br>Ans: Rural (gramin) kshetron mein panchayat tax exemptions ke chalte urban properties ke mukable stamp duty flat 2% kam hoti hai.</p>
+        </section>
+
+        <h3>Related Land Utilities & Internal Dashboards</h3>
+        <div class="sst-dashboard-grid">
+            <a class="sst-dash-btn" href="haryana-land-area-calculator.html">
+                <div class="sst-dash-icon">🌾</div>
+                <span class="sst-dash-title">Haryana Land Area Calculator</span>
+            </a>
+            <a class="sst-dash-btn" href="haryana-land-unit-converter.html">
+                <div class="sst-dash-icon">🔄</div>
+                <span class="sst-dash-title">Haryana Land Unit Converter</span>
+            </a>
+            <a class="sst-dash-btn" href="haryana-bigha-to-sqft-calculator.html">
+                <div class="sst-dash-icon">📐</div>
+                <span class="sst-dash-title">Haryana Bigha to Sq Ft</span>
+            </a>
+            <a class="sst-dash-btn" href="punjab-land-cost-calculator.html">
+                <div class="sst-dash-icon">💰</div>
+                <span class="sst-dash-title">Punjab Land Cost Calculator</span>
+            </a>
+        </div>
+
+        <div style="margin-top: 50px; padding: 25px; border: 2px dashed var(--hr-green); background: #fafdfa; border-radius: 12px; text-align: center;">
+            <h3 style="color: var(--hr-blue); margin-top: 0;">🚫 Copyright & Legal Rights Reserved</h3>
+            <p style="font-size: 13px; margin-bottom: 0;">
+                <strong>Copyright © 2026 Shayan Smart Tools. All Rights Reserved.</strong><br><br>
+                Is application module ka core statutory algorithm framework aur functional indexing parameters <b>Muksidul Islam</b> ki engineering intellectual asset hain. Copying elements strict cyber acts ke under legally restricted hain.<br><br>
+                <b>Disclaimer:</b> Tehsil slab notices aur urban limits boundaries ke anusar localized cesses me minimal changes ho sakte hain. Physical evaluation se pehle apne Halqa Patwari se details cross-verify zarur karein.
+            </p>
+        </div>
+    </article>
+
+    <script>
+        document.addEventListener('contextmenu', e => e.preventDefault());
+        document.onkeydown = function(e) {
+            if (e.ctrlKey && (e.keyCode === 67 || e.keyCode === 85 || e.keyCode === 73)) {
+                alert("Copyright Warning: Copying content from Shayan Digital Service is prohibited.");
+                return false;
+            }
+        };
+
+        let currentLang = 'en';
+        const dict = {
+            en: {
+                mTitle: "Haryana Land Cost & Registry Calculator",
+                sTitle: "Calculate land value, stamp duty, and total registration costs in Haryana instantly",
+                lblUnit: "Select Area Unit",
+                lblArea: "Enter Total Area",
+                lblRate: "Collector/Circle Rate (per Unit)",
+                lblAreaType: "Property Location Type",
+                lblGender: "Buyer Ownership Category",
+                btnText: "Calculate Valuation Now",
+                resHead: "Official Property Valuation Invoice",
+                rLc: "Total Pure Land Cost:",
+                rSd: "Stamp Duty Amount:",
+                rRf: "Registration Fees (Slab Capped):",
+                rGt: "Grand Total Property Budget:"
+            },
+            hi: {
+                mTitle: "हरियाणा भूमि लागत एवं रजिस्ट्री कैलकुलेटर",
+                sTitle: "हरियाणा में भूमि मूल्य, स्टैम्प ड्यूटी और कुल पंजीकरण शुल्क की तुरंत गणना करें",
+                lblUnit: "क्षेत्रफल इकाई चुनें",
+                lblArea: "कुल क्षेत्रफल दर्ज करें",
+                lblRate: "कलेक्टर/सर्किल रेट (प्रति इकाई)",
+                lblAreaType: "जमीन की भौगोलिक स्थिति",
+                lblGender: "क्रेता मालिकाना श्रेणी",
+                btnText: "लागत मूल्यांकन निकालें",
+                resHead: "सरकारी संपत्ति मूल्यांकन चालान",
+                rLc: "कुल शुद्ध भूमि लागत:",
+                rSd: "कुल स्टैम्प ड्यूटी शुल्क:",
+                rRf: "पंजीकरण शुल्क (स्लैब अनुसार):",
+                rGt: "कुल अंतिम प्रॉपर्टी बजट:"
+            }
+        };
+
+        function setLang(lang) {
+            currentLang = lang;
+            document.getElementById('enBtn').classList.toggle('active', lang === 'en');
+            document.getElementById('hiBtn').classList.toggle('active', lang === 'hi');
+            
+            document.getElementById('mTitle').innerText = dict[lang].mTitle;
+            document.getElementById('sTitle').innerText = dict[lang].sTitle;
+            document.getElementById('lblUnit').innerText = dict[lang].lblUnit;
+            document.getElementById('lblArea').innerText = dict[lang].lblArea;
+            document.getElementById('lblRate').innerText = dict[lang].lblRate;
+            document.getElementById('lblAreaType').innerText = dict[lang].lblAreaType;
+            document.getElementById('lblGender').innerText = dict[lang].lblGender;
+            document.getElementById('btnText').innerText = dict[lang].btnText;
+            document.getElementById('resHead').innerText = dict[lang].resHead;
+            document.getElementById('rLc').innerText = dict[lang].rLc;
+            document.getElementById('rSd').innerText = dict[lang].rSd;
+            document.getElementById('rRf').innerText = dict[lang].rRf;
+            document.getElementById('rGt').innerText = dict[lang].rGt;
+
+            if(document.getElementById('resPanel').style.display === "block") {
+                calculateHaryanaLandCost();
+            }
+        }
+
+        function calculateHaryanaLandCost() {
+            const area = parseFloat(document.getElementById('areaInput').value);
+            const rate = parseFloat(document.getElementById('rateInput').value);
+            const loc = document.getElementById('areaType').value;
+            const gender = document.getElementById('genderSelect').value;
+            const resPanel = document.getElementById('resPanel');
+            const unit = document.getElementById('unitSelect').value;
+
+            if (isNaN(area) || area <= 0 || isNaN(rate) || rate <= 0) {
+                alert(currentLang === 'en' ? "Please enter valid Area and Rate details!" : "कृपया सही क्षेत्रफल और रेट दर्ज करें!");
+                return;
+            }
+
+            let landCost = area * rate;
+            let stampDutyPercent = 0.07; 
+
+            if (loc === 'urban') {
+                if (gender === 'female') stampDutyPercent = 0.05;
+                else if (gender === 'joint') stampDutyPercent = 0.06;
+            } else { 
+                if (gender === 'male') stampDutyPercent = 0.05;
+                else if (gender === 'female') stampDutyPercent = 0.03;
+                else if (gender === 'joint') stampDutyPercent = 0.04;
+            }
+
+            let stampDuty = landCost * stampDutyPercent;
+            
+            let regFees = 0;
+            if (landCost <= 500000) regFees = 1000;
+            else if (landCost <= 1000000) regFees = 2000;
+            else if (landCost <= 2500000) regFees = 5000;
+            else if (landCost <= 5000000) regFees = 10000;
+            else if (landCost <= 10000000) regFees = 25000;
+            else regFees = 50000; 
+
+            let grandTotal = landCost + stampDuty + regFees;
+
+            document.getElementById('outLandCost').innerText = "₹" + landCost.toLocaleString('en-IN', {maximumFractionDigits: 2});
+            document.getElementById('outStampDuty').innerText = "₹" + stampDuty.toLocaleString('en-IN', {maximumFractionDigits: 2});
+            document.getElementById('outRegFees').innerText = "₹" + regFees.toLocaleString('en-IN', {maximumFractionDigits: 2});
+            document.getElementById('outGrandTotal').innerText = "₹" + grandTotal.toLocaleString('en-IN', {maximumFractionDigits: 2});
+
+            let options = { timeZone: 'Asia/Kolkata', day: 'numeric', month: 'long', year: 'numeric' };
+            let today = new Date().toLocaleDateString('en-IN', options);
+            document.getElementById('pDocDate').innerText = today + " (INDIA STANDARD TIME)";
+
+            let unitNameText = "Units";
+            if(unit === 'gaj') unitNameText = currentLang === 'en' ? "Gaj (Sq Yards)" : "गज";
+            if(unit === 'marla') unitNameText = currentLang === 'en' ? "Marla" : "मरला";
+            if(unit === 'kanal') unitNameText = currentLang === 'en' ? "Kanal" : "कनाल";
+            if(unit === 'killa') unitNameText = currentLang === 'en' ? "Killa/Acre" : "किल्ला";
+
+            document.getElementById('rInputVal').innerText = `${area} ${unitNameText} (${loc === 'urban' ? 'Urban' : 'Rural'})`;
+
+            let randID = Math.floor(1000000000 + Math.random() * 9000000000);
+            document.getElementById('pDocRef').innerText = `SST-HR-REG-${randID}`;
+
+            resPanel.style.display = "block";
+            resPanel.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function printLandReport() {
+            const area = document.getElementById('areaInput').value;
+            const rate = document.getElementById('rateInput').value;
+            if(!area || area <= 0 || !rate || rate <= 0) { alert("Calculate first before printing!"); return; }
+
+            const printRow = document.getElementById('print-input-row');
+            printRow.style.display = "flex";
+            window.print();
+            printRow.style.display = "none";
+        }
+
+        function copyInvoice() {
+            let text = `Official Property Statement:\nZameen ki Keemat: ${document.getElementById('outLandCost').innerText}\nStamp Duty Amount: ${document.getElementById('outStampDuty').innerText}\nTotal Bill: ${document.getElementById('outGrandTotal').innerText}\nCalculated via Shayan Smart Tools`;
+            navigator.clipboard.writeText(text);
+            alert("Statement Copied!");
+        }
+
+        function shareInvoiceWA() {
+            let urlText = encodeURIComponent(`Official Property Statement:\nZameen ki Keemat: ${document.getElementById('outLandCost').innerText}\nStamp Duty Amount: ${document.getElementById('outStampDuty').innerText}\nTotal Budget: ${document.getElementById('outGrandTotal').innerText}\nCheck details on Shayan Smart Tools`);
+            window.open("https://wa.me/?text=" + urlText);
+        }
+    </script>
+</body>
+</html>
