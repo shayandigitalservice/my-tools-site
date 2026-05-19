@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Punjab Land Cost & Registry Fees Calculator 2026 | Shayan Smart Tools</title>
+    
+    <meta name="description" content="Calculate land value, stamp duty, and registry fees in Punjab for 2026. Custom tool for Killa, Marla, and Sq Yards with bilingual support. Power by Shayan Smart Tools.">
+    <meta name="keywords" content="Punjab land cost calculator, Registry fees in Punjab 2026, Stamp duty Punjab, ਪੰਜਾਬ ਰਜਿਸਟਰੀ ਕੈਲਕੁਲੇਟਰ, Shayan Smart Tools, Property valuation Punjab">
+    <meta name="author" content="Muksidul islam">
+    <meta name="robots" content="index, follow">
+
+    <style>
+        :root {
+            --pj-saffron: #ff9933;
+            --pj-blue: #003366;
+            --text-dark: #334155;
+            --white: #ffffff;
+            --bg-light: #fffbf7;
+            --bg: #f8fafc;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            line-height: 1.6;
+            color: var(--text-dark);
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: var(--bg);
+        }
+
+        .tool-wrapper { padding: 20px 0; text-align: center; }
+        
+        header {
+            background: linear-gradient(135deg, var(--pj-blue), #001f4d);
+            color: #fff; padding: 40px 20px; border-radius: 25px; text-align: center;
+            border-bottom: 6px solid var(--pj-saffron); margin-bottom: 30px;
+        }
+        header h1 { color: white; margin: 0 0 10px 0; font-size: 28px; text-transform: uppercase; }
+        header p { color: #e3f2fd; margin: 0; font-size: 16px; }
+
+        /* Language Switcher */
+        .lang-switch { display: flex; justify-content: center; gap: 12px; margin-bottom: 30px; }
+        .l-btn {
+            padding: 10px 25px; border: 2px solid var(--pj-blue); background: white;
+            border-radius: 50px; cursor: pointer; font-weight: 700; color: var(--pj-blue); transition: 0.3s;
+        }
+        .l-btn.active { background: var(--pj-blue); color: var(--pj-saffron); }
+
+        /* Input Grid Layout */
+        .input-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px; max-width: 750px; margin: 0 auto 25px auto;
+        }
+        .input-group { text-align: left; }
+        label { display: block; font-weight: bold; margin-bottom: 8px; font-size: 14px; color: var(--pj-blue); text-transform: uppercase; }
+        input, select {
+            width: 100%; padding: 15px; border: 1px solid #cbd5e1; border-radius: 12px;
+            font-size: 16px; box-sizing: border-box; outline: none; transition: 0.3s; background: var(--white);
+        }
+        input:focus, select:focus { border-color: var(--pj-saffron); background: #fff; box-shadow: 0 0 8px rgba(255,153,51,0.1); }
+
+        .btn-calc {
+            background-color: var(--pj-blue); color: var(--pj-saffron); padding: 18px 45px;
+            border: none; border-radius: 12px; font-size: 18px; font-weight: 800; cursor: pointer;
+            transition: 0.3s; width: 100%; max-width: 750px; text-transform: uppercase; letter-spacing: 1px;
+        }
+        .btn-calc:hover { transform: translateY(-3px); box-shadow: 0 10px 20px rgba(0, 51, 102, 0.2); }
+
+        /* RESULTS UI - Vertical Panel System */
+        .res-panel {
+            margin-top: 35px; display: none; text-align: left; background: #0f172a; color: white;
+            padding: 25px; border-radius: 25px; max-width: 650px; margin-left: auto; margin-right: auto;
+            border: 2px solid var(--pj-saffron); position: relative;
+        }
+        .res-panel h3 { margin-top: 0; text-align: center; color: var(--pj-saffron); font-size: 1.4rem; margin-bottom: 20px; }
+        
+        .res-grid { display: grid; grid-template-columns: repeat(1, 1fr); gap: 15px; }
+        .res-item { background: rgba(255,255,255,0.05); padding: 15px; border-radius: 12px; display: flex; flex-direction: row; justify-content: space-between; align-items: center; border-left: 4px solid var(--pj-saffron); }
+        .res-item span { font-size: 14px; color: #94a3b8; font-weight: bold; }
+        .res-item b { font-size: 18px; color: var(--pj-saffron); word-break: break-all; }
+        .res-item.total-row { border-left: 4px solid #ff4d4d; background: rgba(255, 77, 77, 0.1); }
+        .res-item.total-row span { color: #ff8080; }
+        .res-item.total-row b { color: #ff4d4d; font-size: 22px; }
+
+        .print-header-block, .print-footer-block { display: none; }
+
+        .util-btns { display: flex; gap: 12px; margin-top: 25px; }
+        .u-btn { flex: 1; padding: 15px; border: none; border-radius: 12px; font-weight: 800; cursor: pointer; color: white; font-size: 14px; text-align: center; transition: 0.3s; }
+
+        /* 🔥 CLEAN FIXED SEO ARTICLE LAYER - NO WRAPPER BOX LAYOUT */
+        .seo-article { 
+            background: #ffffff !important; 
+            padding: 40px; 
+            border-radius: 30px; 
+            margin-top: 50px; 
+            line-height: 1.8; 
+            border: 1px solid #e2e8f0;
+            color: #334155 !important;
+            text-align: left;
+        }
+        .seo-article .seo-header-block {
+            text-align: center; 
+            border-bottom: 3px solid var(--pj-blue); 
+            padding-bottom: 20px; 
+            margin-bottom: 30px;
+            background: transparent !important;
+        }
+        .seo-article h2 { 
+            color: var(--pj-blue) !important; 
+            font-size: 28px !important;
+            margin-bottom: 10px !important;
+            border-left: 6px solid var(--pj-saffron); 
+            padding-left: 15px; 
+            margin-top: 40px;
+        }
+        .seo-article .seo-header-block h2 {
+            border-left: none !important;
+            padding-left: 0 !important;
+            margin-top: 0 !important;
+        }
+        .seo-article h3 { color: var(--pj-blue) !important; margin-top: 30px; }
+        .seo-article p { color: #334155 !important; font-size: 16px; }
+        
+        .seo-article table { width: 100%; border-collapse: collapse; margin: 25px 0; }
+        .seo-article th, .seo-article td { border: 1px solid #e2e8f0; padding: 15px; text-align: left; color: #334155 !important; }
+        .seo-article th { background-color: var(--bg-light); color: var(--pj-blue) !important; }
+
+        @media (max-width: 600px) { 
+            input, select, .btn-calc, .res-panel { max-width: 100%; } 
+            .seo-article { padding: 20px; }
+            .seo-article h2 { font-size: 22px !important; }
+        }
+
+        /* 🔥 PREMIUM PRINT RULES DESIGN 🔥 */
+        @media print {
+            * {
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+                color-adjust: exact !important;
+            }
+            @page { margin: 15mm; size: A4 portrait; }
+            body { background: #ffffff !important; color: #000000 !important; padding: 0; margin: 0; }
+            
+            .tool-wrapper > header, .lang-switch, .input-grid, .btn-calc, .util-btns, #resHead, .seo-article, .back-btn { display: none !important; }
+            
+            .res-panel { 
+                display: block !important; 
+                background: #ffffff !important; 
+                color: #000000 !important; 
+                padding: 25px !important; 
+                margin: 0 !important;
+                width: 100% !important;
+                box-sizing: border-box;
+                border: 3px double var(--pj-blue) !important; 
+                border-radius: 0px !important;
+            }
+            
+            .print-header-block {
+                display: block !important;
+                text-align: center;
+                border-bottom: 2px solid var(--pj-blue) !important;
+                padding-bottom: 12px;
+                margin-bottom: 20px;
+            }
+            .print-header-block img { display: inline-block !important; }
+
+            .res-grid { display: block !important; margin-top: 15px; }
+            .res-item { 
+                background: transparent !important; 
+                border: none !important;
+                border-bottom: 1px solid #e2e8f0 !important;
+                padding: 12px 4px !important;
+                display: flex !important;
+                flex-direction: row !important;
+                justify-content: space-between !important;
+                align-items: center !important;
+                border-radius: 0px !important;
+            }
+            .res-item span { color: #1e293b !important; font-size: 13px !important; font-weight: 600 !important; text-transform: uppercase; }
+            .res-item b { color: var(--pj-blue) !important; font-size: 15px !important; font-weight: 700 !important; }
+            .res-item.total-row b { color: #d84315 !important; font-size: 17px !important; }
+
+            .print-footer-block {
+                display: block !important;
+                text-align: center;
+                margin-top: 40px;
+                border-top: 1px solid #cbd5e1 !important;
+                padding-top: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="tool-wrapper">
+        <header>
+            <h1 id="mTitle">Punjab Land Cost & Registry Calculator</h1>
+            <p id="sTitle">Calculate land value, stamp duty, and total registration costs in Punjab instantly</p>
+        </header>
+
+        <div class="lang-switch">
+            <button class="l-btn active" id="enBtn" onclick="setLang('en')">English</button>
+            <button class="l-btn" id="pjBtn" onclick="setLang('pj')">ਪੰਜਾਬੀ</button>
+        </div>
+
+        <div class="input-grid">
+            <div class="input-group">
+                <label for="unitSelect" id="lblUnit">Select Area Unit</label>
+                <select id="unitSelect">
+                    <option value="gaj">Square Yards (Gaj / ਗਜ਼)</option>
+                    <option value="marla">Marla (ਮਰਲਾ)</option>
+                    <option value="kanal">Kanal (ਕਨਾਲ)</option>
+                    <option value="killa">Killa / Acre (ਕਿੱਲਾ)</option>
+                </select>
+            </div>
+
+            <div class="input-group">
+                <label for="areaInput" id="lblArea">Enter Total Area</label>
+                <input type="number" id="areaInput" placeholder="Example: 10" step="any">
+            </div>
+
+            <div class="input-group">
+                <label for="rateInput" id="lblRate">Collector/Market Rate (per Unit)</label>
+                <input type="number" id="rateInput" placeholder="Enter Rate in ₹" step="any">
+            </div>
+
+            <div class="input-group">
+                <label for="genderSelect" id="lblGender">Buyer Ownership Category</label>
+                <select id="genderSelect">
+                    <option value="male">Male (7% Stamp Duty)</option>
+                    <option value="female">Female (5% Stamp Duty)</option>
+                    <option value="joint">Joint Male & Female (6% Stamp Duty)</option>
+                </select>
+            </div>
+        </div>
+
+        <button class="btn-calc" onclick="calculatePunjabLandCost()" id="btnText">Calculate Valuation Now</button>
+
+        <div id="resPanel" class="res-panel">
+            
+            <div class="print-header-block">
+                <div style="display: flex; justify-content: center; align-items: center; gap: 10px; margin-bottom: 5px;">
+                    <img src="favicon.png" alt="SST" style="width: 30px; height: 30px;">
+                    <h2 style="font-size: 22px; color: #003366; margin: 0; font-weight: 900; letter-spacing: 1px;">SHAYAN SMART TOOLS</h2>
+                </div>
+                <p style="font-size: 11px; color: var(--pj-saffron); font-weight: bold; margin: 0 0 10px 0; letter-spacing: 0.5px; text-transform: uppercase;">PUNJAB REVENUE PROPERTY REGISTRATION SUMMARY - 2026</p>
+                
+                <div style="background: #f8fafc; border: 1px solid #cbd5e1; padding: 10px; border-radius: 4px; display: grid; grid-template-columns: 1fr 1fr; font-size: 11px; text-align: left; gap: 5px; color: #334155;">
+                    <div><strong>DOCUMENT REF:</strong> <span id="pDocRef" style="color:#003366; font-weight:bold;">SST-PJ-REG-0000</span></div>
+                    <div style="text-align: right;"><strong>DATE:</strong> <span id="pDocDate">--/--/----</span></div>
+                    <div><strong>JURISDICTION:</strong> State of Punjab (ਪੰਜਾਬ)</div>
+                    <div style="text-align: right;"><strong>STATUS:</strong> Digitally Verified Report</div>
+                </div>
+            </div>
+
+            <h3 id="resHead">Official Property Valuation Invoice</h3>
+            
+            <div class="res-grid">
+                <div class="res-item" id="print-input-row" style="display:none;"><span style="color:var(--pj-saffron); font-weight: 800;">Initial Input Feed:</span> <b id="rInputVal" style="color:var(--pj-saffron); font-weight: 800;">0 Units</b></div>
+                
+                <div class="res-item"><span id="rLc">Total Pure Land Cost:</span> <b id="outLandCost">₹0</b></div>
+                <div class="res-item"><span id="rSd">Stamp Duty Amount:</span> <b id="outStampDuty">₹0</b></div>
+                <div class="res-item"><span id="rRf">Registration Fees (1%):</span> <b id="outRegFees">₹0</b></div>
+                <div class="res-item total-row"><span id="rGt">Grand Total Property Budget:</span> <b id="outGrandTotal">₹0</b></div>
+            </div>
+
+            <div class="print-footer-block">
+                <div style="margin: 0 auto; max-width: 85%; font-size: 11px; color: #475569; line-height: 1.6; text-align: center;">
+                    <p style="margin: 0; font-weight: bold; color: #003366; text-transform: uppercase; font-size: 12px;">🔒 SECURITY DISCLAIMER & VERIFICATION NOTICE</p>
+                    <p style="margin: 6px 0 0 0;">This computation is an automated metrics compilation sheet, generated via standard Punjab property registration directives for 2026. Meticulously verify measurements and collector definitions via NGDRS Punjab Portal prior to deep execution.</p>
+                    
+                    <div style="display: inline-block; border: 1px dashed #003366; padding: 6px 20px; border-radius: 4px; margin-top: 15px; margin-bottom: 12px; background: #f8fafc; font-size: 10px; font-weight: bold; color: #003366; text-transform: uppercase; letter-spacing: 0.5px;">
+                        SHAYAN SMART TOOLS [SST SEAL] - OFFICIAL UNIT PLATFORM
+                    </div>
+                    <p style="margin: 5px 0 0 0; font-size: 12px; font-weight: bold; color: var(--pj-saffron);">🌐 SST OFFICIAL ACCESS: www.shayansmarttools.in</p>
+                </div>
+            </div>
+
+            <div class="util-btns">
+                <button class="u-btn" onclick="copyInvoice()" style="background:#475569;">📋 Copy Statement</button>
+                <button class="u-btn" onclick="shareInvoiceWA()" style="background:#22c55e;">📲 WhatsApp</button>
+                <button class="u-btn" onclick="printLandReport()" style="background:#2b7cff;">🖨️ Print Report</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="back-btn" style="text-align: center; margin-top: 10px;">
+        <a href="index.html" style="color: var(--pj-blue); text-decoration: none; font-weight: bold;">⬅ Back to All Tools</a>
+    </div>
+
+    <article class="seo-article">
+        <div class="seo-header-block">
+            <h2>Punjab Property Registration and Land Cost Valuation Rules 2026</h2>
+            <p style="font-size: 18px; color: #555; margin: 5px 0 0 0;">Calculate land value, stamp duty, and total registration costs in Punjab instantly.</p>
+        </div>
+
+        <section>
+            <p>
+                Punjab mein agricultural fields, commercial properties, ya residential plots kharidte samay **Land Cost Valuation** aur sub-registrar office ki **Registry Charges** ka calculation transparently pata hona behad zaroori hai. Bahut se log sirf zameen ki market value ko hi apna aakhri budget maan lete hain, parantu registry ke waqt government duties ke chalte unka budget bigad jata hai. Shayan Smart Tools ka ye **Punjab Land Cost & Registry Calculator** is samasya ko jadd se khatam karta hai.
+            </p>
+            <p>
+                Punjab government ke 2026 revenue guidelines ke anusar, stamp duty hamesha Collector Rate (jise Circle Rate ya DC rate bhi kehte hain) ya fir actual market transaction price—dono mein se jo bhi zyada ho—us par calculate ki jaati hai. 
+            </p>
+        </section>
+
+        <section>
+            <h2>Current Property Registry Duty Structure in Punjab 2026</h2>
+            <p>Punjab government dwara pramanit niyam anusar buyer ke classification ke aadhar par charges is prakar hain:</p>
+            <div style="overflow-x: auto;">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Buyer Category</th>
+                            <th>Stamp Duty Rate</th>
+                            <th>Registration Fee</th>
+                            <th>Total Government Cess</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><b>Male (पुरुष)</b></td>
+                            <td>7% of Property Value</td>
+                            <td>1% of Valuation</td>
+                            <td>Total 8% Extra Additional Charges</td>
+                        </tr>
+                        <tr>
+                            <td><b>Female (महिला)</b></td>
+                            <td>5% of Property Value</td>
+                            <td>1% of Valuation</td>
+                            <td>Total 6% Extra Additional Charges (1% Concession)</td>
+                        </tr>
+                        <tr>
+                            <td><b>Joint Ownership (Male + Female)</b></td>
+                            <td>6% of Property Value</td>
+                            <td>1% of Valuation</td>
+                            <td>Total 7% Extra Additional Charges</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <section>
+            <h2>How to Calculate Land Value & Registry Cost in Punjab?</h2>
+            <ol>
+                <li>Sabse pehle dropdown switcher ka use karke apni convenience language (English ya Punjabi) choose karein.</li>
+                <li>**"Select Area Unit"** dropdown se select karein ki aapki property Gaj (Square Yards), Marla, Kanal, ya Killa (Acre) kis unit mein hai.</li>
+                <li>**"Enter Total Area"** wale text field mein zameen ka measurement volume enter karein.</li>
+                <li>Apne area ke pramanit Patwari ya sub-registrar portal se mila official **Collector Rate** darj karein.</li>
+                <li>Buyer ki category select karein (Male/Female/Joint) aur **"Calculate Valuation Now"** button daba dein.</li>
+                <li>Aapke samne government structural parameters ke aadhar par sateek tax reports generate ho jayegi.</li>
+            </ol>
+        </section>
+
+        <section>
+            <h2>5 Practical Examples of Property Purchases in Punjab</h2>
+            <ul>
+                <li><b>Example 1 (Urban Plot in Ludhiana):</b> Agar ek male buyer 100 Square Yards (Gaj) ka plot ₹30,000 per gaj ke rate se kharidta hai, toh land cost ₹30,00,000 banti hai, jis par ₹2,10,000 Stamp duty aur ₹30,00,000 ka 1% registration fees lagegi.</li>
+                <li><b>Example 2 (Agricultural Land in Patiala):</b> Dropdown se Killa (Acre) chun kar '2 Killa' enter kiya aur rate ₹20,00,000 per Killa dala, toh ₹40,00,000 ki zameen par female buyer ko 5% stamp duty ka seedha discount milega.</li>
+                <li><b>Example 3 (Residential Plot in Jalandhar):</b> 10 Marla property ($₹50,000$ per Marla) enter karne par total land asset cost ₹5,00,000 nikal kar aayegi.</li>
+                <li><b>Example 4 (Joint Property Ownership):</b> Joint option select karne se web calculation module auto-logic lagakar pure data par flat 6% standard state calculation dynamically render karega.</li>
+                <li><b>Example 5 (Valuation Discrepancy Avoidance):</b> Government rules ke anusar registry value hamesha market rate aur circle rate mein se maximum value par set hoti hai, jise ye software fully execute karta hai.</li>
+            </ul>
+        </section>
+
+        <section>
+            <h2>Frequently Asked Questions (FAQs)</h2>
+            <p><b>Q1. Punjab mein registry ke waqt female buyers ko kya concession milta hai?</b><br>Ans: Punjab government female empowerment ko badhava dene ke liye mahilaon ko stamp duty par pure 2% ki chut deti hai (Male: 7%, Female: 5%).</p>
+            <p><b>Q2. Collector rate aur Market rate mein kya antar hai?</b><br>Ans: Collector rate administration dwara tay kiya gaya minimum registration assessment base hota hai, jabki market rate wo price hota hai jisme transaction actual mein hoti hai.</p>
+            <p><b>Q3. Registration fee Punjab mein maximum kitni lagti hai?</b><br>Ans: 2026 registry protocols ke anusar standard registration fee property cost ka flat 1% hoti hai.</p>
+            <p><b>Q4. Kya ye calculator mobile devices par smooth chalta hai?</b><br>Ans: Haan, Shayan Smart Tools ke independent framework par ye script bina processing lag ke instantly metrics load karti hai.</p>
+            <p><b>Q5. Is software logic to kisne maintain kiya hai?</b><br>Ans: Ise high-precision math model algorithms ke sath Muksidul Islam ne design kiya hai taaki consumer billing systems completely authentic rahein.</p>
+        </section>
+
+        <div style="margin-top: 50px; padding: 25px; border: 2px dashed var(--pj-saffron); background: #fffdf9; border-radius: 12px; text-align: center;">
+            <h3 style="color: var(--pj-blue); margin-top: 0;">🚫 Copyright & Rights Reserved</h3>
+            <p style="font-size: 13px; margin-bottom: 0;">
+                <strong>Copyright © 2026 Shayan Smart Tools. All Rights Reserved.</strong><br><br>
+                Is software module ka data calculation infrastructure, client script aur optimization components <b>Muksidul Islam</b> ki intellectual structural property hain. Direct copying of scripts strictly legal laws ke under offense hai.
+            </p>
+        </div>
+    </article>
+
+    <script>
+        document.addEventListener('contextmenu', e => e.preventDefault());
+        document.onkeydown = function(e) {
+            if (e.ctrlKey && (e.keyCode === 67 || e.keyCode === 85 || e.keyCode === 73)) {
+                alert("Copyright Warning: Copying content from Shayan Digital Service is prohibited.");
+                return false;
+            }
+        };
+
+        let currentLang = 'en';
+        const dict = {
+            en: {
+                mTitle: "Punjab Land Cost & Registry Calculator",
+                sTitle: "Calculate land value, stamp duty, and total registration costs in Punjab instantly",
+                lblUnit: "Select Area Unit",
+                lblArea: "Enter Total Area",
+                lblRate: "Collector/Market Rate (per Unit)",
+                lblGender: "Buyer Ownership Category",
+                btnText: "Calculate Valuation Now",
+                resHead: "Official Property Valuation Invoice",
+                rLc: "Total Pure Land Cost:",
+                rSd: "Stamp Duty Amount:",
+                rRf: "Registration Fees (1%):",
+                rGt: "Grand Total Property Budget:"
+            },
+            pj: {
+                mTitle: "ਪੰਜਾਬ ਜ਼ਮੀਨ ਦੀ ਕੀਮਤ ਅਤੇ ਰਜਿਸਟਰੀ ਕੈਲਕੁਲੇਟਰ",
+                sTitle: "ਪੰਜਾਬ ਵਿੱਚ ਜ਼ਮੀਨ ਦੀ ਕੀਮਤ, ਸਟੈਂਪ ਡਿਊਟੀ ਅਤੇ ਕੁੱਲ ਰਜਿਸਟਰੀ ਖਰਚਿਆਂ ਦੀ ਤੁਰੰਤ ਗਣਨਾ ਕਰੋ",
+                lblUnit: "ਖੇਤਰਫਲ ਇਕਾਈ ਚੁਣੋ",
+                lblArea: "ਕੁੱਲ ਖੇਤਰਫਲ ਦਰਜ ਕਰੋ",
+                lblRate: "ਕਲੈਕਟਰ/ਮਾਰਕੀਟ ਰੇਟ (ਪ੍ਰਤੀ ਇਕਾਈ)",
+                lblGender: "ਖਰੀਦਦਾਰ ਸ਼੍ਰੇਣੀ ਚੁਣੋ",
+                btnText: "ਕੀਮਤ ਦੀ ਗਣਨਾ ਕਰੋ",
+                resHead: "ਸਰਕਾਰੀ ਜਾਇਦਾਦ ਮੁਲਾਂਕਣ ਇਨਵੌਇਸ",
+                rLc: "ਕੁੱਲ ਸ਼ੁੱਧ ਜ਼ਮੀਨ ਦੀ ਕੀਮਤ:",
+                rSd: "ਸਟੈਂਪ ਡਿਊਟੀ ਦੀ ਰਕਮ:",
+                rRf: "ਰਜਿਸਟ੍ਰੇਸ਼ਨ ਫੀਸ (1%):",
+                rGt: "ਕੁੱਲ ਕਾਰੋਬਾਰੀ ਬਜਟ (Grand Total):"
+            }
+        };
+
+        function setLang(lang) {
+            currentLang = lang;
+            document.getElementById('enBtn').classList.toggle('active', lang === 'en');
+            document.getElementById('pjBtn').classList.toggle('active', lang === 'pj');
+            
+            document.getElementById('mTitle').innerText = dict[lang].mTitle;
+            document.getElementById('sTitle').innerText = dict[lang].sTitle;
+            document.getElementById('lblUnit').innerText = dict[lang].lblUnit;
+            document.getElementById('lblArea').innerText = dict[lang].lblArea;
+            document.getElementById('lblRate').innerText = dict[lang].lblRate;
+            document.getElementById('lblGender').innerText = dict[lang].lblGender;
+            document.getElementById('btnText').innerText = dict[lang].btnText;
+            document.getElementById('resHead').innerText = dict[lang].resHead;
+            document.getElementById('rLc').innerText = dict[lang].rLc;
+            document.getElementById('rSd').innerText = dict[lang].rSd;
+            document.getElementById('rRf').innerText = dict[lang].rRf;
+            document.getElementById('rGt').innerText = dict[lang].rGt;
+
+            if(document.getElementById('resPanel').style.display === "block") {
+                calculatePunjabLandCost();
+            }
+        }
+
+        function calculatePunjabLandCost() {
+            const area = parseFloat(document.getElementById('areaInput').value);
+            const rate = parseFloat(document.getElementById('rateInput').value);
+            const gender = document.getElementById('genderSelect').value;
+            const resPanel = document.getElementById('resPanel');
+            const unit = document.getElementById('unitSelect').value;
+
+            if (isNaN(area) || area <= 0 || isNaN(rate) || rate <= 0) {
+                alert(currentLang === 'en' ? "Please enter valid Area and Rate details!" : "ਕਿਰਪਾ ਕਰਕੇ ਸਹੀ ਖੇਤਰਫਲ ਅਤੇ ਰੇਟ ਦਰਜ ਕਰੋ!");
+                return;
+            }
+
+            let landCost = area * rate;
+            let stampDutyPercent = 0.07; 
+
+            if (gender === 'female') {
+                stampDutyPercent = 0.05;
+            } else if (gender === 'joint') {
+                stampDutyPercent = 0.06;
+            }
+
+            let stampDuty = landCost * stampDutyPercent;
+            let regFees = landCost * 0.01;
+            let grandTotal = landCost + stampDuty + regFees;
+
+            document.getElementById('outLandCost').innerText = "₹" + landCost.toLocaleString('en-IN', {maximumFractionDigits: 2});
+            document.getElementById('outStampDuty').innerText = "₹" + stampDuty.toLocaleString('en-IN', {maximumFractionDigits: 2});
+            document.getElementById('outRegFees').innerText = "₹" + regFees.toLocaleString('en-IN', {maximumFractionDigits: 2});
+            document.getElementById('outGrandTotal').innerText = "₹" + grandTotal.toLocaleString('en-IN', {maximumFractionDigits: 2});
+
+            let unitNameText = "Units";
+            if(unit === 'gaj') unitNameText = currentLang === 'en' ? "Gaj (Sq Yards)" : "ਗਜ਼";
+            if(unit === 'marla') unitNameText = currentLang === 'en' ? "Marla" : "ਮਰਲਾ";
+            if(unit === 'kanal') unitNameText = currentLang === 'en' ? "Kanal" : "ਕਨਾਲ";
+            if(unit === 'killa') unitNameText = currentLang === 'en' ? "Killa/Acre" : "ਕਿੱਲਾ";
+
+            document.getElementById('rInputVal').innerText = `${area} ${unitNameText}`;
+
+            resPanel.style.display = "block";
+            resPanel.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function printLandReport() {
+            const area = document.getElementById('areaInput').value;
+            const rate = document.getElementById('rateInput').value;
+            if(!area || area <= 0 || !rate || rate <= 0) { alert("Calculate first before printing!"); return; }
+
+            const printRow = document.getElementById('print-input-row');
+            printRow.style.display = "flex";
+            window.print();
+            printRow.style.display = "none";
+        }
+
+        function copyInvoice() {
+            let text = `Official Property Statement:\nZameen ki Keemat: ${document.getElementById('outLandCost').innerText}\nStamp Duty Amount: ${document.getElementById('outStampDuty').innerText}\nTotal Bill: ${document.getElementById('outGrandTotal').innerText}\nCalculated via Shayan Smart Tools`;
+            navigator.clipboard.writeText(text);
+            alert("Statement Copied!");
+        }
+
+        function shareInvoiceWA() {
+            let urlText = encodeURIComponent(`Official Property Statement:\nZameen ki Keemat: ${document.getElementById('outLandCost').innerText}\nStamp Duty Amount: ${document.getElementById('outStampDuty').innerText}\nTotal Budget: ${document.getElementById('outGrandTotal').innerText}\nCheck details on Shayan Smart Tools`);
+            window.open("https://wa.me/?text=" + urlText);
+        }
+    </script>
+</body>
+</html>
