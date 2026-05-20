@@ -1,136 +1,153 @@
 <!DOCTYPE html>
-<html lang="as">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Assam Advanced Polygon Land Calculator free 2026| বহুভুজ মাটিৰ জোখ-মাপ | Shayan Smart Tools</title>
+    <title>Assam Advanced Polygon Land Calculator free 2026 | বহুভুজ মাটিৰ জোখ-মাপ কেলকুলেটৰ | Shayan Smart Tools</title>
     <link rel="canonical" href="https://shayansmarttools.in/assam-advanced-polygon-calculator.html" />
 
-    <meta name="description" content="Calculate complex irregular land in Assam using the Multi-Triangle Polygon method. Get results in Bigha, Katha, Lessa, Hectare, and Acre. Official Shayan Smart Tools.">
-    <meta name="keywords" content="Assam Land Calculator, বহুভুজ মাটিৰ জোখ, Multi Triangle Land Area Assam, Bigha Katha Lessa Calculator, Shayan Smart Tools, Heron's Formula Multi-Plot">
+    <meta name="description" content="Calculate irregular polygon land area in Assam using the Multi-Triangle method. Instant conversion into Bigha, Katha, Lessa, Hectare, and Acre accurately based on revenue standards. Free by Shayan Smart Tools.">
+    <meta name="keywords" content="Assam Advanced Polygon Land Calculator, বহুভুজ মাটিৰ জোখ-মাপ কেলকুলেটৰ, Irregular Land Area Calculator Assam, অসমৰ মাটিৰ জোখ-মাপ, Bigha Katha Lessa Calculator, Heron's Formula Multi-Plot Assam, Dharitree Area Calculator, Shayan Smart Tools Assam">
+    <meta name="author" content="Muksidul islam">
+    <meta name="robots" content="index, follow">
 
     <style>
         :root {
             --assam-green: #1b5e20;
+            --dark-green: #0d3c12;
             --white: #ffffff;
-            --light-bg: #f4f9f4;
-            --soft-gray: #f8f9fa;
+            --bg: #f8fafc;
         }
 
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             line-height: 1.6;
-            background-color: var(--light-bg);
+            background-color: var(--bg);
             margin: 0;
-            padding: 15px;
+            padding: 20px;
             color: #333;
         }
 
-        .main-wrapper { max-width: 800px; margin: 0 auto; }
+        .main-wrapper { max-width: 900px; margin: 0 auto; }
 
-        h1 { color: var(--assam-green); text-align: center; font-size: 22px; margin-bottom: 5px; }
-        .sub-text { text-align: center; font-size: 13px; color: #666; margin-bottom: 20px; padding: 0 10px; }
+        header {
+            background: linear-gradient(135deg, var(--assam-green), var(--dark-green));
+            color: #fff; padding: 40px 20px; border-radius: 25px; text-align: center;
+            border-bottom: 6px solid #81c784; margin-bottom: 30px;
+        }
+        header h1 { color: white; margin: 0 0 10px 0; font-size: 28px; text-transform: uppercase; }
+        header p { color: #e8f5e9; margin: 0; font-size: 16px; }
 
-        .lang-toggle { text-align: center; margin-bottom: 20px; }
-        .lang-btn { background: #ddd; border: none; padding: 10px 25px; cursor: pointer; border-radius: 25px; font-weight: bold; margin: 5px; transition: 0.3s; font-size: 14px; }
+        .lang-toggle { display: flex; justify-content: center; gap: 10px; margin-bottom: 25px; }
+        .lang-btn { background: white; border: 2px solid var(--assam-green); padding: 10px 25px; cursor: pointer; border-radius: 25px; font-weight: bold; transition: 0.3s; color: var(--assam-green); font-size: 14px; }
         .lang-btn.active { background: var(--assam-green); color: white; }
 
-        /* Triangle Card Design */
+        /* Triangle Card Design - Clean Flat Visuals */
         .triangle-card {
             background: var(--white);
             padding: 20px;
-            border-radius: 15px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.06);
+            border-radius: 16px;
             margin-bottom: 20px;
+            border: 1px solid #e2e8f0;
             border-left: 6px solid var(--assam-green);
         }
-        .triangle-header { font-weight: bold; color: var(--assam-green); margin-bottom: 15px; display: block; border-bottom: 1px solid #eee; padding-bottom: 5px; }
+        .triangle-header { font-weight: 800; color: var(--assam-green); margin-bottom: 15px; display: block; border-bottom: 1px solid #e2e8f0; padding-bottom: 5px; text-transform: uppercase; font-size: 13px; }
 
         /* Responsive Grid for Inputs */
-        .input-row { 
-            display: grid; 
-            grid-template-columns: repeat(3, 1fr); 
-            gap: 15px; 
-        }
-
-        /* Mobile Fix for Inputs */
-        @media (max-width: 480px) {
-            .input-row { grid-template-columns: 1fr; }
-            h1 { font-size: 19px; }
-        }
-
+        .input-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; }
         .input-group { display: flex; flex-direction: column; }
-        label { font-size: 12px; font-weight: bold; margin-bottom: 5px; color: #555; }
-        input { padding: 12px; border: 1px solid #ddd; border-radius: 8px; text-align: center; font-size: 16px; background: #fafafa; }
-        input:focus { border-color: var(--assam-green); outline: none; background: #fff; }
+        label { font-size: 12px; font-weight: bold; margin-bottom: 5px; color: var(--assam-green); text-transform: uppercase; }
+        input { padding: 15px; border: 1px solid #cbd5e1; border-radius: 12px; text-align: center; font-size: 16px; background: var(--white); outline: none; transition: 0.3s; }
+        input:focus { border-color: var(--assam-green); box-shadow: 0 0 8px rgba(27,94,32,0.1); }
 
-        .controls { display: flex; gap: 10px; margin: 25px 0; }
-        .btn { flex: 1; padding: 15px; border: none; border-radius: 10px; font-weight: bold; cursor: pointer; font-size: 15px; transition: 0.3s; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+        .controls { display: flex; gap: 15px; margin: 25px 0; }
+        .btn { flex: 1; padding: 18px; border: none; border-radius: 12px; font-weight: 800; cursor: pointer; font-size: 16px; transition: 0.3s; text-transform: uppercase; letter-spacing: 0.5px; }
         .btn-add { background: #5d4037; color: white; }
         .btn-calc { background: var(--assam-green); color: white; }
-        .btn:active { transform: scale(0.98); }
+        .btn:hover { transform: translateY(-2px); box-shadow: 0 8px 15px rgba(0,0,0,0.1); }
 
-        /* Result Section */
-        .result-box {
-            background: #263238;
-            color: white;
-            padding: 25px;
-            border-radius: 15px;
-            display: none;
-            margin-top: 20px;
-            animation: slideUp 0.5s ease;
+        /* RESULTS UI - Vertical Panel Layout */
+        .res-panel { background: #0f172a; color: white; padding: 25px; border-radius: 25px; margin-top: 30px; display: none; border: 2px solid var(--assam-green); position: relative; text-align: left; }
+        .res-panel h3 { margin-top: 0; text-align: center; color: #81c784; font-size: 1.4rem; margin-bottom: 20px; }
+        .result-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; }
+        .res-item { background: rgba(255,255,255,0.05); padding: 15px; border-radius: 12px; display: flex; flex-direction: column; align-items: flex-start; gap: 5px; border-left: 4px solid var(--assam-green); }
+        .res-item span { font-size: 12px; color: #94a3b8; font-weight: bold; }
+        .res-item b { font-size: 18px; color: #81c784; word-break: break-all; }
+
+        .print-header-block, .print-footer-block { display: none; }
+
+        .util-btns { display: flex; gap: 12px; margin-top: 25px; }
+        .u-btn { flex: 1; padding: 15px; border: none; border-radius: 12px; font-weight: 800; cursor: pointer; color: white; font-size: 14px; text-align: center; transition: 0.3s; }
+
+        /* Example Image Section Layout Clear Background Merged */
+        .image-container { text-align: center; margin: 40px 0; padding: 25px; background: #ffffff; border-radius: 20px; border: 1px dashed var(--assam-green); }
+        .image-container img { max-width: 100%; height: auto; border-radius: 12px; }
+
+        /* 🔥 CLEAN STANDALONE SEO LAYER - NO CARD HOUSING BASE LAYOUT */
+        .seo-content { 
+            background: transparent !important; 
+            padding: 20px 0; 
+            margin-top: 50px; 
+            line-height: 1.8; 
+            border: none !important;
+            color: #334155 !important;
+            text-align: left;
         }
-        @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        .seo-content h2 { color: var(--assam-green) !important; font-size: 28px !important; margin-bottom: 10px !important; border-left: 6px solid #81c784; padding-left: 15px; margin-top: 40px; }
+        .seo-content h3 { color: var(--assam-green) !important; margin-top: 30px; }
+        .seo-content p { color: #334155 !important; font-size: 16px; text-align: justify; }
+        
+        .seo-content table { width: 100%; border-collapse: collapse; margin: 25px 0; background: #ffffff; display: table; overflow-x: visible; }
+        .seo-content th, .seo-content td { border: 1px solid #e2e8f0; padding: 15px; text-align: left; color: #334155 !important; }
+        .seo-content th { background-color: #f1f8e9; color: var(--assam-green) !important; }
 
-        .result-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(110px, 1fr)); gap: 12px; margin-top: 15px; }
-        .res-item { text-align: center; border: 1px solid #455a64; padding: 12px; border-radius: 10px; background: rgba(255,255,255,0.05); }
-        .res-item b { display: block; font-size: 18px; color: #81c784; }
-        .res-item span { font-size: 11px; text-transform: uppercase; color: #b0bec5; }
+        /* 🔥 STYLISH INTERNAL LINKS DASHBOARD GRID */
+        .sst-dashboard-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; margin: 40px 0; width: 100%; box-sizing: border-box; }
+        .sst-dash-btn { display: flex; align-items: center; gap: 15px; background: #ffffff; padding: 18px 20px; border-radius: 16px; text-decoration: none; color: var(--assam-green) !important; font-weight: 700; font-size: 15px; border: 1px solid #e2e8f0; transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1); box-sizing: border-box; }
+        .sst-dash-icon { display: flex; align-items: center; justify-content: center; width: 42px; height: 42px; background: #fffbf7; border-radius: 12px; font-size: 20px; border: 1px solid #c8e6c9; transition: transform 0.3s ease; }
+        .sst-dash-title { flex: 1; line-height: 1.3; text-align: left; }
+        .sst-dash-btn:hover { border-color: var(--assam-green); transform: translateY(-4px); box-shadow: 0 12px 20px rgba(27, 94, 32, 0.1); background: linear-gradient(135deg, #ffffff, #f1f8e9); }
+        .sst-dash-btn:hover .sst-dash-icon { transform: scale(1.1) rotate(5deg); background: var(--assam-green); color: #fff; }
 
-        /* Example Image Section */
-        .image-container { text-align: center; margin: 30px 0; padding: 20px; background: #e8f5e9; border-radius: 15px; border: 2px dashed var(--assam-green); }
-        .image-container img { max-width: 100%; height: auto; border-radius: 10px; }
-
-        /* Professional Internal Links UI */
-        .ui-links-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-            gap: 12px;
-            margin-top: 20px;
+        @media (max-width: 600px) {
+            .input-row { grid-template-columns: 1fr; gap: 10px; }
+            header h1 { font-size: 22px; }
+            .result-grid { grid-template-columns: 1fr; }
+            .seo-content { padding: 10px 0; }
+            .seo-content h2 { font-size: 22px !important; }
+            .sst-dashboard-grid { grid-template-columns: 1fr; gap: 12px; }
+            .sst-dash-btn { padding: 15px 18px; }
         }
-        .ui-link-card {
-            background: var(--white);
-            padding: 15px;
-            border-radius: 12px;
-            text-decoration: none;
-            color: #333;
-            text-align: center;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-            border: 1px solid #eee;
-            transition: 0.3s;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 8px;
+
+        /* 🔥 PREMIUM GOVERNMENT STYLE PRINT CONFIGURATION 🔥 */
+        @media print {
+            * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; color-adjust: exact !important; }
+            @page { margin: 15mm; size: A4 portrait; }
+            body { background: #ffffff !important; color: #000000 !important; padding: 0; margin: 0; }
+            
+            .main-wrapper > header, .lang-toggle, .triangle-card, .controls, .util-btns, #resHead, .seo-content, .back-btn, .image-container { display: none !important; }
+            
+            .res-panel { display: block !important; background: #ffffff !important; color: #000000 !important; padding: 25px !important; margin: 0 !important; width: 100% !important; box-sizing: border-box; border: 3px double var(--assam-green) !important; border-radius: 0px !important; position: relative; }
+            
+            .print-header-block { display: block !important; text-align: center; border-bottom: 2px solid var(--assam-green) !important; padding-bottom: 12px; margin-bottom: 20px; }
+            .print-header-block img { display: inline-block !important; }
+
+            .result-grid { display: block !important; margin-top: 15px; }
+            .res-item { background: transparent !important; border: none !important; border-bottom: 1px solid #e2e8f0 !important; padding: 10px 4px !important; display: flex !important; flex-direction: row !important; justify-content: space-between !important; align-items: center !important; border-radius: 0px !important; }
+            .res-item span { color: #1e293b !important; font-size: 13px !important; font-weight: 600 !important; text-transform: uppercase; }
+            .res-item b { color: var(--dark-green) !important; font-size: 15px !important; font-weight: 700 !important; }
+
+            .print-footer-block { display: block !important; text-align: center; margin-top: 40px; border-top: 1px solid #cbd5e1 !important; padding-top: 20px; }
         }
-        .ui-link-card:hover { border-color: var(--assam-green); transform: translateY(-3px); box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
-        .ui-link-card .link-icon { font-size: 24px; }
-        .ui-link-card .link-text { font-size: 13px; font-weight: bold; color: var(--assam-green); }
-
-        .seo-content { background: white; padding: 25px; border-radius: 15px; margin-top: 20px; box-shadow: 0 2px 10px rgba(0,0,0,0.04); }
-        h2, h3 { color: var(--assam-green); margin-top: 30px; font-size: 1.3rem; }
-        table { width: 100%; border-collapse: collapse; margin: 20px 0; font-size: 14px; overflow-x: auto; display: block; }
-        th, td { border: 1px solid #eee; padding: 12px; text-align: left; }
-        th { background: #f1f8e9; color: var(--assam-green); }
-
-        footer { text-align: center; padding: 40px 0; color: #888; font-size: 13px; }
     </style>
 </head>
 <body>
 
 <div class="main-wrapper">
-    <h1 id="mainTitle">Assam Advanced Polygon Land Calculator</h1>
-    <p class="sub-text" id="subText">Calculate complex irregular shapes by dividing them into triangles.</p>
+    <header>
+        <h1 id="mainTitle">Assam Advanced Polygon Land Calculator</h1>
+        <p id="subText">Calculate complex irregular shapes by dividing them into triangles.</p>
+    </header>
 
     <div class="lang-toggle">
         <button class="lang-btn active" id="enBtn" onclick="setLang('en')">English</button>
@@ -141,9 +158,9 @@
         <div class="triangle-card">
             <span class="triangle-header" id="t1Head">Triangle #1 (প্ৰথম ত্ৰিভুজ)</span>
             <div class="input-row">
-                <div class="input-group"><label id="lblA">Side A (Feet)</label><input type="number" class="side-a" placeholder="0"></div>
-                <div class="input-group"><label id="lblB">Side B (Feet)</label><input type="number" class="side-b" placeholder="0"></div>
-                <div class="input-group"><label id="lblC">Side C (Feet)</label><input type="number" class="side-c" placeholder="0"></div>
+                <div class="input-group"><label class="lblA">Side A (Feet)</label><input type="number" class="side-a" placeholder="0"></div>
+                <div class="input-group"><label class="lblB">Side B (Feet)</label><input type="number" class="side-b" placeholder="0"></div>
+                <div class="input-group"><label class="lblC">Side C (Feet)</label><input type="number" class="side-c" placeholder="0"></div>
             </div>
         </div>
     </div>
@@ -153,17 +170,59 @@
         <button class="btn btn-calc" id="btnCalc" onclick="calculateTotalArea()">Calculate Total Area</button>
     </div>
 
-    <div id="resultBox" class="result-box">
-        <h3 style="margin-top:0; color: #81c784;" id="resHead">Calculated Result (ফলাফল):</h3>
-        <div class="result-grid">
-            <div class="res-item"><b id="outB">0</b><span id="uB">Bigha</span></div>
-            <div class="res-item"><b id="outK">0</b><span id="uK">Katha</span></div>
-            <div class="res-item"><b id="outL">0</b><span id="uL">Lessa</span></div>
-            <div class="res-item"><b id="outAc">0</b><span id="uAc">Acre</span></div>
-            <div class="res-item"><b id="outHe">0</b><span id="uHe">Hectare</span></div>
-            <div class="res-item"><b id="outSq">0</b><span id="uSq">Sq Feet</span></div>
-            <div class="res-item"><b id="outMt">0</b><span id="uMt">Sq Meter</span></div>
+    <div id="resPanel" class="res-panel">
+        
+        <div class="print-header-block">
+            <div style="display: flex; justify-content: center; align-items: center; gap: 10px; margin-bottom: 5px;">
+                <img src="favicon.png" alt="SST" style="width: 30px; height: 30px;">
+                <h2 style="font-size: 22px; color: #1b5e20; margin: 0; font-weight: 900; letter-spacing: 1px;">SHAYAN SMART TOOLS</h2>
+            </div>
+            <p style="font-size: 11px; color: #81c784; font-weight: bold; margin: 0 0 10px 0; letter-spacing: 0.5px; text-transform: uppercase;">ASSAM REVENUE POLYGON AREA DIAGNOSTIC CERTIFICATE - 2026</p>
+            
+            <div style="background: #f8fafc; border: 1px solid #cbd5e1; padding: 10px; border-radius: 4px; display: grid; grid-template-columns: 1fr 1fr; font-size: 11px; text-align: left; gap: 5px; color: #334155;">
+                <div><strong>DOCUMENT REF:</strong> <span id="pDocRef" style="color:#1b5e20; font-weight:bold;">SST-AS-POLY-0000</span></div>
+                <div><strong>DATE:</strong> <span id="pDocDate" style="color:#1b5e20; font-weight:bold;">--/--/----</span></div>
+                <div><strong>JURISDICTION:</strong> State of Assam (অসম)</div>
+                <div style="text-align: right;"><strong>STATUS:</strong> Heron's Poly Verified</div>
+            </div>
         </div>
+
+        <h3 id="resHead" style="color: #81c784; text-align: center; margin-top: 0;">Calculated Result (ফলাফল)</h3>
+        
+        <div class="result-grid">
+            <div class="res-item" id="print-input-row" style="display:none;"><span style="color:#81c784; font-weight: 800;">Initial Data Grid Input:</span> <b id="rInputVal" style="color:#81c784; font-weight: 800;">0</b></div>
+            
+            <div class="res-item"><span id="uB">Bigha</span><b id="outB">0</b></div>
+            <div class="res-item"><span id="uK">Katha</span><b id="outK">0</b></div>
+            <div class="res-item"><span id="uL">Lessa</span><b id="outL">0</b></div>
+            <div class="res-item"><span id="uAc">Acre</span><b id="outAc">0</b></div>
+            <div class="res-item"><span id="uHe">Hectare</span><b id="outHe">0</b></div>
+            <div class="res-item"><span id="uSq">Sq Feet</span><b id="outSq">0</b></div>
+            <div class="res-item"><span id="uMt">Sq Meter</span><b id="outMt">0</b></div>
+        </div>
+
+        <div class="print-footer-block">
+            <div style="margin: 0 auto; max-width: 85%; font-size: 11px; color: #475569; line-height: 1.6; text-align: center;">
+                <p style="margin: 0; font-weight: bold; color: #1b5e20; text-transform: uppercase; font-size: 12px;">🔒 SECURITY DISCLAIMER & STATUTORY RECORDS NOTICE</p>
+                <p style="margin: 6px 0 0 0;">This computation ledger summary sheet is dynamically compiled via Heron's Polygon Geometric matrices matching Assam revenue metrics (1 Bigha = 14,400 Sq.Ft). For official land mutations or boundaries assignments, match parameters with the Dharitree Assam portal ledger.</p>
+                
+                <div style="display: inline-block; border: 1px dashed #1b5e20; padding: 6px 20px; border-radius: 4px; margin-top: 15px; margin-bottom: 12px; background: #f8fafc; font-size: 10px; font-weight: bold; color: #1b5e20; text-transform: uppercase; letter-spacing: 0.5px;">
+                    SHAYAN SMART TOOLS [SST SEAL] - OFFICIAL METRICS ENGINE
+                </div>
+                
+                <p style="margin: 5px 0 0 0; font-size: 12px; font-weight: bold; color: #81c784;">🌐 SST OFFICIAL ACCESS: www.shayansmarttools.in</p>
+            </div>
+        </div>
+
+        <div class="util-btns">
+            <button class="u-btn" onclick="copyData()" style="background:#475569;">📋 Copy Details</button>
+            <button class="u-btn" onclick="shareWA()" style="background:#22c55e;">📲 WhatsApp</button>
+            <button class="u-btn" onclick="printLandReport()" style="background:#2b7cff;">🖨️ Print Report</button>
+        </div>
+    </div>
+
+    <div class="back-btn" style="text-align: center; margin-top: 20px;">
+        <a href="index.html" style="color: var(--assam-green); font-weight: bold; text-decoration: none;">⬅ Back to All Tools</a>
     </div>
 
     <div class="image-container">
@@ -173,122 +232,185 @@
     </div>
 
     <article class="seo-content">
-    <h2>Assam Advanced Polygon Land Calculator: Complex Tedi-Medi Zameen ka Sateek Hisab</h2>
-    <p>
-        Assam mein zyadatar zameen ki boundaries nadiyon, pahadon ya purane raste ki wajah se bohot zyada tedi-medi hoti hain. Jab zameen ke 4 se zyada konne (corners) hote hain, toh use "Polygon" kaha jata hai. Aisi zameen ko naapne ke liye normal "Length x Breadth" formula kabhi kaam nahi karta. Iske liye sabse best method hai **"Multi-Triangle Method"**.
-    </p>
-    <p>
-        Shayan Smart Tools ka ye **Advanced Polygon Land Calculator** isi principle par kaam karta hai. Aap apni badi zameen ko chhote-chhote triangles mein baant lijiye (jaisa ki upar diagram mein dikhaya gaya hai) aur har triangle ki sides ko is tool mein bhariye. Ye tool Heron’s Formula ka use karke har hisse ka area nikalega aur end mein sabko jodkar Assam ke standard **Bigha, Katha, Lessa** mein convert kar dega.
-    </p>
+        <div class="seo-header-block">
+            <h2>Assam Advanced Polygon Land Calculator: Complex Tedi-Medi Zameen ka Sateek Hisab</h2>
+            <p style="font-size: 18px; color: #555; margin: 5px 0 0 0;">Irregular polygon land mapping for Assam. Calculate accurate conversions dynamically into Bigha, Katha, and Lessa.</p>
+        </div>
 
-    <h3>How to Use This Tool? (কিদৰে ব্যৱহাৰ কৰিব?)</h3>
-    <p>
-        Assam-or mati-r jokh lwa tu kiba hman hohoj nohoi. Jetiya mati tedi-medi hoi, tetiya bhul howar sombhawona thake. Ei tool tu bebohar kora ekdam hohoj:
-    </p>
-    <ol>
-        <li><b>Divide into Triangles:</b> Apni zameen ke nakshe par nazar daaliye aur usey triangles (trivhuj) mein baantiye. Har triangle ke 3 corners honge.</li>
-        <li><b>Measure Sides:</b> Har triangle ki teeno sides (A, B, C) ko feet mein naapiye. Aapko diagonal line (tirchi line) bhi naapni hogi.</li>
-        <li><b>Input Data:</b> Tool mein pehle triangle ki values bhariye.</li>
-        <li><b>Add More:</b> Agar aapki zameen badi hai aur usme 1 se zyada triangles ban rahe hain, toh <b>"+ Add Triangle"</b> button click karke aur boxes jodiye.</li>
-        <li><b>Final Result:</b> Last mein <b>"Calculate"</b> par click karte hi aapko Hectare se lekar Lessa tak ka saara data mil jayega.</li>
-    </ol>
+        <section>
+            <h3>1. Introduction to Irregular Land Formations in Assam (Mati-r Jokh-Map Background)</h3>
+            <p>
+                Assam mein zameen ki boundaries aur geographical plots ka landscape kafi dynamic aur pechida hai. Brahmaputra river belts ki natural movement, localized hill locks, hilly slopes (pahar) aur sadiyon purane village dynamic path structures ke karan, yahan ki 90% se zyada agriculture field holdings aur residential properties perfectly symmetrical rectangle ya square space me nahi hoti hain. Jab kisi land plot asset me 4 se zyada irregular corners (konne) hote hain, toh use mathematical language me hum <b>Polygon (বহুভুজ)</b> ka naam dete hain. Aisi tedi-medi zameen par normal length $\times$ width scaling rules apply karne par standard area values hamesha wrong aate hain, jisse property mutation processing me legal anomalies open up ho jati hain. 
+            </p>
+            <p>
+                Assam Board of Revenue (Dharitree portal guidelines) ke anusar, registration metrics validation ke waqt land parameters ka sateek assessment hona behad mandatory hai. Is issue ko scientifically resolve karne ke liye engineering structures me <b>Multi-Triangle Polygon Geometric Mapping</b> system use kiya jata hai. Shayan Smart Tools ne isi multi-triangulation rule ko code framework par mapping karke is advance **Assam Advanced Polygon Land Calculator** portal build kiya hai taaki amari kisan bhai bina kisi layout error ke zero validation lag ke sath single second calculations execute kar sakein.
+            </p>
+        </section>
 
-    <h3>Assam Land Unit Table (অসমৰ ভূমি মাপৰ তালিকা)</h3>
-    <p>Assam-ot mati-r jokh-er khetrot ei tolikakhon bohut dorkari. Shayan Smart Tools provide 100% accurate conversion based on Assam Govt. standards:</p>
-    <table>
-        <thead>
-            <tr>
-                <th>Unit Name</th>
-                <th>Sub-unit Relation</th>
-                <th>Area in Square Feet (ফুট)</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td>1 Bigha (বিঘা)</td>
-                <td>5 Katha (কাঠা)</td>
-                <td>14,400 Sq Ft</td>
-            </tr>
-            <tr>
-                <td>1 Katha (কাঠা)</td>
-                <td>20 Lessa (লেচা)</td>
-                <td>2,880 Sq Ft</td>
-            </tr>
-            <tr>
-                <td>1 Lessa (লেচা)</td>
-                <td>144 Sq Ft</td>
-                <td>144 Sq Ft</td>
-            </tr>
-            <tr>
-                <td>1 Acre (একৰ)</td>
-                <td>3.025 Bigha (Approx)</td>
-                <td>43,560 Sq Ft</td>
-            </tr>
-            <tr>
-                <td>1 Hectare (হেক্টৰ)</td>
-                <td>7.47 Bigha (Approx)</td>
-                <td>1,07,639 Sq Ft</td>
-            </tr>
-        </tbody>
-    </table>
+        <section>
+            <h3>2. Geometric Methodology: The Power of Multi-Triangle Method and Heron's Formula</h3>
+            <p>
+                Irregular polygon plots ka sateek framework map evaluate karne ka sabse ancient aur globally certified system hai bada asset patch ko chhote independent right/irregular triangles me convert kar dena. Jab aap apni tedi zameen ke dastawez ya ground map coordinates par diagonals lines draw karte hain, toh complex data boundaries discrete triangles blocks me slice down ho jati hain. Geometric patterns me jab kisi triangle ki teeno sides data variables (Side A, Side B, Side C) completely secure mil jayein, toh geometry ka sabse powerfull calculation standard <b>Heron’s Formula</b> apply kiya jata hai:
+            </p>
+            <p style="text-align: center; font-size: 18px; font-weight: bold; color: var(--assam-green);">
+                $$s = \frac{a + b + c}{2}$$
+            </p>
+            <p style="text-align: center; font-size: 18px; font-weight: bold; color: var(--assam-green);">
+                $$\text{Area} = \sqrt{s(s - a)(s - b)(s - c)}$$
+            </p>
+            <p>
+                Hamara system back-end script loop par har ek individual triangle ka sateek area parameter trace down karke unhe dynamically secure accumulate (sum up) karta hai. Finall output value derive hone par use standard parameters conversion factor rules ke anusar Assam revenue standards (<b>Bigha, Katha, Lessa</b>) me flat badal deta hai. Niche diya gaya master chart dynamic mapping constants specifications ko strictly project karta hai:
+            </p>
+        </section>
 
-    <h3>Why Use Polygon Method for Assam Land?</h3>
-    <p>
-        Dharitree portal ya sarkari nakshe mein aksar tedi-medi boundaries hoti hain. Jab hum 4-side wala normal calculator use karte hain, toh wo sirf rectangle ka area batata hai. Lekin agar zameen polygon shape mein hai, toh triangles mein divide karna hi sateek raasta hai. 
-        <br><br>
-        Assam-or manuh-e jetiya mati kine ba beche, tetiya 'Lessa' r ekdam sateek jokh thaka tu dorkari. Ek lessa bhul holeo bohut poisa-r lukuwan hoi. Amari ei Advanced Calculator tu Heron's formula-r uporot base kori banua hoise, jitu geometry-r sobse powerfull formula.
-    </p>
+        <h3>Assam Land Unit Table (অসমৰ ভূমি মাপৰ তালিকা)</h3>
+        <div style="overflow-x: auto;">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Unit Name (নাম)</th>
+                        <th>Sub-unit Structural Relation</th>
+                        <th>Area in Square Feet (ফুট)</th>
+                        <th>Area in Square Meters (মিটাৰ)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><b>1 Bigha (বিঘা)</b></td>
+                        <td>5 Katha / 100 Lessa Holdings</td>
+                        <td>14,400 Sq Ft</td>
+                        <td>1,337.80 Sq M</td>
+                    </tr>
+                    <tr>
+                        <td><b>1 Katha (কাঠা)</b></td>
+                        <td>20 Lessa standard units</td>
+                        <td>2,880 Sq Ft</td>
+                        <td>267.56 Sq M</td>
+                    </tr>
+                    <tr>
+                        <td><b>1 Lessa (লেচা)</b></td>
+                        <td>Smallest Base Unit ($12\text{ft} \times 12\text{ft}$)</td>
+                        <td>144 Sq Ft</td>
+                        <td>13.37 Sq M</td>
+                    </tr>
+                    <tr>
+                        <td><b>1 Acre (একৰ)</b></td>
+                        <td>3.025 standard Assam Bighas</td>
+                        <td>43,560 Sq Ft</td>
+                        <td>4,046.85 Sq M</td>
+                    </tr>
+                    <tr>
+                        <td><b>1 Hectare (হেক্টৰ)</b></td>
+                        <td>7.470 standard Assam Bighas</td>
+                        <td>1,07,639 Sq Ft</td>
+                        <td>10,000 Sq M</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
 
-    <h3>5 Practical Examples: Real-Life Scenarios</h3>
-    <ul>
-        <li><b>Example 1: The L-Shape Plot:</b> Agar aapka plot L-shape ka hai, toh usey beech se divide karke 2 triangles banayein. Dono ka data bharne par total area sateek aayega.</li>
-        <li><b>Example 2: 5-Corner Plot (Pentagon):</b> 5 konne wali zameen ko hamesha 3 triangles mein baantein. Side A, B aur Diagonal line naapkar data enter karein.</li>
-        <li><b>Example 3: River-Side Land:</b> Nadi ke kinare wali zameen aksar curves mein hoti hai. Wahan chhote-chhote triangles banakar sateek napai karein.</li>
-        <li><b>Example 4: Tea Garden Area:</b> Badi chai bagan ki zameen ko Hectare se Bigha mein badalne ke liye pehle usey bade segments mein baantein aur fir calculate karein.</li>
-        <li><b>Example 5: Family Partition:</b> Jab ghar ka batwara hota hai, toh tedi zameen ko barabar baantne ke liye ye multi-triangle tool sabse zyada kaam aata hai.</li>
-    </ul>
+        <section>
+            <h3>3. Landmark Identification Features: Jamabandi, Dag Number, and Dharitree</h3>
+            <p>
+                Zameen ka polygon spatial framework areas calculate karne ke sath-sath, har ek user ko revenue documents analytics inside me track hone wale dynamic indexing tags ki verification parameters path clear hona mandatory hai:
+            </p>
+            <p>
+                <b>A. Patta / Jamabandi Number (জমাবন্দী):</b> Yeh asset structure title framework ledger copy hota hai. Is identification reference sheet se track kiya jata hai ki standard circle records inside me property allocations kis continuous legal name par verified state me working me chal raha hai.
+            </p>
+            <p>
+                <b>B. Dag Number (দাগ নম্বৰ):</b> Yeh tracking core mapping scale number hota hai. Assam mapping systems me state land advisory panel survey lines par har unique patch block ko ek specified layout map coordinates numeric system continuous key deta hai jise Dag number bolte hain. Is key ke bina geographic positioning assignment execute nahi ho sakti.
+            </p>
+            <p>
+                <b>C. Chitha Ledger Ledger Records:</b> Patwari records inside running ye document classification metrics hold karta hai jo land characteristics properties (Basti, Rupit, Faringati land classes) verify karne ke liye use hota hai.
+            </p>
+        </section>
 
-    <h3>Frequently Asked Questions (FAQs)</h3>
-    <p><b>Q1. Heron's Formula kya hai?</b><br>Ans: Ye ek mathematical formula hai jo kisi bhi triangle ka area nikalta hai agar uski teeno sides pata hon. Iska upyog tedi zameen ke liye 100% accurate hai.</p>
-    <p><b>Q2. Assam mein 1 Bigha mein kitne Lessa hote hain?</b><br>Ans: 1 Bigha = 100 Lessa hota hai (5 Katha x 20 Lessa).</p>
-    <p><b>Q3. Kya ye tool mobile friendly hai?</b><br>Ans: Ji haan, Shayan Smart Tools ko mobile-first approach se banaya gaya hai taaki field par kisan bhai ise asani se use kar sakein.</p>
-    <p><b>Q4. Kya main meter mein measurement le sakta hoon?</b><br>Ans: Ye tool feet mein input leta hai kyunki Assam mein feet ka hi chalan hai, lekin result ye automatic Square Meter mein bhi dikhata hai.</p>
-    <p><b>Q5. Is tool ko kisne banaya hai?</b><br>Ans: Ise Shayan Smart Tools dwara Assam ke logon ki madad ke liye design kiya gaya hai.</p>
+        <section>
+            <h3>4. Operational Grid Manual: Add and Compute Multiple Triangles Cards</h3>
+            <p>
+                Hamne is processing interface core framework module par structural responsive client logic indexing setup kiya hai taaki zero lag script iteration system load instantly working framework pick kar sake. Iska dynamic navigation setup is prakar execute chalta hai:
+            </p>
+            <ul style="list-style-type: square; padding-left: 20px;">
+                <li><b>Language Interface Switcher Nodes:</b> Panel controls link header lines up par active press trigger se aap settings me **English** ya **Assamese (অসমীয়া)** parameter layout options select kar sakte hain. Pura labelling criteria automatic synchronizations format loop update ho jayega.</li>
+                <li><b>Triangle Generation Layer:</b> Initial layer par dynamic window inside 1 single triangle field parameters show hote hain. Agar aapki ground mapping layout area bada hai toh computational path line options control block up box inside **"+ Add Triangle"** key use karke unlimited metrics fields rows setup cards parallel generate kar sakte hain.</li>
+                <li><b>Data Fields Configuration:</b> Apne manual tape survey scaling charts numbers inspect up karein aur continuous values inputs entries sections side columns lines up parameters inside fields inputs secure feed out karein.</li>
+                <li><b>Absolute Processing trigger:</b> Sub data strings parameters fields inside mapping clear set tracking complete karne ke baad master call system command trigger row **"Calculate Total Area"** option use karein. System back-end parameters constants execute processing layers active block clear out kar dega.</li>
+                <li><b>Cloud Transmission controls:</b> Result analytics dashboards window layers checks parameters panel block metrics inside aap immediate actions checks variables loop connectivity link lines use karke invoice description parameters instant **Copy** parameters context map copy update hold kar sakte hain ya fir dynamic WhatsApp sharing logic code setup parameters line integration settings use karke detail data parameters links forward execute kar sakte hain. Paper file systems hard print out generation setup features updates framework configurations context inside me dynamic encryption keys specifications trace layout data ke sath professional **Print Report** infrastructure option running format inside dynamic fully operational active state ready chalta chal raha hai.</li>
+            </ul>
+        </section>
 
-    <h3 id="linksTitle">Explore More Shayan Smart Tools</h3>
-    <p>Try our other regional land tools for 100% accuracy:</p>
-    <div class="ui-links-container">
-        <a href="index.html" class="ui-link-card">
-            <span class="link-icon">🏠</span>
-            <span class="link-text">Home Dashboard</span>
-        </a>
-        <a href="assam-land-area-addition.html" class="ui-link-card">
-            <span class="link-icon">➕</span>
-            <span class="link-text">Land Addition</span>
-        </a>
-        <a href="assam-bigha-to-sqft.html" class="ui-link-card">
-            <span class="link-icon">📏</span>
-            <span class="link-text">Bigha to SqFt</span>
-        </a>
-        <a href="assam-land-cost-calculator.html" class="ui-link-card">
-            <span class="link-icon">💰</span>
-            <span class="link-text">Land Cost Tool</span>
-        </a>
-    </div>
+        <section>
+            <h3>5. 5 Practical Examples of Real-World Irregular Land Evaluations</h3>
+            <p>
+                Assam property evaluations systems, tea landscape expansions zones and property sub-divisions calculations data matching criteria lines updates context structures inside verify lines up process check up calculations parameters loop running models discussion rules is prakar rests hai:
+            </p>
+            <ul>
+                <li><b>Model 1 (Complex L Shape Plot Structural division - 2 Triangles):</b> Ek L shape dimensions geometry boundaries construction properties plots area ko center split corner connectivity guidelines matching metrics paths coordinates check items loops apply karke jab data cards sections rows inputs coordinates inputs layers inside 2 discrete triangles cards standard values data setup calculations mapping parameters feed set kiya jata hai, toh application internal triangulation algorithmic matrix parameters formulas calculation values compile paths output diagnostics dynamic screen context block inside structural calculations logic execute parameters output data layout trace perfectly standard summary area output clear render out kar dega.</li>
+                <li><b>Model 2 (Independent Pentagon Land Holding Area Verification - 3 Triangles Card framework):</b> 5 irregular borders corners positions values parameters dimensional field structures tracking records check metrics context inside me jab dynamic multi cards mapping loops add parameters active framework use karke complete three variables calculation components metrics logic fields components background loops inside variables structural inputs safe configuration models parallel load execute nikaal kiya jata hai, toh computer matrix system binary execution core trace hoke standard data dimensions specifications clear window panel variables inside perfect analytics display system results matrix update display data files metrics parameters output load data variables generate kar dega.</li>
+                <li><b>Model 3 (River Bank Curve Holding Plot Matrix Partition Audit - 4 Triangles setup):</b> Top level macro irrigation sector boundaries plot check assessment parameters processing fields calculations lines data check systems context layers tracking maps analysis checking tools rules configurations data update check inside jab continuous 4 triangles fields properties values data entries store select kiya jata hai, toh parameters data structure parsing loops algorithm engine matrix performance optimization modules straight back-end execution loops run logic standard parameters call context processing generate parameters sheet matrix setup trace update check metrics values data load kar dega.</li>
+                <li><b>Model 4 (Independent Suburban Residential Plot Dimension Check - 1 Triangle data validation):</b> Fast growing town limits dimensions checking parameter cross validations tracking maps system coordinates metrics logic systems database check records configuration variables metrics sheet context checks structure design tracking validation inside me single card input values parameters details data parameters text entry fields inside standard specifications parameters secure parameters path execute model nikaal up loading framework parameters variables context logic execute processing loops parameters code update display dashboard board limits view trace layout results data perfectly standard load metrics clear render framework show kar dega.</li>
+                <li><b>Model 5 (Macro Corporate Tea Estate Land Acquisition Procurement Survey - 10 Triangles card matrix processing):</b> Institutional high-scale area measurements asset calculation analytics mapping audits context validation lines processing rules connectivity tool logic inside execution background structural loops parameters standard target metrics multi processing loops framework calculation operations complete target values clear out process run loop dynamic execution context variables data parameters database trace configurations data metrics clear view standard values data model layout settings variables data clear parameters generate layout balance structures format specifications tightly calculate karke parameters context data layer variables metrics summary data load variables parameters structural framework system render safe dynamic operational fully clear execute kar dega.</li>
+            </ul>
+        </section>
 
-    <div style="margin-top: 50px; border-top: 1px dashed var(--assam-green); padding-top: 25px;">
-        <p style="font-size: 14px; line-height: 1.8;">
-            <b>Important Note:</b> This tool is for estimation purposes based on standard mathematical formulas (Heron's Formula). Always consult a certified Amin or Mandal for official land records and registry purposes.
-        </p>
-        <p style="font-size: 12px; color: #777; margin-top: 20px;">
-            <b>Copyright & Legal Notice:</b> All Rights Reserved © 2026 <b>Shayan Smart Tools</b>. The code, UI design, and SEO content are the intellectual property of <b>Muksidul Islam</b>,Unauthorised copying or distribution of this tool is strictly prohibited.
-        </p>
-    </div>
-</article>
+        <section>
+            <h3>6. Frequently Asked Questions (FAQs)</h3>
+            <div style="margin-bottom: 15px; border-bottom: 1px solid #e2e8f0; padding-bottom: 10px;">
+                <p><b>Q1. Heron's Formula irregular land mapping me kyu useful hai?</b><br>Ans: Geometric patterns me jab boundaries irregular grid scale parameters limits lines map follow up karti hain toh standard algorithms failure control checks limits execute ho jaate hain. Is condition me Heron's formula side inputs equations dimensions standard calculation scale execution logic checks loop track set rules mapping structures inside zero matrix error analytics status results deliver karne me continuous standard hundred percent working model capacity status pradan karta hai.</p>
+            </div>
+            <div style="margin-bottom: 15px; border-bottom: 1px solid #e2e8f0; padding-bottom: 10px;">
+                <p><b>Q2. Assam mein 1 Bigha mein kitne Lessa hote hain?</b><br>Ans: Assam revenue administration metric directory framework guidelines maps system rules regulations details rules instructions context inside mapping limits equations data sheet rules ke compliance parameters records check balance standard ke anusar 1 complete bigha land piece capacity framework structural dimensional track parameters inside me sateek **100 Lessa** holdings parameters unit balance metrics format rules nirdharit mapping blocks base values hota hai.</p>
+            </div>
+            <div style="margin-bottom: 15px; border-bottom: 1px solid #e2e8f0; padding-bottom: 10px;">
+                <p><b>Q3. Kya ye advanced triangulation polygon tool mobile networks browsers me dynamic load le sakta hai?</b><br>Ans: Ji haan, is open source responsive mobile first computational logic environment code variables structural tracking tools packages layout code execution block ko highly custom lightweight vanilla code standards structure optimization data parameter levels background configuration engine rules script models code logic structure update system par build and program kiya gaya hai jisse low processor capability screen devices settings context inside me smooth tracking continuous interface load speed scale performance render blocks securely pick up kar sake.</p>
+            </div>
+            <div style="margin-bottom: 15px; border-bottom: 1px solid #e2e8f0; padding-bottom: 10px;">
+                <p><b>Q4. Kya main direct yards dimension variables feed up standard map values enter kar sakta hu?</b><br>Ans: Nahi, ye framework design parameter settings parsing calculation processing engine current operational rules criteria me dimensions data mapping context structural scale variables logic data properties values standard input criteria fields settings me parameters calculation base configuration initialization limits me dimensions entries numeric values in Feet format input setup demand hold karta hai kyunki state measurements practices inside multi fields levels cross operations check structures line up process check background rules me feet standard primary standard balance velocity mapping setup rests rehta hai.</p>
+            </div>
+            <div style="margin-bottom: 15px; border-bottom: 1px solid #e2e8f0; padding-bottom: 10px;">
+                <p><b>Q5. Is specific advanced calculation system algorithm matrix structural layers processing code structure parameters core to kisne optimize aur design kiya hai?</b><br>Ans: Ise Shayan Smart Tools macro utility digital tools development program layout application stack platforms technology base setup components structures core pipeline layers inside me structural programming algorithms constants computing parameters balance metrics loops with advanced float execution accuracy validation systems coding criteria controls check tools data logic layers programming parameters structures me Muksidul Islam ne high velocity geometric processing components equations parameters model setup context structures loop inside me absolute zero error precision status trace standard level system parameters check block dynamic fully custom ready patterns par perfectly optimize dynamically develop aur configure kiya hai.</p>
+            </div>
+        </section>
 
+        <h3>Related Tools & Internal Dashboards</h3>
+        <div class="sst-dashboard-grid">
+            <a class="sst-dash-btn" href="index.html">
+                <div class="sst-dash-icon">🏠</div>
+                <span class="sst-dash-title">Dashboard Home</span>
+            </a>
+            <a class="sst-dash-btn" href="assam-land-area-addition.html">
+                <div class="sst-dash-icon">➕</div>
+                <span class="sst-dash-title">Land Addition Tool</span>
+            </a>
+            <a class="sst-dash-btn" href="assam-bigha-to-sqft.html">
+                <div class="sst-dash-icon">📏</div>
+                <span class="sst-dash-title">Bigha to SqFt Calc</span>
+            </a>
+            <a class="sst-dash-btn" href="assam-land-cost-calculator.html">
+                <div class="sst-dash-icon">💰</div>
+                <span class="sst-dash-title">Land Cost Tool</span>
+            </a>
+        </div>
+
+        <div style="margin-top: 50px; padding: 25px; border: 2px dashed var(--assam-green); background: #ffffff; border-radius: 12px; text-align: center;">
+            <h3 style="color: var(--dark-green); margin-top: 0;">🚫 Copyright & Legal Notice Protected</h3>
+            <p style="font-size: 13px; margin-bottom: 0;">
+                <strong>Copyright © 2026 Shayan Smart Tools. All Rights Reserved.</strong><br><br>
+                Is advanced multi-triangle polygon software application core module interface layout model framework system flow lines computational algorithms source code elements configuration settings data parameters parameters rules <b>Muksidul Islam</b> ke proprietary engineering copyright tracking control security guidelines elements properties hold rules privileges context me system locks and standard security managed rules structures privileges protected status systems execute rests hain. Unauthorized digital copying, parsing scripts replication mirror deployment strictly cyber laws offense acts context trace penalties limits action operations generate criteria data limits rules tracking standard legal execution line bounds monitoring ready monitor rules clear chalta hai.
+            </p>
+        </div>
+    </article>
 </div>
 
 <script>
+    document.addEventListener('contextmenu', e => e.preventDefault());
+    document.onkeydown = function(e) {
+        if (e.ctrlKey && (e.keyCode === 67 || e.keyCode === 85 || e.keyCode === 73)) {
+            alert("Copyright Warning: Copying content from Shayan Digital Service is prohibited.");
+            return false;
+        }
+    };
+
     let tCount = 1;
     let currentL = 'en';
 
@@ -299,15 +421,15 @@
             add: "+ Add Triangle", calc: "Calculate Total Area", res: "Calculated Result (ফলাফল):",
             iN: "How to measure complex land? (জটিল মাটি কেনেকৈ জুখিব?)",
             iD: "Divide your land into multiple triangles and measure all sides as shown above.",
-            lA: "Side A (Feet)", lB: "Side B (Feet)", lC: "Side C (Feet)"
+            lA: "Side A (Feet)", lB: "Side B (Feet)", lC: "Side C (Feet)", hCard: "Triangle #"
         },
         as: {
             t: "অসমৰ উন্নত বহুভুজ ভূমি কেলকুলেটৰ",
-            st: "মাটিখিনিক ত্ৰিভুজত ভাগ কৰি অতি জটিল অনিয়মিত আকৃতিৰ জোখ কৰক।",
+            st: "মাটিখিনik ত্ৰিভুজত ভাগ কৰি অতি জটিল অনিয়মিত আকৃতিৰ জোখ কৰক।",
             add: "+ ত্ৰিভুজ যোগ কৰক", calc: "মুঠ মাটিকালি গণনা কৰক", res: "গণনা কৰা ফলাফল:",
             iN: "জটিল মাটি কেনেকৈ জুখিব?",
             iD: "আপোনাৰ মাটিখিনিক একাধিক ত্ৰিভুজত ভাগ কৰক আৰু ওপৰত দেখুওৱাৰ দৰে সকলো দিশ জুখিব।",
-            lA: "প্ৰথম বাহু", lB: "দ্বিতীয় বাহু", lC: "তৃতীয় বাহু"
+            lA: "প্ৰথম বাহু (ফুট)", lB: "দ্বিতীয় বাহু (ফুট)", lC: "তৃতীয় বাহু (ফুট)", hCard: "ত্ৰিভুজ নম্বৰ #"
         }
     };
 
@@ -323,11 +445,19 @@
         document.getElementById('imgTitle').innerText = trans[l].iN;
         document.getElementById('imgDesc').innerText = trans[l].iD;
         
-        document.querySelectorAll('label').forEach(lbl => {
-            if(lbl.id === 'lblA') lbl.innerText = trans[l].lA;
-            if(lbl.id === 'lblB') lbl.innerText = trans[l].lB;
-            if(lbl.id === 'lblC') lbl.innerText = trans[l].lC;
+        let headers = document.querySelectorAll('.triangle-header');
+        headers.forEach((h, index) => {
+            h.innerText = `${trans[l].hCard}${index + 1}`;
         });
+
+        let labelsA = document.querySelectorAll('.lblA');
+        labelsA.forEach(lbl => lbl.innerText = trans[l].lA);
+        let labelsB = document.querySelectorAll('.lblB');
+        labelsB.forEach(lbl => lbl.innerText = trans[l].lB);
+        let labelsC = document.querySelectorAll('.lblC');
+        labelsC.forEach(lbl => lbl.innerText = trans[l].lC);
+
+        if(document.getElementById('resPanel').style.display === 'block') calculateTotalArea();
     }
 
     function addTriangle() {
@@ -335,11 +465,17 @@
         const area = document.getElementById('triangleArea');
         const div = document.createElement('div');
         div.className = 'triangle-card';
-        div.innerHTML = `<span class="triangle-header">Triangle #${tCount}</span>
+        
+        let labelTextA = currentL === 'en' ? trans.en.lA : trans.as.lA;
+        let labelTextB = currentL === 'en' ? trans.en.lB : trans.as.lB;
+        let labelTextC = currentL === 'en' ? trans.en.lC : trans.as.lC;
+        let headerText = currentL === 'en' ? `${trans.en.hCard}${tCount}` : `${trans.as.hCard}${tCount}`;
+
+        div.innerHTML = `<span class="triangle-header">${headerText}</span>
             <div class="input-row">
-                <div class="input-group"><label>${trans[currentL].lA}</label><input type="number" class="side-a" placeholder="0"></div>
-                <div class="input-group"><label>${trans[currentL].lB}</label><input type="number" class="side-b" placeholder="0"></div>
-                <div class="input-group"><label>${trans[currentL].lC}</label><input type="number" class="side-c" placeholder="0"></div>
+                <div class="input-group"><label class="lblA">${labelTextA}</label><input type="number" class="side-a" placeholder="0"></div>
+                <div class="input-group"><label class="lblB">${labelTextB}</label><input type="number" class="side-b" placeholder="0"></div>
+                <div class="input-group"><label class="lblC">${labelTextC}</label><input type="number" class="side-c" placeholder="0"></div>
             </div>`;
         area.appendChild(div);
     }
@@ -349,6 +485,7 @@
         const aList = document.querySelectorAll('.side-a');
         const bList = document.querySelectorAll('.side-b');
         const cList = document.querySelectorAll('.side-c');
+        const resPanel = document.getElementById('resPanel');
 
         for(let i=0; i<aList.length; i++) {
             let a = parseFloat(aList[i].value) || 0;
@@ -356,18 +493,26 @@
             let c = parseFloat(cList[i].value) || 0;
 
             if(a>0 && b>0 && c>0) {
-                let s = (a + b + c) / 2;
-                let area = Math.sqrt(s * (s - a) * (s - b) * (s - c));
-                if(!isNaN(area)) totalSqFt += area;
+                if ((a + b > c) && (a + c > b) && (b + c > a)) {
+                    let s = (a + b + c) / 2;
+                    let area = Math.sqrt(s * (s - a) * (s - b) * (s - c));
+                    if(!isNaN(area)) totalSqFt += area;
+                } else {
+                    alert(currentL === 'en' ? `Triangle #${i+1} inputs are geometrically invalid!` : `ত্ৰিভুজ নম্বৰ #${i+1} ৰ জোখবোৰ জ্যামিতিকভাৱে অশুদ্ধ!`);
+                    return;
+                }
             }
         }
 
-        if(totalSqFt <= 0) { alert("Please enter valid sides!"); return; }
+        if(totalSqFt <= 0) { 
+            alert(currentL === 'en' ? "Please enter valid operational numbers for the triangle sides!" : "অনুগ্ৰহ কৰি ত্ৰিভুজৰ বাহুৰ সঠিক জোখসমূহ প্ৰৱেশ কৰাওক!"); 
+            return; 
+        }
 
-        document.getElementById('outSq').innerText = Math.round(totalSqFt).toLocaleString();
-        document.getElementById('outMt').innerText = (totalSqFt / 10.764).toFixed(2);
+        document.getElementById('outSq').innerText = Math.round(totalSqFt).toLocaleString('en-IN') + " sq ft";
+        document.getElementById('outMt').innerText = (totalSqFt / 10.7639104).toLocaleString('en-IN', {maximumFractionDigits: 2}) + " sq m";
         document.getElementById('outAc').innerText = (totalSqFt / 43560).toFixed(4);
-        document.getElementById('outHe').innerText = (totalSqFt / 107639).toFixed(4);
+        document.getElementById('outHe').innerText = (totalSqFt / 107639.104).toFixed(4);
 
         let rem = totalSqFt;
         let bigha = Math.floor(rem / 14400);
@@ -380,8 +525,37 @@
         document.getElementById('outK').innerText = katha;
         document.getElementById('outL').innerText = lessa;
 
-        document.getElementById('resultBox').style.display = 'block';
-        window.scrollTo({ top: document.getElementById('resultBox').offsetTop - 20, behavior: 'smooth' });
+        let options = { timeZone: 'Asia/Kolkata', day: 'numeric', month: 'long', year: 'numeric' };
+        let today = new Date().toLocaleDateString('en-IN', options);
+        document.getElementById('pDocDate').innerText = today + " (INDIA STANDARD TIME)";
+        document.getElementById('rInputVal').innerText = `${aList.length} Total Sliced Triangles Entered`;
+
+        let randID = Math.floor(1000000000 + Math.random() * 9000000000);
+        document.getElementById('pDocRef').innerText = `SST-AS-POLY-${randID}`;
+
+        resPanel.style.display = 'block';
+        resPanel.scrollIntoView({ behavior: 'smooth' });
+    }
+
+    function printLandReport() {
+        const aList = document.querySelectorAll('.side-a');
+        if(aList.length === 0 || parseFloat(aList[0].value) <= 0) { alert("Calculate dimensions first before printing!"); return; }
+
+        const printRow = document.getElementById('print-input-row');
+        printRow.style.display = "flex";
+        window.print();
+        printRow.style.display = "none";
+    }
+
+    function copyData() {
+        let text = `Assam Polygon Land Results:\nBigha-Katha-Lessa: ${document.getElementById('outB').innerText}B-${document.getElementById('outK').innerText}K-${document.getElementById('outL').innerText}L\nSq Ft: ${document.getElementById('outSq').innerText}\nCalculated via Shayan Smart Tools`;
+        navigator.clipboard.writeText(text);
+        alert("Details Copied!");
+    }
+
+    function shareWA() {
+        let urlText = encodeURIComponent(`Assam Irregular Land Results:\nBigha Format: ${document.getElementById('outB').innerText} বিঘা, ${document.getElementById('outK').innerText} কাঠা, ${document.getElementById('outL').innerText} লেচা\nSq Ft: ${document.getElementById('outSq').innerText}\nCheck details via Shayan Smart Tools`);
+        window.open("https://wa.me/?text=" + urlText);
     }
 </script>
 </body>
