@@ -33,15 +33,6 @@
 
         .container { max-width: 850px; margin: 0 auto; }
 
-        .tool-card {
-            background: var(--white);
-            padding: 30px;
-            border-radius: 25px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
-            border: 1px solid #e1e8e5;
-            margin-bottom: 40px;
-        }
-
         header {
             background: linear-gradient(135deg, var(--wb-maroon), var(--wb-corporate));
             color: #fff; padding: 40px 20px; border-radius: 25px; text-align: center;
@@ -53,6 +44,17 @@
         .lang-toggle { display: flex; justify-content: center; gap: 10px; margin-bottom: 25px; }
         .lang-btn { padding: 10px 25px; border-radius: 50px; border: 2px solid var(--wb-maroon); background: white; cursor: pointer; font-weight: 700; transition: 0.3s; color: var(--wb-maroon); }
         .lang-btn.active { background: var(--wb-maroon); color: white; }
+
+        /* 🔥 DYNAMIC REMOVAL OF CARD HOUSING - COMPLETELY TRANSPARENT FIELDS LAYER 🔥 */
+        .tool-card {
+            background: transparent !important;
+            padding: 10px 0;
+            border: none !important;
+            box-shadow: none !important;
+            margin-bottom: 20px;
+        }
+
+        .sec-h { font-size: 16px; font-weight: bold; color: var(--wb-maroon); margin-bottom: 20px; border-bottom: 2px solid #cbd5e1; padding-bottom: 8px; text-transform: uppercase; letter-spacing: 0.5px; }
 
         .diag-box {
             text-align: center;
@@ -76,7 +78,7 @@
         input:focus { border-color: var(--wb-maroon); background: #fff; box-shadow: 0 0 8px rgba(136, 14, 79, 0.1); }
 
         .btn-calc {
-            width: 100%; padding: 20px; background: var(--wb-maroon); color: #fff; border: none; border-radius: 15px; font-size: 18px; font-weight: 800; cursor: pointer; transition: 0.3s; text-transform: uppercase; letter-spacing: 1px;
+            width: 100%; padding: 20px; background: var(--wb-maroon); color: #fff; border: none; border-radius: 15px; font-size: 18px; font-weight: 800; cursor: pointer; transition: 0.3s; text-transform: uppercase; letter-spacing: 1px; margin-top: 25px;
         }
         .btn-calc:hover { transform: translateY(-3px); box-shadow: 0 10px 20px rgba(136, 14, 79, 0.2); }
 
@@ -96,7 +98,7 @@
         .util-btns { display: flex; gap: 10px; margin-top: 25px; }
         .u-btn { flex: 1; padding: 15px; border-radius: 12px; border: none; font-weight: 800; cursor: pointer; transition: 0.3s; color: white; font-size: 14px; text-align: center; }
 
-        /* 🔥 CLEAN FIXED SEO ARTICLE LAYER - NO BOX HOUSING / BACKGROUND CLEAR 🔥 */
+        /* 🔥 CLEAN FIXED SEO ARTICLE LAYER - BACKGROUND CLEAR 🔥 */
         .seo-section { 
             background: transparent !important; 
             padding: 20px 0; 
@@ -129,7 +131,7 @@
         .seo-section tr:nth-child(even) { background-color: #f8fafc; }
 
         /* DASHBOARD LINKING GRID */
-        .sst-dashboard-grid {
+        .links-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
             gap: 16px;
@@ -137,10 +139,10 @@
             width: 100%;
             box-sizing: border-box;
         }
-        .sst-dash-btn {
+        .link-card {
             display: flex;
             align-items: center;
-            gap: 15px;
+            justify-content: center;
             background: #ffffff;
             padding: 18px 20px;
             border-radius: 16px;
@@ -151,34 +153,21 @@
             border: 1px solid #e2e8f0;
             transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
             box-sizing: border-box;
+            text-align: center;
         }
-        .sst-dash-icon {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 42px;
-            height: 42px;
-            background: #fff5f8;
-            border-radius: 12px;
-            font-size: 20px;
-            border: 1px solid #f8bbd0;
-            transition: transform 0.3s ease;
-        }
-        .sst-dash-title { flex: 1; line-height: 1.3; text-align: left; }
-        .sst-dash-btn:hover {
+        .link-card:hover {
             border-color: var(--wb-maroon);
             transform: translateY(-4px);
             box-shadow: 0 12px 20px rgba(136, 14, 79, 0.1);
             background: linear-gradient(135deg, #ffffff, #fff5f8);
         }
-        .sst-dash-btn:hover .sst-dash-icon { transform: scale(1.1) rotate(5deg); background: var(--wb-maroon); color: #fff; }
 
         @media (max-width: 600px) { 
             .res-grid { grid-template-columns: 1fr; } 
             .res-item b { font-size: 16px; }
             .seo-section h2 { font-size: 22px !important; }
-            .sst-dashboard-grid { grid-template-columns: 1fr; gap: 12px; }
-            .sst-dash-btn { padding: 15px 18px; }
+            .links-grid { grid-template-columns: 1fr; gap: 12px; }
+            .link-card { padding: 15px 18px; }
         }
 
         /* PREMIUM GOVERNMENT STYLE PRINT CONFIGURATION */
@@ -191,7 +180,7 @@
             @page { margin: 15mm; size: A4 portrait; }
             body { background: #ffffff !important; color: #000000 !important; padding: 0; margin: 0; }
             
-            .container > .tool-card > header, .lang-toggle, .input-grid, .btn-calc, .diag-box, .util-btns, #resHead, .seo-section, .back-btn { display: none !important; }
+            .container > .tool-card, .lang-toggle, .input-grid, .btn-calc, .diag-box, .util-btns, #resHead, .seo-section, .back-btn { display: none !important; }
             
             .result-panel { 
                 display: block !important; 
@@ -254,6 +243,7 @@
             <button class="lang-btn" id="bnBtn" onclick="setLang('bn')">বাংলা</button>
         </div>
 
+        <div class="sec-h" id="hSecDim">Plot Geometry Dimensions (ভূখণ্ড জ্যামিতি মাাপন তথ্য)</div>
         <div class="input-grid">
             <div class="field"><label id="lblA">Side A (Feet)</label><input type="number" id="sideA" placeholder="0"></div>
             <div class="field"><label id="lblB">Side B (Feet)</label><input type="number" id="sideB" placeholder="0"></div>
@@ -428,10 +418,11 @@
             rT: "Total Land Result (WB Standard):", uD: "Decimal (Satak)", uK: "Kottah (Katha)", uC: "Chatak",
             usq: "Square Feet (Sq.Ft)", usqm: "Square Meters (Sq.Mt)",
             bc: "📋 Copy Details", bw: "📲 WhatsApp", bp: "🖨️ Print Report", bk: "⬅ Back to All Tools",
-            seot: "West Bengal Land Calculation: टेড়া-বেঁকা জমির সঠিক পরিমাপ (Jomir Hisab) Manual Guide",
+            seot: "West Bengal Land Calculation: টেড়া-বেঁকা জমির সঠিক পরিমাপ (Jomir Hisab) Manual Guide",
             seos: "West Bengal revenue standards aur Banglarbhumi RTC records ke anusaar irregular maps calculation matrix methods.",
             iN: "How to measure land, see diagram:", iD: "Measure Side A, B, C, D and the Diagonal (E).",
-            dt: "Related Tools & Internal Dashboards", dh: "🏠 Main Dashboard", dc: "🏡 WB Land Area Calculator", da: "➕ WB Land Addition", dco: "📏 WB Land Cost Calculator"
+            dt: "Related Tools & Internal Dashboards", dh: "🏠 Main Dashboard", dc: "🏡 WB Land Area Calculator", da: "➕ WB Land Addition", dco: "📏 WB Land Cost Calculator",
+            sd: "Plot Geometry Dimensions (ভূখণ্ড জ্যামিতি মাাপন তথ্য)"
         },
         bn: {
             t: "পশ্চিমবঙ্গ জমি পরিমাপ ক্যালকুলেটর",
@@ -442,9 +433,9 @@
             usq: "বর্গফুট পরিমাপ (Sq.Ft)", usqm: "বর্গমিটার পরিমাপ (Sq.Mt)",
             bc: "📋 সবিশেষ নকল করুন", bw: "📲 হোয়াটসঅ্যাপ শেয়ার", bp: "🖨️ রিপোর্ট প্রিন্ট করুন", bk: "⬅ সব টুলের তালিকায় ফিরুন",
             seot: "পশ্চিমবঙ্গ জমি পরিমাপ: টেড়া-বেঁকা জমির সঠিক পরিমাপ ও গাণিতিক সূত্র বিশদ গাইড",
-            seos: "পশ্চিমবঙ্গ ল্যান্ড রেভিনিউ এবং বাংলারভূমি আরটিসি রেকর্ড অনুসারে জটিল বহুভুজ জমির ক্ষেত্রফল নির্ণয়ের গাইড।",
+            seos: "পশ্চিমবঙ্গ ল্যান্ড রেভিনিউ এবং বাংলারभूमि আরটিসি রেকর্ড অনুসারে জটিল বহুভুজ জমির ক্ষেত্রফল নির্ণয়ের গাইড।",
             iN: "জমি কিভাবে মাপবেন, ছবি দেখুন:", iD: "চারটি বাহু এবং মাঝের তির্যক রেখা (E) মাপুন।",
-            dt: "প্রাসঙ্গিক ডিজিটাল টুলস এবং ড্যাশবোর্ড", dh: "🏠 প্রধান ড্যাশবোর্ড", dc: "🏡 পশ্চিমবঙ্গ জমির পরিমাপক", da: "➕ জমি যোগ করার ক্যালকুলেটর", dco: "📏 জমির মূল্য ক্যালকুলেটর"
+            sd: "জমির পরিমাপের তথ্য (Plot Geometry Dimensions)"
         }
     };
 
@@ -475,11 +466,21 @@
         document.getElementById('seoSubTitle').innerText = trans[l].seos;
         document.getElementById('imgNote').innerText = trans[l].iN;
         document.getElementById('imgDesc').innerText = trans[l].iD;
-        document.getElementById('lblDashTitle').innerText = trans[l].dt;
-        document.getElementById('dshHome').innerText = trans[l].dh;
-        document.getElementById('dshCalc').innerText = trans[l].dc;
-        document.getElementById('dshAdd').innerText = trans[l].da;
-        document.getElementById('dshCost').innerText = trans[l].dco;
+        document.getElementById('hSecDim').innerText = trans[l].sd;
+
+        if (l === 'en') {
+            document.getElementById('lblDashTitle').innerText = trans[l].dt;
+            document.getElementById('dshHome').innerText = trans[l].dh;
+            document.getElementById('dshCalc').innerText = trans[l].dc;
+            document.getElementById('dshAdd').innerText = trans[l].da;
+            document.getElementById('dshCost').innerText = trans[l].dco;
+        } else {
+            document.getElementById('lblDashTitle').innerText = "প্রাসঙ্গিক ডিজিটাল টুলস এবং ড্যাশবোর্ড";
+            document.getElementById('dshHome').innerText = "🏠 প্রধান ড্যাশবোর্ড";
+            document.getElementById('dshCalc').innerText = "🏡 পশ্চিমবঙ্গ জমির পরিমাপক";
+            document.getElementById('dshAdd').innerText = "➕ জমি যোগ করার ক্যালকুলেটর";
+            document.getElementById('dshCost').innerText = "📏 জমির মূল্য ক্যালকুলেটর";
+        }
 
         if(document.getElementById('resultBox').style.display === 'block') {
             calculateWBArea();
