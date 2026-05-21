@@ -45,7 +45,6 @@
         .lang-btn { padding: 10px 25px; border-radius: 50px; border: 2px solid var(--wb-maroon); background: white; cursor: pointer; font-weight: 700; transition: 0.3s; color: var(--wb-maroon); }
         .lang-btn.active { background: var(--wb-maroon); color: white; }
 
-        /* 🔥 DYNAMIC REMOVAL OF CARD HOUSING - COMPLETELY TRANSPARENT FIELDS LAYER 🔥 */
         .tool-card {
             background: transparent !important;
             padding: 10px 0;
@@ -98,7 +97,7 @@
         .util-btns { display: flex; gap: 10px; margin-top: 25px; }
         .u-btn { flex: 1; padding: 15px; border-radius: 12px; border: none; font-weight: 800; cursor: pointer; transition: 0.3s; color: white; font-size: 14px; text-align: center; }
 
-        /* 🔥 CLEAN FIXED SEO ARTICLE LAYER - BACKGROUND CLEAR 🔥 */
+        /* CLEAN FIXED SEO ARTICLE LAYER */
         .seo-section { 
             background: transparent !important; 
             padding: 20px 0; 
@@ -130,37 +129,9 @@
         .seo-section th { background: #fce4ec; color: var(--wb-maroon) !important; font-weight: bold; }
         .seo-section tr:nth-child(even) { background-color: #f8fafc; }
 
-        /* DASHBOARD LINKING GRID */
-        .links-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-            gap: 16px;
-            margin: 40px 0;
-            width: 100%;
-            box-sizing: border-box;
-        }
-        .link-card {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: #ffffff;
-            padding: 18px 20px;
-            border-radius: 16px;
-            text-decoration: none;
-            color: var(--wb-corporate) !important;
-            font-weight: 700;
-            font-size: 15px;
-            border: 1px solid #e2e8f0;
-            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-            box-sizing: border-box;
-            text-align: center;
-        }
-        .link-card:hover {
-            border-color: var(--wb-maroon);
-            transform: translateY(-4px);
-            box-shadow: 0 12px 20px rgba(136, 14, 79, 0.1);
-            background: linear-gradient(135deg, #ffffff, #fff5f8);
-        }
+        .links-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; margin: 40px 0; width: 100%; box-sizing: border-box; }
+        .link-card { display: flex; align-items: center; justify-content: center; background: #ffffff; padding: 18px 20px; border-radius: 16px; text-decoration: none; color: var(--wb-corporate) !important; font-weight: 700; font-size: 15px; border: 1px solid #e2e8f0; transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1); box-sizing: border-box; text-align: center; }
+        .link-card:hover { border-color: var(--wb-maroon); transform: translateY(-4px); box-shadow: 0 12px 20px rgba(136, 14, 79, 0.1); background: linear-gradient(135deg, #ffffff, #fff5f8); }
 
         @media (max-width: 600px) { 
             .res-grid { grid-template-columns: 1fr; } 
@@ -170,29 +141,33 @@
             .link-card { padding: 15px 18px; }
         }
 
-        /* PREMIUM GOVERNMENT STYLE PRINT CONFIGURATION */
+        /* 🔥 PREMIUM FIX: ANTI-BLANK PRINT INFRASTRUCTURE 🔥 */
         @media print {
-            * {
-                -webkit-print-color-adjust: exact !important;
-                print-color-adjust: exact !important;
-                color-adjust: exact !important;
-            }
-            @page { margin: 15mm; size: A4 portrait; }
-            body { background: #ffffff !important; color: #000000 !important; padding: 0; margin: 0; }
+            html, body { background: #ffffff !important; color: #000000 !important; margin: 0 !important; padding: 0 !important; }
+            .container { max-width: 100% !important; width: 100% !important; padding: 0 !important; margin: 0 !important; }
             
-            .container > .tool-card, .lang-toggle, .input-grid, .btn-calc, .diag-box, .util-btns, #resHead, .seo-section, .back-btn { display: none !important; }
+            /* Hidden non-print areas smoothly without causing parent layout crashes */
+            .tool-card, .lang-toggle, .input-grid, .btn-calc, .diag-box, .util-btns, #resTitle, .seo-section, .back-btn { 
+                display: none !important; 
+                opacity: 0 !important;
+                visibility: hidden !important;
+                height: 0 !important;
+                margin: 0 !important;
+                padding: 0 !important;
+            }
             
             .result-panel { 
                 display: block !important; 
+                visibility: visible !important;
                 background: #ffffff !important; 
                 color: #000000 !important; 
                 padding: 25px !important; 
-                margin: 0 !important;
+                margin: 0 auto !important;
                 width: 100% !important;
                 box-sizing: border-box;
                 border: 3px double var(--wb-maroon) !important; 
                 border-radius: 0px !important;
-                position: relative;
+                box-shadow: none !important;
             }
             
             .print-header-block {
@@ -256,52 +231,52 @@
         </div>
 
         <button class="btn-calc" id="btnCalc" onclick="calculateWBArea()">Calculate Area</button>
+    </div>
 
-        <div id="resultBox" class="result-panel">
+    <div id="resultBox" class="result-panel">
+        
+        <div class="print-header-block">
+            <div style="display: flex; justify-content: center; align-items: center; gap: 10px; margin-bottom: 5px;">
+                <img src="favicon.png" alt="SST" style="width: 30px; height: 30px;">
+                <h2 style="font-size: 22px; color: #880e4f; margin: 0; font-weight: 900; letter-spacing: 1px;">SHAYAN SMART TOOLS</h2>
+            </div>
+            <p style="font-size: 11px; color: var(--wb-dark); font-weight: bold; margin: 0 0 10px 0; letter-spacing: 0.5px; text-transform: uppercase;">WEST BENGAL REVENUE PLOT DIAGNOSTIC SUMMARY - 2026</p>
             
-            <div class="print-header-block">
-                <div style="display: flex; justify-content: center; align-items: center; gap: 10px; margin-bottom: 5px;">
-                    <img src="favicon.png" alt="SST" style="width: 30px; height: 30px;">
-                    <h2 style="font-size: 22px; color: #880e4f; margin: 0; font-weight: 900; letter-spacing: 1px;">SHAYAN SMART TOOLS</h2>
-                </div>
-                <p style="font-size: 11px; color: var(--wb-dark); font-weight: bold; margin: 0 0 10px 0; letter-spacing: 0.5px; text-transform: uppercase;">WEST BENGAL REVENUE PLOT DIAGNOSTIC SUMMARY - 2026</p>
+            <div style="background: #f8fafc; border: 1px solid #cbd5e1; padding: 10px; border-radius: 4px; display: grid; grid-template-columns: 1fr 1fr; font-size: 11px; text-align: left; gap: 5px; color: #334155;">
+                <div><strong>DOCUMENT REF:</strong> <span id="pDocRef" style="color:#880e4f; font-weight:bold;">SST-WB-IRR-0000</span></div>
+                <div><strong>DATE:</strong> <span id="pDocDate" style="color:#880e4f; font-weight:bold;">--/--/----</span></div>
+                <div><strong>JURISDICTION:</strong> State of West Bengal (পশ্চিমবঙ্গ)</div>
+                <div style="text-align: right;"><strong>STATUS:</strong> Geometry Calculations Secured</div>
+            </div>
+        </div>
+
+        <h3 id="resTitle">Total Land Result (পশ্চিমবঙ্গ মান):</h3>
+        
+        <div class="res-grid">
+            <div class="res-item" id="print-input-row" style="display:none;"><span style="color:var(--wb-maroon); font-weight: 800;">Initial Geometry Dimensions:</span> <b id="rInputVal" style="color:var(--wb-maroon); font-weight: 800;">0</b></div>
+            <div class="res-item"><span id="uD">Decimal (Satak)</span><b id="outD">0</b></div>
+            <div class="res-item"><span id="uK">Kottah (Katha)</span><b id="outK">0</b></div>
+            <div class="res-item"><span id="uC">Chatak</span><b id="outC">0</b></div>
+            <div class="res-item"><span id="uSq">Square Feet (Sq.Ft)</span><b id="outSq">0</b></div>
+            <div class="res-item"><span id="uSqm">Square Meters (Sq.Mt)</span><b id="outSqm">0</b></div>
+        </div>
+
+        <div class="print-footer-block">
+            <div style="margin: 0 auto; max-width: 85%; font-size: 11px; color: #475569; line-height: 1.6; text-align: center;">
+                <p style="margin: 0; font-weight: bold; color: #880e4f; text-transform: uppercase; font-size: 12px;">🔒 SECURITY DISCLAIMER & STATUTORY AUDIT NOTICE</p>
+                <p style="margin: 6px 0 0 0;">This computing compilation sheet maps irregular quadrilaterals securely via triangle bisection multipliers (1 Kottah = 720 Sq.Ft, 1 Decimal = 435.6 Sq.Ft). For dynamic ownership assignment mutation registries, cross-check parameters with your local Amin or Banglarbhumi land registry office.</p>
                 
-                <div style="background: #f8fafc; border: 1px solid #cbd5e1; padding: 10px; border-radius: 4px; display: grid; grid-template-columns: 1fr 1fr; font-size: 11px; text-align: left; gap: 5px; color: #334155;">
-                    <div><strong>DOCUMENT REF:</strong> <span id="pDocRef" style="color:#880e4f; font-weight:bold;">SST-WB-IRR-0000</span></div>
-                    <div><strong>DATE:</strong> <span id="pDocDate" style="color:#880e4f; font-weight:bold;">--/--/----</span></div>
-                    <div><strong>JURISDICTION:</strong> State of West Bengal (পশ্চিমবঙ্গ)</div>
-                    <div style="text-align: right;"><strong>STATUS:</strong> Geometry Calculations Secured</div>
+                <div style="display: inline-block; border: 1px dashed #880e4f; padding: 6px 20px; border-radius: 4px; margin-top: 15px; margin-bottom: 12px; background: #f8fafc; font-size: 10px; font-weight: bold; color: #880e4f; text-transform: uppercase; letter-spacing: 0.5px;">
+                    SHAYAN SMART TOOLS [SST SEAL] - OFFICIAL BENGAL PARSING MODULE
                 </div>
+                <p style="margin: 5px 0 0 0; font-size: 12px; font-weight: bold; color: var(--wb-maroon);">🌐 SST OFFICIAL ACCESS: www.shayansmarttools.in</p>
             </div>
+        </div>
 
-            <h3 id="resTitle">Total Land Result (পশ্চিমবঙ্গ মান):</h3>
-            
-            <div class="res-grid">
-                <div class="res-item" id="print-input-row" style="display:none;"><span style="color:var(--wb-maroon); font-weight: 800;">Initial Geometry Dimensions:</span> <b id="rInputVal" style="color:var(--wb-maroon); font-weight: 800;">0</b></div>
-                <div class="res-item"><span id="uD">Decimal (Satak)</span><b id="outD">0</b></div>
-                <div class="res-item"><span id="uK">Kottah (Katha)</span><b id="outK">0</b></div>
-                <div class="res-item"><span id="uC">Chatak</span><b id="outC">0</b></div>
-                <div class="res-item"><span id="uSq">Square Feet (Sq.Ft)</span><b id="outSq">0</b></div>
-                <div class="res-item"><span id="uSqm">Square Meters (Sq.Mt)</span><b id="outSqm">0</b></div>
-            </div>
-
-            <div class="print-footer-block">
-                <div style="margin: 0 auto; max-width: 85%; font-size: 11px; color: #475569; line-height: 1.6; text-align: center;">
-                    <p style="margin: 0; font-weight: bold; color: #880e4f; text-transform: uppercase; font-size: 12px;">🔒 SECURITY DISCLAIMER & STATUTORY AUDIT NOTICE</p>
-                    <p style="margin: 6px 0 0 0;">This computing compilation sheet maps irregular quadrilaterals securely via triangle bisection multipliers (1 Kottah = 720 Sq.Ft, 1 Decimal = 435.6 Sq.Ft). For dynamic ownership assignment mutation registries, cross-check parameters with your local Amin or Banglarbhumi land registry office.</p>
-                    
-                    <div style="display: inline-block; border: 1px dashed #880e4f; padding: 6px 20px; border-radius: 4px; margin-top: 15px; margin-bottom: 12px; background: #f8fafc; font-size: 10px; font-weight: bold; color: #880e4f; text-transform: uppercase; letter-spacing: 0.5px;">
-                        SHAYAN SMART TOOLS [SST SEAL] - OFFICIAL BENGAL PARSING MODULE
-                    </div>
-                    <p style="margin: 5px 0 0 0; font-size: 12px; font-weight: bold; color: var(--wb-maroon);">🌐 SST OFFICIAL ACCESS: www.shayansmarttools.in</p>
-                </div>
-            </div>
-
-            <div class="util-btns">
-                <button class="u-btn" onclick="copyData()" style="background:#475569;" id="btnCopy">📋 Copy Details</button>
-                <button class="u-btn" onclick="shareWA()" style="background:#22c55e;" id="btnWA">📲 WhatsApp</button>
-                <button class="u-btn" onclick="printLandReport()" style="background:#2b7cff;" id="btnPrint">🖨️ Print Report</button>
-            </div>
+        <div class="util-btns">
+            <button class="u-btn" onclick="copyData()" style="background:#475569;" id="btnCopy">📋 Copy Details</button>
+            <button class="u-btn" onclick="shareWA()" style="background:#22c55e;" id="btnWA">📲 WhatsApp</button>
+            <button class="u-btn" onclick="printLandReport()" style="background:#2b7cff;" id="btnPrint">🖨️ Print Report</button>
         </div>
     </div>
 
@@ -355,15 +330,6 @@
             </table>
         </div>
 
-        <h2>5 Practical Examples of Irregular Processing Metrics</h2>
-        <ul>
-            <li><b>Example 1:</b> Agar total parsing area triangle values addition 720 Sq.Ft cross karta hai, toh display dashboard automatic 1 Kottah show karega.</li>
-            <li><b>Example 2:</b> Village borders validation properties checking ke dauran tedi boundaries ko perfect Decimal (Satak) parameters par layout track karna.</li>
-            <li><b>Example 3:</b> Jomi bakhra (family distribution partition) korar somoy cross geometry parameters safe check paowa.</li>
-            <li><b>Example 4:</b> Banglarbhumi online land records ledger metrics verification ke sathe local manual scale values compare karke milিয়ে dekha.</li>
-            <li><b>Example 5:</b> Chatak conversion complex decimals fractions tracking mathematics ko instantly clear aur shohoj kora.</li>
-        </ul>
-
         <h2>Frequently Asked Questions (FAQs)</h2>
         <div style="border-bottom: 1px solid #e2e8f0; padding-bottom: 15px; margin-bottom: 15px;">
             <h4 style="margin-bottom: 8px; color:var(--wb-maroon);">Q1. West Bengal-e 1 Kottah koto sq ft?</h4>
@@ -377,10 +343,6 @@
             <h4 style="margin-bottom: 8px; color:var(--wb-maroon);">Q3. Diagonal map dewa ki proyojon?</h4>
             <p style="margin:0;">Ans: Tedi properties map structures bisection processing ke khatre diagonal map lines data inputs chara sateek area mapping logic ber kora kabhoi somvob noy.</p>
         </div>
-        <div style="padding-bottom: 15px;">
-            <h4 style="margin-bottom: 8px; color:var(--wb-maroon);">Q4: Is core computation processing platform logic to kisne code kiya hai?</h4>
-            <p style="margin:0;">Ans: Ise Shayan Smart Tools open application frameworks stack par completely secure web scripts modules ke sath design kiya hai.</p>
-        </div>
 
         <h2 id="lblDashTitle" style="border:none; padding:0; margin-bottom:15px;">Related Tools & Internal Dashboards</h2>
         <div class="links-grid">
@@ -393,7 +355,7 @@
         <div style="margin-top: 40px; padding: 25px; border: 2px dashed #ffccd5; background-color: #ffffff; border-radius: 12px; font-size:13px;">
             <p style="margin:0;">
                 <strong>Copyright Notice © 2026 Shayan Smart Tools. All Rights Reserved.</strong><br><br>
-                Is software suite page ka structural engineering layout model, code syntax blocks flow, aur content descriptions Indian Copyright Act, 1957 protection guidelines ke anusaar secured rests hai. Duping tracking logs warnings auto-trigger kar denge.
+                Is software suite page ka structural engineering layout model, code syntax blocks flow, aur content descriptions Indian Copyright Act, 1957 protection guidelines ke anusaar secured rests hai. Managed by Muksidul Islam.
             </p>
         </div>
     </article>
@@ -426,14 +388,14 @@
         },
         bn: {
             t: "পশ্চিমবঙ্গ জমি পরিমাপ ক্যালকুলেটর",
-            st: "হেরন সূত্র সমীকরণ পার্সিং সিস্টেম ব্যবহার করে সঠিক গতিশীল পরিমাপ বিবরণী।",
+            st: "হেরন সূত্র সমীকরণ পার্সिंग সিস্টেম ব্যবহার করে সঠিক গতিশীল পরিমাপ বিবরণী।",
             lA: "প্রথম বাহু (A) ফুট", lB: "দ্বিতীয় বাহু (B) ফুট", lC: "তৃতীয় বাহু (C) ফুট", lD: "চতুর্থ বাহু (D) ফুট",
             lDg: "তির্যক রেখা / কর্ণ (Diagonal)", b: "পরিমাপ করুন",
             rT: "মোট জমির পরিমাণ:", uD: "ডেসিমেল (শতক)", uK: "কাঠা (Kottah)", uC: "ছটাক",
             usq: "বর্গফুট পরিমাপ (Sq.Ft)", usqm: "বর্গমিটার পরিমাপ (Sq.Mt)",
-            bc: "📋 সবিশেষ নকল করুন", bw: "📲 হোয়াটসঅ্যাপ শেয়ার", bp: "🖨️ রিপোর্ট প্রিন্ট করুন", bk: "⬅ সব টুলের তালিকায় ফিরুন",
+            bc: "📋 সविशेष নকল করুন", bw: "📲 হোয়াটসঅ্যাপ শেয়ার", bp: "🖨️ রিপোর্ট প্রিন্ট করুন", bk: "⬅ সব টুলের তালিকায় ফিরুন",
             seot: "পশ্চিমবঙ্গ জমি পরিমাপ: টেড়া-বেঁকা জমির সঠিক পরিমাপ ও গাণিতিক সূত্র বিশদ গাইড",
-            seos: "পশ্চিমবঙ্গ ল্যান্ড রেভিনিউ এবং বাংলারभूमि আরটিসি রেকর্ড অনুসারে জটিল বহুভুজ জমির ক্ষেত্রফল নির্ণয়ের গাইড।",
+            seos: "পশ্চিমবঙ্গ ল্যান্ড রেভিনিউ এবং বাংলারভূমি আরটিসি রেকর্ড অনুসারে জটিল বহুভুজ জমির ক্ষেত্রফল নির্ণয়ের গাইড।",
             iN: "জমি কিভাবে মাপবেন, ছবি দেখুন:", iD: "চারটি বাহু এবং মাঝের তির্যক রেখা (E) মাপুন।",
             sd: "জমির পরিমাপের তথ্য (Plot Geometry Dimensions)"
         }
