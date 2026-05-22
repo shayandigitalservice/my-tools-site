@@ -361,8 +361,8 @@
         <ul style="padding-left: 20px;">
             <li><b>Step 1:</b> Sabse pehle input area block dashboard par ja kar apne pehle khasra plot (Plot Details #1) ka Bigha, Biswa aur Biswansi darj karein.</li>
             <li><b>Step 2:</b> Uske thik niche diye gaye section mein apne dusre khet ya plot ka computerized data values enter karein.</li>
-            <li><b>Step 3:</b> Agar aapke khate mein 2 se zyada plots hain, toh aap bina kisi chinta ke <b>"+ Add More Plot"</b> control action block selector button ko daba kar unlimited rows jodein aur data fill karte jayein.</li>
-            <li><b>Step 4:</b> Sabhi values dalkar jab aap <b>"Calculate Total Area"</b> operation button dabaenge, toh niche dynamic diagnostics validation sheet open ho jayegi jisme total area, copy option, aur print layout ka full breakdown certified format mein saaf-saaf dikhayi dega.</li>
+            <li><b>Step 3:</b> Agar aapके khate mein 2 se zyada plots hain, toh aap bina kisi chinta ke <b>"+ Add More Plot"</b> control action block selector button ko daba kar unlimited rows jodein aur data fill karte jayein.</li>
+            <li><b>Step 4:</b> Sabhi values dalkar james aap <b>"Calculate Total Area"</b> operation button dabaenge, toh niche dynamic diagnostics validation sheet open ho jayegi jisme total area, copy option, aur print layout ka full breakdown certified format mein saaf-saaf dikhayi dega.</li>
         </ul>
 
         <h2>Rajasthan Land Revenue Measurement Standard Table Matrix</h2>
@@ -406,14 +406,14 @@
         </div>
         <div style="border-bottom: 1px solid #e2e8f0; padding-bottom: 15px; margin-bottom: 15px;">
             <h4 style="margin-bottom: 8px; color:var(--rj-orange);">Q4. Apna Khata portal ke Hectare records ko isme kaise add karein?</h4>
-            <p style="margin:0;">Ans: Agar aapke dastawez mein data Hectare mein hai, toh pehle hamare side dashboard grid par maujood *Hectare to Bigha Converter* ka use karke use Bigha-Biswa mein badal lein, fir is tool mein aakar use jod sakte hain.</p>
+            <p style="margin:0;">Ans: Agar aapके dastawez mein data Hectare mein hai, toh pehle hamare side dashboard grid par maujood *Hectare to Bigha Converter* ka use karke use Bigha-Biswa mein badal lein, fir is tool mein aakar use jod sakte hain.</p>
         </div>
         <div style="border-bottom: 1px solid #e2e8f0; padding-bottom: 15px; margin-bottom: 15px;">
             <h4 style="margin-bottom: 8px; color:var(--rj-orange);">Q5. Kya yeh calculator Kuchha Bigha fields par bhi kaam karega?</h4>
             <p style="margin:0;">Ans: Ji haan, mathematical base structure (20-unit scaling) same rehta hai, isliye addition logic bilkul perfect kaam karega. Bas alag zilon mein local square feet pricing and dimensions density badal sakti hai.</p>
         </div>
         <div style="border-bottom: 1px solid #e2e8f0; padding-bottom: 15px; margin-bottom: 15px;">
-            <h4 style="margin-bottom: 8px; color:var(--rj-orange);">Q6. 1 Biswansi mein kitने Square Feet hote hain Rajasthan mein?</h4>
+            <h4 style="margin-bottom: 8px; color:var(--rj-orange);">Q6. 1 Biswansi mein kitne Square Feet hote hain Rajasthan mein?</h4>
             <p style="margin:0;">Ans: Rajasthan administrative guidelines and land measurement patterns ke anusar, 1 standard Biswansi accuracy area limits mein exactly **68.06 Square Feet** dimensional grid ke equal hota hai.</p>
         </div>
         <div style="border-bottom: 1px solid #e2e8f0; padding-bottom: 15px; margin-bottom: 15px;">
@@ -504,9 +504,9 @@
         document.getElementById('seoTitle').innerText = trans[l].seot;
         document.getElementById('seoSubTitle').innerText = trans[l].seos;
 
-        document.querySelectorAll('.lbl-b').forEach(el => el.innerText = trans[l].unitB);
-        document.querySelectorAll('.lbl-w').forEach(el => el.innerText = trans[l].unitW);
-        document.querySelectorAll('.lbl-n').forEach(el => el.innerText = trans[l].unitN);
+        document.querySelectorAll('.lbl-b').forEach(function(el) { el.innerText = trans[l].unitB; });
+        document.querySelectorAll('.lbl-w').forEach(function(el) { el.innerText = trans[l].unitW; });
+        document.querySelectorAll('.lbl-n').forEach(function(el) { el.innerText = trans[l].unitN; });
         
         document.getElementById('lblDashTitle').innerText = trans[l].dt;
         document.getElementById('dshHome').innerText = trans[l].dh;
@@ -515,8 +515,8 @@
         document.getElementById('dshCost').innerText = trans[l].dc;
 
         for (let i = 1; i <= pCount; i++) {
-            const el = document.getElementById('p'+i+'Title');
-            if(el) el.innerText = l === 'en' ? 'Plot Details #'+i : 'प्लॉट विवरण #'+i;
+            const el = document.getElementById('p' + i + 'Title');
+            if(el) el.innerText = l === 'en' ? 'Plot Details #' + i : 'प्लॉट विवरण #' + i;
         }
     }
 
@@ -525,30 +525,35 @@
         const area = document.getElementById('plotsArea');
         const div = document.createElement('div');
         div.className = 'plot-entry';
-        div.innerHTML = `<span class="plot-title" id="p${pCount}Title">${currentL === 'en' ? 'Plot Details #'+pCount : 'प्लॉट विवरण #'+pCount}</span>
-            <div class="grid-inputs">
-                <div class="input-group"><label class="lbl-b">${trans[currentL].unitB}</label><input type="number" class="b-in" placeholder="0" value="0"></div>
-                <div class="input-group"><label class="lbl-w">${trans[currentL].unitW}</label><input type="number" class="w-in" placeholder="0" value="0"></div>
-                <div class="input-group"><label class="lbl-n">${trans[currentL].unitN}</label><input type="number" class="n-in" placeholder="0" value="0"></div>
-            </div>`;
+        div.innerHTML = '<span class="plot-title" id="p' + pCount + 'Title">' + (currentL === 'en' ? 'Plot Details #' + pCount : 'प्लॉट विवरण #' + pCount) + '</span>' +
+            '<div class="grid-inputs">' +
+                '<div class="input-group"><label class="lbl-b">' + trans[currentL].unitB + '</label><input type="number" class="b-in" placeholder="0" value="0"></div>' +
+                '<div class="input-group"><label class="lbl-w">' + trans[currentL].unitW + '</label><input type="number" class="w-in" placeholder="0" value="0"></div>' +
+                '<div class="input-group"><label class="lbl-n">' + trans[currentL].unitN + '</label><input type="number" class="n-in" placeholder="0" value="0"></div>' +
+            '</div>';
         area.appendChild(div);
     }
 
     function calculateRJTotal() {
-        let b=0, w=0, n=0;
-        document.querySelectorAll('.b-in').forEach(i => b += Number(i.value)||0);
-        document.querySelectorAll('.w-in').forEach(i => w += Number(i.value)||0);
-        document.querySelectorAll('.n-in').forEach(i => n += Number(i.value)||0);
+        let b = 0, w = 0, n = 0;
+        
+        const bElements = document.querySelectorAll('.b-in');
+        for (let i = 0; i < bElements.length; i++) { b += Number(bElements[i].value) || 0; }
+        
+        const wElements = document.querySelectorAll('.w-in');
+        for (let i = 0; i < wElements.length; i++) { w += Number(wElements[i].value) || 0; }
+        
+        const nElements = document.querySelectorAll('.n-in');
+        for (let i = 0; i < nElements.length; i++) { n += Number(nElements[i].value) || 0; }
 
-        // Rajasthan Revenue Math Carry Forward Logic: 20 Biswansi = 1 Biswa, 20 Biswa = 1 Bigha
-        if(n >= 20) { w += Math.floor(n/20); n %= 20; }
-        if(w >= 20) { b += Math.floor(w/20); w %= 20; }
+        // Rajasthan Revenue Math Carry Forward Logic
+        if(n >= 20) { w += Math.floor(n / 20); n %= 20; }
+        if(w >= 20) { b += Math.floor(w / 20); w %= 20; }
 
         document.getElementById('outB').innerText = b;
         document.getElementById('outW').innerText = w;
         document.getElementById('outN').innerText = n;
         
-        // 1 Pucca Bigha = 27225, 1 Biswa = 1361.25, 1 Biswansi = 68.06 Sq.Ft
         let totalSq = (b * 27225) + (w * 1361.25) + (n * 68.06);
         let totalSqm = totalSq / 10.7639104;
         let totalHec = totalSq / 107639.104;
@@ -557,14 +562,14 @@
         document.getElementById('outSqm').innerText = Math.round(totalSqm).toLocaleString('en-IN');
         document.getElementById('outHec').innerText = totalHec.toFixed(4);
 
-        document.getElementById('rInputVal').innerText = `Aggregated Plots Added: ${b}B, ${w}W, ${n}N`;
+        document.getElementById('rInputVal').innerText = "Aggregated Plots Added: " + b + "B, " + w + "W, " + n + "N";
 
         let options = { timeZone: 'Asia/Kolkata', day: 'numeric', month: 'long', year: 'numeric' };
         let today = new Date().toLocaleDateString('en-IN', options);
         document.getElementById('pDocDate').innerText = today + " (IST)";
         
         let randID = Math.floor(1000000000 + Math.random() * 9000000000);
-        document.getElementById('pDocRef').innerText = `SST-RJ-ADD-${randID}`;
+        document.getElementById('pDocRef').innerText = "SST-RJ-ADD-" + randID;
 
         const resPanel = document.getElementById('resultBox');
         resPanel.style.display = 'block';
@@ -585,14 +590,14 @@
     }
 
     function copyResult() {
-        const t = `Total Accumulated Area: ${document.getElementById('outB').innerText} Bigha, ${document.getElementById('outW').innerText} Biswa, ${document.getElementById('outN').innerText} Biswansi. Calculated via Shayan Smart Tools`;
+        const t = "Total Accumulated Area: " + document.getElementById('outB').innerText + " Bigha, " + document.getElementById('outW').innerText + " Biswa, " + document.getElementById('outN').innerText + " Biswansi. Calculated via Shayan Smart Tools";
         navigator.clipboard.writeText(t);
         alert(trans[currentL].copyMsg);
     }
 
     function shareWhatsApp() {
-        const t = `Rajasthan Land Addition Result: ${document.getElementById('outB').innerText} Bigha, ${document.getElementById('outW').innerText} Biswa, ${document.getElementById('outN').innerText} Biswansi. Total Area: ${document.getElementById('outSq').innerText} Sq.Ft. Verified via Shayan Smart Tools`;
-        window.open(`https://wa.me/?text=${encodeURIComponent(t)}`, '_blank');
+        const t = "Rajasthan Land Addition Result: " + document.getElementById('outB').innerText + " Bigha, " + document.getElementById('outW').innerText + " Biswa, " + document.getElementById('outN').innerText + " Biswansi. Total Area: " + document.getElementById('outSq').innerText + " Sq.Ft. Verified via Shayan Smart Tools";
+        window.open("https://wa.me/?text=" + encodeURIComponent(t), '_blank');
     }
 </script>
 
