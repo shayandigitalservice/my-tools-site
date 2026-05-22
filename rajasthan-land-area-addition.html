@@ -45,7 +45,6 @@
         .lang-btn { padding: 10px 25px; border-radius: 50px; border: 2px solid var(--rj-orange); background: white; cursor: pointer; font-weight: 700; transition: 0.3s; color: var(--rj-orange); }
         .lang-btn.active { background: var(--rj-orange); color: white; }
 
-        /* CLEAN NO CONTAINER BOX LAYOUT */
         .form-card { 
             background: transparent !important; 
             padding: 10px 0; 
@@ -85,7 +84,6 @@
         .btn-add { background: #5d4037; color: white; }
         .btn-calc { background: var(--rj-orange); color: white; }
         
-        /* RESULTS UI */
         .result-panel {
             background: #0f172a; color: white; padding: 25px; border-radius: 25px; margin-top: 30px; display: none; border: 2px solid var(--rj-gold); position: relative;
         }
@@ -104,7 +102,6 @@
         .util-btns { display: flex; gap: 10px; margin-top: 25px; }
         .u-btn { flex: 1; padding: 15px; border-radius: 12px; border: none; font-weight: 800; cursor: pointer; transition: 0.3s; color: white; font-size: 14px; text-align: center; }
 
-        /* CLEAN FIXED SEO ARTICLE LAYER - BACKGROUND CLEAR */
         .seo-article { 
             background: transparent !important; 
             padding: 20px 0; 
@@ -136,7 +133,6 @@
         .seo-article th { background: #fff8e1; color: var(--rj-orange) !important; font-weight: bold; }
         .seo-article tr:nth-child(even) { background-color: #f8fafc; }
 
-        /* DASHBOARD LINKING GRID */
         .links-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
@@ -177,7 +173,6 @@
             .grid-inputs { grid-template-columns: 1fr; gap: 10px; }
         }
 
-        /* ANTI-BLANK PRINT INFRASTRUCTURE */
         @media print {
             html, body { background: #ffffff !important; color: #000000 !important; margin: 0 !important; padding: 0 !important; }
             .container { max-width: 100% !important; width: 100% !important; padding: 0 !important; margin: 0 !important; }
@@ -362,7 +357,7 @@
             <li><b>Step 1:</b> Sabse pehle input area block dashboard par ja kar apne pehle khasra plot (Plot Details #1) ka Bigha, Biswa aur Biswansi darj karein.</li>
             <li><b>Step 2:</b> Uske thik niche diye gaye section mein apne dusre khet ya plot ka computerized data values enter karein.</li>
             <li><b>Step 3:</b> Agar aapke khate mein 2 se zyada plots hain, toh aap bina kisi chinta ke <b>"+ Add More Plot"</b> control action block selector button ko daba kar unlimited rows jodein aur data fill karte jayein.</li>
-            <li><b>Step 4:</b> Sabhi values dalkar jab aap "Calculate Total Area" operation button dabaenge, toh niche dynamic diagnostics validation sheet open ho jayegi jisme total area, copy option, aur print layout ka full breakdown certified format mein saaf-saaf dikhayi dega.</li>
+            <li><b>Step 4:</b> Sabhi values dalkar james jab aap "Calculate Total Area" operation button dabaenge, toh niche dynamic diagnostics validation sheet open ho jayegi jisme total area, copy option, aur print layout ka full breakdown certified format mein saaf-saaf dikhayi dega.</li>
         </ul>
 
         <h2>Rajasthan Land Revenue Measurement Standard Table Matrix</h2>
@@ -551,7 +546,7 @@
         var nElements = document.getElementsByClassName('n-in');
         for (var i = 0; i < nElements.length; i++) { n += (Number(nElements[i].value) || 0); }
 
-        // Rajasthan Revenue Math Carry Forward Logic
+        // Rajasthan Revenue Math Carry Forward Logic (Base 20)
         if(n >= 20) { w += Math.floor(n / 20); n %= 20; }
         if(w >= 20) { b += Math.floor(w / 20); w %= 20; }
 
@@ -567,9 +562,7 @@
         document.getElementById('outSqm').innerText = Math.round(totalSqm).toLocaleString('en-IN');
         document.getElementById('outHec').innerText = totalHec.toFixed(4);
 
-        document.getElementById('rInputVal').innerText = "Aggregated Plots Added: " + b + "B, " + w + "W, " + n + "N";
-
-        var options = { timeZone: 'Asia/Kolkata', day: 'numeric', month: 'long', year: 'numeric' };
+        var options = { day: 'numeric', month: 'long', year: 'numeric' };
         var today = new Date().toLocaleDateString('en-IN', options);
         document.getElementById('pDocDate').innerText = today + " (IST)";
         
@@ -584,14 +577,10 @@
     function printLandReport() {
         var resPanel = document.getElementById('resultBox');
         if (resPanel.style.display !== "block") { 
-            alert("Calculate first before printing!"); 
+            alert(currentL === 'en' ? "Calculate first before printing!" : "प्रिंट करने से पहले गणना करें!"); 
             return; 
         }
-
-        var printRow = document.getElementById('print-input-row');
-        printRow.style.display = "flex";
         window.print();
-        printRow.style.display = "none";
     }
 
     function copyResult() {
