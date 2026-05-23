@@ -170,13 +170,13 @@
             .input-grid { grid-template-columns: 1fr; gap: 12px; }
         }
 
-        /* 🔥 FIXED LAYER: ANTI-BLANK SHEET PRINT ENGINE PROTECTION 🔥 */
+        /* 🔥 FIXED LAYER: ANTI-BLANK SHEET PRINT ENGINE PROTECTION WITH FIXED BUTTONS HIDING 🔥 */
         @media print {
             html, body { background: #ffffff !important; color: #000000 !important; margin: 0 !important; padding: 0 !important; }
             .container { max-width: 100% !important; width: 100% !important; padding: 0 !important; margin: 0 !important; }
             
-            /* Target correct inner form wrappers to hide without breaking dynamic hierarchy views */
-            header, .lang-toggle, .form-container-block, .btn-convert, .util-btns, #resHead, .seo-article, .back-btn { 
+            /* Added .lang-switch wrapper element target selection to completely hide language toggles */
+            header, .lang-switch, .form-container-block, .btn-convert, .util-btns, #resHead, .seo-article, .back-btn { 
                 display: none !important; 
                 opacity: 0 !important;
                 visibility: hidden !important;
@@ -454,7 +454,7 @@
                 rBw: "ਬਿਸਵਾਂਸੀ ਮਾਨ (Biswansi):",
                 rSm: "ਸਕੁਏਅਰ ਮੀਟਰ (Sq.Mt):",
                 rAc: "ਏਕੜ ਬਰਾਬਰ ਰਕਬਾ (Acre):",
-                rHc: "हैਕਟੇਅਰ ਮਾਨ (Hectare):",
+                rHc: "ਹੈਕਟੇਅਰ ਮਾਨ (Hectare):",
                 shI: "ਗਣਨਾ ਯੂਨਿਟ ਪ੍ਰਵਿਸ਼ਟੀ (Select Scale & Value)",
                 seot: "ਪੰਜਾਬ ਬੀਘਾ, ਕਨਾਲ ਅਤੇ ਮਰਲਾ ਤੋਂ ਵਰਗ ਫੁੱਟ ਤਬਦੀਲੀ ਮਾਲ ਰਿਕਾਰਡ ਗਾਈਡ",
                 seos: "ਪੰਜਾਬ ਭੂਮੀ ਮਾਲ ਵਿਭਾਗ ਦੇ ਮਾਪਦੰਡਾਂ ਅਤੇ ਜਮ੍ਹਾਬੰਦੀ ਪ੍ਰਣਾਲੀ ਦੇ ਅਨੁਸਾਰ ਵੱਖ-ਵੱਖ ਇਕਾਈਆਂ ਦੇ ਸਹੀ ਰਕਬੇ ਪਰਿਵਰਤਨ ਦਾ ਮੈਨੂਅਲ।",
@@ -506,7 +506,6 @@
                 return;
             }
 
-            // Punjab Core Multipliers Map Setup (Base factors: 1 Bigha=16200, 1 Kanal=5445, 1 Marla=272.25, 1 Sarsai=30.25)
             var totalSqft = 0;
             if (typeSource === "bigha") { totalSqft = valInput * 16200; }
             else if (typeSource === "kanal") { totalSqft = valInput * 5445; }
