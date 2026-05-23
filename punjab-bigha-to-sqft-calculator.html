@@ -32,18 +32,17 @@
             background-color: var(--bg);
         }
 
-        /* Minimalist Tool Wrapper - No Container Box */
         .tool-wrapper {
             padding: 10px 0;
             text-align: center;
         }
 
         header {
-            background: linear-gradient(135deg, var(--pj-saffron), #fb8c00);
-            color: var(--pj-blue); padding: 40px 20px; border-radius: 25px; text-align: center;
+            background: linear-gradient(135deg, var(--pj-blue), var(--pj-dark));
+            color: var(--pj-saffron); padding: 40px 20px; border-radius: 25px; text-align: center;
             border-bottom: 6px solid var(--pj-blue); margin-bottom: 30px;
         }
-        header h1 { color: var(--pj-blue); margin: 0 0 10px 0; font-size: 26px; text-transform: uppercase; font-weight: 900; }
+        header h1 { color: var(--pj-saffron); margin: 0 0 10px 0; font-size: 26px; text-transform: uppercase; font-weight: 900; }
         header p { color: var(--white); margin: 0; font-size: 16px; font-weight: 500; }
 
         /* Language Switcher */
@@ -68,6 +67,12 @@
         .l-btn.active {
             background: var(--pj-blue);
             color: var(--pj-saffron);
+        }
+
+        .form-container-block {
+            background: transparent !important;
+            padding: 0;
+            margin: 0;
         }
 
         .sec-h { font-size: 16px; font-weight: bold; color: var(--pj-blue); margin-bottom: 20px; border-bottom: 2px solid #cbd5e1; padding-bottom: 8px; text-transform: uppercase; letter-spacing: 0.5px; text-align: left; }
@@ -152,33 +157,12 @@
         .seo-article th { background-color: #fffaf5; color: var(--pj-blue) !important; font-weight: bold; }
         .seo-article tr:nth-child(even) { background-color: #f8fafc; }
 
-        .links-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-            gap: 16px;
-            margin: 25px 0 40px;
-            width: 100%;
-            box-sizing: border-box;
-        }
-        .link-card {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: #ffffff;
-            padding: 18px 20px;
-            border-radius: 16px;
-            text-decoration: none;
-            color: var(--pj-blue) !important;
-            font-weight: 700;
-            font-size: 15px;
-            border: 1px solid #e2e8f0;
-            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-            box-sizing: border-box;
-            text-align: center;
-        }
+        .links-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; margin: 25px 0 40px; width: 100%; box-sizing: border-box; }
+        .link-card { display: flex; align-items: center; justify-content: center; background: #ffffff; padding: 18px 20px; border-radius: 16px; text-decoration: none; color: var(--pj-blue) !important; font-weight: 700; font-size: 15px; border: 1px solid #e2e8f0; transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1); box-sizing: border-box; text-align: center; }
         .link-card:hover { border-color: var(--pj-blue); transform: translateY(-4px); box-shadow: 0 12px 20px rgba(0, 51, 102, 0.1); background: linear-gradient(135deg, #ffffff, #f8fafc); }
 
         @media (max-width: 600px) {
+            .result-display { border-radius: 15px; padding: 15px; }
             .res-grid { grid-template-columns: 1fr; }
             .seo-article { padding: 20px; }
             .links-grid { grid-template-columns: 1fr; gap: 12px; }
@@ -186,12 +170,13 @@
             .input-grid { grid-template-columns: 1fr; gap: 12px; }
         }
 
-        /* ANTI-BLANK PRINT INFRASTRUCTURE FIXED LAYER */
+        /* 🔥 FIXED LAYER: ANTI-BLANK SHEET PRINT ENGINE PROTECTION 🔥 */
         @media print {
             html, body { background: #ffffff !important; color: #000000 !important; margin: 0 !important; padding: 0 !important; }
             .container { max-width: 100% !important; width: 100% !important; padding: 0 !important; margin: 0 !important; }
             
-            .tool-wrapper, .lang-toggle, .btn-convert, .util-btns, #resHead, .seo-article, .back-btn { 
+            /* Target correct inner form wrappers to hide without breaking dynamic hierarchy views */
+            header, .lang-toggle, .form-container-block, .btn-convert, .util-btns, #resHead, .seo-article, .back-btn { 
                 display: none !important; 
                 opacity: 0 !important;
                 visibility: hidden !important;
@@ -262,24 +247,25 @@
             <button class="l-btn" id="pjBtn" onclick="setLang('pj')">ਪੰਜਾਬੀ</button>
         </div>
 
-        <div class="sec-h" id="hSecTitle">Select Scale & Value (ਗਣਨਾ ਯੂਨਿਟ ਪ੍ਰਵਿਸ਼ਟੀ)</div>
-        <div class="input-grid">
-            <div class="input-group">
-                <label id="lSelect">Select Source Unit</label>
-                <select id="unitSource">
-                    <option value="bigha">Bigha (ਬੀਘਾ)</option>
-                    <option value="kanal">Kanal (ਕਨਾਲ)</option>
-                    <option value="marla">Marla (ਮਰਲਾ)</option>
-                    <option value="sarsai">Sarsai (ਸਰਸਾਈ)</option>
-                </select>
+        <div class="form-container-block">
+            <div class="sec-h" id="hSecTitle">Select Scale & Value (ਗਣਨਾ ਯੂਨਿਟ ਪ੍ਰਵਿਸ਼ਟੀ)</div>
+            <div class="input-grid">
+                <div class="input-group">
+                    <label id="lSelect">Select Source Unit</label>
+                    <select id="unitSource">
+                        <option value="bigha">Bigha (ਬੀਘਾ)</option>
+                        <option value="kanal">Kanal (ਕਨਾਲ)</option>
+                        <option value="marla">Marla (ਮਰਲਾ)</option>
+                        <option value="sarsai">Sarsai (ਸਰਸਾਈ)</option>
+                    </select>
+                </div>
+                <div class="input-group">
+                    <label for="bighaInput" id="lInput">Enter Numerical Value</label>
+                    <input type="number" id="bighaInput" placeholder="Example: 1" value="1" step="any">
+                </div>
             </div>
-            <div class="input-group">
-                <label for="bighaInput" id="lInput">Enter Numerical Value</label>
-                <input type="number" id="bighaInput" placeholder="Example: 1" value="1" step="any">
-            </div>
+            <button class="btn-convert" onclick="calculatePunjabBigha()" id="btnText">Convert Now</button>
         </div>
-
-        <button class="btn-convert" onclick="calculatePunjabBigha()" id="btnText">Convert Now</button>
 
         <div id="resultArea" class="result-display">
             
@@ -336,7 +322,7 @@
     <article class="seo-article">
         <div class="seo-header-block">
             <h2 id="introH2" style="border:none; padding:0; text-align:center; font-size:2.3rem !important;">Punjab Bigha to Square Feet: Professional Land Guide</h2>
-            <p style="font-size: 17px; color: #555; text-align: center; margin: 5px 0 0 0;" id="seoSubTitle">Punjab Land Records Society (PLRS) portal standard rules ke anusaar traditional metrics conversion framework manual guide.</p>
+            <p style="font-size: 17px; color: #555; text-align: center; margin: 5px 0 0 0;" id="seoSubTitle">Punjab Land Records Society (PLRS) portal standard guidelines ke anusaar traditional units conversion matrix master framework manual guide.</p>
         </div>
 
         <p>
@@ -368,18 +354,12 @@
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td><b>1 Bigha (ਬੀਘਾ)</b></td><td>20 Biswa Standard Block Scale</td><td>16,200 Sq. Ft.</td><td>1,505.03 Sq. M</td></tr>
-                <tr>
-                    <td><b>1 Biswa (ਬਿਸਵਾ)</b></td><td>20 Biswansi Grid Segment Layout</td><td>810 Sq. Ft.</td><td>75.25 Sq. M</td></tr>
-                    <tr>
-                    <td><b>1 Biswansi (ਬਿਸਵਾਂਸੀ)</b></td><td>1/20 Fraction of Biswa Spatial Unit</td><td>40.5 Sq. Ft.</td><td>3.76 Sq. M</td></tr>
-                <tr>
-                    <td><b>1 Kanal (ਕਨਾਲ)</b></td><td>Traditional standard ($20\text{ Marlas}$)</td><td>5,445 Sq. Ft.</td><td>505.85 Sq. M</td></tr>
-                <tr>
-                    <td><b>1 Marla (ਮਰਲਾ)</b></td><td>9 Sarsai Micro Footprints ($16.5 \times 16.5\text{ ft}$)</td><td>272.25 Sq. Ft.</td><td>25.29 Sq. M</td></tr>
-                <tr>
-                    <td><b>1 Killa / Acre (ਕਿੱਲਾ)</b></td><td>8 Kanal / 2.69 Malwa Bigha Scale</td><td>43,560 Sq. Ft.</td><td>4,046.86 Sq. M</td></tr>
+                <tr><td><b>1 Bigha (ਬੀਘਾ)</b></td><td>20 Biswa Standard Block Scale</td><td>16,200 Sq. Ft.</td><td>1,505.03 Sq. M</td></tr>
+                <tr><td><b>1 Biswa (ਬਿਸਵਾ)</b></td><td>20 Biswansi Grid Segment Layout</td><td>810 Sq. Ft.</td><td>75.25 Sq. M</td></tr>
+                <tr><td><b>1 Biswansi (ਬਿਸਵਾਂਸੀ)</b></td><td>1/20 Fraction of Biswa Spatial Unit</td><td>40.5 Sq. Ft.</td><td>3.76 Sq. M</td></tr>
+                <tr><td><b>1 Kanal (ਕਨਾਲ)</b></td><td>Traditional standard ($20\text{ Marlas}$)</td><td>5,445 Sq. Ft.</td><td>505.85 Sq. M</td></tr>
+                <tr><td><b>1 Marla (ਮਰਲਾ)</b></td><td>9 Sarsai Micro Footprints ($16.5 \times 16.5\text{ ft}$)</td><td>272.25 Sq. Ft.</td><td>25.29 Sq. M</td></tr>
+                <tr><td><b>1 Killa / Acre (ਕਿੱਲਾ)</b></td><td>8 Kanal / 2.69 Malwa Bigha Scale</td><td>43,560 Sq. Ft.</td><td>4,046.86 Sq. M</td></tr>
             </tbody>
         </table>
 
@@ -390,7 +370,7 @@
             <li><b>Example 2 (Urban Plot Development):</b> Agar kisi colonizer ke dastawez mein 5 Biswa zameen darj hai, toh dynamic sum logic parameters apply hone par ($5 \times 810 = 4,050\text{ Sq.Ft}$) banta hai, jo Punjab standard scales mein lagbhag 15 Marla area ke equal chalta hai.</li>
             <li><b>Example 3 (Agriculture Cluster Partition):</b> Agar kisi kisan parivar ke paas combined 10 Bigha scattered land pools hain, toh hamara engine use metrics logic shifting par loop karke ($10 \times 16200 = 1,62,000\text{ Square Feet}$) show karega, jo total parameters mein lagbhag 3.719 Acre banta hai.</li>
             <li><b>Example 4 (Hectare Ledger Matching):</b> Jamabandi records ka official data block agar 1 Hectare ($10,000\text{ Sq.Mt}$) data metrics show karta hai, toh regional Malwa patterns mein wo structural space density par lagbhag 6.645 Bigha property ke barabar hota hai.</li>
-            <li><b>Example 5 (Small Micro Chunks Validation):</b> 20 base fractional shift metrics ke anusar pure 20 Biswansi layout parcels jab grid line par compile hote hain, toh system use instantly round-up karke 1 Biswa ($810\text{ Sq.Ft}$) balance parameter display kar deta hai.</li>
+            <li><b>Example 5 (Small Micro Chunks Validation):</b> 20 base fractional shift metrics ke anusar pure 20 Biswansi layout parcels kai bar grid line par compile hote hain, toh system use instantly round-up karke 1 Biswa ($810\text{ Sq.Ft}$) balance parameter display kar deta hai.</li>
         </ul>
 
         <h2>8 Extended Frequently Asked Questions (FAQs) - ਪੰਜਾਬ ਜਮੀਨ ਦੀ ਨਿਸ਼ਾਨਦੇਹੀ</h2>
@@ -437,7 +417,7 @@
         </div>
 
         <div style="margin-top: 40px; padding: 25px; border: 2px dashed #ff9933; background: #ffffff; border-radius: 12px; font-size:13px;">
-            <p style="margin:0; text-align: center;"><b>Copyright Notice © 2026 Shayan Smart Tools. All Rights Reserved.</b><br><br>Is structural page calculation framework asset model, responsive CSS layouts flow, aur bilingual text logs documentation strictly under Indian Copyright Act, 1957 protection rights chalta hai. Unauthorised duping warning signals push alert trigger kar denge.</p>
+            <p style="margin:0; text-align: center;"><b>Copyright Notice © 2026 Shayan Smart Tools. All Rights Reserved.</b><br><br>Is structural page calculation framework asset model, responsive CSS layouts flow, aur bilingual text logs documentation strictly under Indian Copyright Act, 1957 protection rights chalta hai.</p>
         </div>
     </article>
 
@@ -474,7 +454,7 @@
                 rBw: "ਬਿਸਵਾਂਸੀ ਮਾਨ (Biswansi):",
                 rSm: "ਸਕੁਏਅਰ ਮੀਟਰ (Sq.Mt):",
                 rAc: "ਏਕੜ ਬਰਾਬਰ ਰਕਬਾ (Acre):",
-                rHc: "ਹੈਕਟੇਅਰ ਮਾਨ (Hectare):",
+                rHc: "हैਕਟੇਅਰ ਮਾਨ (Hectare):",
                 shI: "ਗਣਨਾ ਯੂਨਿਟ ਪ੍ਰਵਿਸ਼ਟੀ (Select Scale & Value)",
                 seot: "ਪੰਜਾਬ ਬੀਘਾ, ਕਨਾਲ ਅਤੇ ਮਰਲਾ ਤੋਂ ਵਰਗ ਫੁੱਟ ਤਬਦੀਲੀ ਮਾਲ ਰਿਕਾਰਡ ਗਾਈਡ",
                 seos: "ਪੰਜਾਬ ਭੂਮੀ ਮਾਲ ਵਿਭਾਗ ਦੇ ਮਾਪਦੰਡਾਂ ਅਤੇ ਜਮ੍ਹਾਬੰਦੀ ਪ੍ਰਣਾਲੀ ਦੇ ਅਨੁਸਾਰ ਵੱਖ-ਵੱਖ ਇਕਾਈਆਂ ਦੇ ਸਹੀ ਰਕਬੇ ਪਰਿਵਰਤਨ ਦਾ ਮੈਨੂਅਲ।",
@@ -561,10 +541,7 @@
                 alert("Calculate conversion first before printing!"); 
                 return; 
             }
-            var printRow = document.getElementById('print-input-row');
-            printRow.style.display = "flex";
             window.print();
-            printRow.style.display = "none";
         }
 
         document.addEventListener('contextmenu', function(e) { e.preventDefault(); });
