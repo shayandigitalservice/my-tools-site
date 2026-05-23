@@ -95,7 +95,7 @@
         .res-item b { font-size: 24px; color: #fff; }
 
         .extra-res-box { background: rgba(255,255,255,0.02); padding: 15px; border-radius: 12px; margin-top: 15px; border-left: 4px solid var(--rj-orange); text-align: left; }
-        .extra-res-box p { margin: 5px 0; font-size: 15px; display: flex; justify-content: space-between; }
+        .extra-res-box p { margin: 5px 0; font-size: 15px; display: flex; justify-content: space-between; align-items: center; }
         .extra-res-box b { color: var(--rj-gold); }
 
         .print-header-block, .print-footer-block { display: none; }
@@ -235,13 +235,13 @@
     <div class="form-container-block">
         <div class="sec-h" id="hSecTitle">Enter Irregular Plot Sides (भूखंड सीमा मापन सूची)</div>
         <div class="input-grid">
-            <div class="field"><label id="lblA">Side A (Feet)</label><input type="number" id="sideA" placeholder="Example: 150" value="150"></div>
-            <div class="field"><label id="lblB">Side B (Feet)</label><input type="number" id="sideB" placeholder="Example: 180" value="180"></div>
-            <div class="field"><label id="lblC">Side C (Feet)</label><input type="number" id="sideC" placeholder="Example: 160" value="160"></div>
-            <div class="field"><label id="lblD">Side D (Feet)</label><input type="number" id="sideD" placeholder="Example: 140" value="140"></div>
+            <div class="field"><label id="lblA">Side A (Feet)</label><input type="number" id="sideA" placeholder="0"></div>
+            <div class="field"><label id="lblB">Side B (Feet)</label><input type="number" id="sideB" placeholder="0"></div>
+            <div class="field"><label id="lblC">Side C (Feet)</label><input type="number" id="sideC" placeholder="0"></div>
+            <div class="field"><label id="lblD">Side D (Feet)</label><input type="number" id="sideD" placeholder="0"></div>
             <div class="field" style="grid-column: 1/-1;">
                 <label id="lblDiag">Diagonal / विकर्ण (Feet)</label>
-                <input type="number" id="diagonal" placeholder="Example: 220" value="220">
+                <input type="number" id="diagonal" placeholder="Enter Diagonal Length (E)">
             </div>
         </div>
 
@@ -273,10 +273,10 @@
         </div>
         
         <div class="extra-res-box">
-            <p id="lblPrintSq">Total Square Feet Matrix: <b id="outSq">0</b></p>
-            <p id="lblPrintSqm">Total Square Meters Matrix: <b id="outSqm">0</b></p>
-            <p id="lblPrintAcre">Equivalent Acre System: <b id="outAcre">0</b></p>
-            <p id="lblPrintHec">Estimated Total Hectare: <b id="outHec">0</b></p>
+            <p><span id="txtSqText">Total Square Feet Matrix:</span><b id="outSq">0</b></p>
+            <p><span id="txtSqmText">Total Square Meters Matrix:</span><b id="outSqm">0</b></p>
+            <p><span id="txtAcreText">Equivalent Acre System:</span><b id="outAcre">0</b></p>
+            <p><span id="txtHecText">Estimated Total Hectare:</span><b id="outHec">0</b></p>
         </div>
 
         <div class="print-footer-block">
@@ -315,7 +315,7 @@
                 Rajasthan ka bhaugolik ilaka kafi bada hai aur yahan khet aksar retile tilon, pahadi dhalano ya purani seemao ki wajah se kafi tede-mede ya visham chaturbhuj (Irregular Quadrilateral) ke roop mein hote hain. Rajasthan mein **Apna Khata (E-Dharti)** portal par official revenue records Hectare mein darj hote hain, lekin aam kisan bhai, local property dealers aur tehsil registers mein zameen ki kharid-farokht hamesha standard Bigha, Biswa aur Biswansi mein hi ki jaati hai. Jab zameen tedi-medi ho, toh aamtaur par log aamne-samne ki bhujaon ka average nikal kar area nikalne ki galti karte hain. Yeh traditional average formula mathematical standards par poori tarah galat hai aur isse zameen ka real size hamesha kam ya zyada nikalta hai, jo parivarik batware aur registries ke dauran bade vivaad (boundary disputes) ka karan banta hai.
             </p>
             <p>
-                Is processing calculation load aur layout measurement error ko door karne ke liye Shayan Smart Tools ne is advanced <b>Rajasthan Irregular Land Calculator</b> ko completely mathematical triangulation engine standard par build kiya hai. Yeh tool Heron’s Formula ka upyog karta hai. Yeh aapke irregular land map ko beech se ek diagonal (tirchhi line) ke zariye do alag-alag sateek triangles mein bisection kar deta hai. Dono triangles ka area alag-alag nikal kar github jab unhe add kiya jata hai, toh pure plot ka area 100% sateek nikalta hai. Hamare system guidelines ke mutabik <b>1 Pucca Bigha = 27,225 Square Feet</b> banta hai aur sateek **20 Biswa milkar 1 Bigha** form karte hain.
+                Is processing calculation load aur layout measurement error ko door karne ke liye Shayan Smart Tools ne is advanced <b>Rajasthan Irregular Land Calculator</b> ko completely mathematical triangulation engine standard par build kiya hai. Yeh tool Heron’s Formula ka upyog karta hai. Yeh aapke irregular land map ko beech se ek diagonal (tirchhi line) ke zariye do alag-alag sateek triangles mein bisection kar deta hai. Dono triangles ka area alag-alag nikal kar jab unhe add kiya jata hai, toh pure plot ka area 100% sateek nikalta hai. Hamare system guidelines ke mutabik <b>1 Pucca Bigha = 27,225 Square Feet</b> banta hai aur sateek **20 Biswa milkar 1 Bigha** form karte hain.
             </p>
         </section>
 
@@ -430,10 +430,10 @@
             lDg: "विकर्ण / तिरछी लाइन (Diagonal) फुट में", b: "क्षेत्रफल निकालें",
             rT: "कुल क्षेत्रफल का परिणाम विवरण:", uB: "बीघा", uW: "बिस्वा", uN: "बिस्वांसी",
             sq: "कुल वर्गफुट परिमाण (Sq.Ft): ", rsm: "कुल वर्गमीटर परिमाण (Sq.Mt): ", racre: "एकेडमी / एकड़ बराबर परिमाण: ", rhec: "अनुमानित कुल हेक्टेयर (Ha): ",
-            iN: "जमीन कैसे नापें, डायग्राम देखें:", iD: "चारों बाहरी भुजाएं और एक आंतरिक विकर्ण (E) जरूर नापें।",
+            iN: "जमीन कैसे नापें,导向图?", iD: "चारों बाहरी भुजाएं और एक आंतरिक विकर्ण (E) जरूर नापें।",
             shI: "टेढ़े-मेढ़े भूखंड की भुजाएं भरें (Input Boundary Metrics)",
             seot: "राजस्थान भूमि गणना नियम: टेढ़ी-मेढ़ी जमीन का क्षेत्रफल और त्रिकोणीय मापन निर्देश",
-            seos: "अपना खाता ई-धरती राजस्व रिकॉर्ड और बोर्ड ऑफ रेवेन्यू हेरॉन फॉर्मूला त्रिकोणीय ग्रिड के अनुसार विषम भूखंड का क्षेत्रफल निकालने की नियमावली।",
+            seos: "अपना खाता ई-धरती राजस्व记录 और बोर्ड ऑफ रेवेन्यू हेरॉन फॉर्मूला त्रिकोणीय ग्रिड के अनुसार विषम भूखंड का क्षेत्रफल निकालने की नियमावली।",
             dt: "अन्य महत्वपूर्ण डिजिटल साधन", dh: "🏠 मुख्य डैशबोर्ड", d1: "राजस्थान भूमि जोड़ टूल", d2: "बीघा से वर्गफुट कनवर्टर", d3: "मानक राजस्थान भूमि कैलकुलेटर",
             copyMsg: "भूमि माप का विवरण सफलतापूर्वक कॉपी हो गया!"
         }
@@ -470,30 +470,27 @@
         document.getElementById('imgNote').innerText = trans[l].iN;
         document.getElementById('imgDesc').innerText = trans[l].iD;
 
-        // 🔥 INSULATION RESTRUCTURE: Inner Nodes directly map values via standalone strings without replacing structural container IDs
-        document.getElementById('lblPrintSq').innerHTML = trans[l].sq + ' <b id="outSq">0</b>';
-        document.getElementById('lblPrintSqm').innerHTML = trans[l].rsm + ' <b id="outSqm">0</b>';
-        document.getElementById('lblPrintAcre').innerHTML = trans[l].racre + ' <b id="outAcre">0</b>';
-        document.getElementById('lblPrintHec').innerHTML = trans[l].rhec + ' <b id="outHec">0</b>';
-
-        if(document.getElementById('resultBox').style.display === "block") {
-            calculateRJArea();
-        }
+        // 🔥 INSULATION RESTRUCTURE: Inner Nodes directly map values via static labels avoiding element binding attacks
+        document.getElementById('txtSqText').innerText = trans[l].sq;
+        document.getElementById('txtSqmText').innerText = trans[l].rsm;
+        document.getElementById('txtAcreText').innerText = trans[l].racre;
+        document.getElementById('txtHecText').innerText = trans[l].rhec;
     }
 
     function calculateRJArea() {
-        var a = parseFloat(document.getElementById('sideA').value);
-        var b = parseFloat(document.getElementById('sideB').value);
-        var c = parseFloat(document.getElementById('sideC').value);
-        var d = parseFloat(document.getElementById('sideD').value);
-        var diag = parseFloat(document.getElementById('diagonal').value);
+        var a = parseFloat(document.getElementById('sideA').value) || 0;
+        var b = parseFloat(document.getElementById('sideB').value) || 0;
+        var c = parseFloat(document.getElementById('sideC').value) || 0;
+        var d = parseFloat(document.getElementById('sideD').value) || 0;
+        var diag = parseFloat(document.getElementById('diagonal').value) || 0;
         var resPanel = document.getElementById('resultBox');
 
-        if(!a || !b || !c || !d || !diag || a<=0 || b<=0 || c<=0 || d<=0 || diag<=0) { 
+        if(a <= 0 || b <= 0 || c <= 0 || d <= 0 || diag <= 0) { 
             alert(currentLang === 'en' ? "Please fill all input fields with valid positive boundary numerical measurements!" : "कृपया सभी मापन बॉक्स में सही धनात्मक संख्यात्मक मान दर्ज करें!"); 
             return; 
         }
 
+        // Triangulation Validation Checks to block Heron math crash
         if((a + b <= diag) || (a + diag <= b) || (b + diag <= a) || (c + d <= diag) || (c + diag <= d) || (d + diag <= c)) {
             alert(currentLang === 'en' ? "Geometric Warning: This Diagonal length is mathematically impossible for the entered side lengths. Please re-measure the plot layout!" : "ज्यामितीय त्रुटि: दर्ज की गई भुजाओं के लिए यह विकर्ण (तिरछी लाइन) गणितीय रूप से असंभव है। कृपया दोबारा पैमाइश करें!");
             return;
@@ -521,16 +518,10 @@
         document.getElementById('outW').innerText = biswa;
         document.getElementById('outN').innerText = biswansi;
 
-        // 🔥 FIX NODE RE-BINDING ATTACKS
-        var sqElement = document.getElementById('outSq');
-        var sqmElement = document.getElementById('outSqm');
-        var acreElement = document.getElementById('outAcre');
-        var hecElement = document.getElementById('outHec');
-
-        if(sqElement) sqElement.innerText = Math.round(totalSqFt).toLocaleString('en-IN') + " sq ft";
-        if(sqmElement) sqmElement.innerText = Math.round(totalSqm).toLocaleString('en-IN') + " sq m";
-        if(acreElement) acreElement.innerText = totalAcre.toFixed(4);
-        if(hecElement) hecElement.innerText = totalHec.toFixed(4);
+        document.getElementById('outSq').innerText = Math.round(totalSqFt).toLocaleString('en-IN') + " sq ft";
+        document.getElementById('outSqm').innerText = Math.round(totalSqm).toLocaleString('en-IN') + " sq m";
+        document.getElementById('outAcre').innerText = totalAcre.toFixed(4);
+        document.getElementById('outHec').innerText = totalHec.toFixed(4);
 
         document.getElementById('rInputVal').innerText = "A:" + a + " B:" + b + " C:" + c + " D:" + d + " Diag:" + diag;
 
