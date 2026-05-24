@@ -5,93 +5,68 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Punjab Irregular Land Calculator | ਪੰਜਾਬ ਟੇਢੀ-ਮੇਢੀ ਜਮੀਨ ਦਾ ਨਕਸ਼ਾ | Shayan Smart Tools</title>
     <link rel="canonical" href="https://shayansmarttools.in/punjab-irregular-land-calculator.html" />
+    <meta name="description" content="Official Punjab Irregular Land Area Calculator. Measure tedi-medi zameen maps in Killa, Kanal, and Marla using Heron's Formula.">
+    <meta name="keywords" content="Punjab Land Calculator, ਪੰਜਾਬ ਜਮੀਨ ਕੈਲਕੁਲੇਟਰ, Irregular Land Area Punjab, Kanal Marla Calculator, PLRS Land Measurement">
+    <meta name="author" content="Muksidul islam">
+    <meta name="robots" content="index, follow">
 
     <style>
-        :root {
-            --pj-gold: #ffcc00;
-            --pj-blue: #003366;
-            --pj-dark: #001f3f;
-            --pj-corporate: #0f172a;
-            --text-dark: #334155;
-            --white: #ffffff;
-            --bg: #f8fafc;
-        }
-
-        body { font-family: 'Poppins', sans-serif; line-height: 1.6; color: var(--text-dark); max-width: 850px; margin: 0 auto; padding: 20px; background-color: var(--bg); }
-        .tool-wrapper { padding: 10px 0; text-align: center; }
-        header { background: linear-gradient(135deg, var(--pj-blue), var(--pj-dark)); color: var(--pj-gold); padding: 40px 20px; border-radius: 25px; text-align: center; border-bottom: 6px solid var(--pj-gold); margin-bottom: 30px; }
-        header h1 { color: var(--pj-gold); margin: 0 0 10px 0; font-size: 26px; text-transform: uppercase; font-weight: 900; }
-        header p { color: var(--white); margin: 0; font-size: 16px; }
-
-        .lang-toggle { display: flex; justify-content: center; gap: 12px; margin-bottom: 30px; }
-        .lang-btn { padding: 10px 25px; border: 2px solid var(--pj-blue); background: white; border-radius: 50px; cursor: pointer; font-weight: 700; color: var(--pj-blue); transition: 0.3s; }
-        .lang-btn.active { background: var(--pj-blue); color: var(--pj-gold); }
-
-        .form-container-block { background: transparent !important; padding: 10px 0; border: none !important; margin-bottom: 20px; }
-        .sec-h { font-size: 16px; font-weight: bold; color: var(--pj-blue); margin-bottom: 20px; border-bottom: 2px solid #cbd5e1; padding-bottom: 8px; text-transform: uppercase; text-align: left; }
-        .input-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 15px; }
-        .field { display: flex; flex-direction: column; text-align: left; }
-        label { font-size: 12px; font-weight: 800; color: var(--pj-blue); margin-bottom: 8px; text-transform: uppercase; }
-        input { width: 100%; padding: 15px; border: 1px solid #cbd5e1; border-radius: 12px; font-size: 16px; box-sizing: border-box; text-align: center; }
-        
-        .btn-calc { width: 100%; padding: 20px; background: var(--pj-blue); color: var(--pj-gold); border: none; border-radius: 15px; font-size: 18px; font-weight: 800; cursor: pointer; margin-top: 25px; text-transform: uppercase; }
-        
-        .result-panel { background: #0f172a; color: white; padding: 25px; border-radius: 25px; margin-top: 30px; display: none; border: 2px solid var(--pj-gold); }
+        :root { --pj-gold: #ffcc00; --pj-blue: #003366; --pj-dark: #001f3f; --bg: #f8fafc; }
+        body { font-family: 'Poppins', sans-serif; line-height: 1.6; color: #334155; max-width: 850px; margin: 0 auto; padding: 20px; background-color: var(--bg); }
+        header { background: linear-gradient(135deg, var(--pj-blue), var(--pj-dark)); color: var(--pj-gold); padding: 40px 20px; border-radius: 25px; text-align: center; border-bottom: 6px solid var(--pj-gold); }
+        .tool-box { background: #ffffff; padding: 30px; border-radius: 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); margin-top: 30px; }
+        .input-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 15px; margin-top: 20px; }
+        input { width: 100%; padding: 15px; border: 1px solid #cbd5e1; border-radius: 10px; text-align: center; box-sizing: border-box; }
+        .btn-calc { width: 100%; padding: 18px; background: var(--pj-blue); color: var(--pj-gold); border: none; border-radius: 10px; font-weight: 800; cursor: pointer; margin-top: 20px; text-transform: uppercase; }
+        .result-panel { background: #0f172a; color: white; padding: 25px; border-radius: 20px; margin-top: 30px; display: none; text-align: center; }
         .res-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin: 20px 0; }
-        .res-item { background: rgba(255,255,255,0.05); padding: 15px; border-radius: 12px; display: flex; flex-direction: column; align-items: center; }
-        
-        .util-btns { display: flex; gap: 10px; margin-top: 25px; }
-        .u-btn { flex: 1; padding: 15px; border-radius: 12px; border: none; font-weight: 800; cursor: pointer; color: white; }
+        .res-item { background: rgba(255,255,255,0.1); padding: 15px; border-radius: 10px; }
+        .seo-section { margin-top: 50px; line-height: 1.8; }
+        .seo-section h2 { color: var(--pj-blue); border-left: 5px solid var(--pj-gold); padding-left: 15px; }
+        table { width: 100%; border-collapse: collapse; margin: 20px 0; }
+        th, td { border: 1px solid #ddd; padding: 12px; text-align: left; }
+        th { background: #f2f2f2; }
     </style>
 </head>
 <body>
 
-<div class="tool-wrapper">
-    <header>
-        <h1 id="mainTitle">Punjab Irregular Land Calculator</h1>
-        <p id="sTitle">Advanced boundary conversion tool.</p>
-    </header>
+<header>
+    <h1 id="mainTitle">Punjab Irregular Land Calculator</h1>
+    <p id="sTitle">Advanced boundary conversion tool.</p>
+</header>
 
-    <div class="lang-toggle">
-        <button class="lang-btn active" id="enBtn" onclick="setLang('en')">English</button>
-        <button class="lang-btn" id="pjBtn" onclick="setLang('pj')">ਪੰਜਾਬੀ</button>
+<div class="tool-box">
+    <div class="input-grid">
+        <input type="number" id="sideA" placeholder="Side A (Ft)">
+        <input type="number" id="sideB" placeholder="Side B (Ft)">
+        <input type="number" id="sideC" placeholder="Side C (Ft)">
+        <input type="number" id="sideD" placeholder="Side D (Ft)">
+        <input type="number" id="diagonal" placeholder="Diagonal (Ft)" style="grid-column: 1/-1;">
     </div>
-
-    <div class="form-container-block">
-        <div class="sec-h" id="hSecTitle">Enter Plot Sides</div>
-        <div class="input-grid">
-            <div class="field"><label id="lblA">Side A (Feet)</label><input type="number" id="sideA" placeholder="0"></div>
-            <div class="field"><label id="lblB">Side B (Feet)</label><input type="number" id="sideB" placeholder="0"></div>
-            <div class="field"><label id="lblC">Side C (Feet)</label><input type="number" id="sideC" placeholder="0"></div>
-            <div class="field"><label id="lblD">Side D (Feet)</label><input type="number" id="sideD" placeholder="0"></div>
-            <div class="field" style="grid-column: 1/-1;"><label id="lblDiag">Diagonal (Feet)</label><input type="number" id="diagonal" placeholder="Enter Diagonal (E)"></div>
-        </div>
-        <button class="btn-calc" id="btnCalc" onclick="calculatePBArea()">Calculate Area</button>
-    </div>
+    <button class="btn-calc" onclick="calculatePBArea()">Calculate Area</button>
 
     <div id="resultBox" class="result-panel">
-        <h3 id="resTitle">Total Land Result:</h3>
+        <h3>Total Land Result</h3>
         <div class="res-grid">
-            <div class="res-item"><span id="uKilla">Killa</span><b id="outKilla">0</b></div>
-            <div class="res-item"><span id="uKanal">Kanal</span><b id="outKanal">0</b></div>
-            <div class="res-item"><span id="uMarla">Marla</span><b id="outMarla">0</b></div>
-        </div>
-        <div class="util-btns">
-            <button class="u-btn" onclick="copyResult()" style="background:#475569;">📋 Copy</button>
-            <button class="u-btn" onclick="window.print()" style="background:#2b7cff;">🖨️ Print</button>
+            <div class="res-item"><span>Killa</span><b id="outKilla">0</b></div>
+            <div class="res-item"><span>Kanal</span><b id="outKanal">0</b></div>
+            <div class="res-item"><span>Marla</span><b id="outMarla">0</b></div>
         </div>
     </div>
 </div>
 
-<script>
-    var currentLang = 'en';
-    function setLang(l) {
-        currentLang = l;
-        document.getElementById('enBtn').className = (l === 'en' ? 'lang-btn active' : 'lang-btn');
-        document.getElementById('pjBtn').className = (l === 'pj' ? 'lang-btn active' : 'lang-btn');
-        // Add translation logic here as needed
-    }
+<article class="seo-section">
+    <h2>Measurement Guide</h2>
+    <p>Use our Punjab Irregular Land Calculator to find the area of complex plots. This tool uses Heron's Formula for precise triangulation.</p>
+    <table>
+        <tr><th>Unit</th><th>Value</th></tr>
+        <tr><td>1 Marla</td><td>272.25 Sq. Ft</td></tr>
+        <tr><td>1 Kanal</td><td>5,445 Sq. Ft</td></tr>
+        <tr><td>1 Killa</td><td>43,560 Sq. Ft</td></tr>
+    </table>
+</article>
 
+<script>
     function calculatePBArea() {
         var a = parseFloat(document.getElementById('sideA').value) || 0;
         var b = parseFloat(document.getElementById('sideB').value) || 0;
@@ -99,14 +74,20 @@
         var d = parseFloat(document.getElementById('sideD').value) || 0;
         var diag = parseFloat(document.getElementById('diagonal').value) || 0;
 
-        if(a <= 0 || b <= 0 || c <= 0 || d <= 0 || diag <= 0) { alert("Please fill all fields!"); return; }
+        if(a <= 0 || b <= 0 || c <= 0 || d <= 0 || diag <= 0) { 
+            alert("Please fill all fields with valid numbers!"); 
+            return; 
+        }
 
+        // Triangulation (Heron's Formula)
         var s1 = (a + b + diag) / 2;
         var area1 = Math.sqrt(s1 * (s1 - a) * (s1 - b) * (s1 - diag));
         var s2 = (c + d + diag) / 2;
         var area2 = Math.sqrt(s2 * (s2 - c) * (s2 - d) * (s2 - diag));
         
         var totalSqFt = area1 + area2;
+        
+        // Calculations
         var killa = Math.floor(totalSqFt / 43560);
         var rem = totalSqFt % 43560;
         var kanal = Math.floor(rem / 5445);
@@ -116,12 +97,6 @@
         document.getElementById('outKanal').innerText = kanal;
         document.getElementById('outMarla').innerText = marla;
         document.getElementById('resultBox').style.display = 'block';
-    }
-
-    function copyResult() {
-        var text = "Area: " + document.getElementById('outKilla').innerText + " Killa, " + document.getElementById('outKanal').innerText + " Kanal, " + document.getElementById('outMarla').innerText + " Marla.";
-        navigator.clipboard.writeText(text);
-        alert("Copied!");
     }
 </script>
 </body>
