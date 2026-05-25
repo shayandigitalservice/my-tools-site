@@ -41,7 +41,7 @@
         header h1 { color: white; margin: 0 0 10px 0; font-size: 26px; text-transform: uppercase; }
         header p { color: #f1f5f9; margin: 0; font-size: 16px; }
         
-        .lang-toggle { display: flex; justify:: center; gap: 10px; margin-bottom: 25px; justify-content: center; }
+        .lang-toggle { display: flex; justify-content: center; gap: 10px; margin-bottom: 25px; }
         .lang-btn { padding: 10px 25px; border-radius: 50px; border: 2px solid var(--tn-green); background: white; cursor: pointer; font-weight: 700; transition: 0.3s; color: var(--tn-green); }
         .lang-btn.active { background: var(--tn-green); color: white; }
 
@@ -64,7 +64,6 @@
             animation: fadeIn 0.4s ease;
         }
 
-        @ নিখুঁত অ্যানিমেশন */
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
         .plot-title { font-weight: bold; color: var(--tn-green); margin-bottom: 15px; display: block; border-bottom: 1px solid #cbd5e1; padding-bottom: 5px; }
@@ -130,7 +129,6 @@
             padding-left: 15px;
             margin-top: 40px;
         }
-        .seo-section h3 { color: var(--tn-corporate) !important; margin-top: 30px; font-size: 22px; }
         .seo-section p { color: #334155 !important; font-size: 16px; text-align: justify; }
         
         .seo-section table { width: 100%; border-collapse: collapse; margin: 25px 0; background: #ffffff; box-shadow: 0 4px 6px rgba(0,0,0,0.02); border-radius: 8px; overflow: hidden; }
@@ -138,12 +136,12 @@
         .seo-section th { background: #e8f5e9; color: var(--tn-green) !important; font-weight: bold; }
         .seo-section tr:nth-child(even) { background-color: #f8fafc; }
 
-        .links-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; margin: 25px 0 40px; width: 100%; box-sizing: border-box; }
+        .links-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; margin: 40px 0; width: 100%; box-sizing: border-box; }
         .link-card { display: flex; align-items: center; justify-content: center; background: #ffffff; padding: 18px 20px; border-radius: 16px; text-decoration: none; color: var(--tn-corporate) !important; font-weight: 700; font-size: 15px; border: 1px solid #e2e8f0; transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1); box-sizing: border-box; text-align: center; }
         .link-card:hover { border-color: var(--tn-green); transform: translateY(-4px); box-shadow: 0 12px 20px rgba(27, 94, 32, 0.1); background: linear-gradient(135deg, #ffffff, #e8f5e9); }
 
         @media (max-width: 600px) {
-            .res-grid { grid-template-columns: 1fr; gap: 10px; }
+            .res-display { grid-template-columns: 1fr; gap: 10px; }
             .seo-section h2 { font-size: 22px !important; }
             .links-grid { grid-template-columns: 1fr; gap: 12px; }
             .link-card { padding: 15px 18px; }
@@ -232,12 +230,12 @@
         </header>
         
         <div class="lang-toggle">
-            <button class="lang-btn active" id="enBtn" onclick="setLang('en')">English</button>
-            <button class="lang-btn" id="tnBtn" onclick="setLang('ta')">தமிழ்</button>
+            <button class="lang-btn active" id="enBtn" onclick="toggleLang('en')">English</button>
+            <button class="lang-btn" id="tnBtn" onclick="toggleLang('ta')">தமிழ்</button>
         </div>
 
         <div class="form-container-block">
-            <div class="sec-h" id="hSecTitle">Land Accumulation Ledger (நிலக் கூட்டல் பட்டியல் விவரம்)</div>
+            <div class="sec-h" id="hSecTitle">Land Accumulation Ledger (நிலக் കൂട്ടல் பட்டியல் விவரம்)</div>
             <div id="plotsArea">
                 <div class="plot-entry">
                     <span class="plot-title" id="p1Title">Plot Details #1</span>
@@ -285,16 +283,16 @@
         </div>
 
         <h3 id="resTitle">Total Land Result (கூட்டல் முடிவு விவரம்):</h3>
-        <div class="res-grid">
+        <div class="res-display">
             <div class="res-item"><span id="uGround">Grounds</span><b id="outGround">0</b></div>
             <div class="res-item"><span id="uCent">Cents</span><b id="outCent">0</b></div>
         </div>
         
         <div class="extra-res-box">
-            <p><span id="txtSqText">Total Square Feet Matrix:</span><b id="outSq">0</b></p>
-            <p><span id="txtSqmText">Total Square Meters Matrix:</span><b id="outSqm">0</b></p>
-            <p><span id="txtAcreText">Equivalent Acre Allocation Size:</span><b id="outAcre">0</b></p>
-            <p><span id="txtHecText">Estimated Total Hectare (Hec):</span><b id="outHec">0</b></p>
+            <p><span id="lblPrintSq">Total Square Feet Matrix:</span><b id="outSq">0</b></p>
+            <p><span id="lblPrintSqm">Total Square Meters Matrix:</span><b id="outSqm">0</b></p>
+            <p><span id="lblPrintAcre">Equivalent Acre Allocation Size:</span><b id="outAcre">0</b></p>
+            <p><span id="lblPrintHec">Estimated Total Hectare (Hec):</span><b id="outHec">0</b></p>
         </div>
 
         <div class="print-footer-block">
@@ -314,6 +312,10 @@
             <button class="u-btn" onclick="shareWhatsApp()" style="background:#22c55e;" id="btnShare">📲 WhatsApp Share</button>
             <button class="u-btn" onclick="printLandReport()" style="background:#2b7cff;" id="btnPrint">🖨️ Print Report</button>
         </div>
+    </div>
+
+    <div class="back-btn" style="text-align: center; margin-top: 20px;">
+        <a href="index.html" style="color: var(--tn-green); font-weight: bold; text-decoration: none;" id="lnkBack">⬅ Back to All Tools</a>
     </div>
 
     <article class="seo-section">
@@ -389,7 +391,7 @@
             <p style="margin:0;">Ans: Is multi-plot parsing entry software architecture script page setup coding modules execution core blocks logic ko Shayan Smart Tools portal networks par **Muksidul Islam** ne absolute parameters browser-safe scripts ke sath natively line execute kiya hai.</p>
         </div>
 
-        <h2 id="lblDashTitle" style="border:none; padding:0; margin-bottom:15px;">Quick Access Other Tools</h2>
+        <h3 id="lblDashTitle">Quick Access Other Tools</h3>
         <div class="links-grid">
             <a href="index.html" class="link-card" id="dshHome">Main Dashboard</a>
             <a href="punjab-land-area-addition.html" class="link-card" id="dshPb">Punjab Land Addition</a>
@@ -425,7 +427,7 @@
             fmtText: "Tamil Nadu Output Summary Format (மனையடி-சென்ட்):"
         },
         ta: {
-            title: "தமிழ்நாடு நிலக் கூட்டல் கணக்கிடுவான்",
+            title: "தமிழ்நாடு நிலக் കൂട്ടல் கணக்கிடுவான்",
             stitle: "ஒருங்கிணைந்த அடிப்படை மெட்ரிக் தொகுப்பு கட்டங்களுடன் கிரவுண்ட் மற்றும் சென்ட்களில் பல நில அடுக்குகளை எளிதாக கூட்டுவதற்கான தளம்.",
             addBtn: "+ கூடுதல் நிலம் சேர்",
             calcBtn: "மொத்த பரப்பளவை கூட்டு",
@@ -433,7 +435,7 @@
             unitG: "கிரவுண்ட் (Grounds)", unitC: "சென்ட் (Cents)",
             copyBtn: "📋 விவரங்களை நகலெடு", shareBtn: "📲 வாட்ஸ்அப் பகிர்க", printBtn: "🖨️ அறிக்கை அச்சிடுக",
             copyMsg: "நிலக் கூட்டல் கணக்கீடு விவரம் நகலெடுக்கப்பட்டது!",
-            shI: "நிலக் கூட்டல் உள்ளீட்டு பட்டியல் விவரக்குறிப்பு খাত ledger",
+            shI: "நிலக் கூட்டல் உள்ளீட்டு பட்டியல் विवरण विवरणम ledger",
             rsq: "மொத்த சதுர அடி பரப்பளவு அளவுரு (Sq.Ft):", rsm: "மொத்த சதுர மீட்டர் பரப்பளவு அளவுரு (Sq.Mt):", racre: "ஏக்கர் கணக்கீட்டு நிகர மதிப்பு (Acre):", rhec: "மதிப்பிடப்பட்ட மொத்த ஹெக்டேர் அளவு (Ha):", bk: "⬅ அனைத்து கருவிகளின் பட்டியல்",
             seot: "தமிழ்நாடு நில பரப்பளவு கூட்டல் இயங்குதளம்: மனையடி மற்றும் சென்ட் கூட்டு முறை கையேடு",
             seos: "பட்டா சிட்டா நிலப் பதிவு விதிமுறைகள் மற்றும் தமிழ் நிலம் போர்டல் தரவுகளின்படி பல சிதறிய நிலப் பொட்டலங்களின் மொத்த கணக்கீடு கையேடு.",
@@ -569,7 +571,7 @@
         if(currentL === 'en') {
             textCopy = "Tamil Nadu Multi-Plot Addition Result:\nStandard Layout: " + document.getElementById('pb_main').innerText + "\nTotal Area Canvas: " + document.getElementById('outSq').innerText + "\nCalculated via Shayan Smart Tools Platform.";
         } else {
-            textCopy = "தமிழ்நாடு நிலக் கூட்டல் கணக்கீடு முடிவு விவரம்:\nவெளியீட்டு வடிவம்: " + document.getElementById('pb_main').innerText + "\nமொத்த பரப்பளவு: " + document.getElementById('outSq').innerText + "\nஷாயன் ஸ்மார்ட் டூல்ஸ் மூலம் கணக்கிடப்பட்டது.";
+            textCopy = "தமிழ்நாடு நிலக் കൂട്ടல் கணக்கீடு முடிவு விவரம்:\nவெளியீட்டு வடிவம்: " + document.getElementById('pb_main').innerText + "\nமொத்த பரப்பளவு: " + document.getElementById('outSq').innerText + "\nஷாயன் ஸ்மார்ட் டூல்ஸ் மூலம் கணக்கிடப்பட்டது.";
         }
         navigator.clipboard.writeText(textCopy);
         alert(trans[currentL].copyMsg);
@@ -580,7 +582,7 @@
         if(currentL === 'en') {
             textShare = "Tamil Nadu Land Accumulation: " + document.getElementById('pb_main').innerText + ". Net Area Multipliers: " + document.getElementById('outSq').innerText + ". Verified via Shayan Smart Tools.";
         } else {
-            textShare = "தமிழ்நாடு நிலப் பரப்பு கூட்டல் நற்பேறு விவரம்: " + document.getElementById('pb_main').innerText + ". மொத்த சதுர அடி: " + document.getElementById('outSq').innerText + ". ஷாயன் ஸ்மார்ட் டூல்ஸ் தளம் மூலமாக பார்க்கப்பட்டது.";
+            textShare = "தமிழ்நாடு நிலப் பரப்பு கூட்டல் நற்பேறு விவரம்: " + document.getElementById('pb_main').innerText + ". மொத்த சதுர அடி: " + document.getElementById('outSq').innerText + ". ಷಾಯನ್ ஸ்மார்ட் டூல்ஸ் தளம் மூலமாக பார்க்கப்பட்டது.";
         }
         window.open("https://wa.me/?text=" + encodeURIComponent(textShare), '_blank');
     }
