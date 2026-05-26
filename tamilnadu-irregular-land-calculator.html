@@ -294,6 +294,10 @@
                 <strong id="pb_main" style="font-size: 24px; color: #81c784;">0 Grounds, 0 Cents</strong>
             </div>
 
+            <div style="background: rgba(255, 255, 255, 0.05); margin: 10px auto; padding: 8px; border-radius: 8px; max-width: 90%; font-size: 13px; color: #cbd5e1;">
+                <strong>Inputs Covered:</strong> <span id="rInputVal"></span>
+            </div>
+
             <h3 id="resTitle">Total Land Result (நில அளவீடு முடிவு):</h3>
             <div class="res-grid">
                 <div class="res-item"><span id="uGround">Grounds</span><b id="outGround">0</b></div>
@@ -441,7 +445,7 @@
             seos: "Patta Chitta norms aur Tamil Nilam portal parameters ke anusaar irregular maps calculation matrix triangulation.",
             dt: "Related Tools & Internal Links", dh: "Dashboard Home", d1: "➕ TN Land Addition", d2: "📐 Punjab Irregular Calc", d3: "📐 Rajasthan Irregular Calc",
             copyMsg: "Calculation Details Copied!",
-            fmtText: "Tamil Nadu Output Format (மனையடி-சென்ট):"
+            fmtText: "Tamil Nadu Output Format (மனையடி-சென்ட்):"
         },
         ta: {
             t: "தமிழ்நாடு ஒழுங்கற்ற நிலக் கணக்கிடுவான்",
@@ -449,7 +453,7 @@
             lA: "முதல் பக்கம் (Side A) அடி", lB: "இரண்டாம் பக்கம் (Side B) அடி", lC: "மூன்றாம் பக்கம் (Side C) அடி", lD: "நான்காம் பக்கம் (Side D) அடி",
             lDg: "மூலைவிட்டம் / तिरछी लाइन (Diagonal) அடி", b: "பரப்பளவை கணக்கிடு",
             rT: "மொத்த நில அளவீடு முடிவு விவரம் (TN Standard):", uW: "கிரவுண்ட் (Grounds)", uN: "சென்ட் (Cents)",
-            sq: "மொத்த சதுர அடி பரப்பளவு அளவுரு (Sq.Ft): ", rsm: "மொத்த சதுர மீட்டர் பரப்பளவு அளவுரு (Sq.Mt): ", rsar: "ஏக்கர் கணக்கீட்டு நிகர மதிப்பு (Acre): ", rhec: "மதிப்பிடப்பட்ட மொத்த ஹெக்டேர் அளவு (Ha): ",
+            sq: "மொத்த சதுர அடி பரப்பளவு அளவுரு (Sq.Ft): ", rsm: "மொத்த சதுร மீட்டர் பரப்பளவு அளவுரு (Sq.Mt): ", rsar: "ஏக்கர் கணக்கீட்டு நிகர மதிப்பு (Acre): ", rhec: "மதிப்பிடப்பட்ட மொத்த ஹெக்டேர் அளவு (Ha): ",
             iN: "நிலத்தை எவ்வாறு அளவிடுவது, வரைபடத்தைப் பார்க்கவும்:", iD: "நான்கு வெளிப்புற பக்கங்களையும் ஒரு உள் மூலைவிட்டத்தையும் (E) கண்டிப்பாக அளவிடவும்.",
             shI: "ஒழுங்கற்ற நிலத்தின் பக்கங்களை உள்ளிடவும் (Input Boundary Metrics)",
             seot: "தமிழ்நாடு நில பரப்பளவு முக்கோண கணக்கீடு இயங்குதளம்: மனையடி மற்றும் சென்ட் வழிகாட்டி",
@@ -547,7 +551,11 @@
             document.getElementById('pb_main').innerText = grounds + " கிரவுண்ட், " + (remainingSq / 435.6).toFixed(2) + " சென்ட்";
         }
 
-        document.getElementById('rInputVal').innerText = "A:" + a + " B:" + b + " C:" + c + " D:" + d + " Diag:" + diag;
+        // Safe insertion of inputs in the report
+        var inputNode = document.getElementById('rInputVal');
+        if(inputNode) {
+            inputNode.innerText = "A: " + a + " | B: " + b + " | C: " + c + " | D: " + d + " | Diag: " + diag;
+        }
 
         var options = { day: 'numeric', month: 'long', year: 'numeric' };
         var today = new Date().toLocaleDateString('en-IN', options);
@@ -566,10 +574,7 @@
             alert("Calculate land dimensions matrix first before printing!"); 
             return; 
         }
-        var printRow = document.getElementById('print-input-row');
-        if(printRow) printRow.style.display = "flex";
         window.print();
-        if(printRow) printRow.style.display = "none";
     }
 
     document.addEventListener('contextmenu', function(e) { e.preventDefault(); });
