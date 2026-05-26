@@ -171,15 +171,24 @@
             .input-grid { grid-template-columns: 1fr; gap: 10px; }
         }
 
-        /* ANTI-BLANK PRINT INFRASTRUCTURE FIXED LAYERING */
+        /* DYNAMIC STRETCH A4 PORTRAIT PRINT CONFIGURATION */
         @media print {
-            html, body { background: #ffffff !important; color: #000000 !important; margin: 0 !important; padding: 0 !important; }
+            @page {
+                size: A4 portrait;
+                margin: 12mm 10mm 12mm 10mm; /* Clean professional page borders */
+            }
+            html, body { 
+                background: #ffffff !important; 
+                color: #000000 !important; 
+                margin: 0 !important; 
+                padding: 0 !important; 
+                -webkit-print-color-adjust: exact; 
+                print-color-adjust: exact;
+            }
             .container { max-width: 100% !important; width: 100% !important; padding: 0 !important; margin: 0 !important; }
             
             header, .lang-toggle, .form-container-block, .diag-box, .util-btns, #resHead, .seo-section, .back-btn, footer { 
                 display: none !important; 
-                opacity: 0 !important;
-                visibility: hidden !important;
                 height: 0 !important;
                 margin: 0 !important;
                 padding: 0 !important;
@@ -190,47 +199,70 @@
                 visibility: visible !important;
                 background: #ffffff !important; 
                 color: #000000 !important; 
-                padding: 25px !important; 
+                padding: 30px 24px !important; /* Elegant room padding */
                 margin: 0 auto !important;
                 width: 100% !important;
                 box-sizing: border-box;
-                border: 3px double var(--ap-teal) !important; 
-                border-radius: 0px !important;
+                border: 2px solid var(--ap-teal) !important; 
+                border-radius: 12px !important;
                 box-shadow: none !important;
+                page-break-inside: avoid !important;
             }
             
             .print-header-block {
                 display: block !important;
                 text-align: center;
-                border-bottom: 2px solid var(--ap-teal) !important;
-                padding-bottom: 12px;
-                margin-bottom: 20px;
+                border-bottom: 2.5px solid var(--ap-teal) !important;
+                padding-bottom: 15px;
+                margin-bottom: 25px;
             }
             .print-header-block img { display: inline-block !important; }
 
-            .res-grid { display: block !important; margin-top: 15px; }
+            .bkl-special {
+                padding: 20px !important;
+                margin-bottom: 25px !important;
+                border: 1px dashed var(--ap-teal) !important;
+                border-radius: 10px !important;
+                background: #e0f2f1 !important;
+            }
+            .bkl-special span { font-size: 14px !important; color: #475569 !important; }
+            .bkl-special strong { color: #00796b !important; font-size: 26px !important; }
+
+            .res-grid { display: block !important; margin-top: 15px; margin-bottom: 15px; }
             .res-item { 
                 background: transparent !important; 
                 border: none !important;
-                border-bottom: 1px solid #e2e8f0 !important;
-                padding: 10px 4px !important;
+                border-bottom: 1px solid #cbd5e1 !important;
+                padding: 12px 6px !important; /* Comfort row size */
                 display: flex !important;
                 flex-direction: row !important;
                 justify-content: space-between !important;
                 align-items: center !important;
                 border-radius: 0px !important;
-                text-align: left !important;
             }
-            .res-item span { color: #1e293b !important; font-size: 13px !important; font-weight: 600; text-align: left !important; }
-            .res-item b { color: var(--ap-dark) !important; font-size: 15px !important; font-weight: 700; text-align: right !important; }
+            .res-item span { color: #1e293b !important; font-size: 14px !important; font-weight: 600; }
+            .res-item b { color: var(--ap-dark) !important; font-size: 18px !important; font-weight: 700; }
+
+            .extra-res-box {
+                background: #f8fafc !important;
+                border: none !important;
+                border-left: 4px solid var(--ap-teal) !important;
+                padding: 15px 20px !important;
+                margin-top: 25px !important;
+                border-radius: 0 8px 8px 0;
+            }
+            .extra-res-box p { margin: 10px 0 !important; font-size: 14px !important; color: #334155 !important; }
+            .extra-res-box b { color: #000000 !important; font-size: 15px !important; }
 
             .print-footer-block {
                 display: block !important;
                 text-align: center;
-                margin-top: 40px;
-                border-top: 1px solid #cbd5e1 !important;
-                padding-top: 20px;
+                margin-top: 45px !important;
+                border-top: 1.5px solid #cbd5e1 !important;
+                padding-top: 20px !important;
+                page-break-inside: avoid !important;
             }
+            .print-footer-block p { font-size: 11px !important; line-height: 1.6 !important; }
         }
     </style>
 </head>
@@ -267,13 +299,13 @@
         <div id="resultBox" class="result-panel">
             
             <div class="print-header-block">
-                <div style="display: flex; justify-content: center; align-items: center; gap: 10px; margin-bottom: 5px;">
+                <div style="display: flex; justify-content: center; align-items: center; gap: 10px; margin-bottom: 6px;">
                     <img src="favicon.png" alt="SST" style="width: 30px; height: 30px;">
                     <h2 style="font-size: 22px; color: #00796b; margin: 0; font-weight: 900; letter-spacing: 1px;">SHAYAN SMART TOOLS</h2>
                 </div>
-                <p style="font-size: 11px; color: #004d40; font-weight: bold; margin: 0 0 10px 0; letter-spacing: 0.5px; text-transform: uppercase;">ANDHRA PRADESH REVENUE GEOMETRIC RESOLUTION AUDIT RECORD - 2026</p>
+                <p style="font-size: 11px; color: #004d40; font-weight: bold; margin: 0 0 12px 0; letter-spacing: 0.5px; text-transform: uppercase;">ANDHRA PRADESH REVENUE GEOMETRIC RESOLUTION AUDIT RECORD - 2026</p>
                 
-                <div style="background: #f8fafc; border: 1px solid #cbd5e1; padding: 10px; border-radius: 4px; display: grid; grid-template-columns: 1fr 1fr; font-size: 11px; text-align: left; gap: 5px; color: #334155;">
+                <div style="background: #f8fafc; border: 1px solid #cbd5e1; padding: 10px; border-radius: 6px; display: grid; grid-template-columns: 1fr 1fr; font-size: 11px; text-align: left; gap: 6px; color: #334155;">
                     <div><strong>DOCUMENT REF:</strong> <span id="pDocRef" style="color:#00796b; font-weight:bold;">SST-AP-IRR-0000</span></div>
                     <div style="text-align: right;"><strong>DATE:</strong> <span id="pDocDate" style="color:#00796b; font-weight:bold;">--/--/----</span></div>
                     <div><strong>JURISDICTION:</strong> State of Andhra Pradesh (ఆంధ్రప్రదేశ్)</div>
@@ -282,11 +314,15 @@
             </div>
 
             <div class="bkl-special" style="background: rgba(255,255,255,0.05); padding: 20px; border-radius: 15px; text-align: center; margin-bottom: 20px; border: 1px dashed var(--ap-teal);">
-                <span id="fmtText" style="display:block; font-size: 14px; color: #94a3b8; font-weight: bold; margin-bottom: 5px;">Andhra Standard Output Format (అంకణం-సెంట్లు-చ.గజాలు):</span>
+                <span id="fmtText" style="display:block; font-size: 14px; color: #94a3b8; font-weight: bold; margin-bottom: 6px;">Andhra Standard Output Summary (అంకణం-సెంట్లు-చ.గజాలు):</span>
                 <strong id="pb_main" style="font-size: 24px; color: #81c784;">0 Ankanam, 0 Cents, 0 Sq.Yards</strong>
             </div>
 
-            <h3 id="resTitle">Total Land Result (భూమి వైశాల్య ఫలితం):</h3>
+            <div style="background: rgba(255, 255, 255, 0.04); margin: 10px auto; padding: 8px; border-radius: 8px; max-width: 100%; font-size: 12px; color: #cbd5e1; border: 1px solid rgba(255,255,255,0.1);">
+                <strong>Inputs Covered:</strong> <span id="rInputVal"></span>
+            </div>
+
+            <h3 id="resTitle" style="font-size: 1.3rem; margin-top: 20px; margin-bottom: 15px;">Total Land Result (భూమి వైశాల్య ఫలితం):</h3>
             <div class="res-grid">
                 <div class="res-item"><span id="uAnkanam">Ankanam</span><b id="outAnkanam">0</b></div>
                 <div class="res-item"><span id="uCents">Cents</span><b id="outCents">0</b></div>
@@ -301,14 +337,14 @@
             </div>
 
             <div class="print-footer-block">
-                <div style="margin: 0 auto; max-width: 85%; font-size: 11px; color: #475569; line-height: 1.6; text-align: center;">
+                <div style="margin: 0 auto; max-width: 100%; font-size: 11px; color: #475569; line-height: 1.6; text-align: center;">
                     <p style="margin: 0; font-weight: bold; color: #00796b; text-transform: uppercase; font-size: 12px;">🔒 SECURITY DISCLAIMER & STATUTORY TRIANGULATION AUDIT NOTICE</p>
                     <p style="margin: 6px 0 0 0;">This calculation compilation sheet is structured strictly using Heron's geometric triangulation law and Andhra Pradesh land administration parameters (1 Cent = 435.6 Sq.Ft, 1 Ankanam = 72 Sq.Ft, 1 Sq.Yard = 9 Sq.Ft). For official property boundary mutation or Meebhoomi Adangal records, cross-verify metrics with your local Village Revenue Officer (VRO).</p>
                     
-                    <div style="display: inline-block; border: 1px dashed #00796b; padding: 6px 20px; border-radius: 4px; margin-top: 15px; margin-bottom: 12px; background: #f8fafc; font-size: 10px; font-weight: bold; color: #00796b; text-transform: uppercase; letter-spacing: 0.5px;">
+                    <div style="display: inline-block; border: 1px dashed #00796b; padding: 6px 20px; border-radius: 4px; margin-top: 12px; margin-bottom: 10px; background: #f8fafc; font-size: 10px; font-weight: bold; color: #00796b; text-transform: uppercase; letter-spacing: 0.5px;">
                         SHAYAN SMART TOOLS [SST SEAL] - MASTER PARSING AP PLOT MATRIX
                     </div>
-                    <p style="margin: 5px 0 0 0; font-size: 12px; font-weight: bold; color: #00796b;">🌐 SST OFFICIAL ACCESS: www.shayansmarttools.in</p>
+                    <p style="margin: 4px 0 0 0; font-size: 12px; font-weight: bold; color: #00796b;">🌐 SST OFFICIAL ACCESS: www.shayansmarttools.in</p>
                 </div>
             </div>
 
@@ -431,7 +467,7 @@
             sq: "Total Square Feet Matrix: ", rsm: "Total Square Meters Matrix: ", netAc: "Total Acres Representation: ", rhec: "Estimated Total Hectare: ",
             iN: "How to measure land, see diagram:", iD: "Measure Side A, B, C, D and the Diagonal (E).",
             shI: "Enter Irregular Plot Sides (భూమి గడి కొలతలు)",
-            seot: "Andhra Pradesh Land Area Calculation: టేcount వంಕರ భూమి వైశాల్యం ఖచ్చيتమైన కొలత గাইড",
+            seot: "Andhra Pradesh Land Area Calculation: టేcount వంకర భూమి వైశాల్యం ఖచ్చితమైన కొలత గైడ్",
             seos: "Meebhoomi AP Adangal records framework aur dynamic triangulation metrics ke anusaar irregular maps quadrilateral scaling template.",
             dt: "Related Tools & Internal Links", dh: "Dashboard Home", d1: "➕ AP Land Addition", d2: "📐 Punjab Irregular Calc", d3: "📐 Rajasthan Irregular Calc",
             copyMsg: "Calculation Details Copied!",
@@ -443,14 +479,14 @@
             lA: "మొదటి వైపు (Side A) అడుగులు", lB: "రెండవ వైపు (Side B) అడుగులు", lC: "మూడవ వైపు (Side C) అడుగులు", lD: "నాల్గవ వైపు (Side D) అడుగులు",
             lDg: "కర్ణం / ఓరె రేఖ (Diagonal) అడుగులలో", b: "వైశాల్యం లెక్కించు",
             rT: "మొత్తం భూమి అಳత ముగింపు ఫలితం (Meebhoomi Standard):", uA: "అంకణం (Ankanam)", uW: "సెంట్లు (Cents)", uN: "చ.గజాలు (Sq.Yards)",
-            sq: "మొత్తం చదరపు అడుగుల వైశాల్యం (Sq.Ft): ", rsm: "మొత్తం చదரపు మీటర్ల వైశాల్యం (Sq.Mt): ", netAc: "మొత్తం నికర ఎకరాల విలువ రూపాంతరం (Net Acre): ", rhec: "అంచనా వేయబడిన మొత్తం హెక్టార్ల పరిమాణం (Ha): ",
+            sq: "మొత్తం చదరపు అడుగుల వైశాల్యం (Sq.Ft): ", rsm: "మొత్తం చదరపు మీటర్ల వైశాల్యం (Sq.Mt): ", netAc: "మొత్తం నికర ఎకరాల విలువ రూపాంతరం (Net Acre): ", rhec: "అంచనా వేయబడిన మొత్తం హెక్టార్ల పరిమాణం (Ha): ",
             iN: "భూమిని ఎలా కొలవాలి, పటాన్ని చూడండి:", iD: "నాలుగు బాహ్య వైపులను మరియు ఒక అంతర్గత కర్ణ రేఖను (E) ఖచ్చితంగా కొలవండి.",
             shI: "విషమ కోణ ప్లాట్ యొక్క వైపులను నమోదు చేయండి (Input Boundary Metrics)",
-            seot: "ఆంధ్రప్రదేశ్ భూమి వైశాల్య త్రికోణ గణన ఇంటర్‌ఫేస్: అంకణం మరియు సెంట్లు కையேடு",
-            seos: "మీభూమి ఆంధ్రప్రదేశ్ అడంగల్ రికార్డులు మరియు ల్యాండ్ అడ్మినిస్ట్రేషన్ సర్వే హెరాన్ సూత్రం త్రికோణ గ్రిడ్‌ల ప్రకారం నిఖర భూమి విశ్లేషణ.",
-            dt: "సంబంధిత డిజిటల్ ఉపకరణాలు మరియు లింకులు", dh: "ప్రధాన నియంత్రణ డాష్‌బోర్ڈ", d1: "ఆంధ్రప్రదేశ్ భూమి కూడిక సాధనం", d2: "పంజాబ్ జమీனு క్యాలిక్యులేటర్", d3: "రాజస్థాన్ జమీனு క్యాలిక్యులేటర్",
+            seot: "ఆంధ్రప్రదేశ్ భూమి వైశాల్య త్రికోణ గణన ఇంటర్‌ఫేస్: అంకణం మరియు సెంట్లు కையேడు",
+            seos: "మీభూమి ఆంధ్రప్రదేశ్ అడంగల్ రికార్డులు మరియు ల్యాండ్ అడ్మినిస్ట్రేషన్ సర్వే హెరాన్ సూత్రం త్రికోణ గ్రిడ్‌ల ప్రకారం నిఖర భూమి విశ్లేషణ.",
+            dt: "సంబంధిత డిజిటల్ ఉపకరణాలు మరియు లింకులు", dh: "ప్రధాన నియంత్రణ డాష్‌బోర్డ్", d1: "ఆంధ్రప్రదేశ్ భూమి కూడిక సాధనం", d2: "పంజాబ్ జమీను క్యాలిక్యులేటర్", d3: "രാജസ്ഥാൻ జమీను క్యాలిక్యులేటర్",
             copyMsg: "భూమి అలివేటు గణన వివరాలు విజయవంతంగా కాపీ చేయబడ్డాయి!",
-            fmtText: "ఆంధ్రప్రదేశ్ ప్రామాணిక అవుట్‌పుట్ ఫార్మాట్ (అంకణం-సెంట్లు-చ.గజాలు):"
+            fmtText: "ఆంధ్రప్రదేశ్ ప్రామాణిక అవుట్‌పుట్ ఫార్మాట్ (అంకణం-సెంట్లు-చ.గజాలు):"
         }
     };
 
@@ -507,7 +543,7 @@
 
         // Triangulation Validation Checks to block Heron math crash
         if((a + b <= diag) || (a + diag <= b) || (b + diag <= a) || (c + d <= diag) || (c + diag <= d) || (d + diag <= c)) {
-            alert(currentLang === 'en' ? "Geometric Warning: This Diagonal length is mathematically impossible for the entered side lengths. Please re-measure the plot layout!" : "జ్యామితీయ దोषం: నమూదించబడిన భుజాల కొలతలకు ఈ కర్ణ రేఖ పరిమాణం గణితశాస్త్ర రీత్యా అసాధ్యం!");
+            alert(currentLang === 'en' ? "Geometric Warning: This Diagonal length is mathematically impossible for the entered side lengths. Please re-measure the plot layout!" : "జ్యామితీయ దोषం: నమూదించబడిన భుజాల కొలతలకు ఈ ర్కణ రేఖ పరిమాణం గణితశాస్త్ర రీత్యా అసాధ్యం!");
             return;
         }
 
@@ -581,7 +617,7 @@
         if(currentLang === 'en') {
             textCopy = "Andhra Pradesh Irregular Land Calculation Result:\nTotal Area: " + document.getElementById('pb_main').innerText + "\nTotal Sq Ft: " + document.getElementById('outSq').innerText + "\nCalculated via Shayan Smart Tools Triangulation Engine.";
         } else {
-            textCopy = "ఆంధ్రప్రదేశ్ వంకర భూమి కొలత ఫలితాల వివరణ:\nలెక్కాಚಾರ ఫార్మాట్: " + document.getElementById('pb_main').innerText + "\nఒట్టు చదరపు అడుగులు: " + document.getElementById('outSq').innerText + "\nషాయన్ స్మార్ట్ టూల్స్ ద్వారా విజయవంతంగా లెక్కింపబడింది.";
+            textCopy = "ఆంధ్రప్రదేశ్ వంకర భూమి కొలత ఫలితాల వివరణ:\nలెక్కాచారం ఫార్మాట్: " + document.getElementById('pb_main').innerText + "\nఒట్టు చదరపు అడుగులు: " + document.getElementById('outSq').innerText + "\nషాయన్ స్మార్ట్ టూల్స్ ద్వారా విజయవంతంగా లెక్కింపబడింది.";
         }
         navigator.clipboard.writeText(textCopy);
         alert(trans[currentLang].copyMsg);
@@ -598,5 +634,8 @@
     }
 </script>
 
+<footer>
+    <p style="text-align: center; margin-top: 30px; font-size: 13px; color: #666;">© 2026 Shayan Smart Tools | Andhra Pradesh Land Solutions Suite | Designed by Muksidul Islam</p>
+</footer>
 </body>
 </html>
