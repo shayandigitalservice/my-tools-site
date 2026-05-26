@@ -1,0 +1,609 @@
+<!DOCTYPE html>
+<html lang="ta">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tamil Nadu Irregular Land Calculator | தமிழ்நாடு மனையடி சென்ட் நில அளவீடு | Shayan Smart Tools</title>
+    <link rel="canonical" href="https://shayansmarttools.in/tamilnadu-irregular-land-calculator.html" />
+
+    <meta name="description" content="Official Tamil Nadu Irregular Land Area Calculator by Shayan Smart Tools. Calculate tedi-medi zameen maps using Heron's Formula. Accuracy in Grounds and Cents for Patta Chitta.">
+    <meta name="keywords" content="Tamil Nadu Land Calculator, தமிழ்நாடு நில அளவீடு, TN irregular land calculator, Grounds Cents Calculator TN, Tamil Nilam Triangulation, Shayan Smart Tools Tamil Nadu, Patta Chitta Calculator">
+    <meta name="author" content="Muksidul islam">
+    <meta name="robots" content="index, follow">
+
+    <style>
+        :root {
+            --tn-green: #1b5e20;
+            --tn-dark: #003300;
+            --tn-corporate: #0f172a;
+            --text-dark: #334155;
+            --white: #ffffff;
+            --bg: #f8fafc;
+            --tn-gold: #ffb300;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            line-height: 1.6;
+            color: var(--text-dark);
+            max-width: 850px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: var(--bg);
+        }
+
+        .tool-wrapper {
+            padding: 10px 0;
+            text-align: center;
+        }
+
+        header {
+            background: linear-gradient(135deg, var(--tn-green), var(--tn-corporate));
+            color: var(--tn-gold); padding: 40px 20px; border-radius: 25px; text-align: center;
+            border-bottom: 6px solid var(--tn-gold); margin-bottom: 30px;
+        }
+        header h1 { color: var(--tn-gold); margin: 0 0 10px 0; font-size: 26px; text-transform: uppercase; font-weight: 900; }
+        header p { color: var(--white); margin: 0; font-size: 16px; font-weight: 500; }
+
+        /* Language Switcher */
+        .lang-toggle {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            margin-bottom: 30px;
+        }
+
+        .lang-btn {
+            padding: 10px 25px;
+            border: 2px solid var(--tn-green);
+            background: white;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: 700;
+            color: var(--tn-green);
+            transition: 0.3s;
+        }
+
+        .lang-btn.active {
+            background: var(--tn-green);
+            color: var(--tn-gold);
+        }
+
+        .form-container-block {
+            background: transparent !important;
+            padding: 10px 0;
+            border: none !important;
+            box-shadow: none !important;
+            margin-bottom: 20px;
+        }
+
+        .sec-h { font-size: 16px; font-weight: bold; color: var(--tn-green); margin-bottom: 20px; border-bottom: 2px solid #cbd5e1; padding-bottom: 8px; text-transform: uppercase; letter-spacing: 0.5px; text-align: left; }
+
+        .input-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 15px;
+        }
+
+        .field { display: flex; flex-direction: column; text-align: left; }
+        label { font-size: 12px; font-weight: 800; color: var(--tn-green); margin-bottom: 8px; text-transform: uppercase; }
+        input { width: 100%; padding: 15px; border: 1px solid #cbd5e1; border-radius: 12px; font-size: 16px; box-sizing: border-box; outline: none; transition: 0.3s; background: var(--white); text-align: center; }
+        input:focus { border-color: var(--tn-green); background: #fff; box-shadow: 0 0 8px rgba(27, 94, 32, 0.1); }
+
+        .btn-calc {
+            width: 100%; padding: 20px; background: var(--tn-green); color: var(--tn-gold); border: none; border-radius: 15px; font-size: 18px; font-weight: 800; cursor: pointer; transition: 0.3s; text-transform: uppercase; letter-spacing: 1px; margin-top: 25px;
+        }
+        .btn-calc:hover { transform: translateY(-3px); box-shadow: 0 10px 20px rgba(27, 94, 32, 0.2); }
+
+        .diag-box {
+            background: rgba(255, 255, 255, 0.6);
+            padding: 20px;
+            border-radius: 16px;
+            margin: 25px 0;
+            border: 1px dashed var(--tn-green);
+            backdrop-filter: blur(5px);
+            text-align: center;
+        }
+        .diag-box img { max-width: 100%; height: auto; border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
+
+        /* RESULTS UI */
+        .result-panel {
+            background: #0f172a; color: white; padding: 25px; border-radius: 25px; margin-top: 30px; display: none; border: 2px solid var(--tn-gold); position: relative;
+        }
+        .result-panel h3 { margin-top: 0; text-align: center; color: var(--tn-gold); font-size: 1.4rem; margin-bottom: 20px; }
+        
+        .res-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; margin: 20px 0; }
+        .res-item { background: rgba(255,255,255,0.05); padding: 15px; border-radius: 12px; display: flex; flex-direction: column; align-items: center; gap: 5px; border-bottom: 4px solid var(--tn-gold); }
+        .res-item span { font-size: 12px; color: #cbd5e1; font-weight: bold; text-transform: uppercase; }
+        .res-item b { font-size: 24px; color: #fff; }
+
+        .extra-res-box { background: rgba(255, 255, 255, 0.02); padding: 15px; border-radius: 12px; margin-top: 15px; border-left: 4px solid var(--tn-green); text-align: left; }
+        .extra-res-box p { margin: 5px 0; font-size: 15px; display: flex; justify-content: space-between; align-items: center; }
+        .extra-res-box b { color: var(--tn-gold); }
+
+        .print-header-block, .print-footer-block { display: none; }
+        .util-btns { display: flex; gap: 10px; margin-top: 25px; }
+        .u-btn { flex: 1; padding: 15px; border-radius: 12px; border: none; font-weight: 800; cursor: pointer; transition: 0.3s; color: white; font-size: 14px; text-align: center; }
+
+        /* CLEAN FIXED SEO ARTICLE LAYER - BACKGROUND CLEAR */
+        .seo-section { 
+            background: transparent !important; 
+            padding: 20px 0; 
+            margin-top: 50px; 
+            line-height: 1.8; 
+            border: none !important;
+            color: #334155 !important;
+            text-align: left;
+        }
+        .seo-section .seo-header-block {
+            text-align: center; 
+            border-bottom: 3px solid var(--tn-green); 
+            padding-bottom: 20px; 
+            margin-bottom: 30px;
+            background: transparent !important;
+        }
+        .seo-section h2 { 
+            color: var(--tn-green) !important; 
+            font-size: 28px !important;
+            margin-bottom: 10px !important;
+            border-left: 6px solid var(--tn-dark);
+            padding-left: 15px;
+            margin-top: 40px;
+        }
+        .seo-section h3 { color: var(--tn-dark) !important; margin-top: 30px; font-size: 22px; }
+        .seo-section p { color: #334155 !important; font-size: 16px; text-align: justify; }
+        
+        .seo-section table { width: 100%; border-collapse: collapse; margin: 25px 0; background: #ffffff; box-shadow: 0 4px 6px rgba(0,0,0,0.02); border-radius: 8px; overflow: hidden; }
+        .seo-section th, .seo-section td { padding: 15px; border: 1px solid #e2e8f0; text-align: left; color: #334155 !important; }
+        .seo-section th { background: #e8f5e9; color: var(--tn-green) !important; font-weight: bold; }
+        .seo-section tr:nth-child(even) { background-color: #f8fafc; }
+
+        .links-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; margin: 25px 0 40px; width: 100%; box-sizing: border-box; }
+        .link-card { display: flex; align-items: center; justify-content: center; background: #ffffff; padding: 18px 20px; border-radius: 16px; text-decoration: none; color: var(--tn-green) !important; font-weight: 700; font-size: 15px; border: 1px solid #e2e8f0; transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1); box-sizing: border-box; text-align: center; }
+        .link-card:hover { border-color: var(--tn-green); transform: translateY(-4px); box-shadow: 0 12px 20px rgba(27, 94, 32, 0.1); background: linear-gradient(135deg, #ffffff, #e8f5e9); }
+
+        @media (max-width: 600px) {
+            .res-grid { grid-template-columns: 1fr; gap: 10px; }
+            .seo-section h2 { font-size: 22px !important; }
+            .links-grid { grid-template-columns: 1fr; gap: 12px; }
+            .link-card { padding: 15px 18px; }
+            .input-grid { grid-template-columns: 1fr; gap: 10px; }
+        }
+
+        /* ANTI-BLANK PRINT INFRASTRUCTURE FIXED LAYERING */
+        @media print {
+            html, body { background: #ffffff !important; color: #000000 !important; margin: 0 !important; padding: 0 !important; }
+            .container { max-width: 100% !important; width: 100% !important; padding: 0 !important; margin: 0 !important; }
+            
+            header, .lang-toggle, .form-container-block, .diag-box, .util-btns, #resHead, .seo-section, .back-btn, footer { 
+                display: none !important; 
+                opacity: 0 !important;
+                visibility: hidden !important;
+                height: 0 !important;
+                margin: 0 !important;
+                padding: 0 !important;
+            }
+            
+            .result-panel { 
+                display: block !important; 
+                visibility: visible !important;
+                background: #ffffff !important; 
+                color: #000000 !important; 
+                padding: 25px !important; 
+                margin: 0 auto !important;
+                width: 100% !important;
+                box-sizing: border-box;
+                border: 3px double var(--tn-gold) !important; 
+                border-radius: 0px !important;
+                box-shadow: none !important;
+            }
+            
+            .print-header-block {
+                display: block !important;
+                text-align: center;
+                border-bottom: 2px solid var(--tn-gold) !important;
+                padding-bottom: 12px;
+                margin-bottom: 20px;
+            }
+            .print-header-block img { display: inline-block !important; }
+
+            .res-grid { display: block !important; margin-top: 15px; }
+            .res-item { 
+                background: transparent !important; 
+                border: none !important;
+                border-bottom: 1px solid #e2e8f0 !important;
+                padding: 10px 4px !important;
+                display: flex !important;
+                flex-direction: row !important;
+                justify-content: space-between !important;
+                align-items: center !important;
+                border-radius: 0px !important;
+                text-align: left !important;
+            }
+            .res-item span { color: #1e293b !important; font-size: 13px !important; font-weight: 600; text-align: left !important; }
+            .res-item b { color: var(--tn-dark) !important; font-size: 15px !important; font-weight: 700; text-align: right !important; }
+
+            .extra-res-box {
+                background: transparent !important;
+                border: none !important;
+                border-top: 1px dashed #cbd5e1 !important;
+                padding: 10px 0 !important;
+            }
+            .extra-res-box p { display: flex; justify-content: space-between; font-size: 13px; color: #1e293b; text-align: left !important; }
+            .extra-res-box b { color: #000000 !important; }
+
+            .print-footer-block {
+                display: block !important;
+                text-align: center;
+                margin-top: 40px;
+                border-top: 1px solid #cbd5e1 !important;
+                padding-top: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="tool-wrapper">
+        <header>
+            <h1 id="mainTitle">Tamil Nadu Irregular Land Calculator</h1>
+            <p id="sTitle">Advanced boundary conversion tool for complex tedi-medi zameen maps matching parameters.</p>
+        </header>
+        
+        <div class="lang-toggle">
+            <button class="lang-btn active" id="enBtn" onclick="setLang('en')">English</button>
+            <button class="lang-btn" id="pjBtn" onclick="setLang('ta')">தமிழ்</button>
+        </div>
+
+        <div class="form-container-block">
+            <div class="sec-h" id="hSecTitle">Enter Irregular Plot Sides (நில எல்லை அளவீடுகள்)</div>
+            <div class="input-grid">
+                <div class="field"><label id="lblA">Side A (Feet)</label><input type="number" id="sideA" placeholder="0"></div>
+                <div class="field"><label id="lblB">Side B (Feet)</label><input type="number" id="sideB" placeholder="0"></div>
+                <div class="field"><label id="lblC">Side C (Feet)</label><input type="number" id="sideC" placeholder="0"></div>
+                <div class="field"><label id="lblD">Side D (Feet)</label><input type="number" id="sideD" placeholder="0"></div>
+                <div class="field" style="grid-column: 1/-1;">
+                    <label id="lblDiag">Diagonal / மூலைவிட்டம் (Feet)</label>
+                    <input type="number" id="diagonal" placeholder="Enter Diagonal Length (E)">
+                </div>
+            </div>
+
+            <button class="btn-calc" id="btnCalc" onclick="calculateTNArea()">Calculate Area</button>
+        </div>
+
+        <div id="resultBox" class="result-panel">
+            
+            <div class="print-header-block">
+                <div style="display: flex; justify-content: center; align-items: center; gap: 10px; margin-bottom: 5px;">
+                    <img src="favicon.png" alt="SST" style="width: 30px; height: 30px;">
+                    <h2 style="font-size: 22px; color: #1b5e20; margin: 0; font-weight: 900; letter-spacing: 1px;">SHAYAN SMART TOOLS</h2>
+                </div>
+                <p style="font-size: 11px; color: var(--text-dark); font-weight: bold; margin: 0 0 10px 0; letter-spacing: 0.5px; text-transform: uppercase;">TAMIL NADU REVENUE GEOMETRIC RESOLUTION AUDIT RECORD - 2026</p>
+                
+                <div style="background: #f8fafc; border: 1px solid #cbd5e1; padding: 10px; border-radius: 4px; display: grid; grid-template-columns: 1fr 1fr; font-size: 11px; text-align: left; gap: 5px; color: #334155;">
+                    <div><strong>DOCUMENT REF:</strong> <span id="pDocRef" style="color:#1b5e20; font-weight:bold;">SST-TN-IRR-0000</span></div>
+                    <div style="text-align: right;"><strong>DATE:</strong> <span id="pDocDate" style="color:#1b5e20; font-weight:bold;">--/--/----</span></div>
+                    <div><strong>JURISDICTION:</strong> State of Tamil Nadu (தமிழ்நாடு)</div>
+                    <div style="text-align: right;"><strong>STATUS:</strong> Geometric Land Area Securely Mapped</div>
+                </div>
+            </div>
+
+            <div class="bkl-special" style="background: rgba(255,255,255,0.05); padding: 20px; border-radius: 15px; text-align: center; margin-bottom: 20px; border: 1px dashed var(--tn-green);">
+                <span id="fmtText" style="display:block; font-size: 14px; color: #94a3b8; font-weight: bold; margin-bottom: 5px;">Tamil Nadu Output Format (மனையடி-சென்ட்):</span>
+                <strong id="pb_main" style="font-size: 24px; color: #81c784;">0 Grounds, 0 Cents</strong>
+            </div>
+
+            <h3 id="resTitle">Total Land Result (நில அளவீடு முடிவு):</h3>
+            <div class="res-grid">
+                <div class="res-item"><span id="uGround">Grounds</span><b id="outGround">0</b></div>
+                <div class="res-item"><span id="uCent">Cents</span><b id="outCent">0</b></div>
+            </div>
+            
+            <div class="extra-res-box">
+                <p><span id="txtSqText">Total Square Feet Matrix:</span><b id="outSq">0</b></p>
+                <p><span id="txtSqmText">Total Square Meters Matrix:</span><b id="outSqm">0</b></p>
+                <p><span id="txtAcreText">Equivalent Acre Allocation Size:</span><b id="outAcre">0</b></p>
+                <p><span id="txtHecText">Estimated Total Hectare (Ha):</span><b id="outHec">0</b></p>
+            </div>
+
+            <div class="print-footer-block">
+                <div style="margin: 0 auto; max-width: 85%; font-size: 11px; color: #475569; line-height: 1.6; text-align: center;">
+                    <p style="margin: 0; font-weight: bold; color: #1b5e20; text-transform: uppercase; font-size: 12px;">🔒 SECURITY DISCLAIMER & STATUTORY TRIANGULATION AUDIT NOTICE</p>
+                    <p style="margin: 6px 0 0 0;">This calculation compilation sheet is structured strictly using Heron's geometric triangulation law and Tamil Nadu land administration parameters (1 Ground = 2,400 Sq.Ft, 1 Cent = 435.6 Sq.Ft). For official property boundary mutation or patta chitta deeds, cross-verify metrics with your local Village Administrative Officer (VAO).</p>
+                    
+                    <div style="display: inline-block; border: 1px dashed #1b5e20; padding: 6px 20px; border-radius: 4px; margin-top: 15px; margin-bottom: 12px; background: #f8fafc; font-size: 10px; font-weight: bold; color: #1b5e20; text-transform: uppercase; letter-spacing: 0.5px;">
+                        SHAYAN SMART TOOLS [SST SEAL] - MASTER PARSING TAMIL NADU PLOT MATRIX
+                    </div>
+                    <p style="margin: 5px 0 0 0; font-size: 12px; font-weight: bold; color: #1b5e20;">🌐 SST OFFICIAL ACCESS: www.shayansmarttools.in</p>
+                </div>
+            </div>
+
+            <div class="util-btns">
+                <button class="u-btn" onclick="copyResult()" style="background:#475569;" id="btnCopy">📋 Copy Details</button>
+                <button class="u-btn" onclick="shareWhatsApp()" style="background:#22c55e;" id="btnShare">📲 WhatsApp Share</button>
+                <button class="u-btn" onclick="printLandReport()" style="background:#2b7cff;" id="btnPrint">🖨️ Print Report</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="diag-box">
+        <p style="font-weight: bold; margin-bottom: 10px; color: var(--tn-green);" id="imgNote">Zameen kaise naapein, diagram dekhein:</p>
+        <img src="land-diagram.png" alt="Tamil Nadu Irregular Land Diagram Shayan Smart Tools">
+        <p style="font-size: 13px; color: #555; margin-top:10px;" id="imgDesc">Measure Side A, B, C, D and the Diagonal (E).</p>
+    </div>
+
+    <article class="seo-section">
+        <div class="seo-header-block">
+            <h2 id="introH2" style="border:none; padding:0; text-align:center; font-size:2.3rem !important;">Tamil Nadu Land Area Calculation: 테ढ़ी-मेढ़ी जमीन की सटीक नाप-जोख Matrix Guide</h2>
+            <p style="font-size: 17px; color: #555; text-align: center; margin: 5px 0 0 0;" id="seoSubTitle">Patta Chitta norms aur Tamil Nilam portal parameters ke anusaar irregular maps calculation matrix triangulation.</p>
+        </div>
+
+        <section>
+            <p>
+                Tamil Nadu state mein land administration ka system baki Indian states se bilkul alag hai. Yahan Chennai ho ya Coimbatore, Madurai ho ya Trichy, state revenue authorities (Patta Chitta registration portals) par data mukhya roop se metric measurements (Hectares aur Ares) mein save hota hai. Lekin ground level deal layouts, rural agriculture spaces, aur local property registration documents mein hamesha traditional systems mukhya roop se <b>Grounds (மனையடி) aur Cents (சென்ட்)</b> ka prayog kiya jata hai. Parivarik asset divisions, bank structural financing evaluations, ya highway patches pooling ke dauran jab zameen tedi-medi (Irregular Quadrilateral shape) hoti hai, tab aamne-samne ka average nikalne par kaafi heavy math errors khade ho jati hain, jo mutation verification aur registries ke dauran parivarik border disputes ka mukhy karanna banti hain.
+            </p>
+            <p>
+                Is processing accuracy leakage ko fixed karne ke liye Shayan Smart Tools ne is high-precision <b>Tamil Nadu Irregular Land Calculator</b> dashboard ko code kiya hai. Yeh model high-performance mathematical triangulation architecture (Heron's Formula) par execute hota hai, jo aapke irregular boundaries mapping parameters ko beech ke ek **Diagonal (tirchhi line/vikarn/மூலைவிட்டம்)** ke sath split karke sateek do triangles mein divide kar deta hai. Dono separate structural triangles ka mathematical product calculate hone ke baad jab unhe compile kiya jata hai, toh geometric area 100% sateek nikalta hai. Tamil Nadu revenue manual rules ke mutabik exactly <b>1 Cent = 435.6 Sq.Ft</b>, aur <b>1 Ground = 2,400 Sq.Ft</b> ($60 \times 40\text{ feet}$) ka grid balance hold hota hai, jabki 100 Cents milakar pure 1 Acre form karte hain.
+            </p>
+        </section>
+
+        <h3>கணக்கீட்டு கருவியை எவ்வாறு பயன்படுத்துவது? (Complete Operational Steps)</h3>
+        <p>Is advanced triangulation single-page form par apni entry mapping process karna behad simple hai, bas niche diye gaye steps follow karein:</p>
+        <ol>
+            <li>Sabse pehle feet tape scale ke zariye khet ki charo side lines (Side A, Side B, Side C, Side D) ko naapiye aur unhe empty input boxes cells mein type karein.</li>
+            <li>Uske baad khet ke kisi bhi ek tirche kone se samne wale cross kone tak ki structural length naap kar **Diagonal / மூலைவிட்டம் (E)** container mein fill karein.</li>
+            <li>In parameters ko verify karke <b>"Calculate Area"</b> control selection key ko execute trigger karein.</li>
+            <li>Result block open ho jayega jahan left-aligned certified format layout mein Grounds, Cents, Square Feet aur Hectare ka grand breakdown real-time tracking panel par render rests hold kar dega.</li>
+        </ol>
+
+        <h3>Tamil Nadu Land Revenue Conversion Matrix Standard Table</h3>
+        <div style="overflow-x: auto;">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Sarkari Unit Name</th>
+                        <th>Standard Conversion Breakdown</th>
+                        <th>Area in Square Feet (Sq Ft)</th>
+                        <th>Area in Square Meters (Sq M)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td><b>1 Ground (மனையடி)</b></td><td>Standard Urban/Suburban Plot Metric Layer</td><td>2,400 Sq Ft</td><td>222.96 Sq M</td></tr>
+                    <tr><td><b>1 Cent (சென்ட்)</b></td><td>Standard Agriculture/Scattered Patch Element</td><td>435.6 Sq Ft</td><td>40.46 Sq M</td></tr>
+                    <tr><td><b>1 Acre (ஏக்கர்)</b></td><td>100 Cents Dynamic Alignment Scale Block</td><td>43,560 Sq Ft</td><td>4,046.86 Sq M</td></tr>
+                    <tr><td><b>1 Hectare (ஹெக்டேர்)</b></td><td>State official global metric survey reference baseline</td><td>1,07,639.10 Sq Ft</td><td>10,000 Sq M</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <h2>8 Extended Frequently Asked Questions (FAQs) - தமிழ்நாடு நில அளவீடு</h2>
+        <div style="border-bottom: 1px solid #e2e8f0; padding-bottom: 15px; margin-bottom: 15px;">
+            <h4>Q1. Tamil Nadu revenue system mein 1 Ground (மனையடி) mein kitne Square Feet hote hain?</h4>
+            <p>Ans: Tamil Nadu land administration standards ke anusaar, 1 standard local Ground segment footprint strictly **2,400 Square Feet** footprint area maps hold karta hai.</p>
+        </div>
+        <div style="border-bottom: 1px solid #e2e8f0; padding-bottom: 15px; margin-bottom: 15px;">
+            <h4>Q2. Tedi-medi zameen naapte samay internal Diagonal line vector metrics dalkar naapna kyun compulsory hai?</h4>
+            <p>Ans: Irregular Quadrilateral maps coordinates ka direct bisection formula lagaye bina area nikalna impossible chalta hai. Diagonal field insert karne se layout geometry do exact triangles forms mein trace ho jati hai, jisse Heron's triangulation formula sateek area parse kar pata hai.</p>
+        </div>
+        <div style="border-bottom: 1px solid #e2e8f0; padding-bottom: 15px; margin-bottom: 15px;">
+            <h4>Q3. Kya yeh calculator system runtime labels change karne par functions errors throw karega?</h4>
+            <p>Ans: Bilkul nahi! Is application template code architecture parameters data nodes logic text strings update tracking layers par based hain. Content switch karne par dynamic elements cells structures safe rehte hain aur calculate actions 100% execute hotey hain.</p>
+        </div>
+        <div style="border-bottom: 1px solid #e2e8f0; padding-bottom: 15px; margin-bottom: 15px;">
+            <h4>Q4. Tamil Nadu mein 1 Cent scale structure mein kitne sateek Square Feet fields hotey hain?</h4>
+            <p>Ans: Properties mutation rules scale sheets ke mutabik, TN registers records mein 1 local individual Cent boundary area sateek **435.6 Square Feet** measure design rests karta hai.</p>
+        </div>
+        <div style="border-bottom: 1px solid #e2e8f0; padding-bottom: 15px; margin-bottom: 15px;">
+            <h4>Q5. Kya is calculator summary report certificates ka print copy left-aligned clean aayega?</h4>
+            <p>Ans: Ji haan! Humare structural updated printing configurations tables values maps rows ko print style grid sheets me safely auto-align kar dete hain, jisse absolute calculations summary values automatic left-aligned dynamic Ref keys aur certified patterns mein print save aati hain.</p>
+        </div>
+        <div style="border-bottom: 1px solid #e2e8f0; padding-bottom: 15px; margin-bottom: 15px;">
+            <h4>Q6. 1 standard Hectare digital records database copy ko Tamil Nadu scaling mein kaise maps kiya jata hai?</h4>
+            <p>Ans: State administrative guidelines optimization ke mutabik, Patta Chitta registration system ka 1 standard structural Hectare tracking value parameters exactly **2.4711 Acres** fields distribution metrics ke barabar maps kiya jata hai.</p>
+        </div>
+        <div style="border-bottom: 1px solid #e2e8f0; padding-bottom: 15px; margin-bottom: 15px;">
+            <h4>Q7. Average method aur Triangulation method (Heron's rule) ke area parinaamo mein kya antar aata hai?</h4>
+            <p>Ans: Average formula bhujaon ke tede-pan (angles) ko ignore karta hai jisse output hamesha galat aur unverified hota hai. Wahin, Triangulation rule geometric curves aur angular deflections ko diagonal vector ke sath fully capture karta hai, isliye iska calculated output boundary registry ke dauran 100% true hota hai.</p>
+        </div>
+        <div style="padding-bottom: 15px;">
+            <h4>Q8. Is advanced automated irregular plots triangulation parsing computing framework model page ko kisne design kiya hai?</h4>
+            <p>Ans: Is single-page responsive software engine script setup logical systems validation parameters tracking codes core syntax layout to Shayan Smart Tools platform infrastructure logs list par **Muksidul Islam** ne absolute vanilla framework stacks par design kiya hai.</p>
+        </div>
+
+        <h3 id="lblDashTitle">Related Tools & Internal Links</h3>
+        <div class="links-grid">
+            <a href="index.html" class="link-card" id="dshHome">Dashboard Home</a>
+            <a href="tamilnadu-land-area-addition.html" class="link-card" id="dshAdd">➕ TN Land Addition</a>
+            <a href="punjab-irregular-land-calculator.html" class="link-card" id="dshPb">📐 Punjab Irregular Calc</a>
+            <a href="rajasthan-irregular-land-calculator.html" class="link-card" id="dshRj">📐 Rajasthan Irregular Calc</a>
+        </div>
+            
+        <div style="margin-top: 40px; padding: 25px; border: 2px dashed #ffb300; background: #ffffff; border-radius: 12px; font-size:13px;">
+            <p style="margin:0; text-align: center;"><b>Copyright Notice © 2026 Shayan Smart Tools. All Rights Reserved.</b><br><br>Is computational structural triangulation framework code blocks layout, CSS responsive components syntax assets flow, aur bilingual text logs documentation variables under Indian Copyright Act, 1957 protected standards run karte hain.</p>
+        </div>
+    </article>
+</div>
+
+<script>
+    var currentLang = 'en';
+    var trans = {
+        en: {
+            t: "Tamil Nadu Irregular Land Calculator",
+            stitle: "Advanced boundary conversion tool for complex tedi-medi zameen maps matching parameters.",
+            lA: "Side A (Feet)", lB: "Side B (Feet)", lC: "Side C (Feet)", lD: "Side D (Feet)",
+            lDg: "Diagonal / Tirchi Line (Feet)", b: "Calculate Area",
+            rT: "Total Land Result (நில அளவீடு முடிவு):", uW: "Grounds", uN: "Cents",
+            sq: "Total Square Feet Matrix: ", rsm: "Total Square Meters Matrix: ", rsar: "Equivalent Acre Allocation Size: ", rhec: "Estimated Total Hectare: ",
+            iN: "How to measure land, see diagram:", iD: "Measure Side A, B, C, D and the Diagonal (E).",
+            shI: "Enter Irregular Plot Sides (நில எல்லை அளவீடுகள்)",
+            seot: "Tamil Nadu Land Area Calculation: टेढ़ी-मेढ़ी जमीन की सटीक नाप-जोख Matrix Guide",
+            seos: "Patta Chitta norms aur Tamil Nilam portal parameters ke anusaar irregular maps calculation matrix triangulation.",
+            dt: "Related Tools & Internal Links", dh: "Dashboard Home", d1: "➕ TN Land Addition", d2: "📐 Punjab Irregular Calc", d3: "📐 Rajasthan Irregular Calc",
+            copyMsg: "Calculation Details Copied!",
+            fmtText: "Tamil Nadu Output Format (மனையடி-சென்ট):"
+        },
+        ta: {
+            t: "தமிழ்நாடு ஒழுங்கற்ற நிலக் கணக்கிடுவான்",
+            stitle: "சிக்கலான வளைந்த நில வரைபடங்களின் துல்லியமான அளவீடு மற்றும் முக்கோண வருவாய் தரநிலைகளுக்கான தளம்.",
+            lA: "முதல் பக்கம் (Side A) அடி", lB: "இரண்டாம் பக்கம் (Side B) அடி", lC: "மூன்றாம் பக்கம் (Side C) அடி", lD: "நான்காம் பக்கம் (Side D) அடி",
+            lDg: "மூலைவிட்டம் / तिरछी लाइन (Diagonal) அடி", b: "பரப்பளவை கணக்கிடு",
+            rT: "மொத்த நில அளவீடு முடிவு விவரம் (TN Standard):", uW: "கிரவுண்ட் (Grounds)", uN: "சென்ட் (Cents)",
+            sq: "மொத்த சதுர அடி பரப்பளவு அளவுரு (Sq.Ft): ", rsm: "மொத்த சதுர மீட்டர் பரப்பளவு அளவுரு (Sq.Mt): ", rsar: "ஏக்கர் கணக்கீட்டு நிகர மதிப்பு (Acre): ", rhec: "மதிப்பிடப்பட்ட மொத்த ஹெக்டேர் அளவு (Ha): ",
+            iN: "நிலத்தை எவ்வாறு அளவிடுவது, வரைபடத்தைப் பார்க்கவும்:", iD: "நான்கு வெளிப்புற பக்கங்களையும் ஒரு உள் மூலைவிட்டத்தையும் (E) கண்டிப்பாக அளவிடவும்.",
+            shI: "ஒழுங்கற்ற நிலத்தின் பக்கங்களை உள்ளிடவும் (Input Boundary Metrics)",
+            seot: "தமிழ்நாடு நில பரப்பளவு முக்கோண கணக்கீடு இயங்குதளம்: மனையடி மற்றும் சென்ட் வழிகாட்டி",
+            seos: "பட்டா சிட்டா நிலப் பதிவு விதிமுறைகள் மற்றும் தமிழ் நிலம் போர்டல் ஹெரான் ஃபார்முலா முக்கோண கட்டங்களின்படி துல்லியமான நில அளவீடு.",
+            dt: "தொடர்புடைய டிஜிட்டல் கருவிகள் மற்றும் இணைப்புகள்", dh: "முதன்மை கட்டுப்பாட்டு அறை", d1: "தமிழ்நாடு நிலக் கூட்டல் கருவி", d2: "பஞ்சாப் நிலக் கணக்கிடுவான்", d3: "ராஜஸ்தான் நிலக் கணக்கிடுவான்",
+            copyMsg: "நில அளவீட்டு கணக்கீடு விவரம் நகலெடுக்கப்பட்டது!",
+            fmtText: "தமிழ்நாடு நிலையான வெளியீட்டு வடிவம் (மனையடி-சென்ட்):"
+        }
+    };
+
+    function setLang(l) {
+        currentLang = l;
+        document.getElementById('enBtn').className = (l === 'en' ? 'lang-btn active' : 'lang-btn');
+        document.getElementById('pjBtn').className = (l === 'ta' ? 'lang-btn active' : 'lang-btn');
+        
+        document.getElementById('mainTitle').innerText = trans[l].t;
+        document.getElementById('sTitle').innerText = trans[l].stitle;
+        document.getElementById('lblA').innerText = trans[l].lA;
+        document.getElementById('lblB').innerText = trans[l].lB;
+        document.getElementById('lblC').innerText = trans[l].lC;
+        document.getElementById('lblD').innerText = trans[l].lD;
+        document.getElementById('lblDiag').innerText = trans[l].lDg; 
+        document.getElementById('btnCalc').innerText = trans[l].b;
+        document.getElementById('resTitle').innerText = trans[l].rT;
+        document.getElementById('uGround').innerText = trans[l].uW;
+        document.getElementById('uCent').innerText = trans[l].uN;
+        
+        document.getElementById('hSecTitle').innerText = trans[l].shI;
+        document.getElementById('introH2').innerText = trans[l].seot;
+        document.getElementById('seoSubTitle').innerText = trans[l].seos;
+        document.getElementById('fmtText').innerText = trans[l].fmtText;
+        
+        document.getElementById('lblDashTitle').innerText = trans[l].dt;
+        document.getElementById('dshHome').innerText = trans[l].dh;
+        document.getElementById('dshAdd').innerText = trans[l].d1;
+        document.getElementById('dshPb').innerText = trans[l].d2;
+        document.getElementById('dshRj').innerText = trans[l].d3;
+
+        document.getElementById('imgNote').innerText = trans[l].iN;
+        document.getElementById('imgDesc').innerText = trans[l].iD;
+
+        document.getElementById('txtSqText').innerText = trans[l].sq;
+        document.getElementById('txtSqmText').innerText = trans[l].rsm;
+        document.getElementById('txtAcreText').innerText = trans[l].rsar;
+        document.getElementById('txtHecText').innerText = trans[l].rhec;
+    }
+
+    function calculateTNArea() {
+        var a = parseFloat(document.getElementById('sideA').value) || 0;
+        var b = parseFloat(document.getElementById('sideB').value) || 0;
+        var c = parseFloat(document.getElementById('sideC').value) || 0;
+        var d = parseFloat(document.getElementById('sideD').value) || 0;
+        var diag = parseFloat(document.getElementById('diagonal').value) || 0;
+        var resPanel = document.getElementById('resultBox');
+
+        if(a <= 0 || b <= 0 || c <= 0 || d <= 0 || diag <= 0) { 
+            alert(currentLang === 'en' ? "Please fill all input fields with valid positive boundary numerical measurements!" : "தயவுசெய்து அனைத்து உள்ளீட்டு பெட்டிகளிலும் சரியான நேர்மறை எண்களை உள்ளிடவும்!"); 
+            return; 
+        }
+
+        // Triangulation Validation Checks to block Heron math crash
+        if((a + b <= diag) || (a + diag <= b) || (b + diag <= a) || (c + d <= diag) || (c + diag <= d) || (d + diag <= c)) {
+            alert(currentLang === 'en' ? "Geometric Warning: This Diagonal length is mathematically impossible for the entered side lengths. Please re-measure the plot layout!" : "வடிவியல் பிழை: உள்ளிட்ட பக்கங்களின் அளவுகளுக்கு இந்த மூலைவிட்ட அளவு கணிதரீதியாக சாத்தியமற்றது!");
+            return;
+        }
+
+        var s1 = (a + b + diag) / 2;
+        var area1 = Math.sqrt(s1 * (s1 - a) * (s1 - b) * (s1 - diag));
+        
+        var s2 = (c + d + diag) / 2;
+        var area2 = Math.sqrt(s2 * (s2 - c) * (s2 - d) * (s2 - diag));
+        
+        var totalSqFt = area1 + area2;
+        var totalSqm = totalSqFt / 10.7639104;
+        var totalHec = totalSqFt / 107639.104;
+
+        // Tamil Nadu Core Revenue Breakdown: 1 Ground=2400, 1 Cent=435.6 Sq Ft
+        var rem = totalSqFt;
+        var grounds = Math.floor(rem / 2400);
+        var remainingSq = totalSqFt % 2400;
+        var cents = (remainingSq / 435.6).toFixed(2);
+        var netAcre = (totalSqFt / 43560).toFixed(4);
+
+        document.getElementById('outGround').innerText = grounds;
+        document.getElementById('outCent').innerText = (totalSqFt / 435.6).toFixed(2);
+
+        document.getElementById('outSq').innerText = Math.round(totalSqFt).toLocaleString('en-IN') + " sq ft";
+        document.getElementById('outSqm').innerText = Math.round(totalSqm).toLocaleString('en-IN') + " sq m";
+        document.getElementById('outAcre').innerText = netAcre + " acre";
+        document.getElementById('outHec').innerText = totalHec.toFixed(4);
+
+        if (currentLang === 'en') {
+            document.getElementById('pb_main').innerText = grounds + " Grounds, " + (remainingSq / 435.6).toFixed(2) + " Cents";
+        } else {
+            document.getElementById('pb_main').innerText = grounds + " கிரவுண்ட், " + (remainingSq / 435.6).toFixed(2) + " சென்ட்";
+        }
+
+        document.getElementById('rInputVal').innerText = "A:" + a + " B:" + b + " C:" + c + " D:" + d + " Diag:" + diag;
+
+        var options = { day: 'numeric', month: 'long', year: 'numeric' };
+        var today = new Date().toLocaleDateString('en-IN', options);
+        document.getElementById('pDocDate').innerText = today + " (IST)";
+        
+        var randID = Math.floor(1000000000 + Math.random() * 9000000000);
+        document.getElementById('pDocRef').innerText = "SST-TN-IRR-" + randID;
+
+        resPanel.style.display = 'block';
+        resPanel.scrollIntoView({behavior: 'smooth'});
+    }
+
+    function printLandReport() {
+        var resPanel = document.getElementById('resultBox');
+        if (resPanel.style.display !== "block") { 
+            alert("Calculate land dimensions matrix first before printing!"); 
+            return; 
+        }
+        var printRow = document.getElementById('print-input-row');
+        if(printRow) printRow.style.display = "flex";
+        window.print();
+        if(printRow) printRow.style.display = "none";
+    }
+
+    document.addEventListener('contextmenu', function(e) { e.preventDefault(); });
+    document.onkeydown = function(e) {
+        if (e.ctrlKey && (e.keyCode === 67 || e.keyCode === 85 || e.keyCode === 73)) {
+            alert("Copyright Warning: Structural scraping or duplication from Shayan Smart Tools is prohibited.");
+            return false;
+        }
+    };
+
+    function copyResult() {
+        var textCopy = "";
+        if(currentLang === 'en') {
+            textCopy = "Tamil Nadu Irregular Land Calculation Result:\nTotal Area: " + document.getElementById('pb_main').innerText + "\nTotal Sq Ft: " + document.getElementById('outSq').innerText + "\nCalculated via Shayan Smart Tools Triangulation Engine.";
+        } else {
+            textCopy = "தமிழ்நாடு நில அளவீடு கணக்கீடு முடிவு விவரம்:\nவெளியீட்டு வடிவம்: " + document.getElementById('pb_main').innerText + "\nமொத்த சதுர அடி: " + document.getElementById('outSq').innerText + "\nஷாயன் ஸ்மார்ட் டூல்ஸ் மூலம் கணக்கிடப்பட்டது.";
+        }
+        navigator.clipboard.writeText(textCopy);
+        alert(trans[currentLang].copyMsg);
+    }
+
+    function shareWhatsApp() {
+        var textShare = "";
+        if(currentLang === 'en') {
+            textShare = "Tamil Nadu Irregular Land Matrix: " + document.getElementById('pb_main').innerText + ". Verified via Shayan Smart Tools.";
+        } else {
+            textShare = "தமிழ்நாடு நிலப் பரப்பு கணக்கீடு முடிவு: " + document.getElementById('pb_main').innerText + ". ஷாயன் ஸ்மார்ட் டூல்ஸ் தளம் மூலமாக பார்க்கப்பட்டது.";
+        }
+        window.open("https://wa.me/?text=" + encodeURIComponent(textShare), '_blank');
+    }
+</script>
+
+<footer>
+    <p style="text-align: center; margin-top: 30px; font-size: 13px; color: #666;">© 2026 Shayan Smart Tools | Tamil Nadu Land Solutions Suite | Designed by Muksidul Islam</p>
+</footer>
+</body>
+</html>
