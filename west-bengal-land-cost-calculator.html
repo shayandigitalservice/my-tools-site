@@ -75,7 +75,7 @@
         }
         .btn-calc:hover { transform: translateY(-3px); box-shadow: 0 10px 20px rgba(74, 20, 140, 0.2); background-color: #000; }
 
-        /* RESULTS UI */
+        /* RESULTS UI PANEL */
         .res-panel {
             margin-top: 35px; display: none; text-align: left; background: #0f172a; color: white;
             padding: 25px; border-radius: 25px; max-width: 650px; margin-left: auto; margin-right: auto;
@@ -92,8 +92,14 @@
         .res-item.total-row b { color: #ff4d4d; font-size: 22px; }
 
         .print-header-block, .print-footer-block { display: none; }
+        
+        /* 🔥 FIXED UTILITY BUTTON COLORS FOR HIGHCONTRAST VISIBILITY */
         .util-btns { display: flex; gap: 12px; margin-top: 25px; }
-        .u-btn { flex: 1; padding: 15px; border: none; border-radius: 12px; font-weight: 800; cursor: pointer; color: white; font-size: 14px; text-align: center; transition: 0.3s; }
+        .u-btn { flex: 1; padding: 16px; border: none; border-radius: 12px; font-weight: 800; cursor: pointer; color: white !important; font-size: 14px; text-align: center; transition: 0.3s; text-transform: uppercase; letter-spacing: 0.5px; }
+        .u-btn.c-btn { background: #334155; } /* Dark slate grey for sharp text contrast */
+        .u-btn.w-btn { background: #16a34a; } /* Vibrant premium green for whatsapp */
+        .u-btn.p-btn { background: #1e40af; } /* Clear deep corporate blue for print reporting */
+        .u-btn:hover { filter: brightness(1.2); transform: translateY(-2px); }
 
         /* CLEAN FIXED SEO ARTICLE LAYER */
         .seo-article { 
@@ -248,9 +254,9 @@
             </div>
 
             <div class="util-btns">
-                <button class="u-btn" onclick="copyInvoice()" id="btnCopy">📋 Copy Statement</button>
-                <button class="u-btn" onclick="shareInvoiceWA()" style="background:#22c55e;">📲 WhatsApp</button>
-                <button class="u-btn" onclick="printLandReport()" id="btnPrint">🖨️ Print Report</button>
+                <button class="u-btn c-btn" onclick="copyInvoice()" id="btnCopy">📋 Copy Statement</button>
+                <button class="u-btn w-btn" onclick="shareInvoiceWA()" id="btnWa">📲 WhatsApp</button>
+                <button class="u-btn p-btn" onclick="printLandReport()" id="btnPrint">🖨️ Print Report</button>
             </div>
         </div>
     </div>
@@ -259,6 +265,7 @@
         <a href="index.html" style="color: var(--wb-purple); text-decoration: none; font-weight: bold;" id="lnkBack">⬅ Back to All Tools</a>
     </div>
 
+    <!-- CLEAN FIXED SEO ARTICLE LAYER -->
     <article class="seo-article">
         <div class="seo-header-block">
             <h2 id="seoTitle">West Bengal Property Registration Charges & Land Cost Rules 2026</h2>
@@ -305,6 +312,7 @@
             </div>
         </section>
 
+        <!-- 🔥 15 STRICTLY LOCALIZED BENGALI FAQS CONTAINER LAYER -->
         <section id="faqContainer">
             <h2 id="hFaqHead">15 Extended Frequently Asked Questions (FAQs) - পশ্চিমবঙ্গ ভূমি রেজিস্ট্রি নিয়মাবলী ২০২৬</h2>
             <div id="faqList"></div>
@@ -319,28 +327,21 @@
             <a href="tamilnadu-land-cost-calculator.html" class="link-card" id="dshTn">TN Land Tool</a>
         </div>
 
+        <!-- FIXED BOTTOM COPYRIGHT NOTICE BLOCK -->
         <div style="margin-top: 50px; padding: 25px; border: 2px dashed var(--wb-purple); background: #ffffff; border-radius: 12px; text-align: center;">
             <h3 style="color: var(--wb-corporate); margin-top: 0;" id="lblCopyHead">🚫 Copyright & Legal Rights Reserved</h3>
             <p style="font-size: 13px; margin-bottom: 0;" id="lblCopyBody">
                 <strong>Copyright © 2026 Shayan Smart Tools. All Rights Reserved.</strong><br><br>
                 Is software calculator module ka core code engine layout, arithmetic algorithms aur optimized data indexing <b>Muksidul Islam</b> ke proprietary engineering development rights ke under managed hain. Unauthorized duplication completely restricted hai.<br><br>
-                <b>Disclaimer:</b> Regional corporation boundary modification and localized judicial changes ke anusar registry total evaluation parameters minimal vary kar sakte hain. Final validation se pehle sub-registrar records check zarur karein.
+                <b>Disclaimer:</b> Regional corporation boundary modification and localized judicial changes ke anusar registry total evaluation parameters minimal vary kar sakte hain. Final validation se pehle sub-registrar portal check zarur karein.
             </p>
         </div>
     </article>
 
     <script>
-        document.addEventListener('contextmenu', e => e.preventDefault());
-        document.onkeydown = function(e) {
-            if (e.ctrlKey && (e.keyCode === 67 || e.keyCode === 85 || e.keyCode === 73)) {
-                alert("Copyright Warning: Copying from Shayan Smart Tools is prohibited.");
-                return false;
-            }
-        };
-
         let currentLang = 'en';
 
-        // 🔥 15 STRICTLY LOCALIZED BENGALI FAQS PAIRS FOR WEST BENGAL
+        // 🔥 15 LOCALIZED DUAL LANGUAGE WEST BENGAL REVENUE FAQS DATA ARRAY
         const faqsData = [
             {
                 q_en: "What is the size of 1 standard Bigha of land in West Bengal in Square Feet?",
@@ -370,7 +371,7 @@
                 q_en: "What is the stamp duty percentage in West Bengal for properties valued up to ₹25 Lakhs in urban areas?",
                 a_en: "For urban municipal regions, the stamp duty is flat 4.0% of the property value if it does not exceed ₹25 Lakhs.",
                 q_bn: "শহরাঞ্চলে ২৫ লক্ষ টাকা পর্যন্ত মূল্যের সম্পত্তির জন্য পশ্চিমবঙ্গে স্ট্যাম্প ডিউটি কত শতাংশ?",
-                a_bn: "পৌরসভা বা কর্পোরেশন এলাকার জন্য সম্পত্তির মূল্য ২৫ লক্ষ টাকার নিচে থাকলে স্ট্যাম্প ডিউটি ফ্ল্যাট ৪.০% নেওয়া হয়।"
+                a_bn: "পৌরসভা বা কর্পোরেশন এলাকার জন্য সম্পত্তির মূল্য ২৫ লক্ষ টাকার নিচে থাকলে স্ট্যাম্প ডিউটি ফ্ল্যাট ৪.০% নেওয়া হয়।"
             },
             {
                 q_en: "What is the registration fee percentage across West Bengal for land deeds?",
@@ -423,14 +424,14 @@
             {
                 q_en: "What happens if a user submits zero or blank entry values inside the inputs fields?",
                 a_en: "The system internal validation layers intercepts the execution parameters and triggers a translation localized prompt alert window.",
-                q_bn: "ইনপুট বক্সে ভুল বা খালি তথ্য দিয়ে গণনা করতে চাইলে এই সিস্টেম কী দেখাবে?",
+                q_bn: "ইনপুট বক্সে ভুল বা খালি তথ্য দিয়ে गणना করতে চাইলে এই সিস্টেম কী দেখাবে?",
                 a_bn: "আমাদের সিস্টেমে সিকিউরিটি ভ্যালিডেশন দেওয়া আছে, যা ভুল এন্ট্রি রুখে দিয়ে আপনাকে সঠিক তথ্য দেওয়ার জন্য অ্যালার্ট মেসেজ দেখাবে।"
             },
             {
                 q_en: "Who compiled the core programming logic algorithms of this West Bengal software tool module?",
                 a_en: "The entire logical execution framework pipeline was optimized and written by developer Muksidul Islam under official SST active directives.",
                 q_bn: "পশ্চিমবঙ্গের এই আধুনিক রেজিস্ট্রেশন ক্যালকুলেটর মডিউলটি কে কোডিং ও ডিজাইন করেছেন?",
-                a_bn: "শয়ান স্মার্ট টুলস-এর ব্র্যান্ড নির্দেশিকা মেনে এই সম্পূর্ণ গণনা পদ্ধতি ও লেআউটটি সফটওয়্যার ডেভেলপার মুকচিদুল ইসলাম তৈরি করেছেন।"
+                a_bn: "শয়ান স্মাৰ্ট টুলচ-এর ব্র্যান্ড নির্দেশিকা মেনে এই সম্পূর্ণ গণনা পদ্ধতি ও লেআউটটি সফটওয়্যার ডেভেলপার মুকচিদুল ইসলাম তৈরি করেছেন।"
             }
         ];
 
@@ -454,17 +455,16 @@
                 rRf: "Registration Fees (Flat 1%):",
                 rGt: "Grand Total Property Budget:",
                 btnCopy: "📋 Copy Statement",
+                btnWa: "📲 WhatsApp",
                 btnPrint: "🖨️ Print Report",
                 lnkBack: "⬅ Back to All Tools",
                 seot: "West Bengal Property Registration Charges & Land Cost Rules 2026",
                 seos: "Calculate property value, effective stamp duty, and registration charges in West Bengal instantly.",
                 h1: "Current Property Registry Duty Structure in West Bengal 2026",
-                h2: "How to Use West Bengal Land Cost & Registry Tool?",
                 dt: "Related Land Utilities & Internal Dashboards",
-                d1: "Main Dashboard", d2: "Bihar Land Tool", d3: "MP Land Tool", d4: "Karnataka Tool", d5: "TN Land Tool",
                 ch: "🚫 Copyright & Legal Rights Reserved",
                 cb: "<strong>Copyright © 2026 Shayan Smart Tools. All Rights Reserved.</strong><br><br>Is software calculator module ka core code engine layout, arithmetic algorithms aur optimized data indexing <b>Muksidul Islam</b> ke proprietary engineering development rights ke under managed hain. Unauthorized duplication completely restricted hai.<br><br><b>Disclaimer:</b> Regional corporation boundary modification and localized judicial changes ke anusar registry total evaluation parameters minimal vary kar sakte hain. Final validation se pehle sub-registrar portal check zarur karein.",
-                faqH: "15 Extended Frequently Asked Questions (FAQs) - পশ্চিমবঙ্গ भूमि রেজিস্ট্রি नियमাবলী ২০২৬"
+                faqH: "15 Extended Frequently Asked Questions (FAQs) - পশ্চিমবঙ্গ ভূমি রেজিস্ট্রি নিয়মাবলী ২০২৬"
             },
             bn: {
                 mTitle: "পশ্চিমবঙ্গ জমি রেজিস্ট্রি ক্যালকুলেটর",
@@ -485,19 +485,39 @@
                 rRf: "দলিল রেজিস্ট্রি ফী (Flat 1%):",
                 rGt: "মোট চূড়ান্ত রেজিস্ট্রেশন বাজেট:",
                 btnCopy: "📋 রিপোর্ট কপি করুন",
-                btnPrint: "🖨️ রিপোর্ট প্রিন্ট করুন",
+                btnWa: "📲 হোয়াটসঅ্যাপ",
+                btnPrint: "🖨️ ৰিপৰ্ট প্ৰিণ্ট কৰক",
                 lnkBack: "⬅ প্রধান ড্যাশবোর্ডে ফিরে যান",
                 seot: "পশ্চিমবঙ্গ সম্পত্তি রেজিস্ট্রেশন ফী এবং জমি মূল্যায়ন নিয়ম ২০২৬",
                 seos: "পশ্চিমবঙ্গে জমির দাম, স্ট্যাম্প ডিউটি এবং সরকারি দলিল রেজিস্ট্রেশন ফী দ্রুত বের করার নিয়মাবলী।",
                 h1: "পশ্চিমবঙ্গ সম্পত্তি রেজিস্ট্রি কর কাঠামো ২০২৬",
-                h2: "পশ্চিমবঙ্গ ল্যান্ড কষ্ট ক্যালকুলেটর কীভাবে ব্যবহার করবেন?",
                 dt: "প্রাসঙ্গিক ডিজিটাল সঁজুলি এবং ড্যাশবোর্ড তালিকা",
-                d1: "🏠 প্রধান ড্যাশবোর্ড ফলক", d2: "বিহার ভূমি সঁজুলি", d3: "এমপি ভূমি সঁজুলি", d4: "কর্ণাটক ভূমি সঁজুলি", d5: "তামিলনাড়ু ক্যালকুলেটর",
                 ch: "🚫 স্বত্বাধিকার এবং আইনী অধিকাৰ সংৰক্ষিত",
                 cb: "<strong>স্বত্বাধিকার © ২০২৬ শয়ান স্মাৰ্ট টুলচ। সর্বস্বত্ব সংরক্ষিত।</strong><br><br>এই ছফ্টৱেৰ কেলকুলেটৰ মডিউলৰ ক’ৰ কোড ইঞ্জিন লেআউট, গাণিতিক এলগরিদম এবং অপ্টিমাইজড ডাটা ইনডেক্সিং <b>মুকচিদুল ইসলাম</b> (Muksidul Islam) এর প্রোপ্রাইটারি এঞ্জিনিয়ারিং রাইটসের অধীনে সংরক্ষিত। এর অননুমোদিত অনুলিপি সম্পূর্ণ আইনবিদ্বেষী।<br><br><b>অস্বীকৃতি:</b> কর্পোরেশন ট্যাক্স এবং স্থানীয় উন্নয়ন সেস পরিবর্তনের কারণে মূল রেজিস্ট্রেশন বিলে সামান্য দশমিক অঙ্কের তারতম্য ঘটতে পারে। চূড়ান্ত দলিল রেজিস্ট্রেশনের পূর্বে সাব-রেজিস্ট্রার অফিসে যাচাই করুন।",
-                faqH: "১৫ টি অত্যন্ত গুরুত্বপূর্ণ প্রশ্নোত্তর (FAQs) - ২০২৬"
+                faqH: "১৫ টা অত্যন্ত গুরুত্বপূর্ণ প্রশ্নোত্তর (FAQs) - পশ্চিমবঙ্গ ভূমি রেজিস্ট্রি নিয়মাবলী ২০২৬"
             }
         };
+
+        function renderFAQs() {
+            const listContainer = document.getElementById('faqList');
+            listContainer.innerHTML = '';
+            
+            faqsData.forEach((faq, index) => {
+                const question = (currentLang === 'en') ? faq.q_en : faq.q_bn;
+                const answer = (currentLang === 'en') ? faq.a_en : faq.a_bn;
+                
+                const faqBlock = document.createElement('div');
+                faqBlock.style.borderBottom = '1px solid #e2e8f0';
+                faqBlock.style.paddingBottom = '15px';
+                faqBlock.style.marginBottom = '15px';
+                
+                faqBlock.innerHTML = `
+                    <h4 style="color:var(--wb-purple); margin-bottom:8px;">Q${index + 1}. ${question}</h4>
+                    <p style="margin:0;">Ans: ${answer}</p>
+                `;
+                listContainer.appendChild(faqBlock);
+            });
+        }
 
         function updateUnitHelper() {
             const unit = document.getElementById('unitSelect').value;
@@ -555,11 +575,12 @@
             document.getElementById('hFaqHead').innerText = dict[lang].faqH;
             
             document.getElementById('btnCopy').innerText = dict[lang].btnCopy;
+            document.getElementById('btnWa').innerText = dict[lang].btnWa;
             document.getElementById('btnPrint').innerText = dict[lang].btnPrint;
             document.getElementById('lnkBack').innerText = dict[lang].lnkBack;
 
             updateUnitHelper();
-            renderFAQs();
+            renderFAQs(); // 🔥 RESTORED DYNAMIC FAQ VERIFICATION RELOADER AT EACH EMISSION
 
             if(document.getElementById('resPanel').style.display === "block") {
                 calculateWBLandCost();
@@ -587,7 +608,7 @@
             let totalSqft = area * conversionFactor;
             let landCost = area * rate;
             
-            // 🔥 WB 2026 VARIABLE SLAB THRESHOLD SYSTEM (ABOVE OR BELOW 25 LAKHS)
+            // WB Slabs thresholds dynamic validation framework
             let stampDutyPercent = 0;
             if (landCost <= 2500000) {
                 stampDutyPercent = (location === 'urban') ? 0.04 : 0.03;
@@ -596,7 +617,7 @@
             }
             
             let stampDuty = landCost * stampDutyPercent;
-            let regFees = landCost * 0.01; // Flat 1% across West Bengal
+            let regFees = landCost * 0.01; 
             let grandTotal = landCost + stampDuty + regFees;
 
             document.getElementById('outTotalSqft').innerText = Math.round(totalSqft).toLocaleString('en-IN') + " Sq Ft";
@@ -662,7 +683,7 @@
             window.open("https://wa.me/?text=" + encodeURIComponent(textWA), '_blank');
         }
 
-        // Initialize script logic arrays dependency
+        // Fire on system initiation 
         updateUnitHelper();
         renderFAQs();
     </script>
