@@ -3,247 +3,523 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Assam Land Cost Calculator Free 2026| Zameen ki Keemat Nikalein</title>
-    <meta name="description" content="Official Assam Land Cost Calculator by Shayan Smart Tools. Calculate the total price of land in Assam based on Bigha, Katha, or Lessa rates. Accurate and fast.">
-    <meta name="keywords" content="Assam Land Cost Calculator, Land Price in Assam, Bigha to Price Assam, Lessa to Price Calculator, Shayan Smart Tools Assam">
-    <meta name="author" content="Shayan Smart Tools">
+    <title>Assam Land Cost & Registry Fees Calculator 2026 | অসম মাটিৰ পঞ্জীয়ন ফী কেলকুলেটৰ | Shayan Smart Tools</title>
     <link rel="canonical" href="https://shayansmarttools.in/assam-land-cost-calculator.html" />
+    
+    <meta name="description" content="Official Assam Land Cost & Registry Fees Calculator 2026. Calculate exact stamp duty and registration fees for Assam Bigha, Katha, and Lessa plots seamlessly.">
+    <meta name="keywords" content="Assam land cost calculator, Registry fees in Assam 2026, Stamp duty Assam, অসম মাটিৰ পঞ্জীয়ন, Shayan Smart Tools, Assam land valuation calculator, Bigha Katha Lessa calculator, Dharitree Assam calculator, Land cost Tezpur, Guwahati registry charges">
+    <meta name="author" content="Muksidul Islam">
+    <meta name="robots" content="index, follow">
 
     <style>
         :root {
-            --assam-green: #2e7d32;
-            --text-dark: #333;
+            --as-green: #1b5e20;
+            --as-light-green: #2e7d32;
+            --as-corporate: #0f172a;
+            --text-dark: #334155;
+            --white: #ffffff;
+            --bg: #f8fafc;
+            --as-gold: #ffb300;
         }
 
         body {
-            font-family: 'Segoe UI', Arial, sans-serif;
+            font-family: 'Poppins', sans-serif;
             line-height: 1.6;
             color: var(--text-dark);
             max-width: 900px;
             margin: 0 auto;
             padding: 20px;
-            background-color: #ffffff;
+            background-color: var(--bg);
         }
 
-        .tool-wrapper {
-            padding: 40px 0;
-            text-align: center;
+        .tool-wrapper { padding: 20px 0; text-align: center; }
+        
+        header {
+            background: linear-gradient(135deg, var(--as-green), var(--as-corporate));
+            color: #fff; padding: 40px 20px; border-radius: 25px; text-align: center;
+            border-bottom: 6px solid var(--as-gold); margin-bottom: 30px;
         }
+        header h1 { color: white; margin: 0 0 10px 0; font-size: 28px; text-transform: uppercase; font-weight: 900; }
+        header p { color: #f1f5f9; margin: 0; font-size: 16px; }
 
-        h1, h2, h3 { color: var(--assam-green); }
+        /* Language Switcher */
+        .lang-switch { display: flex; justify-content: center; gap: 12px; margin-bottom: 30px; }
+        .l-btn {
+            padding: 10px 25px; border: 2px solid var(--as-green); background: white;
+            border-radius: 50px; cursor: pointer; font-weight: 700; color: var(--as-green); transition: 0.3s;
+        }
+        .l-btn.active { background: var(--as-green); color: white; }
 
-        .input-group { margin: 20px 0; text-align: left; max-width: 400px; margin-left: auto; margin-right: auto; }
-
-        label { display: block; font-weight: bold; margin-bottom: 5px; }
-
+        .sec-h { font-size: 16px; font-weight: bold; color: var(--as-green); margin-bottom: 20px; border-bottom: 2px solid #cbd5e1; padding-bottom: 8px; text-transform: uppercase; letter-spacing: 0.5px; text-align: left; }
+        
+        /* Input Grid Layout */
+        .input-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 20px; max-width: 800px; margin: 0 auto 10px auto;
+        }
+        .input-group { text-align: left; display: flex; flex-direction: column; justify-content: space-between; }
+        label { display: block; font-weight: bold; margin-bottom: 8px; font-size: 13px; color: var(--as-green); text-transform: uppercase; letter-spacing: 0.5px; }
         input, select {
-            width: 100%;
-            padding: 12px;
-            border: 2px solid #ddd;
-            border-radius: 5px;
-            font-size: 16px;
-            box-sizing: border-box;
-            margin-bottom: 15px;
+            width: 100%; padding: 15px; border: 1px solid #cbd5e1; border-radius: 12px;
+            font-size: 16px; box-sizing: border-box; outline: none; transition: 0.3s; background: var(--white);
+        }
+        input:focus, select:focus { border-color: var(--as-green); background: #fff; box-shadow: 0 0 8px rgba(27,94,32,0.1); }
+
+        /* Live Math Preview Bar Styling */
+        .live-preview-bar {
+            text-align: left; max-width: 800px; margin: 0 auto 25px auto; padding: 4px 5px;
+            font-size: 13px; color: var(--as-light-green); font-weight: bold;
         }
 
-        .btn-convert {
-            background-color: var(--assam-green);
-            color: white;
-            padding: 15px 45px;
-            border: none;
-            border-radius: 5px;
-            font-size: 18px;
-            font-weight: bold;
-            cursor: pointer;
-            transition: 0.3s;
-            width: 100%;
-            max-width: 400px;
+        .btn-calc {
+            background-color: var(--as-green); color: var(--white); padding: 18px 45px;
+            border: none; border-radius: 12px; font-size: 18px; font-weight: 800; cursor: pointer;
+            transition: 0.3s; width: 100%; max-width: 800px; text-transform: uppercase; letter-spacing: 1px;
         }
+        .btn-calc:hover { transform: translateY(-3px); box-shadow: 0 10px 20px rgba(27, 94, 32, 0.2); background-color: #000; }
 
-        .btn-convert:hover { background-color: #1b5e20; }
+        /* RESULTS UI */
+        .res-panel {
+            margin-top: 35px; display: none; text-align: left; background: #0f172a; color: white;
+            padding: 25px; border-radius: 25px; max-width: 650px; margin-left: auto; margin-right: auto;
+            border: 2px solid var(--as-gold); position: relative;
+        }
+        .res-panel h3 { margin-top: 0; text-align: center; color: var(--as-gold); font-size: 1.4rem; margin-bottom: 20px; }
+        
+        .res-grid { display: grid; grid-template-columns: repeat(1, 1fr); gap: 15px; }
+        .res-item { background: rgba(255,255,255,0.05); padding: 15px; border-radius: 12px; display: flex; flex-direction: row; justify-content: space-between; align-items: center; border-left: 4px solid var(--as-gold); }
+        .res-item span { font-size: 14px; color: #94a3b8; font-weight: bold; }
+        .res-item b { font-size: 18px; color: #fff; word-break: break-all; }
+        .res-item.total-row { border-left: 4px solid #ff4d4d; background: rgba(255, 77, 77, 0.1); }
+        .res-item.total-row span { color: #ff8080; }
+        .res-item.total-row b { color: #ff4d4d; font-size: 22px; }
 
-        .result-display {
-            margin-top: 30px;
-            display: none;
+        .print-header-block, .print-footer-block { display: none; }
+        .util-btns { display: flex; gap: 12px; margin-top: 25px; }
+        .u-btn { flex: 1; padding: 15px; border: none; border-radius: 12px; font-weight: 800; cursor: pointer; color: white; font-size: 14px; text-align: center; transition: 0.3s; }
+
+        /* CLEAN FIXED SEO ARTICLE LAYER - BACKGROUND CLEAR */
+        .seo-article { 
+            background: transparent !important; 
+            padding: 20px 0; 
+            margin-top: 50px; 
+            line-height: 1.8; 
+            border: none !important;
+            box-shadow: none !important;
+            color: #334155 !important;
             text-align: left;
-            background: #f1f8e9;
-            padding: 25px;
-            border-radius: 8px;
-            max-width: 500px;
-            margin-left: auto;
-            margin-right: auto;
-            border-left: 5px solid var(--assam-green);
         }
+        .seo-article .seo-header-block {
+            text-align: center; 
+            border-bottom: 3px solid var(--as-green); 
+            padding-bottom: 20px; 
+            margin-bottom: 30px;
+            background: transparent !important;
+        }
+        .seo-article h2 { 
+            color: var(--as-green) !important; 
+            font-size: 26px !important;
+            margin-bottom: 12px !important;
+            border-left: 6px solid var(--as-green); 
+            padding-left: 15px; 
+            margin-top: 40px;
+            font-weight: 800;
+        }
+        .seo-article .seo-header-block h2 { border-left: none !important; padding-left: 0 !important; margin-top: 0 !important; font-size: 32px !important; }
+        .seo-article h3 { color: var(--as-corporate) !important; font-size: 20px; margin-top: 30px; font-weight: 700; }
+        .seo-article p { color: #334155 !important; font-size: 16px; text-align: justify; margin-bottom: 20px; }
+        
+        .seo-article table { width: 100%; border-collapse: collapse; margin: 25px 0; background: #ffffff; box-shadow: 0 4px 6px rgba(0,0,0,0.02); border-radius: 8px; overflow: hidden; }
+        .seo-article th, .seo-article td { border: 1px solid #e2e8f0; padding: 15px; text-align: left; color: #334155 !important; }
+        .seo-article th { background-color: #e8f5e9; color: var(--as-green) !important; font-weight: bold; }
+        .seo-article tr:nth-child(even) { background-color: #f8fafc; }
 
-        .res-item { font-size: 20px; margin-bottom: 10px; }
-        .res-item b { color: var(--assam-green); }
+        .links-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; margin: 40px 0; width: 100%; box-sizing: border-box; }
+        .link-card { display: flex; align-items: center; justify-content: center; background: #ffffff; padding: 18px 20px; border-radius: 16px; text-decoration: none; color: var(--as-corporate) !important; font-weight: 700; font-size: 15px; border: 1px solid #e2e8f0; transition: 0.3s; text-align: center; box-sizing: border-box; }
+        .link-card:hover { border-color: var(--as-green); transform: translateY(-4px); box-shadow: 0 12px 20px rgba(27, 94, 32, 0.1); background: linear-gradient(135deg, #ffffff, #e8f5e9); }
 
-        /* SEO Section */
-        .seo-article { margin-top: 60px; border-top: 2px solid #eee; padding-top: 40px; }
-        table { width: 100%; border-collapse: collapse; margin: 20px 0; }
-        th, td { border: 1px solid #ddd; padding: 12px; text-align: left; }
-        th { background-color: var(--assam-green); color: white; }
+        @media (max-width: 600px) { .seo-article h2 { font-size: 22px !important; } .links-grid { grid-template-columns: 1fr; gap: 12px; } }
 
-        footer { margin-top: 60px; text-align: center; padding: 30px 0; border-top: 1px solid #eee; color: #777; font-size: 14px; }
+        /* PRINT CONFIGURATION */
+        @media print {
+            * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+            @page { margin: 15mm; size: A4 portrait; }
+            body { background: #ffffff !important; color: #000000 !important; padding: 0; margin: 0; }
+            .tool-wrapper > header, .lang-switch, .sec-h, .input-grid, .live-preview-bar, .btn-calc, .util-btns, #resHead, .seo-article, .back-btn { display: none !important; }
+            .res-panel { display: block !important; background: #ffffff !important; color: #000000 !important; padding: 25px !important; width: 100% !important; box-sizing: border-box; border: 3px double var(--as-green) !important; border-radius: 0px !important; }
+            .print-header-block { display: block !important; text-align: center; border-bottom: 2px solid var(--as-green) !important; padding-bottom: 12px; margin-bottom: 20px; }
+            .res-grid { display: block !important; margin-top: 15px; }
+            .res-item { background: transparent !important; border: none !important; border-bottom: 1px solid #e2e8f0 !important; padding: 12px 4px !important; display: flex !important; justify-content: space-between; }
+            .res-item span { color: #1e293b !important; font-size: 13px !important; font-weight: 600 !important; text-transform: uppercase; }
+            .res-item b { color: var(--as-green) !important; font-size: 15px !important; font-weight: 700 !important; }
+            .print-footer-block { display: block !important; text-align: center; margin-top: 40px; border-top: 1px solid #cbd5e1 !important; padding-top: 20px; }
+        }
     </style>
 </head>
 <body>
 
     <div class="tool-wrapper">
-        <h1>Assam Land Cost Calculator</h1>
-        <p>Calculate total land price based on Assam's local units (Bigha, Katha, Lessa)</p>
+        <header>
+            <h1 id="mTitle">Assam Land Cost & Registry Calculator</h1>
+            <p id="sTitle">Calculate exact land value, stamp duty, and registration charges for Assam plots instantly</p>
+        </header>
 
-        <div class="input-group">
-            <label>Select Unit (Ikai)</label>
-            <select id="unitSelect">
-                <option value="Bigha">Bigha</option>
-                <option value="Katha">Katha</option>
-                <option value="Lessa">Lessa</option>
-            </select>
-
-            <label>Enter Area (Kitni zameen hai)</label>
-            <input type="number" id="areaInput" placeholder="Example: 1">
-
-            <label>Rate per Unit (Ek Bigha/Katha ka daam)</label>
-            <input type="number" id="rateInput" placeholder="Example: 2000000">
+        <div class="lang-switch">
+            <button class="l-btn active" id="enBtn" onclick="setLang('en')">English</button>
+            <button class="l-btn" id="hiBtn" onclick="setLang('hi')">हिंदी</button>
         </div>
 
-        <button class="btn-convert" onclick="calculateCost()">Calculate Total Price</button>
+        <div class="sec-h" id="hInputTitle">Enter Mixed Land Dimensions (মাটিৰ জোখ দিয়ক)</div>
+        
+        <div class="input-grid">
+            <div class="input-group">
+                <label for="bighaIn">Bigha (বিঘা)</label>
+                <input type="number" id="bighaIn" placeholder="0" value="1" min="0">
+            </div>
+            <div class="input-group">
+                <label for="kathaIn">Katha (কঠা)</label>
+                <input type="number" id="kathaIn" placeholder="0" value="3" min="0" max="4">
+            </div>
+            <div class="input-group">
+                <label for="lessaIn">Lessa (লেচা)</label>
+                <input type="number" id="lessaIn" placeholder="0" value="2" min="0" max="19">
+            </div>
+            <div class="input-group">
+                <label for="rateInput" id="lblRate">Govt Circle Rate (Per Bigha)</label>
+                <input type="number" id="rateInput" placeholder="Enter Rate in ₹" value="500000">
+                <a href="https://landrevenue.assam.gov.in/" target="_blank" class="helper-text" style="color: #e65100; text-decoration: none;">🌐 Check Govt Circle Rates (Dharitree) ↗</a>
+            </div>
+        </div>
 
-        <div id="resultArea" class="result-display">
-            <h3 style="margin-top:0;">Assam Land Price Summary:</h3>
-            <div class="res-item">Total Cost: ₹ <b id="totalPrice">0</b></div>
-            <div class="res-item" style="font-size: 16px; color: #555;">(In Words: <span id="priceWords"></span>)</div>
+        <div class="input-grid" style="max-width: 400px; margin-bottom: 30px;">
+            <div class="input-group" style="width: 100%;">
+                <label for="genderSelect" id="lblGender">Buyer Ownership Category</label>
+                <select id="genderSelect">
+                    <option value="male">Male Buyer (5% Stamp + 8.5% Reg)</option>
+                    <option value="female">Female Buyer (3% Stamp + 6.5% Reg)</option>
+                </select>
+            </div>
+        </div>
+
+        <button class="btn-calc" onclick="calculateAssamLandCost()" id="btnText">Calculate Valuation Now</button>
+
+        <div id="resPanel" class="res-panel">
+            
+            <div class="print-header-block">
+                <div style="display: flex; justify-content: center; align-items: center; gap: 10px; margin-bottom: 5px;">
+                    <h2 style="font-size: 22px; color: #1b5e20; margin: 0; font-weight: 900; letter-spacing: 1px;">SHAYAN SMART TOOLS</h2>
+                </div>
+                <p style="font-size: 11px; color: var(--as-green); font-weight: bold; margin: 0 0 10px 0; letter-spacing: 0.5px; text-transform: uppercase;">ASSAM REVENUE PROPERTY REGISTRATION SUMMARY - 2026</p>
+                
+                <div style="background: #f8fafc; border: 1px solid #cbd5e1; padding: 10px; border-radius: 4px; display: grid; grid-template-columns: 1fr 1fr; font-size: 11px; text-align: left; gap: 8px; color: #334155;">
+                    <div><strong>DOCUMENT REF:</strong> <span id="pDocRef" style="color:#1b5e20; font-weight:bold;">SST-AS-REG-0000</span></div>
+                    <div style="text-align: right;"><strong>DATE:</strong> <span id="pDocDate" style="color:#1b5e20; font-weight:bold;">--/--/----</span></div>
+                    <div><strong>JURISDICTION:</strong> State of Assam (অসম)</div>
+                    <div style="text-align: right;"><strong>STATUS:</strong> Digitally Verified Report</div>
+                </div>
+            </div>
+
+            <h3 id="resHead">Official Property Valuation Invoice</h3>
+            
+            <div class="res-grid">
+                <div class="res-item" id="print-input-row" style="display:none;"><span id="lblSource">Initial Input Feed:</span> <b id="rInputVal" style="color:var(--as-gold); font-weight: 800;">0 B-K-L</b></div>
+                <div class="res-item"><span>Total Area in Sq Ft:</span> <b id="outSqft">0 sq ft</b></div>
+                <div class="res-item"><span id="rLc">Total Pure Land Cost:</span> <b id="outLandCost">₹0</b></div>
+                <div class="res-item"><span id="rSd">Stamp Duty:</span> <b id="outStampDuty">₹0</b></div>
+                <div class="res-item"><span id="rRf">Registration Fees:</span> <b id="outRegFees">₹0</b></div>
+                <div class="res-item total-row"><span id="rGt">Grand Total Property Budget:</span> <b id="outGrandTotal">₹0</b></div>
+            </div>
+
+            <div class="print-footer-block">
+                <div style="margin: 0 auto; max-width: 85%; font-size: 11px; color: #475569; line-height: 1.6; text-align: center;">
+                    <p style="margin: 0; font-weight: bold; color: #1b5e20; text-transform: uppercase; font-size: 12px;">🔒 JURISDICTION SECURITY DISCLAIMER & STATUTORY NOTICE</p>
+                    <p style="margin: 6px 0 0 0;">This calculation mapping sheet is processed using standard rules of Assam Revenue Manual (1 Bigha = 5 Katha, 1 Katha = 20 Lessa). Cross-verify values with local sub-registrar office or Dharitree Assam portal.</p>
+                    <div style="display: inline-block; border: 1px dashed #1b5e20; padding: 6px 20px; border-radius: 4px; margin-top: 15px; margin-bottom: 12px; background: #f8fafc; font-size: 10px; font-weight: bold; color: #1b5e20; text-transform: uppercase;">
+                        SHAYAN SMART TOOLS [SST SEAL] - OFFICIAL MASTER CONVERTER MODULE
+                    </div>
+                    <p style="margin: 5px 0 0 0; font-size: 12px; font-weight: bold; color: var(--as-green);">🌐 SST OFFICIAL ACCESS: www.shayansmarttools.in</p>
+                </div>
+            </div>
+
+            <div class="util-btns">
+                <button class="u-btn" onclick="copyInvoice()" style="background:#475569;">📋 Copy Statement</button>
+                <button class="u-btn" onclick="shareInvoiceWA()" style="background:#22c55e;">📲 WhatsApp</button>
+                <button class="u-btn" onclick="printLandReport()" style="background:#2b7cff;">🖨️ Print Report</button>
+            </div>
         </div>
     </div>
 
+    <div class="back-btn" style="text-align: center; margin-top: 10px;">
+        <a href="index.html" style="color: var(--as-green); text-decoration: none; font-weight: bold;">⬅ Back to All Tools</a>
+    </div>
+
+    <!-- 🔥 EXPANDED HIGH-WORDCOUNT SEO ARTICLE -->
     <article class="seo-article">
-        <header style="text-align: center; margin-bottom: 30px;">
-            <h2>Assam Land Cost Guide: Zameen Ka Sahi Mol Bhaav</h2>
-            <p>Assam mein Bigha aur Katha ke hisaab se zameen ki total keemat nikalne ka professional tarika.</p>
-        </header>
+        <div class="seo-header-block">
+            <h2 id="seoTitle">Assam Property Registration and Land Cost Valuation Rules 2026</h2>
+            <p style="font-size: 18px; color: #555; margin: 5px 0 0 0;" id="seoSubTitle">Calculate property value, effective stamp duty, and registration charges in Assam instantly.</p>
+        </div>
 
         <section>
-            <h3>Introduction (Dumdar Prastavana)</h3>
             <p>
-                Assam mein property market tezi se grow kar raha hai. Guwahati ho ya Dibrugarh, zameen ki kharid-fariqt mein log aksar confuse ho jate hain jab unhe <b>"Lessa"</b> ya <b>"Katha"</b> ka total budget nikalna hota hai. Assam mein zameen ka rate zyadatar <b>"Per Bigha"</b> ya <b>"Per Katha"</b> ke hisaab se chalta hai. Lekin calculation mein thodi bhi galti hone par laakhon ka nuksan ho sakta hai.
+                Assam mein zameen ka sauda (property transaction buy/sell) karte samay **Bigha, Katha, aur Lessa** ke discrete configurations ko sateek roop se evaluate karna behad mahatvapurna hai. Assam Revenue Manual rules ke mutabik, zameen ka absolute namantaran (mutation process) aur stamp assessment hamesha sarkar dwara jari **Govt Circle Rate** guidelines par adharit hota hai. Sonitpur, Kamrup Metro, Nagaon, Jorhat, aur Silchar jaise districts mein circle rates location categories ke anusar vary karte hain. 
             </p>
             <p>
-                Hamara <b>Assam Land Cost Calculator</b> Shayan Smart Tools ki ek behtareen peshkash hai. Yeh tool khas taur par Assam ke land system ko dhyan mein rakh kar banaya gaya hai. Chahe aap kheti ki zameen le rahe hon ya residential plot, yeh calculator aapko sateek budget nikal kar dega.
+                Shayan Smart Tools ka ye high-precision **Assam Land Cost & Registry Fees Calculator** kisanon, property buyers, aur legal documentation specialists ko sateek value nikaal kar deta hai. Traditional systems mein manual point fractional calculations mein galatiyan hone ka darr hota hai, par hamara calculation framework is pure process ko simplified matrix mein badal deta hai.
             </p>
         </section>
 
-        <section style="background: #f1f8e9; padding: 20px; border-radius: 10px; margin: 30px 0;">
-            <h3>How to Use Assam Land Cost Calculator?</h3>
-            <p>Is calculator ka istemal karna behad aasan hai:</p>
+        <section>
+            <h2 id="hSec1">Assam Land Registration Tax Structure 2026</h2>
+            <p>Assam Inspector General of Registration and Stamps parameters ke mutabik registry tax distribution dynamic allocation values tabular layout mein niche systematically di gayi hai:</p>
+            <div style="overflow-x: auto;">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Buyer Category Indicators</th>
+                            <th>Base Stamp Duty Rate</th>
+                            <th>Registration Fees</th>
+                            <th>Total Cumulative Registry Tax</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><b>Male Buyer (पुरुष खरीदार)</b></td>
+                            <td>5.0% of Land Value</td>
+                            <td>8.5% of Land Value</td>
+                            <td><b>13.5% Total Charges</b></td>
+                        </tr>
+                        <tr>
+                            <td><b>Female Buyer (महिला खरीदार)</b></td>
+                            <td>3.0% of Land Value</td>
+                            <td>6.5% of Land Value</td>
+                            <td><b>9.5% Total Charges</b></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <section>
+            <h2>Assam Revenue Manual Conversion Logic Explained</h2>
+            <p>Assam state land matrix policy rules ke mutabik traditional measurements direct base parameters lines par tightly locked hote hain: **1 standard Assam Bigha completely holds 14,400 Square Feet**, jisme sateek **5 Katha milkar 1 Bigha** grid setup ($2,880\text{ Sq.Ft}$ single katha block scale) form karte hain, aur **20 Lessa milkar 1 Katha** dynamic system blueprint setup ($144\text{ Sq.Ft}$ single lessa unit canvas) create karte hain. Jab koi user inputs fill up karega, toh system auto-validation logic apply karke complex decimal variables values ko handle rests karta hai.</p>
+        </section>
+
+        <section>
+            <h2 id="hSec2">How to Use Assam Land Cost Tool?</h2>
             <ol>
-                <li>Dropdown menu se apni unit select karein (Bigha, Katha, ya Lessa).</li>
-                <li>"Enter Area" mein zameen ki quantity bharein (Jaise 2 Katha).</li>
-                <li>"Rate per Unit" mein ek unit ka market daam likhein.</li>
-                <li><b>"Calculate Total Price"</b> button par click karein.</li>
-                <li>Tool aapko ₹ (Rupees) aur Words mein total result dikha dega.</li>
+                <li>Sabse pehle toggle configuration panel buttons se comfortable language version (**English** ya **Hindi**) fix chuney.</li>
+                <li>Respective numeric layout cell input boxes mein apne land paper limits data records ke mutabik **Bigha, Katha, aur Lessa** darj karein.</li>
+                <li>Official Dharitree revenue portal mapping records directory checks se nikaala gaya fixed **Govt Circle Rate (Per Bigha price scale)** enter karein.</li>
+                <li>Kreta (buyer profile verification data) category set karke high-visibility matrix button <b>"Calculate Valuation Now"</b> clear trigger execute karein.</li>
             </ol>
         </section>
 
-        <h3>Assam Land Unit Table</h3>
-        <p>Calculation se pehle in units ka basic knowledge zaruri hai:</p>
-        <table>
-            <thead>
-                <tr>
-                    <th>Unit Name</th>
-                    <th>Sub-Unit Relation</th>
-                    <th>In Square Feet</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>1 Bigha</td>
-                    <td>5 Katha</td>
-                    <td>14,400 Sq Ft</td>
-                </tr>
-                <tr>
-                    <td>1 Katha</td>
-                    <td>20 Lessa</td>
-                    <td>2,880 Sq Ft</td>
-                </tr>
-                <tr>
-                    <td>1 Lessa</td>
-                    <td>-</td>
-                    <td>144 Sq Ft</td>
-                </tr>
-                <tr>
-                    <td>1 Acre</td>
-                    <td>~3.025 Bigha</td>
-                    <td>43,560 Sq Ft</td>
-                </tr>
-            </tbody>
-        </table>
-
-        <h3>5 Practical Examples (Assam Context)</h3>
-        <ol>
-            <li><b>Example 1:</b> 1 Bigha zameen ka rate ₹30 Lakh hai, toh total cost ₹30 Lakh hogi.</li>
-            <li><b>Example 2:</b> 2 Katha plot ka rate ₹15 Lakh per Katha hai, toh total budget ₹30 Lakh hoga.</li>
-            <li><b>Example 3:</b> 10 Lessa zameen ka rate ₹50,000 per Lessa hai, toh total price ₹5 Lakh hogi.</li>
-            <li><b>Example 4:</b> 0.5 Bigha (Adha Bigha) ka rate ₹40 Lakh per Bigha hai, toh cost ₹20 Lakh hogi.</li>
-            <li><b>Example 5:</b> Commercial plot agar ₹5000 per Sq Ft hai, toh 1 Lessa (144 Sq Ft) ki keemat ₹7.2 Lakh hogi.</li>
-        </ol>
-
-        <h3>Frequently Asked Questions (FAQs)</h3>
-        <div>
-            <p><b>Q1. Assam mein 1 Bigha mein kitna Katha hota hai?</b><br>Ans: Assam revenue standards ke anusar 1 Bigha mein 5 Katha hote hain.</p>
-            <p><b>Q2. Lessa kya hota hai?</b><br>Ans: Lessa Assam ki sabse choti land unit hai. 1 Katha mein 20 Lessa hote hain.</p>
-            <p><b>Q3. Kya Registry fees total price mein shamil hai?</b><br>Ans: Nahi, yeh calculator sirf zameen ki market value dikhata hai. Registry fees (Stamp Duty) aapko alag se deni hogi.</p>
-            <p><b>Q4. 1 Katha kitne Square Feet ka hota hai?</b><br>Ans: Assam mein 1 Katha exactly 2,880 Square Feet ka hota hai.</p>
-            <p><b>Q5. Kya ye tool Guwahati ke liye accurate hai?</b><br>Ans: Ji haan, yeh pure Assam ke standard units par based hai.</p>
+        <h3 id="lblDashTitle">Related Land Utilities & Internal Dashboards</h3>
+        <div class="links-grid">
+            <a href="index.html" class="link-card" id="dshHome">Main Dashboard</a>
+            <a href="andhra-pradesh-land-cost-calculator.html" class="link-card" id="dshAp">AP Land Tool</a>
+            <a href="karnataka-land-cost-calculator.html" class="link-card" id="dshKa">Karnataka Tool</a>
+            <a href="tamilnadu-land-cost-calculator.html" class="link-card" id="dshTn">TN Land Tool</a>
+            <a href="land-cost-calculator.html" class="link-card" id="dshCost">Price Calculator</a>
         </div>
 
-        <div style="margin-top: 30px; border-top: 1px dashed #2e7d32; padding-top: 20px;">
-            <p><b>Internal Links:</b> <a href="index.html">Home</a> | <a href="assam-bigha-to-sqft.html">Assam Land Converter</a> | <a href="bihar-land-cost-calculator.html">Bihar Cost Tool</a></p>
-        </div>
-
-        <div style="margin-top: 40px; background: #f9f9f9; padding: 20px; border-radius: 5px; font-size: 13px;">
-            <p><b>Copyright Issue:</b> Is website ka code, logic aur content Shayan Smart Tools ki property hai. Copy karna mana hai.</p>
-            <p><b>All Rights Reserved © 2026 Shayan Smart Tools</b></p>
-            <p><b>Disclaimer:</b> Yeh calculator sirf ek estimation hai. Kisi bhi legal payment se pehle apne vakeel ya Mandal se verify zarur karein.</p>
+        <!-- 🔥 FIXED BOTTOM COPYRIGHT NOTICE BLOCK -->
+        <div style="margin-top: 50px; padding: 25px; border: 2px dashed var(--as-green); background: #ffffff; border-radius: 12px; text-align: center;">
+            <h3 style="color: var(--as-corporate); margin-top: 0;" id="lblCopyHead">🚫 Copyright & Legal Rights Reserved</h3>
+            <p style="font-size: 13px; margin-bottom: 0;" id="lblCopyBody">
+                <strong>Copyright © 2026 Shayan Smart Tools. All Rights Reserved.</strong><br><br>
+                Is software calculator module ka core code engine layout, arithmetic algorithms aur optimized data indexing <b>Muksidul Islam</b> ke proprietary engineering development rights ke under managed hain. Unauthorized duplication completely restricted hai.<br><br>
+                <b>Disclaimer:</b> Regional sub-registrar localized zila panchayat cess parameters changes ke mutabik registry values margins me minor fluctuations ho sakte hain. Absolute documentation processing se pehle state offices data se verify zarur karein.
+            </p>
         </div>
     </article>
 
     <script>
-        function calculateCost() {
-            const area = document.getElementById('areaInput').value;
-            const rate = document.getElementById('rateInput').value;
-            const resArea = document.getElementById('resultArea');
+        document.addEventListener('contextmenu', e => e.preventDefault());
+        document.onkeydown = function(e) {
+            if (e.ctrlKey && (e.keyCode === 67 || e.keyCode === 85 || e.keyCode === 73)) {
+                alert("Copyright Warning: Copying from Shayan Smart Tools is prohibited.");
+                return false;
+            }
+        };
 
-            if (area === "" || rate === "" || area <= 0 || rate <= 0) {
-                alert("Bhai, sahi Area aur Rate dalo!");
+        let currentLang = 'en';
+        const dict = {
+            en: {
+                mTitle: "Assam Land Cost & Registry Calculator",
+                sTitle: "Calculate exact land value, stamp duty, and registration charges for Assam plots instantly",
+                hInputTitle: "Enter Mixed Land Dimensions (মাটিৰ জোখ দিয়ক)",
+                lblRate: "Govt Circle Rate (Per Bigha)",
+                lblGender: "Buyer Ownership Category",
+                btnText: "Calculate Valuation Now",
+                resHead: "Official Property Valuation Invoice",
+                lblSource: "Initial Input Feed:",
+                rLc: "Total Pure Land Cost:",
+                rSd: "Stamp Duty:",
+                rRf: "Registration Fees:",
+                rGt: "Grand Total Property Budget:",
+                seot: "Assam Property Registration and Land Cost Valuation Rules 2026",
+                seos: "Calculate property value, effective stamp duty, and registration charges in Assam instantly.",
+                h1: "Assam Land Registration Tax Structure 2026",
+                h2: "How to Use Assam Land Cost Tool?",
+                dt: "Related Land Utilities & Internal Dashboards",
+                d1: "Main Dashboard", d2: "AP Land Tool", d3: "Karnataka Tool", d4: "TN Land Tool", d5: "Price Calculator",
+                ch: "🚫 Copyright & Legal Rights Reserved",
+                cb: "<strong>Copyright © 2026 Shayan Smart Tools. All Rights Reserved.</strong><br><br>Is software calculator module ka core code engine layout, arithmetic algorithms aur optimized data indexing <b>Muksidul Islam</b> ke proprietary engineering development rights ke under managed hain. Unauthorized duplication completely restricted hai.<br><br><b>Disclaimer:</b> Regional sub-registrar localized zila panchayat cess parameters changes ke mutabik registry values margins me minor fluctuations ho sakte hain. Absolute documentation processing se pehle state offices data se verify zarur karein."
+            },
+            hi: {
+                mTitle: "असम भूमि लागत एवं रजिस्ट्री कनवर्टर कैलकुलेटर",
+                sTitle: "অসম মাটিৰ মূল্যায়ন, ষ্টাম্প ডিউটী আৰু পঞ্জীয়ন ফী কেলকুলেটৰ",
+                hInputTitle: "भूमि आयाम दर्ज करें (Bigha, Katha, Lessa)",
+                lblRate: "सरकारी सर्कल दर (प्रति बीघा)",
+                lblGender: "क्रेता मालिकाना श्रेणी नियम",
+                btnText: "मूल्यांकन की गणना करें",
+                resHead: "सटीक सरकारी संपत्ति मूल्यांकन चालान",
+                lblSource: "इनपुट डेटा स्रोत मान:",
+                rLc: "कुल शुद्ध भूमि लागत:",
+                rSd: "स्टाम्प शुल्क राशि:",
+                rRf: "पंजीकरण शुल्क विवरण:",
+                rGt: "कुल अंतिम प्रॉपर्टी बजट:",
+                seot: "असम संपत्ति पंजीकरण और भूमि लागत मूल्यांकन नियम 2026",
+                seos: "असम में संपत्ति मूल्य, स्टांप शुल्क और पंजीकरण शुल्क की तुरंत गणना करें।",
+                h1: "असम भूमि पंजीकरण शुल्क संरचना 2026",
+                h2: "असम भूमि लागत कैलकुलेटर का उपयोग कैसे करें?",
+                dt: "अन्य संबंधित डिजिटल उपकरण और डैशबोर्ड",
+                d1: "🏠 मुख्य डैशबोर्ड फलक", d2: "आंध्र प्रदेश भूमि टूल", d3: "कर्नाटक भूमि टूल", d4: "तमिलनाडु भूमि टूल", d5: "मूल्य कैलकुलेटर टूल",
+                ch: "🚫 कॉपीराइट और कानूनी अधिकार सुरक्षित",
+                cb: "<strong>कॉपीराइट © 2026 Shayan Smart Tools. सर्वाधिकार सुरक्षित।</strong><br><br>इस सॉफ्टवेयर कैलकुलेटर मॉड्यूल का कोर कोड इंजन लेआउट, अंकगणितीय एल्गोरिदम और अनुकूलित डेटा इंडेक्सिंग <b>मुक्सीद ऑफिशियल</b> (Muksidul Islam) के मालिकाना अधिकारों के तहत प्रबंधित हैं। अनधिकृत नकल कड़ाई से प्रतिबंधित है।<br><br><b>अस्वीकरण:</b> क्षेत्रीय उप-पंजीयक स्थानीय जिला पंचायत उपकर मानदंडों के अनुसार रजिस्ट्री मूल्यों में न्यूनतम उतार-चढ़ाव हो सकता है। पूर्ण दस्तावेज़ीकरण निष्पादन से पहले राज्य कार्यालयों के डेटा से सत्यापित ज़रूर करें।"
+            }
+        };
+
+        function setLang(lang) {
+            currentLang = lang;
+            document.getElementById('enBtn').classList.toggle('active', lang === 'en');
+            document.getElementById('hiBtn').classList.toggle('active', lang === 'hi');
+            
+            document.getElementById('mTitle').innerText = dict[lang].mTitle;
+            document.getElementById('sTitle').innerText = dict[lang].sTitle;
+            document.getElementById('hInputTitle').innerText = dict[lang].hInputTitle;
+            document.getElementById('lblRate').innerText = dict[lang].lblRate;
+            document.getElementById('lblGender').innerText = dict[lang].lblGender;
+            document.getElementById('btnText').innerText = dict[lang].btnText;
+            document.getElementById('resHead').innerText = dict[lang].resHead;
+            document.getElementById('lblSource').innerText = dict[lang].lblSource;
+            document.getElementById('rLc').innerText = dict[lang].rLc;
+            document.getElementById('rSd').innerText = dict[lang].rSd;
+            document.getElementById('rRf').innerText = dict[lang].rRf;
+            document.getElementById('rGt').innerText = dict[lang].rGt;
+
+            document.getElementById('seoTitle').innerText = dict[lang].seot;
+            document.getElementById('seoSubTitle').innerText = dict[lang].seos;
+            document.getElementById('hSec1').innerText = dict[lang].h1;
+            document.getElementById('hSec2').innerText = dict[lang].h2;
+            document.getElementById('lblDashTitle').innerText = dict[lang].dt;
+            
+            document.getElementById('dshHome').innerText = dict[lang].d1;
+            document.getElementById('dshAp').innerText = dict[lang].d2;
+            document.getElementById('dshKa').innerText = dict[lang].d3;
+            document.getElementById('dshTn').innerText = dict[lang].d4;
+            document.getElementById('dshCost').innerText = dict[lang].d5;
+
+            document.getElementById('lblCopyHead').innerText = dict[lang].ch;
+            document.getElementById('lblCopyBody').innerHTML = dict[lang].cb;
+
+            if(document.getElementById('resPanel').style.display === "block") {
+                calculateAssamLandCost();
+            }
+        }
+
+        function calculateAssamLandCost() {
+            let bigha = parseFloat(document.getElementById('bighaIn').value) || 0;
+            let katha = parseFloat(document.getElementById('kathaIn').value) || 0;
+            let lessa = parseFloat(document.getElementById('lessaIn').value) || 0;
+            const ratePerBigha = parseFloat(document.getElementById('rateInput').value);
+            const gender = document.getElementById('genderSelect').value;
+            const resPanel = document.getElementById('resPanel');
+
+            if (ratePerBigha <= 0 || (bigha === 0 && katha === 0 && lessa === 0)) {
+                alert(currentLang === 'en' ? "Please enter valid Land units and Circle Rate!" : "कृपया सही भूमि आयाम और सर्कल रेट दर्ज करें!");
                 return;
             }
 
-            let total = area * rate;
-            document.getElementById('totalPrice').innerText = total.toLocaleString('en-IN');
-            document.getElementById('priceWords').innerText = numberToWords(total) + " Rupees Only";
-            resArea.style.display = "block";
+            // 🔥 MIXED MULTI-INPUT INPUT SAFETY VALUE CHAIN AUTO BALANCING
+            if(lessa >= 20) {
+                katha += Math.floor(lessa / 20);
+                lessa = lessa % 20;
+                document.getElementById('lessaIn').value = lessa;
+                document.getElementById('kathaIn').value = katha;
+            }
+            if(katha >= 5) {
+                bigha += Math.floor(katha / 5);
+                katha = katha % 5;
+                document.getElementById('kathaIn').value = katha;
+                document.getElementById('bighaIn').value = bigha;
+            }
+
+            // Convert mixed framework values directly to absolute Sq Ft metrics
+            let totalSqft = (bigha * 14400) + (katha * 2880) + (lessa * 144);
+            let totalBighaUnits = totalSqft / 14400;
+            let landCost = totalBighaUnits * ratePerBigha;
+            
+            let stampDutyPercent = (gender === 'male') ? 0.05 : 0.03;
+            let regFeesPercent = (gender === 'male') ? 0.085 : 0.065;
+
+            let stampDuty = landCost * stampDutyPercent;
+            let regFees = landCost * regFeesPercent;
+            let grandTotal = landCost + stampDuty + regFees;
+
+            document.getElementById('outSqft').innerText = Math.round(totalSqft).toLocaleString('en-IN') + " sq ft";
+            document.getElementById('outLandCost').innerText = "₹" + Math.round(landCost).toLocaleString('en-IN');
+            document.getElementById('outStampDuty').innerText = "₹" + Math.round(stampDuty).toLocaleString('en-IN');
+            document.getElementById('outRegFees').innerText = "₹" + Math.round(regFees).toLocaleString('en-IN');
+            document.getElementById('outGrandTotal').innerText = "₹" + Math.round(grandTotal).toLocaleString('en-IN');
+
+            let options = { day: 'numeric', month: 'long', year: 'numeric' };
+            let today = new Date().toLocaleDateString('en-IN', options);
+            document.getElementById('pDocDate').innerText = today + " (IST)";
+            document.getElementById('rInputVal').innerText = `${bigha} B, ${katha} K, ${lessa} L`;
+
+            let randID = Math.floor(1000000000 + Math.random() * 9000000000);
+            document.getElementById('pDocRef').innerText = `SST-AS-REG-${randID}`;
+
+            resPanel.style.display = "block";
+            resPanel.scrollIntoView({ behavior: 'smooth' });
         }
 
-        function numberToWords(num) {
-            const a = ['','One ','Two ','Three ','Four ','Five ','Six ','Seven ','Eight ','Nine ','Ten ','Eleven ','Twelve ','Thirteen ','Fourteen ','Fifteen ','Sixteen ','Seventeen ','Eighteen ','Nineteen '];
-            const b = ['', '', 'Twenty','Thirty','Forty','Fifty','Sixty','Seventy','Eighty','Ninety'];
-            
-            if ((num = num.toString()).length > 9) return 'Amount is too large';
-            let n = ('000000000' + num).substr(-9).match(/^(\d{2})(\d{2})(\d{2})(\d{1})(\d{2})$/);
-            if (!n) return ''; 
-            let str = '';
-            str += (n[1] != 0) ? (a[Number(n[1])] || b[n[1][0]] + ' ' + a[n[1][1]]) + 'Crore ' : '';
-            str += (n[2] != 0) ? (a[Number(n[2])] || b[n[2][0]] + ' ' + a[n[2][1]]) + 'Lakh ' : '';
-            str += (n[3] != 0) ? (a[Number(n[3])] || b[n[3][0]] + ' ' + a[n[3][1]]) + 'Thousand ' : '';
-            str += (n[4] != 0) ? (a[Number(n[4])] || b[n[4][0]] + ' ' + a[n[4][1]]) + 'Hundred ' : '';
-            str += (n[5] != 0) ? ((str != '') ? 'and ' : '') + (a[Number(n[5])] || b[n[5][0]] + ' ' + a[n[5][1]]) : '';
-            return str.trim();
+        function printLandReport() {
+            const printRow = document.getElementById('print-input-row');
+            printRow.style.display = "flex";
+            window.print();
+            printRow.style.display = "none";
+        }
+
+        function copyInvoice() {
+            let uId = document.getElementById('pDocRef').innerText;
+            let text = `--- ASSAM PROPERTY REGISTRATION REPORT ---\nDoc Ref: ${uId}\n`;
+            text += `Land Area: ${document.getElementById('rInputVal').innerText} (${document.getElementById('outSqft').innerText})\n`;
+            text += `Pure Land Cost: ${document.getElementById('outLandCost').innerText}\n`;
+            text += `Stamp Duty: ${document.getElementById('outStampDuty').innerText}\n`;
+            text += `Registration Fees: ${document.getElementById('outRegFees').innerText}\n`;
+            text += `----------------------------------------\n`;
+            text += `🔥 TOTAL BUDGET sateek: ${document.getElementById('outGrandTotal').innerText}\n\n`;
+            text += `Calculated via Shayan Smart Tools\nhttps://shayansmarttools.in/assam-land-cost-calculator.html`;
+
+            navigator.clipboard.writeText(text);
+            alert("Professional Statement Copied!");
+        }
+
+        function shareInvoiceWA() {
+            let uId = document.getElementById('pDocRef').innerText;
+            let textWA = `*ASSAM PROPERTY REGISTRATION REPORT*\nDoc Ref: ${uId}\n\n`;
+            textWA += `• *Land Area:* ${document.getElementById('rInputVal').innerText}\n`;
+            textWA += `• *Pure Land Cost:* ${document.getElementById('outLandCost').innerText}\n`;
+            textWA += `• *Total Registry Budget:* ${document.getElementById('outGrandTotal').innerText}\n\n`;
+            textWA += `Calculated via *Shayan Smart Tools*\nhttps://shayansmarttools.in/assam-land-cost-calculator.html`;
+
+            window.open("https://wa.me/?text=" + encodeURIComponent(textWA), '_blank');
         }
     </script>
-
-    <footer>
-        <p>&copy; 2026 Shayan Smart Tools.</p>
-    </footer>
 </body>
 </html>
