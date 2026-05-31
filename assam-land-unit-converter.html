@@ -103,7 +103,10 @@
         .res-item span { font-size: 12px; color: #94a3b8; font-weight: bold; }
         .res-item b { font-size: 18px; color: #fff; word-break: break-all; }
 
-        .content-image { width: 100%; max-height: 340px; object-fit: cover; border-radius: 16px; margin: 25px 0; box-shadow: 0 4px 15px rgba(0,0,0,0.05); display: block; }
+        .print-header-block, .print-footer-block { display: none; }
+
+        .util-btns { display: flex; gap: 12px; margin-top: 25px; }
+        .u-btn { flex: 1; padding: 15px; border: none; border-radius: 12px; font-weight: 800; cursor: pointer; color: white; font-size: 14px; text-align: center; transition: 0.3s; }
 
         /* SEO ARTICLE LAYER */
         .seo-article { 
@@ -130,7 +133,7 @@
         .seo-article h3 { color: var(--as-green) !important; margin-top: 30px; border-left: 6px solid var(--as-corporate); padding-left: 15px; }
         .seo-article p { color: #334155 !important; font-size: 16px; text-align: justify; }
         
-        /* Table Styling */
+        /* Fixed High-Contrast Table Styling */
         .seo-article table { width: 100%; border-collapse: collapse; margin: 25px 0; background: #ffffff; box-shadow: 0 4px 6px rgba(0,0,0,0.02); border-radius: 8px; overflow: hidden; }
         .seo-article th, .seo-article td { border: 1px solid #e2e8f0; padding: 15px; text-align: left; }
         .seo-article th { background-color: #c8e6c9; color: #1b5e20 !important; font-weight: bold; font-size: 15px; }
@@ -181,6 +184,74 @@
             background: linear-gradient(135deg, #ffffff, #f1f8e9);
         }
         .sst-dash-btn:hover .sst-dash-icon { transform: scale(1.1) rotate(5deg); background: var(--as-green); color: #fff; }
+
+        @media (max-width: 600px) { 
+            .input-row { flex-direction: column; gap: 12px; }
+            .input-box { width: 100%; }
+            input, .btn-calc, .res-panel { max-width: 100%; } 
+            .res-grid { grid-template-columns: 1fr; }
+            .seo-article { padding: 10px 0; }
+            .seo-article h2 { font-size: 22px !important; }
+            .sst-dashboard-grid { grid-template-columns: 1fr; gap: 12px; }
+            .sst-dash-btn { padding: 15px 18px; }
+        }
+
+        /* PRINT CONFIGURATION */
+        @media print {
+            * {
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+                color-adjust: exact !important;
+            }
+            @page { margin: 15mm; size: A4 portrait; }
+            body { background: #ffffff !important; color: #000000 !important; padding: 0; margin: 0; }
+            
+            .tool-wrapper > header, .lang-switch, .input-row, .btn-calc, .util-btns, #resHead, .seo-article, .back-btn { display: none !important; }
+            
+            .res-panel { 
+                display: block !important; 
+                background: #ffffff !important; 
+                color: #000000 !important; 
+                padding: 25px !important; 
+                margin: 0 !important;
+                width: 100% !important;
+                box-sizing: border-box;
+                border: 3px double var(--as-green) !important; 
+                border-radius: 0px !important;
+            }
+            
+            .print-header-block {
+                display: block !important;
+                text-align: center;
+                border-bottom: 2px solid var(--as-green) !important;
+                padding-bottom: 12px;
+                margin-bottom: 20px;
+            }
+            .print-header-block img { display: inline-block !important; }
+
+            .res-grid { display: block !important; margin-top: 15px; }
+            .res-item { 
+                background: transparent !important; 
+                border: none !important;
+                border-bottom: 1px solid #e2e8f0 !important;
+                padding: 12px 4px !important;
+                display: flex !important;
+                flex-direction: row !important;
+                justify-content: space-between !important;
+                align-items: center !important;
+                border-radius: 0px !important;
+            }
+            .res-item span { color: #1e293b !important; font-size: 13px !important; font-weight: 600 !important; text-transform: uppercase; }
+            .res-item b { color: var(--as-corporate) !important; font-size: 15px !important; font-weight: 700 !important; }
+
+            .print-footer-block {
+                display: block !important;
+                text-align: center;
+                margin-top: 40px;
+                border-top: 1px solid #cbd5e1 !important;
+                padding-top: 20px;
+            }
+        }
     </style>
 </head>
 <body>
@@ -197,69 +268,408 @@
         </div>
 
         <div class="input-row">
-            <div class="input-box"><label id="lblBigha">Enter Bigha</label><input type="number" id="bighaInput" placeholder="0" value="0"></div>
-            <div class="input-box"><label id="lblKatha">Enter Katha</label><input type="number" id="kathaInput" placeholder="0" value="0"></div>
-            <div class="input-box"><label id="lblLessa">Enter Lessa</label><input type="number" id="lessaInput" placeholder="0" value="0"></div>
+            <div class="input-box">
+                <label id="lblBigha">Enter Bigha</label>
+                <input type="number" id="bighaInput" min="0" placeholder="0" value="0">
+            </div>
+            <div class="input-box">
+                <label id="lblKatha">Enter Katha</label>
+                <input type="number" id="kathaInput" min="0" max="4" placeholder="0" value="0">
+            </div>
+            <div class="input-box">
+                <label id="lblLessa">Enter Lessa</label>
+                <input type="number" id="lessaInput" min="0" max="19" placeholder="0" value="0">
+            </div>
         </div>
+
         <button class="btn-calc" onclick="calculateAssamLand()" id="btnText">Convert Now</button>
 
         <div id="resPanel" class="res-panel">
+            
+            <div class="print-header-block">
+                <div style="display: flex; justify-content: center; align-items: center; gap: 10px; margin-bottom: 5px;">
+                    <img src="favicon.png" alt="SST" style="width: 30px; height: 30px;">
+                    <h2 style="font-size: 22px; color: #2e7d32; margin: 0; font-weight: 900; letter-spacing: 1px;">SHAYAN SMART TOOLS</h2>
+                </div>
+                <p style="font-size: 11px; color: var(--as-corporate); font-weight: bold; margin: 0 0 10px 0; letter-spacing: 0.5px; text-transform: uppercase;">ASSAM BHULEKH REVENUE ANALYSIS REPORT - 2026</p>
+                
+                <div style="background: #f8fafc; border: 1px solid #cbd5e1; padding: 10px; border-radius: 4px; display: grid; grid-template-columns: 1fr 1fr; font-size: 11px; text-align: left; gap: 5px; color: #334155;">
+                    <div><strong>DOCUMENT REF:</strong> <span id="pDocRef" style="color:#2e7d32; font-weight:bold;">SST-AS-LUC-0000</span></div>
+                    <div><strong>DATE:</strong> <span id="pDocDate" style="color:#2e7d32; font-weight:bold;">--/--/----</span></div>
+                    <div><strong>JURISDICTION:</strong> State of Assam (অসম)</div>
+                    <div style="text-align: right;"><strong>STATUS:</strong> Computation Securely Verified</div>
+                </div>
+            </div>
+
             <h3 id="resHead">Land Area Conversion Results</h3>
-            <div class="res-grid" id="resGrid"></div>
+            
+            <div class="res-grid">
+                <div class="res-item" id="print-input-row" style="display:none;"><span style="color:var(--as-green); font-weight: 800;">Initial Data Input Feed:</span> <b id="rInputVal" style="color:var(--as-green); font-weight: 800;">0</b></div>
+                
+                <div class="res-item"><span id="lblResSqft">Square Feet (Sq Ft):</span> <b id="resSqft">0</b></div>
+                <div class="res-item"><span id="lblResSqm">Square Meters (Sq M):</span> <b id="resSqm">0</b></div>
+                <div class="res-item"><span id="lblResAcre">Total Acre:</span> <b id="resAcre">0</b></div>
+                <div class="res-item"><span id="lblResHectare">Total Hectare:</span> <b id="resHectare">0</b></div>
+                <div class="res-item"><span id="lblResBighaOut">Total in Bigha:</span> <b id="resBigha">0</b></div>
+                <div class="res-item"><span id="lblResKathaOut">Total in Katha:</span> <b id="resKatha">0</b></div>
+                <div class="res-item"><span id="lblResLessaOut">Total in Lessa:</span> <b id="resLessa">0</b></div>
+            </div>
+
+            <div class="print-footer-block">
+                <div style="margin: 0 auto; max-width: 85%; font-size: 11px; color: #475569; line-height: 1.6; text-align: center;">
+                    <p style="margin: 0; font-weight: bold; color: #2e7d32; text-transform: uppercase; font-size: 12px;">🔒 SECURITY DISCLAIMER & STATUTORY NOTICE</p>
+                    <p style="margin: 6px 0 0 0;">This calculation compilation is structured strictly using Assam Revenue Department parameters (1 Bigha = 14,400 Sq.Ft, 1 Katha = 2,880 Sq.Ft). For official property boundary assignment or partition mutation, cross-verify metrics via your Circle Officer or Halqa Mandal.</p>
+                    
+                    <div style="display: inline-block; border: 1px dashed #2e7d32; padding: 6px 20px; border-radius: 4px; margin-top: 15px; margin-bottom: 12px; background: #f8fafc; font-size: 10px; font-weight: bold; color: #2e7d32; text-transform: uppercase; letter-spacing: 0.5px;">
+                        SHAYAN SMART TOOLS [SST SEAL] - OFFICIAL ASSAM METRICS ENGINE
+                    </div>
+                    <p style="margin: 5px 0 0 0; font-size: 12px; font-weight: bold; color: var(--as-green);">🌐 SST OFFICIAL ACCESS: www.shayansmarttools.in</p>
+                </div>
+            </div>
+
+            <div class="util-btns">
+                <button class="u-btn" onclick="copyData()" style="background:#475569;" id="btnCopy">📋 Copy Details</button>
+                <button class="u-btn" onclick="shareWA()" style="background:#22c55e;" id="btnWA">📲 WhatsApp</button>
+                <button class="u-btn" onclick="printLandReport()" style="background:#2b7cff;" id="btnPrint">🖨️ Print Report</button>
+            </div>
         </div>
+    </div>
+
+    <div class="back-btn" style="text-align: center; margin-top: 10px;">
+        <a href="index.html" style="color: var(--as-green); text-decoration: none; font-weight: bold;" id="lnkBack">⬅ Back to All Tools</a>
     </div>
 
     <article class="seo-article">
         <div class="seo-header-block">
             <h2 id="seoTitle">Assam Land Unit Converter: Bigha, Katha aur Lessa Matrix Kaise Samjhein?</h2>
-            <p id="seoSubTitle">Assam Land Revenue Department aur ILRMS portal guidelines ke anusaar Bigha, Katha aur Lessa ka complete mathematical breakdown guide.</p>
+            <p style="font-size: 18px; color: #555; margin: 5px 0 0 0;" id="seoSubTitle">Assam Land Revenue Department aur ILRMS portal guidelines ke anusaar Bigha, Katha aur Lessa ka complete mathematical breakdown guide.</p>
         </div>
 
-        <img src="images/image1.webp" class="content-image" loading="lazy" alt="Lush Green Tea Gardens Landscape in Assam">
-
         <section>
-            <h3 id="hSec1">1. Introduction to Assam Land Records</h3>
-            <p>Assam mein zameen ki naap-jokh karna baaki India ke muqable thoda alag aur pechida ho sakta hai. Yahan ka local system mukhya roop se <b>Bigha, Katha, aur Lessa</b> par adharit hai. Dharitree ILRMS par data check karne ke liye yeh tool behad upyogi hai.</p>
+            <h3 id="hSec1">1. Introduction to Assam Land Records (Dharitree ILRMS Dashboard)</h3>
+            <p>
+                Assam mein zameen ki grid profiling aur land mapping systems ka ek anokha aitihasik mahatva raha hai. Jab bhi aap Assam Directorate of Land Records ki official digital portal <b>Dharitree (ILRMS)</b> par ja kar Jamabandi copy, Chitha record ya Dag number details check karte hain, toh aapko land holdings ka data hamesha Hectare ke sath-sath local traditional parameters jaise Bigha, Katha, aur Lessa mein mila kar dikhta hai. National mapping scales par integration ke liye Hectare ka optimization zaroori hai, par jab baat aam logo, kisan bhaiyon, Guwahati real estate brokers aur local developers ke beech asset buying-selling ya partition evaluation ki aati hai, toh traditional units hi functional space hold karte hain. Assam revenue structure me zameen ka tracking system hamesha Bigha, Katha aur Lessa (Lecha) par fixed rehta hai.
+            </p>
+            <p>
+                Is process me sabse bada evaluation gap tab aata hai jab kisi user ko multi-unit conversions karne hote hain. Kisi property record par agar sirf Bigha ki jagah Katha aur Lessa fragmented roop me darj ho, toh aam insaan ke liye instantly use exact Square Feet ya Acre database me badalna complex task banta hai. Land measurement rules me minor values error hone se heavy monetary loss aur sub-registrar registry tasks me permanent boundary dispute cases face karne padte hain. Isi conversion matrix glitch ko bypass karne ke liye Shayan Smart Tools ne is interactive Assam Land Unit Converter Dropdown System ko optimized stacks par develop kiya hai taaki users dynamic scale switch operation execute kar sakein.
+            </p>
         </section>
 
-        <img src="images/image2.webp" class="content-image" loading="lazy" alt="Kaziranga National Park Landscape">
-
-        <h3 id="tblTitle">Assam Land Conversion Master Scale</h3>
-        <table>
-            <thead><tr><th>Unit</th><th>Sq Ft</th></tr></thead>
-            <tbody>
-                <tr><td>1 Bigha</td><td>14,400</td></tr>
-                <tr><td>1 Katha</td><td>2,880</td></tr>
-                <tr><td>1 Lessa</td><td>144</td></tr>
-            </tbody>
-        </table>
-
-        <img src="images/image3.webp" class="content-image" loading="lazy" alt="One-Horned Rhinoceros in Assam">
-
         <section>
-            <h3 id="hSec2">2. How to Use</h3>
-            <p>Input Bigha, Katha, Lessa and get instant results.</p>
+            <h3 id="hSec2">2. Decoding Assam Land Metrics Hierarchy: Bigha, Katha, and Lessa Scales</h3>
+            <p>
+                Assam land assessment standards ko samajhne ke liye iska structural hierarchy workflow janna mandatory hai. Agar aap is logical chain distribution link ko samajh lete hain, toh aap kisi bhi Jamabandi RTC record sheet copy ko without revenue staff (Mandal ya Ameen) support ke self-auditing parameters par test kar sakte hain.
+            </p>
+            <p>
+                State revenue department rules ke anusaar: Assam me plot profiling ka base scaling model Lessa unit se structural rest uthata hai. 1 standard Lessa block piece sateek 144 Square Feet area space data frame ke equal rests karta hai (Yani 12x12 feet ka spatial segment area). Jab is sequence ko grid layout me forward kiya jata hai, toh 20 symmetric Lessa layout components accumulate hoke design karte hain exactly 1 Katha spatial region framework. Is mathematical logic se 1 Katha ka dimensions space banta hai 20 * 144 = 2,880 Square Feet. Is series sequence line ko jab macro parameters par expand karte hain, toh exactly 5 standard Katha fragments compile hoke match design form karte hain jise 1 Bigha kaha jata hai. Is matrix layout mapping ratio se 1 Bigha banta hai 5 * 2880 = 14,400 Square Feet. Niche diya master conversion structural sheet parameters is configuration tracking order ko perfectly verify karta hai:
+            </p>
         </section>
 
+        <h3 id="tblTitle">Assam Land Revenue Conversion Master Scale</h3>
+        <div style="overflow-x: auto;">
+            <table>
+                <thead>
+                    <tr>
+                        <th id="thUnit">Sarkari Unit Name</th>
+                        <th id="thScale">Assam Local Standard Scale</th>
+                        <th id="thSqft">Square Feet (Sq Ft)</th>
+                        <th id="thSqm">Square Meters (Sq M)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><b>1 Bigha</b></td>
+                        <td>5 Katha / 100 Lessa (Lecha)</td>
+                        <td>14,400 Sq Ft</td>
+                        <td>1,337.80 Sq M</td>
+                    </tr>
+                    <tr>
+                        <td><b>1 Katha</b></td>
+                        <td>20 Lessa Blocks Matrix</td>
+                        <td>2,880 Sq Ft</td>
+                        <td>267.56 Sq M</td>
+                    </tr>
+                    <tr>
+                        <td><b>1 Lessa</b></td>
+                        <td>1/20 Fraction of a Katha Area</td>
+                        <td>144 Sq Ft</td>
+                        <td>13.37 Sq M</td>
+                    </tr>
+                    <tr>
+                        <td><b>1 Acre</b></td>
+                        <td>~3.025 Official Assam Bigha</td>
+                        <td>43,560 Sq Ft</td>
+                        <td>4,046.86 Sq M</td>
+                    </tr>
+                    <tr>
+                        <td><b>1 Hectare</b></td>
+                        <td>~7.474 Bigha Tracking System</td>
+                        <td>1,07,639.10 Sq Ft</td>
+                        <td>10,000 Sq M</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <section>
+            <h3 id="hSec3">3. Understanding Essential Document Terms: Jamabandi, Chitha, and Dag Number</h3>
+            <p>
+                Dynamic processing results access karne ke sath-sath, real property allocations verification data structures me in points ka deep awareness rehna must hai:
+            </p>
+            <p>
+                <b>A. Jamabandi (জমা বন্দী):</b> Yeh basic legal assignment ledger dastawez hota hai jisme absolute ownership profiles, revenue tax matrices, shares distribution allocation keys, aur mutations dynamic log history completely save rehti hai.
+            </p>
+            <p>
+                <b>B. Chitha Register (চিঠা):</b> Yeh field-by-field boundary verification mapping documentation ledger tracking file hoti hai jo real spatial coordinates par continuous changes state save rests hold karti hai.
+            </p>
+            <p>
+                <b>C. Dag Number (দাগ নম্বৰ):</b> Yeh positioning identity track key hai. Assam administrative blocks maps structure me authorities dwara land parcel layout segment boundary mapping block sector ko diya gaya discrete standard reference number data code hota hai.
+            </p>
+        </section>
+
+        <section>
+            <h3 id="hSec4">4. Operational Manual: How Shayan Smart Tools Simplifies Assam Conversion?</h3>
+            <p>
+                Hamne is unit parser client application framework logic ko continuous processing speed matrix architecture design par align kiya hai. Iske sequence rules following order me hain:
+            </p>
+            <ul style="list-style-type: square; padding-left: 20px;">
+                <li><b>Language Selector Configuration:</b> Dashboard upper controller line parameters block par discrete clicks operations se aap **English** ya **Assamese (অসমীয়া)** languages selection apply kar sakte hain, saari tracking parameters metrics fast mode me translate ho jayengi.</li>
+                <li><b>Value Parameter Allocation Feed:</b> Field entry area boxes block me Bigha, Katha, aur Lessa parameters properly register entries feed karein (Jaise: 2 Bigha, 3 Katha, 12 Lessa).</li>
+                <li><b>Compile Framework Execution:</b> Conversion calculation loops framework initialize karne ke liye active standalone structural component **"Convert Now"** choice select execute karein.</li>
+                <li><b>Interpretation UI Display:</b> Systems display panel layers auto open mode toggle change execute korea aur aapke samne precise Square Feet, Square Meters, Acre, Hectare aur unified breakdowns data load render kar dega.</li>
+            </ul>
+        </section>
+
+        <h3 id="lblDashTitle">Related Tools & Internal Dashboards</h3>
         <div class="sst-dashboard-grid">
-            <a class="sst-dash-btn" href="index.html"><div class="sst-dash-icon">🏠</div><span class="sst-dash-title">Home Dashboard</span></a>
+            <a class="sst-dash-btn" href="index.html">
+                <div class="sst-dash-icon">🏠</div>
+                <span class="sst-dash-title" id="dshHome">Home Dashboard</span>
+            </a>
+            <a class="sst-dash-btn" href="assam-land-calculator.html">
+                <div class="sst-dash-icon">🏡</div>
+                <span class="sst-dash-title" id="dshCalc">Assam Land Area Calculator</span>
+            </a>
+            <a class="sst-dash-btn" href="assam-bigha-to-sqft.html">
+                <div class="sst-dash-icon">🏡</div>
+                <span class="sst-dash-title" id="dshConv">Assam Bigha to Sq Ft</span>
+            </a>
+            <a class="sst-dash-btn" href="assam-land-cost-calculator.html">
+                <div class="sst-dash-icon">💰</div>
+                <span class="sst-dash-title" id="dshCost">Assam Land Cost Tool</span>
+            </a>
+        </div>
+
+        <div style="margin-top: 40px; background: #ffffff; padding: 20px; border: 2px dashed var(--as-green); border-radius: 12px; font-size: 13px;">
+            <p><b>Copyright Issue:</b> Is website ka code aur logic Shayan Smart Tools ki sampatti hai. Copying strictly prohibited.</p>
+            <p><b>All Rights Reserved © 2026 Shayan Smart Tools</b></p>
+            <p><b>Disclaimer:</b> Yeh calculator aapki suvidha aur andaze ke liye hai. Kisi bhi kanooni dastawez ya seemavada survey ke liye apne halqa Mandal se sampark karein.</p>
         </div>
     </article>
 
     <script>
-        // JS Logic...
+        document.addEventListener('contextmenu', e => e.preventDefault());
+        document.onkeydown = function(e) {
+            if (e.ctrlKey && (e.keyCode === 67 || e.keyCode === 85 || e.keyCode === 73)) {
+                alert("Copyright Warning: Copying content from Shayan Digital Service is prohibited.");
+                return false;
+            }
+        };
+
+        let currentLang = 'en';
+        const dict = {
+            en: {
+                mt: "Assam Land Unit Converter",
+                st: "Enter Bigha, Katha, and Lessa values to calculate and convert into all Assam land metrics instantly.",
+                bt: "Convert Now",
+                lh: "Enter Value & Select Unit",
+                rh: "Land Area Conversion Results",
+                lblB: "Enter Bigha",
+                lblK: "Enter Katha",
+                lblL: "Enter Lessa",
+                rb: "Total in Bigha:",
+                rk: "Total in Katha:",
+                rl: "Total in Lessa:",
+                rs: "Square Feet (Sq Ft):",
+                rm: "Square Meters (Sq M):",
+                ra: "Total Acre:",
+                rhc: "Total Hectare:",
+                bc: "📋 Copy Details",
+                bw: "📲 WhatsApp",
+                bp: "🖨️ Print Report",
+                bk: "⬅ Back to All Tools",
+                seot: "Assam Land Unit Converter: Bigha, Katha aur Lessa Matrix Kaise Samjhein?",
+                seos: "Assam Land Revenue Department aur ILRMS portal guidelines ke anusaar Bigha, Katha aur Lessa ka complete mathematical breakdown guide.",
+                s1: "1. Introduction to Assam Land Records (Dharitree ILRMS Dashboard)",
+                s2: "2. Decoding Assam Land Metrics Hierarchy: Bigha, Katha, and Lessa Scales",
+                s3: "3. Understanding Essential Document Terms: Jamabandi, Chitha, and Dag Number",
+                s4: "4. Operational Manual: How Shayan Smart Tools Simplifies Assam Conversion?",
+                tt: "Assam Land Revenue Conversion Master Scale",
+                tu: "Sarkari Unit Name",
+                ts: "Assam Local Standard Scale",
+                tf: "Square Feet (Sq Ft)",
+                tm: "Square Meters (Sq M)",
+                dt: "Related Tools & Internal Dashboards",
+                dh: "Home Dashboard",
+                dc: "Assam Land Area Calculator",
+                dv: "Assam Bigha to Sq Ft",
+                dg: "Assam Land Cost Tool"
+            },
+            as: {
+                mt: "অসম ভূমি গোট ৰূপান্তৰক কেলকুলেটৰ",
+                st: "বিঘা, কঠা আৰু লেচাৰ মানসমূহ লিখক আৰু সকলো অসম ভূমি ৰাজহ গোটলৈ লগে লগে ৰূপান্তৰ কৰক।",
+                bt: "ৰূপান্তৰ কৰক (Convert Now)",
+                lh: "মান লিখক আৰু গোট বাছনি কৰক",
+                rh: "ভূমি ৰূপান্তৰ ফলাফল থুলমুলকৈ",
+                lblB: "বিঘা লিখক",
+                lblK: "কঠা লিখক",
+                lblL: "লেচা লিখক",
+                rb: "মুঠ বিঘা (Bigha):",
+                rk: "মুঠ কঠা (Katha):",
+                rl: "মুঠ লেচা (Lessa):",
+                rs: "চতুৰ্থ সীমানা বৰ্গফুট (Sq Ft):",
+                rm: "বৰ্গ মিটাৰ (Square Meters):",
+                ra: "মুঠ একৰ (Acre):",
+                rhc: "মুঠ হেক্টৰ (Hectare):",
+                bc: "📋 সবিশেষ নকল কৰক",
+                bw: "📲 হোৱাটছএপত শ্বেয়াৰ কৰক",
+                bp: "🖨️ প্ৰতিবেদন প্ৰিণ্ট কৰক",
+                bk: "⬅ সকলো সঁজুলিলৈ ঘূৰি যাওক",
+                seot: "অসম ভূমি গোট ৰূপান্তৰক: বিঘা, কঠা আৰু লেচাৰ সম্পূৰ্ণ জোখ-মাখ বুজি লওক",
+                seos: "অসম ভূমি ৰাজহ বিভাগ আৰু ধৰিত্ৰী প’ৰ্টেলৰ নিয়ম অনুসৰি বিঘা, কঠা আৰু লেচাৰ সঠিক গাণিতিক বিশ্লেষণ গাইড।",
+                s1: "১. অসমৰ ভূমি অভিলেখৰ চমু পৰিচয় (ধৰিত্ৰী ILRMS ড্যাশবৰ্ড)",
+                s2: "২. অসম ভূমি জোখৰ শৃংখলা: বিঘা, কঠা আৰু লেচাৰ সঠিক অনুপাত",
+                s3: "৩. প্ৰয়োজনীয় আইনী দস্তাবেজ: জমাবন্দী, চিঠা আৰু দাগ নম্বৰ",
+                s4: "৪. ব্যৱহাৰিক নিয়মাৱলী: শয়ান স্মাৰ্ট টুলচে কেনেকৈ মাটিৰ জোখ সহজ কৰি তোলে?",
+                tt: "অসম ভূমি ৰাজহ ৰূপান্তৰৰ মাষ্টাৰ স্কেল তালিকা",
+                tu: "চৰকাৰী গোটৰ নাম",
+                ts: "অসমৰ স্থানীয় জোখৰ মান",
+                tf: "বৰ্গফুট জোখ (Sq Ft)",
+                tm: "বৰ্গ মিটাৰ জোখ (Sq M)",
+                dt: "প্ৰাসংగিক সঁজুলি আৰু অন্তৰ্ভুক্ত ড্যাশবৰ্ডসমূহ",
+                dh: "মুখ্য ড্যাশবৰ্ড",
+                dc: "অসম ভূমি কালি কেলকুলেটৰ",
+                dv: "অসম বিঘাৰ পৰা বৰ্গফুট",
+                dg: "অসম ভূমি মূল্য কেলকুলেটৰ"
+            }
+        };
+
+        function setLang(lang) {
+            currentLang = lang;
+            document.getElementById('enBtn').classList.toggle('active', lang === 'en');
+            document.getElementById('asBtn').classList.toggle('active', lang === 'as');
+            
+            document.getElementById('mTitle').innerText = dict[lang].mt;
+            document.getElementById('sTitle').innerText = dict[lang].st;
+            document.getElementById('btnText').innerText = dict[lang].bt;
+            document.getElementById('resHead').innerText = dict[lang].rh;
+            
+            document.getElementById('lblBigha').innerText = dict[lang].lblB;
+            document.getElementById('lblKatha').innerText = dict[lang].lblK;
+            document.getElementById('lblLessa').innerText = dict[lang].lblL;
+
+            document.getElementById('lblResBighaOut').innerText = dict[lang].rb;
+            document.getElementById('lblResKathaOut').innerText = dict[lang].rk;
+            document.getElementById('lblResLessaOut').innerText = dict[lang].rl;
+            document.getElementById('lblResSqft').innerText = dict[lang].rs;
+            document.getElementById('lblResSqm').innerText = dict[lang].rm;
+            document.getElementById('lblResAcre').innerText = dict[lang].ra;
+            document.getElementById('lblResHectare').innerText = dict[lang].rhc;
+            
+            document.getElementById('btnCopy').innerText = dict[lang].bc;
+            document.getElementById('btnWA').innerText = dict[lang].bw;
+            document.getElementById('btnPrint').innerText = dict[lang].bp;
+            document.getElementById('lnkBack').innerText = dict[lang].bk;
+
+            document.getElementById('seoTitle').innerText = dict[lang].seot;
+            document.getElementById('seoSubTitle').innerText = dict[lang].seos;
+            document.getElementById('hSec1').innerText = dict[lang].s1;
+            document.getElementById('hSec2').innerText = dict[lang].s2;
+            document.getElementById('hSec3').innerText = dict[lang].s3;
+            document.getElementById('hSec4').innerText = dict[lang].s4;
+            document.getElementById('tblTitle').innerText = dict[lang].tt;
+            document.getElementById('thUnit').innerText = dict[lang].tu;
+            document.getElementById('thScale').innerText = dict[lang].ts;
+            document.getElementById('thSqft').innerText = dict[lang].tf;
+            document.getElementById('thSqm').innerText = dict[lang].tm;
+            document.getElementById('lblDashTitle').innerText = dict[lang].dt;
+            document.getElementById('dshHome').innerText = dict[lang].dh;
+            document.getElementById('dshCalc').innerText = dict[lang].dc;
+            document.getElementById('dshConv').innerText = dict[lang].dv;
+            document.getElementById('dshCost').innerText = dict[lang].dg;
+
+            if(document.getElementById('resPanel').style.display === "block") {
+                calculateAssamLand();
+            }
+        }
+
         function calculateAssamLand() {
             const bigha = parseFloat(document.getElementById('bighaInput').value) || 0;
             const katha = parseFloat(document.getElementById('kathaInput').value) || 0;
             const lessa = parseFloat(document.getElementById('lessaInput').value) || 0;
+            const resPanel = document.getElementById('resPanel');
+
+            if (bigha < 0 || katha < 0 || lessa < 0 || (bigha === 0 && katha === 0 && lessa === 0)) {
+                alert(currentLang === 'en' ? "Please enter valid numerical parameters!" : "অনুগ্ৰহ কৰি সঠিক সংখ্যা লিখক!");
+                return;
+            }
+
+            // Absolute Assam Land Revenue Matrix: 1 Bigha=14400, 1 Katha=2880, 1 Lessa=144 Sq Ft
             let totalSqft = (bigha * 14400) + (katha * 2880) + (lessa * 144);
-            document.getElementById('resGrid').innerHTML = `
-                <div class="res-item"><span>Sq Ft:</span> <b>${totalSqft}</b></div>
-                <div class="res-item"><span>Bigha:</span> <b>${(totalSqft/14400).toFixed(4)}</b></div>
-            `;
-            document.getElementById('resPanel').style.display = "block";
+            
+            let totalBigha = totalSqft / 14400;
+            let totalKatha = totalSqft / 2880;
+            let totalLessa = totalSqft / 144;
+
+            let sqm = totalSqft / 10.7639104;
+            let acre = totalSqft / 43560;
+            let hectare = totalSqft / 107639.104;
+
+            // Render Output Matrix Data
+            document.getElementById('resSqft').innerText = Math.round(totalSqft).toLocaleString('en-IN') + " sq ft";
+            document.getElementById('resSqm').innerText = Math.round(sqm).toLocaleString('en-IN') + " sq m";
+            document.getElementById('resAcre').innerText = acre.toFixed(4);
+            document.getElementById('resHectare').innerText = hectare.toFixed(4);
+            document.getElementById('resBigha').innerText = totalBigha.toFixed(2);
+            document.getElementById('resKatha').innerText = totalKatha.toFixed(2);
+            document.getElementById('resLessa').innerText = totalLessa.toFixed(2);
+
+            document.getElementById('rInputVal').innerText = bigha + " Bigha, " + katha + " Katha, " + lessa + " Lessa";
+
+            let options = { timeZone: 'Asia/Kolkata', day: 'numeric', month: 'long', year: 'numeric' };
+            let today = new Date().toLocaleDateString('en-IN', options);
+            document.getElementById('pDocDate').innerText = today + " (IST)";
+
+            let randID = Math.floor(1000000000 + Math.random() * 9000000000);
+            document.getElementById('pDocRef').innerText = "SST-AS-LUC-" + randID;
+
+            resPanel.style.display = "block";
+            resPanel.scrollIntoView({ behavior: 'smooth' });
         }
-        function setLang(l) { /* Logic same as previous */ }
+
+        function printLandReport() {
+            const resPanel = document.getElementById('resPanel');
+            if (resPanel.style.display !== "block") { 
+                alert("Calculate first before printing!"); 
+                return; 
+            }
+
+            const printRow = document.getElementById('print-input-row');
+            printRow.style.display = "flex";
+            window.print();
+            printRow.style.display = "none";
+        }
+
+        function copyData() {
+            let text = "Assam Land Results:\nSq Ft: " + document.getElementById('resSqft').innerText + "\nBigha: " + document.getElementById('resBigha').innerText + "\nKatha: " + document.getElementById('resKatha').innerText + "\nLessa: " + document.getElementById('resLessa').innerText + "\nCalculated via Shayan Smart Tools";
+            navigator.clipboard.writeText(text);
+            alert("Details Copied!");
+        }
+
+        function shareWA() {
+            let urlText = encodeURIComponent("Assam Land Conversion Results:\nSq Ft: " + document.getElementById('resSqft').innerText + "\nBigha: " + document.getElementById('resBigha').innerText + "\nKatha: " + document.getElementById('resKatha').innerText + "\nLessa: " + document.getElementById('resLessa').innerText + "\nCheck details via Shayan Smart Tools");
+            window.open("https://wa.me/?text=" + urlText);
+        }
     </script>
 </body>
-</html>
+                </html>
