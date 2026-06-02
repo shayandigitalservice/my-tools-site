@@ -3,393 +3,587 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Karnataka Land Area Calculator Free 2026| ಕರ್ನಾಟಕ ಭೂಮಿ ಅಳತೆ | Shayan Smart Tools</title>
-    
-    <!-- STRONG SEO META TAGS -->
-    <meta name="description" content="Calculate land area in Karnataka (Guntha, Anna, Acre). Official 2026 Karnataka land measurement tool with English & Kannada support. Best for Bhoomi records.">
-    <meta name="keywords" content="Karnataka land calculator, Guntha to Sq Ft Karnataka, Acre to Guntha converter, ಕರ್ನಾಟಕ ಭೂಮಿ ಅಳತೆ, Shayan Smart Tools, Karnataka Land Measurement">
+    <title>Karnataka Land Area Calculator Free 2026 | ಕರ್ನಾಟಕ ಭೂಮಿ ಅಳತೆ | Guntha, Anna, Acre Converter</title>
+    <link rel="canonical" href="https://shayansmarttools.in/karnataka-land-area-calculator.html" />
+
+    <meta name="description" content="Calculate land area in Karnataka using Length & Width. Accurate Guntha, Anna, Acre, and Hectare converter by Shayan Smart Tools. Best tool for Bhoomi land records.">
+    <meta name="keywords" content="Karnataka Land Area Calculator, ಕರ್ನಾಟಕ ಭೂಮಿ ಅಳತೆ, Karnataka Land Measurement Calculator, Bhoomi unit converter, Karnataka Guntha to Sq Ft, Guntha calculator Karnataka, Shayan Smart Tools">
     <meta name="author" content="Muksidul Islam">
     <meta name="robots" content="index, follow">
 
     <style>
         :root {
             --ka-red: #c62828;
-            --ka-yellow: #ffeb3b;
-            --ka-dark: #1a1a1a;
+            --ka-gold: #ffb300;
+            --ka-corporate: #0f172a;
+            --text-dark: #334155;
             --white: #ffffff;
+            --bg: #f8fafc;
         }
 
-        body {
-            font-family: 'Segoe UI', Roboto, sans-serif;
-            background-color: #ffffff;
-            margin: 0;
-            padding: 20px;
-            color: #333;
-            line-height: 1.6;
-        }
+        body { font-family: 'Poppins', sans-serif; background-color: var(--bg); margin: 0; padding: 10px; color: #333; }
+        .measurement-tool { max-width: 850px; margin: 0 auto; }
 
-        .tool-header {
-            text-align: center;
-            margin-bottom: 40px;
+        header {
+            background: linear-gradient(135deg, var(--ka-red), var(--ka-corporate));
+            color: #fff; padding: 40px 20px; border-radius: 25px; text-align: center;
+            border-bottom: 6px solid var(--ka-gold); margin-bottom: 30px;
         }
+        header h1 { color: white; margin: 0 0 10px 0; font-size: 28px; text-transform: uppercase; font-weight: 900; }
+        header p { color: #ffebee; margin: 0; font-size: 16px; }
 
-        .tool-header h1 {
-            color: var(--ka-red);
-            font-size: 2.2rem;
-            margin-bottom: 10px;
-            text-transform: uppercase;
+        .lang-switch { display: flex; justify-content: center; gap: 10px; margin-bottom: 25px; }
+        .l-btn { padding: 10px 25px; border-radius: 50px; border: 2px solid var(--ka-red); background: white; cursor: pointer; font-weight: 700; transition: 0.3s; color: var(--ka-red); }
+        .l-btn.active { background: var(--ka-red); color: white; }
+
+        /* Input Grid */
+        .input-section { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 15px; margin-bottom: 25px; }
+        label { display: block; font-size: 12px; font-weight: 800; color: var(--ka-red); margin-bottom: 8px; text-transform: uppercase; }
+        input, select { width: 100%; padding: 15px; border: 1px solid #cbd5e1; border-radius: 12px; font-size: 16px; box-sizing: border-box; outline: none; transition: 0.3s; }
+        input:focus, select:focus { border-color: var(--ka-red); background: #fff; box-shadow: 0 0 8px rgba(198,40,40,0.1); }
+
+        .btn-convert { width: 100%; padding: 20px; background: var(--ka-red); color: var(--ka-gold); border: none; border-radius: 15px; font-size: 18px; font-weight: 800; cursor: pointer; transition: 0.3s; text-transform: uppercase; letter-spacing: 1px; }
+        .btn-convert:hover { transform: translateY(-3px); box-shadow: 0 10px 20px rgba(198,40,40,0.2); background: #000; }
+
+        /* OFFICIAL LAND WEBSITES REDIRECT GRID PANELS */
+        .gov-links-title { font-size: 13px; font-weight: 800; color: var(--ka-red); margin-top: 20px; text-transform: uppercase; letter-spacing: 0.5px; text-align: left; }
+        .gov-links-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; margin-top: 8px; margin-bottom: 25px; }
+        .gov-link-card { display: flex; align-items: center; justify-content: space-between; background: #ffffff; border: 1px solid #e2e8f0; padding: 14px 18px; border-radius: 12px; text-decoration: none; color: #1e293b !important; font-weight: bold; font-size: 13px; transition: 0.3s; box-shadow: 0 2px 4px rgba(0,0,0,0.02); }
+        .gov-link-card:hover { border-color: var(--ka-red); background: #ffebee; transform: translateY(-2px); }
+        .gov-link-card span { font-size: 16px; }
+
+        /* RESULTS UI PANEL */
+        .res-panel { background: #0f172a; color: white; padding: 25px; border-radius: 25px; margin-top: 30px; display: none; border: 2px solid var(--ka-gold); position: relative; }
+        .bkl-special { background: rgba(255,255,255,0.05); padding: 20px; border-radius: 15px; text-align: center; margin-bottom: 20px; border: 1px dashed var(--ka-red); }
+        
+        /* LEFT-SIDE NAME & RIGHT-SIDE VALUE SYSTEM PARALLEL GRID */
+        .res-grid { display: grid; grid-template-columns: repeat(1, 1fr); gap: 12px; }
+        .res-item { background: rgba(255,255,255,0.04); padding: 14px 20px; border-radius: 10px; display: flex; flex-direction: row; justify-content: space-between; align-items: center; border-left: 4px solid var(--ka-gold); }
+        .res-item span { font-size: 14px; color: #94a3b8; font-weight: bold; text-align: left; }
+        .res-item b { font-size: 17px; color: #fff; text-align: right; word-break: break-all; font-family: monospace; }
+
+        .print-header-block, .print-footer-block { display: none; }
+
+        /* HIGH-CONTRAST UTILITY BUTTONS */
+        .util-btns { display: flex; gap: 10px; margin-top: 25px; }
+        .u-btn { flex: 1; padding: 16px; border-radius: 12px; border: none; font-weight: 800; cursor: pointer; transition: 0.3s; color: white !important; font-size: 14px; text-align: center; text-transform: uppercase; letter-spacing: 0.5px; }
+        .u-btn.c-btn { background: #334155; } 
+        .u-btn.w-btn { background: #16a34a; } 
+        .u-btn.p-btn { background: #1e40af; } 
+        .u-btn:hover { filter: brightness(1.2); transform: translateY(-2px); }
+
+        /* CLEAN FIXED SEO ARTICLE LAYER - NO WRAPPER PANELS */
+        .seo-content { 
+            background: transparent !important; 
+            padding: 20px 0; 
+            margin-top: 50px; 
+            line-height: 1.8; 
+            border: none !important;
+            color: #334155 !important;
+            text-align: left;
         }
-
-        /* Language Switcher */
-        .lang-flex {
-            display: flex;
-            justify-content: center;
-            gap: 15px;
+        .seo-content .seo-header-block {
+            text-align: center; 
+            border-bottom: 3px solid var(--ka-red); 
+            padding-bottom: 20px; 
             margin-bottom: 30px;
+            background: transparent !important;
         }
-
-        .l-btn {
-            padding: 10px 25px;
-            border: 2px solid var(--ka-red);
-            background: transparent;
-            border-radius: 50px;
-            cursor: pointer;
-            font-weight: 700;
-            color: var(--ka-red);
-            transition: 0.3s;
-        }
-
-        .l-btn.active {
-            background: var(--ka-red);
-            color: #fff;
-        }
-
-        /* Input Section - Open Design */
-        .input-wrapper {
-            max-width: 800px;
-            margin: 0 auto 40px auto;
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 20px;
-        }
-
-        .input-group label {
-            display: block;
-            font-weight: 600;
-            margin-bottom: 8px;
-            color: var(--ka-dark);
-            font-size: 14px;
-        }
-
-        input, select {
-            width: 100%;
-            padding: 14px;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            font-size: 16px;
-            outline: none;
-            box-sizing: border-box;
-        }
-
-        input:focus { border-color: var(--ka-red); box-shadow: 0 0 8px rgba(198, 40, 40, 0.1); }
-
-        .calc-btn {
-            max-width: 800px;
-            margin: 0 auto;
-            display: block;
-            width: 100%;
-            padding: 20px;
-            background: var(--ka-red);
-            color: var(--ka-yellow);
-            border: none;
-            border-radius: 12px;
-            font-size: 18px;
-            font-weight: 800;
-            cursor: pointer;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            transition: 0.3s;
-        }
-
-        .calc-btn:hover { background: #b71c1c; transform: translateY(-2px); }
-
-        /* Results Display */
-        .result-area {
-            max-width: 800px;
-            margin: 40px auto;
-            display: none;
-            border-top: 2px solid #eee;
-            padding-top: 30px;
-        }
-
-        .ka-highlight {
-            background: #fffde7;
-            padding: 25px;
-            text-align: center;
-            border-radius: 15px;
-            margin-bottom: 25px;
-            border: 2px dashed var(--ka-red);
-        }
-
-        .ka-highlight span { font-size: 14px; color: #666; display: block; margin-bottom: 5px; }
-        .ka-highlight strong { font-size: 28px; color: var(--ka-red); }
-
-        .grid-results {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 15px;
-        }
-
-        .res-box {
-            padding: 15px;
-            border-bottom: 1px solid #f0f0f0;
-            display: flex;
-            justify-content: space-between;
-        }
-
-        .res-box b { color: var(--ka-red); }
-
-        .action-btns {
-            display: flex;
-            gap: 10px;
-            margin-top: 30px;
-        }
-
-        .act-btn { flex: 1; padding: 15px; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; color: #fff; transition: 0.3s; }
-
-        /* SEO Content Section */
-        .seo-wrapper {
-            max-width: 1000px;
-            margin: 80px auto 40px auto;
-        }
-
-        .seo-wrapper h2 {
-            color: var(--ka-red);
-            border-left: 6px solid var(--ka-yellow);
+        .seo-content h2 { 
+            color: var(--ka-red) !important; 
+            font-size: 26px !important;
+            margin-bottom: 10px !important;
+            border-left: 6px solid var(--ka-red);
             padding-left: 15px;
-            margin-top: 45px;
-            font-size: 1.8rem;
+            margin-top: 40px;
+            font-weight: 800;
+        }
+        .seo-content p { color: #334155 !important; font-size: 16px; text-align: justify; margin-bottom: 15px; }
+        
+        .seo-content table { width: 100%; border-collapse: collapse; margin: 25px 0; background: #ffffff; box-shadow: 0 4px 6px rgba(0,0,0,0.02); border-radius: 8px; overflow: hidden; }
+        .seo-content th, .seo-content td { padding: 15px; border: 1px solid #e2e8f0; text-align: left; color: #334155 !important; }
+        .seo-content th { background: #fffde7; color: var(--ka-red) !important; font-weight: bold; }
+        .seo-content tr:nth-child(even) { background-color: #f8fafc; }
+
+        /* DASHBOARD LINKS */
+        .sst-dashboard-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; margin: 40px 0; width: 100%; box-sizing: border-box; }
+        .sst-dash-btn { display: flex; align-items: center; justify-content: center; background: #ffffff; padding: 18px 20px; border-radius: 16px; text-decoration: none; color: var(--ka-corporate) !important; font-weight: 700; font-size: 15px; border: 1px solid #e2e8f0; transition: 0.3s; text-align: center; box-sizing: border-box; }
+        .sst-dash-btn:hover { border-color: var(--ka-red); transform: translateY(-4px); box-shadow: 0 12px 20px rgba(198, 40, 40, 0.1); background: linear-gradient(135deg, #ffffff, #ffebee); }
+
+        @media (max-width: 600px) { 
+            .res-item { padding: 12px 14px; }
+            .seo-content h2 { font-size: 22px !important; }
+            .sst-dashboard-grid { grid-template-columns: 1fr; gap: 12px; }
         }
 
-        table { width: 100%; border-collapse: collapse; margin: 25px 0; font-size: 15px; }
-        th, td { padding: 15px; border: 1px solid #eee; text-align: left; }
-        th { background: #fffde7; color: var(--ka-red); }
-
-        .internal-links {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 15px;
-            margin: 40px 0;
+        /* PREMIUM PRINT MATRIX */
+        @media print {
+            * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+            @page { margin: 15mm; size: A4 portrait; }
+            body { background: #ffffff !important; color: #000000 !important; padding: 0; margin: 0; }
+            .measurement-tool > header, .lang-switch, .gov-links-title, .gov-links-grid, .input-section, .btn-convert, .util-btns, #resHead, .seo-content, .back-btn { display: none !important; }
+            .res-panel { display: block !important; background: #ffffff !important; color: #000000 !important; padding: 25px !important; width: 100% !important; box-sizing: border-box; border: 3px double var(--ka-red) !important; border-radius: 0px !important; }
+            .print-header-block { display: block !important; text-align: center; border-bottom: 2px solid var(--ka-red) !important; padding-bottom: 12px; margin-bottom: 20px; }
+            .bkl-special { background: #ffebee !important; border: 1px dashed var(--ka-red) !important; color: #000 !important; }
+            
+            .res-grid { display: block !important; margin-top: 15px; }
+            .res-item { background: transparent !important; border: none !important; border-bottom: 1px solid #cbd5e1 !important; padding: 12px 4px !important; display: flex !important; justify-content: space-between !important; flex-direction: row !important; }
+            .res-item span { color: #1e293b !important; font-size: 13px !important; font-weight: 600; text-transform: uppercase; }
+            .res-item b { color: var(--ka-red) !important; font-size: 15px !important; font-weight: bold; }
+            
+            .print-footer-block { display: block !important; text-align: center; margin-top: 40px; border-top: 1px solid #cbd5e1 !important; padding-top: 20px; }
         }
-
-        .i-link {
-            text-decoration: none;
-            padding: 18px;
-            background: #fff;
-            border: 2px solid var(--ka-red);
-            color: var(--ka-red);
-            text-align: center;
-            font-weight: 700;
-            border-radius: 12px;
-            transition: 0.3s;
-        }
-
-        .i-link:hover { background: var(--ka-red); color: var(--ka-yellow); }
-
-        @media (max-width: 600px) { .grid-results { grid-template-columns: 1fr; } }
     </style>
 </head>
 <body>
 
-<div class="tool-header">
-    <h1 id="h1Title">Karnataka Land Area Calculator</h1>
-    <p id="pSub">Calculate Guntha, Anna, Acre & Hectare for Karnataka Bhoomi Records.</p>
+<div class="measurement-tool">
+    <header>
+        <h1 id="mTitle">Land Measurement Calculator (Karnataka)</h1>
+        <p id="sTitle">Accurate Guntha, Anna, and Acre converter for Bhoomi Karnataka Land Records.</p>
+    </header>
+
+    <div class="lang-switch">
+        <button class="l-btn active" id="enBtn" onclick="setLang('en')">English</button>
+        <button class="l-btn" id="bnBtn" onclick="setLang('bn')">ಕನ್ನಡ</button>
+    </div>
+
+    <div class="input-section">
+        <div class="field">
+            <label id="lLen">Length (Lambai)</label>
+            <input type="number" id="length" placeholder="Enter length">
+        </div>
+        <div class="field">
+            <label id="lWid">Width (Chaudai)</label>
+            <input type="number" id="width" placeholder="Enter width">
+        </div>
+        <div class="field">
+            <label id="lUni">Unit</label>
+            <select id="unitType">
+                <option value="ft">Feet (ft)</option>
+                <option value="mt">Meter (m)</option>
+            </select>
+        </div>
+    </div>
+
+    <button class="btn-convert" onclick="calculateKarnatakaLand()" id="btnText">CONVERT NOW</button>
+
+    <div class="gov-links-title" id="lblGovTitle">Official Karnataka Land Portals</div>
+    <div class="gov-links-grid">
+        <a href="https://bhoomi.karnataka.gov.in/" target="_blank" class="gov-link-card">
+            <span id="govLink1">🌐 Bhoomi Karnataka (RTC records)</span> <span>↗</span>
+        </a>
+        <a href="https://kaverionline.karnataka.gov.in/" target="_blank" class="gov-link-card">
+            <span id="govLink2">💰 Kaveri Online (Registry & Valuation)</span> <span>↗</span>
+        </a>
+    </div>
+
+    <div id="resPanel" class="res-panel">
+        
+        <div class="print-header-block">
+            <div style="display: flex; justify-content: center; align-items: center; gap: 10px; margin-bottom: 5px;">
+                <img src="favicon.png" alt="SST" style="width: 30px; height: 30px;">
+                <h2 style="font-size: 22px; color: var(--ka-red); margin: 0; font-weight: 900; letter-spacing: 1px;">SHAYAN SMART TOOLS</h2>
+            </div>
+            <p style="font-size: 11px; color: var(--ka-red); font-weight: bold; margin: 0 0 10px 0; letter-spacing: 0.5px; text-transform: uppercase;">KARNATAKA REVENUE LAND AREA SUMMARY - 2026</p>
+            
+            <div style="background: #f8fafc; border: 1px solid #cbd5e1; padding: 10px; border-radius: 4px; display: grid; grid-template-columns: 1fr 1fr; font-size: 11px; text-align: left; gap: 5px; color: #334155;">
+                <div><strong>DOCUMENT REF:</strong> <span id="pDocRef" style="color:var(--ka-red); font-weight:bold;">SST-KA-0000</span></div>
+                <div style="text-align: right;"><strong>DATE:</strong> <span id="pDocDate">--/--/----</span></div>
+                <div><strong>JURISDICTION:</strong> State of Karnataka (ಕರ್ನಾಟಕ)</div>
+                <div style="text-align: right;"><strong>STATUS:</strong> Digitally Secured Calculations</div>
+            </div>
+        </div>
+
+        <div class="bkl-special">
+            <span id="fmtText" style="display:block; font-size: 14px; color: #94a3b8; font-weight: bold; margin-bottom: 5px;">Karnataka Standard Format:</span>
+            <strong id="bklText" style="font-size: 24px; color: var(--ka-gold);">0 Guntha, 0 Anna</strong>
+        </div>
+
+        <h3 id="resHead" style="color: var(--ka-gold); margin-top: 0; text-align: center;">Conversion Results</h3>
+        
+        <div class="res-grid">
+            <div class="res-item" id="print-input-row" style="display:none;"><span id="lblSource">Initial Data Input Feed</span> <b id="rInputVal">0</b></div>
+            <div class="res-item"><span id="lblResSqft">Total Square Feet (Sq.Ft)</span> <b id="resSqft">0</b></div>
+            <div class="res-item"><span id="lblResSqmt">Total Square Meter (Sq.Mt)</span> <b id="resSqmt">0</b></div>
+            <div class="res-item"><span id="lblResSqyd">Total Square Yard (Gaj)</span> <b id="resSqyd">0</b></div>
+            <div class="res-item"><span id="lblResCent">Total Cent Value</span> <b id="resCent">0</b></div>
+            <div class="res-item"><span id="lblResAcre">Total Acre Value</span> <b id="resAcre">0</b></div>
+            <div class="res-item"><span id="lblResHectare">Total Hectare Value</span> <b id="resHectare">0</b></div>
+            <div class="res-item"><span id="lblResGuntha">Calculated Total Guntha</span> <b id="resGuntha">0</b></div>
+            <div class="res-item"><span id="lblResAnna">Calculated Total Anna</span> <b id="resAnna">0</b></div>
+        </div>
+        
+        <div class="print-footer-block">
+            <div style="margin: 0 auto; max-width: 85%; font-size: 11px; color: #475569; line-height: 1.6; text-align: center;">
+                <p style="margin: 0; font-weight: bold; color: var(--ka-red); text-transform: uppercase; font-size: 12px;">🔒 SECURITY DISCLAIMER & VERIFICATION NOTICE</p>
+                <p style="margin: 6px 0 0 0;">This computation is an automated generated metrics summary sheet, digitally verified via standard Karnataka Bhoomi revenue policies (1 Guntha = 1,089 Sq.Ft, 1 Anna = 1/16 Guntha = 68.06 Sq.Ft). Cross-verify survey records with official revenue maps.</p>
+                <div style="display: inline-block; border: 1px dashed var(--ka-red); padding: 6px 20px; border-radius: 4px; margin-top: 15px; margin-bottom: 12px; background: #f8fafc; font-size: 10px; font-weight: bold; color: var(--ka-red); text-transform: uppercase;">
+                    SHAYAN SMART TOOLS [SST SEAL] - OFFICIAL UNIT PLATFORM
+                </div>
+                <p style="margin: 5px 0 0 0; font-size: 12px; font-weight: bold; color: var(--ka-red);">🌐 SST OFFICIAL ACCESS: www.shayansmarttools.in</p>
+            </div>
+        </div>
+
+        <div class="util-btns">
+            <button class="u-btn c-btn" onclick="copyData()" id="btnCopy">📋 Copy All</button>
+            <button class="u-btn w-btn" onclick="shareWA()" id="btnWa">📲 WhatsApp</button>
+            <button class="u-btn p-btn" onclick="printLandReport()" id="btnPrint">🖨️ Print Report</button>
+        </div>
+    </div>
+
+    <div class="back-btn" style="text-align: center; margin-top: 20px;">
+        <a href="index.html" style="color: var(--ka-red); font-weight: bold; text-decoration: none;" id="lnkBack">⬅ Back to All Tools</a>
+    </div>
+
+    <article class="seo-content">
+        <div class="seo-header-block">
+            <h2 id="seoTitle">Karnataka Land Area Calculator: Professional Guntha, Anna & Acre Converter 2026</h2>
+            <p style="font-size: 17px; color: #555; text-align: center; margin: 0;" id="seoSubTitle">Bhoomi Karnataka aur Kaveri online revenue portals ke maps standards ke mutabik land measurements ka complete manual setup.</p>
+        </div>
+
+        <section>
+            <h2>Introduction to Karnataka Land Scaling Registry Rules</h2>
+            <p>Karnataka me land buy aur sell karte samay ya fir settlement survey documents check karte waqt property ka accurate **Land Area Calculator** execute karna sabse primary structure hota hai. State of Karnataka me Revenue Department ke official tracking matrix ke tahat traditional measurement terminology baaki states se bilkul dynamic chalti hai. Coastal belt se lekar interior districts (Bengaluru, Mysuru, Hubballi-Dharwad, Belagavi, Mangaluru) tak zameen ka system mukhya roop se **Guntha, Anna, Acre, aur Hectare** parameters loops par register hota hai.</p>
+            <p>Aapko is pipeline system ke constants pata hona chahiye ki Karnataka Bhoomi records database system me **1 complete standard Guntha holds exactly 1,089 Square Feet area**. Is modern responsive algorithm calculations architecture ko secure framework par build kiya gaya hai jo Muksidul Islam ke advanced coding layouts rules ko safely hold karta hai. Is structural engine panel ka use karke real estate brokers, legal verification authorities aur aam kisan bina kisi mathematical complexity ke apne record details data lock check kar sakte hain.</p>
+        </section>
+
+        <section>
+            <h2>Understanding Regional Karnataka Units Math Operations</h2>
+            <p>Karnataka land mapping database rules me traditional units conversion factors bohot deep setup run karte hain. Is pure structural block parameters ko transparent layout me niche describe kiya gaya hai:</p>
+            <p><strong>1. Guntha System Core Grid:</strong> Karnataka land survey sheets me area scaling tracking ki sabs bada custom indicator standard unit Guntha hai. Jab aap computational equations arrays me value mapping check karte hain, toh ek single standard Guntha perfectly setup karta hai **1,089 Square Feet** surface layout boundaries ($33\text{ ft} \times 33\text{ ft}$). Is framework map metrics me ek full Acre space layout me sateek pure 40 Guntha ka distribution network operational chalta hai.</p>
+            <p><strong>2. Anna Integration Matrix:</strong> Karnataka me digital records tracking limits me Anna Guntha ka ek chota bhag hota hai. Sateek calculation matrix framework ke tehat **16 Anna milkar 1 standard Guntha compile karte hain**. Ek individual standard Anna canvas block mathematically flat **68.0625 Square Feet** size area parameters protect karta hai.</p>
+        </section>
+
+        <section>
+            <h2>Karnataka Land Unit Area Metrics System (Standard Matrix Table)</h2>
+            <p>Bhoomi digital verification ledger maps monitoring records criteria compliance factors parameters table design layout me niche provide kiya gaya hai:</p>
+            <div style="overflow-x: auto;">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Unit Name Designation</th>
+                            <th>Area Scale in Square Feet</th>
+                            <th>Conversion Arithmetic Baseline Factors Rules</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td><b>1 Anna</b></td><td>68.06 Sq. Ft.</td><td>Equivalent to exactly 1/16th part of a Guntha mesh</td></tr>
+                        <tr><td><b>1 Guntha</b></td><td>1,089 Sq. Ft.</td><td>Standard Basic Plot Scale Blueprint Element (33ft x 33ft)</td></tr>
+                        <tr><td><b>1 Cent</b></td><td>435.6 Sq. Ft.</td><td>Universal Micro Plotting standard component matrix</td></tr>
+                        <tr><td><b>1 Square Yard (Gaj)</b></td><td>9 Sq. Ft.</td><td>Standard Local Urban Real Estate Planning layout</td></tr>
+                        <tr><td><b>1 Acre Value Limit</b></td><td>43,560 Sq. Ft.</td><td>Holds Exactly 40 Guntha Accumulation Layout Framework</td></tr>
+                        <tr><td><b>1 Hectare Value Limit</b></td><td>1,07,639 Sq. Ft.</td><td>Comprises Approximately 2.47 Acres Tracking Scales</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <section>
+            <h2>Step-by-Step Practical Calculation Example</h2>
+            <p>Zameen survey records bounds par length lambai aur width chaudai maps scales process data parameters block kaise calculate chalta hai uska ek full operational review loop parameters niche clear example metrics me dekhte hain:</p>
+            <p>Maan lijiye aapne Karnataka region boundary limits map par ek geometric land coordinate set measure kiya jiska input feed tracking numbers following metrics record lock karta hai:</p>
+            <ul>
+                <li><strong>Measured Length Dimension (Plot Lambai):</strong> $165\text{ Feet}$ linear line scale track.</li>
+                <li><strong>Measured Width Dimension (Plot Chaudai):</strong> $132\text{ Feet}$ linear line scale track.</li>
+            </ul>
+            <p>Is numeric system elements validation step processing algorithms loop pipeline calculations breakdown chain steps following metrics output run karta hai:</p>
+            <div style="background: rgba(198,40,40,0.06); padding: 25px; border-radius: 12px; border-left: 6px solid var(--ka-red); margin: 25px 0; font-family: monospace; font-size:15px; color:var(--text-dark);">
+                Step 1: Calculate Gross Surface Footprint Area Canvas = Length × Width<br>
+                Total Area = 165 ft × 132 ft = 21,780 Square Feet (Sq.Ft)<br><br>
+                Step 2: Parse Into Karnataka Guntha Base Constants = Total Sqft / 1,089<br>
+                Guntha Sizing Scale Count = 21,780 / 1,089 = 20.00 Guntha Flat Values.<br><br>
+                Step 3: Breakdown Fraction values check parameters (If Remainder Exists):<br>
+                Full Guntha Blocks count = Math.floor(20) = 20 Gunthas flat.<br>
+                Remaining Sqft Layer Mesh = 21,780 - (20 × 1,089) = 0 Sq.Ft.<br>
+                Calculated Anna Count = 0 / 68.06 = 0 Anna Matrix Layout.<br><br>
+                FINAL COMBINED KARNATAKA REPORT BILL = 20 Guntha (Exactly 0.5 Acre Size / 50 Cent).
+            </div>
+        </section>
+
+        <section id="faqContainer">
+            <h2 id="hFaqHead">15 Important Frequently Asked Questions (FAQs) - Karnataka Land Calculator (Hinglish Matrix)</h2>
+            <div id="faqList"></div>
+        </section>
+
+        <h2 style="border:none; padding:0; margin-bottom:15px;" id="lblDashTitle">Related Tools & Internal Dashboards</h2>
+        <div class="sst-dashboard-grid">
+            <a class="sst-dash-btn" href="index.html" id="dshHome">Home Dashboard</a>
+            <a class="sst-dash-btn" href="karnataka-unit-converter.html" id="dshKa1">KA Unit Converter</a>
+            <a class="sst-dash-btn" href="karnataka-land-cost.html" id="dshKa2">KA Land Cost Tool</a>
+            <a class="sst-dash-btn" href="karnataka-land-partition.html" id="dshKa3">KA Land Partition</a>
+        </div>
+
+        <div style="margin-top: 40px; padding: 25px; border: 2px dashed #ffccd5; background-color: #ffffff; border-radius: 12px; font-size:13px; text-align: center;">
+            <p style="margin:0;" id="lblCopyNotice">
+                <strong>Copyright Notice © 2026 Shayan Smart Tools. All Rights Reserved.</strong><br><br>
+                Is software application layout programming code engine core logic layers, mathematical conversions tracking variables data grid, aur organic optimized text index summaries completely <b>Muksidul Islam</b> ke legal copyright rights configuration limits ke under secure managed hain. Copying completely prohibited hai.
+            </p>
+        </div>
+    </article>
 </div>
-
-<div class="lang-flex">
-    <button class="l-btn active" id="btnEn" onclick="changeLang('en')">English</button>
-    <button class="l-btn" id="btnKa" onclick="changeLang('ka')">ಕನ್ನಡ</button>
-</div>
-
-<div class="input-wrapper">
-    <div class="input-group">
-        <label id="lblLen">Length (Lambai)</label>
-        <input type="number" id="length" placeholder="Enter length">
-    </div>
-    <div class="input-group">
-        <label id="lblWid">Width (Chaudai)</label>
-        <input type="number" id="width" placeholder="Enter width">
-    </div>
-    <div class="input-group">
-        <label id="lblUnit">Select Input Unit</label>
-        <select id="unitIn">
-            <option value="ft">Feet (ಫೀಟ್)</option>
-            <option value="mt">Meter (ಮೀಟರ್)</option>
-        </select>
-    </div>
-</div>
-
-<button class="calc-btn" onclick="calculateKA()" id="btnText">Calculate Area Now</button>
-
-<div id="resultBox" class="result-area">
-    <div class="ka-highlight">
-        <span id="resFmt">Karnataka Standard Land Format:</span>
-        <strong id="gaaText">0 Guntha, 0 Anna</strong>
-    </div>
-
-    <div class="grid-results">
-        <div class="res-box"><span>Square Feet:</span> <b id="rFt">0</b></div>
-        <div class="res-box"><span>Square Meter:</span> <b id="rMt">0</b></div>
-        <div class="res-box"><span>Total Acre:</span> <b id="rAc">0</b></div>
-        <div class="res-box"><span>Total Hectare:</span> <b id="rHc">0</b></div>
-        <div class="res-box"><span>Square Yards:</span> <b id="rYd">0</b></div>
-        <div class="res-box"><span>Cent:</span> <b id="rCt">0</b></div>
-    </div>
-
-    <div class="action-btns">
-        <button class="act-btn" style="background:#455a64;" onclick="copyData()">📋 Copy Results</button>
-        <button class="act-btn" style="background:#25d366;" onclick="shareWA()">📲 Share on WhatsApp</button>
-    </div>
-</div>
-
-<article class="seo-wrapper" style="font-family: 'Segoe UI', sans-serif; line-height: 1.8; color: #333; max-width: 1000px; margin: 40px auto; padding: 20px;">
-
-    <h1 style="color: #c62828; text-align: center; font-size: 2.2rem;">Karnataka Land Area Calculator: Guntha, Anna & Acre Converter</h1>
-
-    <p>Karnataka mein zameen ki napai (ಭೂಮಿ ಅಳತೆ) ke liye <strong>'Guntha'</strong> sabse mahatvapurna unit hai. Chahe aap Bengaluru ke urban plots dekh rahe hon ya Hubli-Dharwad ki agriculture land, Guntha aur Acre ka hisab aana bohot zaroori hai. Shayan Smart Tools ka ye calculator Karnataka ke revenue standards par adharit hai, jo aapko 100% sateek parinaam deta hai.</p>
-
-    <h2 style="color: #ef6c00; border-bottom: 2px solid #eee; padding-bottom: 10px;">How to Use Karnataka Land Measurement Tool?</h2>
-    <p>Is tool ka upyog karna bohot saral hai. Bas niche diye gaye steps follow karein:</p>
-    <ul>
-        <li><strong>Step 1:</strong> Apni zameen ki Length (Lambai) aur Width (Chaudai) feet ya meter mein enter karein.</li>
-        <li><strong>Step 2:</strong> Input unit (Feet/Meter) select karein.</li>
-        <li><strong>Step 3:</strong> 'Calculate' button par click karein. Tool turant Guntha, Anna aur Acre mein result dikha dega.</li>
-    </ul>
-
-    <h2 style="color: #ef6c00;">Karnataka Land Unit Standard Table</h2>
-    <p>Karnataka revenue records ke anusar niche di gayi table conversion ke liye pramanit hai:</p>
-    <table style="width: 100%; border-collapse: collapse; margin: 20px 0;">
-        <tr style="background-color: #ef6c00; color: white;">
-            <th style="padding: 12px; border: 1px solid #ddd;">Unit Name (ಹೆಸರು)</th>
-            <th style="padding: 12px; border: 1px solid #ddd;">Area in Sq. Ft.</th>
-            <th style="padding: 12px; border: 1px solid #ddd;">Karnataka Relation</th>
-        </tr>
-        <tr><td style="padding: 10px; border: 1px solid #ddd;">1 Guntha (ಗುಂಟಾ)</td><td style="padding: 10px; border: 1px solid #ddd;">1,089 Sq. Ft.</td><td style="padding: 10px; border: 1px solid #ddd;">33ft x 33ft</td></tr>
-        <tr style="background: #fffde7;"><td style="padding: 10px; border: 1px solid #ddd;">1 Acre (ಎಕರೆ)</td><td style="padding: 10px; border: 1px solid #ddd;">43,560 Sq. Ft.</td><td style="padding: 10px; border: 1px solid #ddd;">40 Guntha</td></tr>
-        <tr><td style="padding: 10px; border: 1px solid #ddd;">1 Anna</td><td style="padding: 10px; border: 1px solid #ddd;">~68 Sq. Ft.</td><td style="padding: 10px; border: 1px solid #ddd;">1/16 of Guntha</td></tr>
-        <tr style="background: #fffde7;"><td style="padding: 10px; border: 1px solid #ddd;">1 Hectare</td><td style="padding: 10px; border: 1px solid #ddd;">1,07,639 Sq. Ft.</td><td style="padding: 10px; border: 1px solid #ddd;">2.47 Acres</td></tr>
-    </table>
-
-    <h2 style="color: #ef6c00;">5 Practical Examples for Karnataka Land</h2>
-    <div style="background: #fffde7; padding: 20px; border-radius: 8px; border-left: 6px solid #ef6c00;">
-        <p><strong>1. Bengaluru Site:</strong> 30x40 ka site 1,200 sq ft hota hai, jo 1.10 Guntha ke barabar hai.</p>
-        <p><strong>2. Standard Guntha Plot:</strong> 33 ft x 33 ft ka khet pura 1 Guntha hota hai.</p>
-        <p><strong>3. Farm Land Partition:</strong> 1 Acre zameen ko 2 logo mein baantne par har ek ko 20 Guntha milega.</p>
-        <p><strong>4. Large Layout:</strong> 10,890 sq ft ka layout pura 10 Guntha kehlata hai.</p>
-        <p><strong>5. Hectare to Guntha:</strong> 1 Hectare mein lagbhag 98.8 Guntha hote hain.</p>
-    </div>
-
-    <h2 style="color: #ef6c00;">Frequently Asked Questions (FAQs)</h2>
-    <div style="margin-bottom: 15px;">
-        <strong>Q1: Karnataka mein 1 Acre mein kitne Guntha hote hain?</strong><br>
-        Ans: Karnataka ke standard measurement ke anusar, 1 Acre mein 40 Guntha hote hain.
-    </div>
-    <div style="margin-bottom: 15px;">
-        <strong>Q2: 1 Guntha kitne square feet ka hota hai?</strong><br>
-        Ans: 1 Guntha sateek 1,089 Square Feet (33x33 ft) ka hota hai.
-    </div>
-    <div style="margin-bottom: 15px;">
-        <strong>Q3: Anna unit kya hai?</strong><br>
-        Ans: Anna Guntha ka ek chota bhag hota hai. 16 Anna milkar 1 Guntha banate hain.
-    </div>
-    <div style="margin-bottom: 15px;">
-        <strong>Q4: Kya ye tool mobile friendly hai?</strong><br>
-        Ans: Haan, Shayan Smart Tools ke sabhi calculators mobile aur tablet par smoothly kaam karte hain.
-    </div>
-    <div style="margin-bottom: 15px;">
-        <strong>Q5: Is tool ka data kitna accurate hai?</strong><br>
-        Ans: Ye tool Karnataka Revenue Department ke standard units par adharit hai.
-    </div>
-
-    <h3 style="color: #c62828; text-align: center; margin-top: 40px;">Explore Karnataka Tools</h3>
-    <div class="links-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px;">
-        <a href="karnataka-land-calculator.html" style="display: block; padding: 15px; background: white; border: 2px solid #ef6c00; color: #ef6c00; text-align: center; font-weight: bold; text-decoration: none; border-radius: 8px;">🏡 KA Land Calc</a>
-        <a href="karnataka-unit-converter.html" style="display: block; padding: 15px; background: white; border: 2px solid #ef6c00; color: #ef6c00; text-align: center; font-weight: bold; text-decoration: none; border-radius: 8px;">🔄 Unit Converter</a>
-        <a href="karnataka-land-cost.html" style="display: block; padding: 15px; background: white; border: 2px solid #ef6c00; color: #ef6c00; text-align: center; font-weight: bold; text-decoration: none; border-radius: 8px;">💰 Land Cost Tool</a>
-        <a href="karnataka-land-partition.html" style="display: block; padding: 15px; background: white; border: 2px solid #ef6c00; color: #ef6c00; text-align: center; font-weight: bold; text-decoration: none; border-radius: 8px;">⚖️ Land Partition</a>
-    </div>
-
-    <div style="margin-top: 60px; padding: 30px; border: 2px solid #ffcdd2; background-color: #ffebee; border-radius: 12px; text-align: center;">
-        <h3 style="color: #b71c1c; margin-top: 0;">🚫 Copyright & All Rights Reserved</h3>
-        <p style="font-size: 14px; color: #333;">
-            <strong>Copyright © 2026 Shayan Smart Tools.</strong><br>
-            Is website ka content, design, aur logic Indian Copyright Act ke tahat protected hai. Bina ijazat ke copy karna kanoonan apradh hai. Managed by <strong>Muksidul Islam</strong>.
-        </p>
-    </div>
-
-</article>
-
 
 <script>
-    let currentL = 'en';
-    const ui = {
-        en: { h1:"Karnataka Land Area Calculator", sub:"Calculate Guntha, Anna, Acre & Hectare for Karnataka Bhoomi Records.", ll:"Length (Lambai)", lw:"Width (Chaudai)", lu:"Select Input Unit", bt:"Calculate Area Now", rf:"Karnataka Standard Land Format:", g:"Guntha", a:"Anna" },
-        ka: { h1:"ಕರ್ನಾಟಕ ಭೂಮಿ ಅಳತೆ ಕੈಲ್ಕುಲೇಟರ್", sub:"ಗುಂಟಾ, ಅಣ್ಣಾ, ಎಕರೆ ಮತ್ತು ಹೆಕ್ಟೇರ್ ಅಳತೆಯನ್ನು ಲೆಕ್ಕ ಹಾಕಿ.", ll:"ಉದ್ದ (Length)", lw:"ಅಗಲ (Width)", lu:"ಘಟಕವನ್ನು ಆರಿಸಿ", bt:"ಈಗ ಲೆಕ್ಕಾಚಾರ ಮಾಡಿ", rf:"ಕರ್ನಾಟಕ ಸ್ಟ್ಯಾಂಡರ್ಡ್ ಫಾರ್ಮ್ಯಾಟ್:", g:"ಗುಂಟಾ", a:"ಅಣ್ಣಾ" }
+    document.addEventListener('contextmenu', e => e.preventDefault());
+    document.onkeydown = function(e) {
+        if (e.ctrlKey && (e.keyCode === 67 || e.keyCode === 85 || e.keyCode === 73)) {
+            alert("Copyright Warning: Copying content from Shayan Smart Tools is prohibited.");
+            return false;
+        }
     };
 
-    function changeLang(l) {
-        currentL = l;
-        document.getElementById('btnEn').classList.toggle('active', l==='en');
-        document.getElementById('btnKa').classList.toggle('active', l==='ka');
-        document.getElementById('h1Title').innerText = ui[l].h1;
-        document.getElementById('pSub').innerText = ui[l].sub;
-        document.getElementById('lblLen').innerText = ui[l].ll;
-        document.getElementById('lblWid').innerText = ui[l].lw;
-        document.getElementById('lblUnit').innerText = ui[l].lu;
-        document.getElementById('btnText').innerText = ui[l].bt;
-        document.getElementById('resFmt').innerText = ui[l].rf;
-        if(document.getElementById('resultBox').style.display === 'block') calculateKA();
+    let currentLang = 'en';
+
+    const faqsData = [
+        {
+            q_en: "Bhoomi Karnataka revenue records ke anusar 1 standard Guntha me kitne Square Feet area hota hai?",
+            a_en: "Karnataka land revenue systems data parameters ke tehat 1 standard Guntha me exact 1,089 Square Feet area footprint hota hai."
+        },
+        {
+            q_en: "Karnataka me 1 standard Acre land boundaries layout me total kitne Guntha bante hain?",
+            a_en: "Karnataka zameen manual guidelines metrics loop ke anusar sateek 40 Guntha units milkar 1 full Acre framework set karte hain."
+        },
+        {
+            q_en: "Zameen measurement me 1 single Anna ka size square feet data scale par kitna nikalta hai?",
+            a_en: "1 single standard Anna ka size square feet scale par perfectly flat exact 68.0625 Square Feet canvas scale hold karta hai."
+        },
+        {
+            q_en: "Karnataka land mapping me kitne Anna milkar ek complete standard Guntha banate hain?",
+            a_en: "Bhoomi evaluation structure maps me sharp pure 16 Anna variables merge hokar ek unified standard Guntha frame setup banta hai."
+        },
+        {
+            q_en: "Kya Karnataka land conversion logic parameters me Guntha aur Cent ka value alag-alag hota hai?",
+            a_en: "Nahi, pure karnataka records infrastructure me 1 Guntha = 1,089 Sq Ft hota hai jabki 1 Cent area flat 435.6 Sq Ft footprint trace out karta hai."
+        },
+        {
+            q_en: "Kya is online screen calculator application tool systems me user data save hota hai?",
+            a_en: "Bilkul nahi, ye platform safe sandbox client side execution loops par run hota hai jo temporary browser caching memory se execute hota hai."
+        },
+        {
+            q_en: "Global measurement tracking rules ke mutabik 1 Hectare zameen me kitne acres bante hain?",
+            a_en: "Standard state geographic layout matrices lines conversions ke mutabik 1 single Hectare scale sharp lagbhag 2.471 Acres rules parameters index hold karta hai."
+        },
+        {
+            q_en: "Urban plots deployment spaces markets me trade hone wale 1 Gaj me kitne square feet hote hain?",
+            a_en: "Physical conversion constants rules logical grid ke mutabik 1 Gaj / Square Yard block mesh flat exact 9 Square Feet chalta hai."
+        },
+        {
+            q_en: "Kya main is area conversion analysis dashboard ka physical paper print out system nikal sakta hoon?",
+            a_en: "Haan, user panel par darj 'Print Report' mechanical loop execution dalkar aap Shayan Smart Tools verification log seal watermark ke sath clean printout nikal sakte hain."
+        },
+        {
+            q_en: "Agar numeric entry field check metrics boxes inputs me negative units value enter kar dein to kya hoga?",
+            a_en: "SST software application strict error bypass modal notice show karke execution block automatic switch zero tracking framework par drop kar dega."
+        },
+        {
+            q_en: "Bhoomi platform maps variables metrics check registry guidelines ka primary usage kya hai?",
+            a_en: "Bhoomi Karnataka records metrics kisan ko instant RTC (Pahani) reports evaluation checks validation calculations dynamic summary fetch karne me resource help deta hai."
+        },
+        {
+            q_en: "Karnataka government land valuation portal system ka official portal kounsa hai?",
+            a_en: "Property calculation parameters aur direct deed operations tracking ke liye standard state portal Kaveri Online Services handle kiya jata hai."
+        },
+        {
+            q_en: "Agar zameen records length aur width dimensions me metrics values fraction digits ho to tool accept karega?",
+            a_en: "Haan, input computational fields pure fluid decimal step points parameters arrays layers elements hold support operate karte hain."
+        },
+        {
+            q_en: "Is premium search engines index friendly responsive multi field asset compiler machine scripts blocks codes kisne compile kiya hai?",
+            a_en: "Is highly accurate professional computational dynamic land converter software scripts module variables data layers ko software developer Muksidul Islam ne safely configure kiya hai."
+        },
+        {
+            q_en: "North India states aur Karnataka land parameters maps dimensions sizes rules metrics change kyu baithte hain?",
+            a_en: "Kyunki land measurement systems regional history acts protocols limits and state-wise legislative revenue rules regulations bounds configurations frames parameters ke custom guidelines structures par verify hote hain."
+        }
+    ];
+
+    const dict = {
+        en: {
+            mTitle: "Land Measurement Calculator (Karnataka)",
+            sTitle: "Accurate Guntha, Anna, and Acre converter for Bhoomi Karnataka Land Records.",
+            hInputTitle: "Select Property Variables (ಭೂಮಿಯ ವಿವರಗಳು)",
+            lblSource: "Initial Data Input Feed",
+            lblResSqft: "Total Square Feet (Sq.Ft)",
+            lblResSqmt: "Total Square Meter (Sq.Mt)",
+            lblResSqyd: "Total Square Yard (Gaj)",
+            lblResCent: "Total Cent Value",
+            lblResAcre: "Total Acre Value",
+            lblResHectare: "Total Hectare Value",
+            lblResGuntha: "Calculated Total Guntha",
+            lblResAnna: "Calculated Total Anna",
+            btnCopy: "📋 Copy All",
+            btnWa: "📲 WhatsApp",
+            btnPrint: "🖨️ Print Report",
+            lnkBack: "⬅ Back to All Tools",
+            seot: "Karnataka Land Area Calculator: Professional Guntha, Anna & Acre Converter 2026",
+            seos: "Bhoomi Karnataka aur Kaveri online revenue portals ke maps standards ke mutabik land measurements ka complete manual setup.",
+            faqH: "15 Important Frequently Asked Questions (FAQs) - Karnataka Land Calculator (Hinglish Matrix)",
+            ll: "Length (Lambai)", lw: "Width (Chaudai)", lu: "Unit", sf: "Karnataka Standard Format:", btnText: "CONVERT NOW", rh: "Conversion Results",
+            gTitle: "Official Karnataka Land Portals", gl1: "🌐 Bhoomi Karnataka (RTC records)", gl2: "💰 Kaveri Online (Registry & Valuation)"
+        },
+        bn: {
+            mTitle: "ಭೂಮಿ ಅಳತೆ ಕੈಲ್ಕುಲೇಟರ್ (ಕರ್ನಾಟಕ)",
+            sTitle: "ಭೂಮಿ ಕರ್ನಾಟಕ ಕಂದಾಯ ದಾಖಲೆಗಳಿಗಾಗಿ ನಿಖರವಾದ ಗುಂಟಾ ಮತ್ತು ಅಣ್ಣಾ ಕನ್ವರ್ಟರ್",
+            hInputTitle: "ಭೂಮಿಯ ವಿವರಗಳನ್ನು ನಮೂದಿಸಿ (Select Property Variables)",
+            lblSource: "ಇನ್ಪುಟ್ ಡೇಟಾ ಸೋರ್ಸ್ ಮೌಲ್ಯ",
+            lblResSqft: "ಒಟ್ಟು ಚದರ ಅಡಿ ವಿಸ್ತೀರ್ಣ (Sq Ft)",
+            lblResSqmt: "ಒಟ್ಟು ಚದರ ಮೀಟರ್ ವಿಸ್ತೀರ್ಣ (Sq Mt)",
+            lblResSqyd: "ಒಟ್ಟು ಚದರ ಗಜ ವಿಸ್ತೀರ್ಣ (Gaj)",
+            lblResCent: "ಒಟ್ಟು ಸೆಂಟ್ ವಿಸ್ತೀರ್ಣ ಮೌಲ್ಯ",
+            lblResAcre: "ಒಟ್ಟು ಎಕರೆ ವಿಸ್ತೀರ್ಣ ಮೌಲ್ಯ",
+            lblResHectare: "ಒಟ್ಟು ಹೆಕ್ಟೇರ್ ವಿಸ್ತೀರ್ಣ ಮೌಲ್ಯ",
+            lblResGuntha: "ಒಟ್ಟು ಲೆಕ್ಕಹಾಕಿದ ಗುಂಟಾ ವಿಸ್ತೀರ್ಣ",
+            lblResAnna: "ಒಟ್ಟು ಲೆಕ್ಕಹಾಕಿದ ಅಣ್ಣಾ ವಿಸ್ತೀರ್ಣ",
+            btnCopy: "📋 ಎಲ್ಲವನ್ನು ಕಾಪಿ ಮಾಡಿ",
+            btnWa: "📲 ವಾಟ್ಸಾಪ್ ಶೇರ್",
+            btnPrint: "🖨️ ವರದಿಯನ್ನು ಪ್ರಿಂಟ್ ಮಾಡಿ",
+            lnkBack: "⬅ ಮುಖ್ಯ ಡ್ಯಾಶ್‌ಬೋರ್ಡ್‌ಗೆ ಹಿಂತಿರುಗಿ",
+            seot: "Karnataka Land Area Calculator: Professional Guntha, Anna & Acre Converter 2026",
+            seos: "Bhoomi Karnataka aur Kaveri online revenue portals ke maps standards ke mutabik land measurements ka complete manual setup.",
+            faqH: "15 Important Frequently Asked Questions (FAQs) - Karnataka Land Calculator (Hinglish Matrix)",
+            ll: "ಉದ್ದ (Lambai)", lw: "ಅಗಲ (Chaudai)", lu: "ಘಟಕ (Unit)", sf: "ಕರ್ನಾಟಕ ಸ್ಟ್ಯಾಂಡರ್ಡ್ ಫಾರ್ಮ್ಯಾಟ್:", btnText: "ಈಗ ಪರಿವರ್ತಿಸಿ", rh: "ಪರಿವರ್ತನೆ ಫಲಿತಾಂಶಗಳು (Results)",
+            gTitle: "ಕರ್ನಾಟಕ ಸರ್ಕಾರಿ ಭೂಮಿ ಪೋರ್ಟಲ್‌ಗಳು", gl1: "🌐 ಭೂಮಿ ಕರ್ನಾಟಕ (RTC ದಾಖಲೆಗಳು)", gl2: "💰 ಕಾವೇರಿ ಆನ್‌ಲೈನ್ (ನೋಂದಣಿ ಮತ್ತು ಮೌಲ್ಯಮಾಪನ)"
+        }
+    };
+
+    function renderFAQs() {
+        const listContainer = document.getElementById('faqList');
+        listContainer.innerHTML = '';
+        
+        faqsData.forEach((faq, index) => {
+            const faqBlock = document.createElement('div');
+            faqBlock.style.borderBottom = '1px solid #e2e8f0';
+            faqBlock.style.paddingBottom = '15px';
+            faqBlock.style.marginBottom = '15px';
+            
+            faqBlock.innerHTML = `
+                <h4 style="color:var(--ka-red); margin-bottom:8px;">Q${index + 1}. ${faq.q_en}</h4>
+                <p style="margin:0;">Ans: ${faq.a_en}</p>
+            `;
+            listContainer.appendChild(faqBlock);
+        });
     }
 
-    function calculateKA() {
-        let l = parseFloat(document.getElementById('length').value);
-        let w = parseFloat(document.getElementById('width').value);
-        let u = document.getElementById('unitIn').value;
-
-        if(!l || !w) { alert("Please enter length and width!"); return; }
-
-        let sqft = (u === 'ft') ? (l * w) : (l * w * 10.7639);
+    function setLang(lang) {
+        currentLang = lang;
+        document.getElementById('enBtn').classList.toggle('active', lang === 'en');
+        document.getElementById('bnBtn').classList.toggle('active', lang === 'bn');
         
-        // Karnataka Logic: 1 Guntha = 1089 sqft, 1 Anna = 68.06 sqft
-        const GUNTHA = 1089;
-        const ANNA = 68.0625;
+        document.getElementById('mTitle').innerText = dict[lang].mTitle;
+        document.getElementById('sTitle').innerText = dict[lang].sTitle;
+        document.getElementById('hInputTitle').innerText = dict[lang].hInputTitle;
+        document.getElementById('lLen').innerText = dict[lang].ll;
+        document.getElementById('lWid').innerText = dict[lang].lw;
+        document.getElementById('lUni').innerText = dict[lang].lu;
+        document.getElementById('btnText').innerText = dict[lang].btnText;
+        document.getElementById('resHead').innerText = dict[lang].rh;
+        document.getElementById('fmtText').innerText = dict[lang].sf;
+        
+        document.getElementById('lblSource').innerText = dict[lang].lblSource;
+        document.getElementById('lblResSqft').innerText = dict[lang].lblResSqft;
+        document.getElementById('lblResSqmt').innerText = dict[lang].lblResSqmt;
+        document.getElementById('lblResSqyd').innerText = dict[lang].lblResSqyd;
+        document.getElementById('lblResCent').innerText = dict[lang].lblResCent;
+        document.getElementById('lblResAcre').innerText = dict[lang].lblResAcre;
+        document.getElementById('lblResHectare').innerText = dict[lang].lblResHectare;
+        document.getElementById('lblResGuntha').innerText = dict[lang].lblResGuntha;
+        document.getElementById('lblResAnna').innerText = dict[lang].lblResAnna;
+
+        document.getElementById('btnCopy').innerText = dict[lang].btnCopy;
+        document.getElementById('btnWa').innerText = dict[lang].btnWa;
+        document.getElementById('btnPrint').innerText = dict[lang].btnPrint;
+        document.getElementById('lnkBack').innerText = dict[lang].lnkBack;
+
+        document.getElementById('seoTitle').innerText = dict[lang].seot;
+        document.getElementById('seoSubTitle').innerText = dict[lang].seos;
+        document.getElementById('hFaqHead').innerText = dict[lang].faqH;
+        
+        document.getElementById('lblGovTitle').innerText = dict[lang].gTitle;
+        document.getElementById('govLink1').innerText = dict[lang].gl1;
+        document.getElementById('govLink2').innerText = dict[lang].gl2;
+
+        renderFAQs();
+        if(document.getElementById('resPanel').style.display === "block") {
+            calculateKarnatakaLand();
+        }
+    }
+
+    function calculateKarnatakaLand() {
+        const length = parseFloat(document.getElementById('length').value);
+        const width = parseFloat(document.getElementById('width').value);
+        const unit = document.getElementById('unitType').value;
+        const resPanel = document.getElementById('resPanel');
+
+        if (!length || length <= 0 || !width || width <= 0) {
+            alert(currentLang === 'en' ? "Please enter both valid length and width!" : "ದಯವಿಟ್ಟು ಉದ್ದ ಮತ್ತು ಅಗಲ ಎರಡನ್ನೂ ಸರಿಯಾಗಿ ನಮೂದಿಸಿ!");
+            return;
+        }
+
+        let sqft = 0;
+        if (unit === "ft") {
+            sqft = length * width;
+        } else {
+            sqft = (length * width) * 10.7639104;
+        }
+
+        let sqmt = sqft / 10.7639104;
+        let sqyd = sqft / 9;
+
+        const GUNTHA_SQFT = 1089;
+        const ANNA_SQFT = 68.0625;
 
         let tempSqft = sqft;
-        let guntha = Math.floor(tempSqft / GUNTHA); tempSqft %= GUNTHA;
-        let anna = (tempSqft / ANNA).toFixed(2);
+        const gunthas = Math.floor(tempSqft / GUNTHA_SQFT);
+        let remSqftForAnna = tempSqft % GUNTHA_SQFT;
+        const annas = (remSqftForAnna / ANNA_SQFT).toFixed(2);
 
-        document.getElementById('gaaText').innerText = `${guntha} ${ui[currentL].g}, ${anna} ${ui[currentL].a}`;
-        document.getElementById('rFt').innerText = sqft.toLocaleString(undefined, {maximumFractionDigits: 2});
-        document.getElementById('rMt').innerText = (sqft / 10.7639).toFixed(2);
-        document.getElementById('rAc').innerText = (sqft / 43560).toFixed(4);
-        document.getElementById('rHc').innerText = (sqft / 107639).toFixed(4);
-        document.getElementById('rYd').innerText = (sqft / 9).toFixed(2);
-        document.getElementById('rCt').innerText = (sqft / 435.6).toFixed(2);
+        if (currentLang === 'en') {
+            document.getElementById('bklText').innerText = gunthas + " Guntha, " + annas + " Anna";
+        } else {
+            document.getElementById('bklText').innerText = gunthas + " ಗುಂಟಾ, " + annas + " ಅಣ್ಣಾ";
+        }
 
-        document.getElementById('resultBox').style.display = 'block';
-        document.getElementById('resultBox').scrollIntoView({ behavior: 'smooth' });
+        document.getElementById('resSqft').innerText = Math.round(sqft).toLocaleString('en-IN') + " Sq Ft";
+        document.getElementById('resSqmt').innerText = Math.round(sqmt).toLocaleString('en-IN') + " Sq M";
+        document.getElementById('resSqyd').innerText = Math.round(sqyd).toLocaleString('en-IN') + " Gaj (Sq Yd)";
+        document.getElementById('resCent').innerText = (sqft / 435.6).toFixed(2);
+        document.getElementById('resGuntha').innerText = (sqft / GUNTHA_SQFT).toFixed(4);
+        document.getElementById('resAnna').innerText = (sqft / ANNA_SQFT).toFixed(4);
+        document.getElementById('resAcre').innerText = (sqft / 43560).toFixed(4);
+        document.getElementById('resHectare').innerText = (sqft / 107639.104).toFixed(4);
+
+        let options = { day: 'numeric', month: 'long', year: 'numeric' };
+        let today = new Date().toLocaleDateString('en-IN', options);
+        document.getElementById('pDocDate').innerText = today + " (IST)";
+        
+        document.getElementById('rInputVal').innerText = length + " x " + width + " (" + unit + ")";
+        
+        let randID = Math.floor(1000000000 + Math.random() * 9000000000);
+        document.getElementById('pDocRef').innerText = "SST-KA-" + randID;
+
+        resPanel.style.display = "block";
+        resPanel.scrollIntoView({ behavior: 'smooth' });
+    }
+
+    function printLandReport() {
+        const printRow = document.getElementById('print-input-row');
+        printRow.style.display = "flex";
+        window.print();
+        printRow.style.display = "none";
     }
 
     function copyData() {
-        const text = document.getElementById('gaaText').innerText;
-        navigator.clipboard.writeText("Karnataka Land Result: " + text + " - By Shayan Smart Tools");
-        alert("Copied to clipboard!");
+        let res = "Karnataka Land Conversion Results:\nFormat: " + document.getElementById('bklText').innerText + "\nSq Ft: " + document.getElementById('resSqft').innerText + "\nAcre: " + document.getElementById('resAcre').innerText + "\nTool by Shayan Smart Tools";
+        navigator.clipboard.writeText(res);
+        alert(currentLang === 'en' ? "Results Copied!" : "ಎಲ್ಲಾ ವಿವರಗಳನ್ನು ಯಶಸ್ವಿಯಾಗಿ ಕಾಪಿ ಮಾಡಲಾಗಿದೆ!");
     }
 
     function shareWA() {
-        const text = encodeURIComponent("Karnataka Land Measurement Result:\n" + document.getElementById('gaaText').innerText + "\n\nCalculate more at Shayan Smart Tools");
-        window.open("https://wa.me/?text=" + text);
+        let t = encodeURIComponent("Karnataka Land Measurement Result:\n" + document.getElementById('bklText').innerText + "\nSq Ft: " + document.getElementById('resSqft').innerText + "\nCheck at Shayan Smart Tools");
+        window.open("https://wa.me/?text=" + t);
     }
+
+    renderFAQs();
 </script>
 
 </body>
