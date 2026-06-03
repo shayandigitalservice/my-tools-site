@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Odisha Land Cost & Registry Calculator Free 2026 | ଓଡ଼ିଶା ଜମି କિંમત କାଲକୁଲେଟର | Shayan Smart Tools</title>
+    <link rel="canonical" href="https://shayansmarttools.in/odisha-land-cost-calculator.html" />
+
+    <meta name="description" content="Official Odisha Land Cost & Registry Budget Calculator. Convert Bigha, Guntha, and Mana to evaluate precise IGR Odisha Stamp Duty (5%) and Registration Fees (2%) dynamically. Free by Shayan Smart Tools.">
+    <meta name="keywords" content="Odisha Land Cost Calculator, ଓଡ଼ିଶା ଜମି କિંમત କାଲକୁଲେଟର, Odisha Stamp Duty Calculator 2026, IGR Odisha registration fees, Bhulekh Odisha land value, Bigha cost calculator Odisha, Shayan Smart Tools">
+    <meta name="author" content="Muksidul Islam">
+    <meta name="robots" content="index, follow">
+
+    <style>
+        :root {
+            --or-blue: #1e40af;
+            --or-dark: #1e3a8a;
+            --or-corporate: #0f172a;
+            --text-dark: #334155;
+            --white: #ffffff;
+            --bg: #f8fafc;
+            --or-gold: #f59e0b;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            line-height: 1.6;
+            color: var(--text-dark);
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: var(--bg);
+        }
+
+        .tool-wrapper {
+            padding: 20px 0;
+            text-align: center;
+        }
+
+        header {
+            background: linear-gradient(135deg, var(--or-blue), var(--or-corporate));
+            color: #fff; padding: 40px 20px; border-radius: 25px; text-align: center;
+            border-bottom: 6px solid var(--or-gold); margin-bottom: 30px;
+        }
+        header h1 { color: white; margin: 0 0 10px 0; font-size: 26px; text-transform: uppercase; font-weight: 800; }
+        header p { color: #ffebee; margin: 0; font-size: 15px; }
+
+        /* Language Switcher */
+        .lang-switch { display: flex; justify-content: center; gap: 12px; margin-bottom: 35px; }
+        .l-btn { padding: 10px 25px; border: 2px solid var(--or-blue); background: white; border-radius: 50px; cursor: pointer; font-weight: 700; color: var(--or-blue); transition: 0.3s; }
+        .l-btn.active { background: var(--or-blue); color: #fff; }
+
+        /* Multi-Group Input Grid Layout */
+        .input-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; max-width: 750px; margin: 0 auto 25px auto; text-align: left; }
+        label { display: block; font-weight: bold; margin-bottom: 8px; font-size: 13px; color: var(--or-blue); text-transform: uppercase; letter-spacing: 0.5px; }
+        input, select { width: 100%; padding: 15px; border: 1px solid #cbd5e1; border-radius: 12px; font-size: 16px; box-sizing: border-box; outline: none; transition: 0.3s; background: var(--white); }
+        input:focus, select:focus { border-color: var(--or-blue); background: #fff; box-shadow: 0 0 8px rgba(30, 64, 175, 0.1); }
+
+        .btn-convert { background-color: var(--or-blue); color: white; padding: 18px 45px; border: none; border-radius: 12px; font-size: 18px; font-weight: 800; cursor: pointer; transition: 0.3s; width: 100%; max-width: 750px; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 25px; }
+        .btn-convert:hover { transform: translateY(-3px); box-shadow: 0 10px 20px rgba(30, 64, 175, 0.2); background-color: var(--or-dark); }
+
+        /* OFFICIAL GOVERNMENT REVENUE PORTAL LINK BLOCKS */
+        .govt-portal-section { max-width: 750px; margin: 0 auto 30px auto; text-align: left; }
+        .govt-portal-section h4 { font-size: 12px; font-weight: 800; color: var(--or-blue); letter-spacing: 0.5px; text-transform: uppercase; margin-bottom: 12px; }
+        .govt-card-link { display: flex; align-items: center; justify-content: space-between; background: #ffffff; border: 1px solid #e2e8f0; padding: 16px 20px; border-radius: 14px; text-decoration: none; color: #1e293b; font-weight: 700; font-size: 15px; margin-bottom: 12px; transition: 0.3s; box-shadow: 0 4px 6px rgba(0,0,0,0.01); }
+        .govt-card-link:hover { border-color: var(--or-blue); background: #fffdfb; transform: translateY(-2px); box-shadow: 0 6px 12px rgba(30,64,175,0.05); }
+        .govt-card-left { display: flex; align-items: center; gap: 12px; }
+        .govt-card-left span.icon { font-size: 18px; }
+
+        /* RESULTS SYSTEM VERTICAL BLOCK */
+        .res-panel { background: #0f172a; color: white; padding: 25px; border-radius: 25px; margin-top: 35px; display: none; border: 2px solid var(--or-gold); position: relative; text-align: left; }
+        .res-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; }
+        .res-item { background: rgba(255,255,255,0.05); padding: 15px; border-radius: 12px; display: flex; flex-direction: column; align-items: flex-start; gap: 5px; border-left: 4px solid var(--or-gold); }
+        .res-item.highlight-panel { border-left-color: #22c55e; background: rgba(34,197,94,0.06); }
+        .res-item span { font-size: 12px; color: #94a3b8; font-weight: bold; }
+        .res-item b { font-size: 18px; color: var(--white); word-break: break-all; }
+        .res-item b.price-tag { color: var(--or-gold); font-family: monospace; }
+        .res-item b.net-tag { color: #22c55e; font-family: monospace; font-size: 20px; }
+
+        .print-header-block, .print-footer-block { display: none; }
+        .util-btns { display: flex; gap: 12px; margin-top: 25px; }
+        .u-btn { flex: 1; padding: 15px; border: none; border-radius: 12px; font-weight: 800; cursor: pointer; color: white; font-size: 14px; text-align: center; transition: 0.3s; }
+
+        /* SEO CONTENT CSS STYLE */
+        .seo-article { background: transparent !important; padding: 20px 0; margin-top: 50px; line-height: 1.8; border: none !important; color: #334155 !important; text-align: left; }
+        .seo-article .seo-header-block { text-align: center; border-bottom: 3px solid var(--or-blue); padding-bottom: 20px; margin-bottom: 30px; }
+        .seo-article h2 { color: var(--or-blue) !important; font-size: 26px !important; margin-bottom: 15px !important; border-left: 6px solid var(--or-blue); padding-left: 15px; margin-top: 40px; font-weight: 800; text-transform: uppercase; }
+        .seo-article h3 { color: var(--or-blue) !important; margin-top: 30px; border-left: 6px solid var(--or-gold); padding-left: 15px; font-size: 19px; font-weight: 700; }
+        .seo-article p { color: #334155 !important; font-size: 16px; text-align: justify; margin-bottom: 15px; }
+        .seo-article ul { padding-left: 20px; margin-bottom: 20px; }
+        .seo-article li { margin-bottom: 8px; font-size: 15px; }
+        .seo-article table { width: 100%; border-collapse: collapse; margin: 25px 0; background: #ffffff; box-shadow: 0 4px 6px rgba(0,0,0,0.02); border-radius: 8px; overflow: hidden; }
+        .seo-article th, .seo-article td { border: 1px solid #e2e8f0; padding: 15px; text-align: left; color: #334155 !important; }
+        .seo-article th { background-color: #f0f4f8; color: var(--or-blue) !important; font-weight: bold; }
+        .seo-article tr:nth-child(even) { background-color: #f8fafc; }
+
+        .sst-dashboard-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; margin: 40px 0; width: 100%; box-sizing: border-box; }
+        .sst-dash-btn { display: flex; align-items: center; gap: 15px; background: #ffffff; padding: 18px 20px; border-radius: 16px; text-decoration: none; color: var(--or-blue) !important; font-weight: 700; font-size: 15px; border: 1px solid #e2e8f0; transition: all 0.3s; box-sizing: border-box; }
+        .sst-dash-icon { display: flex; align-items: center; justify-content: center; width: 42px; height: 42px; background: #f0f4f8; border-radius: 12px; font-size: 20px; border: 1px solid #bbdefb; }
+        .sst-dash-title { flex: 1; line-height: 1.3; text-align: left; }
+        .sst-dash-btn:hover { border-color: var(--or-blue); transform: translateY(-4px); background: linear-gradient(135deg, #ffffff, #f0f4f8); }
+
+        @media (max-width: 600px) {
+            .input-grid { grid-template-columns: 1fr; gap: 12px; }
+            .res-grid { grid-template-columns: 1fr; }
+            .btn-convert, .res-panel, .govt-portal-section { max-width: 100%; }
+            .seo-article h2 { font-size: 22px !important; }
+            .sst-dashboard-grid { grid-template-columns: 1fr; gap: 12px; }
+        }
+
+        /* PRINT MEDIA DESIGN SYSTEM */
+        @media print {
+            * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; color-adjust: exact !important; }
+            @page { margin: 15mm; size: A4 portrait; }
+            body { background: #ffffff !important; color: #000000 !important; padding: 0; margin: 0; }
+            .tool-wrapper > header, .lang-switch, .input-grid, .btn-convert, .govt-portal-section, .util-btns, #resHead, .seo-article, .back-btn { display: none !important; }
+            .res-panel { display: block !important; background: #ffffff !important; color: #000000 !important; padding: 25px !important; margin: 0 !important; width: 100% !important; box-sizing: border-box; border: 3px double var(--or-blue) !important; border-radius: 0px !important; }
+            .print-header-block { display: block !important; text-align: center; border-bottom: 2px solid var(--or-blue) !important; padding-bottom: 12px; margin-bottom: 20px; }
+            .res-grid { display: block !important; margin-top: 15px; }
+            .res-item { background: transparent !important; border: none !important; border-bottom: 1px solid #e2e8f0 !important; padding: 12px 4px !important; display: flex !important; flex-direction: row !important; justify-content: space-between !important; align-items: center !important; border-radius: 0px !important; }
+            .res-item span { color: #1e293b !important; font-size: 13px !important; font-weight: 600; text-transform: uppercase; }
+            .res-item b { color: var(--or-blue) !important; font-size: 15px !important; font-weight: 700; }
+            .print-footer-block { display: block !important; text-align: center; margin-top: 40px; border-top: 1px solid #cbd5e1 !important; padding-top: 20px; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="tool-wrapper">
+        <header>
+            <h1 id="mTitle">Odisha Land Cost & Registry Calculator</h1>
+            <p id="sTitle">Evaluate total land market valuation value along with IGR Stamp Duty & Registration Fees securely.</p>
+        </header>
+
+        <div class="lang-switch">
+            <button class="l-btn active" id="enBtn" onclick="setLang('en')">English</button>
+            <button class="l-btn" id="teBtn" onclick="setLang('te')">ଓଡ଼ିଆ</button>
+        </div>
+
+        <div class="input-grid">
+            <div class="field">
+                <label id="lblInputArea">Land Area Value</label>
+                <input type="number" id="landArea" placeholder="Example: 5" step="any">
+            </div>
+
+            <div class="field">
+                <label id="lblAreaUnit">Area Unit</label>
+                <select id="areaUnitSelect">
+                    <option value="vigha">Bigha (ବିଘା)</option>
+                    <option value="guntha">Guntha (ଗୁଣ୍ଠ)</option>
+                    <option value="mana">Mana (ମାଣ)</option>
+                </select>
+            </div>
+
+            <div class="field">
+                <label id="lblUnitPrice">Price Per Unit (₹)</label>
+                <input type="number" id="unitPrice" placeholder="Example: 300000" step="any">
+            </div>
+        </div>
+
+        <button class="btn-convert" onclick="calculateOdishaLandCost()" id="btnText">Calculate Budget Now</button>
+
+        <!-- OFFICIAL ODISHA GOVERNMENT PORTALS LINKS -->
+        <div class="govt-portal-section">
+            <h4 id="lblGovtHead">Official Odisha Land Portals</h4>
+            <a href="http://bhulekh.ori.nic.in/" target="_blank" class="govt-card-link">
+                <div class="govt-card-left">
+                    <span class="icon">🌐</span>
+                    <span id="lblAnyrorLink">Bhulekh Odisha (RoR Land Records)</span>
+                </div>
+                <div class="govt-card-right">➔</div>
+            </a>
+            <a href="https://igrodisha.gov.in/" target="_blank" class="govt-card-link">
+                <div class="govt-card-left">
+                    <span class="icon">💰</span>
+                    <span id="lblGarviLink">IGR Odisha (Registry & Stamp Guidelines)</span>
+                </div>
+                <div class="govt-card-right">➔</div>
+            </a>
+        </div>
+
+        <div id="resPanel" class="res-panel">
+            <div class="print-header-block">
+                <div style="display: flex; justify-content: center; align-items: center; gap: 10px; margin-bottom: 5px;">
+                    <img src="favicon.png" alt="SST" style="width: 30px; height: 30px;">
+                    <h2 style="font-size: 22px; color: #1e3a8a; margin: 0; font-weight: 900; letter-spacing: 1px;">SHAYAN SMART TOOLS</h2>
+                </div>
+                <p style="font-size: 11px; color: var(--or-gold); font-weight: bold; margin: 0 0 10px 0; letter-spacing: 0.5px; text-transform: uppercase;">ODISHA LAND REGISTRY BUDGET STATEMENT - 2026</p>
+                <div style="background: #f8fafc; border: 1px solid #cbd5e1; padding: 10px; border-radius: 4px; display: grid; grid-template-columns: 1fr 1fr; font-size: 11px; text-align: left; gap: 5px; color: #334155;">
+                    <div><strong>DOCUMENT REF:</strong> <span id="pDocRef" style="color:var(--or-blue); font-weight:bold;">SST-OR-COST-0000</span></div>
+                    <div style="text-align: right;"><strong>DATE:</strong> <span id="pDocDate">--/--/----</span></div>
+                    <div><strong>JURISDICTION:</strong> State of Odisha (ଓଡ଼ିଶା)</div>
+                    <div style="text-align: right;"><strong>STATUS:</strong> Verified Budget Computation</div>
+                </div>
+            </div>
+
+            <h3 id="resHead" style="color: var(--or-gold); margin-top: 0; text-align: center; margin-bottom: 20px; font-weight: bold;">Valuation & Registry Breakdown</h3>
+            
+            <div class="res-grid">
+                <div class="res-item" id="print-input-row" style="display:none;"><span>Initial Input Dimensions:</span> <b id="rInputVal">0</b></div>
+                <div class="res-item"><span>Total Equivalent Square Feet:</span> <b id="outTotalSqft">0 sq ft</b></div>
+                <div class="res-item"><span>Pure Land Market Cost (₹):</span> <b id="outLandCost" style="color: var(--or-gold); font-family: monospace;">₹0</b></div>
+                <div class="res-item"><span>Stamp Duty Charges (5%):</span> <b id="outStampDuty" style="color: var(--or-gold); font-family: monospace;">₹0</b></div>
+                <div class="res-item"><span>Registration Fees (2%):</span> <b id="outRegFees" style="color: var(--or-gold); font-family: monospace;">₹0</b></div>
+                <div class="highlight-panel res-item" style="grid-column: span 2;"><span>Total Estimated Acquisition Budget (₹):</span> <b id="outNetBudget" class="net-tag">₹0</b></div>
+            </div>
+
+            <div class="print-footer-block">
+                <div style="margin: 0 auto; max-width: 85%; font-size: 11px; color: #475569; line-height: 1.6; text-align: center;">
+                    <p style="margin: 0; font-weight: bold; color: var(--or-blue); text-transform: uppercase; font-size: 12px;">🔒 SECURITY DISCLAIMER & REVENUE STATEMENT</p>
+                    <p style="margin: 6px 0 0 0;">This budget metrics sheet is an automated parsing matrix designed under official Odisha Revenue parameters (Stamp Duty: 5%, Registration: 2%). Actual market value computation checks can fluctuate depending upon regional circle rate benchmarks.</p>
+                    <div style="display: inline-block; border: 1px dashed var(--or-blue); padding: 6px 20px; border-radius: 4px; margin-top: 15px; margin-bottom: 12px; background: #f8fafc; font-size: 10px; font-weight: bold; color: var(--or-blue); text-transform: uppercase;">
+                        SHAYAN SMART TOOLS [SST SEAL] - OFFICIAL ACQUISITION CALCULATOR
+                    </div>
+                    <p style="margin: 5px 0 0 0; font-size: 12px; font-weight: bold; color: var(--or-gold);">🌐 SST OFFICIAL ACCESS: www.shayansmarttools.in</p>
+                </div>
+            </div>
+
+            <div class="util-btns">
+                <button class="u-btn" onclick="copyCostData()" style="background:#475569;">📋 Copy Statement</button>
+                <button class="u-btn" onclick="shareCostWA()" style="background:#22c55e;">📲 WhatsApp Share</button>
+                <button class="u-btn" onclick="printCostReport()" style="background:#2b7cff;">🖨️ Print Statement</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="back-btn" style="text-align: center; margin-top: 10px;">
+        <a href="index.html" style="color: var(--or-blue); text-decoration: none; font-weight: bold;">⬅ Back to All Tools</a>
+    </div>
+
+    <!-- 🔥 SUPER EXPANDED HIGH-WORDCOUNT SEO ARTICLE LAYER (2500+ WORDS INTENSITY COMPLETELY IMAGE-FREE) -->
+    <article class="seo-article">
+        <div class="seo-header-block">
+            <h2>Odisha Land Cost & Registry Calculator: Professional Valuation Architecture</h2>
+            <p style="font-size: 18px; color: #555; margin: 5px 0 0 0;">Comprehensive manual to evaluate Odisha benchmark valuations, stamp duty rules (5%), and land records acquisition processes.</p>
+        </div>
+
+        <section>
+            <h3>1. Understanding Real Estate Acquisitional Costs in Odisha</h3>
+            <p>
+                Odisha real estate ecosystem, agricultural land dealing management, aur infrastructure planning setups me property buying transactions execute karte waqt capital requirement budget sheet ka sateek assessment nikalna sabsay complex tasks me se ek hota hai. Aksar investors ya plots buyers sirf land ki face value area size price jodkar capital execution plan ready karte hain, jiske bad unhe registry processes ke dauran hidden stamp laws taxes aur government valuation parameters rules ke tehat achanak heavy financial burden handle karna padta hai.
+            </p>
+            <p>
+                Odisha Revenue department aur Inspector General of Registration (**IGR Odisha Portal**) ke dynamic regulation matrices ke compliance rules ke anusar property records pricing systems strictly official circle benchmarks metrics standard par cross-evaluate hoti hain. Is dynamic system mapping framework ke under agar aap Bhubaneswar, Cuttack, Rourkela, Sambalpur, ya Puri jaise clusters me kisi farmland, plotting area ya building coordinates ko purchase kar rahe hain, toh zameen ki core valuation metrics calculations criteria transparent rakhne ke liye Shayan Smart Tools network ne is **Odisha Land Cost & Registry Calculator** matrix pipeline software engine model ko built kiya hai.
+            </p>
+            <p>
+                Zameen kharidte waqt lagne wale taxes ko samajhna isliye bhi mandatory hai taaki aapka liquidity management fail na ho. Government of Odisha ke rules ke tehat sub-registrar offices me hone wali har registry ke peeche basic circle rate ya actual sale price (dono me se jo bhi zyada ho) par duty lagayi jati hai. Agar aap manual calculations karte hain, toh multiple units jaise Bigha aur Guntha me conversion errors hone ke chances bane rehte hain. Isi dikkat ko door karne ke liye is automated script processor ko advance security checking models ke sath optimize kiya gaya hai.
+            </p>
+        </section>
+
+        <h3>Odisha Land Sizing & Registration Rates Parameter Layer Table</h3>
+        <div style="overflow-x: auto;">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Tax Parameter Category</th>
+                        <th>Standard Assigned Rate Percentage</th>
+                        <th>Calculation Baseline Compliance Metrics Rules</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><b>Basic Stamp Duty Charge</b></td>
+                        <td>5.00%</td>
+                        <td>Applied on entire market circle valuation value computed via regional revenue standards</td>
+                    </tr>
+                    <tr>
+                        <td><b>Property Registration Fee</b></td>
+                        <td>2.00%</td>
+                        <td>Standard tracking clearance collection fee mapped for asset mutation processing logs</td>
+                    </tr>
+                    <tr>
+                        <td><b>Area Baseline Constant (Bigha)</b></td>
+                        <td>27,225 Sq. Ft.</td>
+                        <td>Core regional scaling multiplier setup managed on Bhulekh Odisha revenue records</td>
+                    </tr>
+                    <tr>
+                        <td><b>Area Baseline Constant (Guntha)</b></td>
+                        <td>1,089 Sq. Ft.</td>
+                        <td>Standard tracking component representing precisely 1/25th part of an Odisha Bigha canvas</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <section>
+            <h3>2. Detailed Calculation Practical Case Study (SEO Example)</h3>
+            <p>
+                Chaliye is multi-input structural area cost parsing mechanism ko ek real-world numeric case study se poori tarah clear karte hain. Maan lijiye Odisha ke Sambalpur region me ek investor standard boundary record data limit ke tehat aane wali zameen ka total registration acquisition cost nikalna chahta hai, jiske parameters following data fields ko follow up karte hain:
+            </p>
+            <ul>
+                <li><strong>Targeted Land Area Input Feed:</strong> 2 Bigha</li>
+                <li><strong>Assigned Selected Area Unit:</strong> Bigha (Traditional Odisha Standard)</li>
+                <li><strong>Government Benchmark Price Per Unit (₹):</strong> ₹5,00,000 Per Bigha</li>
+            </ul>
+            <p>
+                Is hybrid numeric structure ko hamara computational cost engine matrix pipeline niche diye gaye steps se backend arithmetic execution loops me process karta hai:
+            </p>
+            <div style="background: rgba(30,64,175,0.05); padding: 25px; border-radius: 12px; border-left: 6px solid var(--or-blue); margin: 25px 0; font-family: monospace; font-size:15px; color:var(--text-dark);">
+                Step 1: Total Equivalent Square Feet Dimensions Area Matrix Calculation:<br>
+                Total Area = 2 Bigha × 27,225 Sq Ft = 54,450 Square Feet<br><br>
+                Step 2: Pure Land Market Base Cost Assessment (₹):<br>
+                Land Cost Base = 2 Bigha × ₹5,00,000 = ₹10,00,000 (Ten Lakh Rupees)<br><br>
+                Step 3: State Stamp Duty Charges Computation (5.00% via IGR Odisha Rules):<br>
+                Stamp Duty Tax = ₹10,00,000 × (5.0 / 100) = ₹50,000<br><br>
+                Step 4: Ownership Mutation Registration Fees Allocation (2.00%):<br>
+                Registration Fees = ₹10,00,000 × (2.0 / 100) = ₹10,00,000 × 0.02 = ₹20,000<br><br>
+                Step 5: Consolidated Net Acquisition Capital Budget Summation Loop:<br>
+                Total Estimated Acquisition Budget = Land Cost Base + Stamp Duty Tax + Registration Fees<br>
+                Total Budget = ₹10,00,000 + ₹50,000 + ₹20,000 = ₹10,70,000<br><br>
+                FINAL CONVERSIONS RESULT BOARD OUTPUT DISPLAY MATRICES:<br>
+                • Pure Face Value Cost = ₹10,00,000<br>
+                • IGR Odisha Stamp Liability = ₹50,000<br>
+                • Sub-Registrar Fee Liability = ₹20,000<br>
+                • Combined Net Budget Outlay = ₹10,70,000 (Ten Lakh Seventy Thousand Rupees)
+            </div>
+            <p>
+                Jaise hi aap inputs provide karke trigger switch dabate hain, ye poori mathematical pipeline microsecond parameters ke andar resolve ho jati hai. Is tarah ke analysis se registry documents compile karte waqt finance mismatches zero ho jate hain.
+            </p>
+        </section>
+
+        <section>
+            <h3>3. Sizing Constants & IGR Odisha Rates Execution Framework</h3>
+            <p>
+                Is software tool framework inside use variables tracking process ekdam direct run hota hai. System arithmetic design setup variables processing checks parameters niche bataye gaye calculations parameters sequence block me handle hote hain:
+            </p>
+            <ul>
+                <li><strong>Dynamic Conversion Multiplexer Grid:</strong> Tool background script engine automatically user entered data standard size (Bigha, Guntha, or Mana) ko standard square feet mesh convert karta hai, taki market units errors mismatch zero kiya ja sake.</li>
+                <li><strong>Stamp Duty Matrix Allocation (5.00%):</strong> Current Odisha stamp allocation codes ke strict criteria metrics checking systems me pure transaction value ka flat exact **5.00%** standard state budget levy map execute hota hai.</li>
+                <li><strong>Registration Ledger Factor (2.00%):</strong> Land title deeds validation, ownership transfer ledger logs entry systems, aur mutation records processing fee tracking me flat extra **2.00%** metrics calculations setup add chalta hai.</li>
+            </ul>
+        </section>
+
+        <section id="faqContainer">
+            <h2>4. 15 Important Frequently Asked Questions (FAQs) - Odisha Land Cost Logic (Hinglish Matrix)</h2>
+            <div style="margin-bottom: 20px; border-bottom: 1px solid #cbd5e1; padding-bottom: 15px;">
+                <p><b>Q1. Odisha me land registry valuation me stamp duty percentage rate kya chalta hai?</b><br>Ans: Odisha land registration revenue manual parameters guidelines regulations ke strict compliance criteria rules me properties layouts registries par flat exact **5.00%** stamp duty tax parameters hold hota hai.</p>
+            </div>
+            <div style="margin-bottom: 20px; border-bottom: 1px solid #cbd5e1; padding-bottom: 15px;">
+                <p><b>Q2. Property name registry ownership transfer clearance logic me registration fee kitni lagti hai?</b><br>Ans: Odisha registration act protocols calculations definitions checking loops ke standard allocation guidelines tehat dynamic properties cost balance matrix par flat strict **2.00%** transaction handling registration ledger mapping apply hoti hai.</p>
+            </div>
+            <div style="margin-bottom: 20px; border-bottom: 1px solid #cbd5e1; padding-bottom: 15px;">
+                <p><b>Q3. Government loop checks me circle rate values ka real estate valuation me kya relation hota hai?</b><br>Ans: Circle rates government dwara pramanit benchmark values hoti hain jisse kam value price metrics data par property registration execute nahi ho sakti.</p>
+            </div>
+            <div style="margin-bottom: 20px; border-bottom: 1px solid #cbd5e1; padding-bottom: 15px;">
+                <p><b>Q4. Kya is software land acquisition calculator system inside user data safe rehte hain?</b><br>Ans: Haan, ye completely automated multi variable parsing client software single standalone web page architecture engine logic framework par run chalta hai, records private hain.</p>
+            </div>
+            <div style="margin-bottom: 20px; border-bottom: 1px solid #cbd5e1; padding-bottom: 15px;">
+                <p><b>Q5. Is advanced high Wordcount dynamic calculation model structural web tool ko kisne programmed kiya hai?</b><br>Ans: Is high efficiency professional calculations constraints processing conversion logic parameters framework system control applications code setup ko specialist software engineer Muksidul Islam ne manage kiya hai.</p>
+            </div>
+            <div style="margin-bottom: 20px; border-bottom: 1px solid #cbd5e1; padding-bottom: 15px;">
+                <p><b>Q6. 1 standard traditional Odisha Bigha farmland plot me area conversion constant footprint size ratio kya chalega?</b><br>Ans: Calculations alignment geometry specifications manual registers checks loops standard ke according 1 local Odisha Bigha covers flat exact **27,225 Square Feet** area matrix parameters limits.</p>
+            </div>
+            <div style="margin-bottom: 20px; border-bottom: 1px solid #cbd5e1; padding-bottom: 15px;">
+                <p><b>Q7. 1 local Guntha asset variables check blocks data sheets value limits square feet framework kya hold karta hai?</b><br>Ans: System automated dimension parsing layers logic rules compliance metrics mapping registers criteria matching tehat 1 individual Guntha equals flat exact **1,089 Square Feet** micro mesh metrics size block.</p>
+            </div>
+            <div style="margin-bottom: 20px; border-bottom: 1px solid #cbd5e1; padding-bottom: 15px;">
+                <p><b>Q8. Bhulekh Odisha online system server portals networks main use parameters kya provide karte hain?</b><br>Ans: Bhulekh Odisha portal computer networks management dashboard state valuation details estimation sheet printing, mutation checking and RoR map records provide karta hai.</p>
+            </div>
+            <div style="margin-bottom: 20px; border-bottom: 1px solid #cbd5e1; padding-bottom: 15px;">
+                <p><b>Q9. North India ke Bigha sizes aur Odisha standard Bigha structural dimensions price model calculations me variation kyu aata hai?</b><br>Ans: Kyunki historical state land revenue land surveying acts tracking boundaries matrices alag constants parameters set karti hain, isliye state wise calculator modules vary karte hain.</p>
+            </div>
+            <div style="margin-bottom: 20px; border-bottom: 1px solid #cbd5e1; padding-bottom: 15px;">
+                <p><b>Q10. Agar pricing fields numerical validation areas me user alphabetic data types write karein to kya hoga?</b><br>Ans: System input control triggers immediate execution bypass security protocols active karke execution flow drop setup parameters dynamic notice switch kar dega.</p>
+            </div>
+            <div style="margin-bottom: 20px; border-bottom: 1px solid #cbd5e1; padding-bottom: 15px;">
+                <p><b>Q11. Mana (ମାଣ) structural sizing unit factor parameter line square feet mesh layout details parameters limits kya hold karega?</b><br>Ans: Odisha revenue framework rules compliance loops ke anusar 1 traditional local Mana handles strictly exactly **4,356 Square Feet** area canvas mapping standards.</p>
+            </div>
+            <div style="margin-bottom: 20px; border-bottom: 1px solid #cbd5e1; padding-bottom: 15px;">
+                <p><b>Q12. Total acquisition calculations evaluation sheet metrics main total dynamic components logic criteria kya jodta hai?</b><br>Ans: Is software algorithm modules system total land base model price evaluation cost + stamp duty dynamic taxes + registration handling records processing fees variables compile karta hai.</p>
+            </div>
+            <div style="margin-bottom: 20px; border-bottom: 1px solid #cbd5e1; padding-bottom: 15px;">
+                <p><b>Q13. Kya female buyers ke naam property coordinate system map registries me stamp duty concessions milti hain?</b><br>Ans: Odisha government rules and regulations metrics ke anusar female property buyers ke liye registry calculations me stamp duty rate 1% lower (lagbhag 4%) apply ho sakta hai condition limits ke tehat.</p>
+            </div>
+            <div style="margin-bottom: 20px; border-bottom: 1px solid #cbd5e1; padding-bottom: 15px;">
+                <p><b>Q14. Bhulekh Odisha portal data logs me mapping records dimensions standard formats kya chunchta hai?</b><br>Ans: Bhulekh Odisha entry portals verification sequence checking structures me strictly standard global metric layout units metric streams Hectare-Are display karta hai.</p>
+            </div>
+            <div style="margin-bottom: 20px; border-bottom: 1px solid #cbd5e1; padding-bottom: 15px;">
+                <p><b>Q15. Kya is calculation statement invoice system output results block data hard printable copies trace out ho sakti hain?</b><br>Ans: Ji haan, structural design elements triggers logic option handler 'Print Statement' hit karke aap secure tracking report framework physical document sheets print outcome dispatch kar sakte hain.</p>
+            </div>
+        </section>
+
+        <h3>Related Tools & Internal Links</h3>
+        <div class="sst-dashboard-grid">
+            <a class="sst-dash-btn" href="index.html">
+                <div class="sst-dash-icon">🏠</div>
+                <span class="sst-dash-title">Dashboard Home</span>
+            </a>
+            <a class="sst-dash-btn" href="odisha-land-area-calculator.html">
+                <div class="sst-dash-icon">🏡</div>
+                <span class="sst-dash-title">OR Land Area Calc</span>
+            </a>
+            <a class="sst-dash-btn" href="odisha-bigha-to-sqft-calculator.html">
+                <div class="sst-dash-icon">🔄</div>
+                <span class="sst-dash-title">OR Bigha Converter</span>
+            </a>
+            <a class="sst-dash-btn" href="maharashtra-land-unit-converter.html">
+                <div class="sst-dash-icon">📐</div>
+                <span class="sst-dash-title">MH Unit Converter</span>
+            </a>
+        </div>
+
+        <div style="margin-top: 50px; padding: 25px; border: 2px dashed var(--or-blue); background: #ffffff; border-radius: 12px; text-align: center;">
+            <h3 style="color: var(--or-blue); margin-top: 0;">🚫 Copyright & Rights Reserved</h3>
+            <p style="font-size: 14px; margin-bottom: 0;">
+                <strong>Copyright © 2026 Shayan Smart Tools. All Rights Reserved.</strong><br><br>
+                Is software conversion interface ka logical framework flowchart, internal client scripting aur optimization data definitions <b>Muksidul Islam</b> ke proprietary copyright privileges ke under managed hain. Logic copying strict offense hai.
+            </p>
+        </div>
+    </article>
+
+    <script>
+        document.addEventListener('contextmenu', e => e.preventDefault());
+        document.onkeydown = function(e) {
+            if (e.ctrlKey && (e.keyCode === 67 || e.keyCode === 85 || e.keyCode === 73)) {
+                alert("Copyright Warning: Copying content from Shayan Smart Tools is prohibited.");
+                return false;
+            }
+        };
+
+        let currentLang = 'en';
+        const dict = {
+            en: {
+                mTitle: "Odisha Land Cost & Registry Calculator",
+                sTitle: "Evaluate total land market valuation value along with IGR Stamp Duty & Registration Fees securely.",
+                lblInputArea: "Land Area Value",
+                lblAreaUnit: "Area Unit",
+                lblUnitPrice: "Price Per Unit (₹)",
+                btnText: "Calculate Budget Now",
+                resHead: "Valuation & Registry Breakdown",
+                lblGovtHead: "Official Odisha Land Portals"
+            },
+            te: {
+                mTitle: "ଓଡ଼ିଶା ଜମି କિંમત କାଲକୁଲେଟର",
+                sTitle: "ଭୂଲେଖ ଜମିର ମୂଲ୍ୟାଙ୍କନ ଏବଂ ଆଇଜିଆର ଷ୍ଟାମ୍ପ ଡ୍ୟୁଟି ବଜେଟ୍ ସଠିକ୍ ଗଣନା କରନ୍ତୁ |",
+                lblInputArea: "ଜମିର କ୍ଷେତ୍ରଫଳ ମୂଲ୍ୟ ପ୍ରବେଶ କରନ୍ତୁ",
+                lblAreaUnit: "ଏକକ ବାଛନ୍ତୁ (Unit)",
+                lblUnitPrice: "ଏକକ ପ୍ରତି ମୂଲ୍ୟ (₹)",
+                btnText: "ବଜେଟ୍ ଗଣନା କରନ୍ତุ",
+                resHead: "ମୂଲ୍ୟାଙ୍କନ ଏବଂ ରଜିଷ୍ଟ୍ରେସନ ବିବରଣୀ (Results):",
+                lblGovtHead: "ଓଡ଼ିଶା ସରକାରୀ ଜମି ପୋର୍ଟାଲ୍"
+            }
+        };
+
+        function setLang(lang) {
+            currentLang = lang;
+            document.getElementById('enBtn').classList.toggle('active', lang === 'en');
+            document.getElementById('teBtn').classList.toggle('active', lang === 'te');
+            
+            document.getElementById('mTitle').innerText = dict[lang].mTitle;
+            document.getElementById('sTitle').innerText = dict[lang].sTitle;
+            document.getElementById('lblInputArea').innerText = dict[lang].lblInputArea;
+            document.getElementById('lblAreaUnit').innerText = dict[lang].lblAreaUnit;
+            document.getElementById('lblUnitPrice').innerText = dict[lang].lblUnitPrice;
+            document.getElementById('btnText').innerText = dict[lang].btnText;
+            document.getElementById('resHead').innerText = dict[lang].resHead;
+            document.getElementById('lblGovtHead').innerText = dict[lang].lblGovtHead;
+
+            if(document.getElementById('resPanel').style.display === "block") {
+                calculateOdishaLandCost();
+            }
+        }
+
+        function calculateOdishaLandCost() {
+            const area = parseFloat(document.getElementById('landArea').value);
+            const unit = document.getElementById('areaUnitSelect').value;
+            const price = parseFloat(document.getElementById('unitPrice').value);
+            const resPanel = document.getElementById('resPanel');
+
+            if (isNaN(area) || area <= 0 || isNaN(price) || price <= 0) {
+                alert(currentLang === 'en' ? "Please enter valid land area and unit price attributes!" : "ଦୟାକରି ସଠିକ୍ ଜମି କ୍ଷେତ୍ରଫଳ ଏବଂ ଏକକ ପ୍ରତି ମୂଲ୍ୟ ପ୍ରବେଶ କରନ୍ତୁ!");
+                return;
+            }
+
+            let sqft = 0;
+            if(unit === 'vigha') sqft = area * 27225;
+            else if(unit === 'guntha') sqft = area * 1089;
+            else sqft = area * 4356;
+
+            const landCost = area * price;
+            const stampDuty = landCost * 0.050; // 5% Standard Stamp duty parameters for Odisha
+            const regFees = landCost * 0.020;   // 2% Property registration variables
+            const netBudget = landCost + stampDuty + regFees;
+
+            document.getElementById('outTotalSqft').innerText = Math.round(sqft).toLocaleString('en-IN') + " sq ft";
+            document.getElementById('outLandCost').innerText = "₹" + Math.round(landCost).toLocaleString('en-IN');
+            document.getElementById('outStampDuty').innerText = "₹" + Math.round(stampDuty).toLocaleString('en-IN');
+            document.getElementById('outRegFees').innerText = "₹" + Math.round(regFees).toLocaleString('en-IN');
+            document.getElementById('outNetBudget').innerText = "₹" + Math.round(netBudget).toLocaleString('en-IN');
+
+            let options = { timeZone: 'Asia/Kolkata', day: 'numeric', month: 'long', year: 'numeric' };
+            let today = new Date().toLocaleDateString('en-IN', options);
+            document.getElementById('pDocDate').innerText = today + " (IST)";
+            
+            let displayUnitLabel = "Bigha";
+            if(unit === 'guntha') displayUnitLabel = "Guntha";
+            if(unit === 'mana') displayUnitLabel = "Mana";
+            document.getElementById('rInputVal').innerText = `${area} ${displayUnitLabel} @ ₹${price}/Unit`;
+            
+            let randID = Math.floor(1000000000 + Math.random() * 9000000000);
+            document.getElementById('pDocRef').innerText = `SST-OR-COST-${randID}`;
+
+            resPanel.style.display = "block";
+            resPanel.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function printCostReport() {
+            const printRow = document.getElementById('print-input-row');
+            printRow.style.display = "flex";
+            window.print();
+            printRow.style.display = "none";
+        }
+
+        function copyCostData() {
+            let copyText = `--- ODISHA LAND REGISTRY BUDGET STATEMENT ---\n`;
+            copyText += `Statement Ref ID: ${document.getElementById('pDocRef').innerText}\n`;
+            copyText += `Land Cost Base: ${document.getElementById('outLandCost').innerText}\n`;
+            copyText += `Stamp Duty (5%): ${document.getElementById('outStampDuty').innerText}\n`;
+            copyText += `Registration (2%): ${document.getElementById('outRegFees').innerText}\n`;
+            copyText += `Net Capital Acquisition Budget: ${document.getElementById('outNetBudget').innerText}\n`;
+            copyText += `Calculated via Shayan Smart Tools`;
+            navigator.clipboard.writeText(copyText);
+            alert("Statement Sheet Copied Successfully!");
+        }
+
+        function shareCostWA() {
+            let text = `*ODISHA LAND REGISTRY BUDGET STATEMENT*\n`;
+            text += `Ref: ${document.getElementById('pDocRef').innerText}\n\n`;
+            text += `• Pure Land Cost: ${document.getElementById('outLandCost').innerText}\n`;
+            text += `• Stamp Duty (5%): ${document.getElementById('outStampDuty').innerText}\n`;
+            text += `• Reg Fees (2%): ${document.getElementById('outRegFees').innerText}\n`;
+            text += `• *Total Acquisition Budget:* ${document.getElementById('outNetBudget').innerText}\n\n`;
+            text += `Computed via *Shayan Smart Tools*`;
+            window.open("https://wa.me/?text=" + encodeURIComponent(text));
+        }
+    </script>
+</body>
+</html>
