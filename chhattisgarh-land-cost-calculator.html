@@ -50,11 +50,26 @@
         .l-btn { padding: 10px 25px; border: 2px solid var(--cg-green); background: white; border-radius: 50px; cursor: pointer; font-weight: 700; color: var(--cg-green); transition: 0.3s; }
         .l-btn.active { background: var(--cg-green); color: #fff; }
 
+        /* GUIDELINES INSTRUCTION BOX */
+        .guideline-box {
+            background: #fffbeb;
+            border-left: 6px solid var(--cg-gold);
+            padding: 15px 20px;
+            border-radius: 12px;
+            text-align: left;
+            max-width: 750px;
+            margin: 0 auto 25px auto;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.02);
+        }
+        .guideline-box h4 { margin: 0 0 8px 0; color: #b45309; font-size: 15px; font-weight: 800; display: flex; align-items: center; gap: 8px; }
+        .guideline-box p { margin: 0; font-size: 13.5px; color: #78350f; line-height: 1.5; }
+
         /* Multi-Group Input Grid Layout */
         .input-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; max-width: 750px; margin: 0 auto 25px auto; text-align: left; }
         label { display: block; font-weight: bold; margin-bottom: 8px; font-size: 13px; color: var(--cg-green); text-transform: uppercase; letter-spacing: 0.5px; }
         input, select { width: 100%; padding: 15px; border: 1px solid #cbd5e1; border-radius: 12px; font-size: 16px; box-sizing: border-box; outline: none; transition: 0.3s; background: var(--white); }
         input:focus, select:focus { border-color: var(--cg-green); background: #fff; box-shadow: 0 0 8px rgba(27, 94, 32, 0.1); }
+        .input-note { font-size: 11px; color: #64748b; margin-top: 4px; display: block; font-weight: 500; }
 
         .btn-convert { background-color: var(--cg-green); color: white; padding: 18px 45px; border: none; border-radius: 12px; font-size: 18px; font-weight: 800; cursor: pointer; transition: 0.3s; width: 100%; max-width: 750px; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 25px; }
         .btn-convert:hover { transform: translateY(-3px); box-shadow: 0 10px 20px rgba(27, 94, 32, 0.2); background-color: var(--cg-dark); }
@@ -113,7 +128,7 @@
             * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; color-adjust: exact !important; }
             @page { margin: 15mm; size: A4 portrait; }
             body { background: #ffffff !important; color: #000000 !important; padding: 0; margin: 0; }
-            .tool-wrapper > header, .lang-switch, .input-grid, .btn-convert, .govt-portal-section, .util-btns, #resHead, .seo-article, .back-btn { display: none !important; }
+            .tool-wrapper > header, .lang-switch, .guideline-box, .input-grid, .btn-convert, .govt-portal-section, .util-btns, #resHead, .seo-article, .back-btn { display: none !important; }
             .res-panel { display: block !important; background: #ffffff !important; color: #000000 !important; padding: 25px !important; margin: 0 !important; width: 100% !important; box-sizing: border-box; border: 3px double var(--cg-green) !important; border-radius: 0px !important; }
             .print-header-block { display: block !important; text-align: center; border-bottom: 2px solid var(--cg-green) !important; padding-bottom: 12px; margin-bottom: 20px; }
             .res-grid { display: block !important; margin-top: 15px; }
@@ -137,6 +152,12 @@
             <button class="l-btn" id="hiBtn" onclick="setLang('hi')">हिंदी</button>
         </div>
 
+        <!-- NEWLY ADDED STATE REVENUE GUIDELINES BOX -->
+        <div class="guideline-box">
+            <h4 id="gHead">⚠️ Official CG Revenue Guidelines Note</h4>
+            <p id="gBody">For accurate calculation, enter the official <b>Collector Guideline Rate (Circle Rate)</b> of your area in the price box. Government taxes are strictly charged on the Guideline Rate or the Actual Sale Value (whichever is higher).</p>
+        </div>
+
         <div class="input-grid">
             <div class="field">
                 <label id="lblInputArea">Land Area Value</label>
@@ -155,9 +176,9 @@
             <div class="field">
                 <label id="lblUnitPrice">Price Per Unit (₹)</label>
                 <input type="number" id="unitPrice" placeholder="Example: 300000" step="any">
+                <span class="input-note" id="notePrice">Enter Circle Rate / Collector Rate</span>
             </div>
 
-            <!-- NEW FIELD: GENDER / HOLDER CATEGORY -->
             <div class="field">
                 <label id="lblGender">Buyer Category (जेंडर)</label>
                 <select id="genderSelect">
@@ -167,7 +188,6 @@
                 </select>
             </div>
 
-            <!-- NEW FIELD: REGION TYPE -->
             <div class="field">
                 <label id="lblRegion">Property Location (क्षेत्र)</label>
                 <select id="regionSelect">
@@ -335,7 +355,10 @@
                 lblRegion: "Property Location (क्षेत्र)",
                 btnText: "Calculate Budget Now",
                 resHead: "Valuation & Registry Breakdown",
-                lblGovtHead: "Official Chhattisgarh Land Portals"
+                lblGovtHead: "Official Chhattisgarh Land Portals",
+                gHead: "⚠️ Official CG Revenue Guidelines Note",
+                gBody: "For accurate calculation, enter the official <b>Collector Guideline Rate (Circle Rate)</b> of your area in the price box. Government taxes are strictly charged on the Guideline Rate or the Actual Sale Value (whichever is higher).",
+                notePrice: "Enter Circle Rate / Collector Rate"
             },
             hi: {
                 mTitle: "छत्तीसगढ़ जमीन रजिस्ट्री कैलकुलेटर",
@@ -347,7 +370,10 @@
                 lblRegion: "सम्पत्ति की स्थिति (Region)",
                 btnText: "बजट की गणना करें",
                 resHead: "मूल्यांकन एवं पंजीकरण विवरण (विवरण तालिका):",
-                lblGovtHead: "छत्तीसगढ़ सरकारी भूमि पोर्टलंक"
+                lblGovtHead: "छत्तीसगढ़ सरकारी भूमि पोर्टलंक",
+                gHead: "⚠️ सरकारी राजस्व गाइडलाइन निर्देश",
+                gBody: "सटीक गणना के लिए, मूल्य बॉक्स में अपने क्षेत्र की आधिकारिक <b>कलेक्टर गाइडलाइन दर (सरकारी रेट)</b> दर्ज करें। सरकारी टैक्स कड़े नियमों के तहत गाइडलाइन रेट या वास्तविक बिक्री मूल्य (दोनों में से जो भी अधिक हो) पर लिया जाता है।",
+                notePrice: "सरकारी गाइडलाइन / कलेक्टर रेट दर्ज करें"
             }
         };
 
@@ -366,6 +392,11 @@
             document.getElementById('btnText').innerText = dict[lang].btnText;
             document.getElementById('resHead').innerText = dict[lang].resHead;
             document.getElementById('lblGovtHead').innerText = dict[lang].lblGovtHead;
+            
+            // Updating new guidelines dictionary elements
+            document.getElementById('gHead').innerText = dict[lang].gHead;
+            document.getElementById('gBody').innerHTML = dict[lang].gBody;
+            document.getElementById('notePrice').innerText = dict[lang].notePrice;
 
             if(document.getElementById('resPanel').style.display === "block") {
                 calculateCGLandCost();
