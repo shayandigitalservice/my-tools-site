@@ -62,6 +62,19 @@
             grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
             gap: 15px; max-width: 750px; margin: 0 auto 25px auto; text-align: left;
         }
+        .full-width-field {
+            grid-column: 1 / -1;
+            background: #f1f5f9;
+            padding: 15px;
+            border-radius: 12px;
+            border: 1px solid #cbd5e1;
+        }
+        .khasra-inputs {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-top: 5px;
+        }
         label { display: block; font-weight: 700; margin-bottom: 8px; font-size: 13px; color: var(--pj-blue); text-transform: uppercase; letter-spacing: 0.5px; }
         input, select {
             width: 100%; padding: 15px; border: 1px solid #cbd5e1; border-radius: 12px;
@@ -183,7 +196,7 @@
             .cg-standard-banner h4 { color: var(--pj-blue) !important; }
 
             .chart-container { background: transparent !important; border: 1px solid #cbd5e1 !important; margin: 15px 0 !important; padding: 10px !important; }
-            .word-format-box { border: 1px dashed #cbd5e1 !important; color: #000 !important; margin-top: 10px !important; }
+            .word-format-box { border: 1px dashed #cbd5e1 !important; color: #00 !important; margin-top: 10px !important; }
             .word-format-box span { color: var(--pj-blue) !important; }
 
             .res-grid { display: block !important; margin-top: 15px; }
@@ -210,6 +223,20 @@
         </div>
 
         <div class="input-grid">
+            <div class="full-width-field">
+                <label id="lblKhasraSection">Land Record Identifiers (Optional / ਐੱਛਕ)</label>
+                <div class="khasra-inputs">
+                    <div>
+                        <label style="font-size:11px; margin-bottom:4px;" id="lblMurabba">Murabba No. (ਮੁਰੱਬਾ ਨੰ.)</label>
+                        <input type="text" id="murabbaInput" placeholder="e.g. 24">
+                    </div>
+                    <div>
+                        <label style="font-size:11px; margin-bottom:4px;" id="lblKilla">Killa / Khasra No. (ਕਿੱਲਾ ਨੰ.)</label>
+                        <input type="text" id="killaInput" placeholder="e.g. 5">
+                    </div>
+                </div>
+            </div>
+
             <div class="field">
                 <label id="lblUnit">Select Area Unit</label>
                 <select id="unitSelect">
@@ -291,6 +318,7 @@
             
             <div class="res-grid">
                 <div class="res-item" id="print-input-row" style="display:none;"><span>Input Data Feed Context:</span> <b id="rInputVal">-</b></div>
+                <div class="res-item" id="khasra-output-row" style="display:none;"><span id="lblKhasraOut">Identified Khasra/Killa Ref:</span> <b id="outKhasraRef">-</b></div>
                 <div class="res-item"><span id="rLc">Total Pure Land Cost:</span> <b id="outLandCost" class="price-tag">₹0</b></div>
                 <div class="res-item"><span id="rSd">Stamp Duty (Inc. Cess & PIDB):</span> <b id="outStampDuty">₹0</b></div>
                 <div class="res-item"><span id="rRf">Registration Fees (Max ₹2 Lakh Cap):</span> <b id="outRegFees">₹0</b></div>
@@ -511,12 +539,16 @@
             en: {
                 mTitle: "Punjab Land Cost & Registry Calculator",
                 sTitle: "Calculate land value, stamp duty, and total registration costs in Punjab instantly",
+                lblKhasraSection: "Land Record Identifiers (Optional)",
+                lblMurabba: "Murabba No.",
+                lblKilla: "Killa / Khasra No.",
                 lblUnit: "Select Area Unit",
                 lblArea: "Enter Total Area",
                 lblRate: "Collector/Market Rate (per Unit)",
                 lblGender: "Buyer Ownership Category",
                 btnText: "Calculate Valuation Now",
                 resHead: "Official Property Valuation Invoice",
+                lblKhasraOut: "Identified Khasra/Killa Ref:",
                 rLc: "Total Pure Land Cost:",
                 rSd: "Stamp Duty (Inc. Cess & PIDB):",
                 rRf: "Registration Fees (Max ₹2 Lakh Cap):",
@@ -533,12 +565,16 @@
             pj: {
                 mTitle: "ਪੰਜਾਬ ਜ਼ਮੀਨ ਦੀ ਕੀਮਤ ਅਤੇ ਰਜਿਸਟਰੀ ਕੈਲਕੁਲੇਟਰ",
                 sTitle: "ਪੰਜਾਬ ਵਿੱਚ ਜ਼ਮੀਨ ਦੀ ਕੀਮਤ, ਸਟੈਂਪ ਡਿਊਟੀ ਅਤੇ ਕੁੱਲ ਰਜਿਸਟਰੀ ਖਰਚਿਆਂ ਦੀ ਤੁਰੰਤ ਗਣਨਾ ਕਰੋ",
+                lblKhasraSection: "ਜ਼ਮੀਨੀ ਰਿਕਾਰਡ ਦੀ ਪਛਾਣ (ਐੱਛਕ)",
+                lblMurabba: "ਮੁਰੱਬਾ ਨੰਬਰ",
+                lblKilla: "ਕਿੱਲਾ / ਖਸਰਾ ਨੰਬਰ",
                 lblUnit: "ਖੇਤਰਫਲ ਇਕਾਈ ਚੁਣੋ",
                 lblArea: "ਕੁੱਲ ਖੇਤਰਫਲ ਦਰਜ ਕਰੋ",
                 lblRate: "ਕਲੈਕਟਰ/ਮਾਰਕੀਟ ਰੇਟ (ਪ੍ਰਤੀ ਇਕਾਈ)",
                 lblGender: "ਖਰੀਦਦਾਰ ਸ਼੍ਰੇਣੀ ਚੁਣੋ",
                 btnText: "ਕੀਮਤ ਦੀ ਗਣਨਾ ਕਰੋ",
                 resHead: "ਸਰਕਾਰੀ ਜਾਇਦਾਦ ਮੁਲਾਂਕਣ ਇਨਵੌਇਸ",
+                lblKhasraOut: "ਪਛਾਣਿਆ ਗਿਆ ਖਸਰਾ/ਕਿੱਲਾ:",
                 rLc: "ਕੁੱਲ ਸ਼ੁੱਧ ਜ਼ਮੀਨ ਦੀ ਕੀਮਤ:",
                 rSd: "ਸਟੈਂਪ ਡਿਊਟੀ (Cess & PIDB ਸਮੇਤ):",
                 rRf: "ਰਜਿਸਟ੍ਰੇਸ਼ਨ ਫੀਸ (ਵੱਧ ਤੋਂ ਵੱਧ ₹2 ਲੱਖ):",
@@ -561,12 +597,16 @@
             
             document.getElementById('mTitle').innerText = dict[lang].mTitle;
             document.getElementById('sTitle').innerText = dict[lang].sTitle;
+            document.getElementById('lblKhasraSection').innerText = dict[lang].lblKhasraSection;
+            document.getElementById('lblMurabba').innerText = dict[lang].lblMurabba;
+            document.getElementById('lblKilla').innerText = dict[lang].lblKilla;
             document.getElementById('lblUnit').innerText = dict[lang].lblUnit;
             document.getElementById('lblArea').innerText = dict[lang].lblArea;
             document.getElementById('lblRate').innerText = dict[lang].lblRate;
             document.getElementById('lblGender').innerText = dict[lang].lblGender;
             document.getElementById('btnText').innerText = dict[lang].btnText;
             document.getElementById('resHead').innerText = dict[lang].resHead;
+            document.getElementById('lblKhasraOut').innerText = dict[lang].lblKhasraOut;
             document.getElementById('rLc').innerText = dict[lang].rLc;
             document.getElementById('rSd').innerText = dict[lang].rSd;
             document.getElementById('rRf').innerText = dict[lang].rRf;
@@ -607,6 +647,10 @@
             const gender = document.getElementById('genderSelect').value;
             const resPanel = document.getElementById('resPanel');
             const unit = document.getElementById('unitSelect').value;
+            
+            // Fetching Khasra Numbers
+            const murabba = document.getElementById('murabbaInput').value.trim();
+            const killa = document.getElementById('killaInput').value.trim();
 
             if (isNaN(area) || area <= 0 || isNaN(rate) || rate <= 0) {
                 alert(currentLang === 'en' ? "Please enter valid Area and Rate details!" : "ਕਿਰਪਾ ਕਰਕੇ ਸਹੀ ਖੇਤਰਫਲ ਅਤੇ ਰੇਟ ਦਰਜ ਕਰੋ!");
@@ -642,6 +686,22 @@
             }
 
             document.getElementById('cgStandardOutput').innerText = displayAllocation;
+            
+            // Khasra output conditional formatting
+            const khasraRow = document.getElementById('khasra-output-row');
+            if(murabba !== "" || killa !== "") {
+                let finalRef = "";
+                if(murabba !== "" && killa !== "") {
+                    finalRef = `${murabba} // ${killa}`;
+                } else {
+                    finalRef = murabba !== "" ? `Murabba: ${murabba}` : `Khasra/Killa: ${killa}`;
+                }
+                document.getElementById('outKhasraRef').innerText = finalRef;
+                khasraRow.style.display = "flex";
+            } else {
+                khasraRow.style.display = "none";
+            }
+
             document.getElementById('outLandCost').innerText = "₹" + Math.round(landCost).toLocaleString('en-IN');
             document.getElementById('outStampDuty').innerText = "₹" + Math.round(stampDuty).toLocaleString('en-IN') + " (" + (stampDutyPercent*100) + "%)";
             document.getElementById('outRegFees').innerText = "₹" + Math.round(regFees).toLocaleString('en-IN') + " (1%)";
@@ -680,6 +740,8 @@
         function resetCostCalculator() {
             document.getElementById('areaInput').value = '';
             document.getElementById('rateInput').value = '';
+            document.getElementById('murabbaInput').value = '';
+            document.getElementById('killaInput').value = '';
             document.getElementById('unitSelect').selectedIndex = 0;
             document.getElementById('genderSelect').selectedIndex = 0;
             
@@ -698,6 +760,9 @@
         function copyInvoice() {
             let copyText = `--- PUNJAB LAND REGISTRY BUDGET STATEMENT ---\n`;
             copyText += `Statement Ref ID: ${document.getElementById('pDocRef').innerText}\n`;
+            if(document.getElementById('khasra-output-row').style.display !== "none") {
+                copyText += `Khasra/Killa Ref: ${document.getElementById('outKhasraRef').innerText}\n`;
+            }
             copyText += `Allocation Metric: ${document.getElementById('cgStandardOutput').innerText}\n`;
             copyText += `Pure Land Cost Base: ${document.getElementById('outLandCost').innerText}\n`;
             copyText += `Stamp Duty Amount: ${document.getElementById('outStampDuty').innerText}\n`;
@@ -712,6 +777,9 @@
         function shareInvoiceWA() {
             let text = `*PUNJAB LAND REGISTRY BUDGET STATEMENT*\n`;
             text += `Ref: ${document.getElementById('pDocRef').innerText}\n\n`;
+            if(document.getElementById('khasra-output-row').style.display !== "none") {
+                text += `• Khasra/Killa: ${document.getElementById('outKhasraRef').innerText}\n`;
+            }
             text += `• Allocation: ${document.getElementById('cgStandardOutput').innerText}\n`;
             text += `• Pure Land Cost: ${document.getElementById('outLandCost').innerText}\n`;
             text += `• Stamp Duty Amount: ${document.getElementById('outStampDuty').innerText}\n`;
@@ -724,3 +792,4 @@
     </script>
 </body>
 </html>
+
