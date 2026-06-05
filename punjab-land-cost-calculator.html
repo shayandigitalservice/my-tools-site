@@ -18,8 +18,6 @@
             --white: #ffffff;
             --bg-light: #fffbf7;
             --bg: #f8fafc;
-            --cg-green: #10b981;
-            --cg-gold: #f59e0b;
         }
 
         body {
@@ -79,7 +77,7 @@
         .govt-card-left { display: flex; align-items: center; gap: 12px; }
         .govt-card-left span.icon { font-size: 18px; }
 
-        /* RESULTS UI WITH PREMIUM DONUT CHART LOGIC */
+        /* RESULTS UI */
         .res-panel {
             margin-top: 35px; display: none; text-align: left; background: #0f172a; color: white;
             padding: 25px; border-radius: 25px; max-width: 650px; margin-left: auto; margin-right: auto;
@@ -87,34 +85,19 @@
         }
         .res-panel h3 { margin-top: 0; text-align: center; color: var(--pj-saffron); font-size: 1.4rem; margin-bottom: 20px; }
         
-        /* PREMIUM DONUT CHART CSS */
-        .visual-box { display: flex; flex-direction: column; align-items: center; background: rgba(255,255,255,0.03); padding: 20px; border-radius: 16px; margin-bottom: 20px; border: 1px dashed rgba(255,153,51,0.2); }
-        .donut-chart { width: 140px; height: 140px; border-radius: 50%; background: conic-gradient(var(--cg-green) 0% 70%, var(--cg-gold) 70% 90%, #1e40af 90% 100%); display: flex; align-items: center; justify-content: center; margin-bottom: 15px; box-shadow: 0 8px 16px rgba(0,0,0,0.2); }
-        .donut-hole { width: 90px; height: 90px; background: #0f172a; border-radius: 50%; }
-        .chart-legend { display: flex; gap: 15px; flex-wrap: wrap; justify-content: center; font-size: 12px; }
-        .legend-item { display: flex; align-items: center; gap: 6px; }
-        .dot { width: 12px; height: 12px; border-radius: 3px; }
-
         .res-grid { display: grid; grid-template-columns: repeat(1, 1fr); gap: 15px; }
         .res-item { background: rgba(255,255,255,0.05); padding: 15px; border-radius: 12px; display: flex; flex-direction: row; justify-content: space-between; align-items: center; border-left: 4px solid var(--pj-saffron); }
         .res-item span { font-size: 14px; color: #94a3b8; font-weight: bold; }
         .res-item b { font-size: 18px; color: var(--pj-saffron); word-break: break-all; }
-        
-        .res-item.info-row { border-left: 4px solid #38bdf8; background: rgba(56, 189, 248, 0.05); }
-        .res-item.info-row span { color: #bae6fd; }
-        .res-item.info-row b { color: #38bdf8; }
-
         .res-item.total-row { border-left: 4px solid #ff4d4d; background: rgba(255, 77, 77, 0.1); }
         .res-item.total-row span { color: #ff8080; }
         .res-item.total-row b { color: #ff4d4d; font-size: 22px; }
-
-        .words-row { background: rgba(255,255,255,0.02); padding: 15px; border-radius: 12px; margin-top: 15px; border: 1px dashed #cbd5e1; font-size: 13px; text-align: center; color: #e2e8f0; }
 
         .print-header-block, .print-footer-block { display: none; }
         .util-btns { display: flex; gap: 12px; margin-top: 25px; }
         .u-btn { flex: 1; padding: 15px; border: none; border-radius: 12px; font-weight: 800; cursor: pointer; color: white; font-size: 14px; text-align: center; transition: 0.3s; }
 
-        /* 🔥 CLEAN FIXED SEO ARTICLE LAYER */
+        /* 🔥 CLEAN FIXED SEO ARTICLE LAYER - BACKGROUND CLEAR WITH NO WRAPPER BOX */
         .seo-article { 
             background: transparent !important; 
             padding: 20px 0; 
@@ -211,7 +194,7 @@
             .input-grid { grid-template-columns: 1fr; gap: 12px; }
         }
 
-        /* PREMIUM PRINT RULES */
+        /* PREMIUM PRINT RULES WITH REPAIRED DATE FLOW */
         @media print {
             * {
                 -webkit-print-color-adjust: exact !important;
@@ -221,7 +204,7 @@
             @page { margin: 15mm; size: A4 portrait; }
             body { background: #ffffff !important; color: #000000 !important; padding: 0; margin: 0; }
             
-            .tool-wrapper > header, .lang-switch, .input-grid, .btn-calc, .govt-portal-section, .util-btns, #resHead, .seo-article, .back-btn, .visual-box { display: none !important; }
+            .tool-wrapper > header, .lang-switch, .input-grid, .btn-calc, .govt-portal-section, .util-btns, #resHead, .seo-article, .back-btn { display: none !important; }
             
             .res-panel { 
                 display: block !important; 
@@ -259,7 +242,6 @@
             .res-item span { color: #1e293b !important; font-size: 13px !important; font-weight: 600 !important; text-transform: uppercase; }
             .res-item b { color: var(--pj-blue) !important; font-size: 15px !important; font-weight: 700 !important; }
             .res-item.total-row b { color: #d84315 !important; font-size: 17px !important; }
-            .words-row { color: #000000 !important; border: 1px solid #000 !important; background: transparent !important; }
 
             .print-footer-block {
                 display: block !important;
@@ -313,12 +295,6 @@
                     <option value="joint">Joint Male & Female (8% Effective Stamp Duty)</option>
                 </select>
             </div>
-
-            <!-- CHHATTISGARH FEATURE ADDED: KHASRA NUMBER INPUT FIELD -->
-            <div class="input-group">
-                <label for="khasraInput" id="lblKhasra">Khasra / Plot Number (Optional)</label>
-                <input type="text" id="khasraInput" placeholder="e.g. 124/2, 45">
-            </div>
         </div>
 
         <button class="btn-calc" onclick="calculatePunjabLandCost()" id="btnText">Calculate Valuation Now</button>
@@ -354,44 +330,20 @@
                 <div style="background: #f8fafc; border: 1px solid #cbd5e1; padding: 10px; border-radius: 4px; display: grid; grid-template-columns: 1fr 1fr; font-size: 11px; text-align: left; gap: 5px; color: #334155;">
                     <div><strong>DOCUMENT REF:</strong> <span id="pDocRef" style="color:#003366; font-weight:bold;">SST-PJ-REG-0000</span></div>
                     <div><strong>DATE:</strong> <span id="pDocDate" style="color:#003366; font-weight:bold;">--/--/----</span></div>
-                    <div><strong>KHASRA / PLOT:</strong> <span id="pDocKhasra" style="color:#003366; font-weight:bold;">N/A</span></div>
+                    <div><strong>JURISDICTION:</strong> State of Punjab (ਪੰਜਾਬ)</div>
                     <div style="text-align: right;"><strong>STATUS:</strong> Digitally Verified Report</div>
                 </div>
             </div>
 
             <h3 id="resHead">Official Property Valuation Invoice</h3>
-
-            <!-- CHHATTISGARH FEATURE ADDED: DYNAMIC GRAPHICAL DONUT CHART LAYER -->
-            <div class="visual-box" id="chartBox">
-                <div class="donut-chart" id="visualDonut">
-                    <div class="donut-hole"></div>
-                </div>
-                <div class="chart-legend">
-                    <div class="legend-item"><span class="dot" style="background:var(--cg-green)"></span><span id="legCost">Pure Land Cost</span></div>
-                    <div class="legend-item"><span class="dot" style="background:var(--cg-gold)"></span><span id="legTax">Stamp & Cess</span></div>
-                    <div class="legend-item"><span class="dot" style="background:#1e40af"></span><span id="legReg">Registry Fees</span></div>
-                </div>
-            </div>
             
             <div class="res-grid">
                 <div class="res-item" id="print-input-row" style="display:none;"><span style="color:var(--pj-saffron); font-weight: 800;">Initial Input Feed:</span> <b id="rInputVal" style="color:var(--pj-saffron); font-weight: 800;">0 Units</b></div>
                 
-                <!-- CHHATTISGARH FEATURE ADDED: DYNAMIC MULTI-UNIT MATRIX STANDARDS -->
-                <div class="res-item info-row">
-                    <span id="lblStandardOutput">Area Area Breakup Matrix:</span>
-                    <b id="pjStandardOutput">0 Sq Ft / 0 Kanal / 0 Acre</b>
-                </div>
-
                 <div class="res-item"><span id="rLc">Total Pure Land Cost:</span> <b id="outLandCost">₹0</b></div>
                 <div class="res-item"><span id="rSd">Stamp Duty (Inc. Cess & PIDB):</span> <b id="outStampDuty">₹0</b></div>
                 <div class="res-item"><span id="rRf">Registration Fees (Max ₹2 Lakh Cap):</span> <b id="outRegFees">₹0</b></div>
                 <div class="res-item total-row"><span id="rGt">Grand Total Property Budget:</span> <b id="outGrandTotal">₹0</b></div>
-            </div>
-
-            <!-- CHHATTISGARH FEATURE ADDED: FINANCIAL NUMBER TO WORDS LAYER -->
-            <div class="words-row">
-                <strong id="lblWordTitle" style="color: var(--pj-saffron);">Budget in Words:</strong> 
-                <span id="outBudgetInWords">Zero Rupees Only</span>
             </div>
 
             <div class="print-footer-block">
@@ -418,13 +370,13 @@
         <a href="index.html" style="color: var(--pj-blue); font-weight: bold; text-decoration: none;">⬅ Back to All Tools</a>
     </div>
 
-    <!-- 🔥 SUPER EXPANDED HIGH-WORDCOUNT SEO ARTICLE LAYER -->
+    <!-- 🔥 SUPER EXPANDED HIGH-WORDCOUNT SEO ARTICLE LAYER (2500+ WORDS INTENSITY COMPLETELY CONTAINER-FREE) -->
     <article class="seo-article">
         <div class="seo-header-block">
             <h2>Punjab Property Registration and Land Cost Valuation Rules 2026</h2>
             <p style="font-size: 18px; color: #555; margin: 5px 0 0 0;">Calculate land value, stamp duty, and total registration costs in Punjab instantly.</p>
         </div>
-<img src="Punjab1.webp" class="content-image" loading="lazy" alt="Scenic Landscape of Punjab agricultural fields">
+<img src="Punjab1.webp" class="content-image" loading="lazy" alt="Scenic One-Horned Rhinoceros Standing in Assam Valley Valley Plain Lands">
 
         <section>
             <h3>1. Complete Guide to Property Acquisitional Budgeting in Punjab</h3>
@@ -476,7 +428,7 @@
                 </table>
             </div>
         </section>
-<img src="Punjab2.webp" class="content-image" loading="lazy" alt="Punjab Revenue Property Registration Desk setup">
+<img src="Punjab2.webp" class="content-image" loading="lazy" alt="Scenic One-Horned Rhinoceros Standing in Assam Valley Valley Plain Lands">
 
         <section>
             <h2>How to Calculate Land Value & Registry Cost in Punjab?</h2>
@@ -500,7 +452,7 @@
                 <li><strong>Case Study 5 (Fractional Plot Sizing Multiplier):</strong> Jalandhar colony me area dimension parameter charts data me value variable lagbhag 15 Marla with ₹2,50,000 per marla setup data holds. Program automatic total cost matrix ₹37,50,000 catch karke stamp duty liability aur final clear legal transaction invoice summary structure load compile kar deta hai.</li>
             </ul>
         </section>
-<img src="Punjab3.webp" class="content-image" loading="lazy" alt="Real estate planning layout maps">
+<img src="Punjab3.webp" class="content-image" loading="lazy" alt="Scenic One-Horned Rhinoceros Standing in Assam Valley Valley Plain Lands">
 
         <section id="faqContainer">
             <h2>4. 15 Important Frequently Asked Questions (FAQs) - Punjab Land Cost Logic (Hinglish Matrix)</h2>
@@ -529,7 +481,7 @@
                 <p><b>Q8. Malwa zone area measurements me 1 standard traditional Bigha square feet ratio kya chalega?</b><br>Ans: Geometry assessment compliance rules maps checks ke according regional parameters me 1 standard Malwa Bigha covers flat exact **16,200 Square Feet** ground footprints limits canvas.</p>
             </div>
             <div style="border-bottom: 1px solid #cbd5e1; padding-bottom: 15px; margin-bottom: 15px;">
-                <p><b>Q9. 1 standard Kanal metrics calculations data boundaries checking me square feet ratio kya setup hold elegance?</b><br>Ans: Punjab Land revenue codes data logs metrics registers structures mapping records ke under 1 standard Kanal block dynamically flat strict **5,445 Square Feet** space limits map secure karta hai.</p>
+                <p><b>Q9. 1 standard Kanal metrics calculations data boundaries checking me square feet ratio kya setup hold karega?</b><br>Ans: Punjab Land revenue codes data logs metrics registers structures mapping records ke under 1 standard Kanal block dynamically flat strict **5,445 Square Feet** space limits map secure karta hai.</p>
             </div>
             <div style="border-bottom: 1px solid #cbd5e1; padding-bottom: 15px; margin-bottom: 15px;">
                 <p><b>Q10. Zameen ki state valuation checks and stamp duty records maps details online fard copies me kahan verify hoti hain?</b><br>Ans: Real time property verification checks and mutation logs checking operations finalized karne ke liye official systems online registry data **PLRS Jamabandi Punjab Portal** aur NGDRS systems par available rehte hain.</p>
@@ -598,62 +550,30 @@
                 lblArea: "Enter Total Area",
                 lblRate: "Collector/Market Rate (per Unit)",
                 lblGender: "Buyer Ownership Category",
-                lblKhasra: "Khasra / Plot Number (Optional)",
                 btnText: "Calculate Valuation Now",
                 resHead: "Official Property Valuation Invoice",
                 rLc: "Total Pure Land Cost:",
                 rSd: "Stamp Duty (Inc. Cess & PIDB):",
                 rRf: "Registration Fees (Max ₹2 Lakh Cap):",
                 rGt: "Grand Total Property Budget:",
-                lblGovtHead: "Official Punjab Land Portals",
-                lblStandardOutput: "Area Area Breakup Matrix:",
-                lblWordTitle: "Budget in Words:",
-                legCost: "Pure Land Cost",
-                legTax: "Stamp & Cess",
-                legReg: "Registry Fees"
+                lblGovtHead: "Official Punjab Land Portals"
             },
             pj: {
                 mTitle: "ਪੰਜਾਬ ਜ਼ਮੀਨ ਦੀ ਕੀਮਤ ਅਤੇ ਰਜਿਸਟਰੀ ਕੈਲਕੁਲੇਟਰ",
-                sTitle: "ਪੰਜਾਬ ਵਿੱਚ ਜ਼ਮੀਨ ਦੀ ਕੀਮਤ, ਸਟੈਂਪ ਡਿਊਟੀ ਅਤੇ ਕੁੱਲ ਰਜਿਸਟਰੀ ਖਰਚਿਆਂ ਦੀ ਤੁਰੰਤ ਗਣਨਾ ਕਰੋ",
+                sTitle: "ਪੰਜਾਬ ਵਿੱਚ ਜ਼ਮੀਨ ਦੀ ਕੀਮਤ, ਸਟੈਂਪ ਡਿਊਟੀ आणि ਕੁੱਲ ਰਜਿਸਟਰੀ ਖਰਚਿਆਂ ਦੀ ਤੁਰੰਤ ਗਣਨਾ ਕਰੋ",
                 lblUnit: "ਖੇਤਰਫਲ ਇਕਾਈ ਚੁਣੋ",
                 lblArea: "ਕੁੱਲ ਖੇਤਰਫਲ ਦਰਜ ਕਰੋ",
                 lblRate: "ਕਲੈਕਟਰ/ਮਾਰਕੀਟ ਰੇਟ (ਪ੍ਰਤੀ ਇਕਾਈ)",
                 lblGender: "ਖਰੀਦਦਾਰ ਸ਼੍ਰੇਣੀ ਚੁਣੋ",
-                lblKhasra: "ਖਸਰਾ / ਪਲਾਟ ਨੰਬਰ (ਵਿਕਲਪਿਕ)",
                 btnText: "ਕੀਮਤ ਦੀ ਗਣਨਾ ਕਰੋ",
                 resHead: "ਸਰਕਾਰੀ ਜਾਇਦਾਦ ਮੁਲਾਂਕਣ ਇਨਵੌਇਸ",
                 rLc: "ਕੁੱਲ ਸ਼ੁੱਧ ਜ਼ਮੀਨ ਦੀ ਕੀਮਤ:",
                 rSd: "ਸਟੈਂਪ ਡਿਊਟੀ (Cess & PIDB ਸਮੇਤ):",
                 rRf: "ਰਜਿਸਟ੍ਰੇਸ਼ਨ ਫੀਸ (ਵੱਧ ਤੋਂ ਵੱਧ ₹2 ਲੱਖ):",
                 rGt: "ਕੁੱਲ ਕਾਰੋਬਾਰੀ ਬਜਟ (Grand Total):",
-                lblGovtHead: "ਸਰਕਾਰੀ ਪੰਜਾਬ ਭੂਮੀ ਪੋਰਟਲ",
-                lblStandardOutput: "ਖੇਤਰਫਲ ਬ੍ਰੇਕਅੱਪ ਮੈਟ੍ਰਿਕਸ:",
-                lblWordTitle: "ਬਜਟ ਸ਼ਬਦਾਂ ਵਿੱਚ:",
-                legCost: "ਜ਼ਮੀਨ ਦੀ ਕੀਮਤ",
-                legTax: "ਸਟੈਂਪ ਅਤੇ ਸੈੱਸ",
-                legReg: "ਰਜਿਸਟ੍ਰੇਸ਼ਨ ਫੀਸ"
+                lblGovtHead: "ਸਰਕਾਰੀ ਪੰਜਾਬ ਭੂਮੀ ਪੋਰਟਲ"
             }
         };
-
-        // CHHATTISGARH FEATURE INTEGRATED: NUMBER TO WORDS TRANSLATOR MODULE
-        function numToWords(num) {
-            const a = ['', 'One ', 'Two ', 'Three ', 'Four ', 'Five ', 'Six ', 'Seven ', 'Eight ', 'Nine ', 'Ten ', 'Eleven ', 'Twelve ', 'Thirteen ', 'Fourteen ', 'Fifteen ', 'Sixteen ', 'Seventeen ', 'Eighteen ', 'Nineteen '];
-            const b = ['', '', 'Twenty', 'Thirty', 'Forty', 'Fifty', 'Sixty', 'Seventy', 'Eighty', 'Ninety'];
-
-            num = Math.round(num);
-            if (num === 0) return 'Zero Rupees Only';
-            if (num.toString().length > 9) return 'Amount Too Large (Limit: 99 Crores)';
-            
-            let n = ('000000000' + num).substr(-9).match(/^(\d{2})(\d{2})(\d{2})(\d{1})(\d{2})$/);
-            if (!n) return ''; 
-            let str = '';
-            str += (Number(n[1]) != 0) ? (a[Number(n[1])] || b[n[1][0]] + ' ' + a[n[1][1]]) + 'Crore ' : '';
-            str += (Number(n[2]) != 0) ? (a[Number(n[2])] || b[n[2][0]] + ' ' + a[n[2][1]]) + 'Lakh ' : '';
-            str += (Number(n[3]) != 0) ? (a[Number(n[3])] || b[n[3][0]] + ' ' + a[n[3][1]]) + 'Thousand ' : '';
-            str += (Number(n[4]) != 0) ? a[Number(n[4])] + 'Hundred ' : '';
-            str += (Number(n[5]) != 0) ? ((str != '') ? 'and ' : '') + (a[Number(n[5])] || b[n[5][0]] + ' ' + a[n[5][1]]) : '';
-            return str ? str.trim() + ' Rupees Only' : 'Zero Rupees Only';
-        }
 
         function setLang(lang) {
             currentLang = lang;
@@ -666,7 +586,6 @@
             document.getElementById('lblArea').innerText = dict[lang].lblArea;
             document.getElementById('lblRate').innerText = dict[lang].lblRate;
             document.getElementById('lblGender').innerText = dict[lang].lblGender;
-            document.getElementById('lblKhasra').innerText = dict[lang].lblKhasra;
             document.getElementById('btnText').innerText = dict[lang].btnText;
             document.getElementById('resHead').innerText = dict[lang].resHead;
             document.getElementById('rLc').innerText = dict[lang].rLc;
@@ -674,11 +593,6 @@
             document.getElementById('rRf').innerText = dict[lang].rRf;
             document.getElementById('rGt').innerText = dict[lang].rGt;
             document.getElementById('lblGovtHead').innerText = dict[lang].lblGovtHead;
-            document.getElementById('lblStandardOutput').innerText = dict[lang].lblStandardOutput;
-            document.getElementById('lblWordTitle').innerText = dict[lang].lblWordTitle;
-            document.getElementById('legCost').innerText = dict[lang].legCost;
-            document.getElementById('legTax').innerText = dict[lang].legTax;
-            document.getElementById('legReg').innerText = dict[lang].legReg;
 
             if(document.getElementById('resPanel').style.display === "block") {
                 calculatePunjabLandCost();
@@ -691,38 +605,11 @@
             const gender = document.getElementById('genderSelect').value;
             const resPanel = document.getElementById('resPanel');
             const unit = document.getElementById('unitSelect').value;
-            const khasra = document.getElementById('khasraInput').value.trim();
 
             if (isNaN(area) || area <= 0 || isNaN(rate) || rate <= 0) {
-                alert(currentLang === 'en' ? "Please enter valid Area and Rate details!" : "ਕਿਰਪਾ ਕਰਕੇ ਸਹੀ ਖੇਤਰਫਲ ਅਤੇ ਰੇਟ ਦਰਜ ਕਰੋ!");
+                alert(currentLang === 'en' ? "Please enter valid Area and Rate details!" : "ਕਿਰਪา ਕਰਕੇ ਸਹੀ ਖੇਤਰਫਲ ਅਤੇ ਰੇਟ ਦਰਜ ਕਰੋ!");
                 return;
             }
-
-            // CHHATTISGARH FEATURE INTEGRATED: HIGH PRECISION MULTI-UNIT CONVERSIONS GRID
-            let sqft = 0;
-            let kanal = 0;
-            let acre = 0;
-
-            if (unit === 'gaj') {
-                sqft = area * 9;
-                kanal = sqft / 5445;
-                acre = sqft / 43560;
-            } else if (unit === 'marla') {
-                sqft = area * 272.25;
-                kanal = area / 20;
-                acre = sqft / 43560;
-            } else if (unit === 'kanal') {
-                kanal = area;
-                sqft = area * 5445;
-                acre = area / 8;
-            } else if (unit === 'killa') {
-                acre = area;
-                sqft = area * 43560;
-                kanal = area * 8;
-            }
-
-            // Display standard layout breakdown variables dynamically
-            document.getElementById('pjStandardOutput').innerText = `${Math.round(sqft).toLocaleString('en-IN')} SqFt | ${kanal.toFixed(2)} Kanal | ${acre.toFixed(2)} Acre`;
 
             let landCost = area * rate;
             let stampDutyPercent = 0.09; 
@@ -740,26 +627,14 @@
             }
             let grandTotal = landCost + stampDuty + regFees;
 
-            // Update Text UI Elements
-            document.getElementById('outLandCost').innerText = "₹" + Math.round(landCost).toLocaleString('en-IN');
-            document.getElementById('outStampDuty').innerText = "₹" + Math.round(stampDuty).toLocaleString('en-IN') + " (" + (stampDutyPercent*100) + "%)";
-            document.getElementById('outRegFees').innerText = "₹" + Math.round(regFees).toLocaleString('en-IN') + " (1% Capped)";
-            document.getElementById('outGrandTotal').innerText = "₹" + Math.round(grandTotal).toLocaleString('en-IN');
+            document.getElementById('outLandCost').innerText = "₹" + landCost.toLocaleString('en-IN', {maximumFractionDigits: 2});
+            document.getElementById('outStampDuty').innerText = "₹" + stampDuty.toLocaleString('en-IN', {maximumFractionDigits: 2});
+            document.getElementById('outRegFees').innerText = "₹" + regFees.toLocaleString('en-IN', {maximumFractionDigits: 2});
+            document.getElementById('outGrandTotal').innerText = "₹" + grandTotal.toLocaleString('en-IN', {maximumFractionDigits: 2});
 
-            // CHHATTISGARH FEATURE INTEGRATED: NUMBER TO WORDS CONVERTER RUN
-            document.getElementById('outBudgetInWords').innerText = numToWords(grandTotal);
-
-            // CHHATTISGARH FEATURE INTEGRATED: DYNAMIC CONIC DONUT GRAPH INTERACTION LOGIC
-            const costPct = (landCost / grandTotal) * 100;
-            const taxPct = (stampDuty / grandTotal) * 100;
-            const chartGrad = `conic-gradient(var(--cg-green) 0% ${costPct}%, var(--cg-gold) ${costPct}% ${costPct + taxPct}%, #1e40af ${costPct + taxPct}% 100%)`;
-            document.getElementById('visualDonut').style.background = chartGrad;
-
-            // Meta setup processing
             let options = { timeZone: 'Asia/Kolkata', day: 'numeric', month: 'long', year: 'numeric' };
             let today = new Date().toLocaleDateString('en-IN', options);
             document.getElementById('pDocDate').innerText = today + " (INDIA STANDARD TIME)";
-            document.getElementById('pDocKhasra').innerText = khasra ? khasra : "N/A";
 
             let unitNameText = "Units";
             if(unit === 'gaj') unitNameText = currentLang === 'en' ? "Gaj (Sq Yards)" : "ਗਜ਼";
@@ -767,7 +642,7 @@
             if(unit === 'kanal') unitNameText = currentLang === 'en' ? "Kanal" : "ਕਨਾਲ";
             if(unit === 'killa') unitNameText = currentLang === 'en' ? "Killa/Acre" : "ਕਿੱਲਾ";
 
-            document.getElementById('rInputVal').innerText = `${area} ${unitNameText} @ ₹${rate}/Unit`;
+            document.getElementById('rInputVal').innerText = `${area} ${unitNameText}`;
             
             let randID = Math.floor(1000000000 + Math.random() * 9000000000);
             document.getElementById('pDocRef').innerText = "SST-PJ-REG-" + randID;
@@ -788,7 +663,7 @@
         }
 
         function copyInvoice() {
-            let text = `Official Property Statement:\nInput Details: ${document.getElementById('rInputVal').innerText}\nZameen ki Keemat: ${document.getElementById('outLandCost').innerText}\nStamp Duty Amount: ${document.getElementById('outStampDuty').innerText}\nRegistry Fees: ${document.getElementById('outRegFees').innerText}\nTotal Bill: ${document.getElementById('outGrandTotal').innerText}\nAmount in Words: ${document.getElementById('outBudgetInWords').innerText}\nCalculated via Shayan Smart Tools`;
+            let text = `Official Property Statement:\nZameen ki Keemat: ${document.getElementById('outLandCost').innerText}\nStamp Duty Amount: ${document.getElementById('outStampDuty').innerText}\nTotal Bill: ${document.getElementById('outGrandTotal').innerText}\nCalculated via Shayan Smart Tools`;
             navigator.clipboard.writeText(text);
             alert("Statement Copied!");
         }
