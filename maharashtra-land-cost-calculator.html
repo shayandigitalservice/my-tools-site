@@ -209,17 +209,18 @@
             <div class="field">
                 <label id="lblRegion">Region / Cess Layer (क्षेत्राचे वर्गीकरण)</label>
                 <select id="regionSelect">
-                    <option value="corp">Municipal Corporation (महानगरपालिका - Cess 2%)</option>
-                    <option value="council">Municipal Council (नगरपरिषद - Cess 1%)</option>
-                    <option value="gram">Gram Panchayat (ग्रामीण भाग - No Cess)</option>
+                    <option value="corp">Urban Area / Municipal Corporation (महानगरपालिका - Cess 2%)</option>
+                    <option value="council">Semi-Urban Area / Municipal Council (नगरपरिषद - Cess 1%)</option>
+                    <option value="gram">Rural Area / Gram Panchayat (ग्रामीण भाग - ZP Cess 1%)</option>
                 </select>
             </div>
 
             <div class="field">
                 <label id="lblOwnership">Ownership Type (मालकीचा प्रकार)</label>
                 <select id="ownershipSelect">
-                    <option value="male">Standard (सामान्य - Stamp 5%)</option>
+                    <option value="male">Male / Standard (पुरुष खरेदीदार - Stamp 5%)</option>
                     <option value="female">Female Concession (महिला खरेदीदार - Stamp 4%)</option>
+                    <option value="joint">Joint Holder (महिला + पुरुष एकत्रित - Stamp 4.5%)</option>
                 </select>
             </div>
 
@@ -375,14 +376,24 @@
                         <td>1% special concession provided by Maharashtra government for women buyers.</td>
                     </tr>
                     <tr>
+                        <td><b>Stamp Duty (Joint Holder)</b></td>
+                        <td>4.50%</td>
+                        <td>Average concession applied for combined male and female co-ownership.</td>
+                    </tr>
+                    <tr>
                         <td><b>Municipal Corporation Cess</b></td>
                         <td>2.00%</td>
                         <td>Includes Metro Cess / Local Body Tax for major urban corporation circles.</td>
                     </tr>
                     <tr>
-                        <td><b>Municipal Council Cess</b></td>
+                        <td><b>Municipal Council / Semi-Urban Cess</b></td>
                         <td>1.00%</td>
-                        <td>Applicable inside smaller town limits and councils.</td>
+                        <td>Applicable inside smaller town limits and municipal councils.</td>
+                    </tr>
+                    <tr>
+                        <td><b>Gram Panchayat / Rural Cess</b></td>
+                        <td>1.00%</td>
+                        <td>Zilla Parishad Cess applied across rural local bodies in Maharashtra.</td>
                     </tr>
                     <tr>
                         <td><b>IGR Registration Fees</b></td>
@@ -423,7 +434,7 @@
                 legReg: "Registration Fee"
             },
             mr: {
-                mTitle: "महाराष्ट्र जमीन रजिस्ट्री कॅल्क्युलेटर",
+                mTitle: "महाराष्ट्र जमीन registry कॅल्क्युलेटर",
                 sTitle: "महाराष्ट्रातील जमिनीची किंमत, मुद्रांक शुल्क (Stamp Duty) आणि नोंदणी शुल्क बजेटची अचूक गणना करा.",
                 lblInputArea: "जमिनीचे क्षेत्रफळ (व्हॅल्यू)",
                 lblAreaUnit: "क्षेत्रफळ मोजण्याचे एकक (Unit)",
@@ -519,17 +530,23 @@
 
             const landCost = area * price;
 
-            // Maharashtra Stamp Duty Setup (Concession for Female)
-            let stampDutyRate = (ownership === 'female') ? 0.04 : 0.05;
+            // Updated Maharashtra Stamp Duty Setups
+            let stampDutyRate = 0.05; // Default Male
+            if (ownership === 'female') {
+                stampDutyRate = 0.04; // 1% Concession
+            } else if (ownership === 'joint') {
+                stampDutyRate = 0.045; // Co-ownership split logic (4.5%)
+            }
             const stampDuty = landCost * stampDutyRate;
 
-            // Maharashtra Local Body Cess / Metro Cess Logic
-            let cessRate = 0;
-            if (region === 'corp') cessRate = 0.02;
-            else if (region === 'council') cessRate = 0.01;
+            // Fixed Maharashtra Local Body / ZP Cess Rule Validation
+            let cessRate = 0.01; // Default for Council (Semi-Urban) and Gram Panchayat (Rural ZP Cess)
+            if (region === 'corp') {
+                cessRate = 0.02; // Urban Corporation Limit
+            }
             const cessAmount = landCost * cessRate;
 
-            // Maharashtra IGR Registration Fee Rule: 1% capped at max ₹30,000
+            // Maharashtra IGR Registration Fee Cap Lock System
             let regFees = landCost * 0.01;
             if (regFees > 30000) {
                 regFees = 30000;
@@ -541,8 +558,8 @@
             document.getElementById('outTotalSqft').innerText = Math.round(sqft).toLocaleString('en-IN') + " sq ft";
             document.getElementById('outTotalHectare').innerText = guntha.toFixed(4) + " Guntha";
             document.getElementById('outLandCost').innerText = "₹" + Math.round(landCost).toLocaleString('en-IN');
-            document.getElementById('outStampDuty').innerText = "₹" + Math.round(stampDuty).toLocaleString('en-IN') + " (" + (stampDutyRate*100) + "%)";
-            document.getElementById('outCess').innerText = "₹" + Math.round(cessAmount).toLocaleString('en-IN') + " (" + (cessRate*100) + "%)";
+            document.getElementById('outStampDuty').innerText = "₹" + Math.round(stampDuty).toLocaleString('en-IN') + " (" + (stampDutyRate * 100) + "%)";
+            document.getElementById('outCess').innerText = "₹" + Math.round(cessAmount).toLocaleString('en-IN') + " (" + (cessRate * 100) + "%)";
             document.getElementById('outRegFees').innerText = "₹" + Math.round(regFees).toLocaleString('en-IN') + (landCost * 0.01 > 30000 ? " [Capped]" : " (1%)");
             document.getElementById('outNetBudget').innerText = "₹" + Math.round(netBudget).toLocaleString('en-IN');
 
