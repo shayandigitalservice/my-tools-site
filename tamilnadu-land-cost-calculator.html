@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tamil Nadu Land Cost & Registry Budget Calculator Free 2026 | तमिलनाडु जमीन रजिस्ट्री कैलकुलेटर | Shayan Smart Tools</title>
+    <title>Tamil Nadu Land Cost & Registry Budget Calculator Free 2026 | Shayan Smart Tools</title>
     <link class="canonical" href="https://shayansmarttools.in/tamilnadu-land-cost-calculator.html" />
 
     <meta name="description" content="Official Tamil Nadu Land Cost & Registry Budget Calculator. Convert Cent, Ground, Acre, and Sq Feet to evaluate precise TN TNREGINET Stamp Duty (7%) and Registration Fees (4%) dynamically.">
-    <meta name="keywords" content="Tamil Nadu Land Cost Calculator, तमिलनाडु जमीन रजिस्ट्री कैलकुलेटर, TNREGINET Stamp Duty 2026, Tamil Nadu land valuation calculator, Shayan Smart Tools, Tamil Nadu Land Rates, Guideline Value TN, Cent to Sqft Tamilnadu">
+    <meta name="keywords" content="Tamil Nadu Land Cost Calculator, TNREGINET Stamp Duty 2026, Tamil Nadu land valuation calculator, Shayan Smart Tools, Tamil Nadu Land Rates, Guideline Value TN, Cent to Sqft Tamilnadu">
     <meta name="author" content="Muksidul Islam">
     <meta name="robots" content="index, follow">
 
@@ -149,7 +149,7 @@
             .donut-chart::before { width: 75px; height: 75px; }
         }
 
-        /* PREMIUM PRINT MATRIX - UPDATED TO FIX SEAL OVERFLOW/CUTTING */
+        /* PREMIUM PRINT MATRIX */
         @media print {
             * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; color-adjust: exact !important; }
             @page { margin: 15mm; size: A4 portrait; }
@@ -171,7 +171,6 @@
             .res-item b { color: var(--tn-dark) !important; font-size: 15px !important; font-weight: bold; }
             .res-item b.net-tag { font-size: 16px !important; font-weight: 900; color: #0f4c81 !important; }
             
-            /* Fixed Seal Wrapper and Frame properties for clean print rendering */
             .sst-github-seal-wrapper { display: flex !important; flex-direction: column !important; align-items: flex-end !important; margin-top: 15px !important; width: 100% !important; clear: both !important; page-break-inside: avoid !important; }
             .sst-seal-frame { width: 100px !important; height: 100px !important; display: block !important; position: relative !important; overflow: hidden !important; }
             .sst-seal-frame img { width: 100% !important; height: 100% !important; object-fit: contain !important; display: block !important; }
@@ -188,9 +187,10 @@
             <p id="sTitle">Evaluate total land value along with TNREGINET Stamp Duty (7%) & Registration Fees (4%) dynamically.</p>
         </header>
 
+        <!-- Updated Language Buttons (English & Tamil) -->
         <div class="lang-switch">
             <button class="l-btn active" id="enBtn" onclick="setLang('en')">English</button>
-            <button class="l-btn" id="hiBtn" onclick="setLang('hi')">हिन्दी</button>
+            <button class="l-btn" id="taBtn" onclick="setLang('ta')">தமிழ் (Tamil)</button>
         </div>
 
         <div class="input-grid">
@@ -202,10 +202,10 @@
             <div class="field">
                 <label id="lblAreaUnit">Area Unit</label>
                 <select id="areaUnitSelect">
-                    <option value="cent">Cent (सेंटी)</option>
-                    <option value="ground">Ground (ग्राउंड)</option>
-                    <option value="acre">Acre (एकड़)</option>
-                    <option value="sqft">Square Feet (वर्ग फीट)</option>
+                    <option value="cent">Cent / சென்ட்</option>
+                    <option value="ground">Ground / கிரவுண்ட்</option>
+                    <option value="acre">Acre / ஏக்கர்</option>
+                    <option value="sqft">Square Feet / சதுர அடி</option>
                 </select>
             </div>
 
@@ -252,7 +252,7 @@
                 <div style="background: #f8fafc; border: 1px solid #cbd5e1; padding: 10px; border-radius: 4px; display: grid; grid-template-columns: 1fr 1fr; font-size: 11px; text-align: left; gap: 5px; color: #334155;">
                     <div><strong>DOCUMENT REF:</strong> <span id="pDocRef" style="color:var(--tn-blue); font-weight:bold;">SST-TN-REGS-00000</span></div>
                     <div style="text-align: right;"><strong>DATE:</strong> <span id="pDocDate">--/--/----</span></div>
-                    <div><strong>JURISDICTION:</strong> State of Tamil Nadu (TN)</div>
+                    <div id="printJurisdiction"><strong>JURISDICTION:</strong> State of Tamil Nadu (TN)</div>
                     <div style="text-align: right;"><strong>SURVEY / PATTA NO:</strong> <span id="pDocSurvey" style="font-weight:bold; color:var(--tn-gold);">N/A</span></div>
                 </div>
             </div>
@@ -270,13 +270,13 @@
             <div class="conversion-results-title" id="resHead">Conversion Results / Breakdown</div>
             
             <div class="res-grid">
-                <div class="res-item" id="print-input-row" style="display:none;"><span>Input Data Feed Context:</span> <b id="rInputVal">-</b></div>
-                <div class="res-item"><span>Total Equivalent Square Feet (Sq.Ft):</span> <b id="outTotalSqft" class="price-tag">0 sq ft</b></div>
-                <div class="res-item"><span>Total Equivalent Cents:</span> <b id="outTotalCents">0.00 Cents</b></div>
-                <div class="res-item"><span>Pure Land Guideline Cost (₹):</span> <b id="outLandCost" class="price-tag">₹0</b></div>
-                <div class="res-item"><span>TNREGINET Stamp Duty (7%):</span> <b id="outStampDuty">₹0</b></div>
-                <div class="res-item"><span>Registration Fees (4%):</span> <b id="outRegFees">₹0</b></div>
-                <div class="highlight-panel res-item"><span>Total Estimated Acquisition Budget (₹):</span> <b id="outNetBudget" class="net-tag">₹0</b></div>
+                <div class="res-item" id="print-input-row" style="display:none;"><span id="lblInputFeed">Input Data Feed Context:</span> <b id="rInputVal">-</b></div>
+                <div class="res-item"><span id="lblResSqft">Total Equivalent Square Feet (Sq.Ft):</span> <b id="outTotalSqft" class="price-tag">0 sq ft</b></div>
+                <div class="res-item"><span id="lblResCents">Total Equivalent Cents:</span> <b id="outTotalCents">0.00 Cents</b></div>
+                <div class="res-item"><span id="lblResLandCost">Pure Land Guideline Cost (₹):</span> <b id="outLandCost" class="price-tag">₹0</b></div>
+                <div class="res-item"><span id="lblResStamp">TNREGINET Stamp Duty (7%):</span> <b id="outStampDuty">₹0</b></div>
+                <div class="res-item"><span id="lblResReg">Registration Fees (4%):</span> <b id="outRegFees">₹0</b></div>
+                <div class="highlight-panel res-item"><span id="lblResTotal">Total Estimated Acquisition Budget (₹):</span> <b id="outNetBudget" class="net-tag">₹0</b></div>
             </div>
 
             <div class="word-format-box">
@@ -297,8 +297,8 @@
 
             <div class="print-footer-block">
                 <div style="margin: 0 auto; max-width: 100%; font-size: 11px; color: #475569; line-height: 1.6; text-align: center; position: relative;">
-                    <p style="margin: 0; font-weight: bold; color: var(--tn-blue); text-transform: uppercase; font-size: 12px; text-align: left;">🔒 SECURITY DISCLAIMER & VERIFICATION NOTICE</p>
-                    <p style="margin: 6px 0 0 0; text-align: left; max-width: 80%;">This computation sheet is an automated analysis tool configured under official Tamil Nadu revenue standard parameters. Final guideline rates fluctuate depending upon exact street logs or sub-registrar guidelines.</p>
+                    <p id="lblPrintSecHead" style="margin: 0; font-weight: bold; color: var(--tn-blue); text-transform: uppercase; font-size: 12px; text-align: left;">🔒 SECURITY DISCLAIMER & VERIFICATION NOTICE</p>
+                    <p id="lblPrintSecDesc" style="margin: 6px 0 0 0; text-align: left; max-width: 80%;">This computation sheet is an automated analysis tool configured under official Tamil Nadu revenue standard parameters. Final guideline rates fluctuate depending upon exact street logs or sub-registrar guidelines.</p>
                     
                     <div class="sst-github-seal-wrapper">
                         <div class="sst-seal-frame">
@@ -314,16 +314,16 @@
             </div>
 
             <div class="util-btns">
-                <button class="u-btn c-btn" onclick="copyCostData()">📋 Copy</button>
-                <button class="u-btn w-btn" onclick="shareCostWA()">📲 Share</button>
-                <button class="u-btn p-btn" onclick="printCostReport()">🖨️ Print</button>
-                <button class="u-btn r-btn" onclick="resetCostCalculator()">🔄 Reset</button>
+                <button class="u-btn c-btn" onclick="copyCostData()" id="btnCopy">📋 Copy</button>
+                <button class="u-btn w-btn" onclick="shareCostWA()" id="btnShare">📲 Share</button>
+                <button class="u-btn p-btn" onclick="printCostReport()" id="btnPrint">🖨️ Print</button>
+                <button class="u-btn r-btn" onclick="resetCostCalculator()" id="btnReset">🔄 Reset</button>
             </div>
         </div>
     </div>
 
     <div class="back-btn" style="text-align: center; margin-top: 20px;">
-        <a href="index.html" style="color: var(--tn-blue); text-decoration: none; font-weight: bold;">⬅ Back to All Tools</a>
+        <a href="index.html" style="color: var(--tn-blue); text-decoration: none; font-weight: bold;" id="btnBack">⬅ Back to All Tools</a>
     </div>
 
     <article class="seo-article">
@@ -387,147 +387,10 @@
             </table>
         </div>
 
+        <!-- Dynamic English/Tamil FAQs Area -->
         <section>
-            <h2>2. Practical Mathematical Computation Examples</h2>
-            <p>
-                Real estate financial frameworks ko acche se samajhne ke liye chaliye do practical examples ko theoretical layout matrices ke adhar par samajhte hain:
-            </p>
-            
-            <h3>Example A: Urban Region Plot Acquisition (Using Ground Unit)</h3>
-            <ul>
-                <li><b>Input Dimensions:</b> 2 Ground Area mapped at ₹30,00,000 per Ground baseline rate.</li>
-                <li><b>Pure Land Market Cost:</b> 2 * ₹30,00,000 = ₹60,00,000.</li>
-                <li><b>Stamp Duty Assessment (7%):</b> 7% of ₹60,00,000 = ₹4,20,000.</li>
-                <li><b>Registration Charges (4%):</b> 4% of ₹60,00,000 = ₹2,40,000.</li>
-                <li><b>Total Estimated Net Budget:</b> ₹60,00,000 + ₹4,20,000 + ₹2,40,000 = <b>₹66,60,000</b>.</li>
-            </ul>
-
-            <h3>Example B: Semi-Urban Agriculture Land (Using Cent Unit)</h3>
-            <ul>
-                <li><b>Input Dimensions:</b> 10 Cents Area mapped at ₹2,00,000 per Cent guideline rate.</li>
-                <li><b>Pure Land Market Cost:</b> 10 * ₹2,00,000 = ₹20,00,000.</li>
-                <li><b>Stamp Duty Assessment (7%):</b> 7% of ₹20,00,000 = ₹1,40,000.</li>
-                <li><b>Registration Charges (4%):</b> 4% of ₹20,00,000 = ₹80,00,000.</li>
-                <li><b>Total Estimated Net Budget:</b> ₹20,00,000 + ₹1,40,000 + ₹80,000 = <b>₹22,20,000</b>.</li>
-            </ul>
-        </section>
-
-        <section>
-            <h2>3. Mandatory Documents Checklist for Land Registry in Tamil Nadu</h2>
-            <p>
-                TNREGINET registry process sub-registrar office me securely finalise karne ke liye khariddaar (buyer) aur bechne wale (seller) ke paas niche diye gaye valid certificates aur reports hone anivarya hain:
-            </p>
-            <ul>
-                <li><b>Patta Chitta Copy:</b> Digitally verified land ownership copy extracted from eservices.tn.gov.in portal.</li>
-                <li><b>Encumbrance Certificate (EC):</b> Minimum 15-30 years history log sheet verifying clear asset transaction layout backgrounds.</li>
-                <li><b>Parent Documents:</b> Previous sale deed record chains tracing original developer allocation tracking matrices.</li>
-                <li><b>FMB Map Sketch:</b> Field Measurement Book mapping vectors illustrating land coordinate scale boundary layout details.</li>
-                <li><b>Identity Records:</b> Government verification proofs including PAN Card, Voter ID, or relevant official documents.</li>
-            </ul>
-        </section>
-
-        <h2>4. Tamil Nadu Land Rates & District-Wise Market Trend Analysis (2026)</h2>
-        <div style="overflow-x: auto;">
-            <table>
-                <thead>
-                    <tr>
-                        <th>S.No.</th>
-                        <th>District Name (तमिलनाडु के जिले)</th>
-                        <th>Dominant Metric Unit Base</th>
-                        <th>Approximate Guideline / Market Rate Range Metrics Sheet</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr><td>1</td><td><b>Chennai (चेन्नई)</b></td><td>Per Ground (Urban Base)</td><td>₹45,000 - ₹2,50,000+ per Sq.Ft</td></tr>
-                    <tr><td>2</td><td><b>Coimbatore (कोइम्बटूर)</b></td><td>Per Cent / Per Sq.Ft</td><td>₹3,500 - ₹12,000 per Sq.Ft</td></tr>
-                    <tr><td>3</td><td><b>Madurai (मदुरै)</b></td><td>Per Cent / Ground</td><td>₹1,500 - ₹6,500 per Sq.Ft</td></tr>
-                    <tr><td>4</td><td><b>Trichy (तिरुचिरापल्ली)</b></td><td>Per Cent Area Base</td><td>₹1,200 - ₹5,500 per Sq.Ft</td></tr>
-                    <tr><td>5</td><td><b>Salem (सेलम)</b></td><td>Per Cent / Acre Unit</td><td>₹1,000 - ₹4,000 per Sq.Ft</td></tr>
-                    <tr><td>6</td><td><b>Tiruppur (तिरुपुर)</b></td><td>Industrial Cent Cluster</td><td>₹800 - ₹3,500 per Sq.Ft</td></tr>
-                    <tr><td>7</td><td><b>Vellore (वेल्लोर)</b></td><td>Per Cent Metric</td><td>₹600 - ₹3,000 per Sq.Ft</td></tr>
-                    <tr><td>8</td><td><b>Erode (इरोड)</b></td><td>Per Cent / Acre Base</td><td>₹15 Lakh - ₹1.5 Crore per Acre</td></tr>
-                    <tr><td>9</td><td><b>Thanjavur (तंजावुर)</b></td><td>Agri Cent Metric</td><td>₹10 Lakh - ₹90 Lakh per Acre</td></tr>
-                    <tr><td>10</td><td><b>Tirunelveli (तिरुनेलवेली)</b></td><td>Per Cent Zone</td><td>₹5 Lakh - ₹75 Lakh per Acre</td></tr>
-                    <tr><td>11</td><td><b>Kanchipuram (कांचीपुरम)</b></td><td>Per Ground / Cent Hub</td><td>₹1,200 - ₹5,000 per Sq.Ft</td></tr>
-                    <tr><td>12</td><td><b>Thiruvallur (तिरुवल्लूर)</b></td><td>Industrial Buffer Grid</td><td>₹800 - ₹3,500 per Sq.Ft</td></tr>
-                    <tr><td>13</td><td><b>Dindigul (दिंडिगुळ)</b></td><td>Agri Acre Landscape</td><td>₹4 Lakh - ₹40 Lakh per Acre</td></tr>
-                    <tr><td>14</td><td><b>Vrindhachalam / Cuddalore</b></td><td>Coastal Intermediate Belt</td><td>₹5 Lakh - ₹50 Lakh per Acre</td></tr>
-                    <tr><td>15</td><td><b>Tuticorin (थूथुकुडी)</b></td><td>Port Operational Matrix</td><td>₹600 - ₹2,500 per Sq.Ft</td></tr>
-                    <tr><td>16</td><td><b>Nagercoil - Kanyakumari</b></td><td>High-Density Rural Base</td><td>₹800 - ₹4,000 per Sq.Ft</td></tr>
-                    <tr><td>17</td><td><b>Hosur - Krishnagiri</b></td><td>Tech Growth Hub Layer</td><td>₹1,500 - ₹6,000 per Sq.Ft</td></tr>
-                    <tr><td>18</td><td><b>Karur (करूर)</b></td><td>Textile Zone Basin</td><td>₹8 Lakh - ₹80 Lakh per Acre</td></tr>
-                    <tr><td>19</td><td><b>Namakkal (नमक्कल)</b></td><td>Transit Industrial Rim</td><td>₹6 Lakh - ₹70 Lakh per Acre</td></tr>
-                    <tr><td>20</td><td><b>Pudukkottai (पुदुक्कोट्टै)</b></td><td>Rural Agriculture Basin</td><td>₹3 Lakh - ₹35 Lakh per Acre</td></tr>
-                </tbody>
-            </table>
-        </div>
-
-        <section id="tnFaqContainer">
-            <h2>5. 15 Important Frequently Asked Questions (FAQs) - Tamil Nadu Land Records & Registry</h2>
-            
-            <div style="margin-bottom: 20px; border-bottom: 1px solid #cbd5e1; padding-bottom: 15px;">
-                <p><b>Q1. What is the current stamp duty rate in Tamil Nadu 2026?</b><br>Ans: Tamil Nadu me current property registration par Stamp Duty flat 7% hai.</p>
-            </div>
-            
-            <div style="margin-bottom: 20px; border-bottom: 1px solid #cbd5e1; padding-bottom: 15px;">
-                <p><b>Q2. What are the registration fees for land in Tamil Nadu?</b><br>Ans: Tamil Nadu government property ke guideline value par flat 4% registration fee charge karti hai.</p>
-            </div>
-            
-            <div style="margin-bottom: 20px; border-bottom: 1px solid #cbd5e1; padding-bottom: 15px;">
-                <p><b>Q3. How much is 1 Cent in Square Feet in Tamil Nadu?</b><br>Ans: Tamil Nadu standard measurement ke mutabik 1 Cent exact 435.6 Sq.Ft. hota hai.</p>
-            </div>
-            
-            <div style="margin-bottom: 20px; border-bottom: 1px solid #cbd5e1; padding-bottom: 15px;">
-                <p><b>Q4. How many Square Feet make 1 Ground in Chennai?</b><br>Ans: Urban layout or Chennai regions me 1 Ground barabar 2,400 Sq.Ft. hota hai.</p>
-            </div>
-            
-            <div style="margin-bottom: 20px; border-bottom: 1px solid #cbd5e1; padding-bottom: 15px;">
-                <p><b>Q5. Is there a registration fee concession for women in Tamil Nadu?</b><br>Ans: Nahi, Tamil Nadu me male, female ya joint registry par ek saman (7% + 4%) charges lagte hain.</p>
-            </div>
-            
-            <div style="margin-bottom: 20px; border-bottom: 1px solid #cbd5e1; padding-bottom: 15px;">
-                <p><b>Q6. Which official website is used to check TN guideline value?</b><br>Ans: Tamil Nadu land guideline value check karne ke liye official portal <b>tnreginet.gov.in</b> hai.</p>
-            </div>
-            
-            <div style="margin-bottom: 20px; border-bottom: 1px solid #cbd5e1; padding-bottom: 15px;">
-                <p><b>Q7. How can I download Patta Chitta online in Tamil Nadu?</b><br>Ans: Aap TN Land Records ke official platform <b>eservices.tn.gov.in</b> par jaakar Patta Chitta download kar sakte hain.</p>
-            </div>
-            
-            <div style="margin-bottom: 20px; border-bottom: 1px solid #cbd5e1; padding-bottom: 15px;">
-                <p><b>Q8. What is total registration cost percentage in TN?</b><br>Ans: Tamil Nadu me total overhead registry tax 11% (7% Stamp Duty + 4% Registration Fee) hai.</p>
-            </div>
-            
-            <div style="margin-bottom: 20px; border-bottom: 1px solid #cbd5e1; padding-bottom: 15px;">
-                <p><b>Q9. What is Guideline Value vs Market Value in Tamil Nadu?</b><br>Ans: Guideline Value government ke revenue records ka fixed rate hai, jabki Market Value wo demand price hai jis par deal hoti hai.</p>
-            </div>
-            
-            <div style="margin-bottom: 20px; border-bottom: 1px solid #cbd5e1; padding-bottom: 15px;">
-                <p><b>Q10. How many Cents are there in one Acre?</b><br>Ans: South India land measurement standard ke anusar 1 Acre me pure 100 Cents hote hain.</p>
-            </div>
-            
-            <div style="margin-bottom: 20px; border-bottom: 1px solid #cbd5e1; padding-bottom: 15px;">
-                <p><b>Q11. Minimum how many years Encumbrance Certificate (EC) is required?</b><br>Ans: Safe and clean property deal ke liye sub-registrar office me 15 se 30 years tak ka EC check kiya jata hai.</p>
-            </div>
-            
-            <div style="margin-bottom: 20px; border-bottom: 1px solid #cbd5e1; padding-bottom: 15px;">
-                <p><b>Q11. Minimum how many years Encumbrance Certificate (EC) is required?</b><br>Ans: Safe and clean property deal ke liye sub-registrar office me 15 se 30 years tak ka EC check kiya jata hai.</p>
-            </div>
-
-            <div style="margin-bottom: 20px; border-bottom: 1px solid #cbd5e1; padding-bottom: 15px;">
-                <p><b>Q12. Can we register land below guideline value in TN?</b><br>Ans: Nahi, Tamil Nadu rule ke mutabik guideline value se kam rate par registry parakriya illegal mani jati hai.</p>
-            </div>
-
-            <div style="margin-bottom: 20px; border-bottom: 1px solid #cbd5e1; padding-bottom: 15px;">
-                <p><b>Q13. What is FMB map sketch in Tamil Nadu registry?</b><br>Ans: FMB (Field Measurement Book) map ek visual sketch hota hai jo zameen ke exact coordinates aur boundary lines ko darshata hai.</p>
-            </div>
-
-            <div style="margin-bottom: 20px; border-bottom: 1px solid #cbd5e1; padding-bottom: 15px;">
-                <p><b>Q14. What documents are needed for land registration in Tamil Nadu?</b><br>Ans: Patta Chitta copy, Encumbrance Certificate (EC), Parent Deeds, FMB Sketch, aur ID Proofs (PAN, Aadhaar) anivarya hain.</p>
-            </div>
-
-            <div style="margin-bottom: 20px; border-bottom: 1px solid #cbd5e1; padding-bottom: 15px;">
-                <p><b>Q15. Is legal documentation or lawyer fees included in this calculator?</b><br>Ans: Nahi, yeh calculator sirf government fees (Stamp Duty & Reg Fees) calculate karta hai; local handling charges alag se hote hain.</p>
-            </div>
+            <h2 id="faqMainTitle">5. 15 Important Frequently Asked Questions (FAQs) - Tamil Nadu Land Records & Registry</h2>
+            <div id="dynamicFaqBlock"></div>
         </section>
 
         <h3>Related Tools & Internal Links</h3>
@@ -565,6 +428,8 @@
 
     <script>
         let currentLang = 'en';
+        
+        // Comprehensive Dictionary supporting English & Tamil
         const dict = {
             en: {
                 mTitle: "Tamil Nadu Land Cost & Registry Calculator",
@@ -582,49 +447,134 @@
                 lblWordTitle: "Total Budget in Words (INR):",
                 legCost: "Land Value Cost",
                 legStamp: "Stamp Duty (7%)",
-                legReg: "Registration Fee (4%)"
+                legReg: "Registration Fee (4%)",
+                lblInputFeed: "Input Data Feed Context:",
+                lblResSqft: "Total Equivalent Square Feet (Sq.Ft):",
+                lblResCents: "Total Equivalent Cents:",
+                lblResLandCost: "Pure Land Guideline Cost (₹):",
+                lblResStamp: "TNREGINET Stamp Duty (7%):",
+                lblResReg: "Registration Fees (4%):",
+                lblResTotal: "Total Estimated Acquisition Budget (₹):",
+                btnCopy: "📋 Copy",
+                btnShare: "📲 Share",
+                btnPrint: "🖨️ Print",
+                btnReset: "🔄 Reset",
+                btnBack: "⬅ Back to All Tools",
+                lblPrintSecHead: "🔒 SECURITY DISCLAIMER & VERIFICATION NOTICE",
+                lblPrintSecDesc: "This computation sheet is an automated analysis tool configured under official Tamil Nadu revenue standard parameters. Final guideline rates fluctuate depending upon exact street logs or sub-registrar guidelines.",
+                printJurisdiction: "<strong>JURISDICTION:</strong> State of Tamil Nadu (TN)",
+                chartCenter: "Budget<br>Share",
+                faqTitle: "5. 15 Important Frequently Asked Questions (FAQs) - Tamil Nadu Land Records & Registry"
             },
-            hi: {
-                mTitle: "तमिलनाडु जमीन रजिस्ट्री कैलकुलेटर",
-                sTitle: "तमिलनाडु भूमि मूल्य, स्टाम्प शुल्क (7%) और पंजीकरण शुल्क (4%) बजट की सटीक गणना गतिशील रूप से करें।",
-                lblInputArea: "भूमि क्षेत्र का मूल्य",
-                lblAreaUnit: "मापन इकाई (Unit)",
-                lblUnitPrice: "प्रति इकाई मूल्य (₹)",
-                lblSurvey: "सर्वे / पट्टा नंबर (वैकल्पिक)",
-                btnText: "बजट की गणना करें",
-                resHead: "मूल्यांकन एवं रजिस्ट्री विवरण (परिणाम)",
-                lblGovtHead: "तमिलनाडु सरकार के आधिकारिक पोर्टल",
-                lblStandardFormat: "तमिलनाडु मानक प्रारूप:",
-                discTitle: "⚠️ रजिस्ट्री मूल्यांकन सूचना और अस्वीकरण:",
-                discText: "नीचे दी गई गणनाएं तमिलनाडु के नवीनतम TNREGINET नियमों के अनुसार अनुमानित हैं। उप-पंजीयक (Sub-Registrar) कार्यालय में वास्तविक मूल्य और शुल्क में थोड़ा अंतर हो सकता है।",
-                lblWordTitle: "शब्दों में कुल बजट (INR):",
-                legCost: "जमीन का मूल्य",
-                legStamp: "स्टाम्प ड्यूटी (7%)",
-                legReg: "पंजीकरण शुल्क (4%)"
+            ta: {
+                mTitle: "தமிழ்நாடு நில மதிப்பு மற்றும் பதிவு கால்குலேட்டர்",
+                sTitle: "மொத்த நில மதிப்புடன் TNREGINET முத்திரைத்தாள் கட்டணம் (7%) மற்றும் பதிவு கட்டணத்தை (4%) கணக்கிடுங்கள்.",
+                lblInputArea: "நிலப்பரப்பு அளவு",
+                lblAreaUnit: "பரப்பளவு அலகு (Unit)",
+                lblUnitPrice: "ஒரு யூனிட் விலை (₹)",
+                lblSurvey: "சர்வே / பட்டா எண் (விருப்பத்தேர்வு)",
+                btnText: "இப்போது பட்ஜெட்டை கணக்கிடுங்கள்",
+                resHead: "மதிப்பீடு மற்றும் பதிவு விவரங்கள்",
+                lblGovtHead: "அதிகாரப்பூர்வ தமிழ்நாடு நில இணையதளங்கள்",
+                lblStandardFormat: "தமிழக தரநிலை பரப்பளவு மேட்ரிக்ஸ்:",
+                discTitle: "⚠️ பதிவு மதிப்பீட்டு அறிவிப்பு & பொறுப்புத் துறப்பு:",
+                discText: "கீழே உள்ள கணக்கீடுகள் சமீபத்திய TNREGINET விதிகளின்படி மதிப்பிடப்பட்டவை. சார்-பதிவாளர் அலுவலக வழிகாட்டுதல்களின்படி உண்மையான கட்டணங்கள் சற்று மாறுபடலாம்.",
+                lblWordTitle: "மொத்த பட்ஜெட் வார்த்தைகளில் (INR):",
+                legCost: "நிலத்தின் மதிப்பு",
+                legStamp: "முத்திரைத்தாள் கட்டணம் (7%)",
+                legReg: "பதிவுக் கட்டணம் (4%)",
+                lblInputFeed: "உள்ளீட்டு தரவு விவரம்:",
+                lblResSqft: "மொத்த சதுர அடி (Sq.Ft):",
+                lblResCents: "மொத்த சென்ட் அளவு:",
+                lblResLandCost: "வழிகாட்டி நில மதிப்பு (₹):",
+                lblResStamp: "TNREGINET முத்திரைத்தாள் கட்டணம் (7%):",
+                lblResReg: "பதிவுக் கட்டணம் (4%):",
+                lblResTotal: "மொத்த மதிப்பிடப்பட்ட பட்ஜெட் (₹):",
+                btnCopy: "📋 நகலெடு",
+                btnShare: "📲 பகிர்க",
+                btnPrint: "🖨️ அச்சிடுக",
+                btnReset: "🔄 மீட்டமை",
+                btnBack: "⬅ அனைத்து கருவிகளுக்கும் திரும்பு",
+                lblPrintSecHead: "🔒 பாதுகாப்பு பொறுப்புத் துறப்பு & சரிபார்ப்பு அறிவிப்பு",
+                lblPrintSecDesc: "இந்த கணக்கீட்டு தாள் தமிழக வருவாய்த்துறை தரநிலைகளின் கீழ் இயங்கும் ஒரு தானியங்கி பகுப்பாய்வு கருவியாகும். இறுதி வழிகாட்டி மதிப்புகள் சார்-பதிவாளர் பதிவேட்டின்படி மாறுபடலாம்.",
+                printJurisdiction: "<strong>அதிகார வரம்பு:</strong> தமிழ்நாடு மாநிலம் (TN)",
+                chartCenter: "பட்ஜெட்<br>பகிர்வு",
+                faqTitle: "5. 15 முக்கிய கேள்விகள் மற்றும் பதில்கள் (FAQs) - தமிழ்நாடு நில ஆவணங்கள் மற்றும் பதிவு"
             }
         };
+
+        // Dual-Language 15 High Volume Short FAQs 
+        const faqsData = {
+            en: [
+                { q: "What is the current stamp duty rate in Tamil Nadu 2026?", a: "The current stamp duty rate for property registration in Tamil Nadu is flat 7%." },
+                { q: "What are the registration fees for land in Tamil Nadu?", a: "Tamil Nadu government charges a flat 4% registration fee on the guideline value of the property." },
+                { q: "How much is 1 Cent in Square Feet in Tamil Nadu?", a: "According to Tamil Nadu standard land measurement, 1 Cent equals exactly 435.6 Sq.Ft." },
+                { q: "How many Square Feet make 1 Ground in Chennai?", a: "In urban layouts and Chennai regions, 1 Ground is equal to 2,400 Sq.Ft." },
+                { q: "Is there a registration fee concession for women in Tamil Nadu?", a: "No, property registration charges are uniform (7% + 4%) for male, female, and joint registries." },
+                { q: "Which official website is used to check TN guideline value?", a: "The official website to check land guideline value in Tamil Nadu is tnreginet.gov.in." },
+                { q: "How can I download Patta Chitta online in Tamil Nadu?", a: "You can download it online from the official TN Land Records portal: eservices.tn.gov.in." },
+                { q: "What is total registration cost percentage in TN?", a: "The total official registration tax load is 11% (7% Stamp Duty + 4% Registration Fee)." },
+                { q: "What is Guideline Value vs Market Value in Tamil Nadu?", a: "Guideline Value is the minimum valuation fixed by the government, while Market Value is the actual price driven by buyers and sellers demand." },
+                { q: "How many Cents are there in one Acre?", a: "As per the standard calculation matrix in South India, 1 Acre contains exactly 100 Cents." },
+                { q: "Minimum how many years Encumbrance Certificate (EC) is required?", a: "A minimum history log of 15 to 30 years EC is verified at the Sub-Registrar Office for clean transactions." },
+                { q: "Can we register land below guideline value in TN?", a: "No, registering property below the official government guideline value is illegal and invalid." },
+                { q: "What is FMB map sketch in Tamil Nadu registry?", a: "An FMB (Field Measurement Book) sketch visually maps the exact boundaries and scale coordinates of the land parcel." },
+                { q: "What documents are needed for land registration in Tamil Nadu?", a: "Patta Chitta copy, Encumbrance Certificate (EC), Parent Deeds, FMB Sketch, and Identity Proofs (Aadhaar/PAN Card)." },
+                { q: "Is legal documentation or lawyer fees included in this calculator?", a: "No, this tool calculates only government-mandated fees; local lawyer or handling charges are extra." }
+            ],
+            ta: [
+                { q: "2026 இல் தமிழ்நாட்டில் தற்போதைய முத்திரைத்தாள் கட்டணம் எவ்வளவு?", a: "தமிழ்நாட்டில் சொத்துப் பதிவிற்கான தற்போதைய முத்திரைத்தாள் கட்டணம் (Stamp Duty) 7% ஆகும்." },
+                { q: "தமிழ்நாட்டில் நிலப் பதிவுக்கான கட்டணங்கள் என்ன?", a: "சொத்தின் வழிகாட்டி மதிப்பில் (Guideline Value) 4% பதிவுக் கட்டணமாக தமிழக அரசு வசூலிக்கிறது." },
+                { q: "தமிழ்நாட்டில் 1 சென்ட் என்பது எத்தனை சதுர அடி?", a: "தமிழ்நாடு தரநிலை நில அளவீட்டின்படி, 1 சென்ட் என்பது சரியாக 435.6 சதுர அடி ஆகும்." },
+                { q: "சென்னையில் 1 கிரவுண்ட் என்பது எத்தனை சதுர அடி?", a: "நகர்ப்புற அமைப்புகள் மற்றும் சென்னை பகுதிகளில், 1 கிரவுண்ட் என்பது 2,400 சதுர அடிக்கு சமம்." },
+                { q: "தமிழ்நாட்டில் பெண்களுக்கு பதிவுக் கட்டணச் சலுகை ஏதேனும் உள்ளதா?", a: "இல்லை, ஆண், பெண் அல்லது கூட்டுப் பதிவுகளுக்கு ஒரே மாதிரியான கட்டணங்கள் (7% + 4%) பொருந்தும்." },
+                { q: "தமிழக நில வழிகாட்டி மதிப்பைச் சரிபார்க்க எந்த அதிகாரப்பூர்வ இணையதளம் பயன்படுத்தப்படுகிறது?", a: "தமிழ்நாட்டில் நில வழிகாட்டி மதிப்பைச் சரிபார்க்க அதிகாரப்பூர்வ இணையதளம் tnreginet.gov.in ஆகும்." },
+                { q: "தமிழ்நாட்டில் பட்டா சிட்டாவை ஆன்லைனில் பதிவிறக்கம் செய்வது எப்படி?", a: "தமிழக நில ஆவணங்களின் அதிகாரப்பூர்வ போர்ட்டலான eservices.tn.gov.in இலிருந்து ஆன்லைனில் பதிவிறக்கம் செய்யலாம்." },
+                { q: "தமிழ்நாட்டில் மொத்த பதிவுச் செலவு சதவீதம் என்ன?", a: "மொத்த அதிகாரப்பூர்வ பதிவு வரிச் சுமை 11% ஆகும் (7% முத்திரைத்தாள் கட்டணம் + 4% பதிவுக் கட்டணம்)." },
+                { q: "தமிழ்நாட்டில் வழிகாட்டி மதிப்பு மற்றும் சந்தை மதிப்பு என்றால் என்ன?", a: "வழிகாட்டி மதிப்பு என்பது அரசாங்கத்தால் நிர்ணயிக்கப்பட்ட குறைந்தபட்ச விலை; சந்தை மதிப்பு என்பது வாங்குபவர்-விற்பனையாளரால் தீர்மானிக்கப்படும் சந்தை விலை." },
+                { q: " ஒரு ஏக்கரில் எத்தனை சென்ட்டுகள் உள்ளன?", a: "தென்னிந்திய நில அளவீட்டு முறையின்படி, 1 ஏக்கரில் சரியாக 100 சென்ட்டுகள் உள்ளன." },
+                { q: "வில்லங்கச் சான்றிதழ் (EC) குறைந்தபட்சம் எத்தனை ஆண்டுகள் தேவை?", a: "பாதுகாப்பான பரிவர்த்தனைகளுக்கு சார்-பதிவாளர் அலுவலகத்தில் குறைந்தபட்சம் 15 முதல் 30 ஆண்டுகள் வரையிலான வில்லங்கச் சான்றிதழ் சரிபார்க்கப்படுகிறது." },
+                { q: "தமிழகத்தில் வழிகாட்டி மதிப்புக்குக் குறைவாக நிலத்தைப் பதிவு செய்ய முடியுமா?", a: "முடியாது, அரசாங்கத்தின் அதிகாரப்பூர்வ வழிகாட்டி மதிப்புக்குக் கீழே சொத்தைப் பதிவு செய்வது சட்டவிரோதமானது." },
+                { q: "தமிழ்நாடு நிலப் பதிவில் FMB வரைபடம் என்றால் என்ன?", a: "FMB (Field Measurement Book) வரைபடம் என்பது நிலத்தின் துல்லியமான எல்லைகள் மற்றும் அளவீடுகளைக் காட்டும் வரைபடமாகும்." },
+                { q: "தமிழ்நாட்டில் நிலப் பதிவுக்கு என்னென்ன ஆவணங்கள் தேவை?", a: "பட்டா சிட்டா நகல், வில்லங்கச் சான்றிதழ் (EC), மூல ஆவணங்கள் (Parent Deeds), FMB வரைபடம் மற்றும் அடையாளச் சான்றுகள் தேவை." },
+                { q: "இந்த கால்குலேட்டரில் வழக்கறிஞர் கட்டணம் சேர்க்கப்பட்டுள்ளதா?", a: "இல்லை, இந்த கருவி அரசு கட்டணங்களை மட்டுமே கணக்கிடுகிறது; உள்ளூர் ஆவணக் கட்டணங்கள் மற்றும் வழக்கறிஞர் கட்டணங்கள் தனிப்பட்டவை." }
+            ]
+        };
+
+        function renderFaqs() {
+            const faqBlock = document.getElementById('dynamicFaqBlock');
+            faqBlock.innerHTML = '';
+            faqsData[currentLang].forEach((item, index) => {
+                const div = document.createElement('div');
+                div.style.marginBottom = "20px";
+                div.style.borderBottom = "1px solid #cbd5e1";
+                div.style.paddingBottom = "15px";
+                div.innerHTML = `<p><b>Q${index + 1}. ${item.q}</b><br>Ans: ${item.a}</p>`;
+                faqBlock.appendChild(div);
+            });
+        }
 
         function setLang(lang) {
             currentLang = lang;
             document.getElementById('enBtn').classList.toggle('active', lang === 'en');
-            document.getElementById('hiBtn').classList.toggle('active', lang === 'hi');
+            document.getElementById('taBtn').classList.toggle('active', lang === 'ta');
             
-            document.getElementById('mTitle').innerText = dict[lang].mTitle;
-            document.getElementById('sTitle').innerText = dict[lang].sTitle;
-            document.getElementById('lblInputArea').innerText = dict[lang].lblInputArea;
-            document.getElementById('lblAreaUnit').innerText = dict[lang].lblAreaUnit;
-            document.getElementById('lblUnitPrice').innerText = dict[lang].lblUnitPrice;
-            document.getElementById('lblSurvey').innerText = dict[lang].lblSurvey;
-            document.getElementById('btnText').innerText = dict[lang].btnText;
-            document.getElementById('resHead').innerText = dict[lang].resHead;
-            document.getElementById('lblGovtHead').innerText = dict[lang].lblGovtHead;
-            document.getElementById('lblStandardFormat').innerText = dict[lang].lblStandardFormat;
-            document.getElementById('discTitle').innerText = dict[lang].discTitle;
-            document.getElementById('discText').innerText = dict[lang].discText;
-            document.getElementById('lblWordTitle').innerText = dict[lang].lblWordTitle;
-            document.getElementById('legCost').innerText = dict[lang].legCost;
-            document.getElementById('legStamp').innerText = dict[lang].legStamp;
-            document.getElementById('legReg').innerText = dict[lang].legReg;
+            // Translate all elements mapped in dictionary
+            for (let key in dict[lang]) {
+                const el = document.getElementById(key);
+                if (el) {
+                    if (key === 'printJurisdiction') {
+                        el.innerHTML = dict[lang][key];
+                    } else if (key === 'chartCenter') {
+                        document.getElementById('chartCenterText').innerHTML = dict[lang][key];
+                    } else {
+                        el.innerText = dict[lang][key];
+                    }
+                }
+            }
+
+            // Render Dynamic FAQs
+            renderFaqs();
 
             if(document.getElementById('resPanel').style.display === "block") {
                 calculateTNLandCost();
@@ -655,7 +605,7 @@
             const resPanel = document.getElementById('resPanel');
 
             if (isNaN(area) || area <= 0 || isNaN(price) || price <= 0) {
-                alert(currentLang === 'en' ? "Please enter valid land area and unit price attributes!" : "कृपया सही भूमि क्षेत्र और प्रति इकाई मूल्य दर्ज करें!");
+                alert(currentLang === 'en' ? "Please enter valid land area and unit price attributes!" : "தயவுசெய்து சரியான நிலப்பரப்பு மற்றும் அலகு விலையை உள்ளிடவும்!");
                 return;
             }
 
@@ -681,9 +631,15 @@
             const regFees = landCost * 0.04;
             const netBudget = landCost + stampDuty + regFees;
 
-            document.getElementById('tnStandardOutput').innerText = cents.toFixed(2) + " Cent Allocation";
-            document.getElementById('outTotalSqft').innerText = Math.round(sqft).toLocaleString('en-IN') + " sq ft";
-            document.getElementById('outTotalCents').innerText = cents.toFixed(2) + " Cents";
+            // Handle output texts dynamically
+            const labelCentText = currentLang === 'en' ? " Cent Allocation" : " சென்ட் ஒதுக்கீடு";
+            document.getElementById('tnStandardOutput').innerText = cents.toFixed(2) + labelCentText;
+            
+            const sqftLabel = currentLang === 'en' ? " sq ft" : " சதுர அடி";
+            const centsLabel = currentLang === 'en' ? " Cents" : " சென்ட்டுகள்";
+            
+            document.getElementById('outTotalSqft').innerText = Math.round(sqft).toLocaleString('en-IN') + sqftLabel;
+            document.getElementById('outTotalCents').innerText = cents.toFixed(2) + centsLabel;
             document.getElementById('outLandCost').innerText = "₹" + Math.round(landCost).toLocaleString('en-IN');
             document.getElementById('outStampDuty').innerText = "₹" + Math.round(stampDuty).toLocaleString('en-IN') + " (7%)";
             document.getElementById('outRegFees').innerText = "₹" + Math.round(regFees).toLocaleString('en-IN') + " (4%)";
@@ -702,7 +658,7 @@
             let options = { day: 'numeric', month: 'long', year: 'numeric' };
             let today = new Date().toLocaleDateString('en-IN', options);
             document.getElementById('pDocDate').innerText = today + " (IST)";
-            document.getElementById('pDocSurvey').innerText = survey ? survey : "N/A (Not Provided)";
+            document.getElementById('pDocSurvey').innerText = survey ? survey : "N/A";
             
             let displayUnitLabel = unit.toUpperCase();
             document.getElementById('rInputVal').innerText = `${area} ${displayUnitLabel} @ ₹${price}/Unit`;
@@ -760,6 +716,11 @@
             text += `Computed via *Shayan Smart Tools*`;
             window.open("https://wa.me/?text=" + encodeURIComponent(text));
         }
+
+        // Initial Load for FAQs setup
+        window.onload = function() {
+            renderFaqs();
+        };
     </script>
 </body>
 </html>
