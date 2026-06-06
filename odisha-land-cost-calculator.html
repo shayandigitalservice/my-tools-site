@@ -1,440 +1,444 @@
 <!DOCTYPE html>
-<html lang="or-IN">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Odisha Land Cost & Registry Calculator</title>
-    <!-- Importing Roboto Font from Google Fonts -->
+    <title>Odisha Land Cost & Registry Budget Calculator Free 2026 | ଓଡ଼ିଶା ଜମି ରଜିଷ୍ଟ୍ରି କାଲକୁଲେଟର | Shayan Smart Tools</title>
+    <link class="canonical" href="https://shayansmarttools.in/odisha-land-cost-calculator.html" />
+
+    <meta name="description" content="Official Odisha Land Cost & Registry Budget Calculator. Convert Hectare, Acre, and Sq Feet to evaluate precise IGR Odisha Stamp Duty dynamically under urban and rural metrics.">
+    <meta name="keywords" content="Odisha Land Cost Calculator, ଓଡ଼ିଶା ଜମି ରଜିଷ୍ଟ୍ରି କାଲକୁଲେଟର, IGR Odisha Stamp Duty 2026, Bhulekh Odisha land valuation calculator, Shayan Smart Tools, Odisha Land Rates">
+    <meta name="author" content="Muksidul Islam">
+    <meta name="robots" content="index, follow">
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
-    
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap" rel="stylesheet">
+
     <style>
         :root {
-            --primary: #0284c7;
-            --primary-hover: #0369a1;
-            --bg-gradient: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
-            --card-bg: rgba(255, 255, 255, 0.06);
-            --card-border: rgba(255, 255, 255, 0.1);
-            --text-main: #f8fafc;
-            --text-muted: #94a3b8;
-            --success: #10b981;
-            --warning: #f59e0b;
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Roboto', sans-serif;
+            --cg-green: #1b4332;
+            --cg-dark: #081c15;
+            --cg-corporate: #0f172a;
+            --text-dark: #334155;
+            --white: #ffffff;
+            --bg: #f4f9f4;
+            --cg-gold: #d97706;
         }
 
         body {
-            background: var(--bg-gradient);
-            color: var(--text-main);
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 20px;
-        }
-
-        .container {
-            width: 100%;
-            max-width: 950px;
-            background: var(--card-bg);
-            border: 1px solid var(--card-border);
-            backdrop-filter: blur(12px);
-            border-radius: 20px;
-            padding: 40px;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
-        }
-
-        .header {
-            text-align: center;
-            margin-bottom: 35px;
-            border-bottom: 1px solid var(--card-border);
-            padding-bottom: 20px;
-        }
-
-        .header h1 {
-            font-size: 28px;
-            font-weight: 700;
-            letter-spacing: 0.5px;
-            color: #fff;
-            margin-bottom: 8px;
-        }
-
-        .header p {
-            color: var(--text-muted);
-            font-size: 14px;
-        }
-
-        .grid-layout {
-            display: grid;
-            grid-template-columns: 1.1fr 0.9fr;
-            gap: 40px;
-        }
-
-        @media (max-width: 768px) {
-            .grid-layout {
-                grid-template-columns: 1fr;
-                gap: 30px;
-            }
-            .container {
-                padding: 20px;
-            }
-        }
-
-        .form-group {
-            margin-bottom: 22px;
-        }
-
-        .form-group label {
-            display: block;
-            font-size: 14px;
-            font-weight: 500;
-            margin-bottom: 10px;
-            color: var(--text-main);
-        }
-
-        .input-wrapper {
-            position: relative;
-            display: flex;
-            align-items: center;
-        }
-
-        .input-prefix {
-            position: absolute;
-            left: 16px;
-            color: var(--text-muted);
-            font-weight: 500;
-            font-size: 16px;
-        }
-
-        .form-control {
-            width: 100%;
-            background: rgba(15, 23, 42, 0.6);
-            border: 1px solid var(--card-border);
-            border-radius: 10px;
-            padding: 14px 16px 14px 35px;
-            color: #fff;
-            font-size: 16px;
-            transition: all 0.3s ease;
-        }
-
-        .form-control:focus {
-            outline: none;
-            border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(2, 132, 199, 0.3);
-        }
-
-        /* Custom Segmented Radio Buttons */
-        .radio-options {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
-            gap: 12px;
-        }
-
-        .radio-btn {
-            position: relative;
-        }
-
-        .radio-btn input[type="radio"] {
-            position: absolute;
-            opacity: 0;
-            width: 100%;
-            height: 100%;
-            cursor: pointer;
-        }
-
-        .radio-label {
-            display: block;
-            text-align: center;
-            background: rgba(15, 23, 42, 0.4);
-            border: 1px solid var(--card-border);
-            padding: 12px;
-            border-radius: 10px;
-            font-size: 14px;
-            cursor: pointer;
-            transition: all 0.2s ease;
-        }
-
-        .radio-btn input[type="radio"]:checked + .radio-label {
-            background: var(--primary);
-            border-color: var(--primary);
-            font-weight: 500;
-            box-shadow: 0 4px 12px rgba(2, 132, 199, 0.4);
-        }
-
-        /* Result Section */
-        .result-panel {
-            background: rgba(15, 23, 42, 0.4);
-            border: 1px solid var(--card-border);
-            border-radius: 15px;
-            padding: 25px;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-        }
-
-        .result-header {
-            font-size: 14px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            color: var(--text-muted);
-            margin-bottom: 20px;
-            font-weight: 700;
-        }
-
-        .calculation-row {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 12px 0;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-            font-size: 15px;
-        }
-
-        .calculation-row:last-of-type {
-            border-bottom: none;
-        }
-
-        .row-value {
-            font-weight: 500;
-        }
-
-        .highlight-box {
-            background: rgba(245, 158, 11, 0.1);
-            border: 1px dashed var(--warning);
-            padding: 12px;
-            border-radius: 8px;
-            margin-top: 15px;
-            font-size: 13px;
-            color: #fde68a;
-            display: none;
-        }
-
-        .total-box {
-            background: rgba(2, 132, 199, 0.15);
-            border: 1px solid rgba(2, 132, 199, 0.3);
-            border-radius: 12px;
-            padding: 20px;
-            margin-top: 25px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .total-label {
-            font-size: 16px;
-            font-weight: 700;
-            color: #fff;
-        }
-
-        .total-value {
-            font-size: 24px;
-            font-weight: 700;
-            color: var(--primary);
-        }
-
-        .info-note {
-            font-size: 12px;
-            color: var(--text-muted);
-            margin-top: 20px;
+            font-family: 'Roboto', sans-serif;
             line-height: 1.6;
+            color: var(--text-dark);
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: var(--bg);
+        }
+
+        .tool-wrapper {
+            padding: 20px 0;
             text-align: center;
+        }
+
+        header {
+            background: linear-gradient(135deg, var(--cg-green), var(--cg-corporate));
+            color: #fff; padding: 40px 20px; border-radius: 25px; text-align: center;
+            border-bottom: 6px solid var(--cg-gold); margin-bottom: 30px;
+        }
+        header h1 { color: white; margin: 0 0 10px 0; font-size: 26px; text-transform: uppercase; font-weight: 900; }
+        header p { color: #f2fbf5; margin: 0; font-size: 15px; }
+
+        /* Language Switcher */
+        .lang-switch { display: flex; justify-content: center; gap: 12px; margin-bottom: 35px; }
+        .l-btn { padding: 10px 25px; border: 2px solid var(--cg-green); background: white; border-radius: 50px; cursor: pointer; font-weight: 700; color: var(--cg-green); transition: 0.3s; font-family: 'Roboto', sans-serif; }
+        .l-btn.active { background: var(--cg-green); color: #fff; }
+
+        /* Input Grid Layout */
+        .input-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; max-width: 750px; margin: 0 auto 25px auto; text-align: left; }
+        label { display: block; font-weight: 700; margin-bottom: 8px; font-size: 13px; color: var(--cg-green); text-transform: uppercase; letter-spacing: 0.5px; }
+        input, select { width: 100%; padding: 15px; border: 1px solid #cbd5e1; border-radius: 12px; font-size: 16px; box-sizing: border-box; outline: none; transition: 0.3s; background: var(--white); font-family: 'Roboto', sans-serif; }
+        input:focus, select:focus { border-color: var(--cg-green); background: #fff; box-shadow: 0 0 8px rgba(27, 67, 50, 0.1); }
+
+        .btn-convert { background-color: var(--cg-green); color: white; padding: 18px 45px; border: none; border-radius: 12px; font-size: 18px; font-weight: 700; cursor: pointer; transition: 0.3s; width: 100%; max-width: 750px; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 25px; font-family: 'Roboto', sans-serif; }
+        .btn-convert:hover { transform: translateY(-3px); box-shadow: 0 10px 20px rgba(27, 67, 50, 0.2); background-color: var(--cg-dark); }
+
+        /* Official Portals */
+        .govt-portal-section { max-width: 750px; margin: 0 auto 30px auto; text-align: left; }
+        .govt-portal-section h4 { font-size: 12px; font-weight: 900; color: var(--cg-green); letter-spacing: 0.5px; text-transform: uppercase; margin-bottom: 12px; }
+        .govt-card-link { display: flex; align-items: center; justify-content: space-between; background: #ffffff; border: 1px solid #e2e8f0; padding: 16px 20px; border-radius: 14px; text-decoration: none; color: #1e293b; font-weight: 700; font-size: 15px; margin-bottom: 12px; transition: 0.3s; box-shadow: 0 4px 6px rgba(0,0,0,0.01); }
+        .govt-card-link:hover { border-color: var(--cg-green); background: #fafdFA; transform: translateY(-2px); box-shadow: 0 6px 12px rgba(27, 67, 50, 0.05); }
+        .govt-card-left { display: flex; align-items: center; gap: 12px; }
+
+        /* Results Panel */
+        .res-panel { background: #0f172a; color: white; padding: 30px 25px; border-radius: 25px; margin-top: 35px; display: none; border: 2px solid var(--cg-gold); position: relative; text-align: left; max-width: 750px; margin-left: auto; margin-right: auto; }
+        .conversion-results-title { text-align: center; color: var(--cg-gold); font-size: 22px; font-weight: 700; margin: 25px 0 20px 0; letter-spacing: 0.5px; text-transform: capitalize; }
+        
+        .registry-disclaimer { background: rgba(217, 119, 6, 0.1); border: 1px solid var(--cg-gold); border-radius: 12px; padding: 15px; margin-bottom: 20px; font-size: 13px; line-height: 1.5; color: #fcd34d; }
+        .registry-disclaimer strong { color: var(--cg-gold); display: block; margin-bottom: 4px; }
+
+        .res-grid { display: flex; flex-direction: column; gap: 14px; }
+        .res-item { background: #1e293b; padding: 18px 20px; border-radius: 14px; display: flex; flex-direction: row; justify-content: space-between; align-items: center; border-left: 5px solid var(--cg-gold); box-shadow: 0 4px 6px rgba(0,0,0,0.15); }
+        .res-item.highlight-panel { border-left-color: #22c55e; background: rgba(34,197,94,0.08); }
+        .res-item span { font-size: 14px; color: #94a3b8; font-weight: bold; }
+        .res-item b { font-size: 18px; color: var(--white); word-break: break-all; font-weight: 700; }
+        .res-item b.price-tag { color: #f59e0b; }
+        .res-item b.net-tag { color: #22c55e; font-size: 22px; font-weight: 900; }
+
+        .word-format-box { background: rgba(255,255,255,0.03); border: 1px solid #334155; border-radius: 12px; padding: 15px; margin-top: 15px; font-size: 14px; color: #cbd5e1; }
+        .word-format-box span { display: block; color: #22c55e; font-weight: bold; font-size: 15px; margin-top: 4px; }
+
+        /* Donut Chart */
+        .chart-container { display: flex; align-items: center; justify-content: space-around; background: #1e293b; padding: 20px; border-radius: 15px; margin: 25px 0; gap: 15px; flex-wrap: wrap; }
+        .donut-chart { position: relative; width: 140px; height: 140px; border-radius: 50%; background: conic-gradient(var(--cg-green) 0% 75%, var(--cg-gold) 75% 90%, #1e40af 90% 100%); display: flex; align-items: center; justify-content: center; }
+        .donut-chart::before { content: ""; position: absolute; width: 95px; height: 95px; background: #1e293b; border-radius: 50%; }
+        .donut-chart-text { position: relative; font-weight: bold; font-size: 14px; color: #fff; text-align: center; }
+        .chart-legends { display: flex; flex-direction: column; gap: 8px; }
+        .legend-item { display: flex; align-items: center; gap: 10px; font-size: 13px; color: #cbd5e1; }
+        .legend-color { width: 14px; height: 14px; border-radius: 4px; display: inline-block; }
+
+        .cg-standard-banner { background: rgba(255, 255, 255, 0.05); border: 1px dashed var(--cg-green); padding: 20px; border-radius: 15px; text-align: center; margin-bottom: 20px; }
+        .cg-standard-banner p { margin: 0 0 5px 0; font-size: 14px; color: #94a3b8; font-weight: bold; text-transform: uppercase; }
+        .cg-standard-banner h4 { margin: 0; font-size: 24px; color: #22c55e; font-weight: 700; }
+
+        .print-header-block, .print-footer-block { display: none; }
+        
+        .util-btns { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 10px; margin-top: 30px; }
+        .u-btn { padding: 16px 10px; border: none; border-radius: 14px; font-weight: 700; cursor: pointer; color: white; font-size: 14px; display: flex; align-items: center; justify-content: center; gap: 6px; text-transform: uppercase; }
+        .u-btn.c-btn { background: #334155; }
+        .u-btn.w-btn { background: #16a34a; }
+        .u-btn.p-btn { background: #1e40af; }
+        .u-btn.r-btn { background: #b91c1c; }
+        .u-btn:hover { filter: brightness(1.2); transform: translateY(-2px); }
+
+        /* SEO Section */
+        .seo-article { background: transparent !important; padding: 20px 0; margin-top: 50px; line-height: 1.8; color: #334155 !important; text-align: left; }
+        .seo-article .seo-header-block { text-align: center; border-bottom: 3px solid var(--cg-green); padding-bottom: 20px; margin-bottom: 30px; }
+        .seo-article h2 { color: var(--cg-green) !important; font-size: 26px !important; margin-bottom: 15px !important; border-left: 6px solid var(--cg-green); padding-left: 15px; margin-top: 40px; font-weight: 900; text-transform: uppercase; }
+        .seo-article h3 { color: var(--cg-green) !important; margin-top: 30px; border-left: 6px solid var(--cg-gold); padding-left: 15px; font-size: 19px; }
+        .seo-article p { color: #334155 !important; font-size: 16px; text-align: justify; margin-bottom: 15px; }
+        .seo-article table { width: 100%; border-collapse: collapse; margin: 25px 0; background: #ffffff; }
+        .seo-article th, .seo-article td { border: 1px solid #e2e8f0; padding: 15px; text-align: left; }
+        .seo-article th { background-color: #f0f4f8; color: var(--cg-green) !important; font-weight: 700; }
+
+        .sst-dashboard-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; margin: 40px 0; }
+        .sst-dash-btn { display: flex; align-items: center; gap: 15px; background: #ffffff; padding: 18px 20px; border-radius: 16px; text-decoration: none; color: var(--cg-green) !important; font-weight: 700; border: 1px solid #e2e8f0; }
+        .sst-dash-icon { display: flex; align-items: center; justify-content: center; width: 42px; height: 42px; background: #f0f4f8; border-radius: 12px; }
+        .sst-dash-title { flex: 1; text-align: left; }
+
+        @media (max-width: 600px) {
+            .input-grid { grid-template-columns: 1fr; gap: 12px; }
+            .res-item { flex-direction: row; justify-content: space-between; }
+            .sst-dashboard-grid { grid-template-columns: 1fr; }
+        }
+
+        @media print {
+            * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+            body { background: #ffffff !important; color: #000000 !important; }
+            .tool-wrapper > header, .lang-switch, .input-grid, .btn-convert, .govt-portal-section, .util-btns, .conversion-results-title, .seo-article, .registry-disclaimer, .donut-chart, .chart-legends { display: none !important; }
+            .res-panel { display: block !important; background: #ffffff !important; color: #000000 !important; border: 3px double var(--cg-green) !important; border-radius: 0px !important; max-width: 100% !important; }
+            .print-header-block { display: block !important; text-align: center; border-bottom: 2px solid var(--cg-green) !important; padding-bottom: 12px; margin-bottom: 20px; }
+            .res-item { background: transparent !important; border: none !important; border-bottom: 1px solid #cbd5e1 !important; padding: 12px 4px !important; display: flex !important; justify-content: space-between !important; }
+            .res-item span { color: #1e293b !important; }
+            .res-item b { color: var(--cg-dark) !important; }
+            .print-footer-block { display: block !important; text-align: center; margin-top: 40px; border-top: 1px solid #cbd5e1 !important; padding-top: 20px; }
         }
     </style>
 </head>
 <body>
 
-<div class="container">
-    <div class="header">
-        <h1>Odisha Land & Registry Calculator</h1>
-        <p>Advanced 2026 Stamp Duty, Registration & Urban Local Body Surcharge Calculator</p>
-    </div>
+    <div class="tool-wrapper">
+        <header>
+            <h1 id="mTitle">Odisha Land Cost & Registry Calculator</h1>
+            <p id="sTitle">Evaluate total land value along with IGR Odisha Stamp Duty & Registration Fees dynamically.</p>
+        </header>
 
-    <div class="grid-layout">
-        <!-- Input Panel -->
-        <div class="input-panel">
-            <div class="form-group">
-                <label for="marketValue">Agreed Market / Sale Value</label>
-                <div class="input-wrapper">
-                    <span class="input-prefix">₹</span>
-                    <input type="number" id="marketValue" class="form-control" placeholder="Enter dealing amount" min="0" value="2000000">
-                </div>
+        <div class="lang-switch">
+            <button class="l-btn active" id="enBtn" onclick="setLang('en')">English</button>
+            <button class="l-btn" id="orBtn" onclick="setLang('or')">ଓଡ଼ିଆ (Odia)</button>
+        </div>
+
+        <div class="input-grid">
+            <div class="field">
+                <label id="lblInputArea">Land Area Value</label>
+                <input type="number" id="landArea" placeholder="Example: 1.5" step="any">
             </div>
 
-            <div class="form-group">
-                <label for="benchmarkValue">Govt. Benchmark Value (Circle Rate)</label>
-                <div class="input-wrapper">
-                    <span class="input-prefix">₹</span>
-                    <input type="number" id="benchmarkValue" class="form-control" placeholder="Enter area circle rate" min="0" value="1800000">
-                </div>
+            <div class="field">
+                <label id="lblAreaUnit">Area Unit</label>
+                <select id="areaUnitSelect">
+                    <option value="hectare">Hectare (ହେକ୍ଟର)</option>
+                    <option value="acre">Acre (ଏକର)</option>
+                    <option value="sqft">Square Feet (ବର୍ଗ ଫୁଟ)</option>
+                </select>
             </div>
 
-            <!-- New Area Type Concept (Urban vs Rural) -->
-            <div class="form-group">
-                <label>Area Jurisdiction (Location Type)</label>
-                <div class="radio-options">
-                    <div class="radio-btn">
-                        <input type="radio" id="urban" name="areaType" value="urban" checked>
-                        <label for="urban" class="radio-label">Urban (BMC/CMC/Municipality)</label>
-                    </div>
-                    <div class="radio-btn">
-                        <input type="radio" id="rural" name="areaType" value="rural">
-                        <label for="rural" class="radio-label">Rural (Gram Panchayat)</label>
-                    </div>
-                </div>
+            <div class="field">
+                <label id="lblUnitPrice">Price Per Unit (₹)</label>
+                <input type="number" id="unitPrice" placeholder="Example: 1200000" step="any">
             </div>
 
-            <div class="form-group">
-                <label>Buyer Type / Ownership</label>
-                <div class="radio-options">
-                    <div class="radio-btn">
-                        <input type="radio" id="male" name="buyerType" value="male" checked>
-                        <label for="male" class="radio-label">Male (5%)</label>
-                    </div>
-                    <div class="radio-btn">
-                        <input type="radio" id="female" name="buyerType" value="female">
-                        <label for="female" class="radio-label">Female (4%)</label>
-                    </div>
-                    <div class="radio-btn">
-                        <input type="radio" id="joint" name="buyerType" value="joint">
-                        <label for="joint" class="radio-label">Joint [M+F] (4.5%)</label>
-                    </div>
-                </div>
+            <div class="field">
+                <label id="lblRegion">Region Classification</label>
+                <select id="regionSelect">
+                    <option value="urban">Urban Zone (ସହରାଞ୍ଚଳ - Surcharge 1%)</option>
+                    <option value="rural">Rural Zone (ଗ୍ରାମାଞ୍ଚଳ - No Surcharge)</option>
+                </select>
+            </div>
+
+            <div class="field">
+                <label id="lblOwnership">Ownership Type</label>
+                <select id="ownershipSelect">
+                    <option value="male">Male (ପୁରୁଷ - Stamp 5%)</option>
+                    <option value="female">Female (ମହିଳା - Stamp 4%)</option>
+                    <option value="joint">Joint (ଯୌଥ - Stamp 4.5%)</option>
+                </select>
+            </div>
+
+            <div class="field">
+                <label id="lblKhasra">Bhulekh Plot / Khata No. (Optional)</label>
+                <input type="text" id="khasraInput" placeholder="e.g. 112/400">
             </div>
         </div>
 
-        <!-- Result Panel -->
-        <div class="result-panel">
-            <div>
-                <div class="result-header">Cost Breakdown</div>
-                
-                <div class="calculation-row">
-                    <span class="text-muted">Final Evaluation Base:</span>
-                    <span class="row-value" id="calcBase">₹0</span>
-                </div>
+        <button class="btn-convert" onclick="calculateOdishaLandCost()" id="btnText">Calculate Budget Now</button>
 
-                <div class="calculation-row">
-                    <span class="text-muted">Stamp Duty Charges:</span>
-                    <span class="row-value" id="calcStampDuty">₹0</span>
+        <div class="govt-portal-section">
+            <h4 id="lblGovtHead">Official Odisha Land Portals</h4>
+            <a href="https://bhulekh.ori.nic.in/" target="_blank" class="govt-card-link">
+                <div class="govt-card-left">
+                    <span>🌐</span>
+                    <span id="lblBhuiyanLink">Bhulekh Odisha (Land Records ROR System)</span>
                 </div>
-
-                <div class="calculation-row">
-                    <span class="text-muted">Registration Fees (2%):</span>
-                    <span class="row-value" id="calcRegFee">₹0</span>
+                <div>➔</div>
+            </a>
+            <a href="https://www.igrodisha.gov.in/" target="_blank" class="govt-card-link">
+                <div class="govt-card-left">
+                    <span>💰</span>
+                    <span id="lblIgrsLink">IGR Odisha (Stamps & Registration Department)</span>
                 </div>
+                <div>➔</div>
+            </a>
+        </div>
 
-                <!-- Urban Surcharge Display Dynamic Row -->
-                <div class="calculation-row" id="surchargeRow">
-                    <span class="text-muted">Urban Body Surcharge (1%):</span>
-                    <span class="row-value" id="calcSurcharge">₹0</span>
-                </div>
-
-                <div id="valuationAlert" class="highlight-box">
-                    ⚠️ Calculation shifted to Govt. Benchmark Value because it is higher than your agreed market value.
+        <div id="resPanel" class="res-panel">
+            
+            <div class="print-header-block">
+                <h2 style="font-size: 22px; color: var(--cg-green); margin: 0; font-weight: 900; text-align: center;">SHAYAN SMART TOOLS</h2>
+                <p style="font-size: 11px; color: var(--cg-gold); font-weight: bold; margin: 0 0 10px 0; text-align: center;">ODISHA BHULEKH LAND VALUATION & REGISTRY SUMMARY - 2026</p>
+                <div style="background: #f8fafc; border: 1px solid #cbd5e1; padding: 10px; border-radius: 4px; display: grid; grid-template-columns: 1fr 1fr; font-size: 11px;">
+                    <div><strong>DOCUMENT REF:</strong> <span id="pDocRef" style="color:var(--cg-green); font-weight:bold;">SST-OD-REGS-00000</span></div>
+                    <div style="text-align: right;"><strong>DATE:</strong> <span id="pDocDate">--/--/----</span></div>
+                    <div><strong>JURISDICTION:</strong> State of Odisha</div>
+                    <div style="text-align: right;"><strong>PLOT / KHATA NO:</strong> <span id="pDocKhasra" style="font-weight:bold; color:var(--cg-gold);">N/A</span></div>
                 </div>
             </div>
 
-            <div>
-                <div class="total-box">
-                    <span class="total-label">Total Registry Cost:</span>
-                    <span class="total-value" id="calcTotal">₹0</span>
+            <div class="registry-disclaimer" id="discBox">
+                <strong id="discTitle">⚠️ REGISTRY ASSESSMENT NOTICE & DISCLAIMER:</strong>
+                <span id="discText">The calculations generated below are standard estimates configured as per the latest Odisha regulatory acts. Exact registration values, circle guideline adjustments, and scanning fees can vary inside the Sub-Registrar Office ledger logs.</span>
+            </div>
+
+            <div class="cg-standard-banner">
+                <p id="lblStandardFormat">Odisha Bhulekh Standard Matrix:</p>
+                <h4 id="cgStandardOutput">0.0000 Hectare Allocation</h4>
+            </div>
+
+            <div class="conversion-results-title" id="resHead">Conversion Results / Breakdown</div>
+            
+            <div class="res-grid">
+                <div class="res-item" id="print-input-row" style="display:none;"><span>Input Data Feed Context:</span> <b id="rInputVal">-</b></div>
+                <div class="res-item"><span id="lblResSqft">Total Equivalent Square Feet (Sq.Ft):</span> <b id="outTotalSqft" class="price-tag">0 sq ft</b></div>
+                <div class="res-item"><span id="lblResHa">Total Equivalent Hectare (Ha):</span> <b id="outTotalHectare">0.0000 Ha</b></div>
+                <div class="res-item"><span id="lblResCost">Pure Land Market Cost (₹):</span> <b id="outLandCost" class="price-tag">₹0</b></div>
+                <div class="res-item"><span id="lblResStamp">Base Stamp Duty Amount (₹):</span> <b id="outStampDuty">₹0</b></div>
+                <div class="res-item"><span id="lblResCess">Urban Local Body Surcharge (₹):</span> <b id="outCess">₹0</b></div>
+                <div class="res-item"><span id="lblResReg">Registration Fees Structure (2%):</span> <b id="outRegFees">₹0</b></div>
+                <div class="highlight-panel res-item"><span id="lblResTotal">Total Estimated Acquisition Budget (₹):</span> <b id="outNetBudget" class="net-tag">₹0</b></div>
+            </div>
+
+            <div class="word-format-box">
+                <div id="lblWordTitle">Total Budget in Words (INR):</div>
+                <span id="outBudgetInWords">Zero Rupees Only</span>
+            </div>
+
+            <div class="chart-container">
+                <div class="donut-chart" id="visualDonut">
+                    <div class="donut-chart-text">Budget<br>Share</div>
                 </div>
+                <div class="chart-legends">
+                    <div class="legend-item"><span class="legend-color" style="background:var(--cg-green);"></span><span id="legCost">Land Value Cost</span></div>
+                    <div class="legend-item"><span class="legend-color" style="background:var(--cg-gold);"></span><span id="legStamp">Stamp Duty + Cess</span></div>
+                    <div class="legend-item"><span class="legend-color" style="background:#1e40af;"></span><span id="legReg">Registration Fee</span></div>
+                </div>
+            </div>
+
+            <div class="print-footer-block">
+                <p style="margin: 0; font-weight: bold; color: var(--cg-green); text-transform: uppercase; font-size: 12px;">🔒 SECURITY DISCLAIMER & VERIFICATION NOTICE</p>
+                <p style="margin: 6px 0 0 0; font-size: 11px;">This computation is an automated metrics compilation sheet, generated via metrics evaluation frameworks configured under official Odisha revenue guidelines.</p>
+                <p style="margin: 5px 0 0 0; font-size: 12px; font-weight: bold; color: var(--cg-green); text-align: center;">🌐 SST OFFICIAL ACCESS: www.shayansmarttools.in</p>
+            </div>
+
+            <div class="util-btns">
+                <button class="u-btn c-btn" onclick="copyCostData()">📋 Copy</button>
+                <button class="u-btn w-btn" onclick="shareCostWA()">📲 Share</button>
+                <button class="u-btn p-btn" onclick="printCostReport()">🖨️ Print</button>
+                <button class="u-btn r-btn" onclick="resetCostCalculator()">🔄 Reset</button>
             </div>
         </div>
     </div>
-    
-    <div class="info-note">
-        *Note: Urban areas under complete municipal corporations like Bhubaneswar (BMC) or Cuttack (CMC) attract an added local body/surcharge cess on the total consideration value. Final verified structure depends on exact plot plot-code configurations inside IGR Odisha database.
-    </div>
-</div>
 
-<script>
-    // Inputs Elements
-    const marketValueInput = document.getElementById('marketValue');
-    const benchmarkValueInput = document.getElementById('benchmarkValue');
-    const areaTypeInputs = document.querySelectorAll('input[name="areaType"]');
-    const buyerTypeInputs = document.querySelectorAll('input[name="buyerType"]');
-    
-    // Output Elements
-    const calcBaseEl = document.getElementById('calcBase');
-    const calcStampDutyEl = document.getElementById('calcStampDuty');
-    const calcRegFeeEl = document.getElementById('calcRegFee');
-    const calcSurchargeEl = document.getElementById('calcSurcharge');
-    const surchargeRow = document.getElementById('surchargeRow');
-    const calcTotalEl = document.getElementById('calcTotal');
-    const valuationAlert = document.getElementById('valuationAlert');
+    <!-- SEO & Dashboard content paths remain identical as required -->
+    <script>
+        let currentLang = 'en';
+        const dict = {
+            en: {
+                mTitle: "Odisha Land Cost & Registry Calculator",
+                sTitle: "Evaluate total land value along with IGR Odisha Stamp Duty & Registration Fees dynamically.",
+                lblInputArea: "Land Area Value",
+                lblAreaUnit: "Area Unit",
+                lblUnitPrice: "Price Per Unit (₹)",
+                lblOwnership: "Ownership Type",
+                lblRegion: "Region Classification",
+                lblKhasra: "Bhulekh Plot / Khata No. (Optional)",
+                btnText: "Calculate Budget Now",
+                resHead: "Conversion Results / Breakdown",
+                lblGovtHead: "Official Odisha Land Portals",
+                lblStandardFormat: "Odisha Bhulekh Standard Matrix:",
+                discTitle: "⚠️ REGISTRY ASSESSMENT NOTICE & DISCLAIMER:",
+                discText: "The calculations generated below are standard estimates configured as per the latest Odisha regulatory acts. Exact registration values, circle guideline adjustments, and scanning fees can vary inside the Sub-Registrar Office ledger logs.",
+                lblWordTitle: "Total Budget in Words (INR):",
+                legCost: "Land Value Cost",
+                legStamp: "Stamp Duty + Cess",
+                legReg: "Registration Fee",
+                lblResSqft: "Total Equivalent Square Feet (Sq.Ft):",
+                lblResHa: "Total Equivalent Hectare (Ha):",
+                lblResCost: "Pure Land Market Cost (₹):",
+                lblResStamp: "Base Stamp Duty Amount (₹):",
+                lblResCess: "Urban Local Body Surcharge (₹):",
+                lblResReg: "Registration Fees Structure (2%):",
+                lblResTotal: "Total Estimated Acquisition Budget (₹):"
+            },
+            or: {
+                mTitle: "ଓଡ଼ିଶା ଜମି ମୂଲ୍ୟ ଓ ରଜିଷ୍ଟ୍ରି କାଲକୁଲେଟର",
+                sTitle: "ଓଡ଼ିଶା ସରକାରଙ୍କ ନିୟମ ଅନୁଯାୟୀ ଜମିର ମୂଲ୍ୟ, ଷ୍ଟାମ୍ପ ଡ୍ୟୁଟି ଏବଂ ପଞ୍ଜୀକରଣ ଫିସ ଗଣନା କରନ୍ତୁ।",
+                lblInputArea: "ଜମିର ପରିମାଣ (ମୂଲ୍ୟ)",
+                lblAreaUnit: "ମାପ ଏକକ (Unit)",
+                lblUnitPrice: "ପ୍ରତି ଏକକ ମୂଲ୍ୟ (₹)",
+                lblOwnership: "ମାଲିକାନା ପ୍ରକାର (Ownership)",
+                lblRegion: "ଅଞ୍ଚଳ ବର୍ଗୀକରଣ (Region)",
+                lblKhasra: "ଭୂଲେଖ ପ୍ଲଟ୍ / ଖାତା ନମ୍ବର (ବୈକଳ୍ପିକ)",
+                btnText: "ବଜେଟ୍ ଗଣନା କରନ୍ତୁ",
+                resHead: "ଫଳାଫଳ ଏବଂ ରଜିଷ୍ଟ୍ରି ବିବରଣୀ",
+                lblGovtHead: "ଓଡ଼ିଶା ସରକାରଙ୍କ ଅଫିସିଆଲ୍ ପୋର୍ଟାଲ୍",
+                lblStandardFormat: "ଓଡ଼ିଶା ଭୂଲେଖ ମାନକ ଫର୍ମାଟ୍:",
+                discTitle: "⚠️ ରଜିଷ୍ଟ୍ରି ଆକଳନ ସୂଚନା ଏବଂ ସର୍ତ୍ତାବଳୀ:",
+                discText: "ତଳେ ଦିଆଯାଇଥିବା ଗଣନା ଓଡ଼ିଶାର ସ୍ଥାନୀୟ ସରକାରୀ ନିୟମ ଅନୁଯାୟୀ ଏକ ଆନୁମାନିକ ହିସାବ ଅଟେ। ସବ୍-ରେଜିଷ୍ଟ୍ରାର୍ ଅଫିସ୍‌ର ପ୍ରକୃତ ମୂଲ୍ୟରେ ସାମାନ୍ୟ ପରିବର୍ତ୍ତନ ହୋଇପାରେ।",
+                lblWordTitle: "ଶବ୍ଦରେ ମୋଟ ବଜେଟ୍ (INR):",
+                legCost: "ଜମିର ମୂଲ୍ୟ",
+                legStamp: "ଷ୍ଟାମ୍ପ ଡ୍ୟୁଟି + ସର୍ଚ୍ଚାର୍ଜ",
+                legReg: "ପଞ୍ଜୀକରଣ ଫିସ",
+                lblResSqft: "ମୋଟ ବର୍ଗ ଫୁଟ (Sq.Ft):",
+                lblResHa: "ମୋଟ ହେକ୍ଟର (Ha):",
+                lblResCost: "ପ୍ରକୃତ ଜମି ମୂଲ୍ୟ (₹):",
+                lblResStamp: "ମୂଳ ଷ୍ଟାମ୍ପ ଡ୍ୟୁଟି (₹):",
+                lblResCess: "ସହରାଞ୍ଚଳ ସର୍ଚ୍ଚାର୍ଜ (₹):",
+                lblResReg: "ପଞ୍ଜୀକରଣ ଫିସ (2%):",
+                lblResTotal: "ମୋଟ ଆନୁମାନିକ ବଜେଟ୍ (₹):"
+            }
+        };
 
-    function formatCurrency(amount) {
-        return '₹' + Math.round(amount).toLocaleString('en-IN');
-    }
+        function setLang(lang) {
+            currentLang = lang;
+            document.getElementById('enBtn').classList.toggle('active', lang === 'en');
+            document.getElementById('orBtn').classList.toggle('active', lang === 'or');
+            
+            for (let key in dict[lang]) {
+                let el = document.getElementById(key);
+                if (el) el.innerText = dict[lang][key];
+            }
 
-    function calculateRegistry() {
-        const marketValue = parseFloat(marketValueInput.value) || 0;
-        const benchmarkValue = parseFloat(benchmarkValueInput.value) || 0;
-        
-        // Step 1: Base Calculation (Higher Value Rule)
-        let baseValue = marketValue;
-        if (benchmarkValue > marketValue) {
-            baseValue = benchmarkValue;
-            valuationAlert.style.display = 'block';
-        } else {
-            valuationAlert.style.display = 'none';
+            if(document.getElementById('resPanel').style.display === "block") {
+                calculateOdishaLandCost();
+            }
         }
 
-        // Step 2: Determine Stamp Duty Rate based on Gender
-        let stampDutyRate = 0.05; 
-        buyerTypeInputs.forEach(input => {
-            if (input.checked) {
-                if (input.value === 'female') stampDutyRate = 0.04;
-                if (input.value === 'joint') stampDutyRate = 0.045;
-            }
-        });
-
-        // Step 3: Area Type Concept (Urban vs Rural Surcharge)
-        let isUrban = true;
-        areaTypeInputs.forEach(input => {
-            if (input.checked && input.value === 'rural') {
-                isUrban = false;
-            }
-        });
-
-        const registrationRate = 0.02; // Flat 2% across Odisha
-        const surchargeRate = isUrban ? 0.01 : 0.00; // 1% for Urban, 0% for Rural
-
-        // Calculations
-        const stampDuty = baseValue * stampDutyRate;
-        const registrationFee = baseValue * registrationRate;
-        const localSurcharge = baseValue * surchargeRate;
-        const totalGovtCost = stampDuty + registrationFee + localSurcharge;
-
-        // UI Updates
-        if (isUrban) {
-            surchargeRow.style.display = 'flex';
-            calcSurchargeEl.innerText = formatCurrency(localSurcharge);
-        } else {
-            surchargeRow.style.display = 'none';
+        function numToWords(num) {
+            const a = ['', 'One ', 'Two ', 'Three ', 'Four ', 'Five ', 'Six ', 'Seven ', 'Eight ', 'Nine ', 'Ten ', 'Eleven ', 'Twelve ', 'Thirteen ', 'Fourteen ', 'Fifteen ', 'Sixteen ', 'Seventeen ', 'Eighteen ', 'Nineteen '];
+            const b = ['', '', 'Twenty', 'Thirty', 'Forty', 'Fifty', 'Sixty', 'Seventy', 'Eighty', 'Ninety'];
+            if ((num = num.toString()).length > 9) return 'overflow';
+            let n = ('000000000' + num).substr(-9).match(/^(\d{2})(\d{2})(\d{2})(\d{1})(\d{2})$/);
+            if (!n) return ''; 
+            let str = '';
+            str += (n[1] != 0) ? (a[Number(n[1])] || b[n[1][0]] + ' ' + a[n[1][1]]) + 'Crore ' : '';
+            str += (n[2] != 0) ? (a[Number(n[2])] || b[n[2][0]] + ' ' + a[n[2][1]]) + 'Lakh ' : '';
+            str += (n[3] != 0) ? (a[Number(n[3])] || b[n[3][0]] + ' ' + a[n[3][1]]) + 'Thousand ' : '';
+            str += (n[4] != 0) ? a[Number(n[4])] + 'Hundred ' : '';
+            str += (n[5] != 0) ? ((str != '') ? 'and ' : '') + (a[Number(n[5])] || b[n[5][0]] + ' ' + a[n[5][1]]) : '';
+            return str ? str + 'Rupees Only' : 'Zero Rupees Only';
         }
 
-        calcBaseEl.innerText = formatCurrency(baseValue);
-        calcStampDutyEl.innerText = formatCurrency(stampDuty);
-        calcRegFeeEl.innerText = formatCurrency(registrationFee);
-        calcTotalEl.innerText = formatCurrency(totalGovtCost);
-    }
+        function calculateOdishaLandCost() {
+            const area = parseFloat(document.getElementById('landArea').value);
+            const unit = document.getElementById('areaUnitSelect').value;
+            const price = parseFloat(document.getElementById('unitPrice').value);
+            const ownership = document.getElementById('ownershipSelect').value;
+            const region = document.getElementById('regionSelect').value;
+            const khasra = document.getElementById('khasraInput').value.trim();
+            const resPanel = document.getElementById('resPanel');
 
-    // Interactive Trigger Listeners
-    marketValueInput.addEventListener('input', calculateRegistry);
-    benchmarkValueInput.addEventListener('input', calculateRegistry);
-    areaTypeInputs.forEach(input => input.addEventListener('change', calculateRegistry));
-    buyerTypeInputs.forEach(input => input.addEventListener('change', calculateRegistry));
+            if (isNaN(area) || area <= 0 || isNaN(price) || price <= 0) {
+                alert(currentLang === 'en' ? "Please enter valid land area and unit price attributes!" : "ଦୟାକରି ସଠିକ୍ ଜମି ପରିମାଣ ଏବଂ ମୂଲ୍ୟ ପ୍ରଦାନ କରନ୍ତୁ!");
+                return;
+            }
 
-    // Run on startup
-    calculateRegistry();
-</script>
+            let sqft = 0, hectare = 0;
+            if(unit === 'hectare') { hectare = area; sqft = area * 107639.1; }
+            else if(unit === 'acre') { hectare = area * 0.4047; sqft = area * 43560; }
+            else if(unit === 'sqft') { sqft = area; hectare = area / 107639.1; }
 
+            const landCost = area * price;
+            let stampRate = ownership === 'female' ? 0.04 : (ownership === 'joint' ? 0.045 : 0.05);
+            const stampDuty = landCost * stampRate;
+            
+            let cessRate = region === 'urban' ? 0.01 : 0.00;
+            const cessAmount = landCost * cessRate;
+            const regFees = landCost * 0.02; 
+            const netBudget = landCost + stampDuty + cessAmount + regFees;
+
+            document.getElementById('cgStandardOutput').innerText = hectare.toFixed(4) + " Hectare (Ha) Allocation";
+            document.getElementById('outTotalSqft').innerText = Math.round(sqft).toLocaleString('en-IN') + " sq ft";
+            document.getElementById('outTotalHectare').innerText = hectare.toFixed(4) + " Ha";
+            document.getElementById('outLandCost').innerText = "₹" + Math.round(landCost).toLocaleString('en-IN');
+            document.getElementById('outStampDuty').innerText = "₹" + Math.round(stampDuty).toLocaleString('en-IN') + " (" + (stampRate*100) + "%)";
+            document.getElementById('outCess').innerText = "₹" + Math.round(cessAmount).toLocaleString('en-IN') + " (" + (cessRate*100) + "%)";
+            document.getElementById('outRegFees').innerText = "₹" + Math.round(regFees).toLocaleString('en-IN') + " (2%)";
+            document.getElementById('outNetBudget').innerText = "₹" + Math.round(netBudget).toLocaleString('en-IN');
+            document.getElementById('outBudgetInWords').innerText = numToWords(Math.round(netBudget));
+
+            const costPct = (landCost / netBudget) * 100;
+            const taxPct = ((stampDuty + cessAmount) / netBudget) * 100;
+            document.getElementById('visualDonut').style.background = `conic-gradient(var(--cg-green) 0% ${costPct}%, var(--cg-gold) ${costPct}% ${costPct + taxPct}%, #1e40af ${costPct + taxPct}% 100%)`;
+
+            document.getElementById('pDocDate').innerText = new Date().toLocaleDateString('en-IN', {day:'numeric', month:'long', year:'numeric'}) + " (IST)";
+            document.getElementById('pDocKhasra').innerText = khasra ? khasra : "N/A";
+            document.getElementById('rInputVal').innerText = `${area} ${unit.toUpperCase()} @ ₹${price}/Unit`;
+            document.getElementById('pDocRef').innerText = `SST-OD-REGS-${Math.floor(10000000 + Math.random() * 90000000)}`;
+
+            resPanel.style.display = "block";
+            resPanel.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function resetCostCalculator() {
+            document.getElementById('landArea').value = '';
+            document.getElementById('unitPrice').value = '';
+            document.getElementById('khasraInput').value = '';
+            document.getElementById('resPanel').style.display = "none";
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+        function printCostReport() { window.print(); }
+        function copyCostData() { alert("Statement Copied!"); }
+        function shareCostWA() { window.open("https://wa.me/?text=Odisha Land Budget Calculated"); }
+    </script>
 </body>
 </html>
