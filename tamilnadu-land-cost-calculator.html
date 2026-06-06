@@ -19,8 +19,6 @@
             --white: #ffffff;
             --bg: #f8fafc;
             --tn-gold: #ffb300;
-            --alert-bg: #fff3e0;
-            --alert-border: #ffb74d;
         }
 
         body {
@@ -69,20 +67,6 @@
 
         .helper-text { font-size: 11px; font-weight: bold; margin-top: 5px; display: block; }
 
-        /* Live Smart Insights Alert Box */
-        .smart-alert-box {
-            background-color: var(--alert-bg);
-            border-left: 5px solid var(--alert-border);
-            padding: 15px;
-            border-radius: 8px;
-            margin: 0 auto 25px auto;
-            max-width: 800px;
-            text-align: left;
-            font-size: 14px;
-            font-weight: 500;
-            color: #b78103;
-        }
-
         .btn-calc {
             background-color: var(--tn-dark); color: var(--white); padding: 18px 45px;
             border: none; border-radius: 12px; font-size: 18px; font-weight: 800; cursor: pointer;
@@ -109,18 +93,6 @@
         .print-header-block, .print-footer-block { display: none; }
         .util-btns { display: flex; gap: 12px; margin-top: 25px; }
         .u-btn { flex: 1; padding: 15px; border: none; border-radius: 12px; font-weight: 800; cursor: pointer; color: white; font-size: 14px; text-align: center; transition: 0.3s; }
-
-        /* ADVANCED ACCORDION FAQ UI */
-        .faq-search-wrapper { margin: 20px 0 25px 0; text-align: left; }
-        .faq-search-input { width: 100%; padding: 14px 20px; border: 2px solid #cbd5e1; border-radius: 12px; font-size: 15px; outline: none; transition: 0.3s; }
-        .faq-search-input:focus { border-color: var(--tn-blue); box-shadow: 0 0 10px rgba(13,71,161,0.1); }
-        .faq-accordion-item { background: #ffffff; border: 1px solid #e2e8f0; border-radius: 12px; margin-bottom: 12px; overflow: hidden; transition: 0.3s; box-shadow: 0 2px 4px rgba(0,0,0,0.01); }
-        .faq-accordion-header { width: 100%; background: #ffffff; padding: 18px 20px; text-align: left; border: none; outline: none; font-size: 16px; font-weight: 700; color: var(--tn-blue); cursor: pointer; display: flex; justify-content: space-between; align-items: center; transition: 0.3s; }
-        .faq-accordion-header:hover { background: #f1f5f9; }
-        .faq-accordion-header .icon { font-size: 18px; font-weight: bold; color: var(--tn-dark); transition: transform 0.3s; }
-        .faq-accordion-item.active .faq-accordion-header .icon { transform: rotate(45deg); }
-        .faq-accordion-content { max-height: 0; overflow: hidden; transition: max-height 0.3s ease-out; background: #fafafa; }
-        .faq-accordion-body { padding: 20px; font-size: 15px; line-height: 1.7; color: #475569; border-top: 1px solid #f1f5f9; text-align: justify; }
 
         /* CLEAN FIXED SEO ARTICLE LAYER */
         .seo-article { 
@@ -171,7 +143,7 @@
             * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
             @page { margin: 15mm; size: A4 portrait; }
             body { background: #ffffff !important; color: #000000 !important; padding: 0; margin: 0; }
-            .tool-wrapper > header, .lang-switch, .sec-h, .input-grid, .btn-calc, .util-btns, #resHead, .seo-article, .back-btn, .smart-alert-box { display: none !important; }
+            .tool-wrapper > header, .lang-switch, .sec-h, .input-grid, .btn-calc, .util-btns, #resHead, .seo-article, .back-btn { display: none !important; }
             .res-panel { display: block !important; background: #ffffff !important; color: #000000 !important; padding: 25px !important; width: 100% !important; box-sizing: border-box; border: 3px double var(--tn-blue) !important; border-radius: 0px !important; }
             
             .print-header-block { display: block !important; text-align: center; border-bottom: 2px solid var(--tn-blue) !important; padding-bottom: 12px; margin-bottom: 20px; }
@@ -214,12 +186,12 @@
 
             <div class="input-group">
                 <label for="areaInput" id="lblArea">Enter Total Area</label>
-                <input type="number" id="areaInput" placeholder="Example: 1" step="any" oninput="updateSmartAlert()">
+                <input type="number" id="areaInput" placeholder="Example: 1" step="any">
             </div>
 
             <div class="input-group">
                 <label for="rateInput" id="lblRate">Guideline Value Rate (per Unit)</label>
-                <input type="number" id="rateInput" placeholder="Enter Rate in ₹" step="any" oninput="updateSmartAlert()">
+                <input type="number" id="rateInput" placeholder="Enter Rate in ₹" step="any">
                 <a href="https://tnreginet.gov.in/" target="_blank" class="helper-text" style="color: #e65100; text-decoration: none;">🌐 Check Guideline Rates (TNREGINET) ↗</a>
             </div>
 
@@ -229,10 +201,6 @@
                     <option value="uniform">Standard Structure (7% Stamp + 4% Reg)</option>
                 </select>
             </div>
-        </div>
-
-        <div class="smart-alert-box" id="smartAlertBox">
-            💡 <strong>Smart Insight:</strong> Please enter the area size and rate to check real estate allocation and compliance hints.
         </div>
 
         <button class="btn-calc" onclick="calculateTNLandCost()" id="btnText">Calculate Valuation Now</button>
@@ -329,73 +297,6 @@
         </section>
 
         <section>
-            <h2 id="hSec3">5 Practical Examples of Property Purchases in Tamil Nadu</h2>
-            <p id="pExampleDesc">To make it extremely clear how the 11% combined tax works, here are 5 realistic case scenarios across different layout locations in Tamil Nadu based on the 2026 guidelines rules:</p>
-            <div style="overflow-x: auto;">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Case / Location</th>
-                            <th>Input Area Metrics</th>
-                            <th>Rate (per Unit)</th>
-                            <th>Pure Land Cost</th>
-                            <th>Stamp Duty (7%)</th>
-                            <th>Reg Fee (4%)</th>
-                            <th>Grand Total Cost</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td><b>1. Chennai Suburb (Plot)</b></td>
-                            <td>1 Ground (2,400 Sq Ft)</td>
-                            <td>₹4,000 / Sq Ft</td>
-                            <td>₹96,00,000</td>
-                            <td>₹6,72,000</td>
-                            <td>₹3,84,000</td>
-                            <td><b>₹1,06,56,000</b></td>
-                        </tr>
-                        <tr>
-                            <td><b>2. Coimbatore (Cent Layout)</b></td>
-                            <td>5 Cents (2,178 Sq Ft)</td>
-                            <td>₹5,00,000 / Cent</td>
-                            <td>₹25,00,000</td>
-                            <td>₹1,75,000</td>
-                            <td>₹1,00,000</td>
-                            <td><b>₹27,75,000</b></td>
-                        </tr>
-                        <tr>
-                            <td><b>3. Madurai (Sq Ft Basis)</b></td>
-                            <td>1,500 Square Feet</td>
-                            <td>₹2,500 / Sq Ft</td>
-                            <td>₹37,50,000</td>
-                            <td>₹2,62,500</td>
-                            <td>₹1,50,000</td>
-                            <td><b>₹41,62,500</b></td>
-                        </tr>
-                        <tr>
-                            <td><b>4. Trichy Rural (Acre Plot)</b></td>
-                            <td>0.5 Acre (21,780 Sq Ft)</td>
-                            <td>₹30,00,000 / Acre</td>
-                            <td>₹15,00,000</td>
-                            <td>₹1,05,000</td>
-                            <td>₹60,000</td>
-                            <td><b>₹16,65,000</b></td>
-                        </tr>
-                        <tr>
-                            <td><b>5. Industrial Tier (Ground)</b></td>
-                            <td>2 Grounds (4,800 Sq Ft)</td>
-                            <td>₹1,20,000 / Ground</td>
-                            <td>₹2,40,000</td>
-                            <td>₹16,800</td>
-                            <td>₹9,600</td>
-                            <td><b>₹2,66,400</b></td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </section>
-
-        <section>
             <h2>TN Land Registry Uniform Fee Logic Explained</h2>
             <p>Tamil Nadu revenue norms ke tahat registry structures me alag-alag buyer variables (jaise female concessions) standard systems layout me manya nahi hain. Sabhi residential plots, lands transactions aur buildings property models par flat **7% Stamp Duty** aur **4% Registration Charges** shamil hokar pure **11%** ka linear breakdown allocation set karte hain. Iska matlab hai ki agar aapki property keemat lakhon mein hai, toh sateek calculation nikalna hamare automated computational dashboard par behad aasan chalta hai.</p>
         </section>
@@ -411,11 +312,8 @@
         </section>
 
         <section id="faqContainer">
-            <h2 id="hFaqHead">15 Extended Frequently Asked Questions (FAQs) - தமிழ்நாடு நில பதிவு கட்டணங்கள் 2026</h2>
-            <div class="faq-search-wrapper">
-                <input type="text" id="faqSearch" class="faq-search-input" placeholder="🔍 Search FAQs by keywords... (கேள்விகளை தேடவும்)" oninput="filterFAQs()">
-            </div>
-            <div id="faqAccordionList"></div>
+            <h2 id="hFaqHead">15 Extended Frequently Asked Questions (FAQs) - தமிழ்நாடு நில பதிவு கட்டணங்கள் ২০২৬</h2>
+            <div id="faqList"></div>
         </section>
 
         <h3 id="lblDashTitle">Related Land Utilities & Internal Dashboards</h3>
@@ -448,7 +346,7 @@
 
         let currentLang = 'en';
 
-        // 🔥 15 STRICTLY LOCALIZED REGISTRY FAQS FOR TAMIL NADU
+        // 15 strictly localized FAQs
         const faqsData = [
             {
                 q_en: "What is the combined stamp duty and registration rate in Tamil Nadu for 2026?",
@@ -532,7 +430,7 @@
                 q_en: "What is the alternative conversion scale for 1 Cent into Square Yards?",
                 a_en: "1 standard Cent map allocation translates to precisely 48.4 Square Yards (Gaj) boundary matrix parameter.",
                 q_ta: "1 சென்ட் நிலத்தை சதுர கஜத்தில் (Square Yards) எவ்வாறு மாற்றுவது?",
-                a_ta: "1 சென்ட் நில அளவு என்பது துல்லியமாக 48.4 சதுர கஜம் (Gaj) எல்லை அளவுருவிற்கு சமமாகும்."
+                a_ta: "1 சென்ட் நில அளவு என்பது துல்லியமாக 48.4 சதுர கஜம் (Gaj) எல்லை அளவுరుவிற்கு சமமாகும்."
             },
             {
                 q_en: "Who authored the operational core logic execution code of this TN calculator?",
@@ -566,15 +464,11 @@
                 seos: "Calculate property value, effective stamp duty, and registration charges in Tamil Nadu instantly.",
                 h1: "Current Property Registry Duty Structure in TN 2026",
                 h2: "How to Use TN Land Cost & Registry Tool?",
-                h3: "5 Practical Examples of Property Purchases in Tamil Nadu",
-                pExDesc: "To make it extremely clear how the 11% combined tax works, here are 5 realistic case scenarios across different layout locations in Tamil Nadu based on the 2026 guidelines rules:",
                 dt: "Related Land Utilities & Internal Dashboards",
                 d1: "Main Dashboard", d2: "AP Land Tool", d3: "Karnataka Tool", d4: "Assam Land Tool", d5: "Price Calculator",
                 ch: "🔒 Copyright & Legal Rights Reserved",
                 cb: "<strong>Copyright © 2026 Shayan Smart Tools. All Rights Reserved.</strong><br><br>Is software calculator module ka core code engine layout, arithmetic algorithms aur optimized data indexing <b>Muksidul Islam</b> ke proprietary engineering development rights ke under managed hain. Unauthorized duplication completely restricted hai.<br><br><b>Disclaimer:</b> Localized corporation cess bounds and smart urban limits rules modifications ke anusaar minimal decimal points change checks fields dynamically badal sakte hain. Final execution se pehle sub-registrar portal check zarur karein.",
-                faqH: "15 Extended Frequently Asked Questions (FAQs) - தமிழ்நாடு நில பதிவு கட்டணங்கள் 2026",
-                alertInit: "💡 <strong>Smart Insight:</strong> Please enter the area size and rate to check real estate allocation and compliance hints.",
-                alertCalc: "✅ <strong>Live Metrics:</strong> Base calculations structured under 2026 stamp rules framework. Ready to execute valuation sequence!"
+                faqH: "15 Extended Frequently Asked Questions (FAQs) - தமிழ்நாடு நில பதிவு கட்டணங்கள் ২০২৬"
             },
             ta: {
                 mTitle: "தமிழ்நாடு நில பதிவு கட்டண கால்குலேட்டர்",
@@ -599,91 +493,33 @@
                 seos: "தமிழ்நாட்டில் சொத்து மதிப்பு, முத்திரைத்தாள் மற்றும் பதிவு கட்டணத்தை துல்லியமாக கணக்கிடுவதற்கான அதிகாரப்பூர்வ வழிகாட்டி.",
                 h1: "தமிழக நில பதிவு கட்டண விகிதங்கள் 2026",
                 h2: "தமிழ்நாடு நில மதிப்பு கால்குலேட்டரை எவ்வாறு பயன்படுத்துவது?",
-                h3: "தமிழ்நாட்டில் சொத்து வாங்குவதற்கான 5 நடைமுறை உதாரணங்கள்",
-                pExDesc: "11% ஒருங்கிணைந்த வரி எவ்வாறு செயல்படுகிறது என்பதைத் தெளிவாகத் தெரிந்துகொள்ள, 2026 வழிகாட்டுதல் விதிகளின்படி தமிழ்நாட்டின் பல்வேறு இடங்களில் உள்ள 5 நடைமுறை உதாரணங்கள் கீழே கொடுக்கப்பட்டுள்ளன:",
                 dt: "தொடர்புடைய டிஜிட்டல் கருவிகள் மற்றும் டாஷ்போர்டு",
                 d1: "🏠 முதன்மை டாஷ்போர்டு", d2: "ஆந்திரா நில கால்குலேட்டர்", d3: "கர்நாடகா நில கால்குலேட்டர்", d4: "அசாம் நில கால்குலேட்டர்", d5: "விலை கால்குலேட்டர்",
                 ch: "🚫 பதிப்புரிமை மற்றும் சட்டப்பூர்வ உரிமைகள் பாதுகாக்கப்பட்டவை",
                 cb: "<strong>பதிப்புரிமை © 2026 ஷயான் ஸ்மார்ட் டூல்ஸ். அனைத்து உரிமைகளும் பாதுகாக்கப்பட்டவை.</strong><br><br>இந்த மென்பொருள் கால்குலேட்டரின் முக்கிய குறியீடு, கணித வழிமுறைகள் மற்றும் தரவு குறியீடுகள் <b>முகசிதுல் இஸ்லாம்</b> (Muksidul Islam) இன் தனியுரிமை பொறியியல் உரிமைகளின் கீழ் நிர்வகிக்கப்படுகிறது. இதன் நகல் எடுப்பது முற்றிலும் தடைசெய்யப்பட்டுள்ளது.<br><br><b>பொறுப்புத் துறப்பு:</b> உள்ளூர் நகராட்சி கூடுதல் கட்டணங்கள் விதிகளின்படி பதிவு மதிப்புகளில் சிறிய மாற்றங்கள் ஏற்படலாம். இறுதிப் பதிவிற்கு முன் அதிகாரப்பூர்வ போர்ட்டலில் சரிபார்க்கவும்.",
-                faqH: "15 விரிவாக்கப்பட்ட அடிக்கடி கேட்கப்படும் கேள்விகள் (FAQs) - 2026",
-                alertInit: "💡 <strong>தகவல்:</strong> ரியல் எஸ்டேட் ஒதுக்கீடு மற்றும் இணக்கக் குறிப்புகளைச் சரிபார்க்க பரப்பளவு மற்றும் வழிகாட்டி மதிப்பை உள்ளிடவும்.",
-                alertCalc: "✅ <strong>நேரடி நிலை:</strong> 2026 முத்திரை விதிகளின் கீழ் கணக்கீடுகள் தயாராக உள்ளன. இப்போது சொத்து மதிப்பை துல்லியமாக சரிபார்க்கலாம்!"
+                faqH: "15 விரிவாக்கப்பட்ட அடிக்கடி கேட்கப்படும் கேள்விகள் (FAQs) - 2026"
             }
         };
 
         function renderFAQs() {
-            const listContainer = document.getElementById('faqAccordionList');
+            const listContainer = document.getElementById('faqList');
             listContainer.innerHTML = '';
             
             faqsData.forEach((faq, index) => {
                 const question = (currentLang === 'en') ? faq.q_en : faq.q_ta;
                 const answer = (currentLang === 'en') ? faq.a_en : faq.a_ta;
                 
-                const faqItem = document.createElement('div');
-                faqItem.className = 'faq-accordion-item';
+                const faqBlock = document.createElement('div');
+                faqBlock.style.borderBottom = '1px solid #e2e8f0';
+                faqBlock.style.paddingBottom = '15px';
+                faqBlock.style.marginBottom = '15px';
                 
-                faqItem.innerHTML = `
-                    <button class="faq-accordion-header" onclick="toggleAccordion(this)">
-                        <span>Q${index + 1}. ${question}</span>
-                        <span class="icon">+</span>
-                    </button>
-                    <div class="faq-accordion-content">
-                        <div class="faq-accordion-body">
-                            <strong>Ans:</strong> ${answer}
-                        </div>
-                    </div>
+                faqBlock.innerHTML = `
+                    <h4 style="color:var(--tn-blue); margin-bottom:8px;">Q${index + 1}. ${question}</h4>
+                    <p style="margin:0;">Ans: ${answer}</p>
                 `;
-                listContainer.appendChild(faqItem);
+                listContainer.appendChild(faqBlock);
             });
-        }
-
-        function toggleAccordion(header) {
-            const item = header.parentElement;
-            const content = header.nextElementSibling;
-            const isOpen = item.classList.contains('active');
-            
-            // Close all items
-            document.querySelectorAll('.faq-accordion-item').forEach(el => {
-                el.classList.remove('active');
-                el.querySelector('.faq-accordion-content').style.maxHeight = null;
-            });
-
-            if (!isOpen) {
-                item.classList.add('active');
-                content.style.maxHeight = content.scrollHeight + "px";
-            }
-        }
-
-        function filterFAQs() {
-            const query = document.getElementById('faqSearch').value.toLowerCase();
-            const items = document.querySelectorAll('.faq-accordion-item');
-            
-            items.forEach(item => {
-                const text = item.innerText.toLowerCase();
-                if (text.includes(query)) {
-                    item.style.display = "block";
-                } else {
-                    item.style.display = "none";
-                }
-            });
-        }
-
-        function updateSmartAlert() {
-            const area = parseFloat(document.getElementById('areaInput').value);
-            const rate = parseFloat(document.getElementById('rateInput').value);
-            const alertBox = document.getElementById('smartAlertBox');
-
-            if (!isNaN(area) && area > 0 && !isNaN(rate) && rate > 0) {
-                alertBox.innerHTML = dict[currentLang].alertCalc;
-                alertBox.style.backgroundColor = "#e8f5e9";
-                alertBox.style.borderColor = "#81c784";
-                alertBox.style.color = "#2e7d32";
-            } else {
-                alertBox.innerHTML = dict[currentLang].alertInit;
-                alertBox.style.backgroundColor = "var(--alert-bg)";
-                alertBox.style.borderColor = "var(--alert-border)";
-                alertBox.style.color = "#b78103";
-            }
         }
 
         function updateUnitHelper() {
@@ -726,8 +562,6 @@
             document.getElementById('seoSubTitle').innerText = dict[lang].seos;
             document.getElementById('hSec1').innerText = dict[lang].h1;
             document.getElementById('hSec2').innerText = dict[lang].h2;
-            document.getElementById('hSec3').innerText = dict[lang].h3;
-            document.getElementById('pExampleDesc').innerText = dict[lang].pExDesc;
             document.getElementById('lblDashTitle').innerText = dict[lang].dt;
             
             document.getElementById('dshHome').innerText = dict[lang].d1;
@@ -745,7 +579,6 @@
             document.getElementById('lnkBack').innerText = dict[lang].lnkBack;
 
             updateUnitHelper();
-            updateSmartAlert();
             renderFAQs();
 
             if(document.getElementById('resPanel').style.display === "block") {
@@ -772,7 +605,7 @@
             let totalSqft = area * conversionFactor;
             let landCost = area * rate;
             let stampDuty = landCost * 0.07;
-            let regFees = landCost * 0.04; // 🔥 4% 2026 REGISTRATION FEES POLICY
+            let regFees = landCost * 0.04; 
             let grandTotal = landCost + stampDuty + regFees;
 
             document.getElementById('outTotalSqft').innerText = Math.round(totalSqft).toLocaleString('en-IN') + " Sq Ft";
@@ -786,10 +619,10 @@
             document.getElementById('pDocDate').innerText = today + " (IST)";
 
             let unitNameText = "Units";
-            if(unit === 'ground') unitNameText = currentLang === 'en' ? "Ground" : "கிரவுண்ட் / ग्राउन्ड";
-            if(unit === 'cent') unitNameText = currentLang === 'en' ? "Cent" : "சென்ட் / सेंट";
-            if(unit === 'acre') unitNameText = currentLang === 'en' ? "Acre" : "ஏக்கர் / एकड़";
-            if(unit === 'sqft') unitNameText = currentLang === 'en' ? "Square Feet" : "சதுர அடி / वर्ग फीट";
+            if(unit === 'ground') unitNameText = currentLang === 'en' ? "Ground" : "கிரவுண்ட்";
+            if(unit === 'cent') unitNameText = currentLang === 'en' ? "Cent" : "சென்ட்";
+            if(unit === 'acre') unitNameText = currentLang === 'en' ? "Acre" : "ஏக்கர்";
+            if(unit === 'sqft') unitNameText = currentLang === 'en' ? "Square Feet" : "சதுர அடி";
 
             document.getElementById('rInputVal').innerText = `${area} ${unitNameText}`;
 
