@@ -1,13 +1,13 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="mr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Maharashtra Land Cost & Registry Budget Calculator Free 2026 | महाराष्ट्र जमीन रजिस्ट्री कैलकुलेटर | Shayan Smart Tools</title>
+    <title>Maharashtra Land Cost & Registry Budget Calculator Free 2026 | महाराष्ट्र जमीन खरेदी व मुद्रांक शुल्क कॅल्क्युलेटर | Shayan Smart Tools</title>
     <link class="canonical" href="https://shayansmarttools.in/maharashtra-land-cost-calculator.html" />
 
-    <meta name="description" content="Official Maharashtra Land Cost & Registry Budget Calculator. Convert Hectare, Acre, and Sq Feet to evaluate precise Maharashtra Stamp Duty (5%-7%) & Registration Fees dynamically.">
-    <meta name="keywords" content="Maharashtra Land Cost Calculator, महाराष्ट्र जमीन रजिस्ट्री कैलकुलेटर, Maharashtra Stamp Duty 2026, Mahabhulekh land valuation calculator, Shayan Smart Tools, Maharashtra Land Rates, Mahabhulekh 7/12, Urban Rural registry maharashtra">
+    <meta name="description" content="Official Maharashtra Land Cost & Registry Budget Calculator. Convert Hectare, Guntha, and Sq Feet to evaluate precise IGR Maharashtra Stamp Duty, Metro Cess & Registration Fees dynamically.">
+    <meta name="keywords" content="Maharashtra Land Cost Calculator, महाराष्ट्र जमीन खरेदी कॅल्क्युलेटर, IGR Maharashtra Stamp Duty 2026, Mahabhumi land valuation calculator, Shayan Smart Tools, Maharashtra Land Rates, Bhulekh Mahabhumi 7/12, Urban Rural registry maharashtra">
     <meta name="author" content="Muksidul Islam">
     <meta name="robots" content="index, follow">
 
@@ -135,9 +135,53 @@
         .sst-dash-title { flex: 1; line-height: 1.3; text-align: left; }
         .sst-dash-btn:hover { border-color: var(--cg-green); transform: translateY(-4px); background: linear-gradient(135deg, #ffffff, #f0f4f8); }
 
-        .sst-github-seal-wrapper { display: flex; flex-direction: column; align-items: flex-end; margin-top: 10px; }
-        .sst-seal-frame { width: 120px; height: 120px; display: flex; align-items: center; justify-content: center; overflow: hidden; }
-        .sst-seal-frame img { max-width: 100%; max-height: 100%; object-fit: contain; }
+        /* LOGO & SEAL VISUAL HANDLING FOR PRINT */
+        .print-logo-frame {
+            width: 50px;
+            height: 50px;
+            background-color: var(--cg-green);
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 900;
+            font-size: 16px;
+            border: 2px solid var(--cg-gold);
+        }
+        .sst-github-seal-wrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            margin-top: 10px;
+        }
+        .sst-seal-frame {
+            width: 120px;
+            height: 120px;
+            border: 3px double var(--cg-green);
+            border-radius: 50%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: #fff;
+            color: var(--cg-green);
+            font-family: 'Roboto', sans-serif;
+            font-size: 10px;
+            font-weight: bold;
+            text-align: center;
+            box-shadow: 0 0 5px rgba(0,0,0,0.1);
+        }
+        .sst-seal-inner {
+            border: 1px dashed var(--cg-gold);
+            width: 104px;
+            height: 104px;
+            border-radius: 50%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
 
         @media (max-width: 600px) {
             .input-grid { grid-template-columns: 1fr; gap: 12px; }
@@ -149,7 +193,7 @@
             .donut-chart::before { width: 75px; height: 75px; }
         }
 
-        /* PREMIUM PRINT MATRIX */
+        /* PREMIUM PRINT MATRIX WITH VISIBLE LOGO AND SEAL */
         @media print {
             * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; color-adjust: exact !important; }
             @page { margin: 15mm; size: A4 portrait; }
@@ -180,54 +224,54 @@
     <div class="tool-wrapper">
         <header>
             <h1 id="mTitle">Maharashtra Land Cost & Registry Calculator</h1>
-            <p id="sTitle">Evaluate total land value along with Maharashtra Stamp Duty (5-7%) & Registration Fees dynamically.</p>
+            <p id="sTitle">Evaluate total land value along with IGR Maharashtra Stamp Duty & Registration Fees dynamically.</p>
         </header>
 
         <div class="lang-switch">
             <button class="l-btn active" id="enBtn" onclick="setLang('en')">English</button>
-            <button class="l-btn" id="hiBtn" onclick="setLang('hi')">हिन्दी</button>
+            <button class="l-btn" id="mrBtn" onclick="setLang('mr')">मराठी</button>
         </div>
 
         <div class="input-grid">
             <div class="field">
                 <label id="lblInputArea">Land Area Value</label>
-                <input type="number" id="landArea" placeholder="Example: 1.5" step="any">
+                <input type="number" id="landArea" placeholder="Example: 5" step="any">
             </div>
 
             <div class="field">
                 <label id="lblAreaUnit">Area Unit</label>
                 <select id="areaUnitSelect">
-                    <option value="acre">Acre (एकड़)</option>
-                    <option value="hectare">Hectare (हेक्टेयर)</option>
-                    <option value="sqft">Square Feet (वर्ग फीट)</option>
+                    <option value="guntha">Guntha (गुंठा)</option>
+                    <option value="hectare">Hectare (हेक्टर)</option>
+                    <option value="sqft">Square Feet (चौरस फूट)</option>
                 </select>
             </div>
 
             <div class="field">
                 <label id="lblUnitPrice">Price Per Unit (₹)</label>
-                <input type="number" id="unitPrice" placeholder="Example: 1200000" step="any">
+                <input type="number" id="unitPrice" placeholder="Example: 50000" step="any">
             </div>
 
             <div class="field">
-                <label id="lblRegion">Region Jurisdiction (क्षेत्र वर्गीकरण)</label>
+                <label id="lblRegion">Region Classification (प्रदेश वर्गीकरण)</label>
                 <select id="regionSelect">
-                    <option value="urban">Municipal Corporation / Urban (Stamp 7%)</option>
-                    <option value="rural">Gram Panchayat / Rural (Stamp 5%)</option>
+                    <option value="urban">Municipal Corp / Urban (महानगरपालिका - 1% Metro Cess)</option>
+                    <option value="rural">Rural / Gram Panchayat (ग्रामीण क्षेत्र)</option>
                 </select>
             </div>
 
             <div class="field">
-                <label id="lblOwnership">Ownership Type (स्वामित्व प्रकार)</label>
+                <label id="lblOwnership">Ownership Type (मालकी प्रकार)</label>
                 <select id="ownershipSelect">
-                    <option value="male">Standard (सामान्य)</option>
-                    <option value="female">Female (महिला - 1% Stamp Concession)</option>
+                    <option value="male">Male / General (पुरुष / सामान्य - Stamp 6%)</option>
+                    <option value="female">Female (महिला - 1% Stamp Rebate)</option>
                     <option value="joint">Joint (संयुक्त)</option>
                 </select>
             </div>
 
             <div class="field">
-                <label id="lblKhasra">Mahabhulekh Gat / Survey No. (Optional)</label>
-                <input type="text" id="khasraInput" placeholder="e.g. 12/4 या 45">
+                <label id="lblKhasra">Mahabhumi 7/12 Gat No. / Survey No. (Optional)</label>
+                <input type="text" id="khasraInput" placeholder="e.g. 45/A या 112">
             </div>
         </div>
 
@@ -238,7 +282,7 @@
             <a href="https://bhulekh.mahabhumi.gov.in/" target="_blank" class="govt-card-link">
                 <div class="govt-card-left">
                     <span class="icon">🌐</span>
-                    <span id="lblBhuiyanLink">Mahabhulekh Portal (Maharashtra 7/12 Land Records System)</span>
+                    <span id="lblBhuiyanLink">Mahabhumi Portal (Maharashtra 7/12 Land Records System)</span>
                 </div>
                 <div class="govt-card-right">➔</div>
             </a>
@@ -254,27 +298,28 @@
         <div id="resPanel" class="res-panel">
             
             <div class="print-header-block">
-                <div style="display: flex; justify-content: center; align-items: center; gap: 10px; margin-bottom: 5px;">
+                <div style="display: flex; justify-content: center; align-items: center; gap: 12px; margin-bottom: 5px;">
+                    <div class="print-logo-frame">SST</div>
                     <h2 style="font-size: 22px; color: var(--cg-green); margin: 0; font-weight: 900; letter-spacing: 1px;">SHAYAN SMART TOOLS</h2>
                 </div>
-                <p style="font-size: 11px; color: var(--cg-gold); font-weight: bold; margin: 0 0 10px 0; letter-spacing: 0.5px; text-transform: uppercase;">MAHARASHTRA LAND VALUATION & REGISTRY SUMMARY - 2026</p>
+                <p style="font-size: 11px; color: var(--cg-gold); font-weight: bold; margin: 0 0 10px 0; letter-spacing: 0.5px; text-transform: uppercase;">MAHARASHTRA MAHABHUMI LAND VALUATION & REGISTRY SUMMARY - 2026</p>
                 
                 <div style="background: #f8fafc; border: 1px solid #cbd5e1; padding: 10px; border-radius: 4px; display: grid; grid-template-columns: 1fr 1fr; font-size: 11px; text-align: left; gap: 5px; color: #334155;">
                     <div><strong>DOCUMENT REF:</strong> <span id="pDocRef" style="color:var(--cg-green); font-weight:bold;">SST-MH-REGS-00000</span></div>
                     <div style="text-align: right;"><strong>DATE:</strong> <span id="pDocDate">--/--/----</span></div>
                     <div><strong>JURISDICTION:</strong> State of Maharashtra (MH)</div>
-                    <div style="text-align: right;"><strong>SURVEY / GAT NO:</strong> <span id="pDocKhasra" style="font-weight:bold; color:var(--cg-gold);">N/A</span></div>
+                    <div style="text-align: right;"><strong>GAT / SURVEY NO:</strong> <span id="pDocKhasra" style="font-weight:bold; color:var(--cg-gold);">N/A</span></div>
                 </div>
             </div>
 
             <div class="registry-disclaimer" id="discBox">
                 <strong id="discTitle">⚠️ REGISTRY ASSESSMENT NOTICE & DISCLAIMER:</strong>
-                <span id="discText">The calculations generated below are standard estimates configured as per the latest Maharashtra regulatory acts. Exact registration values, circle guideline adjustments, and scanning fees can vary inside the Sub-Registrar Office ledger logs.</span>
+                <span id="discText">The calculations generated below are standard estimates configured as per the latest Maharashtra regulatory acts. Exact registration values, ready reckoner adjustments, and local body cess can vary inside the Sub-Registrar Office ledger logs.</span>
             </div>
 
             <div class="cg-standard-banner">
-                <p id="lblStandardFormat">Mahabhulekh Standard Matrix:</p>
-                <h4 id="cgStandardOutput">0.0000 Acre Allocation</h4>
+                <p id="lblStandardFormat">Maharashtra Standard Unit Matrix:</p>
+                <h4 id="cgStandardOutput">0.0000 Guntha Allocation</h4>
             </div>
 
             <div class="conversion-results-title" id="resHead">Conversion Results / Breakdown</div>
@@ -282,11 +327,12 @@
             <div class="res-grid">
                 <div class="res-item" id="print-input-row" style="display:none;"><span>Input Data Feed Context:</span> <b id="rInputVal">-</b></div>
                 <div class="res-item"><span>Total Equivalent Square Feet (Sq.Ft):</span> <b id="outTotalSqft" class="price-tag">0 sq ft</b></div>
-                <div class="res-item"><span>Total Equivalent Acre:</span> <b id="outTotalHectare">0.0000 Acre</b></div>
+                <div class="res-item"><span>Total Equivalent Guntha:</span> <b id="outTotalHectare">0.0000 Guntha</b></div>
                 <div class="res-item"><span>Pure Land Market Cost (₹):</span> <b id="outLandCost" class="price-tag">₹0</b></div>
                 <div class="res-item"><span>Base Stamp Duty Amount (₹):</span> <b id="outStampDuty">₹0</b></div>
-                <div class="res-item"><span>Registration Fees Structure (1% Capped):</span> <b id="outRegFees">₹0</b></div>
-                <div class="res-item"><span>Government Standard Exemption:</span> <b id="outExemption" style="color: #22c55e;">Maharashtra ₹30,000 Capping Standard Alignment Applied</b></div>
+                <div class="res-item"><span>Metro Cess / Local Body Tax (₹):</span> <b id="outCess">₹0</b></div>
+                <div class="res-item"><span>Registration Fees Structure (₹):</span> <b id="outRegFees">₹0</b></div>
+                <div class="res-item"><span>Government Standard Exemption:</span> <b id="outExemption" style="color: #22c55e;">Standard Structural Alignment Applied</b></div>
                 <div class="highlight-panel res-item"><span>Total Estimated Acquisition Budget (₹):</span> <b id="outNetBudget" class="net-tag">₹0</b></div>
             </div>
 
@@ -301,7 +347,7 @@
                 </div>
                 <div class="chart-legends">
                     <div class="legend-item"><span class="legend-color" style="background:var(--cg-green);"></span><span id="legCost">Land Value Cost</span></div>
-                    <div class="legend-item"><span class="legend-color" style="background:var(--cg-gold);"></span><span id="legStamp">Stamp Duty</span></div>
+                    <div class="legend-item"><span class="legend-color" style="background:var(--cg-gold);"></span><span id="legStamp">Stamp Duty + Cess</span></div>
                     <div class="legend-item"><span class="legend-color" style="background:#1e40af;"></span><span id="legReg">Registration Fee</span></div>
                 </div>
             </div>
@@ -309,7 +355,19 @@
             <div class="print-footer-block">
                 <div style="margin: 0 auto; max-width: 100%; font-size: 11px; color: #475569; line-height: 1.6; text-align: center; position: relative;">
                     <p style="margin: 0; font-weight: bold; color: var(--cg-green); text-transform: uppercase; font-size: 12px; text-align: left;">🔒 SECURITY DISCLAIMER & VERIFICATION NOTICE</p>
-                    <p style="margin: 6px 0 0 0; text-align: left; max-width: 80%;">This computation is an automated metrics compilation sheet, generated via metrics evaluation frameworks configured under official Maharashtra revenue guidelines. Ready reckoner rates fluctuate depending upon actual parcel coordinates.</p>
+                    <p style="margin: 6px 0 0 0; text-align: left; max-width: 75%;">This computation is an automated metrics compilation sheet, generated via metrics evaluation frameworks configured under official Maharashtra revenue guidelines. Ready reckoner rates and regional sub-registrar ledger books fluctuate depending upon actual parcel coordinates.</p>
+                    
+                    <div class="sst-github-seal-wrapper">
+                        <div class="sst-seal-frame">
+                            <div class="sst-seal-inner">
+                                <div style="font-size: 8px; color: var(--cg-gold);">OFFICIAL SEAL</div>
+                                <div style="font-size: 11px; font-weight: 900; margin: 2px 0;">VERIFIED</div>
+                                <div style="font-size: 7px; color: #475569;">SHAYAN SMART TOOLS</div>
+                                <div style="font-size: 6px; margin-top: 2px;">2026 AUDIT</div>
+                            </div>
+                        </div>
+                    </div>
+
                     <div style="display: block; border: 1px dashed var(--cg-green); padding: 6px 20px; border-radius: 4px; margin-top: 15px; margin-bottom: 12px; background: #f8fafc; font-size: 10px; font-weight: bold; color: var(--cg-green); text-transform: uppercase; text-align: center;">
                         SHAYAN SMART TOOLS [AUTOMATED SEAL LEDGER LAYER]
                     </div>
@@ -333,16 +391,16 @@
     <article class="seo-article">
         <div class="seo-header-block">
             <h2>Maharashtra Land Cost & Registry Calculator: Professional Valuation Architecture</h2>
-            <p style="font-size: 18px; color: #555; margin: 5px 0 0 0;">Comprehensive system to evaluate Maharashtra benchmark values, stamp duty structures, and Mahabhulekh records acquisition processes.</p>
+            <p style="font-size: 18px; color: #555; margin: 5px 0 0 0;">Comprehensive system to evaluate Maharashtra benchmark values, stamp duty structures, and Mahabhumi records acquisition processes.</p>
         </div>
 
         <section>
             <h3>1. Understanding Real Estate Acquisitional Costs in Maharashtra</h3>
             <p>
-                Maharashtra real estate ecosystem me property buying transactions execute karte waqt capital requirement budget sheet ka sateek assessment nikalna sabsay complex tasks me se ek hota hai. Maharashtra Revenue department aur Registration and Stamps Department ke dynamic regulation matrices ke compliance rules ke anusar property records pricing systems strictly official benchmarks metrics standard par cross-evaluate hoti hain. 
+                Maharashtra real estate ecosystem madhe property buying transactions execute karat astana capital requirement budget sheet cha अचूक assessment nikalne sabsay complex tasks madhe se ek asta. Maharashtra Revenue department ani Registration and Stamps Department (**IGR Maharashtra**) chya dynamic regulation matrices ke compliance rules ke anusar property records pricing systems strictly official ready reckoner benchmarks metrics standard var cross-evaluate kele jate.
             </p>
             <p>
-                Agar aap Mumbai, Pune, Nagpur ya kisi anya division me zameen kharid rahe hain, toh zameen ki core valuation metrics calculations criteria transparent rakhne ke liye Shayan Smart Tools ne is **Maharashtra Land Cost & Registry Calculator** matrix pipeline engine ko built kiya hai. Official land documentations ke mapping framework ko balance karne ke liye, hamne isme se high-variance local units ko hatakar strictly official standard government parameters layers ko integration panel me link kiya hai.
+                Zameen kharedi chya market metrics calculations criteria transparent rakhnyasathi Shayan Smart Tools ne ha **Maharashtra Land Cost & Registry Calculator** matrix pipeline engine built kela ahe. Official land documentations chya mapping framework la balance karnyasaathi, aamhi yethil high-variance local units kadhun strictly official standard government parameters layers integration panel madhe link kele ahet.
             </p>
         </section>
 
@@ -358,43 +416,102 @@
                 </thead>
                 <tbody>
                     <tr>
-                        <td><b>Stamp Duty (Urban Zone)</b></td>
-                        <td>7.00%</td>
-                        <td>Includes 5% Base + 1% LBT + 1% Metro Cess across Municipal Corporations.</td>
+                        <td><b>Stamp Duty (Standard Urban)</b></td>
+                        <td>6.00%</td>
+                        <td>Applied on entire market valuation value computed via IGR Maharashtra benchmarks.</td>
                     </tr>
                     <tr>
-                        <td><b>Stamp Duty (Rural Zone)</b></td>
-                        <td>5.00%</td>
-                        <td>Standard baseline applied on entire market circle valuation inside Gram Panchayats.</td>
+                        <td><b>Female Ownership Rebate</b></td>
+                        <td>1.00% Exemption</td>
+                        <td>Automatic 1% reduction applied directly onto the baseline stamp metrics if selected.</td>
                     </tr>
                     <tr>
-                        <td><b>Female Ownership Concession</b></td>
-                        <td>-1.00% Discount</td>
-                        <td>1% rebate applied directly on stamp duty rates for lone female buyers.</td>
+                        <td><b>Metro Cess / LBT</b></td>
+                        <td>1.00% Dynamic</td>
+                        <td>Mandatory infrastructure tax calculated dynamically across urban municipal corporation zones.</td>
                     </tr>
                     <tr>
                         <td><b>Registration Fees</b></td>
-                        <td>1.00% (Capped at ₹30,000)</td>
-                        <td>Flat 1% applied but max capped at ₹30,000 for properties above ₹30 Lakhs.</td>
+                        <td>1% (Max ₹30,000)</td>
+                        <td>Capped strictly at maximum threshold of thirty thousand rupees for asset profiles over 30 Lakhs.</td>
                     </tr>
                     <tr>
-                        <td><b>Official Acre Base</b></td>
-                        <td>43,560 Sq. Ft.</td>
-                        <td>Standard tracking unit verified over Mahabhulekh records mapping ledger layout sheets.</td>
+                        <td><b>Official Guntha Base</b></td>
+                        <td>1,089 Sq. Ft.</td>
+                        <td>Standard tracking unit verified over Mahabhumi 7/12 records mapping ledger layouts.</td>
                     </tr>
                 </tbody>
             </table>
         </div>
 
+        <section>
+            <h2>2. Practical Mathematical Computation Examples</h2>
+            <p>
+                Real estate financial frameworks la changल्या प्रकारे samajhnyasathi chala don practical examples theoretical layout matrices chya adharavar samajhun gheu:
+            </p>
+            
+            <h3>Example A: Urban Region Acquisition (Male / General Ownership)</h3>
+            <ul>
+                <li><b>Input Dimensions:</b> 10 Guntha Area mapped at ₹2,00,000 per Guntha baseline rate.</li>
+                <li><b>Pure Land Market Cost:</b> 10 * ₹2,00,000 = ₹20,00,000.</li>
+                <li><b>Stamp Duty Assessment (6%):</b> 6% of ₹20,00,000 = ₹1,20,000.</li>
+                <li><b>Metro Cess Deployment (1%):</b> 1% of ₹20,00,000 = ₹20,00,000 * 1% = ₹20,000.</li>
+                <li><b>Registration Charges (1%):</b> Formula applied: ₹20,00,000 * 1% = ₹20,000 (Under 30L cap).</li>
+                <li><b>Total Estimated Net Budget:</b> ₹20,00,000 + ₹1,20,000 + ₹20,000 + ₹20,000 = <b>₹21,80,000</b>.</li>
+            </ul>
+
+            <h3>Example B: Urban Region Acquisition (Female Exemption Applied)</h3>
+            <ul>
+                <li><b>Input Dimensions:</b> 20 Guntha Area mapped at ₹2,50,000 per Guntha urban circle rate.</li>
+                <li><b>Pure Land Market Cost:</b> 20 * ₹2,50,000 = ₹50,00,000.</li>
+                <li><b>Stamp Duty Assessment (5% Female Concession):</b> 5% of ₹50,00,000 = ₹2,50,000.</li>
+                <li><b>Metro Cess Deployment (1%):</b> 1% of ₹50,00,000 = ₹50,000.</li>
+                <li><b>Registration Charges (Capped):</b> Value is above 30 Lakhs, so flat <b>₹30,000</b> limit applies.</li>
+                <li><b>Total Estimated Net Budget:</b> ₹50,00,000 + ₹2,50,000 + ₹50,000 + ₹30,000 = <b>₹53,30,000</b>.</li>
+            </ul>
+        </section>
+
+        <section>
+            <h2>3. Mandatory Documents Checklist for Land Registry in Maharashtra</h2>
+            <p>
+                IGR Maharashtra registry process sub-registrar office madhe securely finalise karnyasaathi kharedidar (buyer) ani vikreta (seller) kade khali dillele valid certificates asne khup garjeche ahe:
+            </p>
+            <ul>
+                <li><b>Mahabhumi Portal Documents:</b> Digitally signed **7/12 Utara** and **8-A Khatedar** copy jyamule ownership confirm hote.</li>
+                <li><b>Ready Reckoner Valuation Sheet:</b> Region ke standard valuation verification benchmark matrix copy.</li>
+                <li><b>Identity & Address Proofs:</b> Aadhaar Card, PAN Card, clear biometric data verification details sheets.</li>
+                <li><b>Non-Agricultural (NA) Order:</b> If agricultural land is converted to residential plots layout zone framework rules clear logs.</li>
+            </ul>
+        </section>
+
         <section id="cgFaqContainer">
-            <h2>5. 15 Important Frequently Asked Questions (FAQs) - Maharashtra Land Records & Rate Dynamics</h2>
+            <h2>4. Frequently Asked Questions (FAQs) - Maharashtra Land Records & Rate Dynamics</h2>
             <div style="margin-bottom: 20px; border-bottom: 1px solid #cbd5e1; padding-bottom: 15px;">
-                <p><b>Q1. Kya Maharashtra mein zameen ko napne ke liye official records me Acre standard validation use hota hai?</b><br>Ans: Haan, Maharashtra Revenue and Mahabhulekh tracking systems me zameen ka structural data layout Acre, Hectare aur Square Meters standard mapping par store kiya jata hai.</p>
+                <p><b>Q1. Maharashtra madhe zameen moapnyasathi konti standard unit vaparli jate?</b><br>Ans: Maharashtra revenue tracking system madhe pr प्रामुख्याने Hectare, Guntha ani Square Feet cha upayog hoato. 1 Guntha mhanje exact 1,089 Sq.Ft calculation metrics ahe.</p>
             </div>
             <div style="margin-bottom: 20px; border-bottom: 1px solid #cbd5e1; padding-bottom: 15px;">
-                <p><b>Q2. Urban aur Rural area classification registry rate framework par kya impact dalta hai?</b><br>Ans: Maharashtra registration rules ke mutabik Urban areas me Corporation Cess/Metro Cess lagne se stamp duty 7% hoti hai jabki rural zones me yeh 5% standard scale par chalti hai.</p>
+                <p><b>Q2. Female buyers sathi Maharashtra government konti concession dete?</b><br>Ans: Maharashtra state guidelines nusar female individual ownership property transactions madhe baseline standard Stamp duty madhe flat 1% chi chhoot (rebate) dili jate.</p>
+            </div>
+            <div style="margin-bottom: 20px; border-bottom: 1px solid #cbd5e1; padding-bottom: 15px;">
+                <p><b>Q3. Registration fee var konti maximum upper limit capping ahe?</b><br>Ans: Ho, property valuation kitihi aso, Registration fee maximum limit threshold strictly **₹30,000** var cap kele jate jar asset valuation 30 Lakhs chya var asel.</p>
             </div>
         </section>
+
+        <h3>Related Tools & Internal Links</h3>
+        <div class="sst-dashboard-grid">
+            <a class="sst-dash-btn" href="index.html">
+                <div class="sst-dash-icon">🏠</div>
+                <span class="sst-dash-title">Dashboard Home</span>
+            </a>
+            <a class="sst-dash-btn" href="maharashtra-land-area-calculator.html">
+                <div class="sst-dash-icon">🏡</div>
+                <span class="sst-dash-title">MH Land Area Calc</span>
+            </a>
+            <a class="sst-dash-btn" href="stamp-duty-guide.html">
+                <div class="sst-dash-icon">📜</div>
+                <span class="sst-dash-title">All India Stamp Guide</span>
+            </a>
+        </div>
 
         <div style="margin-top: 50px; padding: 25px; border: 2px dashed var(--cg-green); background: #ffffff; border-radius: 12px; text-align: center;">
             <h3 style="color: var(--cg-green); margin-top: 0;">🚫 Copyright & Rights Reserved</h3>
@@ -410,50 +527,50 @@
         const dict = {
             en: {
                 mTitle: "Maharashtra Land Cost & Registry Calculator",
-                sTitle: "Evaluate total land value along with Maharashtra Stamp Duty (5-7%) & Registration Fees dynamically.",
+                sTitle: "Evaluate total land value along with IGR Maharashtra Stamp Duty & Registration Fees dynamically.",
                 lblInputArea: "Land Area Value",
                 lblAreaUnit: "Area Unit",
                 lblUnitPrice: "Price Per Unit (₹)",
-                lblOwnership: "Ownership Type (स्वामित्व प्रकार)",
-                lblRegion: "Region Jurisdiction (क्षेत्र वर्गीकरण)",
-                lblKhasra: "Mahabhulekh Gat / Survey No. (Optional)",
+                lblOwnership: "Ownership Type (मालकी प्रकार)",
+                lblRegion: "Region Classification (प्रदेश वर्गीकरण)",
+                lblKhasra: "Mahabhumi 7/12 Gat No. / Survey No. (Optional)",
                 btnText: "Calculate Budget Now",
                 resHead: "Conversion Results / Breakdown",
                 lblGovtHead: "Official Maharashtra Land Portals",
-                lblStandardFormat: "Mahabhulekh Standard Matrix:",
+                lblStandardFormat: "Maharashtra Standard Unit Matrix:",
                 discTitle: "⚠️ REGISTRY ASSESSMENT NOTICE & DISCLAIMER:",
-                discText: "The calculations generated below are standard estimates configured as per the latest Maharashtra regulatory acts. Exact registration values, circle guideline adjustments, and scanning fees can vary inside the Sub-Registrar Office ledger logs.",
+                discText: "The calculations generated below are standard estimates configured as per the latest Maharashtra regulatory acts. Exact registration values, ready reckoner adjustments, and local body cess can vary inside the Sub-Registrar Office ledger logs.",
                 lblWordTitle: "Total Budget in Words (INR):",
                 legCost: "Land Value Cost",
-                legStamp: "Stamp Duty",
+                legStamp: "Stamp Duty + Cess",
                 legReg: "Registration Fee"
             },
-            hi: {
-                mTitle: "महाराष्ट्र जमीन रजिस्ट्री कैलकुलेटर",
-                sTitle: "महाराष्ट्र भूमि मूल्य, स्टाम्प शुल्क और पंजीकरण शुल्क बजट की सटीक गणना गतिशील रूप से करें।",
-                lblInputArea: "भूमि क्षेत्र का मूल्य",
-                lblAreaUnit: "मापन इकाई (Unit)",
-                lblUnitPrice: "प्रति इकाई मूल्य (₹)",
-                lblOwnership: "स्वामित्व का प्रकार",
-                lblRegion: "क्षेत्र वर्गीकरण",
-                lblKhasra: "महाभूलेख गट / सर्वे नंबर (वैकल्पिक)",
-                btnText: "बजट की गणना करें",
-                resHead: "मूल्यांकन एवं रजिस्ट्री विवरण (परिणाम)",
-                lblGovtHead: "महाराष्ट्र सरकार के आधिकारिक पोर्टल",
-                lblStandardFormat: "महाभूलेख मानक प्रारूप:",
-                discTitle: "⚠️ रजिस्ट्री मूल्यांकन सूचना और अस्वीकरण:",
-                discText: "नीचे दी गई गणनाएं महाराष्ट्र के नवीनतम नियमों के अनुसार अनुमानित हैं। उप-पंजीयक (Sub-Registrar) कार्यालय में वास्तविक मूल्य और शुल्क में थोड़ा अंतर हो सकता है।",
-                lblWordTitle: "शब्दों में कुल बजट (INR):",
-                legCost: "जमीन का मूल्य",
-                legStamp: "स्टाम्प ड्यूटी",
-                legReg: "पंजीकरण शुल्क"
+            mr: {
+                mTitle: "महाराष्ट्र जमीन खरेदी व मुद्रांक शुल्क कॅल्क्युलेटर",
+                sTitle: "महाराष्ट्रातील जमिनीचे मूल्य, मुद्रांक शुल्क आणि नोंदणी शुल्क बजेटची अचूक गणना करा.",
+                lblInputArea: "जमिनीचे क्षेत्रफळ मूल्य",
+                lblAreaUnit: "मापन युनिट (Unit)",
+                lblUnitPrice: "प्रति युनिट किंमत (₹)",
+                lblOwnership: "मालकीचा प्रकार",
+                lblRegion: "प्रदेश वर्गीकरण",
+                lblKhasra: "महाभूमी ७/१२ गट नंबर / सर्वे नंबर (वैकल्पिक)",
+                btnText: "बजेट मोजा",
+                resHead: "मूल्यांकन आणि नोंदणी तपशील (निकाल)",
+                lblGovtHead: "महाराष्ट्र सरकारचे अधिकृत पोर्टल",
+                lblStandardFormat: "महाराष्ट्र मानक स्वरूप प्रारूप:",
+                discTitle: "⚠️ नोंदणी मूल्यमापन सूचना आणि अस्वीकरण:",
+                discText: "खालील गणना महाराष्ट्राच्या नवीनतम नियमांनुसार अंदाजित आहेत. उपनिबंधक (Sub-Registrar) कार्यालयातील वास्तविक मूल्य आणि शुल्कात बदल असू शकतो.",
+                lblWordTitle: "शब्दांत एकूण बजET (INR):",
+                legCost: "जमिनीची मूळ किंमत",
+                legStamp: "मुद्रांक शुल्क + सेस",
+                legReg: "नोंदणी शुल्क"
             }
         };
 
         function setLang(lang) {
             currentLang = lang;
             document.getElementById('enBtn').classList.toggle('active', lang === 'en');
-            document.getElementById('hiBtn').classList.toggle('active', lang === 'hi');
+            document.getElementById('mrBtn').classList.toggle('active', lang === 'mr');
             
             document.getElementById('mTitle').innerText = dict[lang].mTitle;
             document.getElementById('sTitle').innerText = dict[lang].sTitle;
@@ -505,60 +622,63 @@
             const resPanel = document.getElementById('resPanel');
 
             if (isNaN(area) || area <= 0 || isNaN(price) || price <= 0) {
-                alert(currentLang === 'en' ? "Please enter valid land area and unit price attributes!" : "कृपया सही भूमि क्षेत्र और प्रति इकाई मूल्य दर्ज करें!");
+                alert(currentLang === 'en' ? "Please enter valid land area and unit price attributes!" : "कृपया वैध क्षेत्रफळ आणि प्रति युनिट किंमत प्रविष्ट करा!");
                 return;
             }
 
             let sqft = 0;
-            let acre = 0;
+            let guntha = 0;
 
-            if(unit === 'acre') {
-                acre = area;
-                sqft = area * 43560;
+            if(unit === 'guntha') {
+                guntha = area;
+                sqft = area * 1089;
             } else if(unit === 'hectare') {
-                acre = area / 0.4047;
+                guntha = area * 98.84;
                 sqft = area * 107639.1;
             } else if(unit === 'sqft') {
                 sqft = area;
-                acre = area / 43560;
+                guntha = area / 1089;
             }
 
             const landCost = area * price;
 
-            // Maharashtra Stamp Duty Setup Rules
-            let stampDutyRate = 0.05; // Base Rural rate
-            if(region === 'urban') {
-                stampDutyRate = 0.07; // 5% Base + Cess/LBT/Metro
+            // Maharashtra Standard Baseline Stamp Duty is 6%
+            let stampDutyRate = 0.06;
+            if (ownership === 'female') {
+                stampDutyRate = 0.05; // 1% Rebate for Female Buyers
             }
-
-            // Apply Female Concession Rule (-1%)
-            if(ownership === 'female') {
-                stampDutyRate -= 0.01;
-            }
-
             const stampDuty = landCost * stampDutyRate;
 
-            // Maharashtra Registration Fee Rule: 1% but Max Capped at ₹30,000
+            // Urban areas apply 1% Metro Cess / LBT
+            let cessRate = 0.00;
+            if (region === 'urban') {
+                cessRate = 0.01;
+            }
+            const cessAmount = landCost * cessRate;
+
+            // Maharashtra Registration Fee Logic: 1% capped at max ₹30,000
             let regFees = landCost * 0.01;
-            if(regFees > 30000) {
+            if (regFees > 30000) {
                 regFees = 30000;
             }
 
-            const netBudget = landCost + stampDuty + regFees;
+            const netBudget = landCost + stampDuty + cessAmount + regFees;
 
-            document.getElementById('cgStandardOutput').innerText = acre.toFixed(4) + " Acre Allocation";
+            document.getElementById('cgStandardOutput').innerText = guntha.toFixed(4) + " Guntha Allocation";
             document.getElementById('outTotalSqft').innerText = Math.round(sqft).toLocaleString('en-IN') + " sq ft";
-            document.getElementById('outTotalHectare').innerText = acre.toFixed(4) + " Acre";
+            document.getElementById('outTotalHectare').innerText = guntha.toFixed(4) + " Guntha";
             document.getElementById('outLandCost').innerText = "₹" + Math.round(landCost).toLocaleString('en-IN');
             document.getElementById('outStampDuty').innerText = "₹" + Math.round(stampDuty).toLocaleString('en-IN') + " (" + (stampDutyRate*100) + "%)";
-            document.getElementById('outRegFees').innerText = "₹" + Math.round(regFees).toLocaleString('en-IN') + (regFees === 30000 ? " [Max Capped]" : " (1%)");
+            document.getElementById('outCess').innerText = "₹" + Math.round(cessAmount).toLocaleString('en-IN') + " (" + (cessRate*100) + "%)";
+            document.getElementById('outRegFees').innerText = "₹" + Math.round(regFees).toLocaleString('en-IN') + (landCost > 3000000 ? " [Capped Max]" : " (1%)");
             document.getElementById('outNetBudget').innerText = "₹" + Math.round(netBudget).toLocaleString('en-IN');
 
             const roundedNet = Math.round(netBudget);
             document.getElementById('outBudgetInWords').innerText = numToWords(roundedNet);
 
+            const totalTaxes = stampDuty + cessAmount;
             const costPct = (landCost / netBudget) * 100;
-            const taxPct = (stampDuty / netBudget) * 100;
+            const taxPct = (totalTaxes / netBudget) * 100;
             const regPct = (regFees / netBudget) * 100;
 
             const chartGrad = `conic-gradient(var(--cg-green) 0% ${costPct}%, var(--cg-gold) ${costPct}% ${costPct + taxPct}%, #1e40af ${costPct + taxPct}% 100%)`;
@@ -567,7 +687,7 @@
             let options = { day: 'numeric', month: 'long', year: 'numeric' };
             let today = new Date().toLocaleDateString('en-IN', options);
             document.getElementById('pDocDate').innerText = today + " (IST)";
-            document.getElementById('pDocKhasra').innerText = khasra ? khasra : "N/A (Not Provided)";
+            document.getElementById('pDocKhasra').innerText = khasra ? khasra : "N/A";
             
             let displayUnitLabel = unit.toUpperCase();
             document.getElementById('rInputVal').innerText = `${area} ${displayUnitLabel} @ ₹${price}/Unit [${region.toUpperCase()} - ${ownership.toUpperCase()}]`;
@@ -603,10 +723,11 @@
             let copyText = `--- MAHARASHTRA LAND REGISTRY BUDGET STATEMENT ---\n`;
             copyText += `Statement Ref ID: ${document.getElementById('pDocRef').innerText}\n`;
             copyText += `Gat/Survey Number Reference: ${document.getElementById('pDocKhasra').innerText}\n`;
-            copyText += `Mahabhulekh Area Allocation: ${document.getElementById('cgStandardOutput').innerText}\n`;
+            copyText += `Mahabhumi Area Allocation: ${document.getElementById('cgStandardOutput').innerText}\n`;
             copyText += `Pure Land Cost Base: ${document.getElementById('outLandCost').innerText}\n`;
             copyText += `Stamp Duty Amount: ${document.getElementById('outStampDuty').innerText}\n`;
-            copyText += `Registration Fees: ${document.getElementById('outRegFees').innerText}\n`;
+            copyText += `Metro Cess / Local Tax: ${document.getElementById('outCess').innerText}\n`;
+            copyText += `Registration Structure: ${document.getElementById('outRegFees').innerText}\n`;
             copyText += `Net Capital Acquisition Budget: ${document.getElementById('outNetBudget').innerText}\n`;
             copyText += `Words Format: ${document.getElementById('outBudgetInWords').innerText}\n`;
             copyText += `Calculated via Shayan Smart Tools`;
@@ -617,10 +738,11 @@
         function shareCostWA() {
             let text = `*MAHARASHTRA LAND REGISTRY BUDGET STATEMENT*\n`;
             text += `Ref: ${document.getElementById('pDocRef').innerText}\n`;
-            text += `Gat / Survey No: ${document.getElementById('pDocKhasra').innerText}\n\n`;
+            text += `Gat No: ${document.getElementById('pDocKhasra').innerText}\n\n`;
             text += `• Allocation: ${document.getElementById('cgStandardOutput').innerText}\n`;
             text += `• Pure Land Cost: ${document.getElementById('outLandCost').innerText}\n`;
             text += `• Stamp Duty Amount: ${document.getElementById('outStampDuty').innerText}\n`;
+            text += `• Metro Cess Amount: ${document.getElementById('outCess').innerText}\n`;
             text += `• Registration Fees: ${document.getElementById('outRegFees').innerText}\n`;
             text += `• *Total Acquisition Budget:* ${document.getElementById('outNetBudget').innerText}\n`;
             text += `• *In Words:* ${document.getElementById('outBudgetInWords').innerText}\n\n`;
