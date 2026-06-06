@@ -209,11 +209,20 @@
                 <input type="number" id="unitPrice" placeholder="Example: 300000" step="any">
             </div>
 
+            <!-- CRUCIAL SEGMENTATION FILTER: URBAN VS RURAL SELECTION -->
+            <div class="field">
+                <label id="lblAreaType">Area Jurisdiction Type (વિસ્તાર પ્રકાર)</label>
+                <select id="areaTypeSelect">
+                    <option value="urban">Urban Zone / City Survey Property Card (શહેરી)</option>
+                    <option value="rural">Rural Zone / AnyROR agricultural 7/12 (ગ્રામ્ય)</option>
+                </select>
+            </div>
+
             <div class="field">
                 <label id="lblGender">Buyer Gender Classification (ખરીદનાર લિંગ)</label>
                 <select id="genderSelect">
                     <option value="male">Male Buyer (Full Reg Fee 1%)</option>
-                    <option value="female">Female Buyer (Reg Fee Exempted - 0%)</option>
+                    <option value="female">Female / Joint Female Holder (Reg Fee Exempted - 0%)</option>
                 </select>
             </div>
 
@@ -274,6 +283,7 @@
             
             <div class="res-grid">
                 <div class="res-item" id="print-input-row" style="display:none;"><span>Input Data Feed Context:</span> <b id="rInputVal">-</b></div>
+                <div class="res-item"><span>Selected Jurisdiction Zone:</span> <b id="outJurisdiction">-</b></div>
                 <div class="res-item"><span>Total Equivalent Square Yards (Varan):</span> <b id="outTotalSqYard" class="price-tag">0 sq yard</b></div>
                 <div class="res-item"><span>Total Equivalent Vasao:</span> <b id="outTotalVasao">0.00 Vasao</b></div>
                 <div class="res-item"><span>Pure Land Jantara Value Cost (₹):</span> <b id="outLandCost" class="price-tag">₹0</b></div>
@@ -368,7 +378,7 @@
                         <td>Applied on calculated total market value log checklist.</td>
                     </tr>
                     <tr>
-                        <td><b>Registration Fees (Female)</b></td>
+                        <td><b>Registration Fees (Female / Joint)</b></td>
                         <td>0.00% (Exempted)</td>
                         <td>Women empowerment compliance scheme exemption applied automatically.</td>
                     </tr>
@@ -453,6 +463,7 @@
                 lblInputArea: "Land Area Value",
                 lblAreaUnit: "Area Unit",
                 lblUnitPrice: "Price Per Unit / Jantara (₹)",
+                lblAreaType: "Area Jurisdiction Type",
                 lblGender: "Buyer Gender Classification",
                 lblKhasra: "AnyROR Survey No. / Block No. (Optional)",
                 btnText: "Calculate Budget Now",
@@ -472,6 +483,7 @@
                 lblInputArea: "જમીનનું ક્ષેત્રફળ",
                 lblAreaUnit: "ક્ષેત્રફળનું માપ (Unit)",
                 lblUnitPrice: "પ્રતિ યુનિટ જંત્રી કિંમત (₹)",
+                lblAreaType: "વિસ્તાર પ્રકાર (હકુમત)",
                 lblGender: "ખરીદનાર લિંગ વર્ગીકરણ",
                 lblKhasra: "AnyROR સર્વે નંબર / બ્લોક નંબર (વૈકલ્પિક)",
                 btnText: "બજેટ ગણો",
@@ -497,6 +509,7 @@
             document.getElementById('lblInputArea').innerText = dict[lang].lblInputArea;
             document.getElementById('lblAreaUnit').innerText = dict[lang].lblAreaUnit;
             document.getElementById('lblUnitPrice').innerText = dict[lang].lblUnitPrice;
+            document.getElementById('lblAreaType').innerText = dict[lang].lblAreaType;
             document.getElementById('lblGender').innerText = dict[lang].lblGender;
             document.getElementById('lblKhasra').innerText = dict[lang].lblKhasra;
             document.getElementById('btnText').innerText = dict[lang].btnText;
@@ -535,6 +548,7 @@
             const area = parseFloat(document.getElementById('landArea').value);
             const unit = document.getElementById('areaUnitSelect').value;
             const price = parseFloat(document.getElementById('unitPrice').value);
+            const areaType = document.getElementById('areaTypeSelect').value;
             const gender = document.getElementById('genderSelect').value;
             const khasra = document.getElementById('khasraInput').value.trim();
             const resPanel = document.getElementById('resPanel');
@@ -548,7 +562,6 @@
             let vigha = 0;
             let vasao = 0;
 
-            // Gujarat Standard Land conversions (1 Vigha = 2844 Sq. Yard, 1 Vigha = 20 Vasao)
             if(unit === 'vigha') {
                 vigha = area;
                 sqyard = area * 2844;
@@ -564,9 +577,9 @@
             }
 
             const landCost = area * price;
-            const stampDuty = landCost * 0.049; // 4.9% Standard Stamp Duty in Gujarat
+            const stampDuty = landCost * 0.049; 
 
-            let regFeeRate = (gender === 'female') ? 0.00 : 0.01; // Female buyers are 100% exempted from registration fees in Gujarat
+            let regFeeRate = (gender === 'female') ? 0.00 : 0.01; 
             const regFees = landCost * regFeeRate;
             
             const netBudget = landCost + stampDuty + regFees;
@@ -579,8 +592,15 @@
             document.getElementById('outRegFees').innerText = "₹" + Math.round(regFees).toLocaleString('en-IN') + " (" + (regFeeRate * 100) + "%)";
             document.getElementById('outNetBudget').innerText = "₹" + Math.round(netBudget).toLocaleString('en-IN');
 
+            // Set Area Jurisdiction Type Text
+            if (areaType === 'urban') {
+                document.getElementById('outJurisdiction').innerText = currentLang === 'en' ? "URBAN ZONE (City Survey Record Card)" : "શહેરી વિસ્તાર (સિટી સર્વે પ્રોપર્ટી કાર્ડ)";
+            } else {
+                document.getElementById('outJurisdiction').innerText = currentLang === 'en' ? "RURAL ZONE (AnyROR Agricultural 7/12 Patra)" : "ગ્રામ્ય વિસ્તાર (ખેતીલાયક ૭/૧૧ રેકોર્ડ)";
+            }
+
             if (gender === 'female') {
-                document.getElementById('outExemption').innerText = currentLang === 'en' ? "Female Exemption (0% Reg Fee Approved)" : "મહિલા મુક્તિ લાભ (૦% રજીસ્ટ્રેશન ફી મંજૂર)";
+                document.getElementById('outExemption').innerText = currentLang === 'en' ? "Female / Joint Holder Benefit (0% Reg Fee Approved)" : "મહિલા / સંયુક્ત ખાતેદાર લાભ (૦% રજીસ્ટ્રેશન ફી મંજૂર)";
                 document.getElementById('outExemption').style.color = "#10b981";
             } else {
                 document.getElementById('outExemption').innerText = currentLang === 'en' ? "Standard Male Slab Processing" : "સામાન્ય પુરુષ સ્લેબ પ્રોસેસિંગ";
@@ -592,7 +612,6 @@
 
             const costPct = (landCost / netBudget) * 100;
             const taxPct = (stampDuty / netBudget) * 100;
-            const regPct = (netBudget - landCost - stampDuty > 0) ? (regFees / netBudget) * 100 : 0;
 
             const chartGrad = `conic-gradient(var(--cg-green) 0% ${costPct}%, var(--cg-gold) ${costPct}% ${costPct + taxPct}%, #047857 ${costPct + taxPct}% 100%)`;
             document.getElementById('visualDonut').style.background = chartGrad;
@@ -603,7 +622,7 @@
             document.getElementById('pDocKhasra').innerText = khasra ? khasra : "N/A";
             
             let displayUnitLabel = unit.toUpperCase();
-            document.getElementById('rInputVal').innerText = `${area} ${displayUnitLabel} @ ₹${price}/Unit [GENDER: ${gender.toUpperCase()}]`;
+            document.getElementById('rInputVal').innerText = `${area} ${displayUnitLabel} @ ₹${price}/Unit [ZONE: ${areaType.toUpperCase()}, ${gender.toUpperCase()}]`;
             
             let randID = Math.floor(10000000 + Math.random() * 90000000);
             document.getElementById('pDocRef').innerText = `SST-GJ-REGS-${randID}`;
@@ -617,6 +636,7 @@
             document.getElementById('unitPrice').value = '';
             document.getElementById('khasraInput').value = '';
             document.getElementById('areaUnitSelect').selectedIndex = 0;
+            document.getElementById('areaTypeSelect').selectedIndex = 0;
             document.getElementById('genderSelect').selectedIndex = 0;
             
             const resPanel = document.getElementById('resPanel');
@@ -634,6 +654,7 @@
         function copyCostData() {
             let copyText = `--- GUJARAT LAND REGISTRY BUDGET STATEMENT ---\n`;
             copyText += `Statement Ref ID: ${document.getElementById('pDocRef').innerText}\n`;
+            copyText += `Zone Jurisdiction: ${document.getElementById('outJurisdiction').innerText}\n`;
             copyText += `AnyROR Survey/Block reference: ${document.getElementById('pDocKhasra').innerText}\n`;
             copyText += `Dimension Allocation: ${document.getElementById('cgStandardOutput').innerText}\n`;
             copyText += `Pure Land Jantara Value Cost: ${document.getElementById('outLandCost').innerText}\n`;
@@ -649,6 +670,7 @@
         function shareCostWA() {
             let text = `*GUJARAT LAND REGISTRY BUDGET STATEMENT*\n`;
             text += `Ref: ${document.getElementById('pDocRef').innerText}\n`;
+            text += `Zone: ${document.getElementById('outJurisdiction').innerText}\n`;
             text += `Survey/Block No: ${document.getElementById('pDocKhasra').innerText}\n\n`;
             text += `• Allocation: ${document.getElementById('cgStandardOutput').innerText}\n`;
             text += `• Pure Land Cost: ${document.getElementById('outLandCost').innerText}\n`;
