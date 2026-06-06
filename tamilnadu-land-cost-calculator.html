@@ -10,156 +10,370 @@
     <meta name="keywords" content="Tamil Nadu land cost calculator, Registry fees in Tamil Nadu 2026, Stamp duty TN, தமிழ்நாடு பதிவு கட்டணம் கால்குலேட்டர், Shayan Smart Tools, TN guidelines value calculator, TNREGINET Calculator, சொத்து மதிப்பு கால்குலேட்டர், Guideline value Chennai, TN registration fees 2026, Ground to Sq Ft Tamilnadu, Cent to Sq Ft conversion TN">
     <meta name="author" content="Muksidul Islam">
     <meta name="robots" content="index, follow">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
     <style>
         :root {
-            --tn-blue: #0d47a1;
-            --tn-dark: #1a237e;
-            --text-dark: #334155;
-            --white: #ffffff;
-            --bg: #f8fafc;
-            --tn-gold: #ffb300;
+            --primary: #0284c7;
+            --primary-dark: #0369a1;
+            --accent: #f59e0b;
+            --bg-main: #f8fafc;
+            --card-bg: #ffffff;
+            --text-title: #0f172a;
+            --text-body: #334155;
+            --border-color: #e2e8f0;
+            --radius-main: 16px;
+            --shadow-sm: 0 1px 3px rgba(0,0,0,0.05);
+            --shadow-md: 0 10px 15px -3px rgba(0,0,0,0.05), 0 4px 6px -4px rgba(0,0,0,0.05);
+            --shadow-lg: 0 20px 25px -5px rgba(0,0,0,0.1), 0 8px 10px -6px rgba(0,0,0,0.1);
         }
 
         body {
-            font-family: 'Poppins', sans-serif;
+            font-family: 'Inter', sans-serif;
             line-height: 1.6;
-            color: var(--text-dark);
-            max-width: 900px;
+            color: var(--text-body);
+            max-width: 1000px;
             margin: 0 auto;
-            padding: 20px;
-            background-color: var(--bg);
+            padding: 24px;
+            background-color: var(--bg-main);
         }
 
-        .tool-wrapper { padding: 20px 0; text-align: center; }
+        .tool-container {
+            background: var(--card-bg);
+            border-radius: var(--radius-main);
+            padding: 40px;
+            box-shadow: var(--shadow-md);
+            border: 1px solid var(--border-color);
+            margin-bottom: 40px;
+        }
         
         header {
-            background: linear-gradient(135deg, var(--tn-blue), var(--tn-dark));
-            color: #fff; padding: 40px 20px; border-radius: 25px; text-align: center;
-            border-bottom: 6px solid var(--tn-gold); margin-bottom: 30px;
+            text-align: center;
+            margin-bottom: 35px;
+            padding-bottom: 25px;
+            border-bottom: 1px solid var(--border-color);
         }
-        header h1 { color: white; margin: 0 0 10px 0; font-size: 28px; text-transform: uppercase; font-weight: 900; }
-        header p { color: #ffe0b2; margin: 0; font-size: 16px; }
+        header h1 { 
+            color: var(--text-title); 
+            margin: 0 0 12px 0; 
+            font-size: 32px; 
+            font-weight: 800; 
+            letter-spacing: -0.5px;
+        }
+        header p { 
+            color: #64748b; 
+            margin: 0; 
+            font-size: 16px;
+            max-width: 600px;
+            margin: 0 auto;
+        }
 
-        /* Language Switcher */
-        .lang-switch { display: flex; justify-content: center; gap: 12px; margin-bottom: 30px; }
+        /* Lang Button Framework */
+        .lang-switch { 
+            display: flex; 
+            justify-content: center; 
+            gap: 10px; 
+            margin-bottom: 35px; 
+        }
         .l-btn {
-            padding: 10px 25px; border: 2px solid var(--tn-blue); background: white;
-            border-radius: 50px; cursor: pointer; font-weight: 700; color: var(--tn-blue); transition: 0.3s;
+            padding: 10px 24px; 
+            border: 1px solid var(--border-color); 
+            background: var(--card-bg);
+            border-radius: 30px; 
+            cursor: pointer; 
+            font-weight: 600; 
+            color: var(--text-body); 
+            transition: all 0.2s ease;
+            font-size: 14px;
+            box-shadow: var(--shadow-sm);
         }
-        .l-btn.active { background: var(--tn-blue); color: white; }
+        .l-btn:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+        .l-btn.active { 
+            background: var(--primary); 
+            color: white; 
+            border-color: var(--primary);
+        }
 
-        .sec-h { font-size: 16px; font-weight: bold; color: var(--tn-blue); margin-bottom: 20px; border-bottom: 2px solid #cbd5e1; padding-bottom: 8px; text-transform: uppercase; letter-spacing: 0.5px; text-align: left; }
+        .sec-h { 
+            font-size: 14px; 
+            font-weight: 700; 
+            color: #64748b; 
+            margin-bottom: 24px; 
+            text-transform: uppercase; 
+            letter-spacing: 0.75px; 
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .sec-h::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: var(--border-color);
+        }
 
-        /* Input Grid Layout */
+        /* Inputs Dashboard Grid Layout */
         .input-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 20px; max-width: 800px; margin: 0 auto 25px auto;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 24px; 
+            margin-bottom: 35px;
         }
-        .input-group { text-align: left; display: flex; flex-direction: column; justify-content: space-between; }
-        label { display: block; font-weight: bold; margin-bottom: 8px; font-size: 13px; color: var(--tn-blue); text-transform: uppercase; letter-spacing: 0.5px; }
+        .input-group { 
+            display: flex; 
+            flex-direction: column; 
+        }
+        label { 
+            display: block; 
+            font-weight: 600; 
+            margin-bottom: 8px; 
+            font-size: 14px; 
+            color: var(--text-title); 
+        }
         input, select {
-            width: 100%; padding: 15px; border: 1px solid #cbd5e1; border-radius: 12px;
-            font-size: 16px; box-sizing: border-box; outline: none; transition: 0.3s; background: var(--white);
+            width: 100%; 
+            padding: 14px 16px; 
+            border: 1px solid var(--border-color); 
+            border-radius: 10px;
+            font-size: 15px; 
+            box-sizing: border-box; 
+            outline: none; 
+            transition: all 0.2s ease; 
+            background: #f8fafc;
+            color: var(--text-title);
+            font-family: inherit;
         }
-        input:focus, select:focus { border-color: var(--tn-blue); background: #fff; box-shadow: 0 0 8px rgba(13,71,161,0.1); }
+        input:focus, select:focus { 
+            border-color: var(--primary); 
+            background: var(--card-bg); 
+            box-shadow: 0 0 0 4px rgba(2, 132, 199, 0.1); 
+        }
 
-        .helper-text { font-size: 11px; font-weight: bold; margin-top: 5px; display: block; }
+        .helper-text { 
+            font-size: 12px; 
+            font-weight: 500; 
+            margin-top: 6px; 
+            display: block; 
+            color: #64748b;
+        }
 
         .btn-calc {
-            background-color: var(--tn-dark); color: var(--white); padding: 18px 45px;
-            border: none; border-radius: 12px; font-size: 18px; font-weight: 800; cursor: pointer;
-            transition: 0.3s; width: 100%; max-width: 800px; text-transform: uppercase; letter-spacing: 1px;
+            background-color: var(--primary); 
+            color: white; 
+            padding: 16px 32px;
+            border: none; 
+            border-radius: 10px; 
+            font-size: 16px; 
+            font-weight: 700; 
+            cursor: pointer;
+            transition: all 0.2s ease; 
+            width: 100%; 
+            letter-spacing: 0.2px;
+            box-shadow: 0 4px 6px -1px rgba(2, 132, 199, 0.2);
         }
-        .btn-calc:hover { transform: translateY(-3px); box-shadow: 0 10px 20px rgba(26, 35, 126, 0.2); background-color: #000; }
+        .btn-calc:hover { 
+            background-color: var(--primary-dark);
+            transform: translateY(-1px);
+            box-shadow: 0 10px 15px -3px rgba(2, 132, 199, 0.3);
+        }
 
-        /* RESULTS UI */
+        /* Premium Dynamic Invoicing Layer */
         .res-panel {
-            margin-top: 35px; display: none; text-align: left; background: #0f172a; color: white;
-            padding: 25px; border-radius: 25px; max-width: 650px; margin-left: auto; margin-right: auto;
-            border: 2px solid var(--tn-gold); position: relative;
+            margin-top: 40px; 
+            display: none; 
+            background: #0f172a; 
+            color: #f8fafc;
+            padding: 35px; 
+            border-radius: var(--radius-main); 
+            box-shadow: var(--shadow-lg);
+            border: 1px solid #1e293b;
         }
-        .res-panel h3 { margin-top: 0; text-align: center; color: var(--tn-gold); font-size: 1.4rem; margin-bottom: 20px; }
+        .res-panel h3 { 
+            margin-top: 0; 
+            text-align: center; 
+            color: #ffffff; 
+            font-size: 20px; 
+            margin-bottom: 25px; 
+            font-weight: 700;
+        }
         
-        .res-grid { display: grid; grid-template-columns: repeat(1, 1fr); gap: 15px; }
-        .res-item { background: rgba(255,255,255,0.05); padding: 15px; border-radius: 12px; display: flex; flex-direction: row; justify-content: space-between; align-items: center; border-left: 4px solid var(--tn-gold); }
-        .res-item span { font-size: 14px; color: #94a3b8; font-weight: bold; }
-        .res-item b { font-size: 18px; color: #fff; word-break: break-all; }
-        .res-item.total-row { border-left: 4px solid #ff4d4d; background: rgba(255, 77, 77, 0.1); }
-        .res-item.total-row span { color: #ff8080; }
-        .res-item.total-row b { color: #ff4d4d; font-size: 22px; }
+        .res-grid { 
+            display: grid; 
+            grid-template-columns: 1fr; 
+            gap: 14px; 
+        }
+        .res-item { 
+            background: #1e293b; 
+            padding: 16px 20px; 
+            border-radius: 10px; 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            border: 1px solid #334155;
+        }
+        .res-item span { 
+            font-size: 14px; 
+            color: #94a3b8; 
+            font-weight: 500; 
+        }
+        .res-item b { 
+            font-size: 16px; 
+            color: #ffffff; 
+        }
+        .res-item.total-row { 
+            border: 1px solid rgba(245, 158, 11, 0.3); 
+            background: rgba(245, 158, 11, 0.1); 
+        }
+        .res-item.total-row span { 
+            color: var(--accent); 
+            font-weight: 600;
+        }
+        .res-item.total-row b { 
+            color: var(--accent); 
+            font-size: 22px; 
+            font-weight: 800;
+        }
 
         .print-header-block, .print-footer-block { display: none; }
-        .util-btns { display: flex; gap: 12px; margin-top: 25px; }
-        .u-btn { flex: 1; padding: 15px; border: none; border-radius: 12px; font-weight: 800; cursor: pointer; color: white; font-size: 14px; text-align: center; transition: 0.3s; }
+        .util-btns { 
+            display: flex; 
+            gap: 12px; 
+            margin-top: 30px; 
+            flex-wrap: wrap;
+        }
+        .u-btn { 
+            flex: 1; 
+            min-width: 140px;
+            padding: 14px; 
+            border: none; 
+            border-radius: 10px; 
+            font-weight: 600; 
+            cursor: pointer; 
+            color: white; 
+            font-size: 14px; 
+            text-align: center; 
+            transition: all 0.2s ease; 
+            background: #334155;
+        }
+        .u-btn:hover { background: #475569; }
 
-        /* CLEAN FIXED SEO ARTICLE LAYER */
+        /* Clean Structural SEO System */
         .seo-article { 
-            background: transparent !important; 
-            padding: 20px 0; 
             margin-top: 50px; 
-            line-height: 1.8; 
-            border: none !important;
-            box-shadow: none !important;
-            color: #334155 !important;
-            text-align: left;
+            color: var(--text-body);
         }
         .seo-article .seo-header-block {
             text-align: center; 
-            border-bottom: 3px solid var(--tn-blue); 
-            padding-bottom: 20px; 
-            margin-bottom: 30px;
-            background: transparent !important;
+            margin-bottom: 40px;
         }
         .seo-article h2 { 
-            color: var(--tn-blue) !important; 
-            font-size: 26px !important;
-            margin-bottom: 12px !important;
-            border-left: 6px solid var(--tn-dark); 
-            padding-left: 15px; 
+            color: var(--text-title); 
+            font-size: 24px;
+            margin-bottom: 16px;
             margin-top: 40px;
-            font-weight: 800;
+            font-weight: 700;
+            letter-spacing: -0.3px;
         }
-        .seo-article .seo-header-block h2 { border-left: none !important; padding-left: 0 !important; margin-top: 0 !important; font-size: 32px !important; }
-        .seo-article h3 { color: var(--tn-dark) !important; font-size: 20px; margin-top: 30px; font-weight: 700; }
-        .seo-article p { color: #334155 !important; font-size: 16px; text-align: justify; margin-bottom: 20px; }
-        .seo-article ul, .seo-article ol { padding-left: 25px; margin-bottom: 20px; }
-        .seo-article li { margin-bottom: 8px; font-size: 16px; }
+        .seo-article .seo-header-block h2 { font-size: 28px; }
+        .seo-article h3 { 
+            color: var(--text-title); 
+            font-size: 18px; 
+            margin-top: 30px; 
+            font-weight: 600; 
+        }
+        .seo-article p { 
+            font-size: 15px; 
+            text-align: justify; 
+            margin-bottom: 20px; 
+            color: var(--text-body);
+        }
+        .seo-article ul, .seo-article ol { padding-left: 20px; margin-bottom: 24px; }
+        .seo-article li { margin-bottom: 10px; font-size: 15px; }
         
-        .seo-article table { width: 100%; border-collapse: collapse; margin: 25px 0; background: #ffffff; box-shadow: 0 4px 6px rgba(0,0,0,0.02); border-radius: 8px; overflow: hidden; }
-        .seo-article th, .seo-article td { border: 1px solid #e2e8f0; padding: 15px; text-align: left; color: #334155 !important; }
-        .seo-article th { background-color: #e3f2fd; color: var(--tn-blue) !important; font-weight: bold; }
+        .seo-article table { 
+            width: 100%; 
+            border-collapse: collapse; 
+            margin: 30px 0; 
+            background: var(--card-bg); 
+            border-radius: 12px; 
+            overflow: hidden; 
+            box-shadow: var(--shadow-sm);
+            border: 1px solid var(--border-color);
+        }
+        .seo-article th, .seo-article td { padding: 16px; text-align: left; font-size: 14px; }
+        .seo-article th { background-color: #f1f5f9; color: var(--text-title); font-weight: 600; }
+        .seo-article td { border-bottom: 1px solid var(--border-color); }
+        .seo-article tr:last-child td { border-bottom: none; }
         .seo-article tr:nth-child(even) { background-color: #f8fafc; }
 
-        .links-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; margin: 40px 0; width: 100%; box-sizing: border-box; }
-        .link-card { display: flex; align-items: center; justify-content: center; background: #ffffff; padding: 18px 20px; border-radius: 16px; text-decoration: none; color: var(--tn-dark) !important; font-weight: 700; font-size: 15px; border: 1px solid #e2e8f0; transition: 0.3s; text-align: center; box-sizing: border-box; }
-        .link-card:hover { border-color: var(--tn-blue); transform: translateY(-4px); box-shadow: 0 12px 20px rgba(13, 71, 161, 0.1); background: linear-gradient(135deg, #ffffff, #e3f2fd); }
+        .links-grid { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); 
+            gap: 12px; 
+            margin: 35px 0; 
+        }
+        .link-card { 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            background: var(--card-bg); 
+            padding: 14px; 
+            border-radius: 10px; 
+            text-decoration: none; 
+            color: var(--text-body); 
+            font-weight: 600; 
+            font-size: 14px; 
+            border: 1px solid var(--border-color); 
+            transition: all 0.2s ease; 
+            box-shadow: var(--shadow-sm);
+        }
+        .link-card:hover { 
+            border-color: var(--primary); 
+            color: var(--primary);
+            background: #f0f9ff;
+            transform: translateY(-2px);
+        }
 
-        @media (max-width: 600px) { .seo-article h2 { font-size: 22px !important; } .links-grid { grid-template-columns: 1fr; gap: 12px; } }
+        .copyright-box {
+            margin-top: 60px; 
+            padding: 30px; 
+            border: 1px dashed var(--border-color); 
+            background: var(--card-bg); 
+            border-radius: var(--radius-main);
+        }
 
-        /* PRINT CONFIGURATION */
+        @media (max-width: 640px) { 
+            body { padding: 16px; }
+            .tool-container { padding: 24px; }
+            header h1 { font-size: 24px; }
+            .seo-article .seo-header-block h2 { font-size: 22px; } 
+            .links-grid { grid-template-columns: 1fr 1fr; } 
+            .res-panel { padding: 20px; }
+        }
+
+        /* PRINT SYSTEM RULES */
         @media print {
             * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
             @page { margin: 15mm; size: A4 portrait; }
             body { background: #ffffff !important; color: #000000 !important; padding: 0; margin: 0; }
-            .tool-wrapper > header, .lang-switch, .sec-h, .input-grid, .btn-calc, .util-btns, #resHead, .seo-article, .back-btn { display: none !important; }
-            .res-panel { display: block !important; background: #ffffff !important; color: #000000 !important; padding: 25px !important; width: 100% !important; box-sizing: border-box; border: 3px double var(--tn-blue) !important; border-radius: 0px !important; }
-            
-            .print-header-block { display: block !important; text-align: center; border-bottom: 2px solid var(--tn-blue) !important; padding-bottom: 12px; margin-bottom: 20px; }
-            .print-header-block img { display: inline-block !important; width: 35px !important; height: 35px !important; }
-            
+            .tool-container, .lang-switch, .sec-h, .input-grid, .btn-calc, .util-btns, #resHead, .seo-article, .back-btn { display: none !important; }
+            .res-panel { display: block !important; background: #ffffff !important; color: #000000 !important; padding: 25px !important; width: 100% !important; box-sizing: border-box; border: 2px solid #000000 !important; border-radius: 0px !important; box-shadow: none !important; }
+            .print-header-block { display: block !important; text-align: center; border-bottom: 2px solid #000000 !important; padding-bottom: 12px; margin-bottom: 20px; }
             .res-grid { display: block !important; margin-top: 15px; }
             .res-item { background: transparent !important; border: none !important; border-bottom: 1px solid #e2e8f0 !important; padding: 12px 4px !important; display: flex !important; justify-content: space-between; }
             .res-item span { color: #1e293b !important; font-size: 13px !important; font-weight: 600 !important; text-transform: uppercase; }
-            .res-item b { color: var(--tn-dark) !important; font-size: 15px !important; font-weight: 700 !important; }
+            .res-item b { color: #000000 !important; font-size: 15px !important; font-weight: 700 !important; }
+            .res-item.total-row b { font-size: 18px !important; }
             .print-footer-block { display: block !important; text-align: center; margin-top: 40px; border-top: 1px solid #cbd5e1 !important; padding-top: 20px; }
         }
     </style>
 </head>
 <body>
 
-    <div class="tool-wrapper">
+    <div class="tool-container">
         <header>
             <h1 id="mTitle">Tamil Nadu Land Cost & Registry Calculator</h1>
             <p id="sTitle">Calculate property value, effective stamp duty, and registration charges in Tamil Nadu instantly</p>
@@ -181,7 +395,7 @@
                     <option value="acre">Acre (ஏக்கர்)</option>
                     <option value="sqft">Square Feet (சதுர அடி)</option>
                 </select>
-                <span id="unitHelperNote" class="helper-text" style="color: var(--tn-blue);">1 Ground = 2,400 Sq Ft</span>
+                <span id="unitHelperNote" class="helper-text" style="color: var(--primary);">1 Ground = 2,400 Sq Ft</span>
             </div>
 
             <div class="input-group">
@@ -192,7 +406,7 @@
             <div class="input-group">
                 <label for="rateInput" id="lblRate">Guideline Value Rate (per Unit)</label>
                 <input type="number" id="rateInput" placeholder="Enter Rate in ₹" step="any">
-                <a href="https://tnreginet.gov.in/" target="_blank" class="helper-text" style="color: #e65100; text-decoration: none;">🌐 Check Guideline Rates (TNREGINET) ↗</a>
+                <a href="https://tnreginet.gov.in/" target="_blank" class="helper-text" style="color: #d97706; text-decoration: none; font-weight: 600;">🌐 Check Guideline Rates (TNREGINET) ↗</a>
             </div>
 
             <div class="input-group">
@@ -209,14 +423,13 @@
             
             <div class="print-header-block">
                 <div style="display: flex; justify-content: center; align-items: center; gap: 12px; margin-bottom: 5px;">
-                    <img src="favicon.png" alt="SST Logo">
-                    <h2 style="font-size: 22px; color: #0d47a1; margin: 0; font-weight: 900; letter-spacing: 1px;">SHAYAN SMART TOOLS</h2>
+                    <h2 style="font-size: 22px; color: #0f172a; margin: 0; font-weight: 800; letter-spacing: -0.5px;">SHAYAN SMART TOOLS</h2>
                 </div>
-                <p style="font-size: 11px; color: var(--tn-dark); font-weight: bold; margin: 0 0 10px 0; letter-spacing: 0.5px; text-transform: uppercase;">TAMIL NADU REVENUE PROPERTY REGISTRATION SUMMARY - 2026</p>
+                <p style="font-size: 11px; color: #475569; font-weight: bold; margin: 0 0 10px 0; letter-spacing: 0.5px; text-transform: uppercase;">TAMIL NADU REVENUE PROPERTY REGISTRATION SUMMARY - 2026</p>
                 
                 <div style="background: #f8fafc; border: 1px solid #cbd5e1; padding: 10px; border-radius: 4px; display: grid; grid-template-columns: 1fr 1fr; font-size: 11px; text-align: left; gap: 8px; color: #334155;">
-                    <div><strong>DOCUMENT REF:</strong> <span id="pDocRef" style="color:#0d47a1; font-weight:bold;">SST-TN-REG-0000</span></div>
-                    <div style="text-align: right;"><strong>DATE:</strong> <span id="pDocDate" style="color:#0d47a1; font-weight:bold;">--/--/----</span></div>
+                    <div><strong>DOCUMENT REF:</strong> <span id="pDocRef" style="color:#0284c7; font-weight:bold;">SST-TN-REG-0000</span></div>
+                    <div style="text-align: right;"><strong>DATE:</strong> <span id="pDocDate" style="color:#0284c7; font-weight:bold;">--/--/----</span></div>
                     <div id="printJuris"><strong>JURISDICTION:</strong> State of Tamil Nadu (தமிழ்நாடு)</div>
                     <div style="text-align: right;"><strong>STATUS:</strong> Digitally Verified Report</div>
                 </div>
@@ -225,7 +438,7 @@
             <h3 id="resHead">Official Property Valuation Invoice</h3>
             
             <div class="res-grid">
-                <div class="res-item" id="print-input-row" style="display:none;"><span id="lblSource">Initial Input Feed:</span> <b id="rInputVal" style="color:var(--tn-gold); font-weight: 800;">0 Units</b></div>
+                <div class="res-item" id="print-input-row" style="display:none;"><span id="lblSource">Initial Input Feed:</span> <b id="rInputVal" style="color:var(--accent); font-weight: 700;">0 Units</b></div>
                 <div class="res-item"><span id="lblResSqft">Total Square Feet Area:</span> <b id="outTotalSqft">0 Sq Ft</b></div>
                 <div class="res-item"><span id="rLc">Total Pure Land Cost:</span> <b id="outLandCost">₹0</b></div>
                 <div class="res-item"><span id="rSd">Stamp Duty (7%):</span> <b id="outStampDuty">₹0</b></div>
@@ -235,31 +448,31 @@
 
             <div class="print-footer-block">
                 <div style="margin: 0 auto; max-width: 85%; font-size: 11px; color: #475569; line-height: 1.6; text-align: center;">
-                    <p style="margin: 0; font-weight: bold; color: #1a237e; text-transform: uppercase; font-size: 12px;">🔒 SECURITY DISCLAIMER & VERIFICATION NOTICE</p>
+                    <p style="margin: 0; font-weight: bold; color: #0f172a; text-transform: uppercase; font-size: 12px;">🔒 SECURITY DISCLAIMER & VERIFICATION NOTICE</p>
                     <p style="margin: 6px 0 0 0;">This computation is an automated metrics compilation sheet, generated via standard dynamic statutory parameters of Tamil Nadu Registration Department for 2026. Cross-examine guideline values via TNREGINET portal before absolute physical execution.</p>
-                    <div style="display: inline-block; border: 1px dashed #0d47a1; padding: 6px 20px; border-radius: 4px; margin-top: 15px; margin-bottom: 12px; background: #f8fafc; font-size: 10px; font-weight: bold; color: #0d47a1; text-transform: uppercase; letter-spacing: 0.5px;">
+                    <div style="display: inline-block; border: 1px dashed #0284c7; padding: 6px 20px; border-radius: 4px; margin-top: 15px; margin-bottom: 12px; background: #f8fafc; font-size: 10px; font-weight: bold; color: #0284c7; text-transform: uppercase; letter-spacing: 0.5px;">
                         SHAYAN SMART TOOLS [SST SEAL] - OFFICIAL UNIT PLATFORM
                     </div>
-                    <p style="margin: 5px 0 0 0; font-size: 12px; font-weight: bold; color: var(--tn-blue);">🌐 SST OFFICIAL ACCESS: www.shayansmarttools.in</p>
+                    <p style="margin: 5px 0 0 0; font-size: 12px; font-weight: bold; color: var(--primary);">🌐 SST OFFICIAL ACCESS: www.shayansmarttools.in</p>
                 </div>
             </div>
 
             <div class="util-btns">
                 <button class="u-btn" onclick="copyInvoice()" id="btnCopy">📋 Copy Statement</button>
-                <button class="u-btn" onclick="shareInvoiceWA()" style="background:#22c55e;">📲 WhatsApp</button>
+                <button class="u-btn" onclick="shareInvoiceWA()" style="background:#16a34a;">📲 WhatsApp</button>
                 <button class="u-btn" onclick="printLandReport()" id="btnPrint">🖨️ Print Report</button>
             </div>
         </div>
     </div>
 
     <div class="back-btn" style="text-align: center; margin-top: 10px;">
-        <a href="index.html" style="color: var(--tn-blue); text-decoration: none; font-weight: bold;" id="lnkBack">⬅ Back to All Tools</a>
+        <a href="index.html" style="color: var(--primary); text-decoration: none; font-weight: 600; font-size: 15px;" id="lnkBack">⬅ Back to All Tools</a>
     </div>
 
     <article class="seo-article">
         <div class="seo-header-block">
             <h2 id="seoTitle">Tamil Nadu Property Registration and Land Cost Valuation Rules 2026</h2>
-            <p style="font-size: 18px; color: #555; margin: 5px 0 0 0;" id="seoSubTitle">Calculate property value, effective stamp duty, and registration charges in Tamil Nadu instantly.</p>
+            <p style="font-size: 16px; color: #64748b; margin: 5px 0 0 0;" id="seoSubTitle">Calculate property value, effective stamp duty, and registration charges in Tamil Nadu instantly.</p>
         </div>
 
         <section>
@@ -325,8 +538,8 @@
             <a href="land-cost-calculator.html" class="link-card" id="dshCost">Price Calculator</a>
         </div>
 
-        <div style="margin-top: 50px; padding: 25px; border: 2px dashed var(--tn-blue); background: #ffffff; border-radius: 12px; text-align: center;">
-            <h3 style="color: var(--tn-dark); margin-top: 0;" id="lblCopyHead">🚫 Copyright & Legal Rights Reserved</h3>
+        <div class="copyright-box">
+            <h3 style="color: var(--text-title); margin-top: 0;" id="lblCopyHead">🚫 Copyright & Legal Rights Reserved</h3>
             <p style="font-size: 13px; margin-bottom: 0;" id="lblCopyBody">
                 <strong>Copyright © 2026 Shayan Smart Tools. All Rights Reserved.</strong><br><br>
                 Is software calculator module ka core code engine layout, arithmetic algorithms aur optimized data indexing <b>Muksidul Islam</b> ke proprietary engineering development rights ke under managed hain. Unauthorized duplication completely restricted hai.<br><br>
@@ -346,7 +559,6 @@
 
         let currentLang = 'en';
 
-        // 15 strictly localized FAQs
         const faqsData = [
             {
                 q_en: "What is the combined stamp duty and registration rate in Tamil Nadu for 2026?",
@@ -400,7 +612,7 @@
                 q_en: "Is the registration fee for agricultural land different in Tamil Nadu?",
                 a_en: "The baseline rate remains 7% stamp duty and 4% registration. However, concessional transfers might apply exclusively to immediate family gift deeds.",
                 q_ta: "தமிழ்நாட்டில் விவசாய நிலத்திற்கான பதிவு கட்டணம் மாறுபட்டதா?",
-                a_ta: "அடிப்படை விகிதம் 7% முத்திரைத்தாள் மற்றும் 4% பதிவு கட்டணம் தான். ஆனால், குடும்ப உறுப்பினர்களுக்கு இடையேயான தான Settlement பத்திரங்களுக்கு சலுகைகள் உள்ளன."
+                a_ta: "அடிப்படைக் கூறு விகிதம் 7% முத்திரைத்தாள் மற்றும் 4% பதிவு கட்டணம் தான். ஆனால், குடும்ப உறுப்பினர்களுக்கு இடையேயான தான Settlement பத்திரங்களுக்கு சலுகைகள் உள்ளன."
             },
             {
                 q_en: "What is the flat stamp duty fee required to register a Sale Agreement in TN?",
@@ -430,7 +642,7 @@
                 q_en: "What is the alternative conversion scale for 1 Cent into Square Yards?",
                 a_en: "1 standard Cent map allocation translates to precisely 48.4 Square Yards (Gaj) boundary matrix parameter.",
                 q_ta: "1 சென்ட் நிலத்தை சதுர கஜத்தில் (Square Yards) எவ்வாறு மாற்றுவது?",
-                a_ta: "1 சென்ட் நில அளவு என்பது துல்லியமாக 48.4 சதுர கஜம் (Gaj) எல்லை அளவுరుவிற்கு சமமாகும்."
+                a_ta: "1 சென்ட் நில அளவு என்பது துல்லியமாக 48.4 சதுர கஜம் (Gaj) எல்லை அளவுருவிற்கு சமமாகும்."
             },
             {
                 q_en: "Who authored the operational core logic execution code of this TN calculator?",
@@ -510,13 +722,14 @@
                 const answer = (currentLang === 'en') ? faq.a_en : faq.a_ta;
                 
                 const faqBlock = document.createElement('div');
-                faqBlock.style.borderBottom = '1px solid #e2e8f0';
+                faqBlock.style.borderBottom = '1px solid var(--border-color)';
                 faqBlock.style.paddingBottom = '15px';
+                faqBlock.style.paddingTop = '5px';
                 faqBlock.style.marginBottom = '15px';
                 
                 faqBlock.innerHTML = `
-                    <h4 style="color:var(--tn-blue); margin-bottom:8px;">Q${index + 1}. ${question}</h4>
-                    <p style="margin:0;">Ans: ${answer}</p>
+                    <h4 style="color:var(--text-title); font-size:16px; margin-top:0; margin-bottom:8px; font-weight:600;">Q${index + 1}. ${question}</h4>
+                    <p style="margin:0; font-size:14px; color:var(--text-body);">Ans: ${answer}</p>
                 `;
                 listContainer.appendChild(faqBlock);
             });
@@ -670,7 +883,6 @@
             window.open("https://wa.me/?text=" + encodeURIComponent(textWA), '_blank');
         }
 
-        // Initial trigger setup
         updateUnitHelper();
         renderFAQs();
     </script>
