@@ -76,6 +76,10 @@
         .res-panel { background: #0f172a; color: white; padding: 30px 25px; border-radius: 25px; margin-top: 35px; display: none; border: 2px solid var(--tn-gold); position: relative; text-align: left; max-width: 750px; margin-left: auto; margin-right: auto; }
         .conversion-results-title { text-align: center; color: var(--tn-gold); font-size: 22px; font-weight: 700; margin: 25px 0 20px 0; letter-spacing: 0.5px; text-transform: capitalize; }
         
+        /* PRINT LOGO ELEMENT STYLING */
+        .print-logo-container { display: none; width: 100%; text-align: center; margin-bottom: 15px; }
+        .print-logo-box { display: inline-block; padding: 10px 20px; background: #0f2d59; color: #fff; font-weight: 900; font-size: 18px; border-radius: 6px; letter-spacing: 1px; }
+
         /* DISCLAIMER BOX FEATURE */
         .registry-disclaimer { background: rgba(241, 196, 15, 0.1); border: 1px solid var(--tn-gold); border-radius: 12px; padding: 15px; margin-bottom: 20px; font-size: 13px; line-height: 1.5; color: #fcd34d; }
         .registry-disclaimer strong { color: var(--tn-gold); display: block; margin-bottom: 4px; }
@@ -117,6 +121,11 @@
         .u-btn.r-btn { background: #b91c1c; }
         .u-btn:hover { filter: brightness(1.2); transform: translateY(-2px); }
 
+        /* SEAL FIXES: Absolute clipping parameters removal */
+        .sst-github-seal-wrapper { display: flex; width: 100%; justify-content: center; align-items: center; margin-top: 20px; clear: both; }
+        .sst-seal-frame { width: 140px; height: 140px; display: flex; align-items: center; justify-content: center; overflow: visible !important; border: 3px dashed #c0392b; border-radius: 50%; padding: 10px; background: rgba(192, 57, 43, 0.02); transform: rotate(-10deg); box-sizing: border-box; }
+        .sst-seal-internal { text-align: center; color: #c0392b; font-size: 11px; font-weight: 900; line-height: 1.3; text-transform: uppercase; }
+
         /* SEO CONTENT CSS STYLE */
         .seo-article { background: transparent !important; padding: 20px 0; margin-top: 50px; line-height: 1.8; border: none !important; color: #334155 !important; text-align: left; }
         .seo-article .seo-header-block { text-align: center; border-bottom: 3px solid var(--tn-blue); padding-bottom: 20px; margin-bottom: 30px; }
@@ -136,10 +145,6 @@
         .sst-dash-title { flex: 1; line-height: 1.3; text-align: left; }
         .sst-dash-btn:hover { border-color: var(--tn-blue); transform: translateY(-4px); background: linear-gradient(135deg, #ffffff, #f0f4f8); }
 
-        .sst-github-seal-wrapper { display: flex; flex-direction: column; align-items: flex-end; margin-top: 10px; }
-        .sst-seal-frame { width: 120px; height: 120px; display: flex; align-items: center; justify-content: center; overflow: hidden; }
-        .sst-seal-frame img { max-width: 100%; max-height: 100%; object-fit: contain; }
-
         @media (max-width: 600px) {
             .input-grid { grid-template-columns: 1fr; gap: 12px; }
             .btn-convert, .res-panel, .govt-portal-section { max-width: 100%; }
@@ -150,13 +155,16 @@
             .donut-chart::before { width: 75px; height: 75px; }
         }
 
-        /* PREMIUM PRINT MATRIX */
+        /* PREMIUM PRINT MATRIX - LOGO & SEAL PROTECTION ACTIVE */
         @media print {
             * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; color-adjust: exact !important; }
             @page { margin: 15mm; size: A4 portrait; }
             body { background: #ffffff !important; color: #000000 !important; padding: 0; margin: 0; font-family: 'Roboto', sans-serif; }
             .tool-wrapper > header, .lang-switch, .input-grid, .btn-convert, .govt-portal-section, .util-btns, .conversion-results-title, .seo-article, .back-btn, .registry-disclaimer, .donut-chart, .chart-legends { display: none !important; }
             
+            .print-logo-container { display: block !important; visibility: visible !important; }
+            .print-logo-box { background: #0f2d59 !important; color: #ffffff !important; }
+
             .res-panel { display: block !important; background: #ffffff !important; color: #000000 !important; padding: 25px !important; margin: 0 !important; width: 100% !important; box-sizing: border-box; border: 3px double var(--tn-blue) !important; border-radius: 0px !important; }
             .print-header-block { display: block !important; text-align: center; border-bottom: 2px solid var(--tn-blue) !important; padding-bottom: 12px; margin-bottom: 20px; }
             .tn-standard-banner { background: #f0fdf4 !important; border: 1px dashed var(--tn-blue) !important; color: #000000 !important; }
@@ -172,7 +180,10 @@
             .res-item b { color: var(--tn-dark) !important; font-size: 15px !important; font-weight: bold; }
             .res-item b.net-tag { font-size: 16px !important; font-weight: 900; color: #0f2d59 !important; }
             
-            .print-footer-block { display: block !important; text-align: center; margin-top: 40px; border-top: 1px solid #cbd5e1 !important; padding-top: 20px; }
+            .sst-github-seal-wrapper { display: flex !important; visibility: visible !important; overflow: visible !important; margin-top: 25px; }
+            .sst-seal-frame { display: flex !important; visibility: visible !important; border: 3px dashed #c0392b !important; background: rgba(192, 57, 43, 0.05) !important; overflow: visible !important; }
+            .sst-seal-internal { color: #c0392b !important; }
+            .print-footer-block { display: block !important; text-align: center; margin-top: 30px; border-top: 1px solid #cbd5e1 !important; padding-top: 20px; }
         }
     </style>
 </head>
@@ -244,9 +255,12 @@
                 <div class="govt-card-right">➔</div>
             </a>
         </div>
-
         <div id="resPanel" class="res-panel">
             
+            <div class="print-logo-container">
+                <div class="print-logo-box">SHAYAN SMART TOOLS</div>
+            </div>
+
             <div class="print-header-block">
                 <div style="display: flex; justify-content: center; align-items: center; gap: 10px; margin-bottom: 5px;">
                     <h2 style="font-size: 22px; color: var(--tn-blue); margin: 0; font-weight: 900; letter-spacing: 1px;">SHAYAN SMART TOOLS</h2>
@@ -306,7 +320,9 @@
                     
                     <div class="sst-github-seal-wrapper">
                         <div class="sst-seal-frame">
-                            <img src="seal.png" alt="Official Seal" onerror="this.style.display='none';">
+                            <div class="sst-seal-internal">
+                                OFFICIAL SEAL<br><strong>SST VERIFIED</strong><br>PORTAL LAYER<br>2026
+                            </div>
                         </div>
                     </div>
 
@@ -406,8 +422,8 @@
             <ul>
                 <li><b>Input Dimensions:</b> 10 Cents Area evaluated at ₹2,00,000 per Cent rate.</li>
                 <li><b>Pure Property Value Assessment:</b> 10 * ₹2,00,000 = ₹20,00,000.</li>
-                <li><b>Concessional Gift Stamp Duty (1%):</b> 1% of ₹20,00,000 = ₹20,00,000.</li>
-                <li><b>Concessional Gift Registration (1%):</b> 1% of ₹20,00,000 = ₹20,00,000.</li>
+                <li><b>Concessional Gift Stamp Duty (1%):</b> 1% of ₹20,00,000 = ₹20,000.</li>
+                <li><b>Concessional Gift Registration (1%):</b> 1% of ₹20,00,000 = ₹20,000.</li>
                 <li><b>Total Estimated Net Budget:</b> ₹20,00,000 + ₹20,000 + ₹20,000 = <b>₹20,40,000</b>.</li>
             </ul>
         </section>
@@ -438,46 +454,17 @@
                     </tr>
                 </thead>
                 <tbody>
-               <tr><td>1</td><td>Ariyalur</td><td>TN-AR</td><td>₹12,500</td><td>Active</td></tr>
-                <tr><td>2</td><td>Chengalpattu</td><td>TN-CGL</td><td>₹15,000</td><td>Active</td></tr>
-                <tr><td>3</td><td>Chennai</td><td>TN-CH</td><td>₹18,500</td><td>Active</td></tr>
-                <tr><td>4</td><td>Coimbatore</td><td>TN-CO</td><td>₹17,500</td><td>Active</td></tr>
-                <tr><td>5</td><td>Cuddalore</td><td>TN-CU</td><td>₹13,000</td><td>Active</td></tr>
-                <tr><td>6</td><td>Dharmapuri</td><td>TN-DH</td><td>₹12,000</td><td>Active</td></tr>
-                <tr><td>7</td><td>Dindigul</td><td>TN-DI</td><td>₹13,500</td><td>Active</td></tr>
-                <tr><td>8</td><td>Erode</td><td>TN-ER</td><td>₹15,000</td><td>Active</td></tr>
-                <tr><td>9</td><td>Kallakurichi</td><td>TN-KK</td><td>₹12,500</td><td>Active</td></tr>
-                <tr><td>10</td><td>Kanchipuram</td><td>TN-KC</td><td>₹15,500</td><td>Active</td></tr>
-                <tr><td>11</td><td>Kanyakumari</td><td>TN-KKM</td><td>₹14,000</td><td>Active</td></tr>
-                <tr><td>12</td><td>Karur</td><td>TN-KA</td><td>₹13,000</td><td>Active</td></tr>
-                <tr><td>13</td><td>Krishnagiri</td><td>TN-KR</td><td>₹14,000</td><td>Active</td></tr>
-                <tr><td>14</td><td>Madurai</td><td>TN-MA</td><td>₹16,500</td><td>Active</td></tr>
-                <tr><td>15</td><td>Mayiladuthurai</td><td>TN-MYD</td><td>₹12,500</td><td>Active</td></tr>
-                <tr><td>16</td><td>Nagapattinam</td><td>TN-NG</td><td>₹13,000</td><td>Active</td></tr>
-                <tr><td>17</td><td>Namakkal</td><td>TN-NM</td><td>₹13,500</td><td>Active</td></tr>
-                <tr><td>18</td><td>Nilgiris</td><td>TN-NI</td><td>₹14,500</td><td>Active</td></tr>
-                <tr><td>19</td><td>Perambalur</td><td>TN-PE</td><td>₹12,000</td><td>Active</td></tr>
-                <tr><td>20</td><td>Pudukkottai</td><td>TN-PU</td><td>₹13,000</td><td>Active</td></tr>
-                <tr><td>21</td><td>Ramanathapuram</td><td>TN-RA</td><td>₹13,500</td><td>Active</td></tr>
-                <tr><td>22</td><td>Ranipet</td><td>TN-RNP</td><td>₹14,000</td><td>Active</td></tr>
-                <tr><td>23</td><td>Salem</td><td>TN-SA</td><td>₹15,500</td><td>Active</td></tr>
-                <tr><td>24</td><td>Sivaganga</td><td>TN-SI</td><td>₹13,000</td><td>Active</td></tr>
-                <tr><td>25</td><td>Tenkasi</td><td>TN-TKS</td><td>₹13,500</td><td>Active</td></tr>
-                <tr><td>26</td><td>Thanjavur</td><td>TN-TJ</td><td>₹14,000</td><td>Active</td></tr>
-                <tr><td>27</td><td>Theni</td><td>TN-TH</td><td>₹13,000</td><td>Active</td></tr>
-                <tr><td>28</td><td>Thoothukudi</td><td>TN-TO</td><td>₹14,500</td><td>Active</td></tr>
-                <tr><td>29</td><td>Tiruchirappalli</td><td>TN-TP</td><td>₹16,000</td><td>Active</td></tr>
-                <tr><td>30</td><td>Tirunelveli</td><td>TN-TI</td><td>₹15,000</td><td>Active</td></tr>
-                <tr><td>31</td><td>Tirupathur</td><td>TN-TPR</td><td>₹12,500</td><td>Active</td></tr>
-                <tr><td>32</td><td>Tiruppur</td><td>TN-TPR</td><td>₹16,000</td><td>Active</td></tr>
-                <tr><td>33</td><td>Tiruvallur</td><td>TN-TL</td><td>₹15,000</td><td>Active</td></tr>
-                <tr><td>34</td><td>Tiruvannamalai</td><td>TN-TV</td><td>₹13,500</td><td>Active</td></tr>
-                <tr><td>35</td><td>Tiruvarur</td><td>TN-TR</td><td>₹13,000</td><td>Active</td></tr>
-                <tr><td>36</td><td>Vellore</td><td>TN-VE</td><td>₹14,500</td><td>Active</td></tr>
-                <tr><td>37</td><td>Viluppuram</td><td>TN-VL</td><td>₹14,000</td><td>Active</td></tr>
-                <tr><td>38</td><td>Virudhunagar</td><td>TN-VD</td><td>₹13,500</td><td>Active</td></tr>
-            </tbody>
-
+                    <tr><td>1</td><td><b>Chennai (சென்னை)</b></td><td>Metro Hub / Capital Scale</td><td>₹45,000 - ₹2,50,000+ per Ground</td></tr>
+                    <tr><td>2</td><td><b>Coimbatore (கோயம்புத்தூர்)</b></td><td>Industrial / Textile Central</td><td>₹15,000 - ₹85,000 per Ground</td></tr>
+                    <tr><td>3</td><td><b>Madurai (மதுரை)</b></td><td>Heritage / Commercial Rim</td><td>₹2,000 - ₹12,000 per Sq.Ft</td></tr>
+                    <tr><td>4</td><td><b>Trichy (திருச்சி)</b></td><td>Transit Junction Matrix</td><td>₹1,500 - ₹9,000 per Sq.Ft</td></tr>
+                    <tr><td>5</td><td><b>Salem (சேலம்)</b></td><td>Mining Mineral / Agro Industrial</td><td>₹2 Lakh - ₹22 Lakh per Cent</td></tr>
+                    <tr><td>6</td><td><b>Tiruppur (திருப்பூர்)</b></td><td>Apparel Global Exports Hub</td><td>₹5 Lakh - ₹35 Lakh per Cent</td></tr>
+                    <tr><td>7</td><td><b>Vellore (வேலூர்)</b></td><td>Institutional / Healthcare Dense</td><td>₹3 Lakh - ₹18 Lakh per Cent</td></tr>
+                    <tr><td>8</td><td><b>Tirunelveli (திருநெல்வேலி)</b></td><td>Agro Industrial Buffer Layer</td><td>₹1.5 Lakh - ₹12 Lakh per Cent</td></tr>
+                    <tr><td>9</td><td><b>Kanchipuram (காஞ்சிபுரம்)</b></td><td>Satellite Town Expansion Area</td><td>₹8 Lakh - ₹45 Lakh per Cent</td></tr>
+                    <tr><td>10</td><td><b>Erode (ஈரோடு)</b></td><td>Agricultural Agro-Business Unit</td><td>₹2 Lakh - ₹15 Lakh per Cent</td></tr>
+                </tbody>
             </table>
         </div>
 
@@ -497,36 +484,6 @@
             </div>
             <div style="margin-bottom: 20px; border-bottom: 1px solid #cbd5e1; padding-bottom: 15px;">
                 <p><b>Q5. Online guideline value maps track check validation engine portal link kya hai?</b><br>Ans: Official registration system status check karne ke liye **TN REGINET (reginet.tn.gov.in)** validation repository structural logs tracking portal hai.</p>
-            </div>
-            <div style="margin-bottom: 20px; border-bottom: 1px solid #cbd5e1; padding-bottom: 15px;">
-                <p><b>Q6. Kya property registration cost evaluation parameters inside sub-registrar documentation charges inclusion milta hai?</b><br>Ans: Nahi, Shayan Smart Tools core engine standard legal calculations strictly measures (Base Value, Stamp Duty, standard registration tracking framework) measure karta hai, localized documentation mapping files excluded rehti hain.</p>
-            </div>
-            <div style="margin-bottom: 20px; border-bottom: 1px solid #cbd5e1; padding-bottom: 15px;">
-                <p><b>Q7. Property dimensions layout me Cent to Ground conversion dynamic values automate balance kaisa rehta hai?</b><br>Ans: Dono systems basic structural parameters completely separate evaluation calculations metrics systems follow up parameters coordinate karte hain.</p>
-            </div>
-            <div style="margin-bottom: 20px; border-bottom: 1px solid #cbd5e1; padding-bottom: 15px;">
-                <p><b>Q8. Patta Chitta update layers extraction mapping parameters sequence track duration time kitna valid count hota hai?</b><br>Ans: Secure transactional operations parameters validation processing real time active logs online update framework standard track accurate rules show karta hai.</p>
-            </div>
-            <div style="margin-bottom: 20px; border-bottom: 1px solid #cbd5e1; padding-bottom: 15px;">
-                <p><b>Q9. Encumbrance Certificate dynamic trace minimum calculations layer sequence rules range parameter kya hona chahiye?</b><br>Ans: Standard properties valuation analysis validation transparent sequence limits verify parameters balance strictly minimal 30 years tracking optimal performance criteria clear balance maintain rakhti hai.</p>
-            </div>
-            <div style="margin-bottom: 20px; border-bottom: 1px solid #cbd5e1; padding-bottom: 15px;">
-                <p><b>Q10. Agar registration agreed value government standard baseline guideline metric se lowest balance trigger kare tab system calculations processing value kya set karega?</b><br>Ans: Sub-registrar ledger acts regulations criteria data evaluation strict parameters guidelines standard higher matrix layer value framework accept parameters set execute karega.</p>
-            </div>
-            <div style="margin-bottom: 20px; border-bottom: 1px solid #cbd5e1; padding-bottom: 15px;">
-                <p><b>Q11. FMB mapping trace charts verification context local systems me check up execute kis processing standard setup me transparent sequence trace kiya jata hai?</b><br>Ans: Village Administrative Officer structural field measurement data maps verification records strictly physical checks matching optimization parameters apply execute rules balance hold karti hai.</p>
-            </div>
-            <div style="margin-bottom: 20px; border-bottom: 1px solid #cbd5e1; padding-bottom: 15px;">
-                <p><b>Q12. Stamp papers validation workflow mechanism modes dynamic transaction online system support operations kaisa handle karta hai?</b><br>Ans: TN state REGINET system interface options securely digital mode receipts processing systems generate execution automatic support maps logic balance apply structural checks logs create karta hai.</p>
-            </div>
-            <div style="margin-bottom: 20px; border-bottom: 1px solid #cbd5e1; padding-bottom: 15px;">
-                <p><b>Q13. Mutation algorithms flow updates standard timelines properties conversion updates complete rules duration span limit details evaluate parameters baseline options sequence steps kya execute hote hain?</b><br>Ans: Land transitions record updates state rules context typically 3 to 6 weeks time span coordinates intervals update operations execute limits parameter track execute calculations complete maintain rakhta hai.</p>
-            </div>
-            <div style="margin-bottom: 20px; border-bottom: 1px solid #cbd5e1; padding-bottom: 15px;">
-                <p><b>Q14. Blood relations limits specifications classifications categories entities guidelines metrics mapping standard rules structural check criteria limits components parameters criteria structure matrix operations configurations definitions system updates kya assume karti hain?</b><br>Ans: Directly connected linear ancestors, structural siblings units standard laws legal framework configurations tracking filters rules parameters accept limits evaluate coordinate karti hai.</p>
-            </div>
-            <div style="margin-bottom: 20px; border-bottom: 1px solid #cbd5e1; padding-bottom: 15px;">
-                <p><b>Q15. Mobile devices cross optimization operational layouts interfaces speed consistency response execution performance parameters updates stable layers structure configuration support rules updates status operations parameters kaisa behave setup follow karta hai?</b><br>Ans: Pure modular adaptive matrix rules script engines completely standalone optimized models layers dynamic scale cross responsiveness structure perform rules operations monitor structural maintain execute rules complete delivery setup performance trigger output framework ensure rules coordinate karta hai.</p>
             </div>
         </section>
 
@@ -665,30 +622,31 @@
 
             let sqft = 0;
             let grounds = 0;
+            let landCost = 0;
 
+            // Accurate Unit Area Mapping and Dynamic Price Multiplication Control Fix
             if(unit === 'ground') {
                 grounds = area;
                 sqft = area * 2400;
+                landCost = area * price; // Cost calculated directly per Ground
             } else if(unit === 'cent') {
                 sqft = area * 435.6;
                 grounds = sqft / 2400;
+                landCost = area * price; // Cost calculated directly per Cent
             } else if(unit === 'acre') {
                 sqft = area * 43560;
                 grounds = sqft / 2400;
+                landCost = area * price; // Cost calculated directly per Acre
             } else if(unit === 'sqft') {
                 sqft = area;
                 grounds = area / 2400;
+                landCost = area * price; // Cost calculated directly per SqFt
             }
-
-            const landCost = sqft * price;
 
             let stampDutyRate = 0.07;
             let regFeesRate = 0.04;
 
-            if(deed === 'gift') {
-                stampDutyRate = 0.01;
-                regFeesRate = 0.01;
-            } else if(deed === 'settlement') {
+            if(deed === 'gift' || deed === 'settlement') {
                 stampDutyRate = 0.01;
                 regFeesRate = 0.01;
             }
@@ -696,7 +654,6 @@
             let stampDuty = landCost * stampDutyRate;
             let regFees = landCost * regFeesRate;
 
-            // Settlement maximum absolute legal cap filtering adjustment logic rules standard
             if(deed === 'settlement') {
                 if(stampDuty > 25000) stampDuty = 25000;
                 if(regFees > 4000) regFees = 4000;
@@ -708,7 +665,7 @@
             document.getElementById('outTotalSqft').innerText = Math.round(sqft).toLocaleString('en-IN') + " sq ft";
             document.getElementById('outTotalGround').innerText = grounds.toFixed(4) + " Grounds";
             document.getElementById('outLandCost').innerText = "₹" + Math.round(landCost).toLocaleString('en-IN');
-            document.getElementById('outStampDuty').innerText = "₹" + Math.round(stampDuty).toLocaleString('en-IN') + " (" + (stampDutyRate*100) + "% Max Cap Match)";
+            document.getElementById('outStampDuty').innerText = "₹" + Math.round(stampDuty).toLocaleString('en-IN') + " (" + (stampDutyRate*100) + "%)";
             document.getElementById('outRegFees').innerText = "₹" + Math.round(regFees).toLocaleString('en-IN') + " (" + (regFeesRate*100) + "%)";
             document.getElementById('outNetBudget').innerText = "₹" + Math.round(netBudget).toLocaleString('en-IN');
 
@@ -725,10 +682,10 @@
             let options = { day: 'numeric', month: 'long', year: 'numeric' };
             let today = new Date().toLocaleDateString('en-IN', options);
             document.getElementById('pDocDate').innerText = today + " (IST)";
-            document.getElementById('pDocSurvey').innerText = survey ? survey : "N/A (Not Provided)";
+            document.getElementById('pDocSurvey').innerText = survey ? survey : "N/A";
             
             let displayUnitLabel = unit.toUpperCase();
-            document.getElementById('rInputVal').innerText = `${area} ${displayUnitLabel} @ ₹${price}/Sqft Matrix [${deed.toUpperCase()}]`;
+            document.getElementById('rInputVal').innerText = `${area} ${displayUnitLabel} @ ₹${price}/${displayUnitLabel} Matrix [${deed.toUpperCase()}]`;
             
             let randID = Math.floor(10000000 + Math.random() * 90000000);
             document.getElementById('pDocRef').innerText = `SST-TN-REGS-${randID}`;
