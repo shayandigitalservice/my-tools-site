@@ -6,8 +6,8 @@
     <title>Odisha Land Cost & Registry Budget Calculator Free 2026 | ओडिशा जमीन रजिस्ट्री कैलकुलेटर | Shayan Smart Tools</title>
     <link class="canonical" href="https://shayansmarttools.in/odisha-land-cost-calculator.html" />
 
-    <meta name="description" content="Official Odisha Land Cost & Registry Budget Calculator. Convert Hectare, Acre, and Sq Feet to evaluate precise Odisha Bhulekh Stamp Duty and Registration Fees dynamically.">
-    <meta name="keywords" content="Odisha Land Cost Calculator, ओडिशा जमीन रजिस्ट्री कैलकुलेटर, Odisha Stamp Duty 2026, Bhulekh Odisha land valuation calculator, Shayan Smart Tools, Odisha Land Rates, Bhulekh Khatiyan">
+    <meta name="description" content="Official Odisha Land Cost & Registry Budget Calculator. Convert Hectare, Acre, and Sq Feet to evaluate precise Odisha Bhulekh Stamp Duty, Urban Cess, and Registration Fees dynamically.">
+    <meta name="keywords" content="Odisha Land Cost Calculator, ओडिशा जमीन रजिस्ट्री कैलकुलेटर, Odisha Stamp Duty 2026, Bhulekh Odisha land valuation calculator, Shayan Smart Tools, Odisha Land Rates, Urban Rural registry odisha">
     <meta name="author" content="Muksidul Islam">
     <meta name="robots" content="index, follow">
 
@@ -155,10 +155,8 @@
             @page { margin: 15mm; size: A4 portrait; }
             body { background: #ffffff !important; color: #000000 !important; padding: 0; margin: 0; font-family: 'Roboto', sans-serif; }
             
-            /* Hide non-print containers thoroughly */
             .tool-wrapper > header, .lang-switch, .input-grid, .btn-convert, .govt-portal-section, .util-btns, .conversion-results-title, .seo-article, .back-btn, .registry-disclaimer, .donut-chart, .chart-legends { display: none !important; }
             
-            /* Render Result Panel cleanly over raw white backdrop */
             .res-panel { display: block !important; background: #ffffff !important; color: #000000 !important; padding: 25px !important; margin: 0 !important; width: 100% !important; box-sizing: border-box; border: 3px double var(--od-blue) !important; border-radius: 0px !important; }
             .print-header-block { display: block !important; text-align: center; border-bottom: 2px solid var(--od-blue) !important; padding-bottom: 12px; margin-bottom: 20px; }
             .od-standard-banner { background: #f0fdf4 !important; border: 1px dashed var(--od-blue) !important; color: #000000 !important; padding: 15px !important; margin-bottom: 15px !important; }
@@ -168,7 +166,6 @@
             .word-format-box { border: 1px dashed #cbd5e1 !important; color: #000000 !important; margin-top: 10px !important; background: transparent !important; padding: 10px !important; }
             .word-format-box span { color: var(--od-blue) !important; font-size: 14px !important; }
 
-            /* Flatten Flex-Grid to safe simple block layout rows */
             .res-grid { display: block !important; margin-top: 15px !important; }
             .res-item { background: transparent !important; border: none !important; border-bottom: 1px solid #cbd5e1 !important; padding: 12px 4px !important; display: flex !important; justify-content: space-between !important; flex-direction: row !important; border-radius: 0px !important; box-shadow: none !important; margin-bottom: 0 !important; }
             .res-item span { color: #1e293b !important; font-size: 13px !important; font-weight: 600; text-transform: uppercase; }
@@ -210,6 +207,14 @@
             <div class="field">
                 <label id="lblUnitPrice">Price Per Unit (₹)</label>
                 <input type="number" id="unitPrice" placeholder="Example: 1200000" step="any">
+            </div>
+
+            <div class="field">
+                <label id="lblRegion">Region Classification (क्षेत्र वर्गीकरण)</label>
+                <select id="regionSelect">
+                    <option value="urban">Urban Zone (शहरी क्षेत्र - Cess 1%)</option>
+                    <option value="rural">Rural Zone (ग्रामीण क्षेत्र - No Cess)</option>
+                </select>
             </div>
 
             <div class="field">
@@ -282,6 +287,7 @@
                 <div class="res-item"><span>Total Equivalent Hectare (Ha):</span> <b id="outTotalHectare">0.0000 Ha</b></div>
                 <div class="res-item"><span>Pure Land Market Cost (₹):</span> <b id="outLandCost" class="price-tag">₹0</b></div>
                 <div class="res-item"><span>Base Stamp Duty Amount (₹):</span> <b id="outStampDuty">₹0</b></div>
+                <div class="res-item"><span>Urban Area Entry Cess (₹):</span> <b id="outCess">₹0</b></div>
                 <div class="res-item"><span>Registration Fees Structure (2%):</span> <b id="outRegFees">₹0</b></div>
                 <div class="highlight-panel res-item"><span>Total Estimated Acquisition Budget (₹):</span> <b id="outNetBudget" class="net-tag">₹0</b></div>
             </div>
@@ -297,7 +303,7 @@
                 </div>
                 <div class="chart-legends">
                     <div class="legend-item"><span class="legend-color" style="background:var(--od-blue);"></span><span id="legCost">Land Value Cost</span></div>
-                    <div class="legend-item"><span class="legend-color" style="background:var(--od-gold);"></span><span id="legStamp">Stamp Duty</span></div>
+                    <div class="legend-item"><span class="legend-color" style="background:var(--od-gold);"></span><span id="legStamp">Stamp Duty + Cess</span></div>
                     <div class="legend-item"><span class="legend-color" style="background:#1e40af;"></span><span id="legReg">Registration Fee</span></div>
                 </div>
             </div>
@@ -376,6 +382,16 @@
                         <td>Standard proportional mean applied for joint multi-gender ownership matrices.</td>
                     </tr>
                     <tr>
+                        <td><b>Urban Area Municipal Cess</b></td>
+                        <td>1.00% Additional</td>
+                        <td>Mandatory upkar/tax calculated exclusively inside Urban municipal corporations or municipality zones in Odisha.</td>
+                    </tr>
+                    <tr>
+                        <td><b>Rural Area Development Cess</b></td>
+                        <td>0.00%</td>
+                        <td>Rural properties are completely exempt from local municipal transformations cess charges.</td>
+                    </tr>
+                    <tr>
                         <td><b>Registration Fees</b></td>
                         <td>2.00% Flat</td>
                         <td>Calculated as flat 2 percentage points over the final gross evaluated property price.</td>
@@ -383,50 +399,11 @@
                     <tr>
                         <td><b>Official Hectare Base</b></td>
                         <td>1,07,639.1 Sq. Ft.</td>
-                        <td>Standard tracking unit verified over Bhulekh Odisha records mapping layout sheets.</td>
+                        <td>Standard tracking unit verified over Bhulekh Odisha records mapping ledger layout sheets.</td>
                     </tr>
                 </tbody>
             </table>
         </div>
-
-        <section>
-            <h2>2. Practical Mathematical Computation Examples</h2>
-            <p>
-                Real estate financial frameworks ko acche se samajhne ke liye chaliye do practical examples ko theoretical layout matrices ke adhar par samajhte hain:
-            </p>
-            
-            <h3>Example A: Standard Male Ownership Purchase</h3>
-            <ul>
-                <li><b>Input Dimensions:</b> 0.5 Hectare Area mapped at ₹20,00,000 per Hectare baseline rate.</li>
-                <li><b>Pure Land Market Cost:</b> 0.5 * ₹20,00,000 = ₹10,00,000.</li>
-                <li><b>Stamp Duty Assessment (Male - 5%):</b> 5% of ₹10,00,000 = ₹50,000.</li>
-                <li><b>Registration Charges (2%):</b> 2% of ₹10,00,000 = ₹20,000.</li>
-                <li><b>Total Estimated Net Budget:</b> ₹10,00,000 + ₹50,000 + ₹20,000 = <b>₹10,70,000</b>.</li>
-            </ul>
-
-            <h3>Example B: Female Ownership Purchase</h3>
-            <ul>
-                <li><b>Input Dimensions:</b> 1 Hectare Area mapped at ₹15,00,000 per Hectare rural circle rate.</li>
-                <li><b>Pure Land Market Cost:</b> 1 * ₹15,00,000 = ₹15,00,000.</li>
-                <li><b>Stamp Duty Assessment (Female - 4%):</b> 4% of ₹15,00,000 = ₹60,000.</li>
-                <li><b>Registration Charges (2%):</b> 2% of ₹15,00,000 = ₹30,000.</li>
-                <li><b>Total Estimated Net Budget:</b> ₹15,00,000 + ₹60,000 + ₹30,000 = <b>₹15,90,000</b>.</li>
-            </ul>
-        </section>
-
-        <section>
-            <h2>3. Mandatory Documents Checklist for Land Registry in Odisha</h2>
-            <p>
-                Odisha land registry process sub-registrar office me securely finalise karne ke liye khariddaar (buyer) aur bechne wale (seller) ke paas niche diye gaye valid certificates aur reports hone anivarya hain:
-            </p>
-            <ul>
-                <li><b>Bhulekh Portal Documents:</b> Digitally signed **Khatiyan (ROR)** copy jisse land ownership and classification validity trace hoti hai.</li>
-                <li><b>Official Land Map:</b> Revenue department द्वारा verified map copy tracking grid sheets.</li>
-                <li><b>Benchmark Certificate:</b> Region ke standard valuation verification benchmark sheet copy.</li>
-                <li><b>Identity Proof Verification:</b> Dono party (Buyer, Seller & Witness) ka PAN Card, Voter ID documents.</li>
-                <li><b>Property Diversion Certificate:</b> Agar zameen agricultural se residential/commercial purpose layout zone me badli gayi ho, toh conversion clearance log.</li>
-            </ul>
-        </section>
     </article>
 
     <script>
@@ -438,6 +415,7 @@
                 lblInputArea: "Land Area Value",
                 lblAreaUnit: "Area Unit",
                 lblUnitPrice: "Price Per Unit (₹)",
+                lblRegion: "Region Classification (क्षेत्र वर्गीकरण)",
                 lblOwnership: "Ownership Type (स्वामित्व प्रकार)",
                 lblKhasra: "Bhulekh Khatiyan / Chalta No. (Optional)",
                 btnText: "Calculate Budget Now",
@@ -448,7 +426,7 @@
                 discText: "The calculations generated below are standard estimates configured as per the latest Odisha regulatory acts. Exact registration values, circle guideline adjustments, and tracking fees can vary inside the Sub-Registrar Office ledger logs.",
                 lblWordTitle: "Total Budget in Words (INR):",
                 legCost: "Land Value Cost",
-                legStamp: "Stamp Duty",
+                legStamp: "Stamp Duty + Cess",
                 legReg: "Registration Fee"
             },
             hi: {
@@ -457,6 +435,7 @@
                 lblInputArea: "भूमि क्षेत्र का मूल्य",
                 lblAreaUnit: "मापन इकाई (Unit)",
                 lblUnitPrice: "प्रति इकाई मूल्य (₹)",
+                lblRegion: "क्षेत्र वर्गीकरण",
                 lblOwnership: "स्वामित्व का प्रकार",
                 lblKhasra: "भूलेख खतियान / चलता नंबर (वैकल्पिक)",
                 btnText: "बजट की गणना करें",
@@ -464,10 +443,10 @@
                 lblGovtHead: "ओडिशा सरकार के आधिकारिक पोर्टल",
                 lblStandardFormat: "ओडिशा भूलेख मानक प्रारूप:",
                 discTitle: "⚠️ रजिस्ट्री मूल्यांकन सूचना और अस्वीकरण:",
-                discText: "नीचे दी गई गणनाएं ओडिशा के नवीनतम नियमों के अनुसार अनुमानित हैं। उप-पंजीयक (Sub-Registrar) कार्यालय में वास्तविक मूल्य और शुल्क में थोड़ा अंतर हो सकता है।",
+                discText: "नीचे दी गई गणनाएं ओडिशा के नवीनतम नियमों के अनुसार अनुमानित हैं। उप-पंजीयक (Sub-Registrar) कार्यालय में वास्तविक मूल्य aur शुल्क में थोड़ा अंतर हो सकता है।",
                 lblWordTitle: "शब्दों में कुल बजट (INR):",
                 legCost: "जमीन का मूल्य",
-                legStamp: "स्टाम्प ड्यूटी",
+                legStamp: "स्टाम्प ड्यूटी + सेस",
                 legReg: "पंजीकरण शुल्क"
             }
         };
@@ -482,6 +461,7 @@
             document.getElementById('lblInputArea').innerText = dict[lang].lblInputArea;
             document.getElementById('lblAreaUnit').innerText = dict[lang].lblAreaUnit;
             document.getElementById('lblUnitPrice').innerText = dict[lang].lblUnitPrice;
+            document.getElementById('lblRegion').innerText = dict[lang].lblRegion;
             document.getElementById('lblOwnership').innerText = dict[lang].lblOwnership;
             document.getElementById('lblKhasra').innerText = dict[lang].lblKhasra;
             document.getElementById('btnText').innerText = dict[lang].btnText;
@@ -521,6 +501,7 @@
             const unit = document.getElementById('areaUnitSelect').value;
             const price = parseFloat(document.getElementById('unitPrice').value);
             const ownership = document.getElementById('ownershipSelect').value;
+            const region = document.getElementById('regionSelect').value;
             const khasra = document.getElementById('khasraInput').value.trim();
             const resPanel = document.getElementById('resPanel');
 
@@ -553,24 +534,32 @@
             }
             const stampDuty = landCost * stampDutyRate;
 
+            let cessRate = 0.00;
+            if(region === 'urban') {
+                cessRate = 0.01;
+            }
+            const cessAmount = landCost * cessRate;
+
             // Odisha Flat 2% Registration Rules Setup
             const regFees = landCost * 0.02;
 
-            const netBudget = landCost + stampDuty + regFees;
+            const netBudget = landCost + stampDuty + cessAmount + regFees;
 
             document.getElementById('odStandardOutput').innerText = hectare.toFixed(4) + " Hectare (Ha) Allocation";
             document.getElementById('outTotalSqft').innerText = Math.round(sqft).toLocaleString('en-IN') + " sq ft";
             document.getElementById('outTotalHectare').innerText = hectare.toFixed(4) + " Ha";
             document.getElementById('outLandCost').innerText = "₹" + Math.round(landCost).toLocaleString('en-IN');
             document.getElementById('outStampDuty').innerText = "₹" + Math.round(stampDuty).toLocaleString('en-IN') + " (" + (stampDutyRate*100) + "%)";
+            document.getElementById('outCess').innerText = "₹" + Math.round(cessAmount).toLocaleString('en-IN') + " (" + (cessRate*100) + "%)";
             document.getElementById('outRegFees').innerText = "₹" + Math.round(regFees).toLocaleString('en-IN') + " (2%)";
             document.getElementById('outNetBudget').innerText = "₹" + Math.round(netBudget).toLocaleString('en-IN');
 
             const roundedNet = Math.round(netBudget);
             document.getElementById('outBudgetInWords').innerText = numToWords(roundedNet);
 
+            const totalTaxes = stampDuty + cessAmount;
             const costPct = (landCost / netBudget) * 100;
-            const taxPct = (stampDuty / netBudget) * 100;
+            const taxPct = (totalTaxes / netBudget) * 100;
             const regPct = (regFees / netBudget) * 100;
 
             const chartGrad = `conic-gradient(var(--od-blue) 0% ${costPct}%, var(--od-gold) ${costPct}% ${costPct + taxPct}%, #1e40af ${costPct + taxPct}% 100%)`;
@@ -582,7 +571,7 @@
             document.getElementById('pDocKhasra').innerText = khasra ? khasra : "N/A (Not Provided)";
             
             let displayUnitLabel = unit.toUpperCase();
-            document.getElementById('rInputVal').innerText = `${area} ${displayUnitLabel} @ ₹${price}/Unit [${ownership.toUpperCase()}]`;
+            document.getElementById('rInputVal').innerText = `${area} ${displayUnitLabel} @ ₹${price}/Unit [${region.toUpperCase()} - ${ownership.toUpperCase()}]`;
             
             let randID = Math.floor(10000000 + Math.random() * 90000000);
             document.getElementById('pDocRef').innerText = `SST-OD-REGS-${randID}`;
@@ -596,6 +585,7 @@
             document.getElementById('unitPrice').value = '';
             document.getElementById('khasraInput').value = '';
             document.getElementById('areaUnitSelect').selectedIndex = 0;
+            document.getElementById('regionSelect').selectedIndex = 0;
             document.getElementById('ownershipSelect').selectedIndex = 0;
             
             const resPanel = document.getElementById('resPanel');
@@ -617,6 +607,7 @@
             copyText += `Bhulekh Area Allocation: ${document.getElementById('odStandardOutput').innerText}\n`;
             copyText += `Pure Land Cost Base: ${document.getElementById('outLandCost').innerText}\n`;
             copyText += `Stamp Duty Amount: ${document.getElementById('outStampDuty').innerText}\n`;
+            copyText += `Urban Area Entry Cess: ${document.getElementById('outCess').innerText}\n`;
             copyText += `Registration (2%): ${document.getElementById('outRegFees').innerText}\n`;
             copyText += `Net Capital Acquisition Budget: ${document.getElementById('outNetBudget').innerText}\n`;
             copyText += `Words Format: ${document.getElementById('outBudgetInWords').innerText}\n`;
@@ -632,6 +623,7 @@
             text += `• Allocation: ${document.getElementById('odStandardOutput').innerText}\n`;
             text += `• Pure Land Cost: ${document.getElementById('outLandCost').innerText}\n`;
             text += `• Stamp Duty Amount: ${document.getElementById('outStampDuty').innerText}\n`;
+            text += `• Urban Cess Amount: ${document.getElementById('outCess').innerText}\n`;
             text += `• Reg Fees (2%): ${document.getElementById('outRegFees').innerText}\n`;
             text += `• *Total Acquisition Budget:* ${document.getElementById('outNetBudget').innerText}\n`;
             text += `• *In Words:* ${document.getElementById('outBudgetInWords').innerText}\n\n`;
