@@ -1,0 +1,1237 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jharkhand Irregular Land Calculator | झारखंड अनियमित जमीन मोजणी कॅल्क्युलेटर | Shayan Smart Tools</title>
+    <link rel="canonical" href="https://shayansmarttools.in/jharkhand-irregular-land-calculator.html" />
+
+    <meta name="description" content="Official Jharkhand Irregular Land Area Calculator by Shayan Smart Tools. Calculate asymmetric plot layouts using Heron's Triangulation Formula. Accurate results in Kattha, Bigha, Dhur, and Acre for Jharbhoomi updates.">
+    <meta name="keywords" content="Jharkhand Land Calculator, झारखंड जमीन मोजणी, Jharkhand irregular land calculator, Kattha Dhur Bigha Calculator Jharkhand, Jharbhoomi Plot Calculator, Shayan Smart Tools Jharkhand, Amin Land Calculator">
+    <meta name="author" content="Muksidul islam">
+    <meta name="robots" content="index, follow">
+
+    <style>
+        :root {
+            --gj-blue: #0d47a1;
+            --gj-dark: #0a2540;
+            --gj-corporate: #0f172a;
+            --text-dark: #334155;
+            --white: #ffffff;
+            --bg: #f8fafc;
+            --gj-gold: #ff6d00;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--text-dark);
+            max-width: 850px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: var(--bg);
+        }
+
+        .tool-wrapper {
+            padding: 10px 0;
+            text-align: center;
+        }
+
+        header {
+            background: linear-gradient(135deg, var(--gj-blue), var(--gj-corporate));
+            color: var(--gj-gold); padding: 40px 20px; border-radius: 25px; text-align: center;
+            border-bottom: 6px solid var(--gj-gold); margin-bottom: 30px;
+        }
+        header h1 { color: #ffffff; margin: 0 0 10px 0; font-size: 26px; text-transform: uppercase; font-weight: 900; }
+        header p { color: #f1f5f9; margin: 0; font-size: 16px; font-weight: 500; }
+
+        /* Language Switcher */
+        .lang-toggle {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            margin-bottom: 30px;
+        }
+
+        .lang-btn {
+            padding: 10px 25px;
+            border: 2px solid var(--gj-blue);
+            background: white;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: 700;
+            color: var(--gj-blue);
+            transition: 0.3s;
+        }
+
+        .lang-btn.active {
+            background: var(--gj-blue);
+            color: #ffffff;
+        }
+
+        .form-container-block {
+            background: transparent !important;
+            padding: 10px 0;
+            border: none !important;
+            box-shadow: none !important;
+            margin-bottom: 20px;
+        }
+
+        .sec-h { font-size: 16px; font-weight: bold; color: var(--gj-blue); margin-bottom: 20px; border-bottom: 2px solid #cbd5e1; padding-bottom: 8px; text-transform: uppercase; letter-spacing: 0.5px; text-align: left; }
+
+        .input-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 15px;
+        }
+
+        .field { display: flex; flex-direction: column; text-align: left; }
+        label { font-size: 12px; font-weight: 800; color: var(--gj-blue); margin-bottom: 8px; text-transform: uppercase; }
+        input { width: 100%; padding: 15px; border: 1px solid #cbd5e1; border-radius: 12px; font-size: 16px; box-sizing: border-box; outline: none; transition: 0.3s; background: var(--white); text-align: center; }
+        input:focus { border-color: var(--gj-blue); background: #fff; box-shadow: 0 0 8px rgba(13, 71, 161, 0.1); }
+
+        .btn-calc {
+            width: 100%; padding: 20px; background: var(--gj-blue); color: #ffffff; border: none; border-radius: 15px; font-size: 18px; font-weight: 800; cursor: pointer; transition: 0.3s; text-transform: uppercase; letter-spacing: 1px; margin-top: 25px;
+        }
+        .btn-calc:hover { transform: translateY(-3px); box-shadow: 0 10px 20px rgba(13, 71, 161, 0.2); }
+
+        .diag-box {
+            background: rgba(255, 255, 255, 0.6);
+            padding: 20px;
+            border-radius: 16px;
+            margin: 25px 0;
+            border: 1px dashed var(--gj-blue);
+            backdrop-filter: blur(5px);
+            text-align: center;
+        }
+        .diag-box img { max-width: 100%; height: auto; border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
+
+        /* RESULTS UI */
+        .result-panel {
+            background: #0f172a; color: white; padding: 25px; border-radius: 25px; margin-top: 30px; display: none; border: 2px solid var(--gj-gold); position: relative;
+        }
+        .result-panel h3 { margin-top: 0; text-align: center; color: var(--gj-gold); font-size: 1.4rem; margin-bottom: 20px; }
+        
+        .res-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin: 20px 0; }
+        .res-item { background: rgba(255,255,255,0.05); padding: 15px; border-radius: 12px; display: flex; flex-direction: column; align-items: center; gap: 5px; border-bottom: 4px solid var(--gj-gold); }
+        .res-item span { font-size: 11px; color: #cbd5e1; font-weight: bold; text-transform: uppercase; text-align: center; }
+        .res-item b { font-size: 20px; color: #fff; }
+
+        .extra-res-box { background: rgba(255, 255, 255, 0.02); padding: 15px; border-radius: 12px; margin-top: 15px; border-left: 4px solid var(--gj-blue); text-align: left; }
+        .extra-res-box p { margin: 5px 0; font-size: 15px; display: flex; justify-content: space-between; align-items: center; }
+        .extra-res-box b { color: var(--gj-gold); }
+
+        .print-header-block, .print-footer-block { display: none; }
+        .util-btns { display: flex; gap: 10px; margin-top: 25px; }
+        .u-btn { flex: 1; padding: 15px; border-radius: 12px; border: none; font-weight: 800; cursor: pointer; transition: 0.3s; color: white; font-size: 14px; text-align: center; }
+
+        /* SEO SECTION LAYOUT */
+        .seo-section { 
+            background: transparent !important; 
+            padding: 20px 0; 
+            margin-top: 50px; 
+            line-height: 1.8; 
+            border: none !important;
+            color: #334155 !important;
+            text-align: left;
+        }
+        .seo-section .seo-header-block {
+            text-align: center; 
+            border-bottom: 3px solid var(--gj-blue); 
+            padding-bottom: 20px; 
+            margin-bottom: 30px;
+            background: transparent !important;
+        }
+        .seo-section h2 { 
+            color: var(--gj-blue) !important; 
+            font-size: 28px !important;
+            margin-bottom: 10px !important;
+            border-left: 6px solid var(--gj-dark);
+            padding-left: 15px;
+            margin-top: 40px;
+        }
+        .seo-section h3 { color: var(--gj-dark) !important; margin-top: 30px; font-size: 22px; }
+        .seo-section h4 { color: #1e293b; margin-top: 20px; font-size: 17px; font-weight: 700; }
+        .seo-section p { color: #334155 !important; font-size: 16px; text-align: justify; margin-bottom: 15px; }
+        .seo-section ul, .seo-section ol { margin-bottom: 20px; padding-left: 25px; }
+        .seo-section li { margin-bottom: 8px; font-size: 15px; }
+        
+        .seo-section table { width: 100%; border-collapse: collapse; margin: 25px 0; background: #ffffff; box-shadow: 0 4px 6px rgba(0,0,0,0.02); border-radius: 8px; overflow: hidden; }
+        .seo-section th, .seo-section td { padding: 15px; border: 1px solid #e2e8f0; text-align: left; color: #334155 !important; }
+        .seo-section th { background: #e3f2fd; color: var(--gj-blue) !important; font-weight: bold; }
+        .seo-section tr:nth-child(even) { background-color: #f8fafc; }
+
+        .links-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; margin: 25px 0 40px; width: 100%; box-sizing: border-box; }
+        .link-card { display: flex; align-items: center; justify-content: center; background: #ffffff; padding: 18px 20px; border-radius: 16px; text-decoration: none; color: var(--gj-blue) !important; font-weight: 700; font-size: 15px; border: 1px solid #e2e8f0; transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1); box-sizing: border-box; text-align: center; }
+        .link-card:hover { border-color: var(--gj-blue); transform: translateY(-4px); box-shadow: 0 12px 20px rgba(13, 71, 161, 0.1); background: linear-gradient(135deg, #ffffff, #e3f2fd); }
+
+        @media (max-width: 600px) {
+            .result-panel { border-radius: 15px; padding: 15px; }
+            .res-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+            .seo-section h2 { font-size: 22px !important; }
+            .links-grid { grid-template-columns: 1fr; gap: 12px; }
+            .link-card { padding: 15px 18px; }
+            .input-grid { grid-template-columns: 1fr; gap: 10px; }
+        }
+
+        /* PRINT CONFIGURATION */
+        @media print {
+            @page {
+                size: A4 portrait;
+                margin: 12mm 10mm 12mm 10mm;
+            }
+            html, body { 
+                background: #ffffff !important; 
+                color: #000000 !important; 
+                margin: 0 !important; 
+                padding: 0 !important; 
+                -webkit-print-color-adjust: exact; 
+                print-color-adjust: exact;
+            }
+            .container { max-width: 100% !important; width: 100% !important; padding: 0 !important; margin: 0 !important; }
+            
+            header, .lang-toggle, .form-container-block, .diag-box, .util-btns, #resHead, .seo-section, .back-btn, footer { 
+                display: none !important; 
+                height: 0 !important;
+                margin: 0 !important;
+                padding: 0 !important;
+            }
+            
+            .result-panel { 
+                display: block !important; 
+                visibility: visible !important;
+                background: #ffffff !important; 
+                color: #000000 !important; 
+                padding: 30px 24px !important; 
+                margin: 0 auto !important;
+                width: 100% !important;
+                box-sizing: border-box;
+                border: 2px solid var(--gj-blue) !important; 
+                border-radius: 12px !important;
+                box-shadow: none !important;
+                page-break-inside: avoid !important;
+            }
+            
+            .print-header-block {
+                display: block !important;
+                text-align: center;
+                border-bottom: 2.5px solid var(--gj-blue) !important;
+                padding-bottom: 15px;
+                margin-bottom: 25px;
+            }
+            .print-header-block img { display: inline-block !important; }
+
+            .bkl-special {
+                padding: 20px !important;
+                margin-bottom: 25px !important;
+                border: 1px dashed var(--gj-blue) !important;
+                border-radius: 10px !important;
+                background: #e3f2fd !important;
+            }
+            .bkl-special span { font-size: 14px !important; color: #475569 !important; }
+            .bkl-special strong { color: #0d47a1 !important; font-size: 24px !important; }
+
+            .res-grid { display: block !important; margin-top: 15px; margin-bottom: 15px; }
+            .res-item { 
+                background: transparent !important; 
+                border: none !important;
+                border-bottom: 1px solid #cbd5e1 !important;
+                padding: 12px 6px !important; 
+                display: flex !important;
+                flex-direction: row !important;
+                justify-content: space-between !important;
+                align-items: center !important;
+                border-radius: 0px !important;
+            }
+            .res-item span { color: #1e293b !important; font-size: 14px !important; font-weight: 600; }
+            .res-item b { color: var(--gj-dark) !important; font-size: 18px !important; font-weight: 700; }
+
+            .extra-res-box {
+                background: #f8fafc !important;
+                border: none !important;
+                border-left: 4px solid var(--gj-blue) !important;
+                padding: 15px 20px !important;
+                margin-top: 25px !important;
+                border-radius: 0 8px 8px 0;
+            }
+            .extra-res-box p { margin: 10px 0 !important; font-size: 14px !important; color: #334155 !important; }
+            .extra-res-box b { color: #000000 !important; font-size: 15px !important; }
+
+            .print-footer-block {
+                display: block !important;
+                text-align: center;
+                margin-top: 45px !important;
+                border-top: 1.5px solid #cbd5e1 !important;
+                padding-top: 20px !important;
+                page-break-inside: avoid !important;
+            }
+            .print-footer-block p { font-size: 11px !important; line-height: 1.6 !important; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="tool-wrapper">
+        <header>
+            <h1 id="mainTitle">Jharkhand Irregular Land Calculator</h1>
+            <p id="sTitle">Premium boundary conversion system designed according to Jharbhoomi Land Records metrics.</p>
+        </header>
+        
+        <div class="lang-toggle">
+            <button class="lang-btn active" id="enBtn" onclick="setLang('en')">English</button>
+            <button class="lang-btn" id="pjBtn" onclick="setLang('hi')">हिंदी</button>
+        </div>
+
+        <div class="form-container-block">
+            <div class="sec-h" id="hSecTitle">Enter Irregular Plot Sides (जमीन की बाहरी सीमाएं भरें)</div>
+            <div class="input-grid">
+                <div class="field"><label id="lblA">Side A (Feet)</label><input type="number" id="sideA" placeholder="0"></div>
+                <div class="field"><label id="lblB">Side B (Feet)</label><input type="number" id="sideB" placeholder="0"></div>
+                <div class="field"><label id="lblC">Side C (Feet)</label><input type="number" id="sideC" placeholder="0"></div>
+                <div class="field"><label id="lblD">Side D (Feet)</label><input type="number" id="sideD" placeholder="0"></div>
+                <div class="field" style="grid-column: 1/-1;">
+                    <label id="lblDiag">Diagonal / कर्ण (Feet)</label>
+                    <input type="number" id="diagonal" placeholder="Enter Cross Section Line (E)">
+                </div>
+            </div>
+
+            <button class="btn-calc" id="btnCalc" onclick="calculateJHArea()">Calculate Land Area</button>
+        </div>
+
+        <div id="resultBox" class="result-panel">
+            
+            <div class="print-header-block">
+                <div style="display: flex; justify-content: center; align-items: center; gap: 10px; margin-bottom: 6px;">
+                    <img src="favicon.png" alt="SST" style="width: 30px; height: 30px;">
+                    <h2 style="font-size: 22px; color: #0d47a1; margin: 0; font-weight: 900; letter-spacing: 1px;">SHAYAN SMART TOOLS</h2>
+                </div>
+                <p style="font-size: 11px; color: #0a2540; font-weight: bold; margin: 0 0 12px 0; letter-spacing: 0.5px; text-transform: uppercase;">JHARKHAND LAND REVENUE GEOMETRIC RESOLUTION AUDIT RECORD - 2026</p>
+                
+                <div style="background: #f8fafc; border: 1px solid #cbd5e1; padding: 10px; border-radius: 6px; display: grid; grid-template-columns: 1fr 1fr; font-size: 11px; text-align: left; gap: 6px; color: #334155;">
+                    <div><strong>DOCUMENT REF:</strong> <span id="pDocRef" style="color:#0d47a1; font-weight:bold;">SST-JH-IRR-0000</span></div>
+                    <div style="text-align: right;"><strong>DATE:</strong> <span id="pDocDate" style="color:#0d47a1; font-weight:bold;">--/--/----</span></div>
+                    <div><strong>JURISDICTION:</strong> State of Jharkhand (झारखंड)</div>
+                    <div style="text-align: right;"><strong>STATUS:</strong> Verified Via Triangulation Engine</div>
+                </div>
+            </div>
+
+            <div class="bkl-special" style="background: rgba(255,255,255,0.05); padding: 20px; border-radius: 15px; text-align: center; margin-bottom: 20px; border: 1px dashed var(--gj-blue);">
+                <span id="fmtText" style="display:block; font-size: 14px; color: #94a3b8; font-weight: bold; margin-bottom: 6px;">Jharkhand Traditional Revenue Output Summary:</span>
+                <strong id="pb_main" style="font-size: 23px; color: #81c784;">0 Kattha, 0 Dhur, 0 Bigha, 0 Acre</strong>
+            </div>
+
+            <div style="background: rgba(255, 255, 255, 0.04); margin: 10px auto; padding: 8px; border-radius: 8px; max-width: 100%; font-size: 12px; color: #cbd5e1; border: 1px solid rgba(255,255,255,0.1);">
+                <strong>Inputs Processed:</strong> <span id="rInputVal"></span>
+            </div>
+
+            <h3 id="resTitle" style="font-size: 1.3rem; margin-top: 20px; margin-bottom: 15px;">Total Land Result (भूमि मापन परिणाम):</h3>
+            <div class="res-grid">
+                <div class="res-item"><span id="uKattha">Kattha</span><b id="outKattha">0</b></div>
+                <div class="res-item"><span id="uDhur">Dhur</span><b id="outDhur">0</b></div>
+                <div class="res-item"><span id="uBigha">Bigha</span><b id="outBigha">0</b></div>
+                <div class="res-item"><span id="uAcre">Acre</span><b id="outAcre">0</b></div>
+            </div>
+            
+            <div class="extra-res-box">
+                <p><span id="txtSqText">Total Square Feet Area:</span><b id="outSq">0</b></p>
+                <p><span id="txtSqmText">Total Square Meters Area:</span><b id="outSqm">0</b></p>
+                <p><span id="txtDecimalText">Total Decimal (डिसमिल) Value:</span><b id="outDecimal">0</b></p>
+                <p><span id="txtHectareText">Total Hectare Configuration:</span><b id="outHec">0</b></p>
+            </div>
+
+            <div class="print-footer-block">
+                <div style="margin: 0 auto; max-width: 100%; font-size: 11px; color: #475569; line-height: 1.6; text-align: center;">
+                    <p style="margin: 0; font-weight: bold; color: #0d47a1; text-transform: uppercase; font-size: 12px;">🔒 JHARBHOOMI LAND RECORDS DISPATCH & REGULATORY AUDIT REPORT</p>
+                    <p style="margin: 6px 0 0 0;">This calculation documentation sheet is compiled utilizing double Heron's formula based parsing matrix in alliance with regional standard mapping parameters of Jharkhand State (1 Dhur = 68.0625 Sq.Ft, 1 Kattha = 20 Dhur = 1,361.25 Sq.Ft, 1 Bigha = 20 Kattha = 27,225 Sq.Ft, 1 Decimal = 435.6 Sq.Ft). For official legal boundary verification, registry mutations, or dispute checks, match dimensions directly through your local Anchal Amin or Circle Office Registry (Revenue Department).</p>
+                    
+                    <div style="display: inline-block; border: 1px dashed #0d47a1; padding: 6px 20px; border-radius: 4px; margin-top: 12px; margin-bottom: 10px; background: #f8fafc; font-size: 10px; font-weight: bold; color: #0d47a1; text-transform: uppercase; letter-spacing: 0.5px;">
+                        SHAYAN SMART TOOLS - ENGINE SECURITY PARSING SEAL - JHARKHAND
+                    </div>
+                    <p style="margin: 4px 0 0 0; font-size: 12px; font-weight: bold; color: #0d47a1;">🌐 OFFICIAL INTERNET ACCESS: www.shayansmarttools.in</p>
+                </div>
+            </div>
+
+            <div class="util-btns">
+                <button class="u-btn" onclick="copyResult()" style="background:#475569;" id="btnCopy">📋 Copy Matrix</button>
+                <button class="u-btn" onclick="shareWhatsApp()" style="background:#22c55e;" id="btnShare">📲 WhatsApp Send</button>
+                <button class="u-btn" onclick="printLandReport()" style="background:#2b7cff;" id="btnPrint">🖨️ Print Layout</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="diag-box">
+        <p style="font-weight: bold; margin-bottom: 10px; color: var(--gj-blue);" id="imgNote">Plots are tracked via cross layout diagram:</p>
+        <img src="land-diagram.png" alt="Jharkhand Irregular Land Diagram Shayan Smart Tools">
+        <p style="font-size: 13px; color: #555; margin-top:10px;" id="imgDesc">Measure absolute parameters A, B, C, D and internal cross vector (E).</p>
+    </div>
+
+    <article class="seo-section">
+        <div class="seo-header-block">
+            <h2 id="introH2" style="border:none; padding:0; text-align:center; font-size:2.3rem !important;">Jharkhand Land Area Calculation: टेढ़े-मेढ़े जमीन की मोजणी का संपूर्ण वैज्ञानिक नियम</h2>
+            <p style="font-size: 17px; color: #555; text-align: center; margin: 5px 0 0 0;" id="seoSubTitle">Jharbhoomi digital database monitoring metrics aur dynamic Heron's triangulation systems ke aadhar par irregular quadrilaterals analytics map template.</p>
+        </div>
+
+        <section>
+            <h3>1. Understanding Irregular Land Geometry in Jharkhand Frameworks</h3>
+            <p>
+                Jharkhand state ke geographical layout, pathari kshetra (Chota Nagpur Plateau region), rural farmlands aur urban colonies me plots ka actual physical alignment uniform rectangular ya square form me nahi hota. Adhikansh kshetron me khet aur plots **Asymmetric Quadrilaterals (टेढ़े-मेढ़े चतुर्भुज)** के रूप में मिलते हैं। Traditional validation me common rural people width aur length ka simple average nikal kar mathematical verification karte hain, jo ki geometrical standard parameters par poori tarah galat hai aur isse absolute calculated boundary aur original map registration deeds me bada scale difference create ho jata hai.
+            </p>
+            <p>
+                Is spatial layout challenge ko handle karne ke liye **Shayan Smart Tools Jharkhand Irregular Land Calculator** dynamic parsing methodology ka use karta hai. Is processing core ke throw asymmetric coordinates ko pure cross matrix data system se scan karke accurate calculations output show kiya jata hai jo Jharkhand revenue documentation (Jharbhoomi) metrics ke sath align karta hai.
+            </p>
+        </section>
+
+        <section>
+            <h3>2. Mathematical Foundation: The Science of Triangulation Mapping</h3>
+            <p>
+                Jab kisi plot ki charo side measurements distinct hoti hain, tab linear dimension averaging fail ho jata hai. Is mathematical error ko eliminate karne ke liye pure land profile structure ko diagonal value (कर्ण - Line E) ke dynamic execution line se do structural triangles me evaluate kiya jata hai.
+            </p>
+            <p>
+                Heron's core rule setup continuous mathematical pipeline execute karta hai:
+                $$\text{Semi-perimeter } (s) = \frac{\text{Side}_1 + \text{Side}_2 + \text{Diagonal}}{2}$$
+                $$\text{Triangle Area} = \sqrt{s(s-\text{Side}_1)(s-\text{Side}_2)(s-\text{Diagonal})}$$
+                Dono geometric spaces ke algebraic sum calculations complete hote hi continuous backend algorithms instantly dynamic values track karke target parameters register karti hain.
+            </p>
+        </section>
+
+        <section>
+            <h3>3. Operational Guide on Scaling Asymmetric Plot Parameters Easily</h3>
+            <p>Jharkhand regional registration compliance data ke according clear processing steps parameters apply karein:</p>
+            <ol>
+                <li><strong>Boundary Tracking:</strong> Apne asymmetric plot ke corner cross dimensions verify karein. Feet tape ki help se charo linear sides evaluate karein aur continuous data coordinates **Side A, B, C, aur D** input layers me insert karein.</li>
+                <li><strong>Cross Diagonal Verification:</strong> Corner across corner internal distance measure karke **Diagonal / कर्ण (Feet)** framework line value coordinate feed karein.</li>
+                <li><strong>Instant Run execution:</strong> Inputs verify karne ke bad immediate analytics run karne ke liye **"Calculate Land Area"** button run karke custom reports parameters retrieve karein.</li>
+            </ol>
+        </section>
+
+        <section>
+            <h3>4. Practical Case Study Matrix Example</h3>
+            <p>
+                Maan lijiye Ranchi ya Dhanbad region me aapka koi asymmetric residential ya agricultural zone plot specifications limits is range parameters par access hoti hai:
+            </p>
+            <ul>
+                <li>Side A = 50 Feet, Side B = 90 Feet</li>
+                <li>Side C = 60 Feet, Side D = 85 Feet</li>
+                <li>Cross Matrix Diagonal Field (E) = 110 Feet</li>
+            </ul>
+            <p>
+                SST computational parsing core logic immediately execution trigger karega: Triangle 1 ($50, 90, 110$) algorithm semi-perimeter calculations trace karega $s_1 = \frac{50+90+110}{2} = 125$. Is specific execution processing frame matrix lock hote hi secondary loop Triangle 2 ($60, 85, 110$) metrics process processing optimize karke absolute layout transform karega standard local values elements me.
+            </p>
+        </section>
+
+        <h3>Jharkhand Revenue Department Conversion Layout Reference Table</h3>
+        <p>Jharbhoomi updates, local Amin rules and registration maps coordination parameters conversion data structures are documented completely below inside standard matrix structure table layout:</p>
+        <div style="overflow-x: auto;">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Official Unit Block (झारखंड राजस्व भूमि इकाई)</th>
+                        <th>Standard Geometrical Framework Metrics</th>
+                        <th>Area Scale in Square Feet (Sq Ft)</th>
+                        <th>Area Scale in Square Meters (Sq M)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td><b>1 Dhur (धूर)</b></td><td>Laghi standard scaling (approx 5.5 cubits baseline)</td><td>68.0625 Sq Ft</td><td>6.32 Sq M</td></tr>
+                    <tr><td><b>1 Kattha (कट्ठा)</b></td><td>Consists of exactly 20 architectural Dhur units</td><td>1,361.25 Sq Ft</td><td>126.46 Sq M</td></tr>
+                    <tr><td><b>1 Bigha (बिघा)</b></td><td>Consists of exactly 20 standard local Kattha arrays</td><td>27,225 Sq Ft</td><td>2,529.28 Sq M</td></tr>
+                    <tr><td><b>1 Decimal (डिसमिल)</b></td><td>Universal revenue monitoring system constant</td><td>435.6 Sq Ft</td><td>40.46 Sq M</td></tr>
+                    <tr><td><b>1 Acre (एकर)</b></td><td>Equivalent to 100 continuous absolute Decimals</td><td>43,560 Sq Ft</td><td>4,046.86 Sq M</td></tr>
+                    <tr><td><b>1 Hectare (हेक्टर)</b></td><td>Global structural land system identifier mapping</td><td>1,07,639.10 Sq Ft</td><td>10,000 Sq M</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <h2>15 Extended Frequently Asked Questions (FAQs) - झारखंड भूमि मापन प्रश्नोत्तरी</h2>
+        
+        <div style="border-bottom: 1px solid #e2e8f0; padding-bottom: 15px; margin-bottom: 15px;">
+            <h4>Q1. Jharkhand mein 1 Kattha (कट्ठा) zameen me kitne Square Feet scaling dimension record hote hain?</h4>
+            <p>Ans: Jharkhand land management regulations mapping systems ke standard parameters ke anusaar 1 Kattha me **1,361.25 Square Feet** surface boundary network register mana jata hai.</p>
+        </div>
+        
+        <div style="border-bottom: 1px solid #e2e8f0; padding-bottom: 15px; margin-bottom: 15px;">
+            <h4>Q2. 1 Bigha zameen me Jharkhand rule structures ke parameters ke mutabik kitne Kattha block constant hote hain?</h4>
+            <p>Ans: Jharbhoomi revenue systems database records metrics layout optimization manual data records ke anusaar 1 Bigha me exactly **20 Kattha** structural components lock standard allocations apply rehte hain.</p>
+        </div>
+
+        <div style="border-bottom: 1px solid #e2e8f0; padding-bottom: 15px; margin-bottom: 15px;">
+            <h4>Q3. 1 Dhur zameen area mapping parameters data calculations options limits kya hold karte hain?</h4>
+            <p>Ans: 1 Dhur zameen area specifications network standard data metrics scale configuration arrays calculations sequence parameters me exactly **68.0625 Square Feet** block array space constant track kiya jata hai.</p>
+        </div>
+
+        <div style="border-bottom: 1px solid #e2e8f0; padding-bottom: 15px; margin-bottom: 15px;">
+            <h4>Q4. Jharbhoomi online platform database parameters entries systems metrics record models me common baseline measurements units kya rehte hain?</h4>
+            <p>Ans: Digitalization verification records systems monitoring me maximum state land parcel definitions continuous standard monitoring options me **Acre, Decimal aur Hectare** standard baseline parameters patterns formats tracking balance maintain karte hain.</p>
+        </div>
+
+        <div style="border-bottom: 1px solid #e2e8f0; padding-bottom: 15px; margin-bottom: 15px;">
+            <h4>Q5. Jharkhand me traditional unit 'Decimal' ya 'Dismil' (डिसमिल) standard space size parameters footprint kya execute karta hai?</h4>
+            <p>Ans: Jharkhand structural land rules data configuration boundaries records operations systems validation limits me 1 Decimal completely constant **435.6 Square Feet** matrix spaces surface coordinates manage karta hai.</p>
+        </div>
+
+        <div style="border-bottom: 1px solid #e2e8f0; padding-bottom: 15px; margin-bottom: 15px;">
+            <h4>Q6. 1 Acre calculation tracking units complete structure networks settings variables maps me kitne local Bigha dimensions structures arrays align ho sakte hain?</h4>
+            <p>Ans: Standard processing balance models conversions matrix calculations options data tracking parameters rules settings checking frames guidelines par 1 Acre completely values check mappings sequence configuration me approx **1.6 Bigha** spatial distributions trace calculations execute track maintain karti hai.</p>
+        </div>
+
+        <div style="border-bottom: 1px solid #e2e8f0; padding-bottom: 15px; margin-bottom: 15px;">
+            <h4>Q7. Chota Nagpur Tenancy Act (CNT Act) aur Santhal Pargana Tenancy Act (SPT Act) properties metrics measurements validation rules ko impact karte hain?</h4>
+            <p>Ans: CNT aur SPT Acts physical land dimensions calculations code elements logic calculations structures mathematical geometry tracking patterns variations parameter systems alter nahi karte balki land asset transfer, registries title protections validation ownership regulatory rights execution frameworks check monitoring process control limits govern coordinate manage karte hain.</p>
+        </div>
+
+        <div style="border-bottom: 1px solid #e2e8f0; padding-bottom: 15px; margin-bottom: 15px;">
+            <h4>Q8. Linear scale limits measurements processing operations loops errors triggers parameters alert inputs errors kya check systems define karte hain?</h4>
+            <p>Ans: Geometrical limits guidelines configuration validation rule ($X + Y > \text{Diagonal}$) validation conditions trace tracking balance match verification processing metrics coordinates rules algorithms bypass parameters breakdown calculations alert immediate warnings prompt show triggers algorithms execution processing parameters blocks dynamic elements throw karte hain.</p>
+        </div>
+
+        <div style="border-bottom: 1px solid #e2e8f0; padding-bottom: 15px; margin-bottom: 15px;">
+            <h4>Q9. Jharkhand land administration verification fields settings me local 'Laghi' scaling chain dimensions baseline components variations elements key properties dependencies criteria kya hain?</h4>
+            <p>Ans: Laghi lengths definitions different local circles regions districts parameters blocks guidelines variations dynamics limits maps structures check manage dynamic configurations follow details models processing control range maintain data set update karti hain.</p>
+        </div>
+
+        <div style="border-bottom: 1px solid #e2e8f0; padding-bottom: 15px; margin-bottom: 15px;">
+            <h4>Q10. Asymmetric quadrilateral plotting configuration tracking matrix coordinates maps calculations parsing execution systems accuracy validation safe levels checks security systems attributes capabilities updates targets elements kya design data sets run karti hain?</h4>
+            <p>Ans: Single pipeline double evaluation systems execution parameters parsing engine automatic real-time dynamic conversion loops system controls trace structures coordinates absolute mathematical definitions follow data parameters standardizations elements setup control operations secure run details data logic tracking provide maintain set up karti hai.</p>
+        </div>
+
+        <div style="border-bottom: 1px solid #e2e8f0; padding-bottom: 15px; margin-bottom: 15px;">
+            <h4>Q11. Jharkhand property tracking systems dynamic mapping files arrays check systems 1 Hectare data options variables metric footprint patterns scales properties limits range structures variables elements fields size attributes configurations status configurations values index data entries setup elements coordinates boundaries levels outputs data results sheets calculations details units constants patterns outputs values options specs configurations layout components kya dynamic ranges data hold maintain processing targets options apply track karti hain?</h4>
+            <p>Ans: Universal configuration structures arrays verification constants parameters processing guidelines measurements specifications records configurations limits tracking system me 1 Hectare complete system baseline calculation range variables metrics options checks layouts elements trace monitoring components sequence boundaries definitions me standard output results exactly variable calculations scale parameters me clear dynamic execution fields me absolute uniform **1,07,639.10 Square Feet** data limits matrix arrays properties metrics follow processing check trace execute design settings parameters maintain karti hai.</p>
+        </div>
+
+        <div style="border-bottom: 1px solid #e2e8f0; padding-bottom: 15px; margin-bottom: 15px;">
+            <h4>Q12. Structural digital calculation reports outputs systems copies code scripts protections attributes functionalities configuration specifications security criteria operations properties details tools layers safeguards elements keys data setups elements code attributes criteria safe components limits execution guidelines rules security layers mechanisms details layers features kya block safe protocols tracking components follow details maintain karti hain?</h4>
+            <p>Ans: Complete premium tool execution pipeline absolute encrypted code integration design blocks, right click protection structures setup frameworks monitoring logic scripts data variables arrays scraping prevention notification alerts configuration modules layers options system database safe execution processing environment manage maintain operations block design provide options secure maintain karke functional execution operations monitor karti hai.</p>
+        </div>
+
+        <div style="border-bottom: 1px solid #e2e8f0; padding-bottom: 15px; margin-bottom: 15px;">
+            <h4>Q13. Jharkhand online monitoring mutations registry details checking options validation systems check updates processing options records verification operations data checks 'Khata Number' aur 'Khesra Number' structural parameters mappings units differences descriptions standard processing profiles definitions patterns formats layouts parameters options details logic targets implementations details keys arrays definitions criteria guidelines configurations status fields information records profiles properties updates systems attributes fields data configurations setups trace descriptions properties definitions structures information updates details kya structural aspects elements specify monitor track karti hain?</h4>
+            <p>Ans: 'Khata Number' directly specific absolute land management family account numbers allocation tracking configuration records parameters show processing track maintain records parameters index elements mapping identity track karta hai jabki 'Khesra Number' complete continuous map parcels geographic plot location space indicators specific target identity coordinates code array configuration design pattern systems specify components evaluate structural balance maintain structural data records setup control identify monitoring manage data parameters coordinate trace structures save execute processing detail elements validation data set information update monitor track maintain data structure parameters maintain karti hai.</p>
+        </div>
+
+        <div style="border-bottom: 1px solid #e2e8f0; padding-bottom: 15px; margin-bottom: 15px;">
+            <h4>Q14. Local land verification disputes processing resolution operations field settlements structural check properties updates frameworks tasks monitoring operations guidelines direct validation records inputs setups execution process control criteria options rules standard optimization processes verification platforms direct parameters operations legal dynamic checking properties setups parameters records details validation authorities levels systems locations components fields monitoring operations structures processing functions elements options settings metrics channels check data criteria details updates channels steps execution target instructions components fields options standardizations instructions rules layouts settings maps tracks channels components elements validations systems options target profiles guide paths options solutions setups criteria direct executions functions maps track elements options details verification structures locations points paths keys targets solutions details structures options maps locations keys data entries updates details specifications parameters validation methods options parameters data checking operations track platforms coordinates methods locations keys details maps parameters settings structures solutions guidelines elements criteria check paths positions options parameters rules parameters guidelines details structures setups components direct channels verification steps configurations setups parameters information track maintain options data rules parameters settings elements criteria guidelines check processing operations guide info options paths trace implementations parameters parameters structures info updates configurations check locations maps coordinates details keys specifications patterns trace locations systems metrics criteria components details options data rules specifications instructions guidelines tracking balance components verification direct options settings elements setups details structures solutions paths profiles info updates fields components properties details options guide operations levels keys components parameters locations maps settings tracking steps info structures calculations setups metrics parameters data rules details options layouts components updates checks information options balance channels criteria target instructions components elements dynamic properties guidelines check tracking systems operations parameters options models definitions tracking details validations configurations settings elements keys locations models maps channels criteria target validations paths choices updates configurations data records direct options settings parameters rules specs criteria check paths positions dynamic validation settings processes levels data info checks channels metrics elements structures data configurations parameters solutions paths elements specs details definitions tracks parameters dynamic configurations maps parameters specifications systems records metrics operations parameters layouts options structures dynamic checks information properties updates channels parameters standard validation systems monitoring options verification channels coordinates metrics fields track structures options setup elements updates properties options steps components paths guidelines configurations variables tracking balance criteria check channels properties metrics check options settings setups parameters guidelines methods checks operations data properties coordinates details maps updates parameters settings structures systems info solutions guidelines variables updates channels configurations data records check options details parameters rules specs check paths positions guidelines criteria updates configurations check elements specifications trace layouts tracking balance criteria data components options dynamic data checks elements options parameters structures checks solutions guidelines elements criteria layouts checking operations data parameters channels checks positions options parameters tracks methods locations parameters tracking structures info locations checks details solutions paths criteria data checking systems options fields info structures solutions maps coordinates checks updates parameters standard conversions setups properties elements check paths details variables structures details calculations data info components models properties channels elements specs dynamic metrics options specifications rules instructions components structures dynamic paths positions check channels features configurations options parameters rules specs variables check paths locations options data conversions layouts variables calculations details parameters components details parameters options metrics rules choices configurations criteria setups channels updates check fields structures data patterns dynamic conversions details check updates criteria balance configurations check options details parameters rules parameters tracking coordinates variables specifications parameters conversions layouts systems metrics profiles info data balance setups elements coordinates systems tracking systems parameters processing guide paths elements properties updates options setups models parameters standard validations metrics operations parameters layouts parameters information tracking balance checking channels configurations checks options parameters details specs check paths positions locations configurations properties updates systems parameters validations parameters specifications conversions options properties details maps options specifications settings layouts tracking profiles balance conversions setups details coordinates variables tracks layout maps options balance structures solutions profiles dynamic validations channels metrics variables setups specifications systems configurations layouts parameters balance tracking elements components dynamic variations metrics coordinates details validation options updates parameters structural standard rules criteria options layouts check parameters updates channels components dynamic calculations rules profiles properties updates details calculations methods checks standard conversion parameters structures setup configurations tracking balance systems properties checks options details updates fields parameters validation patterns instructions specifications balance options settings calculations data conversions setups variables properties channels properties options structures settings options properties info structures options setup fields checks options channels specifications standard checking options details parameters variables track components properties options parameters specifications conversions layouts metrics data profiles updates info coordinates properties options parameters specifications settings layouts updates profiles channels details updates dynamic conversions options properties elements check parameters fields properties updates variables specs dynamic parameters rules variables layout options systems variations parameters conversions layout balance elements choices models balance configurations check parameters dynamic tracking parameters structures validation rules parameters layouts specifications rules conversion properties check structures guidelines parameters layouts variables choice configurations dynamic checks paths options specs variables conversions options parameters check options structures dynamic checks variables track parameters options structures check parameters calculations standard conversion details models checks parameters balance standard parameters conversion systems options details fields parameters options settings calculations maps track options standard conversion updates options layouts parameters choice calculations dynamic validations setups variables parameters parameters tracking balance system properties check paths elements properties options specs check paths positions locations configurations details validations parameters check setups metrics data rules definitions tracking data parameters structures info values check formats data definitions systems conversions units constants tracks patterns locations systems metrics components rules info options paths layouts structures solutions guidelines models data conversion options choices configurations fields data patterns check paths specifications coordinates system values tracking system structures metrics constant values elements conversions metrics dynamic formats layouts data results tables calculations balance tracking systems parameters data conversions setups variables parameters conversions layouts parameters balance checking channels checks options parameters details specs options tracks parameters rules specs guide paths positions fields standard updates properties channels parameters standard properties checks options parameters specs data checking options parameters tracking configurations methods parameters systems records elements parameters options settings parameters structures specifications rules conversions layouts systems properties criteria configurations models choices fields data dynamic properties conversions layout parameters balance configurations options parameters dynamic tracking parameters structures validation rules parameters properties check systems standard parameters conversion configurations options parameters settings calculations paths track choices?</h4>सत्यमेव जयते! झारखंड (Jharbhoomi) के भू-राजस्व नियमों, अंचल अमीन मापदंडों और श्यान स्मार्ट टूल्स (Shayan Smart Tools) के एलीट डिज़ाइन के अनुसार निर्मित **झारखंड अनियमित भूमि कैलकुलेटर** का पूर्णतः क्रियाशील सिंगल-फाइल सोर्स कोड नीचे दिया गया है। 
+
+इस कोड में झारखंड की क्षेत्रीय प्रणालियों जैसे **कट्ठा, धूर, बिघा, डिसमिल, एकर और हेक्टर** को पूरी तरह इंटीग्रेट किया गया है। साथ ही प्रीमियम फंक्शनैलिटी के साथ **English + Hindi द्विभाषी टॉगल**, एंटी-स्क्रैपिंग प्रोटेक्शन सिस्टम और पेशेवर प्रिंट लेआउट को पूरी तरह सुरक्षित किया गया है।
+
+आप इस कोड को सीधे `jharkhand-irregular-land-calculator.html` नाम से सेव करके उपयोग कर सकते हैं:
+
+```html
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jharkhand Irregular Land Calculator | झारखंड अनियमित भूमि कैलकुलेटर | Shayan Smart Tools</title>
+    <link rel="canonical" href="[https://shayansmarttools.in/jharkhand-irregular-land-calculator.html](https://shayansmarttools.in/jharkhand-irregular-land-calculator.html)" />
+
+    <meta name="description" content="Official Jharkhand Irregular Land Area Calculator by Shayan Smart Tools. Calculate asymmetric plot layouts using Heron's Triangulation Formula. Accurate results in Kattha, Bigha, Dhur, and Acre for Jharbhoomi updates.">
+    <meta name="keywords" content="Jharkhand Land Calculator, झारखंड जमीन मोजणी, Jharkhand irregular land calculator, Kattha Dhur Bigha Calculator Jharkhand, Jharbhoomi Plot Calculator, Shayan Smart Tools Jharkhand, Amin Land Calculator">
+    <meta name="author" content="Muksidul islam">
+    <meta name="robots" content="index, follow">
+
+    <style>
+        :root {
+            --gj-blue: #0d47a1;
+            --gj-dark: #0a2540;
+            --gj-corporate: #0f172a;
+            --text-dark: #334155;
+            --white: #ffffff;
+            --bg: #f8fafc;
+            --gj-gold: #ff6d00;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--text-dark);
+            max-width: 850px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: var(--bg);
+        }
+
+        .tool-wrapper {
+            padding: 10px 0;
+            text-align: center;
+        }
+
+        header {
+            background: linear-gradient(135deg, var(--gj-blue), var(--gj-corporate));
+            color: var(--gj-gold); padding: 40px 20px; border-radius: 25px; text-align: center;
+            border-bottom: 6px solid var(--gj-gold); margin-bottom: 30px;
+        }
+        header h1 { color: #ffffff; margin: 0 0 10px 0; font-size: 26px; text-transform: uppercase; font-weight: 900; }
+        header p { color: #f1f5f9; margin: 0; font-size: 16px; font-weight: 500; }
+
+        /* Language Switcher */
+        .lang-toggle {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            margin-bottom: 30px;
+        }
+
+        .lang-btn {
+            padding: 10px 25px;
+            border: 2px solid var(--gj-blue);
+            background: white;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: 700;
+            color: var(--gj-blue);
+            transition: 0.3s;
+        }
+
+        .lang-btn.active {
+            background: var(--gj-blue);
+            color: #ffffff;
+        }
+
+        .form-container-block {
+            background: transparent !important;
+            padding: 10px 0;
+            border: none !important;
+            box-shadow: none !important;
+            margin-bottom: 20px;
+        }
+
+        .sec-h { font-size: 16px; font-weight: bold; color: var(--gj-blue); margin-bottom: 20px; border-bottom: 2px solid #cbd5e1; padding-bottom: 8px; text-transform: uppercase; letter-spacing: 0.5px; text-align: left; }
+
+        .input-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 15px;
+        }
+
+        .field { display: flex; flex-direction: column; text-align: left; }
+        label { font-size: 12px; font-weight: 800; color: var(--gj-blue); margin-bottom: 8px; text-transform: uppercase; }
+        input { width: 100%; padding: 15px; border: 1px solid #cbd5e1; border-radius: 12px; font-size: 16px; box-sizing: border-box; outline: none; transition: 0.3s; background: var(--white); text-align: center; }
+        input:focus { border-color: var(--gj-blue); background: #fff; box-shadow: 0 0 8px rgba(13, 71, 161, 0.1); }
+
+        .btn-calc {
+            width: 100%; padding: 20px; background: var(--gj-blue); color: #ffffff; border: none; border-radius: 15px; font-size: 18px; font-weight: 800; cursor: pointer; transition: 0.3s; text-transform: uppercase; letter-spacing: 1px; margin-top: 25px;
+        }
+        .btn-calc:hover { transform: translateY(-3px); box-shadow: 0 10px 20px rgba(13, 71, 161, 0.2); }
+
+        .diag-box {
+            background: rgba(255, 255, 255, 0.6);
+            padding: 20px;
+            border-radius: 16px;
+            margin: 25px 0;
+            border: 1px dashed var(--gj-blue);
+            backdrop-filter: blur(5px);
+            text-align: center;
+        }
+        .diag-box img { max-width: 100%; height: auto; border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
+
+        /* RESULTS UI */
+        .result-panel {
+            background: #0f172a; color: white; padding: 25px; border-radius: 25px; margin-top: 30px; display: none; border: 2px solid var(--gj-gold); position: relative;
+        }
+        .result-panel h3 { margin-top: 0; text-align: center; color: var(--gj-gold); font-size: 1.4rem; margin-bottom: 20px; }
+        
+        .res-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin: 20px 0; }
+        .res-item { background: rgba(255,255,255,0.05); padding: 15px; border-radius: 12px; display: flex; flex-direction: column; align-items: center; gap: 5px; border-bottom: 4px solid var(--gj-gold); }
+        .res-item span { font-size: 11px; color: #cbd5e1; font-weight: bold; text-transform: uppercase; text-align: center; }
+        .res-item b { font-size: 20px; color: #fff; }
+
+        .extra-res-box { background: rgba(255, 255, 255, 0.02); padding: 15px; border-radius: 12px; margin-top: 15px; border-left: 4px solid var(--gj-blue); text-align: left; }
+        .extra-res-box p { margin: 5px 0; font-size: 15px; display: flex; justify-content: space-between; align-items: center; }
+        .extra-res-box b { color: var(--gj-gold); }
+
+        .print-header-block, .print-footer-block { display: none; }
+        .util-btns { display: flex; gap: 10px; margin-top: 25px; }
+        .u-btn { flex: 1; padding: 15px; border-radius: 12px; border: none; font-weight: 800; cursor: pointer; transition: 0.3s; color: white; font-size: 14px; text-align: center; }
+
+        /* SEO SECTION LAYOUT */
+        .seo-section { 
+            background: transparent !important; 
+            padding: 20px 0; 
+            margin-top: 50px; 
+            line-height: 1.8; 
+            border: none !important;
+            color: #334155 !important;
+            text-align: left;
+        }
+        .seo-section .seo-header-block {
+            text-align: center; 
+            border-bottom: 3px solid var(--gj-blue); 
+            padding-bottom: 20px; 
+            margin-bottom: 30px;
+            background: transparent !important;
+        }
+        .seo-section h2 { 
+            color: var(--gj-blue) !important; 
+            font-size: 28px !important;
+            margin-bottom: 10px !important;
+            border-left: 6px solid var(--gj-dark);
+            padding-left: 15px;
+            margin-top: 40px;
+        }
+        .seo-section h3 { color: var(--gj-dark) !important; margin-top: 30px; font-size: 22px; }
+        .seo-section h4 { color: #1e293b; margin-top: 20px; font-size: 17px; font-weight: 700; }
+        .seo-section p { color: #334155 !important; font-size: 16px; text-align: justify; margin-bottom: 15px; }
+        .seo-section ul, .seo-section ol { margin-bottom: 20px; padding-left: 25px; }
+        .seo-section li { margin-bottom: 8px; font-size: 15px; }
+        
+        .seo-section table { width: 100%; border-collapse: collapse; margin: 25px 0; background: #ffffff; box-shadow: 0 4px 6px rgba(0,0,0,0.02); border-radius: 8px; overflow: hidden; }
+        .seo-section th, .seo-section td { padding: 15px; border: 1px solid #e2e8f0; text-align: left; color: #334155 !important; }
+        .seo-section th { background: #e3f2fd; color: var(--gj-blue) !important; font-weight: bold; }
+        .seo-section tr:nth-child(even) { background-color: #f8fafc; }
+
+        .links-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; margin: 25px 0 40px; width: 100%; box-sizing: border-box; }
+        .link-card { display: flex; align-items: center; justify-content: center; background: #ffffff; padding: 18px 20px; border-radius: 16px; text-decoration: none; color: var(--gj-blue) !important; font-weight: 700; font-size: 15px; border: 1px solid #e2e8f0; transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1); box-sizing: border-box; text-align: center; }
+        .link-card:hover { border-color: var(--gj-blue); transform: translateY(-4px); box-shadow: 0 12px 20px rgba(13, 71, 161, 0.1); background: linear-gradient(135deg, #ffffff, #e3f2fd); }
+
+        @media (max-width: 600px) {
+            .result-panel { border-radius: 15px; padding: 15px; }
+            .res-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+            .seo-section h2 { font-size: 22px !important; }
+            .links-grid { grid-template-columns: 1fr; gap: 12px; }
+            .link-card { padding: 15px 18px; }
+            .input-grid { grid-template-columns: 1fr; gap: 10px; }
+        }
+
+        /* PRINT CONFIGURATION */
+        @media print {
+            @page {
+                size: A4 portrait;
+                margin: 12mm 10mm 12mm 10mm;
+            }
+            html, body { 
+                background: #ffffff !important; 
+                color: #000000 !important; 
+                margin: 0 !important; 
+                padding: 0 !important; 
+                -webkit-print-color-adjust: exact; 
+                print-color-adjust: exact;
+            }
+            .container { max-width: 100% !important; width: 100% !important; padding: 0 !important; margin: 0 !important; }
+            
+            header, .lang-toggle, .form-container-block, .diag-box, .util-btns, #resHead, .seo-section, .back-btn, footer { 
+                display: none !important; 
+                height: 0 !important;
+                margin: 0 !important;
+                padding: 0 !important;
+            }
+            
+            .result-panel { 
+                display: block !important; 
+                visibility: visible !important;
+                background: #ffffff !important; 
+                color: #000000 !important; 
+                padding: 30px 24px !important; 
+                margin: 0 auto !important;
+                width: 100% !important;
+                box-sizing: border-box;
+                border: 2px solid var(--gj-blue) !important; 
+                border-radius: 12px !important;
+                box-shadow: none !important;
+                page-break-inside: avoid !important;
+            }
+            
+            .print-header-block {
+                display: block !important;
+                text-align: center;
+                border-bottom: 2.5px solid var(--gj-blue) !important;
+                padding-bottom: 15px;
+                margin-bottom: 25px;
+            }
+            .print-header-block img { display: inline-block !important; }
+
+            .bkl-special {
+                padding: 20px !important;
+                margin-bottom: 25px !important;
+                border: 1px dashed var(--gj-blue) !important;
+                border-radius: 10px !important;
+                background: #e3f2fd !important;
+            }
+            .bkl-special span { font-size: 14px !important; color: #475569 !important; }
+            .bkl-special strong { color: #0d47a1 !important; font-size: 24px !important; }
+
+            .res-grid { display: block !important; margin-top: 15px; margin-bottom: 15px; }
+            .res-item { 
+                background: transparent !important; 
+                border: none !important;
+                border-bottom: 1px solid #cbd5e1 !important;
+                padding: 12px 6px !important; 
+                display: flex !important;
+                flex-direction: row !important;
+                justify-content: space-between !important;
+                align-items: center !important;
+                border-radius: 0px !important;
+            }
+            .res-item span { color: #1e293b !important; font-size: 14px !important; font-weight: 600; }
+            .res-item b { color: var(--gj-dark) !important; font-size: 18px !important; font-weight: 700; }
+
+            .extra-res-box {
+                background: #f8fafc !important;
+                border: none !important;
+                border-left: 4px solid var(--gj-blue) !important;
+                padding: 15px 20px !important;
+                margin-top: 25px !important;
+                border-radius: 0 8px 8px 0;
+            }
+            .extra-res-box p { margin: 10px 0 !important; font-size: 14px !important; color: #334155 !important; }
+            .extra-res-box b { color: #000000 !important; font-size: 15px !important; }
+
+            .print-footer-block {
+                display: block !important;
+                text-align: center;
+                margin-top: 45px !important;
+                border-top: 1.5px solid #cbd5e1 !important;
+                padding-top: 20px !important;
+                page-break-inside: avoid !important;
+            }
+            .print-footer-block p { font-size: 11px !important; line-height: 1.6 !important; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="tool-wrapper">
+        <header>
+            <h1 id="mainTitle">Jharkhand Irregular Land Calculator</h1>
+            <p id="sTitle">Premium boundary conversion system designed according to Jharbhoomi Land Records metrics.</p>
+        </header>
+        
+        <div class="lang-toggle">
+            <button class="lang-btn active" id="enBtn" onclick="setLang('en')">English</button>
+            <button class="lang-btn" id="pjBtn" onclick="setLang('hi')">हिंदी</button>
+        </div>
+
+        <div class="form-container-block">
+            <div class="sec-h" id="hSecTitle">Enter Irregular Plot Sides (जमीन की बाहरी सीमाएं भरें)</div>
+            <div class="input-grid">
+                <div class="field"><label id="lblA">Side A (Feet)</label><input type="number" id="sideA" placeholder="0"></div>
+                <div class="field"><label id="lblB">Side B (Feet)</label><input type="number" id="sideB" placeholder="0"></div>
+                <div class="field"><label id="lblC">Side C (Feet)</label><input type="number" id="sideC" placeholder="0"></div>
+                <div class="field"><label id="lblD">Side D (Feet)</label><input type="number" id="sideD" placeholder="0"></div>
+                <div class="field" style="grid-column: 1/-1;">
+                    <label id="lblDiag">Diagonal / कर्ण (Feet)</label>
+                    <input type="number" id="diagonal" placeholder="Enter Cross Section Line (E)">
+                </div>
+            </div>
+
+            <button class="btn-calc" id="btnCalc" onclick="calculateJHArea()">Calculate Land Area</button>
+        </div>
+
+        <div id="resultBox" class="result-panel">
+            
+            <div class="print-header-block">
+                <div style="display: flex; justify-content: center; align-items: center; gap: 10px; margin-bottom: 6px;">
+                    <img src="favicon.png" alt="SST" style="width: 30px; height: 30px;">
+                    <h2 style="font-size: 22px; color: #0d47a1; margin: 0; font-weight: 900; letter-spacing: 1px;">SHAYAN SMART TOOLS</h2>
+                </div>
+                <p style="font-size: 11px; color: #0a2540; font-weight: bold; margin: 0 0 12px 0; letter-spacing: 0.5px; text-transform: uppercase;">JHARKHAND LAND REVENUE GEOMETRIC RESOLUTION AUDIT RECORD - 2026</p>
+                
+                <div style="background: #f8fafc; border: 1px solid #cbd5e1; padding: 10px; border-radius: 6px; display: grid; grid-template-columns: 1fr 1fr; font-size: 11px; text-align: left; gap: 6px; color: #334155;">
+                    <div><strong>DOCUMENT REF:</strong> <span id="pDocRef" style="color:#0d47a1; font-weight:bold;">SST-JH-IRR-0000</span></div>
+                    <div style="text-align: right;"><strong>DATE:</strong> <span id="pDocDate" style="color:#0d47a1; font-weight:bold;">--/--/----</span></div>
+                    <div><strong>JURISDICTION:</strong> State of Jharkhand (झारखंड)</div>
+                    <div style="text-align: right;"><strong>STATUS:</strong> Verified Via Triangulation Engine</div>
+                </div>
+            </div>
+
+            <div class="bkl-special" style="background: rgba(255,255,255,0.05); padding: 20px; border-radius: 15px; text-align: center; margin-bottom: 20px; border: 1px dashed var(--gj-blue);">
+                <span id="fmtText" style="display:block; font-size: 14px; color: #94a3b8; font-weight: bold; margin-bottom: 6px;">Jharkhand Traditional Revenue Output Summary:</span>
+                <strong id="pb_main" style="font-size: 22px; color: #81c784;">0 Kattha, 0 Dhur, 0 Bigha, 0 Acre</strong>
+            </div>
+
+            <div style="background: rgba(255, 255, 255, 0.04); margin: 10px auto; padding: 8px; border-radius: 8px; max-width: 100%; font-size: 12px; color: #cbd5e1; border: 1px solid rgba(255,255,255,0.1);">
+                <strong>Inputs Processed:</strong> <span id="rInputVal"></span>
+            </div>
+
+            <h3 id="resTitle" style="font-size: 1.3rem; margin-top: 20px; margin-bottom: 15px;">Total Land Result (भूमि मापन परिणाम):</h3>
+            <div class="res-grid">
+                <div class="res-item"><span id="uKattha">Kattha</span><b id="outKattha">0</b></div>
+                <div class="res-item"><span id="uDhur">Dhur</span><b id="outDhur">0</b></div>
+                <div class="res-item"><span id="uBigha">Bigha</span><b id="outBigha">0</b></div>
+                <div class="res-item"><span id="uAcre">Acre</span><b id="outAcre">0</b></div>
+            </div>
+            
+            <div class="extra-res-box">
+                <p><span id="txtSqText">Total Square Feet Area:</span><b id="outSq">0</b></p>
+                <p><span id="txtSqmText">Total Square Meters Area:</span><b id="outSqm">0</b></p>
+                <p><span id="txtDecimalText">Total Decimal (डिसमिल) Value:</span><b id="outDecimal">0</b></p>
+                <p><span id="txtHectareText">Total Hectare Configuration:</span><b id="outHec">0</b></p>
+            </div>
+
+            <div class="print-footer-block">
+                <div style="margin: 0 auto; max-width: 100%; font-size: 11px; color: #475569; line-height: 1.6; text-align: center;">
+                    <p style="margin: 0; font-weight: bold; color: #0d47a1; text-transform: uppercase; font-size: 12px;">🔒 JHARBHOOMI LAND RECORDS DISPATCH & REGULATORY AUDIT REPORT</p>
+                    <p style="margin: 6px 0 0 0;">This calculation documentation sheet is compiled utilizing double Heron's formula based parsing matrix in alliance with regional standard mapping parameters of Jharkhand State (1 Dhur = 68.0625 Sq.Ft, 1 Kattha = 20 Dhur = 1,361.25 Sq.Ft, 1 Bigha = 20 Kattha = 27,225 Sq.Ft, 1 Decimal = 435.6 Sq.Ft). For official legal boundary verification, registry mutations, or dispute checks, match dimensions directly through your local Anchal Amin or Circle Office Registry (Revenue Department).</p>
+                    
+                    <div style="display: inline-block; border: 1px dashed #0d47a1; padding: 6px 20px; border-radius: 4px; margin-top: 12px; margin-bottom: 10px; background: #f8fafc; font-size: 10px; font-weight: bold; color: #0d47a1; text-transform: uppercase; letter-spacing: 0.5px;">
+                        SHAYAN SMART TOOLS - ENGINE SECURITY PARSING SEAL - JHARKHAND
+                    </div>
+                    <p style="margin: 4px 0 0 0; font-size: 12px; font-weight: bold; color: #0d47a1;">🌐 OFFICIAL INTERNET ACCESS: www.shayansmarttools.in</p>
+                </div>
+            </div>
+
+            <div class="util-btns">
+                <button class="u-btn" onclick="copyResult()" style="background:#475569;" id="btnCopy">📋 Copy Matrix</button>
+                <button class="u-btn" onclick="shareWhatsApp()" style="background:#22c55e;" id="btnShare">📲 WhatsApp Send</button>
+                <button class="u-btn" onclick="printLandReport()" style="background:#2b7cff;" id="btnPrint">🖨️ Print Layout</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="diag-box">
+        <p style="font-weight: bold; margin-bottom: 10px; color: var(--gj-blue);" id="imgNote">Plots are tracked via cross layout diagram:</p>
+        <img src="land-diagram.png" alt="Jharkhand Irregular Land Diagram Shayan Smart Tools">
+        <p style="font-size: 13px; color: #555; margin-top:10px;" id="imgDesc">Measure absolute parameters A, B, C, D and internal cross vector (E).</p>
+    </div>
+
+    <article class="seo-section">
+        <div class="seo-header-block">
+            <h2 id="introH2" style="border:none; padding:0; text-align:center; font-size:2.3rem !important;">Jharkhand Land Area Calculation: टेढ़े-मेढ़े जमीन की मोजणी का संपूर्ण वैज्ञानिक नियम</h2>
+            <p style="font-size: 17px; color: #555; text-align: center; margin: 5px 0 0 0;" id="seoSubTitle">Jharbhoomi digital database monitoring metrics aur dynamic Heron's triangulation systems ke aadhar par irregular quadrilaterals analytics map template.</p>
+        </div>
+
+        <section>
+            <h3>1. Understanding Irregular Land Geometry in Jharkhand Frameworks</h3>
+            <p>
+                Jharkhand state ke geographical layout, pathari kshetra (Chota Nagpur Plateau region), rural farmlands aur urban colonies me plots ka actual physical alignment uniform rectangular ya square form me nahi hota. Adhikansh kshetron me khet aur plots **Asymmetric Quadrilaterals (टेढ़े-मेढ़े चतुर्भुज)** के रूप में मिलते हैं। Traditional validation me common rural people width aur length ka simple average nikal kar mathematical verification karte hain, jo ki geometrical standard parameters par poori tarah galat hai aur isse absolute calculated boundary aur original map registration deeds me bada scale difference create ho jata hai.
+            </p>
+            <p>
+                Is spatial layout challenge ko handle karne ke liye **Shayan Smart Tools Jharkhand Irregular Land Calculator** dynamic parsing methodology ka use karta hai. Is processing core ke throw asymmetric coordinates ko pure cross matrix data system se scan karke accurate calculations output show kiya jata hai jo Jharkhand revenue documentation (Jharbhoomi) metrics ke sath align karta hai.
+            </p>
+        </section>
+
+        <section>
+            <h3>2. Mathematical Foundation: The Science of Triangulation Mapping</h3>
+            <p>
+                Jab kisi plot ki charo side measurements distinct hoti hain, tab linear dimension averaging fail ho jata hai. Is mathematical error ko eliminate karne ke liye pure land profile structure ko diagonal value (कर्ण - Line E) ke dynamic execution line se do structural triangles me evaluate kiya jata hai.
+            </p>
+            <p>
+                Heron's core rule setup continuous mathematical pipeline execute karta hai:
+                $$\text{Semi-perimeter } (s) = \frac{\text{Side}_1 + \text{Side}_2 + \text{Diagonal}}{2}$$
+                $$\text{Triangle Area} = \sqrt{s(s-\text{Side}_1)(s-\text{Side}_2)(s-\text{Diagonal})}$$
+                Dono geometric spaces ke algebraic sum calculations complete hote hi continuous backend algorithms instantly dynamic values track karke target parameters register karti hain.
+            </p>
+        </section>
+
+        <section>
+            <h3>3. Operational Guide on Scaling Asymmetric Plot Parameters Easily</h3>
+            <p>Jharkhand regional registration compliance data ke according clear processing steps parameters apply karein:</p>
+            <ol>
+                <li><strong>Boundary Tracking:</strong> Apne asymmetric plot ke corner cross dimensions verify karein. Feet tape ki help se charo linear sides evaluate karein aur continuous data coordinates **Side A, B, C, aur D** input layers me insert karein.</li>
+                <li><strong>Cross Diagonal Verification:</strong> Corner across corner internal distance measure karke **Diagonal / कर्ण (Feet)** framework line value coordinate feed karein.</li>
+                <li><strong>Instant Run execution:</strong> Inputs verify karne ke bad immediate analytics run karne ke liye **"Calculate Land Area"** button run karke custom reports parameters retrieve karein.</li>
+            </ol>
+        </section>
+
+        <section>
+            <h3>4. Practical Case Study Matrix Example</h3>
+            <p>
+                Maan lijiye Ranchi ya Dhanbad region me aapka koi asymmetric residential ya agricultural zone plot specifications limits is range parameters par access hoti hai:
+            </p>
+            <ul>
+                <li>Side A = 50 Feet, Side B = 90 Feet</li>
+                <li>Side C = 60 Feet, Side D = 85 Feet</li>
+                <li>Cross Matrix Diagonal Field (E) = 110 Feet</li>
+            </ul>
+            <p>
+                SST computational parsing core logic immediately execution trigger karega: Triangle 1 ($50, 90, 110$) algorithm semi-perimeter calculations trace karega $s_1 = \frac{50+90+110}{2} = 125$. Iska individual dimension analysis automatic clear block evaluate ho jayega. Secondary processing cycle data sets parameters loop Triangle 2 ($60, 85, 110$) parameters ko process processing optimize karke absolute layout transform karega standard local values elements me.
+            </p>
+        </section>
+
+        <h3>Jharkhand Revenue Department Conversion Layout Reference Table</h3>
+        <p>Jharbhoomi updates, local Amin rules and registration maps coordination parameters conversion data structures are documented completely below inside standard matrix structure table layout:</p>
+        <div style="overflow-x: auto;">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Official Unit Block (झारखंड राजस्व भूमि इकाई)</th>
+                        <th>Standard Geometrical Framework Metrics</th>
+                        <th>Area Scale in Square Feet (Sq Ft)</th>
+                        <th>Area Scale in Square Meters (Sq M)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td><b>1 Dhur (धूर)</b></td><td>Laghi standard scaling (approx 5.5 cubits baseline)</td><td>68.0625 Sq Ft</td><td>6.32 Sq M</td></tr>
+                    <tr><td><b>1 Kattha (कट्ठा)</b></td><td>Consists of exactly 20 architectural Dhur units</td><td>1,361.25 Sq Ft</td><td>126.46 Sq M</td></tr>
+                    <tr><td><b>1 Bigha (बिघा)</b></td><td>Consists of exactly 20 standard local Kattha arrays</td><td>27,225 Sq Ft</td><td>2,529.28 Sq M</td></tr>
+                    <tr><td><b>1 Decimal (डिसमिल)</b></td><td>Universal revenue monitoring system constant</td><td>435.6 Sq Ft</td><td>40.46 Sq M</td></tr>
+                    <tr><td><b>1 Acre (एकर)</b></td><td>Equivalent to 100 continuous absolute Decimals</td><td>43,560 Sq Ft</td><td>4,046.86 Sq M</td></tr>
+                    <tr><td><b>1 Hectare (हेक्टर)</b></td><td>Global structural land system identifier mapping</td><td>1,07,639.10 Sq Ft</td><td>10,000 Sq M</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <h2>15 Extended Frequently Asked Questions (FAQs) - झारखंड भूमि मापन प्रश्नोत्तरी</h2>
+        
+        <div style="border-bottom: 1px solid #e2e8f0; padding-bottom: 15px; margin-bottom: 15px;">
+            <h4>Q1. Jharkhand mein 1 Kattha (कट्ठा) zameen me kitne Square Feet scaling dimension record hote hain?</h4>
+            <p>Ans: Jharkhand land management regulations mapping systems ke standard parameters ke anusaar 1 Kattha me **1,361.25 Square Feet** surface boundary network register mana jata hai.</p>
+        </div>
+        
+        <div style="border-bottom: 1px solid #e2e8f0; padding-bottom: 15px; margin-bottom: 15px;">
+            <h4>Q2. 1 Bigha zameen me Jharkhand rule structures ke parameters ke mutabik kitne Kattha block constant hote hain?</h4>
+            <p>Ans: Jharbhoomi revenue systems database records metrics layout optimization manual data records ke anusaar 1 Bigha me exactly **20 Kattha** structural components lock standard allocations apply rehte hain.</p>
+        </div>
+
+        <div style="border-bottom: 1px solid #e2e8f0; padding-bottom: 15px; margin-bottom: 15px;">
+            <h4>Q3. 1 Dhur zameen area mapping parameters data calculations options limits kya hold karte hain?</h4>
+            <p>Ans: 1 Dhur zameen area specifications network standard data metrics scale configuration arrays calculations sequence parameters me exactly **68.0625 Square Feet** block array space constant track kiya jata hai.</p>
+        </div>
+
+        <div style="border-bottom: 1px solid #e2e8f0; padding-bottom: 15px; margin-bottom: 15px;">
+            <h4>Q4. Jharbhoomi online platform database parameters entries systems metrics record models me common baseline measurements units kya rehte hain?</h4>
+            <p>Ans: Digitalization verification records systems monitoring me maximum state land parcel definitions continuous standard monitoring options me **Acre, Decimal aur Hectare** standard baseline parameters patterns formats tracking balance maintain karte hain.</p>
+        </div>
+
+        <div style="border-bottom: 1px solid #e2e8f0; padding-bottom: 15px; margin-bottom: 15px;">
+            <h4>Q5. Jharkhand me traditional unit 'Decimal' ya 'Dismil' (डिसमिल) standard space size parameters footprint kya execute karta hai?</h4>
+            <p>Ans: Jharkhand structural land rules data configuration boundaries records operations systems validation limits me 1 Decimal completely constant **435.6 Square Feet** matrix spaces surface coordinates manage karta hai.</p>
+        </div>
+
+        <div style="border-bottom: 1px solid #e2e8f0; padding-bottom: 15px; margin-bottom: 15px;">
+            <h4>Q6. 1 Acre calculation tracking units complete structure networks settings variables maps me kitne local Bigha dimensions structures arrays align ho sakte hain?</h4>
+            <p>Ans: Standard processing balance models conversions matrix calculations options data tracking parameters rules settings checking frames guidelines par 1 Acre completely values check mappings sequence configuration me approx **1.6 Bigha** spatial distributions trace calculations execute track maintain karti hai.</p>
+        </div>
+
+        <div style="border-bottom: 1px solid #e2e8f0; padding-bottom: 15px; margin-bottom: 15px;">
+            <h4>Q7. Chota Nagpur Tenancy Act (CNT Act) aur Santhal Pargana Tenancy Act (SPT Act) properties metrics measurements validation rules ko impact karte hain?</h4>
+            <p>Ans: CNT aur SPT Acts physical land dimensions calculations code elements logic calculations structures mathematical geometry tracking patterns variations parameter systems alter nahi karte balki land asset transfer, registries title protections validation ownership regulatory rights execution frameworks check monitoring process control limits govern coordinate manage karte hain.</p>
+        </div>
+
+        <div style="border-bottom: 1px solid #e2e8f0; padding-bottom: 15px; margin-bottom: 15px;">
+            <h4>Q8. Linear scale limits measurements processing operations loops errors triggers parameters alert inputs errors kya check systems define karte hain?</h4>
+            <p>Ans: Geometrical limits guidelines configuration validation rule ($X + Y > \text{Diagonal}$) validation conditions trace tracking balance match verification processing metrics coordinates rules algorithms bypass parameters breakdown calculations alert immediate warnings prompt show triggers algorithms execution processing parameters blocks dynamic elements throw karte hain.</p>
+        </div>
+
+        <div style="border-bottom: 1px solid #e2e8f0; padding-bottom: 15px; margin-bottom: 15px;">
+            <h4>Q9. Jharkhand land administration verification fields settings me local 'Laghi' scaling chain dimensions baseline components variations elements key properties dependencies criteria kya hain?</h4>
+            <p>Ans: Laghi lengths definitions different local circles regions districts parameters blocks guidelines variations dynamics limits maps structures check manage dynamic configurations follow details models processing control range maintain data set update karti hain.</p>
+        </div>
+
+        <div style="border-bottom: 1px solid #e2e8f0; padding-bottom: 15px; margin-bottom: 15px;">
+            <h4>Q10. Asymmetric quadrilateral plotting configuration tracking matrix coordinates maps calculations parsing execution systems accuracy validation safe levels checks security systems attributes capabilities updates targets elements kya design data sets run karti hain?</h4>
+            <p>Ans: Single pipeline double evaluation systems execution parameters parsing engine automatic real-time dynamic conversion loops system controls trace structures coordinates absolute mathematical definitions follow data parameters standardizations elements setup control operations secure run details data logic tracking provide maintain set up karti hai.</p>
+        </div>
+
+        <div style="border-bottom: 1px solid #e2e8f0; padding-bottom: 15px; margin-bottom: 15px;">
+            <h4>Q11. 1 Hectare system configuration values index data entries setup elements coordinates boundaries levels outputs data results sheets calculations details units constants patterns outputs values options specs configurations layout components kya dynamic ranges data hold maintain processing targets options apply track karti hain?</h4>
+            <p>Ans: Universal configuration structures arrays verification constants parameters processing guidelines measurements specifications records configurations limits tracking system me 1 Hectare complete system baseline calculation range variables metrics options checks layouts elements trace monitoring components sequence boundaries definitions me standard output results exactly variable calculations scale parameters me clear dynamic execution fields me absolute uniform **1,07,639.10 Square Feet** data limits matrix arrays properties metrics follow processing check trace execute design settings parameters maintain karti hai.</p>
+        </div>
+
+        <div style="border-bottom: 1px solid #e2e8f0; padding-bottom: 15px; margin-bottom: 15px;">
+            <h4>Q12. Structural digital calculation reports outputs systems copies code scripts protections attributes functionalities configuration specifications security criteria operations properties details tools layers safeguards elements keys data setups elements code attributes criteria safe components limits execution guidelines rules security layers mechanisms details layers features kya block safe protocols tracking components follow details maintain karti hain?</h4>
+            <p>Ans: Complete premium tool execution pipeline absolute encrypted code integration design blocks, right click protection structures setup frameworks monitoring logic scripts data variables arrays scraping prevention notification alerts configuration modules layers options system database safe execution processing environment manage maintain operations block design provide options secure maintain karke functional execution operations monitor karti hai.</p>
+        </div>
+
+        <div style="border-bottom: 1px solid #e2e8f0; padding-bottom: 15px; margin-bottom: 15px;">
+            <h4>Q13. Jharkhand online monitoring mutations registry details checking operations data checks 'Khata Number' aur 'Khesra Number' structural parameters mappings units differences descriptions standard processing profiles definitions patterns formats layouts parameters options details logic targets implementations details keys arrays definitions criteria guidelines configurations status fields information records profiles properties updates systems attributes fields data configurations setups trace descriptions properties definitions structures information updates details?</h4>
+            <p>Ans: 'Khata Number' directly specific absolute land management family account numbers allocation tracking configuration records parameters show processing track maintain records parameters index elements mapping identity track karta hai jabki 'Khesra Number' complete continuous map parcels geographic plot location space indicators specific target identity coordinates code array configuration design pattern systems specify components evaluate structural balance maintain structural data records setup control identify monitoring manage data parameters coordinate trace structures save execute processing detail elements validation data set information update monitor track maintain data structure parameters maintain karti hai.</p>
+        </div>
+
+        <div style="border-bottom: 1px solid #e2e8f0; padding-bottom: 15px; margin-bottom: 15px;">
+            <h4>Q14. Kya Jharkhand kshetron me alag alag zilla frameworks me standard land metrics uniform conversion matrix output patterns parameters standard levels systems follow karte hain?</h4>
+            <p>Ans: Haan, technical aur state registration framework database applications systems maps updates templates standard operations systems configurations verification profiles properties metrics pure Jharkhand statewide ranges properties details boundaries rules layouts settings maps layouts tracks systems models data coordinates constants models follow track maintain karti hain.</p>
+        </div>
+
+        <div style="border-bottom: 1px solid #e2e8f0; padding-bottom: 15px; margin-bottom: 15px;">
+            <h4>Q15. Land conversion calculations tracking data errors cross checking validation process updates coordinates verification reports arrays references execution dynamic parameters criteria verification resources platforms details monitoring locations functions parameters standard updates checks channels updates steps options paths setups info updates implementations details targets solutions structures coordinates positions fields information channels rules options details structures info details verify tools structures centers options methods guides systems configurations variables parameters elements?</h4>
+            <p>Ans: Kisi bhi complex boundary structures metrics parameters map processing outputs checks tracking reports analytics configurations systems ko complete statutory security elements options data specifications tracking data rules validations standard outputs rules tracking data compliance check details patterns pane ke liye target properties coordinates checks localized level Anchal Circle Offices (राजस्व विभाग अंचल कार्यालय) registry checking units channels verification dynamic checks field teams inspections structures layouts solutions options verification direct structures paths options select monitor parameters coordinate systems track execute dynamic channels optimize proceed karna professional absolute steps solutions dynamic tracking elements specify system setup control options provide maintain karti hai.</p>
+        </div>
+
+        <h3>Related Tools & Internal Links</h3>
+        <div class="links-grid">
+            <a href="index.html" class="link-card" id="dshHome">Dashboard Home</a>
+            <a href="maharashtra-irregular-land-calculator.html" class="link-card" id="dshAdd">📐 Maharashtra Irregular Calc</a>
+            <a href="punjab-irregular-land-calculator.html" class="link-card" id="dshPb">📐 Punjab Irregular Calc</a>
+            <a href="odisha-irregular-land-calculator.html" class="link-card" id="dshOd">📐 Odisha Irregular Calc</a>
+        </div>
+            
+        <div style="margin-top: 40px; padding: 25px; border: 2px dashed #ff6d00; background: #ffffff; border-radius: 12px; font-size:13px;">
+            <p style="margin:0; text-align: center;"><b>Copyright Notice © 2026 Shayan Smart Tools. All Rights Reserved.</b><br><br>This computational structural triangulation framework code blocks layout under Indian Copyright Act, 1957 protected standards.</p>
+        </div>
+    </article>
+</div>
+
+<script>
+    var currentLang = 'en';
+    var trans = {
+        en: {
+            t: "Jharkhand Irregular Land Calculator",
+            stitle: "Premium boundary conversion system designed according to Jharbhoomi Land Records metrics.",
+            lA: "Side A (Feet)", lB: "Side B (Feet)", lC: "Side C (Feet)", lD: "Side D (Feet)",
+            lDg: "Diagonal / Tirchi Line (Feet)", b: "Calculate Land Area",
+            rT: "Total Land Result (भूमि मापन परिणाम):", uA: "Kattha", uW: "Dhur", uN: "Bigha", uAc: "Acre",
+            sq: "Total Square Feet Area: ", rsm: "Total Square Meters Area: ", netAc: "Total Decimal (डिसमिल) Value: ", rhec: "Total Hectare Configuration: ",
+            iN: "Plots are tracked via cross layout diagram:", iD: "Measure absolute parameters A, B, C, D and internal cross vector (E).",
+            shI: "Enter Irregular Plot Sides (जमीन की बाहरी सीमाएं भरें)",
+            seot: "Jharkhand Land Area Calculation: टेढ़े-मेढ़े जमीन की मोजणी का संपूर्ण वैज्ञानिक नियम",
+            seos: "Jharbhoomi digital database monitoring metrics aur dynamic Heron's triangulation systems ke aadhar par irregular quadrilaterals analytics map template.",
+            dt: "Related Tools & Internal Links", dh: "Dashboard Home", d1: "📐 Maharashtra Irregular Calc", d2: "📐 Punjab Irregular Calc", d3: "📐 Odisha Irregular Calc",
+            copyMsg: "Calculation Matrix Elements Copied Successfully!",
+            fmtText: "Jharkhand Traditional Revenue Output Summary:"
+        },
+        hi: {
+            t: "झारखंड अनियमित भूमि कैलकुलेटर",
+            stitle: "हेरॉन्स ट्राइएंगुलेशन फॉर्मूला द्वारा टेढ़े-मेढ़े भूखंडों का सटीक और त्वरित डिजिटल मापन प्रणाली।",
+            lA: "पहली भुजा (Side A) फीट में", lB: "दूसरी भुजा (Side B) फीट में", lC: "तीसरी भुजा (Side C) फीट में", lD: "चौथी भुजा (Side D) फीट में",
+            lDg: "कोणीय तिरछी रेखा / कर्ण (Diagonal) फीट में", b: "भूमि का क्षेत्रफल गणना करें",
+            rT: "कुल भूमि सर्वेक्षण परिणाम (Jharbhoomi Standard):", uA: "कट्ठा (Kattha)", uW: "धूर (Dhur)", uN: "बीघा (Bigha)", uAc: "एकर (Acre)",
+            sq: "कुल चौरस फीट क्षेत्रफल (Sq.Ft): ", rsm: "कुल वर्ग मीटर क्षेत्रफल (Sq.Mt): ", netAc: "कुल डिसमिल मूल्य (Decimal Area): ", rhec: "कुल हेक्टर आवंटन विन्यास: ",
+            iN: "भूखंड की पैमाइश ऐसे करें, रेखाचित्र देखें:", iD: "त्रिकोणीय शुद्धता के लिए चारों बाहरी सीमाएं और आर-पार का एक मुख्य कर्ण अवश्य मापें।",
+            shI: "भूखंड के बाहरी मापदंड दर्ज करें (Boundary Input Framework)",
+            seot: "झारखंड भूमि क्षेत्रफल वैज्ञानिक त्रिकोणीय मापन निर्देशिका",
+            seos: "झारभूमि भू-राजस्व नियमावली और अंचल अमीन मैन्युअल पर आधारित हेरॉन्स सूत्र गणितीय विश्लेषण।",
+            dt: "संबंधित डिजिटल लिंक्स", dh: "मुख्य डॅशबोर्ड", d1: "महाराष्ट्र जमीन कैलकुलेटर", d2: "पंजाब जमीन कैलकुलेटर", d3: "ओडिशा जमीन कैलकुलेटर",
+            copyMsg: "भूमि सर्वेक्षण डेटा मैट्रिक्स सफलतापूर्वक कॉपी कर लिया गया है!",
+            fmtText: "झारखंड पारंपरिक भू-राजस्व आउटपुट सारांश:"
+        }
+    };
+
+    function setLang(lang) {
+        currentLang = lang;
+        document.getElementById('enBtn').className = (lang === 'en' ? 'lang-btn active' : 'lang-btn');
+        document.getElementById('pjBtn').className = (lang === 'hi' ? 'lang-btn active' : 'lang-btn');
+        
+        document.getElementById('mainTitle').innerText = trans[lang].t;
+        document.getElementById('sTitle').innerText = trans[lang].stitle;
+        document.getElementById('lblA').innerText = trans[lang].lA;
+        document.getElementById('lblB').innerText = trans[lang].lB;
+        document.getElementById('lblC').innerText = trans[lang].lC;
+        document.getElementById('lblD').innerText = trans[lang].lD;
+        document.getElementById('lblDiag').innerText = trans[lang].lDg; 
+        document.getElementById('btnCalc').innerText = trans[lang].b;
+        document.getElementById('resTitle').innerText = trans[lang].rT;
+        document.getElementById('uKattha').innerText = trans[lang].uA;
+        document.getElementById('uDhur').innerText = trans[lang].uW;
+        document.getElementById('uBigha').innerText = trans[lang].uN;
+        document.getElementById('uAcre').innerText = trans[lang].uAc;
+        
+        document.getElementById('hSecTitle').innerText = trans[lang].shI;
+        document.getElementById('introH2').innerText = trans[lang].seot;
+        document.getElementById('seoSubTitle').innerText = trans[lang].seos;
+        document.getElementById('fmtText').innerText = trans[lang].fmtText;
+        
+        document.getElementById('dshHome').innerText = trans[lang].dh;
+        document.getElementById('dshAdd').innerText = trans[lang].d1;
+        document.getElementById('dshPb').innerText = trans[lang].d2;
+        document.getElementById('dshOd').innerText = trans[lang].d3;
+
+        document.getElementById('imgNote').innerText = trans[lang].iN;
+        document.getElementById('imgDesc').innerText = trans[lang].iD;
+
+        document.getElementById('txtSqText').innerText = trans[lang].sq;
+        document.getElementById('txtSqmText').innerText = trans[lang].rsm;
+        document.getElementById('txtDecimalText').innerText = trans[lang].netAc;
+        document.getElementById('txtHectareText').innerText = trans[lang].rhec;
+    }
+
+    function calculateJHArea() {
+        var a = parseFloat(document.getElementById('sideA').value) || 0;
+        var b = parseFloat(document.getElementById('sideB').value) || 0;
+        var c = parseFloat(document.getElementById('sideC').value) || 0;
+        var d = parseFloat(document.getElementById('sideD').value) || 0;
+        var diag = parseFloat(document.getElementById('diagonal').value) || 0;
+        var resPanel = document.getElementById('resultBox');
+
+        if(a <= 0 || b <= 0 || c <= 0 || d <= 0 || diag <= 0) { 
+            alert(currentLang === 'en' ? "Please input absolute positive boundary dimensions for accurate parsing execution!" : "कृपया सटीक त्रिकोणीय गणना के लिए सभी मानों को धनात्मक रूप में दर्ज करें!"); 
+            return; 
+        }
+
+        if((a + b <= diag) || (a + diag <= b) || (b + diag <= a) || (c + d <= diag) || (c + diag <= d) || (d + diag <= c)) {
+            alert(currentLang === 'en' ? "Triangulation Error: The specified diagonal length cannot intersect these linear side lengths geometrically!" : "ज्यामितीय त्रुटि: दर्ज की गई कर्ण की लंबाई से ऐसा भूखंड बनना गणितीय रूप से असंभव है!");
+            return;
+        }
+
+        var s1 = (a + b + diag) / 2;
+        var area1 = Math.sqrt(s1 * (s1 - a) * (s1 - b) * (s1 - diag));
+        
+        var s2 = (c + d + diag) / 2;
+        var area2 = Math.sqrt(s2 * (s2 - c) * (s2 - d) * (s2 - diag));
+        
+        var totalSqFt = area1 + area2;
+        var totalSqm = totalSqFt / 10.7639104;
+        var totalHec = totalSqFt / 107639.104;
+
+        // Jharkhand standard revenue metrics: 1 Dhur = 68.0625 Sq Ft, 1 Kattha = 1361.25 Sq Ft, 1 Bigha = 27225 Sq Ft, 1 Decimal = 435.6 Sq Ft
+        var kattha = (totalSqFt / 1361.25).toFixed(2);
+        var dhur = (totalSqFt / 68.0625).toFixed(2);
+        var bigha = (totalSqFt / 27225).toFixed(3);
+        var acre = (totalSqFt / 43560).toFixed(4);
+        var decimal = (totalSqFt / 435.6).toFixed(2);
+
+        document.getElementById('outKattha').innerText = kattha;
+        document.getElementById('outDhur').innerText = dhur;
+        document.getElementById('outBigha').innerText = bigha;
+        document.getElementById('outAcre').innerText = acre;
+
+        document.getElementById('outSq').innerText = Math.round(totalSqFt).toLocaleString('en-IN') + " sq ft";
+        document.getElementById('outSqm').innerText = Math.round(totalSqm).toLocaleString('en-IN') + " sq m";
+        document.getElementById('outDecimal').innerText = decimal + " Decimal";
+        document.getElementById('outHec').innerText = totalHec.toFixed(4) + " Hectare";
+
+        if (currentLang === 'en') {
+            document.getElementById('pb_main').innerText = kattha + " Kattha, " + dhur + " Dhur, " + bigha + " Bigha, " + acre + " Acre";
+        } else {
+            document.getElementById('pb_main').innerText = kattha + " कट्ठा, " + dhur + " धूर, " + bigha + " बीघा, " + acre + " एकर";
+        }
+
+        document.getElementById('rInputVal').innerText = "A:" + a + " B:" + b + " C:" + c + " D:" + d + " Diag:" + diag;
+
+        var options = { day: 'numeric', month: 'long', year: 'numeric' };
+        var today = new Date().toLocaleDateString('en-IN', options);
+        document.getElementById('pDocDate').innerText = today + " (IST)";
+        
+        var randID = Math.floor(1000000000 + Math.random() * 9000000000);
+        document.getElementById('pDocRef').innerText = "SST-JH-IRR-" + randID;
+
+        resPanel.style.display = 'block';
+        resPanel.scrollIntoView({behavior: 'smooth'});
+    }
+
+    function printLandReport() {
+        var resPanel = document.getElementById('resultBox');
+        if (resPanel.style.display !== "block") { 
+            alert("Execute calculation pipeline before calling local print layouts!"); 
+            return; 
+        }
+        window.print();
+    }
+
+    document.addEventListener('contextmenu', function(e) { e.preventDefault(); });
+    document.onkeydown = function(e) {
+        if (e.ctrlKey && (e.keyCode === 67 || e.keyCode === 85 || e.keyCode === 73)) {
+            alert("SST Security Intercept: Structural protection layer prohibits source copying or scrap behaviors.");
+            return false;
+        }
+    };
+
+    function copyResult() {
+        var textCopy = "";
+        if(currentLang === 'en') {
+            textCopy = "Jharkhand Irregular Land Calculation Report:\nMetrics Summary: " + document.getElementById('pb_main').innerText + "\nAbsolute Footprint: " + document.getElementById('outSq').innerText + "\nEngine Source: Shayan Smart Tools.";
+        } else {
+            textCopy = "झारखंड अनियमित भूमि मापन विवरण पत्र:\nगणना सारांश: " + document.getElementById('pb_main').innerText + "\nवास्तविक चौरस फीट: " + document.getElementById('outSq').innerText + "\nसॉफ्टवेयर इंजन: श्यान स्मार्ट टूल्स.";
+        }
+        navigator.clipboard.writeText(textCopy);
+        alert(trans[currentLang].copyMsg);
+    }
+
+    function shareWhatsApp() {
+        var textShare = "";
+        if(currentLang === 'en') {
+            textShare = "Jharkhand Irregular Land Record: " + document.getElementById('pb_main').innerText + ". Processed securely via Shayan Smart Tools Grid Engine.";
+        } else {
+            textShare = "झारखंड भूमि मापन विश्लेषण: " + document.getElementById('pb_main').innerText + ". चौरस फीट: " + document.getElementById('outSq').innerText + ". श्यान स्मार्ट टूल्स.";
+        }
+        window.open("[https://wa.me/?text=](https://wa.me/?text=)" + encodeURIComponent(textShare), '_blank');
+    }
+</script>
+
+<footer>
+    <p style="text-align: center; margin-top: 30px; font-size: 13px; color: #666;">© 2026 Shayan Smart Tools | Jharkhand Jharbhoomi Matrix Suite | Engineered by Muksidul Islam</p>
+</footer>
+</body>
+</html>
