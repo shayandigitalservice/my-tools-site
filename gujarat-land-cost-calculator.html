@@ -129,6 +129,10 @@
         .sst-dash-title { flex: 1; line-height: 1.3; text-align: left; }
         .sst-dash-btn:hover { border-color: var(--cg-green); transform: translateY(-4px); background: linear-gradient(135deg, #ffffff, #f0fdf4); }
 
+        .sst-github-seal-wrapper { display: flex; flex-direction: column; align-items: flex-end; margin-top: 10px; }
+        .sst-seal-frame { width: 120px; height: 120px; display: flex; align-items: center; justify-content: center; overflow: hidden; }
+        .sst-seal-frame img { max-width: 100%; max-height: 100%; object-fit: contain; }
+
         @media (max-width: 600px) {
             .input-grid { grid-template-columns: 1fr; gap: 12px; }
             .btn-convert, .res-panel, .govt-portal-section { max-width: 100%; }
@@ -136,12 +140,29 @@
             .sst-dashboard-grid { grid-template-columns: 1fr; gap: 12px; }
         }
 
+        /* PREMIUM PRINT MATRIX CHHATTISGARH STYLE DESIGN RESTORED */
         @media print {
-            * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
-            body { background: #ffffff !important; color: #000000 !important; }
-            .tool-wrapper > header, .lang-switch, .input-grid, .btn-convert, .govt-portal-section, .util-btns, .seo-article, .back-btn { display: none !important; }
-            .res-panel { display: block !important; background: #ffffff !important; color: #000000 !important; border: 2px solid #000 !important; width: 100% !important; }
-            .print-header-block { display: block !important; }
+            * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; color-adjust: exact !important; }
+            @page { margin: 15mm; size: A4 portrait; }
+            body { background: #ffffff !important; color: #000000 !important; padding: 0; margin: 0; font-family: 'Roboto', sans-serif; }
+            .tool-wrapper > header, .lang-switch, .input-grid, .btn-convert, .govt-portal-section, .util-btns, .conversion-results-title, .seo-article, .back-btn, .registry-disclaimer, .donut-chart, .chart-legends { display: none !important; }
+            
+            .res-panel { display: block !important; background: #ffffff !important; color: #000000 !important; padding: 25px !important; margin: 0 !important; width: 100% !important; box-sizing: border-box; border: 3px double var(--cg-green) !important; border-radius: 0px !important; }
+            .print-header-block { display: block !important; text-align: center; border-bottom: 2px solid var(--cg-green) !important; padding-bottom: 12px; margin-bottom: 20px; }
+            .cg-standard-banner { background: #f0fdf4 !important; border: 1px dashed var(--cg-green) !important; color: #000000 !important; }
+            .cg-standard-banner h4 { color: var(--cg-green) !important; }
+
+            .chart-container { background: transparent !important; border: 1px solid #cbd5e1 !important; margin: 15px 0 !important; padding: 10px !important; }
+            .word-format-box { border: 1px dashed #cbd5e1 !important; color: #000 !important; margin-top: 10px !important; }
+            .word-format-box span { color: var(--cg-green) !important; }
+
+            .res-grid { display: block !important; margin-top: 15px; }
+            .res-item { background: transparent !important; border: none !important; border-bottom: 1px solid #cbd5e1 !important; padding: 12px 4px !important; display: flex !important; justify-content: space-between !important; flex-direction: row !important; border-radius: 0px !important; box-shadow: none !important; }
+            .res-item span { color: #1e293b !important; font-size: 13px !important; font-weight: 600; text-transform: uppercase; }
+            .res-item b { color: var(--cg-dark) !important; font-size: 15px !important; font-weight: bold; }
+            .res-item b.net-tag { font-size: 16px !important; font-weight: 900; color: #047857 !important; }
+            
+            .print-footer-block { display: block !important; text-align: center; margin-top: 40px; border-top: 1px solid #cbd5e1 !important; padding-top: 20px; }
         }
     </style>
 </head>
@@ -223,9 +244,18 @@
         <div id="resPanel" class="res-panel">
             
             <div class="print-header-block">
-                <h2 style="color: var(--cg-green); margin: 0;">SHAYAN SMART TOOLS</h2>
-                <p style="color: var(--cg-gold); font-weight: bold; margin: 0 0 10px 0;">GUJARAT ANYROR LAND VALUATION SUMMARY - 2026</p>
-                <p><strong>DATE:</strong> <span id="pDocDate">--/--/----</span> | <strong>SURVEY NO:</strong> <span id="pDocKhasra">N/A</span></p>
+                <div style="display: flex; justify-content: center; align-items: center; gap: 10px; margin-bottom: 5px;">
+                    <img src="favicon.png" alt="SST" style="width: 30px; height: 30px;">
+                    <h2 style="font-size: 22px; color: var(--cg-green); margin: 0; font-weight: 900; letter-spacing: 1px;">SHAYAN SMART TOOLS</h2>
+                </div>
+                <p style="font-size: 11px; color: var(--cg-gold); font-weight: bold; margin: 0 0 10px 0; letter-spacing: 0.5px; text-transform: uppercase;">GUJARAT ANYROR LAND VALUATION & REGISTRY SUMMARY - 2026</p>
+                
+                <div style="background: #f8fafc; border: 1px solid #cbd5e1; padding: 10px; border-radius: 4px; display: grid; grid-template-columns: 1fr 1fr; font-size: 11px; text-align: left; gap: 5px; color: #334155;">
+                    <div><strong>DOCUMENT REF:</strong> <span id="pDocRef" style="color:var(--cg-green); font-weight:bold;">SST-GJ-REGS-00000</span></div>
+                    <div style="text-align: right;"><strong>DATE:</strong> <span id="pDocDate">--/--/----</span></div>
+                    <div><strong>JURISDICTION:</strong> State of Gujarat (GJ)</div>
+                    <div style="text-align: right;"><strong>SURVEY / BLOCK NO:</strong> <span id="pDocKhasra" style="font-weight:bold; color:var(--cg-gold);">N/A</span></div>
+                </div>
             </div>
 
             <div class="registry-disclaimer" id="discBox">
@@ -265,6 +295,24 @@
                     <div class="legend-item"><span class="legend-color" style="background:var(--cg-green);"></span><span id="legCost">Land Value Cost</span></div>
                     <div class="legend-item"><span class="legend-color" style="background:var(--cg-gold);"></span><span id="legStamp">Stamp Duty (4.9%)</span></div>
                     <div class="legend-item"><span class="legend-color" style="background:#047857;"></span><span id="legReg">Registration Fee</span></div>
+                </div>
+            </div>
+
+            <div class="print-footer-block">
+                <div style="margin: 0 auto; max-width: 100%; font-size: 11px; color: #475569; line-height: 1.6; text-align: center; position: relative;">
+                    <p style="margin: 0; font-weight: bold; color: var(--cg-green); text-transform: uppercase; font-size: 12px; text-align: left;">🔒 SECURITY DISCLAIMER & VERIFICATION NOTICE</p>
+                    <p style="margin: 6px 0 0 0; text-align: left; max-width: 80%;">This computation is an automated metrics compilation sheet, generated via metrics evaluation frameworks configured under official Gujarat Jantara and Garvi revenue guidelines.</p>
+                    
+                    <div class="sst-github-seal-wrapper">
+                        <div class="sst-seal-frame">
+                            <img src="seal.png" alt="Official Seal" onerror="this.style.display='none';">
+                        </div>
+                    </div>
+
+                    <div style="display: block; border: 1px dashed var(--cg-green); padding: 6px 20px; border-radius: 4px; margin-top: 15px; margin-bottom: 12px; background: #f8fafc; font-size: 10px; font-weight: bold; color: var(--cg-green); text-transform: uppercase; text-align: center;">
+                        SHAYAN SMART TOOLS [AUTOMATED SEAL LEDGER LAYER]
+                    </div>
+                    <p style="margin: 5px 0 0 0; font-size: 12px; font-weight: bold; color: var(--cg-green); text-align: center;">🌐 SST OFFICIAL ACCESS: www.shayansmarttools.in</p>
                 </div>
             </div>
 
@@ -348,7 +396,7 @@
         <p>Sub-Registrar Office (SRO) me deed execution ke waqt neeche diye gaye statutory legal proofs mandatory hain:</p>
         <ul>
             <li><b>Land Title Proofs:</b> AnyROR 7/12 RoR Patra, 8A Khata Details, and City Survey Property Card (Urban property ke liye).</li>
-            <li><b>Identity Verification:</b> Buyer aur Seller dono ke original Aadhaar Card aur PAN Card.</li>
+            <li><b>Identity Verification:</b> Original Identifiers (Buyer aur Seller dono ke original Documents).</li>
             <li><b>Jantara Assessment Valuation Sheet:</b> Stamp duty validation certificate jo Garvi software se nikalta hai.</li>
             <li><b>Layout Blueprint:</b> Approved TP (Town Planning) Scheme map ya NA (Non-Agricultural) order copy.</li>
             <li><b>NOC Clearances:</b> Local Municipal Corporation (e.g., AMC, SMC) property tax clearance certificate.</li>
@@ -536,7 +584,7 @@
         function calculateGJRegistry() {
             const area = parseFloat(document.getElementById('landArea').value);
             const unit = document.getElementById('areaUnitSelect').value;
-            const pricePerSqYard = parseFloat(document.getElementById('unitPrice').value); // Standardized to Per Sq Yard Base
+            const pricePerSqYard = parseFloat(document.getElementById('unitPrice').value);
             const areaType = document.getElementById('areaTypeSelect').value;
             const gender = document.getElementById('genderSelect').value;
             const khasra = document.getElementById('khasraInput').value.trim();
@@ -551,7 +599,6 @@
             let vigha = 0;
             let vasao = 0;
 
-            // FIXING THE UNIT MATRIX BUG HERE: Standardizing to Total Sq. Yards
             if(unit === 'vigha') {
                 vigha = area;
                 totalSqYard = area * 2844;
@@ -566,11 +613,10 @@
                 vasao = vigha * 20;
             }
 
-            // Standard Calculation Layer Across Gujarat Garvi Directives
             const landCost = totalSqYard * pricePerSqYard;
-            const stampDuty = landCost * 0.049; // 4.9% Standard Stamp Duty
+            const stampDuty = landCost * 0.049; 
 
-            let regFeeRate = (gender === 'female') ? 0.00 : 0.01; // Female Exemption Applied
+            let regFeeRate = (gender === 'female') ? 0.00 : 0.01; 
             const regFees = landCost * regFeeRate;
             
             const netBudget = landCost + stampDuty + regFees;
@@ -614,6 +660,9 @@
             let displayUnitLabel = unit.toUpperCase();
             document.getElementById('rInputVal').innerText = `${area} ${displayUnitLabel} @ ₹${pricePerSqYard}/SqYard [ZONE: ${areaType.toUpperCase()}, ${gender.toUpperCase()}]`;
 
+            let randID = Math.floor(10000000 + Math.random() * 90000000);
+            document.getElementById('pDocRef').innerText = `SST-GJ-REGS-${randID}`;
+
             resPanel.style.display = "block";
             resPanel.scrollIntoView({ behavior: 'smooth' });
         }
@@ -638,8 +687,10 @@
 
         function copyCostData() {
             let copyText = `--- GUJARAT LAND REGISTRY BUDGET STATEMENT ---\n`;
+            copyText += `Statement Ref ID: ${document.getElementById('pDocRef').innerText}\n`;
             copyText += `Zone Jurisdiction: ${document.getElementById('outJurisdiction').innerText}\n`;
             copyText += `AnyROR Survey/Block reference: ${document.getElementById('pDocKhasra').innerText}\n`;
+            copyText += `Dimension Allocation: ${document.getElementById('cgStandardOutput').innerText}\n`;
             copyText += `Pure Land Jantara Value Cost: ${document.getElementById('outLandCost').innerText}\n`;
             copyText += `Stamp Duty Amount (4.9%): ${document.getElementById('outStampDuty').innerText}\n`;
             copyText += `Registration Charges: ${document.getElementById('outRegFees').innerText}\n`;
@@ -647,17 +698,20 @@
             copyText += `Words Format: ${document.getElementById('outBudgetInWords').innerText}\n`;
             copyText += `Calculated via Shayan Smart Tools`;
             navigator.clipboard.writeText(copyText);
-            alert("Statement Copied Successfully!");
+            alert("All Jantara Conversion Result Statement Copied Successfully!");
         }
 
         function shareCostWA() {
             let text = `*GUJARAT LAND REGISTRY BUDGET STATEMENT*\n`;
+            text += `Ref: ${document.getElementById('pDocRef').innerText}\n`;
             text += `Zone: ${document.getElementById('outJurisdiction').innerText}\n`;
-            text += `Survey/Block No: ${document.getElementById('pDocKhasra').innerText}\n`;
+            text += `Survey/Block No: ${document.getElementById('pDocKhasra').innerText}\n\n`;
+            text += `• Allocation: ${document.getElementById('cgStandardOutput').innerText}\n`;
             text += `• Pure Land Cost: ${document.getElementById('outLandCost').innerText}\n`;
             text += `• Stamp Duty (4.9%): ${document.getElementById('outStampDuty').innerText}\n`;
             text += `• Registration Fees: ${document.getElementById('outRegFees').innerText}\n`;
             text += `• *Total Acquisition Budget:* ${document.getElementById('outNetBudget').innerText}\n`;
+            text += `• *In Words:* ${document.getElementById('outBudgetInWords').innerText}\n\n`;
             text += `Computed via *Shayan Smart Tools*`;
             window.open("https://wa.me/?text=" + encodeURIComponent(text));
         }
