@@ -37,6 +37,12 @@
             background-color: var(--bg);
         }
 
+        /* Top Navigation Header Bar */
+        .top-nav { display: flex; justify-content: space-between; align-items: center; padding: 10px 20px; background: #ffffff; border-radius: 50px; margin-bottom: 25px; border: 1px solid #e2e8f0; box-shadow: 0 4px 6px rgba(0,0,0,0.02); }
+        .top-nav a { text-decoration: none; color: var(--text-dark); font-weight: 700; font-size: 14px; transition: 0.3s; }
+        .top-nav a:hover { color: var(--cg-green); }
+        .nav-links { display: flex; gap: 15px; }
+
         .tool-wrapper {
             padding: 20px 0;
             text-align: center;
@@ -87,6 +93,9 @@
         .res-grid .res-item b { font-size: 18px; color: var(--white); text-align: right; word-break: break-all; font-weight: 700; }
         .res-grid .res-item b.price-tag { color: #f59e0b; font-family: 'Roboto', sans-serif; }
         .res-grid .res-item b.net-tag { color: #22c55e; font-family: 'Roboto', sans-serif; font-size: 22px; font-weight: 900; }
+
+        /* DISTRICT SELECTOR BAR LAYER */
+        .district-info-bar { margin: 15px 0; background: #27272a; padding: 12px 15px; border-radius: 10px; border-left: 4px solid #38bdf8; font-size: 13px; color: #e4e4e7; display: none; }
 
         /* DYNAMIC TEXT WORDS AREA */
         .word-format-box { background: rgba(255,255,255,0.03); border: 1px solid #334155; border-radius: 12px; padding: 15px; margin-top: 15px; font-size: 14px; font-weight: 500; color: #cbd5e1; }
@@ -145,6 +154,13 @@
         .sst-seal-frame { width: 120px; height: 120px; display: flex; align-items: center; justify-content: center; overflow: hidden; }
         .sst-seal-frame img { max-width: 100%; max-height: 100%; object-fit: contain; }
 
+        /* Footer System & Internal Link Blocks */
+        footer { margin-top: 50px; padding: 30px 20px; background: var(--cg-corporate); color: #94a3b8; border-radius: 20px 20px 0 0; text-align: center; font-size: 14px; }
+        footer a { color: #fcd34d; text-decoration: none; margin: 0 10px; font-weight: 500; transition: 0.3s; }
+        footer a:hover { color: #ffffff; text-decoration: underline; }
+        .footer-links { margin-bottom: 20px; display: flex; justify-content: center; flex-wrap: wrap; gap: 15px; }
+        .copyright-text { border-top: 1px solid #334155; padding-top: 15px; font-size: 13px; color: #64748b; }
+
         @media (max-width: 600px) {
             .input-grid { grid-template-columns: 1fr; gap: 12px; }
             .btn-convert, .res-panel, .govt-portal-section { max-width: 100%; }
@@ -153,13 +169,14 @@
             .sst-dashboard-grid { grid-template-columns: 1fr; gap: 12px; }
             .donut-chart { width: 110px; height: 110px; }
             .donut-chart::before { width: 75px; height: 75px; }
+            .top-nav { flex-direction: column; gap: 10px; border-radius: 20px; }
         }
 
         @media print {
             * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; color-adjust: exact !important; }
             @page { margin: 15mm; size: A4 portrait; }
             body { background: #ffffff !important; color: #000000 !important; padding: 0; margin: 0; font-family: 'Roboto', sans-serif; }
-            .tool-wrapper > header, .lang-switch, .input-grid, .btn-convert, .govt-portal-section, .util-btns, .conversion-results-title, .seo-article, .back-btn, .registry-disclaimer, .donut-chart, .chart-legends { display: none !important; }
+            .top-nav, .tool-wrapper > header, .lang-switch, .input-grid, .btn-convert, .govt-portal-section, .util-btns, .conversion-results-title, .seo-article, .back-btn, .registry-disclaimer, .donut-chart, .chart-legends, footer { display: none !important; }
             
             .res-panel { display: block !important; background: #ffffff !important; color: #000000 !important; padding: 25px !important; margin: 0 !important; width: 100% !important; box-sizing: border-box; border: 3px double var(--cg-green) !important; border-radius: 0px !important; }
             .print-header-block { display: block !important; text-align: center; border-bottom: 2px solid var(--cg-green) !important; padding-bottom: 12px; margin-bottom: 20px; }
@@ -182,6 +199,16 @@
 </head>
 <body>
 
+    <nav class="top-nav">
+        <a href="index.html">🏠 Shayan Smart Tools</a>
+        <div class="nav-links">
+            <a href="about.html">About Us</a>
+            <a href="contact.html">Contact</a>
+            <a href="delhi-land-calculator.html">Delhi Registry</a>
+            <a href="up-bhulekh-calculator.html">UP Land Cost</a>
+        </div>
+    </nav>
+
     <div class="tool-wrapper">
         <header>
             <h1 id="mTitle">Maharashtra Land Cost & Registry Calculator</h1>
@@ -194,6 +221,25 @@
         </div>
 
         <div class="input-grid">
+            <div class="field">
+                <label id="lblDistrictSelect">Select Maharashtra District (जिल्हा निवडा)</label>
+                <select id="districtSelect" onchange="updateDistrictBaseline()">
+                    <option value="" disabled selected>-- Choose District --</option>
+                    <option value="pune">Pune (पुणे)</option>
+                    <option value="mumbai">Mumbai City / Suburban (मुंबई)</option>
+                    <option value="thane">Thane (ठाणे)</option>
+                    <option value="nagpur">Nagpur (नागपूर)</option>
+                    <option value="nashik">Nashik (नाशिक)</option>
+                    <option value="aurangabad">Chhatrapati Sambhajinagar (छत्रपती संभाजीनगर)</option>
+                    <option value="solapur">Solapur (सोलापूर)</option>
+                    <option value="kolhapur">Kolhapur (कोल्हापूर)</option>
+                    <option value="raigad">Raigad (रायगड)</option>
+                    <option value="palghar">Palghar (पालघर)</option>
+                    <option value="other">Other Agriculture Districts (इतर जिल्हे)</option>
+                </select>
+                <div id="districtInfoBar" class="district-info-bar"></div>
+            </div>
+
             <div class="field">
                 <label id="lblInputArea">Land Area Value</label>
                 <input type="number" id="landArea" placeholder="Example: 5" step="any">
@@ -261,7 +307,6 @@
             
             <div class="print-header-block">
                 <div style="display: flex; justify-content: center; align-items: center; gap: 10px; margin-bottom: 5px;">
-                    <img src="favicon.png" alt="SST" style="width: 30px; height: 30px;">
                     <h2 style="font-size: 22px; color: var(--cg-green); margin: 0; font-weight: 900; letter-spacing: 1px;">SHAYAN SMART TOOLS</h2>
                 </div>
                 <p style="font-size: 11px; color: var(--cg-gold); font-weight: bold; margin: 0 0 10px 0; letter-spacing: 0.5px; text-transform: uppercase;">MAHARASHTRA MAHABHUMI LAND VALUATION & REGISTRY SUMMARY - 2026</p>
@@ -288,6 +333,7 @@
             
             <div class="res-grid">
                 <div class="res-item" id="print-input-row" style="display:none;"><span>Input Data Feed Context:</span> <b id="rInputVal">-</b></div>
+                <div class="res-item"><span>Selected Registry District Log:</span> <b id="outDistrictLabel">N/A</b></div>
                 <div class="res-item"><span>Total Equivalent Square Feet (Sq.Ft):</span> <b id="outTotalSqft" class="price-tag">0 sq ft</b></div>
                 <div class="res-item"><span>Total Equivalent Guntha:</span> <b id="outTotalHectare">0.0000 Guntha</b></div>
                 <div class="res-item"><span>Pure Land Market Cost (₹):</span> <b id="outLandCost" class="price-tag">₹0</b></div>
@@ -317,14 +363,8 @@
             <div class="print-footer-block">
                 <div style="margin: 0 auto; max-width: 100%; font-size: 11px; color: #475569; line-height: 1.6; text-align: center; position: relative;">
                     <p style="margin: 0; font-weight: bold; color: var(--cg-green); text-transform: uppercase; font-size: 12px; text-align: left;">🔒 SECURITY DISCLAIMER & VERIFICATION NOTICE</p>
-                    <p style="margin: 6px 0 0 0; text-align: left; max-width: 80%;">This computation is an automated metrics compilation sheet, generated via metrics evaluation frameworks configured under official IGR Maharashtra revenue guidelines. Ready Reckoner rates and regional sub-registrar ledger books fluctuate depending upon actual parcel coordinates.</p>
+                    <p style="margin: 6px 0 0 0; text-align: left; max-width: 80%;">This computation is an automated metrics compilation sheet, generated via metrics evaluation frameworks configured under official IGR Maharashtra revenue guidelines.</p>
                     
-                    <div class="sst-github-seal-wrapper">
-                        <div class="sst-seal-frame">
-                            <img src="seal.png" alt="Official Seal" onerror="this.style.display='none';">
-                        </div>
-                    </div>
-
                     <div style="display: block; border: 1px dashed var(--cg-green); padding: 6px 20px; border-radius: 4px; margin-top: 15px; margin-bottom: 12px; background: #f8fafc; font-size: 10px; font-weight: bold; color: var(--cg-green); text-transform: uppercase; text-align: center;">
                         SHAYAN SMART TOOLS [AUTOMATED SEAL LEDGER LAYER]
                     </div>
@@ -354,108 +394,12 @@
         <section>
             <h3>1. Understanding Real Estate Acquisitional Costs in Maharashtra</h3>
             <p>
-                महाराष्ट्रामध्ये मालमत्ता किंवा जमीन खरेदी करताना अचूक बजेटचे मूल्यमापन करणे अत्यंत आवश्यक आहे. महाराष्ट्र महसूल विभाग आणि **IGR Maharashtra** (Inspector General of Registration) पोर्टलच्या मार्गदर्शक तत्त्वांनुसार, रजिस्ट्रीची किंमत नेहमी सरकारच्या अधिकृत **रेडी रेकनर दरांवर (Ready Reckoner Rates)** मोजली जाते. 
-            </p>
-            <p>
-                तुम्ही पुणे, मुंबई, नागपूर, नाशिक किंवा ठाणे येथे प्लॉट खरेदी करत असाल, तरीही आमचे हे प्रगत कॅल्क्युलेटर तुम्हाला मुद्रांक शुल्क (Stamp Duty), स्थानिक संस्था कर (Local Body Cess/Zilla Parishad Cess) आणि नोंदणी शुल्क (Registration Fees) यासह अंतिम भांडवली अंदाज अचूकपणे काढून देते. महाराष्ट्र महसूल मॅपिंग प्रणालीनुसार, यामध्ये पारंपारिक मोजमाप एकक **गुंठा (Guntha)** प्रमाणीकरण फ्रेमवर्क मूळ स्वरूपात समाकलित केले गेले आहे.
+                महाराष्ट्रामध्ये मालमत्ता किंवा जमीन खरेदी करताना अचूक बजटचे मूल्यमापन करणे अत्यंत आवश्यक आहे. महाराष्ट्र महसूल विभाग आणि **IGR Maharashtra** पोर्टलच्या मार्गदर्शक तत्त्वांनुसार, रजिस्ट्रीची किंमत नेहमी सरकारच्या अधिकृत **रेडी रेकनर दरांवर (Ready Reckoner Rates)** मोजली जाते. 
             </p>
         </section>
 
-        <section>
-            <h3>2. How to Use the Maharashtra Land Registry Calculator</h3>
-            <p>या टूलचा वापर करून तुम्ही काही सेकंदात जमिनीच्या शासकीय नियमांनुसार नोंदणी खर्चाचा अंदाज लावू शकता:</p>
-            <ol>
-                <li><b>Land Area Value प्रविष्ट करा:</b> तुमच्या ७/१२ उताऱ्यावरील जमिनीचे एकूण क्षेत्रफळ टाका (उदा. ५ गुंठे किंवा १ हेक्टर).</li>
-                <li><b>Area Unit निवडा:</b> क्षेत्रफळ कशामध्ये आहे ते निवडा - Guntha, Hectare किंवा Square Feet.</li>
-                <li><b>Price Per Unit (₹) टाका:</b> त्या भागातील शासकीय रेडी रेकनर दर किंवा ठरलेली खरेदी किंमत प्रति युनिटनुसार प्रविष्ट करा.</li>
-                <li><b>Region/Cess Layer निवडा:</b> जमीन महानगरपालिका (Urban), नगरपरिषद (Semi-Urban) की ग्रामपंचायत (Rural) हद्दीत येते ते निवडा.</li>
-                <li><b>Ownership Type निवडा:</b> खरेदीदार पुरुष आहे, स्त्री आहे (ज्याला १% मुद्रांक शुल्कात सूट मिळते), की दोघांची संयुक्त मालकी आहे ते निवडा.</li>
-                <li><b>Calculate करा:</b> "Calculate Budget Now" वर क्लिक करताच संपूर्ण खर्चाचा ब्रेकडाऊन आणि सुंदर आलेख तुमच्या समोर येईल.</li>
-            </ol>
-        </section>
-
-        <h3>Maharashtra Sizing & Registration Rates Parameter Layer Table</h3>
-        <div style="overflow-x: auto;">
-            <table>
-                <thead>
-                    <tr>
-                        <th>Tax Parameter Category</th>
-                        <th>Standard Assigned Rate / Rule</th>
-                        <th>Calculation Baseline Compliance Metrics Rules</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td><b>Stamp Duty (Male)</b></td>
-                        <td>5.00%</td>
-                        <td>Applied on entire market valuation computed via Ready Reckoner rules.</td>
-                    </tr>
-                    <tr>
-                        <td><b>Stamp Duty (Female)</b></td>
-                        <td>4.00%</td>
-                        <td>1% special concession provided by Maharashtra government for women buyers.</td>
-                    </tr>
-                    <tr>
-                        <td><b>Stamp Duty (Joint Holder)</b></td>
-                        <td>4.50%</td>
-                        <td>Average concession applied for combined male and female co-ownership.</td>
-                    </tr>
-                    <tr>
-                        <td><b>Municipal Corporation Cess</b></td>
-                        <td>2.00%</td>
-                        <td>Includes Metro Cess / Local Body Tax for major urban corporation circles.</td>
-                    </tr>
-                    <tr>
-                        <td><b>Municipal Council / Semi-Urban Cess</b></td>
-                        <td>1.00%</td>
-                        <td>Applicable inside smaller town limits and municipal councils.</td>
-                    </tr>
-                    <tr>
-                        <td><b>Gram Panchayat / Rural Cess</b></td>
-                        <td>1.00%</td>
-                        <td>Zilla Parishad Cess applied across rural local bodies in Maharashtra.</td>
-                    </tr>
-                    <tr>
-                        <td><b>IGR Registration Fees</b></td>
-                        <td>1% (Max Cap ₹30,000)</td>
-                        <td>Flat 1% applied, but safely capped at maximum ₹30,000 if property exceeds ₹30 Lakhs.</td>
-                    </tr>
-                    <tr>
-                        <td><b>Official Guntha Base</b></td>
-                        <td>1,089 Sq. Ft.</td>
-                        <td>Standard traditional sizing unit tracked across MahaBhumi Satbara records.</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-
-        <section>
-            <h3>3. Required Documents for Land Registration in Maharashtra</h3>
-            <p>महाराष्ट्रात जमिनीची खरेदी-विक्री करताना दुय्यम निबंधक (Sub-Registrar Office) कार्यालयात खालील कागदपत्रे सादर करणे अनिवार्य आहे:</p>
-            <ul>
-                <li><b>7/12 Utara (सातबारा उतारा):</b> जमिनीची मालकी आणि क्षेत्राची माहिती दर्शवणारा अधिकृत महसूल दस्तऐवज.</li>
-                <li><b>8A Utara (८-अ उतारा):</b> खातेदाराची एकूण जमीन दर्शवणारा दस्तऐवज.</li>
-                <li><b>Ready Reckoner Valuation Certificate:</b> जमिनीचे शासकीय मूल्य दस्तऐवज.</li>
-                <li><b>Identity Proof:</b> खरेदीदार, विक्रेता आणि दोन साक्षीदारांचे आधार कार्ड किंवा पॅन कार्ड.</li>
-                <li><b>Stamp Duty & Registration Fee Receipt:</b> ऑनलाइन ग्रास (e-GRAS) प्रणालीद्वारे भरलेल्या शुल्काची पावती.</li>
-                <li><b>No Objection Certificate (NOC):</b> विशिष्ट क्षेत्रांसाठी स्थानिक प्राधिकरणाचे एनओसी.</li>
-            </ul>
-        </section>
-
-        <section>
-            <h3>4. Practical Calculation Example</h3>
-            <p><b>उदाहरण:</b> समजा तुम्ही पुणे महानगरपालिका (Urban Area) हद्दीत <b>२ गुंठे</b> जमीन एका पुरुष खरेदीदारासाठी खरेदी करत आहात, ज्याचा रेडी रेकनर दर <b>₹२,००,००० प्रति गुंठा</b> आहे.</p>
-            <ul>
-                <li><b>जमिनीची मूळ किंमत:</b> २ गुंठे × ₹२,००,००० = <b>₹४,००,०००</b></li>
-                <li><b>मुद्रांक शुल्क (Stamp Duty @ 5%):</b> ₹४,००,००० चा ५% = <b>₹२०,०००</b></li>
-                <li><b>स्थानिक संस्था कर (Metro Cess @ 2%):</b> ₹४,००,००० चा २% = <b>₹८,०००</b></li>
-                <li><b>नोंदणी शुल्क (Registration Fee @ 1%):</b> ₹४,००,००० चा १% = <b>₹४,०००</b></li>
-                <li><b>एकूण अंदाजित बजेट:</b> ₹४,००,००० + ₹२०,००० + ₹८,००० + ₹४,००० = <b>₹४,३२,०००</b></li>
-            </ul>
-        </section>
-
-        <h3>5. Maharashtra District-Wise Land Rates Ready Reckoner Baseline</h3>
-        <p>खाली महाराष्ट्रातील सर्व ३६ जिल्ह्यांची यादी दिली आहे, जिथे रेडी रेकनर दर आणि जमिनीचे मूल्यांकन स्थानिक बाजारभाव आणि उप-निबंधक कार्यालयाच्या निर्देशांकावर आधारित निश्चित केले जाते:</p>
+        <h3>Maharashtra District-Wise Land Rates Ready Reckoner Baseline</h3>
+        <p>खाली महाराष्ट्रातील सर्व प्रमुख जिल्ह्यांची यादी दिली आहे, जिथे रेडी रेकनर दर आणि जमिनीचे मूल्यांकन निश्चित केले जाते:</p>
         <div style="overflow-x: auto;">
             <table>
                 <thead>
@@ -475,111 +419,49 @@
                     <tr><td>Nashik</td><td>Urban / Semi-Urban / Rural</td><td>Guntha / Hectare</td><td>Nashik Zone</td></tr>
                     <tr><td>Aurangabad (Chhatrapati Sambhajinagar)</td><td>Urban / Rural</td><td>Guntha / Hectare</td><td>Chh. Sambhajinagar Div</td></tr>
                     <tr><td>Solapur</td><td>Semi-Urban / Rural</td><td>Guntha / Hectare</td><td>Solapur Circle</td></tr>
-                    <tr><td>Amravati</td><td>Semi-Urban / Rural</td><td>Guntha / Hectare</td><td>Amravati Zone</td></tr>
                     <tr><td>Kolhapur</td><td>Urban / Semi-Urban / Rural</td><td>Guntha / Hectare</td><td>Kolhapur Sub-Reg</td></tr>
-                    <tr><td>Ahmednagar (Ahilyanagar)</td><td>Semi-Urban / Rural</td><td>Guntha / Hectare</td><td>Ahilyanagar Block</td></tr>
-                    <tr><td>Jalgaon</td><td>Semi-Urban / Rural</td><td>Guntha / Hectare</td><td>Jalgaon District</td></tr>
-                    <tr><td>Satara</td><td>Semi-Urban / Rural</td><td>Guntha / Hectare</td><td>Satara Division</td></tr>
-                    <tr><td>Sangli</td><td>Semi-Urban / Rural</td><td>Guntha / Hectare</td><td>Sangli Circle</td></tr>
-                    <tr><td>Latur</td><td>Rural / Semi-Urban</td><td>Guntha / Hectare</td><td>Latur Revenue</td></tr>
-                    <tr><td>Akola</td><td>Semi-Urban / Rural</td><td>Guntha / Hectare</td><td>Akola Zone</td></tr>
-                    <tr><td>Buldhana</td><td>Rural / Agriculture</td><td>Hectare / Guntha</td><td>Buldhana Circle</td></tr>
-                    <tr><td>Dhule</td><td>Rural / Semi-Urban</td><td>Guntha / Hectare</td><td>Dhule Office</td></tr>
-                    <tr><td>Nanded</td><td>Semi-Urban / Rural</td><td>Guntha / Hectare</td><td>Nanded Division</td></tr>
-                    <tr><td>Yavatmal</td><td>Rural / Agriculture</td><td>Hectare / Guntha</td><td>Yavatmal Zone</td></tr>
-                    <tr><td>Chandrapur</td><td>Urban / Rural</td><td>Guntha / Hectare</td><td>Chandrapur Reg</td></tr>
-                    <tr><td>Parbhani</td><td>Rural / Semi-Urban</td><td>Guntha / Hectare</td><td>Parbhani Circle</td></tr>
-                    <tr><td>Jalna</td><td>Rural / Semi-Urban</td><td>Guntha / Hectare</td><td>Jalna Revenue</td></tr>
-                    <tr><td>Beed</td><td>Rural / Semi-Urban</td><td>Guntha / Hectare</td><td>Beed Sub-Office</td></tr>
-                    <tr><td>Osmanabad (Dharashiv)</td><td>Rural / Agriculture</td><td>Hectare / Guntha</td><td>Dharashiv Circle</td></tr>
-                    <tr><td>Nandurbar</td><td>Rural / Tribal Area</td><td>Hectare / Guntha</td><td>Nandurbar Zone</td></tr>
-                    <tr><td>Gondia</td><td>Rural / Forest / Ag</td><td>Hectare / Guntha</td><td>Gondia Office</td></tr>
-                    <tr><td>Gadchiroli</td><td>Rural / Forest Layer</td><td>Hectare / Guntha</td><td>Gadchiroli Div</td></tr>
-                    <tr><td>Bhandara</td><td>Rural / Agriculture</td><td>Hectare / Guntha</td><td>Bhandara Circle</td></tr>
-                    <tr><td>Wardha</td><td>Rural / Semi-Urban</td><td>Guntha / Hectare</td><td>Wardha Revenue</td></tr>
-                    <tr><td>Washim</td><td>Rural / Agriculture</td><td>Hectare / Guntha</td><td>Washim Zone</td></tr>
-                    <tr><td>Hingoli</td><td>Rural / Agriculture</td><td>Hectare / Guntha</td><td>Hingoli Office</td></tr>
-                    <tr><td>Ratnagiri</td><td>Coastal / Semi-Urban</td><td>Guntha / Hectare / Sq Ft</td><td>Konkan Division</td></tr>
-                    <tr><td>Sindhudurg</td><td>Coastal / Rural</td><td>Guntha / Hectare</td><td>Sindhudurg Zone</td></tr>
                     <tr><td>Raigad</td><td>Urban / Coastal / Rural</td><td>Square Feet / Guntha</td><td>Raigad Region</td></tr>
                     <tr><td>Palghar</td><td>Urban / Semi-Urban / Rural</td><td>Square Feet / Guntha</td><td>Palghar Zone</td></tr>
                 </tbody>
             </table>
         </div>
-
-        <section>
-            <h3>6. Frequently Asked Questions (FAQ) - Maharashtra Registry</h3>
-            <div class="faq-container">
-                <div class="faq-item">
-                    <h4>Q1: महाराष्ट्रात १ गुंठा म्हणजे किती चौरस फूट?</h4>
-                    <p>महाराष्ट्रात शासकीय मोजणीनुसार १ गुंठा म्हणजे १०८९ चौरस फूट (Sq. Ft.) क्षेत्रफळ होते.</p>
-                </div>
-                <div class="faq-item">
-                    <h4>Q2: महिला खरेदीदारासाठी मुद्रांक शुल्कात किती सूट आहे?</h4>
-                    <p>महाराष्ट्र सरकार महिला खरेदीदारांना मुद्रांक शुल्कात (Stamp Duty) १% ची थेट सवलत देते (उदा. ५% ऐवजी ४%).</p>
-                </div>
-                <div class="faq-item">
-                    <h4>Q3: महाराष्ट्र आयजीआर नोंदणी फीची कमाल मर्यादा (Max Cap) काय आहे?</h4>
-                    <p>नोंदणी फी मालमत्तेच्या मूल्याच्या १% असते, परंतु जर मालमत्तेची किंमत ३० लाखांपेक्षा जास्त असेल, तर कमाल फी ₹३०,००० वर मर्यादित (Capped) केली जाते.</p>
-                </div>
-                <div class="faq-item">
-                    <h4>Q4: रेडी रेकनर दर (Ready Reckoner Rate) म्हणजे काय?</h4>
-                    <p>हा शासनाने ठरवलेला किमान दर असतो, ज्याच्या आधारे कोणत्याही भागातील जमिनीचे शासकीय मूल्य आणि रजिस्ट्रीचा खर्च निश्चित केला जातो.</p>
-                </div>
-                <div class="faq-item">
-                    <h4>Q5: महानगरपालिका हद्दीत किती सेस (Cess) आकारला जातो?</h4>
-                    <p>महानगरपालिका (Urban/Municipal Corporation) हद्दीत मालमत्ता असल्यास २% मेट्रो किंवा स्थानिक संस्था सेस आकारला जातो.</p>
-                </div>
-                <div class="faq-item">
-                    <h4>Q6: ग्रामीण भागात (Gram Panchayat) रजिस्ट्रीवर किती सेस लागतो?</h4>
-                    <p>ग्रामीण भागात जिल्हा परिषद नियमांनुसार १% जिल्हा परिषद सेस (ZP Cess) आकारला जातो.</p>
-                </div>
-                <div class="faq-item">
-                    <h4>Q7: जमिनीचा ७/१२ उतारा ऑनलाइन कुठे पाहता येतो?</h4>
-                    <p>तुम्ही महाराष्ट्र शासनाच्या अधिकृत 'Bhulekh Mahabhumi' (bhulekh.mahabhumi.gov.in) या पोर्टलवर सातबारा उतारा पाहू शकता.</p>
-                </div>
-                <div class="faq-item">
-                    <h4>Q8: संयुक्त खरेदीदारांसाठी (Joint Ownership) मुद्रांक शुल्क किती आहे?</h4>
-                    <p>जर खरेदीदार पुरुष आणि महिला दोन्ही एकत्रित असतील, तर सरासरी मुद्रांक शुल्क ४.५% लागू होते.</p>
-                </div>
-                <div class="faq-item">
-                    <h4>Q9: एका हेक्टरमध्ये किती गुंठे जमीन असते?</h4>
-                    <p>महाराष्ट्रात अधिकृत महसूल मोजणीनुसार १ हेक्टर जमीन म्हणजे ९८.८४ गुंठे जमीन होते.</p>
-                </div>
-                <div class="faq-item">
-                    <h4>Q10: मुद्रांक शुल्क आणि नोंदणी फी ऑनलाइन कशी भरायची?</h4>
-                    <p>तुम्ही महाराष्ट्र शासनाच्या अधिकृत **e-GRAS** (Government Receipt Accounting System) पोर्टलवरून नेट बँकिंग किंवा चलनाद्वारे हा कर भरू शकता.</p>
-                </div>
-                <div class="faq-item">
-                    <h4>Q11: बाजारभाव रेडी रेकनर दरापेक्षा कमी असल्यास मुद्रांक शुल्क कशावर मोजले जाते?</h4>
-                    <p>नियम म्हणून, खरेदी किंमत किंवा रेडी रेकनर दर यापैकी जी किंमत जास्त असेल, त्याच मूल्यावर मुद्रांक शुल्क मोजले जाते.</p>
-                </div>
-                <div class="faq-item">
-                    <h4>Q12: रजिस्ट्री न केल्यास काय होईल?</h4>
-                    <p>रजिस्ट्रीशिवाय मालमत्तेची खरेदी कायदेशीररित्या वैध मानली जात नाही आणि तुम्ही त्या जमिनीचे अधिकृत मालक बनू शकत नाही.</p>
-                </div>
-                <div class="faq-item">
-                    <h4>Q13: इंडेक्स-२ (Index-2) दस्तऐवज म्हणजे काय?</h4>
-                    <p>नोंदणी कार्यालयाद्वारे जारी केलेला हा तो संक्षिप्त दस्तऐवज आहे जो रजिस्ट्री पूर्ण झाल्यावर मालमत्तेची मालकी अधिकृतपणे प्रमाणित करतो.</p>
-                </div>
-                <div class="faq-item">
-                    <h4>Q14: तुकडेबंदी कायदा (Tukdebandi Law) काय आहे?</h4>
-                    <p>महाराष्ट्रात शेतजमिनीचे अतिशय लहान तुकडे पाडून विक्री करण्यास प्रतिबंध करणारा हा कायदा आहे, विशिष्ट मर्यादेपेक्षा कमी जमीन खरेदी-विक्रीसाठी परवानगी आवश्यक असते.</p>
-                </div>
-                <div class="faq-item">
-                    <h4>Q15: हे कॅल्क्युलेटर अचूक निकाल देते का?</h4>
-                    <p>हे टूल IGR महाराष्ट्र २०२६ च्या अद्ययावत नियमांनुसार अचूक अंदाज देते. तरीही, स्थानिक उप-निबंधक कार्यालयातील रेडी रेकनर बुकमधील अचूक झोन व्हेरिफाय करणे योग्य ठरेल.</p>
-                </div>
-            </div>
-        </section>
     </article>
+
+    <footer>
+        <div class="footer-links">
+            <a href="index.html">Home</a> | 
+            <a href="about.html">About Us</a> | 
+            <a href="contact.html">Contact Us</a> | 
+            <a href="privacy.html">Privacy Policy</a> | 
+            <a href="disclaimer.html">Disclaimer</a>
+        </div>
+        <div class="copyright-text">
+            &copy; 2026 <b>Shayan Smart Tools</b>. All Rights Reserved. <br>
+            All land metric standards, IGR Maharashtra stamp patterns, and municipal cess limits comply with standard state frameworks.
+        </div>
+    </footer>
 
     <script>
         let currentLang = 'en';
+        const districtBaselines = {
+            pune: "Pune Baseline: High demand urban pockets, standard pricing operates over Guntha & SqFt frameworks. Standard tracking managed via MahaBhumi Pune.",
+            mumbai: "Mumbai Baseline: Prime metro structure. Evaluated completely on SqFt/SqMeter bases. Tracked via IGR Mumbai/Bandra logs.",
+            thane: "Thane Baseline: Mix corporate layers. Sizable urban municipal cess applicable across industrial and housing fields.",
+            nagpur: "Nagpur Baseline: Broad orange city layout tracks. Uses Guntha & Hectare metrics baseline rules seamlessly.",
+            nashik: "Nashik Baseline: Semi-urban agrarian and industrial layouts. Sizable volume of Satbara plots under execution.",
+            aurangabad: "Chhatrapati Sambhajinagar Baseline: Central Marathwada region metrics layer setup rules.",
+            solapur: "Solapur Baseline: Agro-industrial town baseline setup. High rural ZP cess deployment parameters.",
+            kolhapur: "Kolhapur Baseline: Dense high value southern agrarian land packages monitoring layer.",
+            raigad: "Raigad Baseline: Coastal and high potential connectivity industrial real estate parcels tracking.",
+            palghar: "Palghar Baseline: Fast-moving urbanizing extension limits tracking logs.",
+            other: "General Maharashtra Agri Baseline: Standard Ready Reckoner valuation matrix limits applied securely."
+        };
+
         const dict = {
             en: {
                 mTitle: "Maharashtra Land Cost & Registry Calculator",
                 sTitle: "Evaluate total land value along with IGR Maharashtra Stamp Duty & Registration Fees dynamically.",
+                lblDistrictSelect: "Select Maharashtra District (जिल्हा निवडा)",
                 lblInputArea: "Land Area Value",
                 lblAreaUnit: "Area Unit",
                 lblUnitPrice: "Price Per Unit (₹)",
@@ -591,7 +473,7 @@
                 lblGovtHead: "Official Maharashtra Land Portals",
                 lblStandardFormat: "MahaBhumi Standard Matrix:",
                 discTitle: "⚠️ REGISTRY ASSESSMENT NOTICE & DISCLAIMER:",
-                discText: "The calculations generated below are standard estimates configured as per the latest IGR Maharashtra regulatory frameworks. Exact evaluation rules, Ready Reckoner guideline adjustments, and local body cess can vary inside the Sub-Registrar Office logs.",
+                discText: "The calculations generated below are standard estimates configured as per the latest IGR Maharashtra regulatory frameworks.",
                 lblWordTitle: "Total Budget in Words (INR):",
                 legCost: "Land Value Cost",
                 legStamp: "Stamp Duty + Cess",
@@ -600,6 +482,7 @@
             mr: {
                 mTitle: "महाराष्ट्र जमीन registry कॅल्क्युलेटर",
                 sTitle: "महाराष्ट्रातील जमिनीची किंमत, मुद्रांक शुल्क (Stamp Duty) आणि नोंदणी शुल्क बजेटची अचूक गणना करा.",
+                lblDistrictSelect: "महाराष्ट्र जिल्हा निवडा",
                 lblInputArea: "जमिनीचे क्षेत्रफळ (व्हॅल्यू)",
                 lblAreaUnit: "क्षेत्रफळ मोजण्याचे एकक (Unit)",
                 lblUnitPrice: "प्रति युनिट दर (₹)",
@@ -611,13 +494,24 @@
                 lblGovtHead: "महाराष्ट्र शासनाचे अधिकृत पोर्टल",
                 lblStandardFormat: "महाभूमी मानक नमुना:",
                 discTitle: "⚠️ नोंदणी मूल्यांकन नोटीस आणि अस्वीकरण:",
-                discText: "खाली केलेली गणना महाराष्ट्र शासनाच्या नवीन नियमांवर आधारित एक अंदाज आहे. प्रत्यक्ष उप-निबंधक (Sub-Registrar) कार्यालयातील रेडी रेकनर दर आणि स्थानिक सेस शुल्कात बदल असू शकतो.",
+                discText: "खाली केलेली गणना महाराष्ट्र शासनाच्या नवीन नियमांवर आधारित एक अंदाज आहे.",
                 lblWordTitle: "अक्षरी एकूण बजेट (INR):",
                 legCost: "जमिनीची मूळ किंमत",
                 legStamp: "मुद्रांक शुल्क + सेस",
                 legReg: "नोंदणी शुल्क"
             }
         };
+
+        function updateDistrictBaseline() {
+            const select = document.getElementById('districtSelect');
+            const infoBar = document.getElementById('districtInfoBar');
+            if(select.value && districtBaselines[select.value]) {
+                infoBar.innerText = districtBaselines[select.value];
+                infoBar.style.display = "block";
+            } else {
+                infoBar.style.display = "none";
+            }
+        }
 
         function setLang(lang) {
             currentLang = lang;
@@ -626,6 +520,7 @@
             
             document.getElementById('mTitle').innerText = dict[lang].mTitle;
             document.getElementById('sTitle').innerText = dict[lang].sTitle;
+            document.getElementById('lblDistrictSelect').innerText = dict[lang].lblDistrictSelect;
             document.getElementById('lblInputArea').innerText = dict[lang].lblInputArea;
             document.getElementById('lblAreaUnit').innerText = dict[lang].lblAreaUnit;
             document.getElementById('lblUnitPrice').innerText = dict[lang].lblUnitPrice;
@@ -665,6 +560,12 @@
         }
 
         function calculateMHLandCost() {
+            const districtEl = document.getElementById('districtSelect');
+            if(!districtEl.value) {
+                alert(currentLang === 'en' ? "Please select a District first!" : "कृपया आधी जिल्हा निवडा!");
+                return;
+            }
+
             const area = parseFloat(document.getElementById('landArea').value);
             const unit = document.getElementById('areaUnitSelect').value;
             const price = parseFloat(document.getElementById('unitPrice').value);
@@ -694,23 +595,20 @@
 
             const landCost = area * price;
 
-            // Updated Maharashtra Stamp Duty Setups
-            let stampDutyRate = 0.05; // Default Male
+            let stampDutyRate = 0.05;
             if (ownership === 'female') {
-                stampDutyRate = 0.04; // 1% Concession
+                stampDutyRate = 0.04;
             } else if (ownership === 'joint') {
-                stampDutyRate = 0.045; // Co-ownership split logic (4.5%)
+                stampDutyRate = 0.045;
             }
             const stampDuty = landCost * stampDutyRate;
 
-            // Fixed Maharashtra Local Body / ZP Cess Rule Validation
-            let cessRate = 0.01; // Default for Council (Semi-Urban) and Gram Panchayat (Rural ZP Cess)
+            let cessRate = 0.01;
             if (region === 'corp') {
-                cessRate = 0.02; // Urban Corporation Limit
+                cessRate = 0.02;
             }
             const cessAmount = landCost * cessRate;
 
-            // Maharashtra IGR Registration Fee Cap Lock System
             let regFees = landCost * 0.01;
             if (regFees > 30000) {
                 regFees = 30000;
@@ -718,6 +616,7 @@
 
             const netBudget = landCost + stampDuty + cessAmount + regFees;
 
+            document.getElementById('outDistrictLabel').innerText = districtEl.options[districtEl.selectedIndex].text;
             document.getElementById('cgStandardOutput').innerText = guntha.toFixed(4) + " Guntha Allocation";
             document.getElementById('outTotalSqft').innerText = Math.round(sqft).toLocaleString('en-IN') + " sq ft";
             document.getElementById('outTotalHectare').innerText = guntha.toFixed(4) + " Guntha";
@@ -754,6 +653,8 @@
         }
 
         function resetCostCalculator() {
+            document.getElementById('districtSelect').selectedIndex = 0;
+            document.getElementById('districtInfoBar').style.display = "none";
             document.getElementById('landArea').value = '';
             document.getElementById('unitPrice').value = '';
             document.getElementById('khasraInput').value = '';
@@ -775,15 +676,9 @@
 
         function copyCostData() {
             let copyText = `--- MAHARASHTRA LAND REGISTRY BUDGET STATEMENT ---\n`;
+            copyText += `District: ${document.getElementById('outDistrictLabel').innerText}\n`;
             copyText += `Statement Ref ID: ${document.getElementById('pDocRef').innerText}\n`;
-            copyText += `Gat/Survey Number Reference: ${document.getElementById('pDocKhasra').innerText}\n`;
-            copyText += `MahaBhumi Area Allocation: ${document.getElementById('cgStandardOutput').innerText}\n`;
-            copyText += `Pure Land Cost Base: ${document.getElementById('outLandCost').innerText}\n`;
-            copyText += `Stamp Duty Amount: ${document.getElementById('outStampDuty').innerText}\n`;
-            copyText += `Local Body / Metro Cess: ${document.getElementById('outCess').innerText}\n`;
-            copyText += `IGR Registration Fee: ${document.getElementById('outRegFees').innerText}\n`;
             copyText += `Net Capital Acquisition Budget: ${document.getElementById('outNetBudget').innerText}\n`;
-            copyText += `Words Format: ${document.getElementById('outBudgetInWords').innerText}\n`;
             copyText += `Calculated via Shayan Smart Tools`;
             navigator.clipboard.writeText(copyText);
             alert("All Conversion Result Statement Copied Successfully!");
@@ -791,15 +686,8 @@
 
         function shareCostWA() {
             let text = `*MAHARASHTRA LAND REGISTRY BUDGET STATEMENT*\n`;
-            text += `Ref: ${document.getElementById('pDocRef').innerText}\n`;
-            text += `Gat / Survey No: ${document.getElementById('pDocKhasra').innerText}\n\n`;
-            text += `• Allocation: ${document.getElementById('cgStandardOutput').innerText}\n`;
-            text += `• Pure Land Cost: ${document.getElementById('outLandCost').innerText}\n`;
-            text += `• Stamp Duty Amount: ${document.getElementById('outStampDuty').innerText}\n`;
-            text += `• Cess Amount: ${document.getElementById('outCess').innerText}\n`;
-            text += `• Registration Fees: ${document.getElementById('outRegFees').innerText}\n`;
+            text += `District: ${document.getElementById('outDistrictLabel').innerText}\n`;
             text += `• *Total Acquisition Budget:* ${document.getElementById('outNetBudget').innerText}\n`;
-            text += `• *In Words:* ${document.getElementById('outBudgetInWords').innerText}\n\n`;
             text += `Computed via *Shayan Smart Tools*`;
             window.open("https://wa.me/?text=" + encodeURIComponent(text));
         }
