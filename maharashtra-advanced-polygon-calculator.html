@@ -1,0 +1,598 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Maharashtra Advanced Polygon Land Calculator free 2026 | बहुभुज जमीन मोजणी कॅल्क्युलेटर | Shayan Smart Tools</title>
+    <link rel="canonical" href="https://shayansmarttools.in/maharashtra-advanced-polygon-calculator.html" />
+    <link rel="icon" type="image/png" href="favicon.png" />
+
+    <meta name="description" content="Calculate irregular polygon land area in Maharashtra using the Multi-Triangle method. Instant conversion into Acre, Guntha, Hectare, R-Are, and Sq Feet accurately based on Maharashtra revenue Bhulekh standards. Free by Shayan Smart Tools.">
+    <meta name="keywords" content="Maharashtra Advanced Polygon Land Calculator, बहुभुज जमीन मोजणी कॅल्क्युलेटर, Irregular Land Area Calculator Maharashtra, महाराष्ट्रात जमीन मोजणी, Acre Guntha Calculator, Heron's Formula Multi-Plot Maharashtra, Mahabhulekh Area Calculator, Shayan Smart Tools Maharashtra">
+    <meta name="author" content="Muksidul islam">
+    <meta name="robots" content="index, follow">
+
+    <style>
+        :root {
+            --mh-maroon: #b71c1c;
+            --dark-blue: #0a2540;
+            --white: #ffffff;
+            --bg: #f8fafc;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            background-color: var(--bg);
+            margin: 0;
+            padding: 20px;
+            color: #333;
+        }
+
+        .main-wrapper { max-width: 900px; margin: 0 auto; }
+
+        header {
+            background: linear-gradient(135deg, var(--mh-maroon), var(--dark-blue));
+            color: #fff; padding: 40px 20px; border-radius: 25px; text-align: center;
+            border-bottom: 6px solid #ef5350; margin-bottom: 30px;
+        }
+        header h1 { color: white; margin: 0 0 10px 0; font-size: 28px; text-transform: uppercase; }
+        header p { color: #ffebee; margin: 0; font-size: 16px; }
+
+        .lang-toggle { display: flex; justify-content: center; gap: 10px; margin-bottom: 25px; }
+        .lang-btn { background: white; border: 2px solid var(--mh-maroon); padding: 10px 25px; cursor: pointer; border-radius: 25px; font-weight: bold; transition: 0.3s; color: var(--mh-maroon); font-size: 14px; }
+        .lang-btn.active { background: var(--mh-maroon); color: white; }
+
+        /* Triangle Card Design */
+        .triangle-card {
+            background: var(--white);
+            padding: 20px;
+            border-radius: 16px;
+            margin-bottom: 20px;
+            border: 1px solid #e2e8f0;
+            border-left: 6px solid var(--mh-maroon);
+        }
+        .triangle-header { font-weight: 800; color: var(--mh-maroon); margin-bottom: 15px; display: block; border-bottom: 1px solid #e2e8f0; padding-bottom: 5px; text-transform: uppercase; font-size: 13px; }
+
+        /* Responsive Grid for Inputs */
+        .input-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; }
+        .input-group { display: flex; flex-direction: column; }
+        label { font-size: 12px; font-weight: bold; margin-bottom: 5px; color: var(--mh-maroon); text-transform: uppercase; }
+        input { padding: 15px; border: 1px solid #cbd5e1; border-radius: 12px; text-align: center; font-size: 16px; background: var(--white); outline: none; transition: 0.3s; }
+        input:focus { border-color: var(--mh-maroon); box-shadow: 0 0 8px rgba(183,28,28,0.1); }
+
+        .controls { display: flex; gap: 15px; margin: 25px 0; }
+        .btn { flex: 1; padding: 18px; border: none; border-radius: 12px; font-weight: 800; cursor: pointer; font-size: 16px; transition: 0.3s; text-transform: uppercase; letter-spacing: 0.5px; }
+        .btn-add { background: #5d4037; color: white; }
+        .btn-calc { background: var(--mh-maroon); color: white; }
+        .btn:hover { transform: translateY(-2px); box-shadow: 0 8px 15px rgba(0,0,0,0.1); }
+
+        /* RESULTS UI Layout */
+        .res-panel { background: #0f172a; color: white; padding: 25px; border-radius: 25px; margin-top: 30px; display: none; border: 2px solid var(--mh-maroon); position: relative; text-align: left; }
+        .res-panel h3 { margin-top: 0; text-align: center; color: #ff8a80; font-size: 1.4rem; margin-bottom: 20px; }
+        .result-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; }
+        .res-item { background: rgba(255,255,255,0.05); padding: 15px; border-radius: 12px; display: flex; flex-direction: column; align-items: flex-start; gap: 5px; border-left: 4px solid var(--mh-maroon); }
+        .res-item span { font-size: 12px; color: #94a3b8; font-weight: bold; }
+        .res-item b { font-size: 18px; color: #ff8a80; word-break: break-all; }
+
+        .print-header-block, .print-footer-block { display: none; }
+
+        .util-btns { display: flex; gap: 12px; margin-top: 25px; }
+        .u-btn { flex: 1; padding: 15px; border: none; border-radius: 12px; font-weight: 800; cursor: pointer; color: white; font-size: 14px; text-align: center; transition: 0.3s; }
+
+        .image-container { text-align: center; margin: 40px 0; padding: 25px; background: #ffffff; border-radius: 20px; border: 1px dashed var(--mh-maroon); }
+        .image-container img { max-width: 100%; height: auto; border-radius: 12px; }
+
+        /* SEO Section Layout */
+        .seo-content { 
+            background: transparent !important; 
+            padding: 20px 0; 
+            margin-top: 50px; 
+            line-height: 1.8; 
+            border: none !important;
+            color: #334155 !important;
+            text-align: left;
+        }
+        .seo-content h2 { color: var(--mh-maroon) !important; font-size: 28px !important; margin-bottom: 10px !important; border-left: 6px solid #ef5350; padding-left: 15px; margin-top: 40px; }
+        .seo-content h3 { color: var(--mh-maroon) !important; margin-top: 30px; }
+        .seo-content p { color: #334155 !important; font-size: 16px; text-align: justify; }
+        
+        .seo-content table { width: 100%; border-collapse: collapse; margin: 25px 0; background: #ffffff; display: table; overflow-x: visible; }
+        .seo-content th, .seo-content td { border: 1px solid #e2e8f0; padding: 15px; text-align: left; color: #334155 !important; }
+        .seo-content th { background-color: #ffebee; color: var(--mh-maroon) !important; }
+
+        /* Internal Dashboard Grid */
+        .sst-dashboard-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; margin: 40px 0; width: 100%; box-sizing: border-box; }
+        .sst-dash-btn { display: flex; align-items: center; gap: 15px; background: #ffffff; padding: 18px 20px; border-radius: 16px; text-decoration: none; color: var(--mh-maroon) !important; font-weight: 700; font-size: 15px; border: 1px solid #e2e8f0; transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1); box-sizing: border-box; }
+        .sst-dash-icon { display: flex; align-items: center; justify-content: center; width: 42px; height: 42px; background: #fdf5f5; border-radius: 12px; font-size: 20px; border: 1px solid #ffcdd2; transition: transform 0.3s ease; }
+        .sst-dash-title { flex: 1; line-height: 1.3; text-align: left; }
+        .sst-dash-btn:hover { border-color: var(--mh-maroon); transform: translateY(-4px); box-shadow: 0 12px 20px rgba(183, 28, 28, 0.1); background: linear-gradient(135deg, #ffffff, #ffebee); }
+        .sst-dash-btn:hover .sst-dash-icon { transform: scale(1.1) rotate(5deg); background: var(--mh-maroon); color: #fff; }
+
+        @media (max-width: 600px) {
+            .input-row { grid-template-columns: 1fr; gap: 10px; }
+            header h1 { font-size: 22px; }
+            .result-grid { grid-template-columns: 1fr; }
+            .seo-content { padding: 10px 0; }
+            .seo-content h2 { font-size: 22px !important; }
+            .sst-dashboard-grid { grid-template-columns: 1fr; gap: 12px; }
+            .sst-dash-btn { padding: 15px 18px; }
+        }
+
+        /* PREMIUM PRINT CONFIGURATION */
+        @media print {
+            * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; color-adjust: exact !important; }
+            @page { margin: 15mm 15mm; size: A4 portrait; }
+            body { background: #ffffff !important; color: #000000 !important; padding: 0; margin: 0; }
+            
+            .main-wrapper > header, .lang-toggle, .triangle-card, .controls, .util-btns, #resHead, .seo-content, .back-btn, .image-container { display: none !important; }
+            
+            .res-panel { 
+                display: block !important; 
+                background: #ffffff !important; 
+                color: #000000 !important; 
+                padding: 45px 35px !important; 
+                margin: 0 !important; 
+                width: 100% !important; 
+                box-sizing: border-box; 
+                border: 6px double var(--mh-maroon) !important; 
+                border-radius: 0px !important; 
+                position: relative;
+                page-break-inside: avoid;
+            }
+            
+            .print-header-block { display: block !important; text-align: center; border-bottom: 2px solid var(--mh-maroon) !important; padding-bottom: 18px; margin-bottom: 35px; }
+            .print-header-block img { display: inline-block !important; }
+
+            .result-grid { display: block !important; margin-top: 25px; }
+            .res-item { background: transparent !important; border: none !important; border-bottom: 1px solid #cbd5e1 !important; padding: 22px 6px !important; display: flex !important; flex-direction: row !important; justify-content: space-between !important; align-items: center !important; border-radius: 0px !important; }
+            .res-item span { color: #1e293b !important; font-size: 14px !important; font-weight: 600 !important; text-transform: uppercase; }
+            .res-item b { color: var(--dark-blue) !important; font-size: 17px !important; font-weight: 700 !important; }
+
+            .print-footer-block { 
+                display: block !important; 
+                margin-top: 60px; 
+                border-top: 1px dashed #cbd5e1 !important; 
+                padding-top: 25px;
+            }
+            .print-footer-container {
+                display: table !important;
+                width: 100% !important;
+            }
+            .print-footer-left {
+                display: table-cell !important;
+                width: 60% !important;
+                vertical-align: top !important;
+                text-align: left !important;
+                padding-right: 20px;
+            }
+            .print-footer-right {
+                display: table-cell !important;
+                width: 40% !important;
+                vertical-align: top !important;
+                text-align: right !important;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="main-wrapper">
+    <header>
+        <h1 id="mainTitle">Maharashtra Advanced Polygon Land Calculator</h1>
+        <p id="subText">Calculate complex irregular shapes by dividing them into triangles.</p>
+    </header>
+
+    <div class="lang-toggle">
+        <button class="lang-btn active" id="enBtn" onclick="setLang('en')">English</button>
+        <button class="lang-btn" id="mrBtn" onclick="setLang('mr')">मराठी</button>
+    </div>
+
+    <div id="triangleArea">
+        <div class="triangle-card">
+            <span class="triangle-header" id="t1Head">Triangle #1 (प्रथम त्रिकोण)</span>
+            <div class="input-row">
+                <div class="input-group"><label class="lblA">Side A (Feet)</label><input type="number" class="side-a" placeholder="0"></div>
+                <div class="input-group"><label class="lblB">Side B (Feet)</label><input type="number" class="side-b" placeholder="0"></div>
+                <div class="input-group"><label class="lblC">Side C (Feet)</label><input type="number" class="side-c" placeholder="0"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="controls">
+        <button class="btn btn-add" id="btnAdd" onclick="addTriangle()">+ Add Triangle</button>
+        <button class="btn btn-calc" id="btnCalc" onclick="calculateTotalArea()">Calculate Total Area</button>
+    </div>
+
+    <div id="resPanel" class="res-panel">
+        
+        <div class="print-header-block">
+            <div style="display: flex; justify-content: center; align-items: center; gap: 10px; margin-bottom: 5px;">
+                <img src="favicon.png" alt="SST" style="width: 32px; height: 32px;">
+                <h2 style="font-size: 24px; color: #b71c1c; margin: 0; font-weight: 900; letter-spacing: 1px;">SHAYAN SMART TOOLS</h2>
+            </div>
+            <p style="font-size: 11px; color: #b71c1c; font-weight: bold; margin: 0 0 15px 0; letter-spacing: 0.5px; text-transform: uppercase;">MAHARASHTRA REVENUE POLYGON AREA DIAGNOSTIC CERTIFICATE - 2026</p>
+            
+            <div style="background: #f8fafc; border: 1px solid #cbd5e1; padding: 12px; border-radius: 6px; display: grid; grid-template-columns: 1fr 1fr; font-size: 12px; text-align: left; gap: 8px; color: #334155;">
+                <div><strong>DOCUMENT REF:</strong> <span id="pDocRef" style="color:#b71c1c; font-weight:bold;">SST-MH-POLY-0000</span></div>
+                <div style="text-align: right;"><strong>DATE:</strong> <span id="pDocDate" style="color:#b71c1c; font-weight:bold;">--/--/----</span></div>
+                <div><strong>JURISDICTION:</strong> State of Maharashtra (महाराष्ट्र)</div>
+                <div style="text-align: right;"><strong>STATUS:</strong> Heron's Poly Verified</div>
+            </div>
+        </div>
+
+        <h3 id="resHead" style="color: #ff8a80; text-align: center; margin-top: 0;">Calculated Result (निकाल)</h3>
+        
+        <div class="result-grid">
+            <div class="res-item" id="print-input-row" style="display:none;"><span style="color:#b71c1c; font-weight: 800;">Initial Data Grid Input:</span> <b id="rInputVal" style="color:#b71c1c; font-weight: 800;">0</b></div>
+            
+            <div class="res-item"><span id="uAc">Acre (एकर)</span><b id="outAc">0</b></div>
+            <div class="res-item"><span id="uK">Guntha (गुंठा)</span><b id="outK">0</b></div>
+            <div class="res-item"><span id="uHe">Hectare (हेक्टर)</span><b id="outHe">0</b></div>
+            <div class="res-item"><span id="uR">R / Are (आर)</span><b id="outR">0</b></div>
+            <div class="res-item"><span id="uSq">Sq Feet (चौरस फूट)</span><b id="outSq">0</b></div>
+            <div class="res-item"><span id="uMt">Sq Meter (चौरस मीटर)</span><b id="outMt">0</b></div>
+        </div>
+
+        <div class="print-footer-block">
+            <div class="print-footer-container">
+                
+                <div class="print-footer-left">
+                    <p style="margin: 0; font-weight: bold; color: #b71c1c; text-transform: uppercase; font-size: 11px;">🔒 SECURITY DISCLAIMER & STATUTORY RECORDS NOTICE</p>
+                    <p style="margin: 6px 0 0 0; font-size: 10px; color: #475569; line-height: 1.5;">This computation ledger summary sheet is dynamically compiled via Heron's Polygon Geometric matrices matching Maharashtra revenue metrics (1 Acre = 40 Guntha / 43,560 Sq.Ft standard custom values). For official land mutations or boundaries assignments, match parameters with the Mahabhulekh Maharashtra portal ledger.</p>
+                    <p style="margin: 12px 0 0 0; font-size: 11px; font-weight: bold; color: #b71c1c;">🌐 OFFICIAL PORTAL: www.shayansmarttools.in</p>
+                </div>
+
+                <div class="print-footer-right">
+                    <div style="display: inline-block; text-align: center;">
+                        <img src="seal.png" alt="SST Official Stamp" style="width: 110px; height: auto; display: block; margin: 0 auto 5px auto;">
+                        <div style="font-size: 11px; font-weight: bold; color: #1e293b; border-top: 1px solid #cbd5e1; padding-top: 4px; width: 140px; margin-top: 8px;">Authorised Signature</div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="util-btns">
+            <button class="u-btn" onclick="copyData()" style="background:#475569;">📋 Copy Details</button>
+            <button class="u-btn" onclick="shareWA()" style="background:#22c55e;">📲 WhatsApp</button>
+            <button class="u-btn" onclick="printLandReport()" style="background:#2b7cff;">🖨️ Print Report</button>
+        </div>
+    </div>
+
+    <div class="back-btn" style="text-align: center; margin-top: 20px;">
+        <a href="index.html" style="color: var(--mh-maroon); font-weight: bold; text-decoration: none;">⬅ Back to All Tools</a>
+    </div>
+
+    <div class="image-container">
+        <h3 style="margin-top:0;" id="imgTitle">How to measure complex land? (जटिल जमीन कशी मोजावी?)</h3>
+        <img src="lands-diagram.png" alt="Multi Triangle Land Measurement Diagram Shayan Smart Tools">
+        <p id="imgDesc" style="font-size: 13px; color: #555; margin-top:10px;">Divide your land into multiple triangles and measure all sides as shown above.</p>
+    </div>
+
+    <article class="seo-content">
+        <div class="seo-header-block">
+            <h2>Maharashtra Advanced Polygon Land Calculator: Complex Tedi-Medi Zameen ka Sateek Hisab</h2>
+            <p style="font-size: 18px; color: #555; margin: 5px 0 0 0;">Irregular polygon land mapping for Maharashtra. Calculate accurate conversions dynamically into Acre, Guntha, and Hectares.</p>
+        </div>
+
+        <section>
+            <h3>1. Introduction to Irregular Land Formations in Maharashtra (Jamin Mजणी Background)</h3>
+            <p>
+                Maharashtra mein zameen ki boundaries aur geographical plots ka landscape kafi dynamic aur pechida hai. Alag-alag districts aur terrain variations, localized slopes aur sadiyon purane village dynamics ke karan, yahan ki 90% se zyada agriculture field holdings aur residential properties perfectly symmetrical rectangle ya square space me nahi hoti hain. Jab kisi land plot asset me 4 se zyada irregular corners (konne) hote hain, toh use mathematical language me hum <b>Polygon (बहुभुज)</b> ka naam dete hain. Aisi tedi-medi zameen par normal length $\times$ width scaling rules apply karne par standard area values hamesha wrong aate hain, jisse property mutation processing me legal anomalies open up ho jati hain. 
+            </p>
+            <p>
+                Maharashtra Revenue Department (Mahabhulekh 7/12 portal guidelines) ke anusar, registration metrics validation ke waqt land parameters ka sateek assessment hona behad mandatory hai. Is issue ko scientifically resolve karne ke liye engineering structures me <b>Multi-Triangle Polygon Geometric Mapping</b> system use kiya jata hai. Shayan Smart Tools ne isi multi-triangulation rule ko code framework par mapping karke is advance **Maharashtra Advanced Polygon Land Calculator** portal build kiya hai taaki amari kisan bhai bina kisi layout error ke zero validation lag ke sath single second calculations execute kar sakein.
+            </p>
+        </section>
+
+        <section>
+            <h3>2. Geometric Methodology: The Power of Multi-Triangle Method and Heron's Formula</h3>
+            <p>
+                Irregular polygon plots ka sateek framework map evaluate karne ka sabse ancient aur globally certified system hai bada asset patch ko chhote independent right/irregular triangles me convert kar dena. Jab aap apni tedi zameen ke dastawez ya ground map coordinates par diagonals lines draw karte hain, toh complex data boundaries discrete triangles blocks me slice down ho jati hain. Geometric patterns me jackpot kisi triangle ki teeno sides data variables (Side A, Side B, Side C) completely secure mil jayein, toh geometry ka sabse powerfull calculation standard <b>Heron’s Formula</b> apply kiya jata hai:
+            </p>
+            <p style="text-align: center; font-size: 18px; font-weight: bold; color: var(--mh-maroon);">
+                $$s = \frac{a + b + c}{2}$$
+            </p>
+            <p style="text-align: center; font-size: 18px; font-weight: bold; color: var(--mh-maroon);">
+                $$\text{Area} = \sqrt{s(s - a)(s - b)(s - c)}$$
+            </p>
+            <p>
+                Hamara system back-end script loop par har ek individual triangle ka sateek area parameter trace down karke unhe dynamically secure accumulate (sum up) karta hai. Final output value derive hone par use standard parameters conversion factor rules ke anusar Maharashtra revenue standards (<b>Acre, Guntha, Hectare, R-Are</b>) me flat badal deta hai. Niche diya gaya master chart dynamic mapping constants specifications ko strictly project karta hai:
+            </p>
+        </section>
+
+        <h3>Maharashtra Land Unit Table (महाराष्ट्र जमीन मोजणी कोष्टक)</h3>
+        <div style="overflow-x: auto;">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Unit Name (नाव)</th>
+                        <th>Sub-unit Structural Relation</th>
+                        <th>Area in Square Feet (चौरस फूट)</th>
+                        <th>Area in Square Meters (चौरस मीटर)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><b>1 Acre (एकर)</b></td>
+                        <td>40 Guntha standard regional units</td>
+                        <td>43,560 Sq Ft</td>
+                        <td>4,046.85 Sq M</td>
+                    </tr>
+                    <tr>
+                        <td><b>1 Guntha (गुंठा)</b></td>
+                        <td>Standard 1 Guntha unit size in Maharashtra</td>
+                        <td>1,089 Sq Ft</td>
+                        <td>101.17 Sq M</td>
+                    </tr>
+                    <tr>
+                        <td><b>1 Hectare (हेक्टर)</b></td>
+                        <td>2.471 Acres / 100 R-Are standard metrics</td>
+                        <td>1,07,639 Sq Ft</td>
+                        <td>10,000 Sq M</td>
+                    </tr>
+                    <tr>
+                        <td><b>1 R / Are (आर)</b></td>
+                        <td>1 Guntha value equivalent in metric forms</td>
+                        <td>1,076.39 Sq Ft</td>
+                        <td>100 Sq M</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <section>
+            <h3>3. Landmark Identification Features: Mahabhulekh, 7/12 Utara, and Gat/Survey Number</h3>
+            <p>
+                Zameen ka polygon spatial framework areas calculate karne ke sath-sath, har ek user ko revenue documents analytics inside me track hone wale dynamic indexing tags ki verification parameters path clear hona mandatory hai:
+            </p>
+            <p>
+                <b>A. 7/12 Utara (सातबारा उतारा):</b> Yeh asset structure title framework ledger copy hota hai. Is identification reference sheet se track kiya jata hai ki standard circle records inside me property allocations kis continuous legal name par verified state me working me chal raha hai.
+            </p>
+            <p>
+                <b>B. Gat / Survey Number (गट / सर्व्हे नंबर):</b> Yeh tracking core mapping scale number hota hai. Maharashtra mapping systems me state land advisory panel survey lines par har unique patch block ko ek specified layout map coordinates numeric system continuous key deta hai jise Gat number bolte hain. Is key ke bina geographic positioning assignment execute nahi ho sakti.
+            </p>
+            <p>
+                <b>C. Ferfar (फेरफार):</b> Patwari records inside running ye document classification metrics hold karta hai jo land characteristics properties aur mutation details check up karne ke liye use hota hai.
+            </p>
+        </section>
+
+        <section>
+            <h3>4. Operational Grid Manual: Add and Compute Multiple Triangles Cards</h3>
+            <p>
+                Hamne is processing interface core framework module par structural responsive client logic indexing setup kiya hai taaki zero lag script iteration system load instantly working framework pick kar sake. Iska dynamic navigation setup is prakar execute chalta hai:
+            </p>
+            <ul style="list-style-type: square; padding-left: 20px;">
+                <li><b>Language Interface Switcher Nodes:</b> Panel controls link header lines up par active press trigger se aap settings me **English** ya **Marathi (मराठी)** parameter layout options select kar sakte hain. Pura labelling criteria automatic synchronizations format loop update ho jayega.</li>
+                <li><b>Triangle Generation Layer:</b> Initial layer par dynamic window inside 1 single triangle field parameters show hote hain. Agar aapki ground mapping layout area bada hai toh computational path line options control block up box inside **"+ Add Triangle"** key use karke unlimited metrics fields rows setup cards parallel generate kar sakte hain.</li>
+                <li><b>Data Fields Configuration:</b> Apne manual tape survey scaling charts numbers inspect up karein aur continuous values inputs entries sections side columns lines up parameters inside fields inputs secure feed out karein.</li>
+                <li><b>Absolute Processing trigger:</b> Sub data strings parameters fields inside mapping clear set tracking complete karne ke baad master call system command trigger row **"Calculate Total Area"** option use karein. System back-end parameters constants execute processing layers active block clear out kar dega.</li>
+                <li><b>Cloud Transmission controls:</b> Result analytics dashboards window layers checks parameters panel block metrics inside aap immediate actions checks variables loop connectivity link lines use karke invoice description parameters instant **Copy** parameters context map copy update hold kar sakte hain ya fir dynamic WhatsApp sharing logic code setup parameters line integration settings use karke detail data parameters links forward execute kar sakte hain. Professional **Print Report** infrastructure option running format inside dynamic fully operational active state ready chalta chal raha hai.</li>
+            </ul>
+        </section>
+
+        <section>
+            <h3>5. Frequently Asked Questions (FAQs) - Maharashtra Land Records & Area Converter</h3>
+            <div style="margin-bottom: 20px; border-bottom: 1px solid #e2e8f0; padding-bottom: 12px;">
+                <p><b>Q1. Maharashtra mein 1 Acre kitne Guntha ke barabar hota hai?</b><br>Ans: Official revenue guidelines ke anusar Maharashtra mein standard 1 Acre pure 40 Guntha ka hota hai.</p>
+            </div>
+            <div style="margin-bottom: 20px; border-bottom: 1px solid #e2e8f0; padding-bottom: 12px;">
+                <p><b>Q2. Mahabhulekh Maharashtra portal par land area kis unit me record rehta hai?</b><br>Ans: Maharashtra government ke Mahabhulekh portal par zameen ka area hamesha metric system yani Hectare-R-Are (हेक्टर-आर-चौरस मीटर) format mein save kiya jata hai.</p>
+            </div>
+            <div style="margin-bottom: 20px; border-bottom: 1px solid #e2e8f0; padding-bottom: 12px;">
+                <p><b>Q3. How to convert Hectare to Acre accurately in Maharashtra?</b><br>Ans: 1 Hectare standard conversion matrix me 2.4711 Acres ke barabar hota hai. Apni jameen ke Hectare area ko Acre me badalne ke liye use sidhe 2.4711 se multiply karein.</p>
+            </div>
+            <div style="margin-bottom: 20px; border-bottom: 1px solid #e2e8f0; padding-bottom: 12px;">
+                <p><b>Q4. Maharashtra mein ek Acre mein kitne Square Feet (Sq Ft) hote hain?</b><br>Ans: Land measurement laws ke mutabik 1 Acre mein poore 43,560 Square Feet hote hain.</p>
+            </div>
+            <div style="margin-bottom: 20px; border-bottom: 1px solid #e2e8f0; padding-bottom: 12px;">
+                <p><b>Q5. 1 Guntha kitne Square Feet ke barabar hota hai?</b><br>Ans: Maharashtra me standard survey calculations ke anusar 1 Guntha ka size 1,089 Sq Ft ($33\text{ ft} \times 33\text{ ft}$) hota hai.</p>
+            </div>
+            <div style="margin-bottom: 20px; border-bottom: 1px solid #e2e8f0; padding-bottom: 12px;">
+                <p><b>Q6. Sateek calculation ke liye land mapping me Heron's Formula kyu lagaya jata hai?</b><br>Ans: Jab kisi zameen ya plot ka aakar perfectly चौकोर (Square/Rectangle) nahi hota, tab normal mathematical formulas fail ho jate hain. Heron's Formula zameen ko irregular triangles me divide karke zero margin of error ke sath exact area nikalta hai.</p>
+            </div>
+            <div style="margin-bottom: 20px; border-bottom: 1px solid #e2e8f0; padding-bottom: 12px;">
+                <p><b>Q7. Mahabhulekh website se digital 7/12 (Satbara) Utara kaise download karein?</b><br>Ans: Mahabhulekh Any Records website par jao, Rural Land Records select karo, fir apna District, Taluka, Village aur Gat Number dalkar captcha enter karne par aapka 7/12 Utara digitally display ho jayega.</p>
+            </div>
+            <div style="margin-bottom: 20px; border-bottom: 1px solid #e2e8f0; padding-bottom: 12px;">
+                <p><b>Q8. 1 Hectare mein kitne Square Meters hote hain?</b><br>Ans: Metric measurement rules ke anusar 1 Hectare pure 10,000 Square Meters (चौरस मीटर) ke barabar hota hai.</p>
+            </div>
+            <div style="margin-bottom: 20px; border-bottom: 1px solid #e2e8f0; padding-bottom: 12px;">
+                <p><b>Q9. Land Records me 'R' unit ka kya matlab hota hai?</b><br>Ans: Maharashtra revenue maps me 'R' ka matlab 'Are' hota hai. 1 'R' exact 100 Square Meters ke barabar hota hai, jise bolchal ki bhasha me 1 Guntha bhi kaha jata hai.</p>
+            </div>
+            <div style="margin-bottom: 20px; border-bottom: 1px solid #e2e8f0; padding-bottom: 12px;">
+                <p><b>Q10. Polygon Calculator se tedi-medi zameen ka area nikalne ki process kya hai?</b><br>Ans: Zameen ke tedi lines ke beech me diagonals check karke use alag-alag triangles me baantein. Un sabhi triangles ki teeno sides ka naap (Feet me) is tool me add karke calculate par click karein, sateek reports ready ho jayegi.</p>
+            </div>
+        </section>
+        
+        <h3>Related Tools & Internal Dashboards</h3>
+        <div class="sst-dashboard-grid">
+            <a class="sst-dash-btn" href="index.html">
+                <div class="sst-dash-icon">🏠</div>
+                <span class="sst-dash-title">Dashboard Home</span>
+            </a>
+            <a class="sst-dash-btn" href="maharashtra-land-area-addition.html">
+                <div class="sst-dash-icon">➕</div>
+                <span class="sst-dash-title">Land Addition Tool</span>
+            </a>
+            <a class="sst-dash-btn" href="maharashtra-guntha-to-sqft.html">
+                <div class="sst-dash-icon">📏</div>
+                <span class="sst-dash-title">Guntha to SqFt Calc</span>
+            </a>
+            <a class="sst-dash-btn" href="maharashtra-land-cost-calculator.html">
+                <div class="sst-dash-icon">💰</div>
+                <span class="sst-dash-title">Land Cost Tool</span>
+            </a>
+        </div>
+
+        <div style="margin-top: 50px; padding: 25px; border: 2px dashed var(--mh-maroon); background: #ffffff; border-radius: 12px; text-align: center;">
+            <h3 style="color: var(--dark-blue); margin-top: 0;">🚫 Copyright & Legal Notice Protected</h3>
+            <p style="font-size: 13px; margin-bottom: 0;">
+                <strong>Copyright © 2026 Shayan Smart Tools. All Rights Reserved.</strong><br><br>
+                Is advanced multi-triangle polygon software application core module interface layout model framework system flow lines computational algorithms source code elements configuration settings data parameters parameters rules <b>Muksidul Islam</b> ke proprietary engineering copyright tracking control security guidelines elements properties hold rules privileges context me system locks and standard security managed rules structures privileges protected status systems execute rests hain. Unauthorized digital copying, parsing scripts replication mirror deployment strictly cyber laws offense acts context trace penalties limits action operations generate criteria data limits rules tracking standard legal execution line bounds monitoring ready monitor rules clear chalta hai.
+            </p>
+        </div>
+    </article>
+</div>
+
+<script>
+    document.addEventListener('contextmenu', e => e.preventDefault());
+    document.onkeydown = function(e) {
+        if (e.ctrlKey && (e.keyCode === 67 || e.keyCode === 85 || e.keyCode === 73)) {
+            alert("Copyright Warning: Copying content from Shayan Digital Service is prohibited.");
+            return false;
+        }
+    };
+
+    let tCount = 1;
+    let currentL = 'en';
+
+    const trans = {
+        en: {
+            t: "Maharashtra Advanced Polygon Land Calculator",
+            st: "Calculate very complex irregular shapes by dividing them into triangles.",
+            add: "+ Add Triangle", calc: "Calculate Total Area", res: "Calculated Result (निकाल):",
+            iN: "How to measure complex land? (जटिल जमीन कशी मोजावी?)",
+            iD: "Divide your land into multiple triangles and measure all sides as shown above.",
+            lA: "Side A (Feet)", lB: "Side B (Feet)", lC: "Side C (Feet)", hCard: "Triangle #"
+        },
+        mr: {
+            t: "महाराष्ट्र प्रगत बहुभुज जमीन कॅल्क्युलेटर",
+            st: "जमिनीचे त्रिकोणामध्ये विभाजन करून अत्यंत गुंतागुंतीच्या अनियमित आकारांची गणना करा.",
+            add: "+ त्रिकोण जोडा", calc: "एकूण क्षेत्रफळ काढा", res: "गणना केलेला निकाल:",
+            iN: "जटिल जमीन कशी मोजावी?",
+            iD: "तुमच्या जमिनीचे अनेक त्रिकोणांमध्ये विभाजन करा आणि वर दाखवल्याप्रमाणे सर्व बाजू मोजा.",
+            lA: "बाजू A (फूट)", lB: "बाजू B (फूट)", lC: "बाजू C (फूट)", hCard: "त्रिकोण क्रमांक #"
+        }
+    };
+
+    function setLang(l) {
+        currentL = l;
+        document.getElementById('enBtn').classList.toggle('active', l === 'en');
+        document.getElementById('mrBtn').classList.toggle('active', l === 'mr');
+        document.getElementById('mainTitle').innerText = trans[l].t;
+        document.getElementById('subText').innerText = trans[l].st;
+        document.getElementById('btnAdd').innerText = trans[l].add;
+        document.getElementById('btnCalc').innerText = trans[l].calc;
+        document.getElementById('resHead').innerText = trans[l].res;
+        document.getElementById('imgTitle').innerText = trans[l].iN;
+        document.getElementById('imgDesc').innerText = trans[l].iD;
+        
+        let headers = document.querySelectorAll('.triangle-header');
+        headers.forEach((h, index) => {
+            h.innerText = `${trans[l].hCard}${index + 1}`;
+        });
+
+        let labelsA = document.querySelectorAll('.lblA');
+        labelsA.forEach(lbl => lbl.innerText = trans[l].lA);
+        let labelsB = document.querySelectorAll('.lblB');
+        labelsB.forEach(lbl => lbl.innerText = trans[l].lB);
+        let labelsC = document.querySelectorAll('.lblC');
+        labelsC.forEach(lbl => lbl.innerText = trans[l].lC);
+
+        if(document.getElementById('resPanel').style.display === 'block') calculateTotalArea();
+    }
+
+    function addTriangle() {
+        tCount++;
+        const area = document.getElementById('triangleArea');
+        const div = document.createElement('div');
+        div.className = 'triangle-card';
+        
+        let labelTextA = currentL === 'en' ? trans.en.lA : trans.mr.lA;
+        let labelTextB = currentL === 'en' ? trans.en.lB : trans.mr.lB;
+        let labelTextC = currentL === 'en' ? trans.en.lC : trans.mr.lC;
+        let headerText = currentL === 'en' ? `${trans.en.hCard}${tCount}` : `${trans.mr.hCard}${tCount}`;
+
+        div.innerHTML = `<span class="triangle-header">${headerText}</span>
+            <div class="input-row">
+                <div class="input-group"><label class="lblA">${labelTextA}</label><input type="number" class="side-a" placeholder="0"></div>
+                <div class="input-group"><label class="lblB">${labelTextB}</label><input type="number" class="side-b" placeholder="0"></div>
+                <div class="input-group"><label class="lblC">${labelTextC}</label><input type="number" class="side-c" placeholder="0"></div>
+            </div>`;
+        area.appendChild(div);
+    }
+
+    function calculateTotalArea() {
+        let totalSqFt = 0;
+        const aList = document.querySelectorAll('.side-a');
+        const bList = document.querySelectorAll('.side-b');
+        const cList = document.querySelectorAll('.side-c');
+        const resPanel = document.getElementById('resPanel');
+
+        for(let i=0; i<aList.length; i++) {
+            let a = parseFloat(aList[i].value) || 0;
+            let b = parseFloat(bList[i].value) || 0;
+            let c = parseFloat(cList[i].value) || 0;
+
+            if(a>0 && b>0 && c>0) {
+                if ((a + b > c) && (a + c > b) && (b + c > a)) {
+                    let s = (a + b + c) / 2;
+                    let area = Math.sqrt(s * (s - a) * (s - b) * (s - c));
+                    if(!isNaN(area)) totalSqFt += area;
+                } else {
+                    alert(currentL === 'en' ? `Triangle #${i+1} inputs are geometrically invalid!` : `त्रिकोण क्रमांक #${i+1} ची मापे भौमितिकदृष्ट्या अवैध आहेत!`);
+                    return;
+                }
+            }
+        }
+
+        if(totalSqFt <= 0) { 
+            alert(currentL === 'en' ? "Please enter valid operational numbers for the triangle sides!" : "कृपया त्रिकोणाच्या बाजूंचे वैध क्रमांक प्रविष्ट करा!"); 
+            return; 
+        }
+
+        // Maharashtra Standard System Logic
+        document.getElementById('outSq').innerText = Math.round(totalSqFt).toLocaleString('en-IN') + " sq ft";
+        
+        let totalSqMt = totalSqFt / 10.7639104;
+        document.getElementById('outMt').innerText = totalSqMt.toLocaleString('en-IN', {maximumFractionDigits: 2}) + " sq m";
+        
+        let totalGuntha = totalSqFt / 1089; // 1 Guntha = 1089 SqFt in Maharashtra
+        document.getElementById('outK').innerText = totalGuntha.toFixed(2) + " Guntha";
+        
+        let totalAcre = totalSqFt / 43560; // 1 Acre = 43560 SqFt
+        document.getElementById('outAc').innerText = totalAcre.toFixed(4); 
+        
+        let totalHectare = totalSqMt / 10000; // 1 Hectare = 10000 SqMt
+        document.getElementById('outHe').innerText = totalHectare.toFixed(4);
+
+        let totalR = totalSqMt / 100; // 1 R-Are = 100 SqMt
+        document.getElementById('outR').innerText = totalR.toFixed(2);
+
+        let options = { day: 'numeric', month: 'long', year: 'numeric' };
+        let today = new Date().toLocaleDateString('en-IN', options);
+        document.getElementById('pDocDate').innerText = today + " (INDIA STANDARD TIME)";
+        document.getElementById('rInputVal').innerText = `${aList.length} Total Sliced Triangles Entered`;
+
+        let randID = Math.floor(1000000000 + Math.random() * 9000000000);
+        document.getElementById('pDocRef').innerText = `SST-MH-POLY-${randID}`;
+
+        resPanel.style.display = 'block';
+        resPanel.scrollIntoView({ behavior: 'smooth' });
+    }
+
+    function printLandReport() {
+        const aList = document.querySelectorAll('.side-a');
+        if(aList.length === 0 || parseFloat(aList[0].value) <= 0) { alert("Calculate dimensions first before printing!"); return; }
+
+        const printRow = document.getElementById('print-input-row');
+        printRow.style.display = "flex";
+        window.print();
+        printRow.style.display = "none";
+    }
+
+    function copyData() {
+        let text = `Maharashtra Polygon Land Results:\nAcre/Guntha: ${document.getElementById('outAc').innerText} Acre (${document.getElementById('outK').innerText})\nSq Ft: ${document.getElementById('outSq').innerText}\nCalculated via Shayan Smart Tools`;
+        navigator.clipboard.writeText(text);
+        alert("Details Copied!");
+    }
+
+    function shareWA() {
+        let urlText = encodeURIComponent(`Maharashtra Irregular Land Results:\nArea: ${document.getElementById('outAc').innerText} एकर, ${document.getElementById('outK').innerText}\nSq Ft: ${document.getElementById('outSq').innerText}\nCheck details via Shayan Smart Tools`);
+        window.open("https://wa.me/?text=" + urlText);
+    }
+</script>
+</body>
+</html>
