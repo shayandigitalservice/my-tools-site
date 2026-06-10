@@ -124,7 +124,6 @@
             body { background: #ffffff !important; color: #000000 !important; padding: 0; margin: 0; }
             .measurement-tool > header, .lang-switch, .gov-links-title, .gov-links-grid, .input-section, .btn-convert, .util-btns, #resHead, .seo-content, .back-btn { display: none !important; }
             
-            /* Professional Double-Line Border Rim for Legal Look */
             .res-panel { 
                 display: block !important; 
                 background: #ffffff !important; 
@@ -139,13 +138,11 @@
             .print-header-block { display: block !important; text-align: center; border-bottom: 2px solid var(--cg-green) !important; padding-bottom: 12px; margin-bottom: 20px; }
             .bkl-special { background: #e6f4ea !important; border: 1px dashed var(--cg-green) !important; color: #000 !important; }
             
-            /* Print Parallel Fix Setup */
             .res-grid { display: block !important; margin-top: 15px; }
             .res-item { background: transparent !important; border: none !important; border-bottom: 1px solid #cbd5e1 !important; padding: 12px 4px !important; display: flex !important; justify-content: space-between !important; flex-direction: row !important; }
             .res-item span { color: #1e293b !important; font-size: 13px !important; font-weight: 600; text-transform: uppercase; }
             .res-item b { color: var(--cg-dark) !important; font-size: 15px !important; font-weight: bold; }
             
-            /* Verification Zone containing Seal & Signature Side-by-Side */
             .print-verification-zone {
                 display: flex !important;
                 justify-content: space-between;
@@ -157,9 +154,19 @@
                 text-align: left;
                 width: 160px;
             }
-            .scanner-box div {
+            .scanner-image-wrap {
                 width: 120px;
                 height: 120px;
+                border: 1.5px solid #cbd5e1;
+                border-radius: 10px;
+                overflow: hidden;
+                box-shadow: 0 4px 10px rgba(0,0,0,0.06);
+                background: #ffffff;
+            }
+            .scanner-image-wrap img {
+                width: 100%;
+                height: 100%;
+                object-fit: contain;
             }
             .signature-container {
                 text-align: right;
@@ -273,7 +280,16 @@
         </div>
 
         <div class="print-verification-zone">
-            <div class="scanner-box" id="qrContainer">
+            <div class="scanner-box">
+                <div style="background: linear-gradient(135deg, #1e3a8a, #0f172a); color: #ffffff; padding: 5px 2px; text-align: center; font-size: 8px; font-weight: 800; letter-spacing: 0.5px; text-transform: uppercase; border-top-left-radius: 10px; border-top-right-radius: 10px; width: 120px; border: 1.5px solid #cbd5e1; border-bottom: none; box-sizing: border-box;">
+                    Scan to Open Tool
+                </div>
+                <div class="scanner-image-wrap">
+                    <img src="qrcode.png" alt="Verification QR Code">
+                </div>
+                <div style="background: #f8fafc; border: 1.5px solid #cbd5e1; border-top: none; padding: 4px; text-align: center; font-size: 8px; font-family: monospace; color: #475569; font-weight: bold; border-bottom-left-radius: 10px; border-bottom-right-radius: 10px; width: 120px; box-sizing: border-box;">
+                    SHAYAN SMART TOOLS
+                </div>
             </div>
             <div class="signature-container">
                 <div class="seal-image-wrap">
@@ -395,8 +411,6 @@
     </article>
 </div>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
-
 <script>
     document.addEventListener('contextmenu', e => e.preventDefault());
     document.onkeydown = function(e) {
@@ -408,7 +422,6 @@
 
     let currentLang = 'en';
 
-    // 15 DETAILED CHHATTISGARH REVENUE LAND CALCULATIONS FAQS IN STRICT HINGLISH TEXT ONLY
     const faqsData = [
         {
             q_en: "Chhattisgarh Bhuiyan revenue records ke anusar 1 standard Decimal me kitne Square Feet area hota hai?",
@@ -582,36 +595,6 @@
         }
     }
 
-    // Google Pay / Banking Style Live 100% Scannable QR Component Framework 
-    function generateVerificationScanner(targetURL) {
-        const qrContainer = document.getElementById('qrContainer');
-        
-        // Clean inner layout box container structure
-        qrContainer.innerHTML = `
-            <div style="text-align: left; background: #ffffff; padding: 0px; border-radius: 10px; width: 145px; box-shadow: 0 4px 10px rgba(0,0,0,0.06); overflow: hidden; border: 1.5px solid #cbd5e1;">
-                <div style="background: linear-gradient(135deg, #1e3a8a, #0f172a); color: #ffffff; padding: 5px 2px; text-align: center; font-size: 8px; font-weight: 800; letter-spacing: 0.5px; text-transform: uppercase;">
-                    Scan to Open Tool
-                </div>
-                <div style="padding: 12px; background: #fff; display: flex; justify-content: center; align-items: center;">
-                    <div id="qrcodeEngineCanvas"></div>
-                </div>
-                <div style="background: #f8fafc; border-top: 1px solid #e2e8f0; padding: 4px; text-align: center; font-size: 8px; font-family: monospace; color: #475569; font-weight: bold;">
-                    SHAYAN SMART TOOLS
-                </div>
-            </div>
-        `;
-
-        // Native secure matrix calculation parser engine initialization
-        new QRCode(document.getElementById("qrcodeEngineCanvas"), {
-            text: targetURL,
-            width: 110,
-            height: 110,
-            colorDark : "#0f172a",
-            colorLight : "#ffffff",
-            correctLevel : QRCode.CorrectLevel.M
-        });
-    }
-
     function calculateChhattisgarhLand() {
         const length = parseFloat(document.getElementById('length').value);
         const width = parseFloat(document.getElementById('width').value);
@@ -632,10 +615,9 @@
 
         let sqmt = sqft / 10.7639104;
 
-        // CHHATTISGARH REVENUE SYSTEMS EQUATIONS RULES CONSTANTS MATRIX
-        const DECIMIL_SQFT = 435.6; // 1 Dismil / Decimal
-        const BIGHA_SQFT = 27225;   // Standard CG Bigha
-        const KATHA_SQFT = 1361.25; // Standard CG Katha
+        const DECIMIL_SQFT = 435.6;
+        const BIGHA_SQFT = 27225;
+        const KATHA_SQFT = 1361.25;
         const ACRE_SQFT = 43560;
 
         let tempSqft = sqft;
@@ -667,10 +649,6 @@
         let randID = Math.floor(1000000000 + Math.random() * 9000000000);
         const finalDocRef = "SST-CG-" + randID;
         document.getElementById('pDocRef').innerText = finalDocRef;
-
-        // Tool landing path variable passed inside scanner data packets
-        const toolUrlLocation = "https://shayansmarttools.in/chhattisgarh-land-area-calculator.html";
-        generateVerificationScanner(toolUrlLocation);
 
         resPanel.style.display = "block";
         resPanel.scrollIntoView({ behavior: 'smooth' });
