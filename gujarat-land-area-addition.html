@@ -34,6 +34,28 @@
 
         .tool-wrapper { padding: 10px 0; text-align: center; }
 
+        /* Language Switcher Styles */
+        .lang-switcher {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+        .lang-btn {
+            padding: 8px 16px;
+            border: 2px solid var(--gujarat-blue);
+            background: var(--white);
+            color: var(--gujarat-blue);
+            font-weight: bold;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .lang-btn.active {
+            background: var(--gujarat-blue);
+            color: var(--white);
+        }
+
         header {
             background: linear-gradient(135deg, var(--gujarat-blue), var(--dark-blue));
             color: #fff; padding: 45px 20px; border-radius: 25px; text-align: center;
@@ -68,6 +90,7 @@
         .btn { padding: 15px 35px; border: none; border-radius: 10px; font-weight: 800; cursor: pointer; transition: 0.3s; font-size: 15px; text-transform: uppercase; letter-spacing: 0.5px; min-width: 160px; }
         .btn-add { background: #475569; color: white; }
         .btn-calc { background: var(--gujarat-blue); color: white; }
+        .btn-reset { background: #ef4444; color: white; }
         .btn:hover { transform: translateY(-3px); box-shadow: 0 8px 15px rgba(0,0,0,0.12); }
 
         /* ADVANCED DARK PREMIUM RESULTS UI */
@@ -83,7 +106,7 @@
         .util-btns { display: flex; gap: 12px; margin-top: 25px; flex-wrap: wrap; }
         .u-btn { flex: 1; padding: 15px; border: none; border-radius: 12px; font-weight: 800; cursor: pointer; color: white; font-size: 14px; text-align: center; transition: 0.3s; text-transform: uppercase; min-width: 140px; }
 
-        /* EXTRAVAGANT 2500+ WORDS SEO ARTICLE LAYER */
+        /* EXTRAVAGANT SEO ARTICLE LAYER */
         .seo-article { 
             background: transparent !important; 
             padding: 30px 0; 
@@ -118,6 +141,9 @@
         .footer-copyright-box p { margin: 5px 0; }
         .footer-law-accent { font-weight: bold; color: #475569; text-transform: uppercase; font-size: 11px; letter-spacing: 1px; margin-bottom: 10px !important; display: block; }
 
+        .lang-section { display: none; }
+        .lang-section.active-lang { display: block; }
+
         @media (max-width: 600px) {
             header { padding: 30px 15px; border-radius: 15px; }
             header h1 { font-size: 24px; }
@@ -132,93 +158,62 @@
             .seo-article h3 { font-size: 18px; }
         }
 
-        /* PREMIUM PRINT CONFIGURATION DIRECTLY PARSED FROM CG TOOL */
         @media print {
             * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; color-adjust: exact !important; }
             @page { margin: 15mm 15mm; size: A4 portrait; }
             body { background: #ffffff !important; color: #000000 !important; padding: 0; margin: 0; }
-            
-            .tool-wrapper, .btn-box, .util-btns, #resHead, .seo-article, .back-btn, .plot-container { display: none !important; }
-            
-            .res-panel { 
-                display: block !important; 
-                background: #ffffff !important; 
-                color: #000000 !important; 
-                padding: 45px 35px !important; 
-                margin: 0 !important; 
-                width: 100% !important; 
-                box-sizing: border-box; 
-                border: 6px double var(--gujarat-blue) !important; 
-                border-radius: 0px !important; 
-                position: relative;
-                page-break-inside: avoid;
-            }
-            
+            .tool-wrapper, .btn-box, .util-btns, #resHead, .seo-article, .back-btn, .plot-container, .lang-switcher { display: none !important; }
+            .res-panel { display: block !important; background: #ffffff !important; color: #000000 !important; padding: 45px 35px !important; margin: 0 !important; width: 100% !important; box-sizing: border-box; border: 6px double var(--gujarat-blue) !important; border-radius: 0px !important; position: relative; page-break-inside: avoid; }
             .print-header-block { display: block !important; text-align: center; border-bottom: 2px solid var(--gujarat-blue) !important; padding-bottom: 18px; margin-bottom: 35px; }
-            .print-header-block img { display: inline-block !important; }
-
-            .result-grid { display: block !important; margin-top: 25px; }
-            .res-item { background: transparent !important; border: none !important; border-bottom: 1px solid #cbd5e1 !important; padding: 22px 6px !important; display: flex !important; flex-direction: row !important; justify-content: space-between !important; align-items: center !important; border-radius: 0px !important; }
-            .res-item span { color: #1e293b !important; font-size: 14px !important; font-weight: 600 !important; text-transform: uppercase; }
-            .res-item b { color: var(--gujarat-blue) !important; font-size: 17px !important; font-weight: 700 !important; }
-
-            .print-footer-block { 
-                display: block !important; 
-                margin-top: 60px; 
-                border-top: 1px dashed #cbd5e1 !important; 
-                padding-top: 25px;
-            }
-            .print-footer-container {
-                display: table !important;
-                width: 100% !important;
-            }
-            .print-footer-left {
-                display: table-cell !important;
-                width: 60% !important;
-                vertical-align: top !important;
-                text-align: left !important;
-                padding-right: 20px;
-            }
-            .print-footer-right {
-                display: table-cell !important;
-                width: 40% !important;
-                vertical-align: top !important;
-                text-align: right !important;
-            }
+            .result-grid { display: grid !important; grid-template-columns: repeat(2, 1fr) !important; gap: 15px !important; margin-top: 25px; }
+            .res-item { background: transparent !important; border: none !important; border-bottom: 1px solid #cbd5e1 !important; padding: 12px 6px !important; display: flex !important; flex-direction: column !important; align-items: flex-start !important; border-radius: 0px !important; }
+            .res-item span { color: #1e293b !important; font-size: 12px !important; font-weight: 600 !important; }
+            .res-item b { color: var(--gujarat-blue) !important; font-size: 16px !important; font-weight: 700 !important; }
+            .print-footer-block { display: block !important; margin-top: 60px; border-top: 1px dashed #cbd5e1 !important; padding-top: 25px; }
+            .print-footer-container { display: table !important; width: 100% !important; }
+            .print-footer-left { display: table-cell !important; width: 60% !important; vertical-align: top !important; text-align: left !important; }
+            .print-footer-right { display: table-cell !important; width: 40% !important; vertical-align: top !important; text-align: right !important; }
         }
     </style>
 </head>
 <body>
 
+<div class="lang-switcher">
+    <button class="lang-btn active" onclick="switchLanguage('en')">English</button>
+    <button class="lang-btn" onclick="switchLanguage('gj')">ગુજરાતી</button>
+</div>
+
 <div class="tool-wrapper">
     <header>
-        <h1>Gujarat Land Area Addition Calculator</h1>
-        <p>Gujarat Revenue Standard Engine: 1 Vigha = 24 Guntha Base Matrix</p>
+        <h1 id="mainTitle">Gujarat Land Area Addition Calculator</h1>
+        <p id="mainSubTitle">Gujarat Revenue Standard Engine: 1 Vigha = 24 Guntha Base Matrix</p>
     </header>
 
     <div id="plotsList">
         <div class="plot-container">
-            <span class="plot-header">Plot Detail #1 (જમીન પ્લોટ #1)</span>
+            <span class="plot-header" data-en="Plot Detail #1" data-gj="જમીન પ્લોટ વિગત #1">Plot Detail #1 (જમીન પ્લોટ #1)</span>
             <div class="input-grid">
-                <div class="field"><label>Vigha (વીઘા)</label><input type="number" class="v-val" placeholder="0" min="0"></div>
-                <div class="field"><label>Guntha (ગુંઠા)</label><input type="number" class="g-val" placeholder="0" min="0"></div>
+                <div class="field"><label data-en="Vigha" data-gj="વીઘા">Vigha (વીઘા)</label><input type="number" class="v-val" placeholder="0" min="0"></div>
+                <div class="field"><label data-en="Guntha" data-gj="ગુંઠા">Guntha (ગુંઠા)</label><input type="number" class="g-val" placeholder="0" min="0"></div>
             </div>
         </div>
         <div class="plot-container">
-            <span class="plot-header">Plot Detail #2 (જમીન પ્લોટ #2)</span>
+            <span class="plot-header" data-en="Plot Detail #2" data-gj="જમીન પ્લોટ વિગત #2">Plot Detail #2 (જમીન પ્લોટ #2)</span>
             <div class="input-grid">
-                <div class="field"><label>Vigha (વીઘા)</label><input type="number" class="v-val" placeholder="0" min="0"></div>
-                <div class="field"><label>Guntha (ગુંઠા)</label><input type="number" class="g-val" placeholder="0" min="0"></div>
+                <div class="field"><label data-en="Vigha" data-gj="વીઘા">Vigha (વીઘા)</label><input type="number" class="v-val" placeholder="0" min="0"></div>
+                <div class="field"><label data-en="Guntha" data-gj="ગુંઠા">Guntha (ગુંઠા)</label><input type="number" class="g-val" placeholder="0" min="0"></div>
             </div>
         </div>
     </div>
 
     <div class="btn-box">
-        <button class="btn btn-add" onclick="addNewPlot()">+ Add More Plot</button>
-        <button class="btn btn-calc" onclick="calculateTotal()">Calculate Total Jod</button>
+        <button class="btn btn-add" id="btnAddPlot" onclick="addNewPlot()">+ Add More Plot</button>
+        <button class="btn btn-calc" id="btnCalc" onclick="calculateTotal()">Calculate Total Jod</button>
+        <button class="btn btn-reset" id="btnReset" onclick="resetForm()">Reset</button>
     </div>
-</div> <div id="resPanel" class="res-panel">
-    
+</div> 
+
+<div id="resPanel" class="res-panel">
     <div class="print-header-block">
         <div style="display: flex; justify-content: center; align-items: center; gap: 10px; margin-bottom: 5px;">
             <img src="favicon.png" alt="SST" style="width: 32px; height: 32px;">
@@ -237,11 +232,14 @@
     <h3 id="resHead">Kul Kshetrafal / કુલ ક્ષેત્રફળ (Total Combined Area)</h3>
     
     <div class="result-grid">
-        <div class="res-item" id="print-input-row" style="display:none;"><span style="color:#0d47a1; font-weight: 800;">Initial Combined Input:</span> <b id="rInputVal" style="color:#0d47a1; font-weight: 800;">0 Combined Plots Computed</b></div>
-        <div class="res-item"><span>Vigha (વીઘા)</span><b id="rv">0 Vigha</b></div>
-        <div class="res-item"><span>Guntha (ગુંઠા)</span><b id="rg">0 Guntha</b></div>
-        <div class="res-item"><span>Total Square Feet</span><b id="rsq">0 sq ft</b></div>
-        <div class="res-item"><span>Total Square Meter</span><b id="rsqm">0 sq m</b></div>
+        <div class="res-item" id="print-input-row" style="display:none;"><span id="lblCombinedInput">Initial Combined Input:</span> <b id="rInputVal">0 Combined Plots Computed</b></div>
+        <div class="res-item"><span id="lblResVigha">Vigha (વીઘા)</span><b id="rv">0 Vigha</b></div>
+        <div class="res-item"><span id="lblResGuntha">Guntha (ગુંઠા)</span><b id="rg">0 Guntha</b></div>
+        <div class="res-item"><span id="lblResSqft">Total Square Feet</span><b id="rsq">0 sq ft</b></div>
+        <div class="res-item"><span id="lblResSqm">Total Square Meter</span><b id="rsqm">0 sq m</b></div>
+        <div class="res-item"><span id="lblResSqyard">Total Square Yard (Gaj / વાર)</span><b id="rsqyard">0 sq yard</b></div>
+        <div class="res-item"><span id="lblResAcre">Total Acre (એકર)</span><b id="racre">0 Acre</b></div>
+        <div class="res-item"><span id="lblResHectare">Total Hectare (હેક્ટર)</span><b id="rhectare">0 Hectare</b></div>
     </div>
 
     <div class="print-footer-block">
@@ -261,169 +259,252 @@
     </div>
 
     <div class="util-btns">
-        <button class="u-btn" style="background:#475569;" onclick="copyData()">📋 Copy Results</button>
-        <button class="u-btn" style="background:#22c55e;" onclick="shareWA()">📲 WhatsApp</button>
-        <button class="u-btn" style="background:#0d47a1;" onclick="printLandReport()">🖨️ Print Invoice</button>
+        <button class="u-btn" style="background:#475569;" id="btnCopy" onclick="copyData()">📋 Copy Results</button>
+        <button class="u-btn" style="background:#22c55e;" id="btnWA" onclick="shareWA()">📲 WhatsApp</button>
+        <button class="u-btn" style="background:#0d47a1;" id="btnPrint" onclick="printLandReport()">🖨️ Print Invoice</button>
     </div>
 </div>
 
-<div class="back-btn" style="text-align:center; margin-top: 20px;"><a href="index.html" style="color:var(--gujarat-blue); font-weight:bold; text-decoration:none;">⬅ Back to All Tools Dashboard</a></div>
+<div class="back-btn" style="text-align:center; margin-top: 20px;"><a href="index.html" id="lnkBack" style="color:var(--gujarat-blue); font-weight:bold; text-decoration:none;">⬅ Back to All Tools Dashboard</a></div>
 
-<article class="seo-article">
+<article id="content-en" class="seo-article lang-section active-lang">
     <div class="seo-header-block">
-        <h2>Gujarat Land Area Addition: Alag-Alag Zameen Ka Jod Kaise Nikalein?</h2>
-        <p>Gujarat AnyROR standards, survey documents aur revenue manuals ke mutabik multiple plots ka kul rakba nikalne ki sabse sateek digital vidhi.</p>
+        <h2>Gujarat Land Area Addition: How to Calculate the Sum of Different Land Parcels?</h2>
+        <p>The most accurate digital method to find the total area of multiple plots in Vigha and Guntha according to Gujarat AnyROR standards, survey documents, and revenue manuals.</p>
     </div>
 
     <section>
         <h3>1. Introduction: Why Land Area Addition is Critical in Gujarat?</h3>
-        <p>
-            Gujarat Bharat ka ek behad industrialised aur agriculturally advanced rajya hai. Yahan zameen ki khareed-bech, dastawez (Documentation), revenue registration aur mutation ki prakriya kafi viksit ho chuki hai. Government ke official <b>AnyROR (Any Records Anywhere)</b> portal par zameen ka records ya 7/12 (Satbara) utara hamesha Hectare, Are, aur Square Meters mein darj hota hai. Lekin jab local bazaar, kisan bhaiyo, real estate brokers ya property investors ke beech baat hoti hai, toh zameen ka sauda hamesha traditional regional metrics yaani <b>Vigha aur Guntha</b> mein kiya jata hai. 
-        </p>
-        <p>
-            Sabse badi chunauti aur math ka complex loop tab shuru hota hai jab kisi parivaar ke paas alag-alag thikano par 4 se 5 chote land parcels (plots) hote hain aur unhe aapas me jodkar ek master calculation nikalni hoti hai. Kyunki Gujarat Revenue Manual ke rules ke tehat zameen ka jod decimal arithmetic (jaise 10 ya 100) par nahi chalta, balki yahan ek custom numerical overflow handle karna padta hai jise hum <b>24-Guntha scale logic</b> kehte hain. Agar aap aam calculator se plot area add karenge toh galti hone ki gunjaish 99% tak badh jati hai jo baad me legal document registries me bade vivad ka kaaran banti hai. Shayan Smart Tools ka yeh advance mathematical architecture isi structural calculation problem ko instantly bypass karne ke liye design kiya gaya hai.
-        </p>
+        <p>Gujarat is one of the most industrialized and agriculturally advanced states in India. Land buying, selling, documentation, revenue registration, and mutation processes are highly developed here. On the government's official AnyROR portal, land records or 7/12 (Satbara) documents are always recorded in Hectares, Ares, and Square Meters. However, during local transactions among farmers, real estate brokers, and property investors, land deals are invariably discussed in traditional regional metrics: Vigha and Guntha.</p>
+        <p>The main challenge arises when a family or investor owns multiple small land parcels across different locations and wants to compute a master calculation. According to the Gujarat Revenue Manual, land area addition does not follow standard decimal arithmetic (multiples of 10 or 100). Instead, it uses a custom numerical overflow known as the 24-Guntha scale logic. Standard calculators often lead to errors, causing major legal and documentation disputes during registry. Shayan Smart Tools handles this sophisticated mechanism flawlessly.</p>
     </section>
 
     <section>
         <h3>2. The Complex Math of Vigha and Guntha Explained</h3>
-        <p>
-            Zameen ke map (survey system) ko samajhne ke liye hume Gujarat ke local parameters ko gaur se dekhna hoga. Gujarat me do tarah ke Vigha ka prayog purane samay se chala aa raha hai - Chota Vigha aur Bada Vigha. Lekin jab hum official revenue computations, land records ya bank loan files ki baat karte hain, toh hamesha <b>Bada Vigha (Standard Government Vigha)</b> ka hi istemal standard mana jata hai. 
-        </p>
-        <p>
-            Standard rule ke anusar:
-            <br><b>1 Vigha = 24 Guntha</b>
-            <br>Iska matlab hai ki agar aapke paas do alag plots hain; pehla plot 1 Vigha 18 Guntha ka hai aur doosra plot 2 Vigha 12 Guntha ka hai, toh unka total jod karte waqt 18 + 12 = 30 Guntha hota hai. Ab chunki 24 Guntha milkar 1 poora Vigha banate hain, isliye 30 Guntha me se 24 Guntha aage forward ho jayenge aur residual balance ke roop me sirf 6 Guntha bachega. Total answer aayega 4 Vigha 6 Guntha. Yeh advanced mechanism hamara calculator automatic back-end standard control node me perform karta hai.
-        </p>
+        <p>To understand land metrics in Gujarat, we must look closely at local parameters. Historically, two types of Vigha have been used—Small Vigha and Big Vigha. However, for official revenue computations, land records, or bank loan files, the Big Vigha (Standard Government Vigha) is always considered the benchmark.</p>
+        <p>The standard rule states:<br><b>1 Vigha = 24 Guntha</b><br>This implies that if you have two plots—Plot A measuring 1 Vigha 18 Guntha and Plot B measuring 2 Vigha 12 Guntha—adding them directly yields 30 Guntha. Since 24 Guntha equals 1 Vigha, the system carries over 1 Vigha, leaving a residual balance of 6 Guntha. The final accurate sum is 4 Vigha 6 Guntha.</p>
     </section>
 
     <section>
         <h3>3. Real-World Practical Examples & Carry Logic Scenario</h3>
-        <p>
-            Aaiye is algorithm ko ek realistic field case study se samajhte hain taaki aapko math poori tarah clear ho jaye:
-        </p>
+        <p>Let's understand this algorithm with a realistic field case study:</p>
         <h4>Scenario Study:</h4>
-        <p>
-            Maan lijiye ShantiBhai ke paas Ahmedabad ke pass 3 agricultural land plots hain jinhe wo ek builder ko ek sath bechna chahte hain. Unke plots ka area niche diye mutabik hai:
-        </p>
+        <p>Suppose ShantiBhai owns 3 agricultural land plots near Ahmedabad and wishes to sell them collectively to a builder:</p>
         <ul>
-            <li><b>Plot A:</b> 3 Vigha aur 15 Guntha</li>
-            <li><b>Plot B:</b> 1 Vigha aur 22 Guntha</li>
-            <li><b>Plot C:</b> 4 Vigha aur 10 Guntha</li>
+            <li><b>Plot A:</b> 3 Vigha and 15 Guntha</li>
+            <li><b>Plot B:</b> 1 Vigha and 22 Guntha</li>
+            <li><b>Plot C:</b> 4 Vigha and 10 Guntha</li>
         </ul>
-        <p><b>Step 1: Guntha Ka Sum:</b> 15 + 22 + 10 = 47 Guntha.</p>
-        <p><b>Step 2: Carry-Forward Engine Conversion:</b> 47 Guntha ko github hum 24 se divide karenge, toh hamare paas 1 Full Vigha nikal kar aayega aur bache huye remaining counts honge 23 Guntha. (47 - 24 = 23).</p>
-        <p><b>Step 3: Vigha Ka Master Sum:</b> 3 (Plot A) + 1 (Plot B) + 4 (Plot C) + 1 (Jo carry forward se aaya) = 9 Vigha.</p>
-        <p><b>Final Output Result:</b> 9 Vigha 23 Guntha. Agar aap isko square feet me convert karenge toh hamara mathematical engine standard metric multiply run karke absolute error-free reading de dega.</p>
+        <p><b>Step 1 (Sum of Guntha):</b> 15 + 22 + 10 = 47 Guntha.</p>
+        <p><b>Step 2 (Carry-Forward Engine Conversion):</b> Dividing 47 by 24 gives 1 Full Vigha with a remainder of 23 Guntha (47 - 24 = 23).</p>
+        <p><b>Step 3 (Master Sum of Vigha):</b> 3 (Plot A) + 1 (Plot B) + 4 (Plot C) + 1 (Carryover) = 9 Vigha.</p>
+        <p><b>Final Output Result:</b> 9 Vigha 23 Guntha. Our engine automatically converts this into accurate Square Feet, Square Yards, Hectares, and Acres.</p>
     </section>
 
-    <section>
-        <h3>4. How to Use Gujarat Land Area Addition Tool?</h3>
-        <p>Hamare software platform ka user interface kafi minimalistic aur lightweight rakha gaya hai taaki rural areas me kam internet speed par bhi smoothly responsive chala sake:</p>
-        <ol>
-            <li><b>Step 1 (Input Entry):</b> Sabse pehle Plot Detail #1 ke numeric text field me apna data dalein. Agar kisi section me sirf Guntha hai toh Vigha cell ko khali chor dein ya '0' enter karein.</li>
-            <li><b>Step 2 (Naye Plots Add Karna):</b> Agar aapke paas teen, chaar ya usse zyada plots hain, toh screen par diye gaye dynamic grey color ke <b>"+ Add More Plot"</b> button par tab karein. Isse ek naya database block layout turant inject ho jayega.</li>
-            <li><b>Step 3 (Execute Trigger):</b> Sabhi data fields ko safely verify karne ke baad main dark blue element navigation button <b>"Calculate Total Jod"</b> par hit karein.</li>
-            <li><b>Step 4 (Download or Save):</b> Result aate hi niche invoice panel expand hoga. Aap "Print Invoice" dabakar PDF ya hard copy download kar sakte hain.</li>
-        </ol>
-    </section>
-
-    <h3>5. Standard Conversion Multiplier Matrix Table</h3>
+    <h3>4. Standard Conversion Multiplier Matrix Table</h3>
     <table>
         <thead>
             <tr>
-                <th>Unit Name (એકમ નામ)</th>
+                <th>Unit Name</th>
                 <th>Standard Structural Relation</th>
-                <th>In Square Feet (ચોરસ ફૂટ)</th>
-                <th>In Square Meters (ચોરસ મીટર)</th>
+                <th>In Square Feet</th>
+                <th>In Square Meters</th>
             </tr>
         </thead>
         <tbody>
-            <tr><td><b>1 Vigha (વીઘા)</b></td><td>24 Guntha Standard Base Matrix</td><td>23,760 Sq Ft</td><td>2,207.22 Sq M</td></tr>
-            <tr><td><b>1 Guntha (ગુંઠા)</b></td><td>121 Square Yards (ચોરસ વાર)</td><td>990 Sq Ft</td><td>91.97 Sq M</td></tr>
-            <tr><td><b>1 Acre (એકર)</b></td><td>40 Guntha Standard Units</td><td>39,600 Sq Ft</td><td>3,678.92 Sq M</td></tr>
-            <tr><td><b>1 Hectare (હેક્ટર)</b></td><td>2.471 Acres / 4.54 Vigha approx</td><td>1,07,639 Sq Ft</td><td>10,000 Sq M</td></tr>
-            <tr><td><b>1 Square Yard (વાર)</b></td><td>9 Square Feet standard layout</td><td>9 Sq Ft</td><td>0.836 Sq M</td></tr>
+            <tr><td><b>1 Vigha</b></td><td>24 Guntha Standard Base Matrix</td><td>23,760 Sq Ft</td><td>2,207.22 Sq M</td></tr>
+            <tr><td><b>1 Guntha</b></td><td>121 Square Yards (Vaar)</td><td>990 Sq Ft</td><td>91.97 Sq M</td></tr>
+            <tr><td><b>1 Acre</b></td><td>40 Guntha Standard Units</td><td>39,600 Sq Ft</td><td>3,678.92 Sq M</td></tr>
+            <tr><td><b>1 Hectare</b></td><td>2.471 Acres / 4.54 Vigha approx</td><td>1,07,639 Sq Ft</td><td>10,000 Sq M</td></tr>
         </tbody>
     </table>
 
-    <h3>6. Top 15 Google Search Frequently Asked Questions (FAQs)</h3>
-    
+    <h3>5. Frequently Asked Questions (FAQs)</h3>
     <div class="faq-block">
-        <p><b>Q1. Gujarat mein 1 Vigha barabar kitne Guntha hota hai?</b><br>Ans: Gujarat Revenue Manual ke standard metric ke hisab se 1 Bada Vigha barabar pure 24 Guntha hote hain.</p>
-    </div>
-    <div class="faq-block">
-        <p><b>Q2. Kya pooray Gujarat mein ek jaisa Vigha chalta hai?</b><br>Ans: Government records me hamesha 24 Guntha ka standard Bada Vigha chalta hai, halanki local level par Saurashtra me kuch jagah chota vigha (16 guntha) ka upyog hota hai.</p>
+        <p><b>Q1. How many Guntha make 1 Vigha in Gujarat?</b><br>Ans: According to the Gujarat Revenue Manual, exactly 24 Guntha make 1 standard Big Vigha.</p>
     </div>
     <div class="faq-block">
-        <p><b>Q3. 1 Guntha mein kitne Square Feet hote hain?</b><br>Ans: Gujarat land measurements guidelines ke mutabik 1 Guntha me sateek 990 Square Feet area space hota hai.</p>
+        <p><b>Q2. What is the equivalent of 1 Guntha in Square Feet?</b><br>Ans: 1 Guntha equals exactly 990 Square Feet in Gujarat land measurement standards.</p>
     </div>
     <div class="faq-block">
-        <p><b>Q4. 1 Vigha mein kul kitne Square Feet hote hain?</b><br>Ans: 1 Standard Vigha me 24 Guntha × 990 Sq Ft = 23,760 Square Feet hote hain.</p>
-    </div>
-    <div class="faq-block">
-        <p><b>Q5. 1 Acre mein kitne Vigha hote hain Gujarat mein?</b><br>Ans: Gujarat standard data framework ke mutabik 1 Acre me lagbhag 1.66 Vigha (yaani pure 40 Guntha) hota hai.</p>
-    </div>
-    <div class="faq-block">
-        <p><b>Q6. AnyROR portal par land area kis format mein hota hai?</b><br>Ans: Gujarat government ke AnyROR website records me data humesha Hectare-Are-Square Meter ke format me darj hota hai.</p>
-    </div>
-    <div class="faq-block">
-        <p><b>Q7. 1 Guntha mein kitne Square Meters hote hain?</b><br>Ans: Technical standard conversions ke anusar 1 Guntha me lagbhag 91.97 Square Meters numerical area cover hota hai.</p>
-    </div>
-    <div class="faq-block">
-        <p><b>Q8. Kya Shayan Smart Tools ka addition calculator completely free hai?</b><br>Ans: Ji haan, hamare platform par land management, area calculations aur processing bilkul 100% safe aur completely lifetime free hain.</p>
-    </div>
-    <div class="faq-block">
-        <p><b>Q9. Agar calculator me hum galat/negative value daal dein toh kya hoga?</b><br>Ans: Hamari script negative entry bypass block karti hai aur clean verification validation parameters engine apply karti hai.</p>
-    </div>
-    <div class="faq-block">
-        <p><b>Q10. 1 Hectare mein Gujarat ke hisab se kitne Vigha bante hain?</b><br>Ans: 1 Hectare me pure 10,000 Sq Meter hote hain, jo Gujarat revenue scaling ke anusar lagbhag 4.54 Standard Vigha ke barabar hote hain.</p>
-    </div>
-    <div class="faq-block">
-        <p><b>Q11. Jamin Ka Jod nikalte waqt 24 Guntha se upar ka balance automatic add kyu hota hai?</b><br>Ans: Kyunki base numerical matrix 24-scale configuration par set hai. Isliye 24 Guntha hote hi system logic use turant 1 Vigha me increment kar deta hai.</p>
-    </div>
-    <div class="faq-block">
-        <p><b>Q12. What is Square Yard or 'Choras Vaar' standard in Gujarat?</b><br>Ans: Gujarat me residential plots aur urban land metrics hamesha 'Vaar' (Square Yard) me measure hote hain. 1 Vaar me 9 Sq Feet hote hain.</p>
-    </div>
-    <div class="faq-block">
-        <p><b>Q13. Mobile phone par reports ko save kaise karein?</b><br>Ans: "Print Invoice" option par click karke aap mobile chrome layout settings me 'Save as PDF' choose kar sakte hain.</p>
-    </div>
-    <div class="faq-block">
-        <p><b>Q14. Kya is calculator ka data bank validation ya court registries me valid hoga?</b><br>Ans: Yeh system keval mathematics calculation guide aur verification aur help ke liye hai. Final legal validation ke liye Mandal/Talati ke records hi upyog karein.</p>
-    </div>
-    <div class="faq-block">
-        <p><b>Q15. Satbara (7/12) utara map data calculation me guntha kaha likha hota hai?</b><br>Ans: Satbara form me 'Are' (આરે) column ka relation direct local level par Guntha se hi mapping kiya jata hai.</p>
-    </div>
-
-    <h3>Explore Real Estate Tools & Dynamic Dashboards</h3>
-    <div class="sst-dashboard-grid">
-        <a class="sst-dash-btn" href="index.html"><div class="sst-dash-icon">🏠</div><span class="sst-dash-title">Home Dashboard</span></a>
-        <a class="sst-dash-btn" href="gujarat-vigha-to-sqft.html"><div class="sst-dash-icon">📏</div><span class="sst-dash-title">Vigha to SqFt Calc</span></a>
-        <a class="sst-dash-btn" href="gujarat-advanced-polygon-calculator.html"><div class="sst-dash-icon">📐</div><span class="sst-dash-title">Polygon Land Calc</span></a>
-        <a class="sst-dash-btn" href="gujarat-land-cost-calculator.html"><div class="sst-dash-icon">💰</div><span class="sst-dash-title">Land Cost Tool</span></a>
-        <a class="sst-dash-btn" href="gujarat-hectare-to-vigha.html"><div class="sst-dash-icon">🔄</div><span class="sst-dash-title">Hectare to Vigha</span></a>
-    </div>
-
-    <div class="footer-copyright-box">
-        <p class="footer-law-accent">Legal Intelligence Core Ledger System</p>
-        <p><b>Copyright Notice:</b> Shayan Smart Tools Content, Algorithms & Program Source Code © 2026. All rights reserved.</p>
-        <p>Unauthorized duplication, indexing mirror scrapping or commercial replication of this software canvas structure is strictly prohibited under international intellectual property protection acts.</p>
-        <p style="margin-top: 15px; font-size: 11px; color:#94a3b8;"><b>Disclaimer:</b> Computer generated metrics only for engineering references. cross check with structural Talati-cum-Mantri verification before final registrations.</p>
+        <p><b>Q3. How can I download or save the calculated report?</b><br>Ans: You can click on the "Print Invoice" button to print directly or save it as a PDF on your device.</p>
     </div>
 </article>
 
+<article id="content-gj" class="seo-article lang-section">
+    <div class="seo-header-block">
+        <h2>ગુજરાત જમીન સરવાળો: અલગ-અલગ જમીન પ્લોટનો કુલ સરવાળો કેવી રીતે કરવો?</h2>
+        <p>ગુજરાત AnyROR ધોરણો, સરવે દસ્તાવેજો અને મહેસૂલ નિયમો મુજબ વીઘા અને ગુંઠામાં એકથી વધુ પ્લોટનો કુલ વિસ્તાર શોધવાની સૌથી સચોટ ડિજિટલ પદ્ધતિ.</p>
+    </div>
+
+    <section>
+        <h3>1. પ્રસ્તાવના: ગુજરાતમાં જમીનનો સરવાળો કરવો કેમ મહત્વપૂર્ણ છે?</h3>
+        <p>ગુજરાત ભારતનું એક અત્યંત ઔદ્યોગિક અને કૃષિ ક્ષેત્રે અદ્યતન રાજ્ય છે. અહીં જમીનની ખરીદ-વેચાણ, દસ્તાવેજીકરણ અને મહેસૂલી નોંધણી (મ્યુટેશન) પ્રક્રિયા ખૂબ જ વિકસિત છે. સરકારના સત્તાવાર <b>AnyROR</b> પોર્ટલ પર જમીનનો રેકોર્ડ અથવા 7/12 (સાતબારા) ઉતારો હંમેશા હેક્ટર, આરે અને ચોરસ મીટરમાં નોંધાયેલ હોય છે. પરંતુ સ્થાનિક સ્તરે ખેડૂતો, રિયલ એસ્ટેટ બ્રોકર્સ અને રોકાણકારો વચ્ચે સોદા હંમેશા પારંપરિક એકમો એટલે કે <b>વીઘા અને ગુંઠા</b> માં થાય છે.</p>
+        <p>મુખ્ય પડકાર ત્યારે આવે છે જ્યારે કોઈ પરિવાર કે રોકાણકાર પાસે અલગ-અલગ જગ્યાએ નાના-નાના જમીનના ટુકડા હોય અને તેનો કુલ માસ્ટર સરવાળો કાઢવો હોય. ગુજરાત મહેસૂલ નિયમો અનુસાર, જમીનનો સરવાળો સામાન્ય દશાંશ પદ્ધતિ (૧૦ કે ૧૦૦ ના ગુણાંક) પર ચાલતો નથી, પરંતુ અહીં <b>૨૪-ગુંઠા સ્કેલ લોજિક</b> નો ઉપયોગ થાય છે. સામાન્ય કેલ્ક્યુલેટરથી ગણતરી કરવાથી ભૂલ થવાની સંભાવના ૯૯% વધી જાય છે, જે પાછળથી કાનૂની વિવાદો સર્જે છે. શાયન સ્માર્ટ ટૂલ્સ આ સમસ્યાનો ત્વરિત ઉકેલ આપે છે.</p>
+    </section>
+
+    <section>
+        <h3>2. વીઘા અને ગુંઠાની જટિલ ગણતરીની સમજૂતી</h3>
+        <p>ગુજરાતમાં મહેસૂલી રેકોર્ડ અને બેંક લોનની ફાઇલોમાં હંમેશા <b>મોટા વીઘા (સરકારી પ્રમાણભૂત વીઘા)</b> ને જ પ્રમાણભૂત માનવામાં આવે છે.</p>
+        <p>પ્રમાણભૂત નિયમ મુજબ:<br><b>૧ વીઘા = ૨૪ ગુંઠા</b><br>આનો અર્થ એ થાય કે જો તમારી પાસે બે પ્લોટ હોય; પ્રથમ પ્લોટ ૧ વીઘા ૧૮ ગુંઠાનો અને બીજો પ્લોટ ૨ વીઘા ૧૨ ગુંઠાનો હોય, તો તેમનો સરવાળો કરવાથી ૩૦ ગુંઠા થાય. હવે ૨૪ ગુંઠા બરાબર ૧ આખો વીઘા થતો હોવાથી, સિસ્ટમ ૧ વીઘા આગળ કેરી ફોરવર્ડ કરશે અને બાકી વધેલા ૬ ગુંઠા દર્શાવશે. આથી સાચો જવાબ ૪ વીઘા ૬ ગુંઠા આવશે.</p>
+    </section>
+
+    <section>
+        <h3>3. વાસ્તવિક ઉદાહરણ અને કેરી લોજિક</h3>
+        <p>ધારો કે શાંતિભાઈ પાસે અમદાવાદ નજીક ૩ ખેતીની જમીનના પ્લોટ છે જે તેઓ બિલ્ડરને વેચવા માંગે છે:</p>
+        <ul>
+            <li><b>પ્લોટ A:</b> ૩ વીઘા અને ૧૫ ગુંઠા</li>
+            <li><b>પ્લોટ B:</b> ૧ વીઘા અને ૨૨ ગુંઠા</li>
+            <li><b>પ્લોટ C:</b> ૪ વીઘા અને ૧૦ ગુંઠા</li>
+        </ul>
+        <p><b>પગલું ૧ (ગુંઠાનો સરવાળો):</b> ૧૫ + ૨૨ + ૧૦ = ૪૭ ગુંઠા.</p>
+        <p><b>પગલું ૨ (વીઘામાં રૂપાંતર):</b> ૪૭ ગુંઠાને ૨૪ વડે ભાગતા ૧ આખો વીઘા મળશે અને ૨૩ ગુંઠા બાકી વધશે (૪૭ - ૨૪ = ૨૩).</p>
+        <p><b>પગલું ૩ (વીઘાનો કુલ સરવાળો):</b> ૩ + ૧ + ૪ + ૧ (કેરી ફોરવર્ડ) = ૯ વીઘા.</p>
+        <p><b>અંતિમ પરિણામ:</b> ૯ વીઘા ૨૩ ગુંઠા. અમારું કેલ્ક્યુલેટર આ ગણતરી ઓટોમેટિક કરીને ચોરસ ફૂટ, વાર, હેક્ટર અને એકરમાં પણ સચોટ પરિણામ આપે છે.</p>
+    </section>
+
+    <h3>4. પ્રમાણભૂત રૂપાંતરણ કોષ્ટક (Multiplier Matrix)</h3>
+    <table>
+        <thead>
+            <tr>
+                <th>એકમનું નામ</th>
+                <th>પ્રમાણભૂત માળખું</th>
+                <th>ચોરસ ફૂટમાં</th>
+                <th>ચોરસ મીટરમાં</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr><td><b>૧ વીઘા</b></td><td>૨૪ ગુંઠા સ્ટાન્ડર્ડ મેટ્રિક્સ</td><td>૨૩,૭૬૦ ચો.ફૂટ</td><td>૨,૨૦holder૭.૨૨ ચો.મી.</td></tr>
+            <tr><td><b>૧ ગુંઠા</b></td><td>૧૨૧ ચોરસ વાર (ગજ)</td><td>૯૯૦ ચો.ફૂટ</td><td>૯૧.૯૭ ચો.મી.</td></tr>
+            <tr><td><b>૧ એકર</b></td><td>૪૦ ગુંઠા પ્રમાણભૂત એકમો</td><td>૩૯,૬૦૦ ચો.ફૂટ</td><td>૩,૬૭૮.૯૨ ચો.મી.</td></tr>
+            <tr><td><b>૧ હેક્ટર</b></td><td>૨.૪૭૧ એકર / આશરે ૪.૫૪ વીઘા</td><td>૧,૦૭,૬૩૯ ચો.ફૂટ</td><td>૧૦,૦૦૦ ચો.મી.</td></tr>
+        </tbody>
+    </table>
+
+    <h3>5. વારંવાર પૂછાતા પ્રશ્નો (FAQs)</h3>
+    <div class="faq-block">
+        <p><b>પ્રશ્ન ૧. ગુજરાતમાં ૧ વીઘા બરાબર કેટલા ગુંઠા થાય?</b><br>ઉત્તર: ગુજરાત મહેસૂલ વિભાગના નિયમો અનુસાર ૧ સ્ટાન્ડર્ડ મોટા વીઘા બરાબર પૂરા ૨૪ ગુંઠા થાય છે.</p>
+    </div>
+    <div class="faq-block">
+        <p><b>પ્રશ્ન ૨. ૧ ગુંઠામાં કેટલા ચોરસ ફૂટ હોય છે?</b><br>ઉત્તર: જમીનના સત્તાવાર માપન મુજબ ૧ ગુંઠામાં ૨૪ ગુણ્યા ૪૧.૨૫ એટલે કે સચોટ ૯૯૦ ચોરસ ફૂટ જગ્યા હોય છે.</p>
+    </div>
+</article>
+
+<div class="footer-copyright-box">
+    <p class="footer-law-accent">Legal Intelligence Core Ledger System</p>
+    <p><b>Copyright Notice:</b> Shayan Smart Tools Content, Algorithms & Program Source Code © 2026. All rights reserved.</p>
+    <p>Unauthorized duplication, indexing mirror scrapping or commercial replication of this software canvas structure is strictly prohibited under international intellectual property protection acts.</p>
+</div>
+
 <script>
     let plotIdx = 2;
+    let currentLang = 'en';
+
+    const translations = {
+        en: {
+            title: "Gujarat Land Area Addition Calculator",
+            subtitle: "Gujarat Revenue Standard Engine: 1 Vigha = 24 Guntha Base Matrix",
+            addBtn: "+ Add More Plot",
+            calcBtn: "Calculate Total Jod",
+            resetBtn: "Reset",
+            resHead: "Kul Kshetrafal / કુલ ક્ષેત્રફળ (Total Combined Area)",
+            lblCombinedInput: "Initial Combined Input:",
+            lblResVigha: "Vigha (વીઘા)",
+            lblResGuntha: "Guntha (ગુંઠા)",
+            lblResSqft: "Total Square Feet",
+            lblResSqm: "Total Square Meter",
+            lblResSqyard: "Total Square Yard (Gaj / વાર)",
+            lblResAcre: "Total Acre (એકર)",
+            lblResHectare: "Total Hectare (હેક્ટર)",
+            btnCopy: "📋 Copy Results",
+            btnWA: "📲 WhatsApp",
+            btnPrint: "🖨️ Print Invoice",
+            backLnk: "⬅ Back to All Tools Dashboard"
+        },
+        gj: {
+            title: "ગુજરાત જમીન સરવાળો કેલ્ક્યુલેટર",
+            subtitle: "ગુજરાત મહેસૂલ નિયમ: ૧ વીઘા = ૨૪ ગુંઠા બેઝ મેટ્રિક્સ",
+            addBtn: "+ નવો પ્લોટ ઉમેરો",
+            calcBtn: "કુલ સરવાળો ગણો",
+            resetBtn: "રીસેટ કરો",
+            resHead: "કુલ ક્ષેત્રફળ (Total Combined Area)",
+            lblCombinedInput: "કુલ સબમિટ કરેલા પ્લોટ્સ:",
+            lblResVigha: "વીઘા",
+            lblResGuntha: "ગુંઠા",
+            lblResSqft: "કુલ ચોરસ ફૂટ",
+            lblResSqm: "કુલ ચોરસ મીટર",
+            lblResSqyard: "કુલ ચોરસ વાર (ગજ)",
+            lblResAcre: "કુલ એકર",
+            lblResHectare: "કુલ હેક્ટર",
+            btnCopy: "📋 પરિણામ કોપી કરો",
+            btnWA: "📲 વૉટ્સએપ શેર",
+            btnPrint: "🖨️ પ્રિન્ટ રિપોર્ટ",
+            backLnk: "⬅ તમામ ટૂલ્સ ડેશબોર્ડ પર પાછા જાઓ"
+        }
+    };
+
+    function switchLanguage(lang) {
+        currentLang = lang;
+        document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.remove('active'));
+        if(lang === 'en') {
+            document.querySelectorAll('.lang-btn')[0].classList.add('active');
+            document.getElementById('content-en').classList.add('active-lang');
+            document.getElementById('content-gj').classList.remove('active-lang');
+        } else {
+            document.querySelectorAll('.lang-btn')[1].classList.add('active');
+            document.getElementById('content-gj').classList.add('active-lang');
+            document.getElementById('content-en').classList.remove('active-lang');
+        }
+
+        // Apply UI translations
+        document.getElementById('mainTitle').innerText = translations[lang].title;
+        document.getElementById('mainSubTitle').innerText = translations[lang].subtitle;
+        document.getElementById('btnAddPlot').innerText = translations[lang].addBtn;
+        document.getElementById('btnCalc').innerText = translations[lang].calcBtn;
+        document.getElementById('btnReset').innerText = translations[lang].resetBtn;
+        document.getElementById('resHead').innerText = translations[lang].resHead;
+        
+        document.getElementById('lblCombinedInput').innerText = translations[lang].lblCombinedInput;
+        document.getElementById('lblResVigha').innerText = translations[lang].lblResVigha;
+        document.getElementById('lblResGuntha').innerText = translations[lang].lblResGuntha;
+        document.getElementById('lblResSqft').innerText = translations[lang].lblResSqft;
+        document.getElementById('lblResSqm').innerText = translations[lang].lblResSqm;
+        document.getElementById('lblResSqyard').innerText = translations[lang].lblResSqyard;
+        document.getElementById('lblResAcre').innerText = translations[lang].lblResAcre;
+        document.getElementById('lblResHectare').innerText = translations[lang].lblResHectare;
+
+        document.getElementById('btnCopy').innerText = translations[lang].btnCopy;
+        document.getElementById('btnWA').innerText = translations[lang].btnWA;
+        document.getElementById('btnPrint').innerText = translations[lang].btnPrint;
+        document.getElementById('lnkBack').innerText = translations[lang].backLnk;
+
+        // Dynamic element labels translation
+        document.querySelectorAll('.plot-container').forEach(container => {
+            const header = container.querySelector('.plot-header');
+            const labels = container.querySelectorAll('label');
+            if(header) header.innerText = header.getAttribute(`data-${lang}`) || header.innerText;
+            if(labels.length > 0) {
+                labels[0].innerText = labels[0].getAttribute(`data-${lang}`);
+                labels[1].innerText = labels[1].getAttribute(`data-${lang}`);
+            }
+        });
+    }
+
     function addNewPlot() {
         plotIdx++;
         const list = document.getElementById('plotsList');
         const div = document.createElement('div');
         div.className = 'plot-container';
+        
+        let headerText = currentLang === 'en' ? `Plot Detail #${plotIdx}` : `જમીન પ્લોટ વિગત #${plotIdx}`;
+        let labelVigha = currentLang === 'en' ? 'Vigha' : 'વીઘા';
+        let labelGuntha = currentLang === 'en' ? 'Guntha' : 'ગુંઠા';
+
         div.innerHTML = `
-            <span class="plot-header">Plot Detail #${plotIdx} (જમીન પ્લોટ #${plotIdx})</span>
+            <span class="plot-header" data-en="Plot Detail #${plotIdx}" data-gj="જમીન પ્લોટ વિગત #${plotIdx}">${headerText}</span>
             <div class="input-grid">
-                <div class="field"><label>Vigha (વીઘા)</label><input type="number" class="v-val" placeholder="0" min="0"></div>
-                <div class="field"><label>Guntha (ગુંઠા)</label><input type="number" class="g-val" placeholder="0" min="0"></div>
+                <div class="field"><label data-en="Vigha" data-gj="વીઘા">${labelVigha}</label><input type="number" class="v-val" placeholder="0" min="0"></div>
+                <div class="field"><label data-en="Guntha" data-gj="ગુંઠા">${labelGuntha}</label><input type="number" class="g-val" placeholder="0" min="0"></div>
             </div>`;
         list.appendChild(div);
     }
@@ -451,16 +532,21 @@
         // Mathematical Multipliers: 1 Guntha = 990 Sq Ft, 1 Vigha = 23760 Sq Ft
         let totalSqft = (tv * 23760) + (tg * 990);
         let totalSqm = totalSqft / 10.7639104;
+        let totalSqYard = totalSqft / 9; // 1 Sq Yard = 9 Sq Ft (Choras Vaar/Gaj)
+        let totalAcre = totalSqft / 43560; // 1 Acre = 43560 Sq Ft
+        let totalHectare = totalSqm / 10000; // 1 Hectare = 10000 Sq Meter
 
         document.getElementById('rsq').innerText = Math.round(totalSqft).toLocaleString('en-IN') + " sq ft";
         document.getElementById('rsqm').innerText = totalSqm.toLocaleString('en-IN', {maximumFractionDigits: 2}) + " sq m";
+        document.getElementById('rsqyard').innerText = Math.round(totalSqYard).toLocaleString('en-IN') + " sq yard (Vaar)";
+        document.getElementById('racre').innerText = totalAcre.toFixed(4) + " Acre";
+        document.getElementById('rhectare').innerText = totalHectare.toFixed(4) + " Hectare";
         
         let options = { day: 'numeric', month: 'long', year: 'numeric' };
         let today = new Date().toLocaleDateString('en-IN', options);
         document.getElementById('pDocDate').innerText = today + " (INDIA STANDARD TIME)";
-        document.getElementById('rInputVal').innerText = `${validPlots} Total Revenue Plots Tracked & Summed`;
+        document.getElementById('rInputVal').innerText = `${validPlots} Plots Computed`;
         
-        // Premium Random Reference ID Logic matching CG tool
         let randID = Math.floor(1000000000 + Math.random() * 9000000000);
         document.getElementById('pDocRef').innerText = `SST-GJ-ADD-${randID}`;
 
@@ -469,13 +555,41 @@
         resPanel.scrollIntoView({ behavior: 'smooth' });
     }
 
+    function resetForm() {
+        // Clear inputs
+        document.querySelectorAll('.v-val').forEach(i => i.value = '');
+        document.querySelectorAll('.g-val').forEach(i => i.value = '');
+        
+        // Keep only initial two plots
+        const list = document.getElementById('plotsList');
+        list.innerHTML = `
+            <div class="plot-container">
+                <span class="plot-header" data-en="Plot Detail #1" data-gj="જમીન પ્લોટ વિગત #1">${currentLang === 'en' ? 'Plot Detail #1' : 'જમીન પ્લોટ વિગત #1'}</span>
+                <div class="input-grid">
+                    <div class="field"><label data-en="Vigha" data-gj="વીઘા">${currentLang === 'en' ? 'Vigha' : 'વીઘા'}</label><input type="number" class="v-val" placeholder="0" min="0"></div>
+                    <div class="field"><label data-en="Guntha" data-gj="ગુંઠા">${currentLang === 'en' ? 'Guntha' : 'ગુંઠા'}</label><input type="number" class="g-val" placeholder="0" min="0"></div>
+                </div>
+            </div>
+            <div class="plot-container">
+                <span class="plot-header" data-en="Plot Detail #2" data-gj="જમીન પ્લોટ વિગત #2">${currentLang === 'en' ? 'Plot Detail #2' : 'જમીન પ્લોટ વિગત #2'}</span>
+                <div class="input-grid">
+                    <div class="field"><label data-en="Vigha" data-gj="વીઘા">${currentLang === 'en' ? 'Vigha' : 'વીઘા'}</label><input type="number" class="v-val" placeholder="0" min="0"></div>
+                    <div class="field"><label data-en="Guntha" data-gj="ગુંઠા">${currentLang === 'en' ? 'Guntha' : 'ગુંઠા'}</label><input type="number" class="g-val" placeholder="0" min="0"></div>
+                </div>
+            </div>`;
+        plotIdx = 2;
+
+        // Hide result panel
+        document.getElementById('resPanel').style.display = "none";
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
     function printLandReport() {
         const resPanel = document.getElementById('resPanel');
         if(resPanel.style.display !== "block") { 
-            alert("Calculate dimensions first before printing!"); 
+            alert(currentLang === 'en' ? "Calculate dimensions first before printing!" : "પ્રિન્ટ કરતા પહેલા ગણતરી કરો!"); 
             return; 
         }
-
         const printRow = document.getElementById('print-input-row');
         printRow.style.display = "flex";
         window.print();
@@ -483,14 +597,26 @@
     }
 
     function copyData() {
-        let text = `Gujarat Land Area Addition Results:\nTotal Combined Rakba: ${document.getElementById('rv').innerText} and ${document.getElementById('rg').innerText}\nSq Ft Measurement: ${document.getElementById('rsq').innerText}\nSq Meter Measurement: ${document.getElementById('rsqm').innerText}\nCalculated securely via Shayan Smart Tools`;
+        let text = `Gujarat Land Area Addition Results:\n` +
+                   `Total: ${document.getElementById('rv').innerText} & ${document.getElementById('rg').innerText}\n` +
+                   `Sq Ft: ${document.getElementById('rsq').innerText}\n` +
+                   `Sq Meter: ${document.getElementById('rsqm').innerText}\n` +
+                   `Sq Yard: ${document.getElementById('rsqyard').innerText}\n` +
+                   `Acre: ${document.getElementById('racre').innerText}\n` +
+                   `Hectare: ${document.getElementById('rhectare').innerText}\n` +
+                   `Calculated securely via Shayan Smart Tools`;
         navigator.clipboard.writeText(text);
-        alert("Success! Output ledger data copied to clipboard.");
+        alert(currentLang === 'en' ? "Success! Output ledger data copied." : "સફળતા! પરિણામ કોપી થઈ ગયું છે.");
     }
 
     function shareWA() {
-        let urlText = encodeURIComponent(`Gujarat Land Area Addition Results:\nTotal Combined Area: ${document.getElementById('rv').innerText} & ${document.getElementById('rg').innerText}\nSq Ft Format: ${document.getElementById('rsq').innerText}\nSq Meter Format: ${document.getElementById('rsqm').innerText}\nCalculated via Shayan Smart Tools`);
-        window.open("https://wa.me/?text=" + urlText);
+        let text = `Gujarat Land Area Addition Results:\n` +
+                   `Total: ${document.getElementById('rv').innerText} & ${document.getElementById('rg').innerText}\n` +
+                   `Sq Ft: ${document.getElementById('rsq').innerText}\n` +
+                   `Sq Yard: ${document.getElementById('rsqyard').innerText}\n` +
+                   `Acre: ${document.getElementById('racre').innerText}\n` +
+                   `Hectare: ${document.getElementById('rhectare').innerText}`;
+        window.open("https://wa.me/?text=" + encodeURIComponent(text));
     }
 </script>
 
