@@ -157,7 +157,7 @@
                 text-align: left;
                 width: 160px;
             }
-            .scanner-box svg {
+            .scanner-box div {
                 width: 120px;
                 height: 120px;
             }
@@ -395,6 +395,8 @@
     </article>
 </div>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+
 <script>
     document.addEventListener('contextmenu', e => e.preventDefault());
     document.onkeydown = function(e) {
@@ -580,50 +582,34 @@
         }
     }
 
-    // High-fidelity standard 2D Data Matrix QR layout architecture
-    function generateVerificationScanner() {
+    // Google Pay / Banking Style Live 100% Scannable QR Component Framework 
+    function generateVerificationScanner(targetURL) {
         const qrContainer = document.getElementById('qrContainer');
         
+        // Clean inner layout box container structure
         qrContainer.innerHTML = `
             <div style="text-align: left; background: #ffffff; padding: 0px; border-radius: 10px; width: 145px; box-shadow: 0 4px 10px rgba(0,0,0,0.06); overflow: hidden; border: 1.5px solid #cbd5e1;">
                 <div style="background: linear-gradient(135deg, #1e3a8a, #0f172a); color: #ffffff; padding: 5px 2px; text-align: center; font-size: 8px; font-weight: 800; letter-spacing: 0.5px; text-transform: uppercase;">
                     Scan to Open Tool
                 </div>
                 <div style="padding: 12px; background: #fff; display: flex; justify-content: center; align-items: center;">
-                    <svg viewBox="0 0 29 29" style="width: 110px; height: 110px; shape-rendering: crispEdges;">
-                        <rect width="29" height="29" fill="#ffffff"/>
-                        
-                        <path d="M0,0 h7 v7 h-7 z M1,1 v5 h5 v-5 z M2,2 h3 v3 h-3 z" fill="#0f172a"/>
-                        
-                        <path d="M22,0 h7 v7 h-7 z M23,1 v5 h5 v-5 z M24,2 h3 v3 h-3 z" fill="#0f172a"/>
-                        
-                        <path d="M0,22 h7 v7 h-7 z M1,23 v5 h5 v-5 z M2,24 h3 v3 h-3 z" fill="#0f172a"/>
-                        
-                        <path d="M8,2 h1 M10,2 h1 M12,2 h1 M14,2 h1 M16,2 h1 M18,2 h1 M20,2 h1" fill="#0f172a"/>
-                        <path d="M2,8 v1 M2,10 v1 M2,12 v1 M2,14 v1 M2,16 v1 M2,18 v1 M2,20 v1" fill="#0f172a"/>
-                        
-                        <path d="M20,20 h5 v5 h-5 z M21,21 v3 h3 v-3 z M22,22 h1 v1 h-1 z" fill="#0f172a"/>
-                        
-                        <path d="
-                            M9,0 h2 v1 h-2 z M13,0 h1 v2 h-1 z M16,0 h3 v1 h-3 z 
-                            M8,3 h1 v3 h-1 z M10,4 h2 v1 h-2 z M13,3 h2 v2 h-2 z M17,3 h1 v2 h-1 z M19,4 h2 v1 h-2 z
-                            M9,6 h3 v1 h-3 z M14,6 h2 v2 h-2 z M18,6 h1 v1 h-1 z M20,6 h1 v2 h-1 z
-                            M8,9 h2 v2 h-2 z M11,8 h1 v2 h-1 z M15,9 h3 v1 h-3 z M19,8 h2 v2 h-2 z M22,8 h2 v1 h-2 z
-                            M7,11 h2 v1 h-2 z M10,11 h3 v2 h-3 z M14,10 h1 v3 h-1 z M17,11 h1 v1 h-1 z M25,10 h3 v1 h-3 z
-                            M8,13 h1 v2 h-1 z M11,14 h2 v1 h-2 z M15,13 h2 v1 h-2 z M18,13 h3 v2 h-3 z M23,13 h1 v1 h-1 z M26,13 h2 v1 h-2 z
-                            M9,16 h2 v1 h-2 z M12,15 h1 v3 h-1 z M14,16 h3 v1 h-3 z M19,16 h2 v2 h-2 z M22,15 h1 v2 h-1 z M25,16 h3 v1 h-3 z
-                            M7,19 h2 v1 h-2 z M10,18 h2 v1 h-2 z M13,19 h1 v2 h-1 z M16,18 h2 v2 h-2 z M27,18 h2 v1 h-2 z
-                            M8,21 h3 v1 h-3 z M12,21 h2 v2 h-2 z M15,20 h2 v1 h-2 z M18,21 h1 v2 h-1 z M26,21 h2 v1 h-2 z
-                            M9,23 h1 v2 h-1 z M11,24 h3 v1 h-3 z M16,23 h2 v1 h-2 z M27,24 h1 v3 h-1 z
-                            M8,26 h2 v2 h-2 z M11,26 h1 v1 h-1 z M14,27 h3 v1 h-3 z M18,26 h1 v2 h-1 z M22,27 h3 v1 h-3 z
-                        " fill="#0f172a"/>
-                    </svg>
+                    <div id="qrcodeEngineCanvas"></div>
                 </div>
                 <div style="background: #f8fafc; border-top: 1px solid #e2e8f0; padding: 4px; text-align: center; font-size: 8px; font-family: monospace; color: #475569; font-weight: bold;">
                     SHAYAN SMART TOOLS
                 </div>
             </div>
         `;
+
+        // Native secure matrix calculation parser engine initialization
+        new QRCode(document.getElementById("qrcodeEngineCanvas"), {
+            text: targetURL,
+            width: 110,
+            height: 110,
+            colorDark : "#0f172a",
+            colorLight : "#ffffff",
+            correctLevel : QRCode.CorrectLevel.M
+        });
     }
 
     function calculateChhattisgarhLand() {
@@ -682,8 +668,9 @@
         const finalDocRef = "SST-CG-" + randID;
         document.getElementById('pDocRef').innerText = finalDocRef;
 
-        // Fire High-Fidelity Path Matrix QR Generator Engine
-        generateVerificationScanner();
+        // Tool landing path variable passed inside scanner data packets
+        const toolUrlLocation = "https://shayansmarttools.in/chhattisgarh-land-area-calculator.html";
+        generateVerificationScanner(toolUrlLocation);
 
         resPanel.style.display = "block";
         resPanel.scrollIntoView({ behavior: 'smooth' });
