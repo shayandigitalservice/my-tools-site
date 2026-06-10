@@ -63,7 +63,7 @@
         .res-item span { font-size: 14px; color: #94a3b8; font-weight: bold; text-align: left; }
         .res-item b { font-size: 17px; color: #fff; text-align: right; word-break: break-all; font-family: monospace; }
 
-        .print-header-block, .print-footer-block { display: none; }
+        .print-header-block, .print-footer-block, .print-verification-zone { display: none; }
 
         /* HIGH-CONTRAST UTILITY BUTTONS */
         .util-btns { display: flex; gap: 10px; margin-top: 25px; }
@@ -123,7 +123,19 @@
             @page { margin: 15mm; size: A4 portrait; }
             body { background: #ffffff !important; color: #000000 !important; padding: 0; margin: 0; }
             .measurement-tool > header, .lang-switch, .gov-links-title, .gov-links-grid, .input-section, .btn-convert, .util-btns, #resHead, .seo-content, .back-btn { display: none !important; }
-            .res-panel { display: block !important; background: #ffffff !important; color: #000000 !important; padding: 25px !important; width: 100% !important; box-sizing: border-box; border: 3px double var(--cg-green) !important; border-radius: 0px !important; }
+            
+            /* Professional Double-Line Border Rim for Legal Look */
+            .res-panel { 
+                display: block !important; 
+                background: #ffffff !important; 
+                color: #000000 !important; 
+                padding: 30px !important; 
+                width: 100% !important; 
+                box-sizing: border-box; 
+                border: 5px double #004d4d !important; 
+                border-radius: 0px !important; 
+                box-shadow: none !important;
+            }
             .print-header-block { display: block !important; text-align: center; border-bottom: 2px solid var(--cg-green) !important; padding-bottom: 12px; margin-bottom: 20px; }
             .bkl-special { background: #e6f4ea !important; border: 1px dashed var(--cg-green) !important; color: #000 !important; }
             
@@ -133,7 +145,37 @@
             .res-item span { color: #1e293b !important; font-size: 13px !important; font-weight: 600; text-transform: uppercase; }
             .res-item b { color: var(--cg-dark) !important; font-size: 15px !important; font-weight: bold; }
             
-            .print-footer-block { display: block !important; text-align: center; margin-top: 40px; border-top: 1px solid #cbd5e1 !important; padding-top: 20px; }
+            /* Verification Zone containing Seal & Signature Side-by-Side */
+            .print-verification-zone {
+                display: flex !important;
+                justify-content: space-between;
+                align-items: flex-end;
+                margin-top: 40px;
+                padding: 0 10px;
+            }
+            .seal-box {
+                text-align: left;
+                width: 150px;
+            }
+            .seal-box img {
+                width: 90px;
+                height: 90px;
+                object-fit: contain;
+                opacity: 0.9;
+            }
+            .signature-box {
+                text-align: right;
+                width: 220px;
+                border-top: 1px dashed #475569;
+                padding-top: 8px;
+                font-size: 12px;
+                font-weight: bold;
+                color: #0f172a;
+                text-transform: uppercase;
+                letter-spacing: 0.5px;
+            }
+
+            .print-footer-block { display: block !important; text-align: center; margin-top: 30px; border-top: 1px solid #cbd5e1 !important; padding-top: 20px; }
         }
     </style>
 </head>
@@ -215,6 +257,16 @@
             <div class="res-item"><span id="lblResHectare">Calculated Total Hectare</span> <b id="resHectare">0</b></div>
             <div class="res-item"><span id="lblResBigha">Calculated Total CG Bigha</span> <b id="resBigha">0</b></div>
             <div class="res-item"><span id="lblResKatha">Calculated Total CG Katha</span> <b id="resKatha">0</b></div>
+        </div>
+
+        <!-- OFFICIAL VERIFICATION ZONE (SEAL & SIGNATURE LINE) -->
+        <div class="print-verification-zone">
+            <div class="seal-box">
+                <img src="seal.png" alt="Official SST Seal">
+            </div>
+            <div class="signature-box">
+                Authorized Signatory
+            </div>
         </div>
         
         <div class="print-footer-block">
