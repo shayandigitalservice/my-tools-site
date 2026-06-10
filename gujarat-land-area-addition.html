@@ -111,6 +111,12 @@
         .res-item span { font-size: 12px; color: #94a3b8; font-weight: bold; text-transform: uppercase; }
         .res-item b { font-size: 20px; color: #90caf9; word-break: break-all; }
 
+        /* Print Specific Summary Styling */
+        .print-only-section { display: none; margin: 15px 0; }
+        .print-table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+        .print-table th, .print-table td { border: 1px solid #cbd5e1; padding: 8px; text-align: center; font-size: 13px; }
+        .print-table th { background-color: #f1f5f9; color: var(--gujarat-blue); font-weight: bold; }
+
         .print-header-block, .print-footer-block { display: none; }
 
         .util-btns { display: flex; gap: 12px; margin-top: 25px; flex-wrap: wrap; }
@@ -159,7 +165,7 @@
         .lang-section { display: none; }
         .lang-section.active-lang { display: block; }
 
-        /* MOBILE RESPOSIVE FIX FOR OVERFLOW & BUTTONS */
+        /* MOBILE RESPONSIVE FIX FOR OVERFLOW & BUTTONS */
         @media (max-width: 600px) {
             header { padding: 30px 15px; border-radius: 15px; }
             header h1 { font-size: 24px; }
@@ -189,6 +195,7 @@
                 -webkit-print-color-adjust: exact !important; 
                 print-color-adjust: exact !important; 
                 color-adjust: exact !important; 
+                color: #000000 !important;
             }
             @page { 
                 margin: 10mm 10mm; 
@@ -212,6 +219,7 @@
                 page-break-after: avoid;
                 box-shadow: none !important;
             }
+            .print-only-section { display: block !important; }
             .print-header-block { display: block !important; text-align: center; border-bottom: 2px solid var(--gujarat-blue) !important; padding-bottom: 15px; margin-bottom: 25px; }
             .result-grid { display: grid !important; grid-template-columns: repeat(2, 1fr) !important; gap: 12px !important; margin-top: 20px; }
             .res-item { background: transparent !important; border: none !important; border-bottom: 1px solid #cbd5e1 !important; padding: 10px 5px !important; display: flex !important; flex-direction: column !important; align-items: flex-start !important; border-radius: 0px !important; page-break-inside: avoid; }
@@ -275,6 +283,21 @@
             <div><strong>JURISDICTION:</strong> State of Gujarat (ગુજરાત)</div>
             <div style="text-align: right;"><strong>ENGINE LOGIC:</strong> 24-Guntha Carry Scale Matrix</div>
         </div>
+    </div>
+
+    <div class="print-only-section">
+        <h4 style="color:#0d47a1; margin: 15px 0 5px 0; font-size: 14px; text-transform: uppercase; border-bottom: 1px solid #cbd5e1; padding-bottom: 4px;" id="printInputsTitle">Entered Plot Dimensions (દાખલ કરેલ પ્લોટની વિગતો)</h4>
+        <table class="print-table">
+            <thead>
+                <tr>
+                    <th id="thPlotNo">Plot No / ક્રમ</th>
+                    <th id="thVigha">Vigha / વીઘા</th>
+                    <th id="thGuntha">Guntha / ગુંઠા</th>
+                </tr>
+            </thead>
+            <tbody id="print-plots-summary">
+                </tbody>
+        </table>
     </div>
 
     <h3 id="resHead">Kul Kshetrafal / કુલ ક્ષેત્રફળ (Total Combined Area)</h3>
@@ -349,7 +372,19 @@
         <p><b>Final Output Result:</b> 9 Vigha 23 Guntha. Our engine automatically converts this into accurate Square Feet, Square Yards, Hectares, and Acres.</p>
     </section>
 
-    <h3>4. Standard Conversion Multiplier Matrix Table</h3>
+    <section>
+        <h3>4. How to Use the Gujarat Land Area Addition Calculator?</h3>
+        <p>Using Shayan Smart Tools' Land Addition Tool is straightforward. Follow these steps to get precise calculations for multiple plots:</p>
+        <ol>
+            <li><b>Enter Plot Dimensions:</b> Go to the Plot Detail cards. For <i>Plot Detail #1</i>, enter the values of land area in the designated Vigha and Guntha text boxes. If a plot only has a Guntha value or only a Vigha value, leave the other field blank or type 0.</li>
+            <li><b>Add Additional Land Parcels:</b> If you want to sum up more than two land parcels, simply click on the <b>"+ Add More Plot"</b> button. A new empty plot configuration row will instantly appear on your screen. You can add as many plots as you need.</li>
+            <li><b>Execute Mathematical Jod:</b> Once you have safely filled out the values for all your agricultural plots, click on the blue <b>"Calculate Total Jod"</b> button.</li>
+            <li><b>Review Advanced Conversions:</b> The system will instantly compute the totals utilizing base-24 revenue math and smoothly display comprehensive values converted into Square Feet, Square Meters, Square Yards (Vaar), Acres, and official Hectares.</li>
+            <li><b>Print or Share Invoice Ledger:</b> Click the <b>"Print Invoice"</b> button to format an authorized, neat PDF document featuring your full entry history along with standard official seals. You can also securely copy data or share directly on WhatsApp.</li>
+        </ol>
+    </section>
+
+    <h3>5. Standard Conversion Multiplier Matrix Table</h3>
     <table>
         <thead>
             <tr>
@@ -367,7 +402,7 @@
         </tbody>
     </table>
 
-    <h3>5. Top Google Search Frequently Asked Questions (15 FAQs)</h3>
+    <h3>6. Top Google Search Frequently Asked Questions (15 FAQs)</h3>
     <div id="faq-container-en">
         <div class="faq-block"><p><b>Q1. How many Guntha make 1 Vigha in Gujarat?</b><br>Ans: According to the official Gujarat Revenue Manual standards, exactly 24 Guntha make up 1 standard Big Vigha.</p></div>
         <div class="faq-block"><p><b>Q2. What is the equivalent of 1 Guntha in Square Feet?</b><br>Ans: 1 Guntha equals exactly 990 Square Feet in standard Gujarat land calculations.</p></div>
@@ -419,7 +454,19 @@
         <p><b>અંતિમ પરિણામ:</b> ૯ વીઘા ૨૩ ગુંઠા. અમારું કેલ્ક્યુલેટર આ ગણતરી ઓટોમેટિક કરીને ચોરસ ફૂટ, વાર, હેક્ટર અને એકરમાં પણ સચોટ પરિણામ આપે છે.</p>
     </section>
 
-    <h3>4. પ્રમાણભૂત રૂપાંતરણ કોષ્ટક (Multiplier Matrix)</h3>
+    <section>
+        <h3>4. જમીન સરવાળો કેલ્ક્યુલેટરનો ઉપયોગ કેવી રીતે કરવો?</h3>
+        <p>શાયન સ્માર્ટ ટૂલ્સના આ જમીન સરવાળો કેલ્ક્યુલેટરનો ઉપયોગ કરવો ખૂબ જ સરળ છે, નીચે આપેલા સરળ પગલાં અનુસરો:</p>
+        <ol>
+            <li><b>પ્લોટની વિગત દાખલ કરો:</b> સ્ક્રીન પર આપેલા પ્લોટ બોક્સમાં <i>જમીન પ્લોટ વિગત #1</i> માં તમારા દસ્તાવેજ મુજબ વીઘા અને ગુંઠાની સંખ્યા ટાઈપ કરો. જો કોઈ પ્લોટમાં માત્ર ગુંઠા કે માત્ર વીઘા હોય, તો અન્ય બોક્સમાં 0 લખો.</li>
+            <li><b>વધુ પ્લોટ ઉમેરો:</b> જો તમારી પાસે બે કરતાં વધુ જમીનના ટુકડા છે, તો <b>"+ નવો પ્લોટ ઉમેરો"</b> (Add More Plot) બટન પર ક્લિક કરો. આનાથી નવું ખાલી પ્લોટ બોક્સ આપોઆપ ખુલી જશે.</li>
+            <li><b>કુલ સરવાળો મેળવો:</b> બધા પ્લોટના આંકડા ભરાઈ ગયા પછી, વાદળી રંગના <b>"કુલ સરવાળો ગણો"</b> (Calculate Total Jod) બટન પર ક્લિક કરો.</li>
+            <li><b>રૂપાંતરણ રીપોર્ટ જુઓ:</b> કેલ્ક્યુલેટર સિસ્ટમ ૨૪-ગુંઠાના સરકારી મહેસૂલ નિયમ મુજબ ગણતરી કરીને પ્લોટનો કુલ સરવાળો વીઘા-ગુંઠા સાથે ચોરસ ફૂટ, ચોરસ મીટર, ચોરસ વાર (ગજ), એકર અને હેક્ટરમાં બતાવી દેશે.</li>
+            <li><b>પ્રિન્ટ અથવા શેર કરો:</b> ગણતરી પૂર્ણ થયા પછી તમે <b>"પ્રિન્ટ રિપોર્ટ"</b> બટન દબાવીને પૂરી વિગત સિંગલ પેજ PDF તરીકે સેવ કરી શકો છો. આ સિવાય "વોટ્સએપ શેર" બટનથી મિત્રોને પણ મોકલી શકો છો.</li>
+        </ol>
+    </section>
+
+    <h3>5. પ્રમાણભૂત રૂપાંતરણ કોષ્ટક (Multiplier Matrix)</h3>
     <table>
         <thead>
             <tr>
@@ -430,14 +477,14 @@
             </tr>
         </thead>
         <tbody>
-            <tr><td><b>૧ વીઘા</b></td><td>૨૪ ગુંઠા સ્ટાન્ડર્ડ મેટ્રિક્સ</td><td>૨૩,૭६૦ ચો.ફૂટ</td><td>૨,૨૦૭.૨૨ ચો.મી.</td></tr>
+            <tr><td><b>૧ વીઘા</b></td><td>૨૪ ગુંઠા સ્ટાન્ડર્ડ મેટ્રિક્સ</td><td>૨૩,૭६૦ ચો.ફૂટ</td><td>૨,૨૦整合.૨૨ ચો.મી.</td></tr>
             <tr><td><b>૧ ગુંઠા</b></td><td>૧૨૧ ચોરસ વાર (ગજ)</td><td>૯૯૦ ચો.ફૂટ</td><td>૯૧.૯૭ ચો.મી.</td></tr>
             <tr><td><b>૧ એકર</b></td><td>૪૦ ગુંઠા પ્રમાણભૂત એકમો</td><td>૩૯,૬૦૦ ચો.ફૂટ</td><td>૩,૬૭૮.૯૨ ચો.મી.</td></tr>
-            <tr><td><b>૧ હેક્ટર</b></td><td>૨.૪૭૧ એકર / આશરે ૪.૫૪ વીઘા</td><td>૧,૦૭,૬૩૯ ચો.ફૂટ</td><td>૧૦,૦૦૦ ચો.મી.</td></tr>
+            <tr><td><b>૧ હેક્ટર</b></td><td>૨.૪运行૧ એકર / આશરે ૪.૫૪ વીઘા</td><td>૧,૦૭,૬૩૯ ચો.ફૂટ</td><td>૧૦,૦૦૦ ચો.મી.</td></tr>
         </tbody>
     </table>
 
-    <h3>5. ગૂગલ પર સૌથી વધુ પૂછાતા પ્રશ્નો (૧૫ FAQs)</h3>
+    <h3>6. ગૂગલ પર સૌથી વધુ પૂછાતા પ્રશ્નો (૧૫ FAQs)</h3>
     <div id="faq-container-gj">
         <div class="faq-block"><p><b>પ્રશ્ન ૧. ગુજરાતમાં ૧ વીઘા બરાબર કેટલા ગુંઠા થાય?</b><br>ઉત્તર: ગુજરાત જમીન મહેસૂલ નિયમો અનુસાર, સચોટ ૨૪ ગુંઠા ભેગા મળીને ૧ પ્રમાણભૂત મોટું વીઘું બને છે.</p></div>
         <div class="faq-block"><p><b>પ્રશ્ન ૨. ૧ ગુંઠામાં કેટલા ચોરસ ફૂટ હોય છે?</b><br>ઉત્તર: ગુજરાતમાં જમીન માપણીના ધોરણો મુજબ ૧ ગુંઠા બરાબર પૂરા ૯૯૦ ચોરસ ફૂટ થાય છે.</p></div>
@@ -447,9 +494,9 @@
         <div class="faq-block"><p><b>પ્રશ્ન ૬. AnyROR રેકોર્ડના હેક્ટરને વીઘામાં કેવી રીતે બદલવા?</b><br>ઉત્તર: ૧ હેક્ટર એટલે ૧૦,૦૦૦ ચોરસ મીટર થાય, જે ગુજરાત રેવન્યુ ગણતરી મુજબ આશરે ૪.૫૩ વીઘા બરાબર છે.</p></div>
         <div class="faq-block"><p><b>પ્રશ્ન ૭. ૧ ગુંઠા એટલે કેટલા ચોરસ વાર થાય?</b><br>ઉત્તર: ૧ ગુંઠા જમીન બરાબર સ્થાનિક માપણીમાં સચોટ ૧૨૧ ચોરસ વાર (ગજ) થાય છે.</p></div>
         <div class="faq-block"><p><b>પ્રશ્ન ૮. સામાન્ય કેલ્ક્યુલેટરમાં વીઘા-ગુંઠાનો સરવાળો કેમ ખોટો આવે છે?</b><br>ઉત્તર: સામાન્ય કેલ્ક્યુલેટર ૧૦૦ એ સંખ્યા બદલે છે (ડેસિમલ), જ્યારે જમીન ગણતરીમાં ૨૪ ગુંઠા થતાં જ ૧ વીઘો ઉમેરવો પડે છે (બેઝ ૨૪ લોજિક), તેથી આ સ્પેશિયલ ટૂલ જરૂરી છે.</p></div>
-        <div class="faq-block"><p><b>પ્રશ્ન ૯. શું આ ટૂલ AnyROR 7/12 ઉતારા માટે ઉપયોગી છે?</b><br>ઉત્તર: હા, તમે જમીનના અલગ-અલગ પ્લોટનો પરંપરાગત વીઘા/ગુંઠા સરવાળો કરીને તેને હેક્ટર અને ચોરસ મીટરમાં જોઈ શકો છો જે સરકારી રેકોર્ડ સાથે મેળવવામાં મદદ કરે છે.</p></div>
+        <div class="faq-block"><p><b>પ્રશ્ન ९. શું આ ટૂલ AnyROR 7/12 ઉતારા માટે ઉપયોગી છે?</b><br>ઉત્તર: આપેલા પ્લોટ્સનો પરંપરાગત વીઘા/ગુંઠા સરવાળો કરીને તેને હેક્ટર અને ચોરસ મીટરમાં જોઈ શકો છો જે સરકારી રેકોર્ડ સાથે મેળવવામાં મદદ કરે છે.</p></div>
         <div class="faq-block"><p><b>પ્રશ્ન ૧૦. ૧ વીઘામાં કેટલા ચોરસ વાર (વાર) હોય છે?</b><br>ઉત્તર: ૧ પ્રમાણભૂત મોટા વીઘામાં બરાબર ૨,૯૦૪ ચોરસ વાર (ગજ) જમીન હોય છે.</p></div>
-        <div class="faq-block"><p><b>પ્રશ્ન ૧૧. ગુજરાતમાં ૧ આરે (Ares) એટલે કેટલી જમીન?</b><br>ઉત્તર: ૧ આરે એટલે ૧૦0 ચોરસ મીટર થાય, જે આશરે ૧.૦૮૭ ગુંઠા જમીન બરાબર છે.</p></div>
+        <div class="faq-block"><p><b>પ્રશ્ન ૧૧. ગુજરાતમાં ૧ આરે (Ares) એટલે કેટલી જમીન?</b><br>ઉત્તર: ૧ આરે એટલે ૧૦0 ચોરસ મીટર થાય, જે આશરે ૧.૦⑧૭ ગુંઠા જમીન બરાબર છે.</p></div>
         <div class="faq-block"><p><b>પ્રશ્ન ૧૨. ગુજરાત સરકારી પોર્ટલમાં કયા એકમો મુખ્ય છે?</b><br>ઉત્તર: ઓનલાઇન સાતબારા ઉતારામાં હેક્ટર-આરે-ચોરસ મીટર મુખ્ય છે, જ્યારે સ્થાનિક વ્યવહારોમાં વીઘા-ગુંઠા લોકપ્રિય છે.</p></div>
         <div class="faq-block"><p><b>પ્રશ્ન ૧૩. ૧ આખા એકરમાં કેટલા ગુંઠા હોય છે?</b><br>ઉત્તર: ૧ સ્ટાન્ડર્ડ એકરમાં પૂરા ૪૦ ગુંઠા જમીનનો સમાવેશ થાય છે.</p></div>
         <div class="faq-block"><p><b>પ્રશ્ન ૧૪. આ કેલ્ક્યુલેટરની ગણતરી કેટલી સચોટ છે?</b><br>ઉત્તર: આ કેલ્ક્યુલેટરની ગણતરી ૧૦૦% ગાણિતિક રીતે સચોટ છે અને તે ગુજરાત મહેસૂલ વિભાગના ૨૪-ગુંઠાના નિયમ આધારિત છે.</p></div>
@@ -486,7 +533,11 @@
             btnCopy: "📋 Copy Results",
             btnWA: "📲 WhatsApp",
             btnPrint: "🖨️ Print Invoice",
-            backLnk: "⬅ Back to All Tools Dashboard"
+            backLnk: "⬅ Back to All Tools Dashboard",
+            printInputsTitle: "Entered Plot Dimensions",
+            thPlotNo: "Plot No",
+            thVigha: "Vigha",
+            thGuntha: "Guntha"
         },
         gj: {
             title: "ગુજરાત જમીન સરવાળો કેલ્ક્યુલેટર",
@@ -506,7 +557,11 @@
             btnCopy: "📋 પરિણામ કોપી કરો",
             btnWA: "📲 વૉટ્સએપ શેર",
             btnPrint: "🖨️ પ્રિન્ટ રિપોર્ટ",
-            backLnk: "⬅ તમામ ટૂલ્સ ડેશબોર્ડ પર પાછા જાઓ"
+            backLnk: "⬅ તમામ ટૂલ્સ ડેશબોર્ડ પર પાછા જાઓ",
+            printInputsTitle: "દાખલ કરેલ પ્લોટની વિગતો",
+            thPlotNo: "ક્રમ",
+            thVigha: "વીઘા",
+            thGuntha: "ગુંઠા"
         }
     };
 
@@ -544,6 +599,12 @@
         document.getElementById('btnWA').innerText = translations[lang].btnWA;
         document.getElementById('btnPrint').innerText = translations[lang].btnPrint;
         document.getElementById('lnkBack').innerText = translations[lang].backLnk;
+        
+        // Dynamic Print Header Translation
+        document.getElementById('printInputsTitle').innerText = translations[lang].printInputsTitle;
+        document.getElementById('thPlotNo').innerText = translations[lang].thPlotNo;
+        document.getElementById('thVigha').innerText = translations[lang].thVigha;
+        document.getElementById('thGuntha').innerText = translations[lang].thGuntha;
 
         // Dynamic element labels translation
         document.querySelectorAll('.plot-container').forEach(container => {
@@ -580,11 +641,25 @@
         let tv = 0, tg = 0;
         let validPlots = 0;
         
-        document.querySelectorAll('.v-val').forEach(i => tv += Number(i.value) || 0);
-        document.querySelectorAll('.g-val').forEach(i => {
-            let val = Number(i.value) || 0;
-            tg += val;
+        // Clear old summary rows for printing
+        const summaryBody = document.getElementById('print-plots-summary');
+        summaryBody.innerHTML = '';
+
+        const vInputs = document.querySelectorAll('.v-val');
+        const gInputs = document.querySelectorAll('.g-val');
+
+        vInputs.forEach((item, index) => {
+            let vVal = Number(item.value) || 0;
+            let gVal = Number(gInputs[index].value) || 0;
+            
+            tv += vVal;
+            tg += gVal;
             validPlots++;
+
+            // Dynamic inclusion of entered units inside Print Layout Spreadsheet
+            let row = document.createElement('tr');
+            row.innerHTML = `<td>Plot #${index + 1}</td><td>${vVal}</td><td>${gVal}</td>`;
+            summaryBody.appendChild(row);
         });
 
         if (tg >= 24) { 
