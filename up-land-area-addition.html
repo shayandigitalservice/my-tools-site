@@ -1,277 +1,736 @@
 <!DOCTYPE html>
-<html lang="hi">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>UP Land Area Addition Tool free 2026| उत्तर प्रदेश जमीन का जोड़ कैलकुलेटर | Shayan Smart Tools</title>
+    <title>Uttar Pradesh Land Area Addition Calculator Free 2026 | उत्तर प्रदेश जमीन क्षेत्रफल जोड़ कैलकुलेटर | Shayan Smart Tools</title>
     <link rel="canonical" href="https://shayansmarttools.in/up-land-area-addition.html" />
+    <link rel="icon" type="image/png" href="favicon.png" />
 
-    <meta name="description" content="Official UP Land Area Addition Tool by Shayan Smart Tools. Add multiple plots in Bigha, Biswa, and Biswansi with 20-unit logic. Bilingual calculator with Hinglish SEO.">
-    <meta name="keywords" content="UP Land Area Addition, उत्तर प्रदेश जमीन का जोड़, Bigha Biswa Biswansi Calculator, UP Land Sum, Shayan Smart Tools UP, Bhulekh UP Calculator, Zameen ka jod kaise kare">
-    <meta name="author" content="Shayan Smart Tools">
+    <meta name="description" content="Official Uttar Pradesh Land Area Addition Tool. Add multiple agricultural or residential plots in Hectare, Bigha, Biswa, and Square Meter formats accurately with UP Revenue Board carry logic. Best SEO tool for UP Bhulekh records.">
+    <meta name="keywords" content="Uttar Pradesh Land Area Addition, उत्तर प्रदेश जमीन क्षेत्रफल जोड़ कैलकुलेटर, UP Bhulekh Area Calculator, Hectare to Bigha Conversion UP, UP Land Area Sum, Bigha Biswa Calculator Uttar Pradesh, Khatauni Area Calculator, UP land registry math, Purvanchal Bigha conversion">
+    <meta name="author" content="Muksidul islam">
     <meta name="robots" content="index, follow">
 
     <style>
         :root {
-            --up-blue: #0d47a1;
-            --bg-light: #f4f7f6;
+            --up-blue: #0f4c81;
+            --dark-blue: #0a3256;
+            --up-orange: #ff6f61;
+            --text-dark: #334155;
             --white: #ffffff;
+            --bg: #f4f7fa;
+        }
+
+        * {
+            box-sizing: border-box;
         }
 
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            line-height: 1.8;
-            background-color: var(--bg-light);
-            margin: 0;
-            padding: 20px;
-            color: #333;
+            line-height: 1.6;
+            color: var(--text-dark);
+            max-width: 950px;
+            margin: 0 auto;
+            padding: 15px;
+            background-color: var(--bg);
         }
 
-        .container { max-width: 1000px; margin: 0 auto; }
+        .tool-wrapper { padding: 10px 0; text-align: center; }
 
-        /* Calculator Card */
-        .tool-card {
-            background: var(--white);
-            padding: 30px;
-            border-radius: 20px;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
-            border-top: 10px solid var(--up-blue);
-            margin-bottom: 40px;
+        header {
+            background: linear-gradient(135deg, var(--up-blue), var(--dark-blue));
+            color: #fff; padding: 45px 20px; border-radius: 25px; text-align: center;
+            border-bottom: 6px solid var(--up-orange); margin-bottom: 25px;
+            box-shadow: 0 10px 25px rgba(15, 76, 129, 0.15);
         }
+        header h1 { color: white; margin: 0 0 10px 0; font-size: 32px; text-transform: uppercase; letter-spacing: 0.5px; }
+        header p { color: #ebf5ff; margin: 0; font-size: 16px; font-weight: 500; }
 
-        h1 { color: var(--up-blue); text-align: center; margin-bottom: 10px; font-size: 26px; }
-        
-        .lang-toggle { text-align: center; margin-bottom: 25px; }
-        .lang-btn { background: #ddd; border: none; padding: 6px 18px; cursor: pointer; border-radius: 20px; font-weight: bold; margin: 0 5px; transition: 0.3s; }
-        .lang-btn.active { background: var(--up-blue); color: white; }
-
-        .plot-entry {
-            background: #f9f9f9;
-            padding: 20px;
-            border-radius: 12px;
-            margin-bottom: 15px;
-            border: 1px solid #e0e0e0;
-            animation: fadeIn 0.4s ease;
-        }
-
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-
-        .plot-title { font-weight: bold; color: var(--up-blue); margin-bottom: 15px; display: block; border-bottom: 1px solid #ddd; }
-
-        .grid-inputs {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+        .lang-switcher {
+            display: flex;
+            justify-content: center;
             gap: 15px;
+            margin: 25px 0;
         }
-
-        .input-group { display: flex; flex-direction: column; }
-        label { font-size: 13px; margin-bottom: 5px; font-weight: 600; }
-        input { padding: 12px; border: 1px solid #ccc; border-radius: 8px; font-size: 16px; text-align: center; }
-
-        .controls { display: flex; gap: 15px; justify-content: center; margin: 30px 0; flex-wrap: wrap; }
-        .btn { padding: 14px 28px; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; transition: 0.3s; font-size: 15px; }
-        .btn-add { background: #455a64; color: white; }
-        .btn-calc { background: var(--up-blue); color: white; flex-grow: 0.3; }
-        .btn-share { background: #25d366; color: white; }
-        .btn-copy { background: #ff9800; color: white; }
-        .btn:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
-
-        .result-panel {
-            background: var(--up-blue);
-            color: white;
-            padding: 30px;
-            border-radius: 15px;
-            display: none;
+        .lang-btn {
+            padding: 11px 32px;
+            border: 2px solid var(--up-blue);
+            background: var(--white);
+            color: var(--up-blue);
+            font-weight: 700;
+            font-size: 16px;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            min-width: 140px;
             text-align: center;
+            outline: none;
+            box-shadow: 0 4px 6px rgba(15, 76, 129, 0.05);
+        }
+        .lang-btn.active {
+            background: var(--up-blue);
+            color: var(--white);
         }
 
-        .res-display { display: flex; justify-content: space-around; font-size: 28px; margin: 20px 0; }
-        .res-item span { display: block; font-size: 14px; color: #bbdefb; margin-top: 5px; }
+        /* Plot Containers */
+        .plot-container {
+            background: var(--white);
+            padding: 25px;
+            border-radius: 16px;
+            margin-bottom: 20px;
+            border: 1px solid #e2e8f0;
+            border-left: 6px solid var(--up-blue);
+            box-shadow: 0 4px 6px rgba(0,0,0,0.02);
+            transition: 0.3s;
+            text-align: left;
+        }
+        .plot-container:hover { transform: translateY(-2px); box-shadow: 0 6px 12px rgba(0,0,0,0.05); }
+        .plot-header { font-weight: 800; color: var(--up-blue); margin-bottom: 15px; display: block; border-bottom: 1px solid #e2e8f0; padding-bottom: 5px; text-transform: uppercase; font-size: 13px; letter-spacing: 0.5px; }
 
-        /* SEO SECTION */
-        .seo-article { background: var(--white); padding: 40px; border-radius: 20px; box-shadow: 0 5px 15px rgba(0,0,0,0.05); }
-        h2, h3 { color: var(--up-blue); border-left: 6px solid var(--up-blue); padding-left: 15px; margin-top: 30px; }
-        table { width: 100%; border-collapse: collapse; margin: 20px 0; }
-        th, td { border: 1px solid #ddd; padding: 12px; text-align: left; }
-        th { background: #e3f2fd; color: var(--up-blue); }
+        /* Responsive Input Grid System */
+        .input-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; }
+        .field { display: flex; flex-direction: column; }
+        label { font-size: 12px; font-weight: bold; margin-bottom: 6px; color: var(--up-blue); text-transform: uppercase; letter-spacing: 0.3px; }
+        input { padding: 14px; border: 1px solid #cbd5e1; border-radius: 10px; font-size: 16px; text-align: center; background: var(--white); outline: none; transition: 0.3s; font-weight: 600; width: 100%; }
+        input:focus { border-color: var(--up-blue); box-shadow: 0 0 8px rgba(15, 76, 129, 0.15); }
 
-        footer { text-align: center; padding: 40px 0; color: #888; font-size: 14px; }
+        .btn-box { display: flex; gap: 15px; justify-content: center; margin: 35px 0; flex-wrap: wrap; }
+        .btn { padding: 15px 35px; border: none; border-radius: 10px; font-weight: 800; cursor: pointer; transition: 0.3s; font-size: 15px; text-transform: uppercase; letter-spacing: 0.5px; min-width: 160px; }
+        .btn-add { background: #2f3e4f; color: white; } 
+        .btn-calc { background: var(--up-blue); color: white; }
+        .btn-reset { background: #ef4444; color: white; }
+        .btn:hover { transform: translateY(-3px); box-shadow: 0 8px 15px rgba(0,0,0,0.12); }
+
+        /* Advanced Premium Results UI */
+        .res-panel { background: #0f172a; color: white; padding: 25px; border-radius: 25px; margin-top: 35px; display: none; border: 2px solid var(--up-blue); position: relative; text-align: left; box-shadow: 0 15px 30px rgba(0,0,0,0.2); }
+        .res-panel h3 { margin-top: 0; text-align: center; color: #38bdf8; font-size: 1.4rem; margin-bottom: 20px; }
+        .result-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; }
+        .res-item { background: rgba(255,255,255,0.05); padding: 15px; border-radius: 12px; display: flex; flex-direction: column; align-items: flex-start; gap: 5px; border-left: 4px solid var(--up-blue); }
+        .res-item span { font-size: 12px; color: #94a3b8; font-weight: bold; text-transform: uppercase; }
+        .res-item b { font-size: 20px; color: #38bdf8; word-break: break-all; }
+
+        /* Print Specific Styling */
+        .print-only-section { display: none; margin: 15px 0; }
+        .print-table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+        .print-table th, .print-table td { border: 1px solid #cbd5e1; padding: 8px; text-align: center; font-size: 13px; }
+        .print-table th { background-color: #f0f7ff; color: var(--up-blue); font-weight: bold; }
+
+        .print-header-block, .print-footer-block { display: none; }
+
+        .util-btns { display: flex; gap: 12px; margin-top: 25px; flex-wrap: wrap; }
+        .u-btn { flex: 1; padding: 15px; border: none; border-radius: 12px; font-weight: 800; cursor: pointer; color: white; font-size: 14px; text-align: center; transition: 0.3s; text-transform: uppercase; min-width: 140px; }
+
+        /* SEO Article Layer */
+        .seo-article { 
+            background: transparent !important; 
+            padding: 30px 0; 
+            margin-top: 40px; 
+            line-height: 1.85; 
+            border: none !important;
+            color: #334155 !important;
+            text-align: left;
+        }
+        .seo-header-block { text-align: center; border-bottom: 3px solid var(--up-blue); padding-bottom: 25px; margin-bottom: 35px; }
+        .seo-article h2 { color: var(--up-blue) !important; font-size: 30px !important; margin-top: 40px !important; margin-bottom: 15px !important; font-weight: 700; }
+        .seo-article h3 { color: var(--up-blue) !important; margin-top: 30px; font-size: 22px; border-left: 6px solid var(--up-orange); padding-left: 15px; font-weight: 600; }
+        .seo-article p { color: #334155 !important; font-size: 16px; text-align: justify; margin-bottom: 20px; }
+        .seo-article ul, .seo-article ol { margin-bottom: 25px; padding-left: 20px; font-size: 16px; }
+        .seo-article li { margin-bottom: 10px; }
+        
+        .seo-article table { width: 100%; border-collapse: collapse; margin: 30px 0; background: #ffffff; box-shadow: 0 4px 6px rgba(0,0,0,0.01); display: block; overflow-x: auto; }
+        .seo-article th, .seo-article td { border: 1px solid #e2e8f0; padding: 16px; text-align: left; color: #334155 !important; font-size: 15px; white-space: nowrap; }
+        .seo-article th { background-color: #f0f7ff; color: var(--up-blue) !important; font-weight: 700; }
+
+        .faq-block { background: #ffffff; padding: 22px; border-radius: 14px; border: 1px solid #e2e8f0; margin-bottom: 20px; box-shadow: 0 4px 6px rgba(0,0,0,0.01); }
+        .faq-block p b { color: var(--up-blue); font-size: 16px; display: block; margin-bottom: 8px; }
+
+        /* Law Ledger UI Card */
+        .footer-copyright-box { 
+            margin-top: 60px; 
+            text-align: center; 
+            font-size: 13px; 
+            color: #475569; 
+            background: #ffffff; 
+            padding: 35px; 
+            border-radius: 24px; 
+            border: 1px solid #e2e8f0;
+            border-top: 6px solid #1e293b;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.03);
+        }
+        .footer-copyright-box p { margin: 8px 0; line-height: 1.7; }
+        .footer-law-accent { font-weight: 800; color: #0f172a; text-transform: uppercase; font-size: 12px; letter-spacing: 1.5px; margin-bottom: 15px !important; display: inline-block; background: #f1f5f9; padding: 6px 16px; border-radius: 30px; border: 1px solid #cbd5e1; }
+
+        .lang-section { display: none; }
+        .lang-section.active-lang { display: block; }
+
+        @media (max-width: 600px) {
+            header { padding: 30px 15px; border-radius: 15px; }
+            header h1 { font-size: 24px; }
+            header p { font-size: 14px; }
+            .plot-container { padding: 20px 15px; }
+            .input-grid { grid-template-columns: 1fr; gap: 15px; } 
+            .result-grid { grid-template-columns: 1fr; gap: 12px; }
+            .res-panel { padding: 20px; border-radius: 15px; }
+            .btn { width: 100%; padding: 14px; font-size: 14px; }
+            .u-btn { width: 100%; }
+            .seo-article h2 { font-size: 24px !important; }
+            .seo-article h3 { font-size: 18px; }
+            .lang-btn { flex: 1; padding: 10px 15px; font-size: 15px; min-width: auto; }
+        }
+
+        /* Print layouts */
+        @media print {
+            html, body { height: auto; overflow: visible; background: #ffffff !important; padding: 0 !important; margin: 0 !important; }
+            * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; color: #000000 !important; }
+            @page { margin: 10mm 10mm; size: A4 portrait; }
+            .tool-wrapper, .btn-box, .util-btns, #resHead, .seo-article, .back-btn, .plot-container, .lang-switcher, .footer-copyright-box { display: none !important; }
+            
+            .res-panel { 
+                display: block !important; 
+                background: #ffffff !important; 
+                padding: 30px 20px !important; 
+                margin: 0 !important; 
+                width: 100% !important; 
+                border: 5px double #0f4c81 !important; 
+                border-radius: 0px !important; 
+                box-shadow: none !important; 
+            }
+            .print-only-section { display: block !important; }
+            .print-header-block { display: block !important; text-align: center; border-bottom: 3px double #0f4c81 !important; padding-bottom: 15px; margin-bottom: 25px; }
+            .result-grid { display: grid !important; grid-template-columns: repeat(2, 1fr) !important; gap: 12px !important; margin-top: 20px; }
+            .res-item { background: transparent !important; border: none !important; border-bottom: 2px solid #0f4c81 !important; padding: 10px 5px !important; border-radius: 0px !important; }
+            .res-item span { color: #000000 !important; font-size: 12px !important; font-weight: bold !important; }
+            .res-item b { color: #0f4c81 !important; font-size: 16px !important; font-weight: 800 !important; }
+            .print-footer-block { display: block !important; margin-top: 40px; border-top: 2px dashed #0f4c81 !important; padding-top: 20px; }
+            .print-footer-container { display: table !important; width: 100% !important; }
+            .print-footer-left { display: table-cell !important; width: 65% !important; text-align: left !important; }
+            .print-footer-right { display: table-cell !important; width: 35% !important; text-align: right !important; }
+        }
     </style>
 </head>
 <body>
 
-<div class="container">
-    <div class="tool-card">
-        <h1 id="mainTitle">UP Land Area Addition Tool</h1>
-        
-        <div class="lang-toggle">
-            <button class="lang-btn active" id="enBtn" onclick="toggleLang('en')">English</button>
-            <button class="lang-btn" id="hiBtn" onclick="toggleLang('hi')">हिंदी</button>
-        </div>
+<div class="tool-wrapper">
+    <header>
+        <h1 id="mainTitle">Uttar Pradesh Land Area Addition Calculator</h1>
+        <p id="mainSubTitle">UP Bhulekh Revenue Framework: 1 Hectare = 10,000 Sq Meter | 1 Hectare = 3.9537 Pucca Bigha</p>
+    </header>
 
-        <div id="plotsArea">
-            <div class="plot-entry">
-                <span class="plot-title" id="p1Title">Plot Details #1</span>
-                <div class="grid-inputs">
-                    <div class="input-group"><label id="lbB1">Bigha</label><input type="number" class="b-in" placeholder="0"></div>
-                    <div class="input-group"><label id="lbW1">Biswa</label><input type="number" class="w-in" placeholder="0"></div>
-                    <div class="input-group"><label id="lbN1">Biswansi</label><input type="number" class="n-in" placeholder="0"></div>
-                </div>
-            </div>
-            <div class="plot-entry">
-                <span class="plot-title" id="p2Title">Plot Details #2</span>
-                <div class="grid-inputs">
-                    <div class="input-group"><label id="lbB2">Bigha</label><input type="number" class="b-in" placeholder="0"></div>
-                    <div class="input-group"><label id="lbW2">Biswa</label><input type="number" class="w-in" placeholder="0"></div>
-                    <div class="input-group"><label id="lbN2">Biswansi</label><input type="number" class="n-in" placeholder="0"></div>
-                </div>
+    <div class="lang-switcher">
+        <button class="lang-btn active" onclick="switchLanguage('en')">English</button>
+        <button class="lang-btn" onclick="switchLanguage('hi')">हिंदी</button>
+    </div>
+
+    <div id="plotsList">
+        <div class="plot-container">
+            <span class="plot-header" data-en="Plot Detail #1" data-hi="जमीन प्लॉट विवरण #1">Plot Detail #1</span>
+            <div class="input-grid">
+                <div class="field"><label data-en="Hectare" data-hi="हेक्टेयर">Hectare (हेक्टेयर)</label><input type="number" class="h-val" placeholder="0.0000" min="0" step="0.0001"></div>
+                <div class="field"><label data-en="Square Meter" data-hi="वर्ग मीटर">Square Meter (वर्ग मीटर)</label><input type="number" class="m-val" placeholder="0" min="0"></div>
             </div>
         </div>
-
-        <div class="controls">
-            <button class="btn btn-add" id="btnAdd" onclick="addNewPlot()">+ Add More Plot</button>
-            <button class="btn btn-calc" id="btnCalc" onclick="calculateUPArea()">Calculate Total Area</button>
-        </div>
-
-        <div id="resultBox" class="result-panel">
-            <h3 id="resHead">Total Land Area (कुल क्षेत्रफल):</h3>
-            <div class="res-display">
-                <div class="res-item"><b id="outB">0</b><span id="unitB">Bigha</span></div>
-                <div class="res-item"><b id="outW">0</b><span id="unitW">Biswa</span></div>
-                <div class="res-item"><b id="outN">0</b><span id="unitN">Biswansi</span></div>
-            </div>
-            <p id="sqLabel">Total Square Feet: <b id="outSq">0</b> sq ft</p>
-            
-            <div class="controls">
-                <button class="btn btn-copy" onclick="copyToClipboard()">Copy Result</button>
-                <button class="btn btn-share" onclick="shareOnWhatsApp()">Share on WhatsApp</button>
+        <div class="plot-container">
+            <span class="plot-header" data-en="Plot Detail #2" data-hi="जमीन प्लॉट विवरण #2">Plot Detail #2</span>
+            <div class="input-grid">
+                <div class="field"><label data-en="Hectare" data-hi="हेक्टेयर">Hectare (हेक्टेयर)</label><input type="number" class="h-val" placeholder="0.0000" min="0" step="0.0001"></div>
+                <div class="field"><label data-en="Square Meter" data-hi="वर्ग मीटर">Square Meter (वर्ग मीटर)</label><input type="number" class="m-val" placeholder="0" min="0"></div>
             </div>
         </div>
     </div>
 
-    <article class="seo-article">
-        <h2>UP Land Area Addition: Uttar Pradesh Mein Zameen Ka Total Jod Kaise Nikalein?</h2>
-        <p>
-            Doston, Uttar Pradesh (UP) mein jab bhi hum zameen ki baat karte hain, toh sabse pehle dimaag mein <b>Bigha, Biswa aur Biswansi</b> aata hai. Halaki UP Bhulekh (official records) mein area Hectare mein darj hota hai, lekin local star par sauda aur registry hamesha local units mein hi hoti hai. Sabse badi problem tab aati hai jab aapko apne 2-3 chote plots ya khet ko ek saath jodna (Sum) hota hai.
-        </p>
-        <p>
-            Agar aap ek kisan hain, property dealer hain, ya fir apne purvajon ki zameen ka hisab kar rahe hain, toh ye <b>UP Land Area Addition Tool</b> aapke liye hi bana hai. Manual calculation mein aksar "Carry Forward" ki galti ho jati hai, kyunki ye normal math nahi hai. Yahan <b>20 Biswansi milkar 1 Biswa</b> banta hai aur <b>20 Biswa milkar 1 Pucca Bigha</b>. Shayan Smart Tools ka ye calculator isi "Base 20" logic par chalta hai taaki aapka result 100% accurate rahe.
-        </p>
+    <div class="btn-box">
+        <button class="btn btn-add" id="btnAddPlot" onclick="addNewPlot()">+ Add More Plot</button>
+        <button class="btn btn-calc" id="btnCalc" onclick="calculateTotal()">Calculate Total Mizan</button>
+        <button class="btn btn-reset" id="btnReset" onclick="resetForm()">Reset</button>
+    </div>
+</div> 
 
-        <h3>Is Calculator Ko Use Kaise Karein? (Step-by-Step Guide)</h3>
-        <ul style="padding-left: 20px;">
-            <li><b>Step 1:</b> Sabse pehle apne pehle plot (Plot #1) ka Bigha, Biswa aur Biswansi boxes mein fill karein.</li>
-            <li><b>Step 2:</b> Phir dusre khet (Plot #2) ki details niche wale boxes mein dalein.</li>
-            <li><b>Step 3:</b> Agar 2 se zyada plots hain, toh <b>"+ Add More Plot"</b> button par click karke naye rows jodein.</li>
-            <li><b>Step 4:</b> Sab bharne ke baad <b>"Calculate Total Area"</b> par click karein. Result aapke screen par hoga.</li>
-            <li><b>Step 5:</b> Result ko copy karke aap WhatsApp par apne client ya ghar walon ko bhej sakte hain.</li>
-        </ul>
-
-        <h3>UP Land Measurement Units Ka Ganit (The Math)</h3>
-        <table>
-            <thead>
-                <tr><th>Unit Name</th><th>Relation</th><th>Approx Sq Ft</th></tr>
-            </thead>
-            <tbody>
-                <tr><td>1 Bigha (Pucca)</td><td>20 Biswa</td><td>27,225 Sq Ft</td></tr>
-                <tr><td>1 Biswa</td><td>20 Biswansi</td><td>1,361.25 Sq Ft</td></tr>
-                <tr><td>1 Biswansi</td><td>20 Kachwansi</td><td>68.06 Sq Ft</td></tr>
-            </tbody>
-        </table>
-
-        <h3>5 Real-Life Examples: Zameen Ka Jod Kaise Hota Hai?</h3>
-        <ol>
-            <li><b>Example 1:</b> Agar aapne 15 Biswa aur 10 Biswa joda, toh result 25 Biswa nahi aayega. Tool usey <b>1 Bigha aur 5 Biswa</b> dikhayega.</li>
-            <li><b>Example 2:</b> 18 Biswansi + 5 Biswansi ka jod <b>1 Biswa aur 3 Biswansi</b> hota hai.</li>
-            <li><b>Example 3:</b> 2 Bigha 15 Biswa + 1 Bigha 10 Biswa = <b>4 Bigha 5 Biswa</b>.</li>
-            <li><b>Example 4:</b> Chote plots jaise 8 Biswansi, 12 Biswansi aur 5 Biswansi ka total jod <b>1 Biswa 5 Biswansi</b> banega.</li>
-            <li><b>Example 5:</b> Hectare record ko Bigha mein badalne ke baad bhi aap is tool se unka total jod sakte hain.</li>
-        </ol>
-
-        <h3>Frequently Asked Questions (FAQs)</h3>
-        <p><b>Q1. UP mein 1 Bigha mein kitne Biswa hote hain?</b><br>Ans: UP ke official Pucca Bigha standard ke mutabik 1 Bigha mein 20 Biswa hote hain.</p>
-        <p><b>Q2. Kya ye tool mobile par smoothly kaam karega?</b><br>Ans: Ji haan, Shayan Smart Tools 100% responsive hai.</p>
-        <p><b>Q3. Kya main result ko copy kar sakta hoon?</b><br>Ans: Haan, humne 'Copy Result' button diya hai.</p>
-
-        <div style="margin-top: 30px; border-top: 1px dashed var(--up-blue); padding-top: 25px;">
-            <p><b>Links:</b> <a href="index.html">Home</a> | <a href="up-hectare-to-land-converter.html">Hectare Converter</a> | <a href="up-bigha-to-sqft.html">Bigha to Sq Ft</a></p>
-            <p style="text-align: center;"><b>Copyright Notice:</b> Shayan Smart Tools © 2026. All Rights Reserved. Managed by Muksidul Islam.</p>
+<div id="resPanel" class="res-panel">
+    <div class="print-header-block">
+        <div style="display: flex; justify-content: center; align-items: center; gap: 10px; margin-bottom: 5px;">
+            <img src="favicon.png" alt="SST" style="width: 32px; height: 32px;">
+            <h2 style="font-size: 24px; color: #0f4c81; margin: 0; font-weight: 900; letter-spacing: 1px;">SHAYAN SMART TOOLS</h2>
         </div>
-    </article>
+        <p style="font-size: 11px; color: #0a3256; font-weight: bold; margin: 0 0 15px 0; letter-spacing: 0.5px; text-transform: uppercase;">UTTAR PRADESH REVENUE STANDARD LAND REPORT - 2026</p>
+        
+        <div style="background: #f8fafc; border: 1px solid #cbd5e1; padding: 12px; border-radius: 6px; display: grid; grid-template-columns: 1fr 1fr; font-size: 12px; text-align: left; gap: 8px; color: #334155;">
+            <div><strong>DOCUMENT REF:</strong> <span id="pDocRef" style="color:#0f4c81; font-weight:bold;">SST-UP-ADD-0000</span></div>
+            <div style="text-align: right;"><strong>DATE:</strong> <span id="pDocDate" style="color:#0f4c81; font-weight:bold;">--/--/----</span></div>
+            <div><strong>JURISDICTION:</strong> State of Uttar Pradesh (उत्तर प्रदेश)</div>
+            <div><strong>ENGINE LOGIC:</strong> 10,000 Sq.m Hectare Matrix & Pucca Bigha Standards</div>
+        </div>
+    </div>
+
+    <div class="print-only-section">
+        <h4 style="color:#0f4c81; margin: 15px 0 5px 0; font-size: 14px; text-transform: uppercase; border-bottom: 1px solid #cbd5e1; padding-bottom: 4px;" id="printInputsTitle">Entered Plot Dimensions (दर्ज किए गए प्लॉट विवरण)</h4>
+        <table class="print-table">
+            <thead>
+                <tr>
+                    <th id="thPlotNo">Plot No / क्र.</th>
+                    <th id="thHectare">Hectare / हेक्टेयर</th>
+                    <th id="thSqMeter">Square Meter / वर्ग मीटर</th>
+                </tr>
+            </thead>
+            <tbody id="print-plots-summary"></tbody>
+        </table>
+    </div>
+
+    <h3 id="resHead">Kulatmak K क्षेत्रफल / कुल रकबा (Total Combined Area)</h3>
+    
+    <div class="result-grid">
+        <div class="res-item" id="print-input-row" style="display:none;"><span id="lblCombinedInput">Initial Combined Input:</span> <b id="rInputVal">0 Combined Plots Computed</b></div>
+        <div class="res-item"><span id="lblResHectare">Hectare (हेक्टेयर)</span><b id="rh">0.0000 Hectare</b></div>
+        <div class="res-item"><span id="lblResSqm">Total Square Meter (वर्ग मीटर)</span><b id="rsqm">0 sq m</b></div>
+        <div class="res-item"><span id="lblResBigha">Pucca Bigha (पक्का बीघा)</span><b id="rbigha">0 Bigha</b></div>
+        <div class="res-item"><span id="lblResBiswa">Equivalent Biswa (बिस्वा)</span><b id="rbiswa">0 Biswa</b></div>
+        <div class="res-item"><span id="lblResBiswansi">Equivalent Biswansi (बिस्वांसी)</span><b id="rbiswansi">0 Biswansi</b></div>
+        <div class="res-item"><span id="lblResAcre">Equivalent Acre (एकड़)</span><b id="ra">0 Acre</b></div>
+        <div class="res-item"><span id="lblResSqft">Total Square Feet</span><b id="rsq">0 sq ft</b></div>
+    </div>
+
+    <div class="print-footer-block">
+        <div class="print-footer-container">
+            <div class="print-footer-left">
+                <p style="margin: 0; font-weight: bold; color: #0f4c81; text-transform: uppercase; font-size: 11px;">🔒 SECURITY DISCLAIMER & STATUTORY RECORDS NOTICE</p>
+                <p style="margin: 6px 0 0 0; font-size: 10px; color: #475569; line-height: 1.5;">This mathematical ledger computation is compiled based on Uttar Pradesh Board of Revenue parameters (1 Hectare = 10,000 Sq Meter, 1 Pucca Bigha = 2529.28 Sq Meter, 1 Bigha = 20 Biswa). Unit values fluctuate slightly in Western vs Eastern UP zones due to local Kachha Bigha variables. Cross-verify results with official UP Bhulekh / Khatauni digital scripts before legal registry executions.</p>
+                <p style="margin: 12px 0 0 0; font-size: 11px; font-weight: bold; color: #0f4c81;">🌐 OFFICIAL PORTAL: www.shayansmarttools.in</p>
+            </div>
+            <div class="print-footer-right">
+                <div style="display: inline-block; text-align: center;">
+                    <img src="seal.png" alt="SST Official Stamp" style="width: 110px; height: auto; display: block; margin: 0 auto 5px auto;">
+                    <div style="font-size: 11px; font-weight: bold; color: #1e293b; border-top: 1px solid #cbd5e1; padding-top: 4px; width: 140px; margin-top: 8px;">Authorised Signature</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="util-btns">
+        <button class="u-btn" style="background:#475569;" id="btnCopy" onclick="copyData()">📋 Copy Results</button>
+        <button class="u-btn" style="background:#22c55e;" id="btnWA" onclick="shareWA()">📲 WhatsApp</button>
+        <button class="u-btn" style="background:#0f4c81;" id="btnPrint" onclick="printLandReport()">🖨️ Print Report</button>
+    </div>
+</div>
+
+<div class="back-btn" style="text-align:center; margin-top: 20px;"><a href="index.html" id="lnkBack" style="color:var(--up-blue); font-weight:bold; text-decoration:none;">⬅ Back to All Tools Dashboard</a></div>
+
+<article id="content-en" class="seo-article lang-section active-lang">
+    <div class="seo-header-block">
+        <h2>Uttar Pradesh Land Area Addition: Highly Accurate Hectare-Bigha Sum Engine</h2>
+        <p>Calculate, combine, and aggregate multiple agricultural or residential plots using official UP Bhulekh land framework metrics with automatic base-10000 carry forward logic.</p>
+    </div>
+
+    <section>
+        <h3>1. Powerful Introduction to Uttar Pradesh Land Measurement System</h3>
+        <p>Managing agricultural, commercial, and residential properties in Uttar Pradesh requires deep alignment with state land records rules. While the official government portal—<b>UP Bhulekh (भूलेख उत्तर प्रदेश)</b>—logs data digitally using <b>Hectares</b>, local transactions still widely apply traditional regional units like <b>Bigha, Biswa, and Biswansi</b> depending on whether you are in Western UP, Eastern UP, or Central Bundelkhand. Whether you are dealing with plots in Lucknow, Kanpur, Varanasi, Meerut, or Gorakhpur, discrepancies in mathematical interpretation can create large discrepancies in legal records.</p>
+        <p>When you attempt to combine multiple property fragments from different <b>Khata or Khasra Numbers</b>, standard mobile calculators fall short because land math involves complex custom frameworks. Our smart <b>UP Jamin Khasra Math Tool</b> resolves this mathematical complexity instantly, preventing rounding errors and providing a complete output breakdown into Hectare, Square Meter, Bigha, Biswa, Biswansi, Acre, and Square Feet. This tool provides land surveyors (Amins), buyers, realtors, and legal professionals with clean data processing algorithms tailored specifically to Uttar Pradesh Board of Revenue Standards.</p>
+    </section>
+
+    <section>
+        <h3>2. How to Use the Uttar Pradesh Land Addition Calculator</h3>
+        <p>Our intuitive layout makes combining multiple land plots incredibly easy. Follow these simple operational steps:</p>
+        <ol>
+            <li><b>Enter Plot Dimensions:</b> In the pre-configured input rows, enter the respective <b>Hectare</b> and <b>Square Meter</b> values for your first two plots. If an entry consists purely of square meters, simply leave the Hectare column blank or enter zero.</li>
+            <li><b>Add Additional Parcels:</b> If you have more than two plots to combine, simply click the <b>"+ Add More Plot"</b> button to dynamically inject a new data entry line. There is no ceiling limit to the number of input components you can accumulate.</li>
+            <li><b>Run Mathematical Engine:</b> Click on <b>"Calculate Total Mizan"</b>. The algorithm instantly groups your plots, processes structural overruns via the base-10000 square meter carry matrix, and updates your unified dashboard.</li>
+            <li><b>Save or Share:</b> Use the built-in functional shortcuts to instantly <b>Copy Results</b> to your system clipboard, export a clean PDF report using <b>Print Report</b>, or push automated messages via <b>WhatsApp</b>.</li>
+        </ol>
+    </section>
+
+    <section>
+        <h3>3. Real-World Practical Example (Base-10000 Carry Arithmetic)</h3>
+        <p>Let's understand how our automated software engine handles standard revenue calculations on the backend. Suppose you have two distinct Khasra plots under a single Khatauni entry that need to be aggregated for a mutation (Daakhil Kharij) deed:</p>
+        <ul>
+            <li><b>Property Fragment 1:</b> 1 Hectare and 6500 Square Meters</li>
+            <li><b>Property Fragment 2:</b> 0 Hectare and 4500 Square Meters</li>
+        </ul>
+        <p><b>Step-by-step Execution Process:</b></p>
+        <ol>
+            <li><b>Sum the Square Meter Units:</b> 6500 Sq.m + 4500 Sq.m = 11,000 Square Meters.</li>
+            <li><b>Apply Carry Logic:</b> Since 11,000 Sq.m exceeds the standard 10,000 limit per Hectare, the algorithm calculates: <code>11,000 - 10,000 = 1,000 Sq.m</code> remaining. 1 full Hectare is safely carried over to the primary Hectare stack.</li>
+            <li><b>Sum the Hectare Units:</b> 1 Hectare + 0 Hectare + 1 Hectare (Carried Over from Square Meters) = 2 Hectares.</li>
+            <li><b>Final Consolidated Result:</b> The engine pushes out exactly <b>2 Hectare and 1,000 Square Meter</b>. It then automatically maps this value into auxiliary values like 8.30 Pucca Bighas, 4.94 Acres, or 2,26,042 square feet.</li>
+        </ol>
+    </section>
+
+    <section>
+        <h3>4. Deep-Dive into Uttar Pradesh Revenue Land Metrics and Law</h3>
+        <p>Land administration in Uttar Pradesh is legally shaped by historic frameworks like the <b>UP Revenue Code, 2006</b>. These laws govern the transfer, non-agricultural declarations (Section 80 conversions), and processing of land holdings. Because these transactions are heavily scrutinized by Lekhpals, Naib Tehsildars, and Sub-Divisional Magistrates (SDM), even minor math discrepancies in deed formatting can cause a registration or inheritance (Varasat) entry to be rejected.</p>
+        <p>Furthermore, standardizing units across different regions remains an issue. For instance, in Western UP (Meerut, Aligarh), 1 Pucca Bigha is strictly equal to 2529.28 Square Meters, consisting of 20 Biswa. However, some areas informally use "Kachha Bigha" which is exactly 1/3rd of a Pucca Bigha. For formal state valuation and Khatauni logs, UP Bhulekh matches 1 Hectare to exactly 10,000 Square Meters. Our tool follows this strict state revenue equation to make sure your paperwork matches official data structures perfectly.</p>
+    </section>
+
+    <h3>5. Comprehensive Conversion Reference Matrix Table</h3>
+    <table>
+        <thead>
+            <tr>
+                <th>Land Unit Type</th>
+                <th>Revenue Mapping & Mathematical Relations</th>
+                <th>Equivalent (Sq. Meters)</th>
+                <th>Equivalent (Sq. Feet)</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr><td><b>1 Hectare (हेक्टेयर)</b></td><td>Official Government Base Unit / 10,000 Sq M</td><td>10,000 Sq M</td><td>1,07,639 Sq Ft</td></tr>
+            <tr><td><b>1 Pucca Bigha (बीघा)</b></td><td>Standard UP Unit / Equal to 20 Biswa</td><td>2,529.28 Sq M</td><td>27,225 Sq Ft</td></tr>
+            <tr><td><b>1 Biswa (बिस्वा)</b></td><td>1/20th part of a standard Pucca Bigha</td><td>126.46 Sq M</td><td>1,361.25 Sq Ft</td></tr>
+            <tr><td><b>1 Biswansi (बिस्वांसी)</b></td><td>1/20th part of Biswa / 400 Biswansi = 1 Bigha</td><td>6.323 Sq M</td><td>68.06 Sq Ft</td></tr>
+            <tr><td><b>1 Acre (एकड़)</b></td><td>Standard Imperial Unit / Approx 1.6 Bigha</td><td>4,046.85 Sq M</td><td>43,560 Sq Ft</td></tr>
+        </tbody>
+    </table>
+
+    <h3>6. 15 Frequently Asked Questions (Top Google Search Queries)</h3>
+    <div id="faq-container-en">
+        <div class="faq-block"><p><b>Q1. How many square meters make exactly 1 Hectare in Uttar Pradesh?</b><br>Ans: In UP's official revenue records and UP Bhulekh platform, exactly 10,000 Square Meters make up 1 Hectare.</p></div>
+        <div class="faq-block"><p><b>Q2. What is the standard area of 1 Pucca Bigha in UP?</b><br>Ans: Under standard state calculations, 1 Pucca Bigha is mapped to 2529.28 Square Meters, which is equivalent to 27,225 Square Feet.</p></div>
+        <div class="faq-block"><p><b>Q3. How many Biswa are there in 1 Bigha in UP?</b><br>Ans: 1 Pucca Bigha contains exactly 20 Biswas across the official Uttar Pradesh localized measurement matrix.</p></div>
+        <div class="faq-block"><p><b>Q4. What is the relation between Hectare and Bigha in UP Bhulekh?</b><br>Ans: One Hectare contains approximately 3.9537 Pucca Bighas according to the Board of Revenue Uttar Pradesh.</p></div>
+        <div class="faq-block"><p><b>Q5. Is this tool official or associated with UP Bhulekh?</b><br>Ans: No, this is an independent calculation engine developed by Shayan Smart Tools based strictly on official Uttar Pradesh Land Revenue standards.</p></div>
+        <div class="faq-block"><p><b>Q6. Why do mobile calculators give wrong answers for land addition in UP?</b><br>Ans: Standard calculators use base-10 decimal points. Land records use base-10000 carry logic for hectares (where 9500 sq.m + 800 sq.m equals 1 hectare and 300 sq.m, not 1.03 Hectares in a normal math format).</p></div>
+        <div class="faq-block"><p><b>Q7. How many square feet equal one Hectare in UP?</b><br>Ans: One Hectare equals exactly 1,07,639.1 square feet.</p></div>
+        <div class="faq-block"><p><b>Q8. What is a Biswa value in square feet in UP?</b><br>Ans: Since 1 Pucca Bigha is 27,225 Sq.Ft, 1 Biswa (1/20th) is equivalent to exactly 1,361.25 Square Feet.</p></div>
+        <div class="faq-block"><p><b>Q9. How many Biswansi make up one Biswa?</b><br>Ans: Exactly 20 Biswansis combine to make 1 Biswa in UP's traditional property measurement records.</p></div>
+        <div class="faq-block"><p><b>Q10. What is the difference between Pucca and Kachha Bigha in UP?</b><br>Ans: 1 Pucca Bigha equals 3 Kachha Bighas. Kachha Bigha is used informally by locals in parts of Western and Central UP, but government records use Hectares.</p></div>
+        <div class="faq-block"><p><b>Q11. Can I calculate land area without entering Hectares?</b><br>Ans: Yes, you can fill out only the Square Meter input section and leave the Hectare value as zero; the calculator will adjust automatically.</p></div>
+        <div class="faq-block"><p><b>Q12. What laws govern land processing and mutation in UP?</b><br>Ans: Property mutations, partitions, and registries are governed by the Uttar Pradesh Revenue Code, 2006.</p></div>
+        <div class="faq-block"><p><b>Q13. How many Hectares make an Acre in UP?</b><br>Ans: 1 Hectare equals approximately 2.471 Acres. Conversely, 1 Acre equals 0.4047 Hectares.</p></div>
+        <div class="faq-block"><p><b>Q14. What does "Total Mizan" mean on this page?</b><br>Ans: "Mizan" is a traditional revenue ledger term widely used in UP land records that means the total consolidated sum of different parts.</p></div>
+        <div class="faq-block"><p><b>Q15. Can I use this report printout for official court registries in UP?</b><br>Ans: This report serves as an explicit reference ledger for calculation verification. For court filings or official deeds, cross-verify results with your local Tehsil Lekhpal or a registered Revenue Officer.</p></div>
+    </div>
+</article>
+
+<article id="content-hi" class="seo-article lang-section">
+    <div class="seo-header-block">
+        <h2>उत्तर प्रदेश भूमि क्षेत्रफल जोड़: अत्यधिक सटीक हेक्टेयर-बीघा समेकन इंजन</h2>
+        <p>उत्तर प्रदेश भूलेख (UP Bhulekh) के आधिकारिक राजस्व बोर्ड मानकों के अनुसार एकाधिक भूखंडों (Plots) को स्वचालित रूप से जोड़ने वाला उन्नत कैलकुलेटर।</p>
+    </div>
+
+    <section>
+        <h3>१. विस्तृत प्रस्तावना: उत्तर प्रदेश भूमि मापन प्रणाली</h3>
+        <p>उत्तर प्रदेश राज्य में कृषि, व्यावसायिक या आवासीय भूमि के प्रबंधन, खरीद-बिक्री, वरासत और राजस्व कार्यों के लिए सटीक जमीन की पैमाइश का होना अनिवार्य है। उत्तर प्रदेश के सरकारी पोर्टल <b>यूपी भूलेख (UP Bhulekh)</b> पर जमीन की मुख्य प्रविष्टि <b>हेक्टेयर</b> में की जाती है, जबकि स्थानीय क्षेत्रों में खरीद-बिक्री और बातचीत में आज भी <b>बीघा, बिस्वा और बिस्वांसी</b> का प्रयोग धड़ल्ले से होता है। पश्चिमी उत्तर प्रदेश, पूर्वांचल, मध्य यूपी और बुंदेलखंड जैसे अलग-अलग क्षेत्रों में जमीन नापने के पारंपरिक पैमानों (जैसे कच्चा व पक्का बीघा) में थोड़ा अंतर देखने को मिलता है, जिससे आम जनता और जमीन खरीदारों में अक्सर भ्रम पैदा हो जाता है।</p>
+        <p>जब आप अलग-अलग खाता, प्लॉट या खसरा नंबर के टुकड़ों को आपस में जोड़ते हैं, तो साधारण दशमलव कैलकुलेटर फेल हो जाते हैं क्योंकि भूमि मापन 10,000 वर्ग मीटर के विशेष ओव्हरफ्लो पर काम करता है। Shayan Smart Tools का यह विशेष यूपी लैंड एडिशन कैलकुलेटर इसी समस्या को तुरंत हल करता है और परिणाम को हेक्टेयर, वर्ग मीटर, पक्का बीघा, बिस्वा, बिस्वांसी, एकड़ और वर्ग फुट में प्रदर्शित करता है। यह टूल विशेष रूप से उत्तर प्रदेश के लेखपाल (Lekhpal), अमीन, रजिस्ट्री वकीलों और आम नागरिकों के लिए डिज़ाइन किया गया है ताकि वे बिना किसी त्रुटि के सटीक गणना कर सकें।</p>
+    </section>
+
+    <section>
+        <h3>२. कैलकुलेटर का उपयोग कैसे करें?</h3>
+        <p>भूखंडों को जोड़ना बेहद आसान है, बस इन आसान चरणों का पालन करें:</p>
+        <ol>
+            <li><b>प्लॉट का आकार भरें:</b> पहले और दूसरे प्लॉट के <b>हेक्टेयर</b> और <b>वर्ग मीटर</b> मान इनपुट करें। यदि किसी प्लॉट का आकार केवल वर्ग मीटर में है, तो हेक्टेयर वाले कॉलम को खाली छोड़ दें या 0 लिखें।</li>
+            <li><b>और प्लॉट जोड़ें:</b> यदि आपके पास 2 से अधिक खसरे हैं जिन्हें आपस में जोड़ना है, तो <b>"+ Add More Plot"</b> बटन दबाकर नया इनपुट बॉक्स खोलें। आप असीमित संख्या में प्लॉट जोड़ सकते हैं।</li>
+            <li><b>जोड़ की गणना करें:</b> सभी विवरण भरकर <b>"Calculate Total Mizan"</b> पर क्लिक करें, बेस-10000 ओव्हरफ्लो तकनीक के आधार पर गणितीय गणना होकर परिणाम तुरंत आपके सामने आ जाएगा।</li>
+            <li><b>शेयर या सेव करें:</b> आप सीधे <b>Copy Results</b>, <b>Print Report</b> या <b>WhatsApp</b> बटन का उपयोग करके विवरण सुरक्षित साझा या पीडीएफ के रूप में डाउनलोड कर सकते हैं।</li>
+        </ol>
+    </section>
+
+    <section>
+        <h3>३. वास्तविक गणना उदाहरण (Base-10000 कैरी नियम)</h3>
+        <p>यह सॉफ्टवेयर टूल बैकएंड पर गणना को किस प्रकार संभालता है, इसे एक उदाहरण से समझें। मान लीजिए आपके पास दाखिल-खारिज (Mutation) या बंटवारे के लिए दो अलग-अलग खसरा की जमीनें हैं:</p>
+        <ul>
+            <li><b>जमीन का टुकड़ा १:</b> 1 हेक्टेयर और 6500 वर्ग मीटर</li>
+            <li><b>जमीन का टुकड़ा २:</b> 0 हेक्टेयर और 4500 वर्ग मीटर</li>
+        </ul>
+        <p><b>स्टेप-बाय-स्टेप जोड़ की प्रक्रिया:</b></p>
+        <ol>
+            <li><b>वर्ग मीटर को जोड़ें:</b> 6500 + 4500 = 11,000 वर्ग मीटर।</li>
+            <li><b>कैरी फॉरवर्ड लगाएं:</b> चूंकि 11,000 वर्ग मीटर 10,000 से अधिक है, अतः <code>11,000 - 10,000 = 1,000 वर्ग मीटर</code> बचेगा और 1 पूरा हेक्टेयर मुख्य हेक्टेयर के हिस्से में जुड़ (Carry) जाएगा।</li>
+            <li><b>हेक्टेयर को जोड़ें:</b> 1 हेक्टेयर + 0 हेक्टेयर + 1 हेक्टेयर (हासिल का) = 2 हेक्टेयर।</li>
+            <li><b>अंतिम समेकित परिणाम:</b> आपका कुल क्षेत्रफल <b>2 हेक्टेयर और 1,000 वर्ग मीटर</b> प्रदर्शित होगा, न कि साधारण कैलकुलेटर की तरह 1.11000 हेक्टेयर। इसके बाद हमारा सिस्टम इसे वर्ग फुट और पक्का बीघा (8.30 बीघा) में बदल देता है।</li>
+        </ol>
+    </section>
+
+    <section>
+        <h3>४. उत्तर प्रदेश भूमि कानून और राजस्व प्रणालियों का गहरा विश्लेषण</h3>
+        <p>उत्तर प्रदेश में भूमि का हस्तांतरण और दाखिल-खारिज केवल गणितीय ही नहीं, बल्कि कानूनी रूप से भी जटिल है। यहाँ **उत्तर प्रदेश राजस्व संहिता, 2006 (UP Revenue Code)** लागू है। इस संहिता के तहत कृषि भूमि का गैर-कृषि उपयोग (धारा 80 के तहत आबादी घोषित करना), अनुसूचित जाति/जनजाति की भूमियों का हस्तांतरण आदि कड़े नियमों के अधीन हैं। जब भी कोई लेखपाल या राजस्व अधिकारी किसी डीड (Deed) या खतौनी का मिलान करता है, तो क्षेत्रफल में जरा सी भी गलती होने पर दाखिल-खारिज याचिका तहसीलदार या अंचलाधिकारी द्वारा निरस्त की जा सकती है।</p>
+        <p>स्थानीय स्तर पर, मेरठ, अलीगढ़, हापुड़ में पक्का बीघा (2529.28 वर्ग मीटर) चलता है, जबकि कुछ क्षेत्रों में स्थानीय लोग 'कच्चा बीघा' का प्रयोग करते हैं जो पक्के बीघे का ठीक एक-तिहाई होता है। लेकिन यूपी भूलेख सरकारी रिकॉर्ड को एकरूपता देने के लिए हमेशा डिजिटल खतौनी में हेक्टेयर का ही मानक उपयोग करता है। हमारा कैलकुलेटर इसी आधिकारिक सरकारी विन्यास पर आधारित है, जिससे आपके दस्तावेजी कार्यों में कोई विसंगति नहीं आती।</p>
+    </section>
+
+    <h3>५. मानक रूपांतरण तालिका (UP Unit Matrix)</h3>
+    <table>
+        <thead>
+            <tr>
+                <th>इकाई का नाम</th>
+                <th>राजस्व संबंध और परिभाषा</th>
+                <th>वर्ग मीटर (Sq. Meters)</th>
+                <th>वर्ग फुट (Sq. Feet)</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr><td><b>1 हेक्टेयर (Hectare)</b></td><td>राजस्व रिकॉर्ड की मुख्य इकाई / 10,000 वर्ग मीटर</td><td>10,000 चौ. मी.</td><td>1,07,639 चौ. फुट</td></tr>
+            <tr><td><b>1 पक्का बीघा (Bigha)</b></td><td>20 बिस्वा के बराबर मानक यूपी बीघा</td><td>2,529.28 चौ. मी.</td><td>27,225 चौ. फुट</td></tr>
+            <tr><td><b>1 बिस्वा (Biswa)</b></td><td>1 बीघा का 1/20 वां हिस्सा</td><td>126.46 चौ. मी.</td><td>1,361.25 चौ. फुट</td></tr>
+            <tr><td><b>1 बिस्वांसी (Biswansi)</b></td><td>1 बिस्वा का 1/20 वां हिस्सा (400 बिस्वांसी = 1 बीघा)</td><td>6.323 चौ. मी.</td><td>68.06 चौ. फुट</td></tr>
+            <tr><td><b>1 एकड़ (Acre)</b></td><td>मानक ब्रिटिश इकाई / लगभग 1.6 पक्का बीघा</td><td>4,046.85 चौ. मी.</td><td>43,560 चौ. फुट</td></tr>
+        </tbody>
+    </table>
+
+    <h3>६. १५ अक्सर पूछे जाने वाले प्रश्न (FAQs - Top Google Search Queries)</h3>
+    <div id="faq-container-hi">
+        <div class="faq-block"><p><b>प्रश्न १. उत्तर प्रदेश में 1 हेक्टेयर में कितने वर्ग मीटर होते हैं?</b><br>उत्तर: उत्तर प्रदेश के राजस्व नियमों और यूपी भूलेख पोर्टल के अनुसार, 1 हेक्टेयर में सटीक 10,000 वर्ग मीटर होते हैं।</p></div>
+        <div class="faq-block"><p><b>प्रश्न २. यूपी में 1 पक्का बीघा कितने वर्ग मीटर का होता है?</b><br>उत्तर: सरकारी विन्यास के अनुसार यहाँ 1 पक्का बीघा जमीन का मान 2529.28 वर्ग मीटर के बराबर माना जाता है।</p></div>
+        <div class="faq-block"><p><b>प्रश्न ३. 1 बीघा में कितने बिस्वा होते हैं?</b><br>उत्तर: उत्तर प्रदेश के सभी जिलों में मानक राजस्व प्रणाली के अनुसार 1 पक्का बीघा में कुल 20 बिस्वा जमीन होती है।</p></div>
+        <div class="faq-block"><p><b>प्रश्न ४. 1 हेक्टेयर में कितने बीघा होते हैं?</b><br>उत्तर: उत्तर प्रदेश राजस्व बोर्ड के अनुसार 1 हेक्टेयर में लगभग 3.9537 पक्का बीघा जमीन होती है।</p></div>
+        <div class="faq-block"><p><b>प्रश्न ५. क्या यह टूल यूपी भूलेख सरकारी पोर्टल से सीधे संबद्ध है?</b><br>उत्तर: नहीं, यह Shayan Smart Tools द्वारा विकसित एक स्वतंत्र कैलकुलेटर है, जो पूरी तरह से राज्य के आधिकारिक राजस्व गणना नियमों पर काम करता है।</p></div>
+        <div class="faq-block"><p><b>प्रश्न ६. सामान्य कैलकुलेटर यूपी में जमीन जोड़ने में क्यों गलती करते हैं?</b><br>उत्तर: सामान्य कैलकुलेटर बेस-10 (दशमलव) पर चलते हैं, जबकि हेक्टेयर और वर्ग मीटर का जोड़ बेस-10000 पर चलता है (जैसे 9500 वर्ग मीटर + 800 वर्ग मीटर = 1 हेक्टेयर 300 वर्ग मीटर)।</p></div>
+        <div class="faq-block"><p><b>प्रश्न ७. 1 हेक्टेयर में कुल कितने वर्ग फुट होते हैं?</b><br>उत्तर: 1 हेक्टेयर में ठीक 1,07,639.1 वर्ग फुट (Square Feet) स्थान होता है।</p></div>
+        <div class="faq-block"><p><b>प्रश्न ८. उत्तर प्रदेश में 1 बिस्वा में कितने वर्ग फुट होते हैं?</b><br>उत्तर: चूंकि 1 बीघा 27,225 वर्ग फुट का होता है, इसलिए 1 बिस्वा का मान सटीक 1,361.25 वर्ग फुट होता है।</p></div>
+        <div class="faq-block"><p><b>प्रश्न ९. 1 बिस्वा में कितने बिस्वांसी होते हैं?</b><br>उत्तर: 1 बिस्वा जमीन के भीतर कुल 20 बिस्वांसी शामिल होते हैं।</p></div>
+        <div class="faq-block"><p><b>प्रश्न १०. यूपी में कच्चा बीघा और पक्का बीघा में क्या अंतर है?</b><br>उत्तर: 1 पक्का बीघा ठीक 3 कच्चा बीघा के बराबर होता है। कच्चा बीघा कुछ क्षेत्रों में केवल स्थानीय लोग उपयोग करते हैं, सरकारी खतौनी हमेशा हेक्टेयर में होती है।</p></div>
+        <div class="faq-block"><p><b>प्रश्न ११. क्या मैं हेक्टेयर डाले बिना केवल वर्ग मीटर जोड़ सकता हूँ?</b><br>उत्तर: हाँ, आप हेक्टेयर वाले कॉलम को खाली छोड़ सकते हैं और केवल वर्ग मीटर डालकर "Calculate" दबा सकते हैं, सिस्टम सही ढंग से काम करेगा।</p></div>
+        <div class="faq-block"><p><b>प्रश्न १२. उत्तर प्रदेश में 1 हेक्टेयर में कितने एकड़ होते हैं?</b><br>उत्तर: 1 हेक्टेयर में लगभग 2.471 एकड़ जमीन होती है, जबकि 1 एकड़ में 0.4047 हेक्टेयर होता है।</p></div>
+        <div class="faq-block"><p><b>प्रश्न १३. यह कैलकुलेटर बीघा-बिस्वा की गणना कैसे करता है?</b><br>उत्तर: यह टूल सबसे पहले सभी इनपुट को कुल वर्ग मीटर में बदलता है और फिर उसे यूपी के मानक बीघा आकार (2529.28 वर्ग मीटर) से विभाजित करता है।</p></div>
+        <div class="faq-block"><p><b>प्रश्न १४. इस वेबपेज पर प्रयुक्त शब्द "Mizan" का क्या अर्थ है?</b><br>उत्तर: "मीजान" एक पारंपरिक उर्दू-राजस्व शब्द है जो यूपी भूलेख और खतौनी में प्रयुक्त होता है, जिसका अर्थ "कुल संचित जोड़" या "Grand Total" होता है।</p></div>
+        <div class="faq-block"><p><b>प्रश्न १५. क्या इस कैलकुलेटर की प्रिंट रिपोर्ट अदालती कार्यों के लिए मान्य है?</b><br>उत्तर: यह टूल केवल आपकी गणितीय शुद्धता और संदर्भ (Reference) के लिए है। किसी भी कानूनी विवाद, रजिस्ट्री या सरकारी काम के लिए अपने तहसील के लेखपाल या राजस्व अधिकारी से ही सत्यापन करवाएं।</p></div>
+    </div>
+</article>
+
+<div class="footer-copyright-box">
+    <div class="footer-law-accent">Statutory Cyber Law Protection Vault</div>
+    <p><b>Copyright Protection Notice:</b> Shayan Smart Tools Core Processing Engines, Localization Scripts, and Structural Web Algorithms © 2026. All rights reserved.</p>
+    <p style="font-size: 12px; color: #64748b;">This application canvas layout and mathematical processing engines are strictly protected under global software copyright acts and Indian IP Protection Laws. Any unauthorized deployment of this architecture will initiate immediate legal escalations.</p>
 </div>
 
 <script>
-    let pCount = 2;
-    let lang = 'en';
+    let plotIdx = 2;
+    let currentLang = 'en';
 
-    function toggleLang(l) {
-        lang = l;
-        document.getElementById('enBtn').classList.toggle('active', l === 'en');
-        document.getElementById('hiBtn').classList.toggle('active', l === 'hi');
+    const translations = {
+        en: {
+            title: "Uttar Pradesh Land Area Addition Calculator",
+            subtitle: "UP Bhulekh Revenue Framework: 1 Hectare = 10,000 Sq Meter | 1 Hectare = 3.9537 Pucca Bigha",
+            addBtn: "+ Add More Plot",
+            calcBtn: "Calculate Total Mizan",
+            resetBtn: "Reset",
+            resHead: "Kulatmak Ksheftrafal / कुल रकबा (Total Combined Area)",
+            lblCombinedInput: "Initial Combined Input:",
+            lblResHectare: "Hectare (हेक्टेयर)",
+            lblResSqm: "Total Square Meter (वर्ग मीटर)",
+            lblResBigha: "Pucca Bigha (पक्का बीघा)",
+            lblResBiswa: "Equivalent Biswa (बिस्वा)",
+            lblResBiswansi: "Equivalent Biswansi (बिस्वांसी)",
+            lblResAcre: "Equivalent Acre (एकड़)",
+            lblResSqft: "Total Square Feet",
+            btnCopy: "📋 Copy Results",
+            btnWA: "📲 WhatsApp",
+            btnPrint: "🖨️ Print Report",
+            backLnk: "⬅ Back to All Tools Dashboard",
+            printInputsTitle: "Entered Plot Dimensions",
+            thPlotNo: "Plot No",
+            thHectare: "Hectare",
+            thSqMeter: "Square Meter"
+        },
+        hi: {
+            title: "उत्तर प्रदेश जमीन क्षेत्रफल जोड़ कैलकुलेटर",
+            subtitle: "यूपी राजस्व मानक प्रणाली: 1 हेक्टेयर = 10,000 वर्ग मीटर | 1 हेक्टेयर = 3.9537 पक्का बीघा",
+            addBtn: "+ और प्लॉट जोड़ें",
+            calcBtn: "कुल जोड़ गणना करें",
+            resetBtn: "रिसेट करें",
+            resHead: "कुल रकबा (Total Combined Area)",
+            lblCombinedInput: "कुल सबमिट किए गए प्लॉट:",
+            lblResHectare: "हेक्टेयर",
+            lblResSqm: "कुल वर्ग मीटर",
+            lblResBigha: "पक्का बीघा",
+            lblResBiswa: "समतुल्य बिस्वा",
+            lblResBiswansi: "समतुल्य बिस्वांसी",
+            lblResAcre: "समतुल्य एकड़",
+            lblResSqft: "कुल वर्ग फुट",
+            btnCopy: "📋 परिणाम कॉपी करें",
+            btnWA: "📲 व्हाट्सएप शेयर",
+            btnPrint: "🖨️ रिपोर्ट प्रिंट करें",
+            backLnk: "⬅ सभी टूल्स डैशबोर्ड पर वापस जाएं",
+            printInputsTitle: "दर्ज किए गए प्लॉट का विवरण",
+            thPlotNo: "क्र.",
+            thHectare: "हेक्टेयर",
+            thSqMeter: "वर्ग मीटर"
+        }
+    };
+
+    function switchLanguage(lang) {
+        currentLang = lang;
+        document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.remove('active'));
+        if(lang === 'en') {
+            document.querySelectorAll('.lang-btn')[0].classList.add('active');
+            document.getElementById('content-en').classList.add('active-lang');
+            document.getElementById('content-hi').classList.remove('active-lang');
+        } else {
+            document.querySelectorAll('.lang-btn')[1].classList.add('active');
+            document.getElementById('content-hi').classList.add('active-lang');
+            document.getElementById('content-en').classList.remove('active-lang');
+        }
+
+        document.getElementById('mainTitle').innerText = translations[lang].title;
+        document.getElementById('mainSubTitle').innerText = translations[lang].subtitle;
+        document.getElementById('btnAddPlot').innerText = translations[lang].addBtn;
+        document.getElementById('btnCalc').innerText = translations[lang].calcBtn;
+        document.getElementById('btnReset').innerText = translations[lang].resetBtn;
+        document.getElementById('resHead').innerText = translations[lang].resHead;
         
-        // Translate UI
-        document.getElementById('mainTitle').innerText = l === 'en' ? "UP Land Area Addition Tool" : "उत्तर प्रदेश जमीन जोड़ कैलकुलेटर";
-        document.getElementById('btnAdd').innerText = l === 'en' ? "+ Add More Plot" : "+ और प्लॉट जोड़ें";
-        document.getElementById('btnCalc').innerText = l === 'en' ? "Calculate Total Area" : "कुल जोड़ निकालें";
-        document.getElementById('resHead').innerText = l === 'en' ? "Total Land Area (कुल क्षेत्रफल):" : "कुल क्षेत्रफल का परिणाम:";
-        document.getElementById('unitB').innerText = l === 'en' ? "Bigha" : "बीघा";
-        document.getElementById('unitW').innerText = l === 'en' ? "Biswa" : "बिस्वा";
-        document.getElementById('unitN').innerText = l === 'en' ? "Biswansi" : "बिस्वांसी";
+        document.getElementById('lblCombinedInput').innerText = translations[lang].lblCombinedInput;
+        document.getElementById('lblResHectare').innerText = translations[lang].lblResHectare;
+        document.getElementById('lblResSqm').innerText = translations[lang].lblResSqm;
+        document.getElementById('lblResBigha').innerText = translations[lang].lblResBigha;
+        document.getElementById('lblResBiswa').innerText = translations[lang].lblResBiswa;
+        document.getElementById('lblResBiswansi').innerText = translations[lang].lblResBiswansi;
+        document.getElementById('lblResAcre').innerText = translations[lang].lblResAcre;
+        document.getElementById('lblResSqft').innerText = translations[lang].lblResSqft;
+
+        document.getElementById('btnCopy').innerText = translations[lang].btnCopy;
+        document.getElementById('btnWA').innerText = translations[lang].btnWA;
+        document.getElementById('btnPrint').innerText = translations[lang].btnPrint;
+        document.getElementById('lnkBack').innerText = translations[lang].backLnk;
         
-        // Translate Labels in rows
-        document.querySelectorAll('label').forEach(label => {
-            if(label.innerText.includes("Bigha") || label.innerText.includes("बीघा")) label.innerText = l==='en'?"Bigha":"बीघा";
-            if(label.innerText.includes("Biswa") || label.innerText.includes("बिस्वा")) label.innerText = l==='en'?"Biswa":"बिस्वा";
-            if(label.innerText.includes("Biswansi") || label.innerText.includes("बिस्वांसी")) label.innerText = l==='en'?"Biswansi":"बिस्वांसी";
+        document.getElementById('printInputsTitle').innerText = translations[lang].printInputsTitle;
+        document.getElementById('thPlotNo').innerText = translations[lang].thPlotNo;
+        document.getElementById('thHectare').innerText = translations[lang].thHectare;
+        document.getElementById('thSqMeter').innerText = translations[lang].thSqMeter;
+
+        document.querySelectorAll('.plot-container').forEach(container => {
+            const header = container.querySelector('.plot-header');
+            const labels = container.querySelectorAll('label');
+            if(header) header.innerText = header.getAttribute(`data-${lang}`) || header.innerText;
+            if(labels.length > 0) {
+                labels[0].innerText = labels[0].getAttribute(`data-${lang}`);
+                labels[1].innerText = labels[1].getAttribute(`data-${lang}`);
+            }
         });
     }
 
     function addNewPlot() {
-        pCount++;
-        const area = document.getElementById('plotsArea');
+        plotIdx++;
+        const list = document.getElementById('plotsList');
         const div = document.createElement('div');
-        div.className = 'plot-entry';
-        div.innerHTML = `<span class="plot-title">${lang === 'en' ? 'Plot Details #'+pCount : 'प्लॉट विवरण #'+pCount}</span>
-            <div class="grid-inputs">
-                <div class="input-group"><label>${lang==='en'?'Bigha':'बीघा'}</label><input type="number" class="b-in" placeholder="0"></div>
-                <div class="input-group"><label>${lang==='en'?'Biswa':'बिस्वा'}</label><input type="number" class="w-in" placeholder="0"></div>
-                <div class="input-group"><label>${lang==='en'?'Biswansi':'बिस्वांसी'}</label><input type="number" class="n-in" placeholder="0"></div>
-            </div>`;
-        area.appendChild(div);
-    }
-
-    function calculateUPArea() {
-        let b=0, w=0, n=0;
-        document.querySelectorAll('.b-in').forEach(i => b += Number(i.value)||0);
-        document.querySelectorAll('.w-in').forEach(i => w += Number(i.value)||0);
-        document.querySelectorAll('.n-in').forEach(i => n += Number(i.value)||0);
-
-        if(n >= 20) { w += Math.floor(n/20); n %= 20; }
-        if(w >= 20) { b += Math.floor(w/20); w %= 20; }
-
-        document.getElementById('outB').innerText = b;
-        document.getElementById('outW').innerText = tw = w;
-        document.getElementById('outN').innerText = tn = n;
+        div.className = 'plot-container';
         
-        let totalSq = (b * 27225) + (w * 1361.25) + (n * 68.06);
-        document.getElementById('outSq').innerText = Math.round(totalSq).toLocaleString();
-        document.getElementById('resultBox').style.display = 'block';
+        let headerText = currentLang === 'en' ? `Plot Detail #${plotIdx}` : `जमीन प्लॉट विवरण #${plotIdx}`;
+        let labelHectare = currentLang === 'en' ? 'Hectare' : 'हेक्टेयर';
+        let labelSqMeter = currentLang === 'en' ? 'Square Meter' : 'वर्ग मीटर';
+
+        div.innerHTML = `
+            <span class="plot-header" data-en="Plot Detail #${plotIdx}" data-hi="जमीन प्लॉट विवरण #${plotIdx}">${headerText}</span>
+            <div class="input-grid">
+                <div class="field"><label data-en="Hectare" data-hi="हेक्टेयर">${labelHectare}</label><input type="number" class="h-val" placeholder="0.0000" min="0" step="0.0001"></div>
+                <div class="field"><label data-en="Square Meter" data-hi="वर्ग मीटर">${labelSqMeter}</label><input type="number" class="m-val" placeholder="0" min="0"></div>
+            </div>`;
+        list.appendChild(div);
     }
 
-    function copyToClipboard() {
-        const t = `Total: ${document.getElementById('outB').innerText} Bigha, ${document.getElementById('outW').innerText} Biswa, ${document.getElementById('outN').innerText} Biswansi. - Shayan Smart Tools`;
-        navigator.clipboard.writeText(t);
-        alert("Copied! / कॉपी हो गया!");
+    function calculateTotal() {
+        let th = 0, tm = 0;
+        let validPlots = 0;
+        
+        const summaryBody = document.getElementById('print-plots-summary');
+        summaryBody.innerHTML = '';
+
+        const hInputs = document.querySelectorAll('.h-val');
+        const mInputs = document.querySelectorAll('.m-val');
+
+        hInputs.forEach((item, index) => {
+            let hVal = Number(item.value) || 0;
+            let mVal = Number(mInputs[index].value) || 0;
+            
+            th += hVal;
+            tm += mVal;
+            validPlots++;
+
+            let row = document.createElement('tr');
+            row.innerHTML = `<td>Plot #${index + 1}</td><td>${hVal.toFixed(4)}</td><td>${mVal}</td>`;
+            summaryBody.appendChild(row);
+        });
+
+        // UP Board of Revenue Carry Logic (1 Hectare = 10,000 Square Meters)
+        if (tm >= 10000) {
+            th += Math.floor(tm / 10000);
+            tm %= 10000;
+        }
+
+        let totalSqm = (th * 10000) + tm;
+
+        document.getElementById('rh').innerText = th.toFixed(4) + " Hectare";
+        document.getElementById('rsqm').innerText = totalSqm.toLocaleString('en-IN') + " sq m";
+        
+        // UP Bhulekh Metric Calculations (1 Pucca Bigha = 2529.28 Square Meter)
+        let totalBighaRaw = totalSqm / 2529.28;
+        let calcBigha = Math.floor(totalBighaRaw);
+        
+        let remBiswaRaw = (totalBighaRaw - calcBigha) * 20;
+        let calcBiswa = Math.floor(remBiswaRaw);
+        
+        let calcBiswansi = (remBiswaRaw - calcBiswa) * 20;
+
+        // General Conversions (1 Hectare = 2.47105 Acres, 1 Sqm = 10.76391 Sqft)
+        let totalAcre = th * 2.47105 + (tm * 0.000247105);
+        let totalSqft = totalSqm * 10.76391;
+
+        document.getElementById('rbigha').innerText = calcBigha + " Bigha";
+        document.getElementById('rbiswa').innerText = calcBiswa + " Biswa";
+        document.getElementById('rbiswansi').innerText = calcBiswansi.toFixed(2) + " Biswansi";
+        document.getElementById('ra').innerText = totalAcre.toFixed(3) + " Acre";
+        document.getElementById('rsq').innerText = Math.round(totalSqft).toLocaleString('en-IN') + " sq ft";
+        
+        let options = { day: 'numeric', month: 'long', year: 'numeric' };
+        let today = new Date().toLocaleDateString('en-IN', options);
+        document.getElementById('pDocDate').innerText = today + " (IST)";
+        document.getElementById('rInputVal').innerText = `${validPlots} Plots Computed`;
+        
+        let randID = Math.floor(1000000000 + Math.random() * 9000000000);
+        document.getElementById('pDocRef').innerText = `SST-UP-ADD-${randID}`;
+
+        const resPanel = document.getElementById('resPanel');
+        resPanel.style.display = "block";
+        resPanel.scrollIntoView({ behavior: 'smooth' });
     }
 
-    function shareOnWhatsApp() {
-        const t = `UP Zameen Total: ${document.getElementById('outB').innerText} Bigha, ${document.getElementById('outW').innerText} Biswa, ${document.getElementById('outN').innerText} Biswansi. Calculate here: ${window.location.href}`;
-        window.open(`https://wa.me/?text=${encodeURIComponent(t)}`, '_blank');
+    function resetForm() {
+        const list = document.getElementById('plotsList');
+        list.innerHTML = `
+            <div class="plot-container">
+                <span class="plot-header" data-en="Plot Detail #1" data-hi="जमीन प्लॉट विवरण #1">${currentLang === 'en' ? 'Plot Detail #1' : 'जमीन प्लॉट विवरण #1'}</span>
+                <div class="input-grid">
+                    <div class="field"><label data-en="Hectare" data-hi="हेक्टेयर">${currentLang === 'en' ? 'Hectare' : 'हेक्टेयर'}</label><input type="number" class="h-val" placeholder="0.0000" min="0" step="0.0001"></div>
+                    <div class="field"><label data-en="Square Meter" data-hi="वर्ग मीटर">${currentLang === 'en' ? 'Square Meter' : 'वर्ग मीटर'}</label><input type="number" class="m-val" placeholder="0" min="0"></div>
+                </div>
+            </div>
+            <div class="plot-container">
+                <span class="plot-header" data-en="Plot Detail #2" data-hi="जमीन प्लॉट विवरण #2">${currentLang === 'en' ? 'Plot Detail #2' : 'जमीन प्लॉट विवरण #2'}</span>
+                <div class="input-grid">
+                    <div class="field"><label data-en="Hectare" data-hi="हेक्टेयर">${currentLang === 'en' ? 'Hectare' : 'हेक्टेयर'}</label><input type="number" class="h-val" placeholder="0.0000" min="0" step="0.0001"></div>
+                    <div class="field"><label data-en="Square Meter" data-hi="वर्ग मीटर">${currentLang === 'en' ? 'Square Meter' : 'वर्ग मीटर'}</label><input type="number" class="m-val" placeholder="0" min="0"></div>
+                </div>
+            </div>`;
+        plotIdx = 2;
+        document.getElementById('resPanel').style.display = "none";
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function printLandReport() {
+        const resPanel = document.getElementById('resPanel');
+        if(resPanel.style.display !== "block") { 
+            alert(currentLang === 'en' ? "Calculate metrics first!" : "पहले गणना करें!"); 
+            return; 
+        }
+        const printRow = document.getElementById('print-input-row');
+        printRow.style.display = "flex";
+        window.print();
+        printRow.style.display = "none";
+    }
+
+    function copyData() {
+        let text = `Uttar Pradesh Land Area Addition Results:\n` +
+                   `Total Hectare: ${document.getElementById('rh').innerText} & Sqm: ${document.getElementById('rsqm').innerText}\n` +
+                   `Bigha Metric: ${document.getElementById('rbigha').innerText}, ${document.getElementById('rbiswa').innerText}, ${document.getElementById('rbiswansi').innerText}\n` +
+                   `Acre equivalent: ${document.getElementById('ra').innerText}\n` +
+                   `Sq Ft: ${document.getElementById('rsq').innerText}\n` +
+                   `Calculated securely via Shayan Smart Tools`;
+        navigator.clipboard.writeText(text);
+        alert(currentLang === 'en' ? "Copied successfully!" : "सफलतापूर्वक कॉपी किया गया!");
+    }
+
+    function shareWA() {
+        let text = `Uttar Pradesh Land Area Addition Results:\n` +
+                   `Total Hectare: ${document.getElementById('rh').innerText}\n` +
+                   `Bigha System: ${document.getElementById('rbigha').innerText}, ${document.getElementById('rbiswa').innerText}\n` +
+                   `Sq Ft: ${document.getElementById('rsq').innerText}`;
+        window.open("https://wa.me/?text=" + encodeURIComponent(text));
     }
 </script>
 
-<footer>
-    <p>Shayan Smart Tools | Uttar Pradesh Division | Muksidul Islam</p>
-</footer>
 </body>
 </html>
