@@ -1,590 +1,716 @@
 <!DOCTYPE html>
-<html lang="ta">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tamil Nadu Land Area Addition Tool | தமிழ்நாடு நிலப்பரப்பு கூட்டல் கால்குலேட்டர் Free 2026 | Shayan Smart Tools</title>
+    <title>Tamilnadu Land Area Addition Calculator Free 2026 | நிலப்பரப்பு கூட்டல் கால்குலேட்டர் | Shayan Smart Tools</title>
     <link rel="canonical" href="https://shayansmarttools.in/tamilnadu-land-area-addition.html" />
+    <link rel="icon" type="image/png" href="favicon.png" />
 
-    <meta name="description" content="Official Tamil Nadu Land Area Addition Tool. Add multiple fields/plots in Grounds and Cents accurately with automated math forward base shifting. 100% Free by Shayan Smart Tools.">
-    <meta name="keywords" content="Tamil Nadu Land Area Addition, தமிழ்நாடு நிலப்பரப்பு கூட்டல், Grounds Cents Addition Calculator, Tamil Nilam Jod Calculator, Shayan Smart Tools Tamil Nadu, Patta Chitta Area Addition">
+    <meta name="description" content="Official Tamilnadu Land Area Addition Tool. Combine multiple agricultural or residential survey plots in Acre, Cent, Ground, Square Feet, and Square Meter formats accurately with Tamil Nadu Revenue carry forward logic. Best SEO tool for Patta, Chitta, and Tamil Nilam records.">
+    <meta name="keywords" content="Tamilnadu Land Area Addition, நிலப்பரப்பு கூட்டல் கால்குலேட்டர், Tamil Nilam Area Calculator, Patta Chitta Land Math, Acre Cent Calculator Tamilnadu, Ground to Square Feet Conversion, Chennai Real Estate Calculator, Tamilnadu land registry math, Sub Registrar Office measurement">
     <meta name="author" content="Muksidul islam">
     <meta name="robots" content="index, follow">
 
     <style>
         :root {
-            --tn-green: #1b5e20;
-            --tn-dark: #003300;
-            --tn-corporate: #0f172a;
+            --tn-blue: #0f4c81;
+            --dark-blue: #0a3256;
+            --tn-orange: #ff6f61;
             --text-dark: #334155;
             --white: #ffffff;
-            --bg: #f8fafc;
-            --tn-gold: #ffb300;
+            --bg: #f4f8fa;
+        }
+
+        * {
+            box-sizing: border-box;
         }
 
         body {
-            font-family: 'Poppins', sans-serif;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             line-height: 1.6;
+            color: var(--text-dark);
+            max-width: 950px;
+            margin: 0 auto;
+            padding: 15px;
             background-color: var(--bg);
-            margin: 0;
-            padding: 20px;
-            color: #333;
         }
 
-        .container { max-width: 850px; margin: 0 auto; }
+        .tool-wrapper { padding: 10px 0; text-align: center; }
 
         header {
-            background: linear-gradient(135deg, var(--tn-green), var(--tn-corporate));
-            color: #fff; padding: 40px 20px; border-radius: 25px; text-align: center;
-            border-bottom: 6px solid var(--tn-gold); margin-bottom: 30px;
+            background: linear-gradient(135deg, var(--tn-blue), var(--dark-blue));
+            color: #fff; padding: 45px 20px; border-radius: 25px; text-align: center;
+            border-bottom: 6px solid var(--tn-orange); margin-bottom: 25px;
+            box-shadow: 0 10px 25px rgba(15, 76, 129, 0.15);
         }
-        header h1 { color: white; margin: 0 0 10px 0; font-size: 26px; text-transform: uppercase; }
-        header p { color: #f1f5f9; margin: 0; font-size: 16px; }
-        
-        .lang-toggle { display: flex; justify-content: center; gap: 10px; margin-bottom: 25px; }
-        .lang-btn { padding: 10px 25px; border-radius: 50px; border: 2px solid var(--tn-green); background: white; cursor: pointer; font-weight: 700; transition: 0.3s; color: var(--tn-green); }
-        .lang-btn.active { background: var(--tn-green); color: white; }
+        header h1 { color: white; margin: 0 0 10px 0; font-size: 32px; text-transform: uppercase; letter-spacing: 0.5px; }
+        header p { color: #ebf5ff; margin: 0; font-size: 16px; font-weight: 500; }
 
-        /* CLEAN NO CONTAINER BOX LAYOUT FOR CORES */
-        .form-card { 
-            background: transparent !important; 
-            padding: 10px 0; 
-            border: none !important; 
-            box-shadow: none !important; 
-            margin-bottom: 20px;
-        }
-
-        .plot-entry {
-            background: rgba(255, 255, 255, 0.6);
-            padding: 20px;
-            border-radius: 16px;
-            margin-bottom: 15px;
-            border: 1px solid #cbd5e1;
-            backdrop-filter: blur(5px);
-            animation: fadeIn 0.4s ease;
-        }
-
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-
-        .plot-title { font-weight: bold; color: var(--tn-green); margin-bottom: 15px; display: block; border-bottom: 1px solid #cbd5e1; padding-bottom: 5px; }
-        .sec-h { font-size: 16px; font-weight: bold; color: var(--tn-green); margin-bottom: 20px; border-bottom: 2px solid #cbd5e1; padding-bottom: 8px; text-transform: uppercase; letter-spacing: 0.5px; }
-
-        .grid-inputs {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+        .lang-switcher {
+            display: flex;
+            justify-content: center;
             gap: 15px;
+            margin: 25px 0;
+        }
+        .lang-btn {
+            padding: 11px 32px;
+            border: 2px solid var(--tn-blue);
+            background: var(--white);
+            color: var(--tn-blue);
+            font-weight: 700;
+            font-size: 16px;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            min-width: 140px;
+            text-align: center;
+            outline: none;
+            box-shadow: 0 4px 6px rgba(15, 76, 129, 0.05);
+        }
+        .lang-btn.active {
+            background: var(--tn-blue);
+            color: var(--white);
         }
 
-        .input-group { display: flex; flex-direction: column; }
-        label { font-size: 12px; font-weight: 800; color: var(--tn-green); margin-bottom: 8px; text-transform: uppercase; }
-        input { width: 100%; padding: 15px; border: 1px solid #cbd5e1; border-radius: 12px; font-size: 16px; box-sizing: border-box; outline: none; transition: 0.3s; background: var(--white); text-align: center; }
-        input:focus { border-color: var(--tn-green); background: #fff; box-shadow: 0 0 8px rgba(27, 94, 32, 0.1); }
-
-        .controls { display: flex; gap: 15px; justify-content: center; margin: 30px 0; flex-wrap: wrap; }
-        .btn { padding: 16px 35px; border: none; border-radius: 12px; font-weight: 800; cursor: pointer; transition: 0.3s; font-size: 15px; text-transform: uppercase; letter-spacing: 0.5px; }
-        .btn-add { background: #5d4037; color: white; }
-        .btn-calc { background: var(--tn-green); color: white; }
-        
-        /* RESULTS UI */
-        .result-panel {
-            background: #0f172a; color: white; padding: 25px; border-radius: 25px; margin-top: 30px; display: none; border: 2px solid var(--tn-gold); position: relative;
+        /* Plot Containers */
+        .plot-container {
+            background: var(--white);
+            padding: 25px;
+            border-radius: 16px;
+            margin-bottom: 20px;
+            border: 1px solid #e2e8f0;
+            border-left: 6px solid var(--tn-blue);
+            box-shadow: 0 4px 6px rgba(0,0,0,0.02);
+            transition: 0.3s;
+            text-align: left;
         }
-        .result-panel h3 { margin-top: 0; text-align: center; color: var(--tn-gold); font-size: 1.4rem; margin-bottom: 20px; }
-        
-        .res-display { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; margin: 20px 0; }
-        .res-inner-item { background: rgba(255,255,255,0.05); padding: 15px; border-radius: 12px; display: flex; flex-direction: column; align-items: center; gap: 5px; border-bottom: 4px solid var(--tn-gold); }
-        .res-inner-item span { font-size: 12px; color: #94a3b8; font-weight: bold; text-transform: uppercase; }
-        .res-inner-item b { font-size: 24px; color: #fff; }
+        .plot-container:hover { transform: translateY(-2px); box-shadow: 0 6px 12px rgba(0,0,0,0.05); }
+        .plot-header { font-weight: 800; color: var(--tn-blue); margin-bottom: 15px; display: block; border-bottom: 1px solid #e2e8f0; padding-bottom: 5px; text-transform: uppercase; font-size: 13px; letter-spacing: 0.5px; }
 
-        .extra-res-box { background: rgba(255,255,255,0.02); padding: 15px; border-radius: 12px; margin-top: 15px; border-left: 4px solid var(--tn-green); text-align: left; }
-        .extra-res-box p { margin: 5px 0; font-size: 15px; display: flex; justify-content: space-between; align-items: center; }
-        .extra-res-box b { color: var(--tn-gold); }
+        /* Responsive Input Grid System */
+        .input-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; }
+        .field { display: flex; flex-direction: column; }
+        label { font-size: 12px; font-weight: bold; margin-bottom: 6px; color: var(--tn-blue); text-transform: uppercase; letter-spacing: 0.3px; }
+        input { padding: 14px; border: 1px solid #cbd5e1; border-radius: 10px; font-size: 16px; text-align: center; background: var(--white); outline: none; transition: 0.3s; font-weight: 600; width: 100%; }
+        input:focus { border-color: var(--tn-blue); box-shadow: 0 0 8px rgba(15,76,129,0.15); }
+
+        .btn-box { display: flex; gap: 15px; justify-content: center; margin: 35px 0; flex-wrap: wrap; }
+        .btn { padding: 15px 35px; border: none; border-radius: 10px; font-weight: 800; cursor: pointer; transition: 0.3s; font-size: 15px; text-transform: uppercase; letter-spacing: 0.5px; min-width: 160px; }
+        .btn-add { background: #2f3e4f; color: white; } 
+        .btn-calc { background: var(--tn-blue); color: white; }
+        .btn-reset { background: #ef4444; color: white; }
+        .btn:hover { transform: translateY(-3px); box-shadow: 0 8px 15px rgba(0,0,0,0.12); }
+
+        /* Results UI */
+        .res-panel { background: #0f172a; color: white; padding: 25px; border-radius: 25px; margin-top: 35px; display: none; border: 2px solid var(--tn-blue); position: relative; text-align: left; box-shadow: 0 15px 30px rgba(0,0,0,0.2); }
+        .res-panel h3 { margin-top: 0; text-align: center; color: #38bdf8; font-size: 1.4rem; margin-bottom: 20px; }
+        .result-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; }
+        .res-item { background: rgba(255,255,255,0.05); padding: 15px; border-radius: 12px; display: flex; flex-direction: column; align-items: flex-start; gap: 5px; border-left: 4px solid var(--tn-blue); }
+        .res-item span { font-size: 12px; color: #94a3b8; font-weight: bold; text-transform: uppercase; }
+        .res-item b { font-size: 20px; color: #38bdf8; word-break: break-all; }
+
+        /* Print Specific Styling */
+        .print-only-section { display: none; margin: 15px 0; }
+        .print-table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+        .print-table th, .print-table td { border: 1px solid #cbd5e1; padding: 8px; text-align: center; font-size: 13px; }
+        .print-table th { background-color: #f0f7fd; color: var(--tn-blue); font-weight: bold; }
 
         .print-header-block, .print-footer-block { display: none; }
-        .util-btns { display: flex; gap: 10px; margin-top: 25px; }
-        .u-btn { flex: 1; padding: 15px; border-radius: 12px; border: none; font-weight: 800; cursor: pointer; transition: 0.3s; color: white; font-size: 14px; text-align: center; }
 
-        /* CLEAN FIXED SEO ARTICLE LAYER - BACKGROUND CLEAR */
-        .seo-section { 
+        .util-btns { display: flex; gap: 12px; margin-top: 25px; flex-wrap: wrap; }
+        .u-btn { flex: 1; padding: 15px; border: none; border-radius: 12px; font-weight: 800; cursor: pointer; color: white; font-size: 14px; text-align: center; transition: 0.3s; text-transform: uppercase; min-width: 140px; }
+
+        /* SEO Article Layer */
+        .seo-article { 
             background: transparent !important; 
-            padding: 20px 0; 
-            margin-top: 50px; 
-            line-height: 1.8; 
+            padding: 30px 0; 
+            margin-top: 40px; 
+            line-height: 1.85; 
             border: none !important;
             color: #334155 !important;
             text-align: left;
         }
-        .seo-section .seo-header-block {
-            text-align: center; 
-            border-bottom: 3px solid var(--tn-green); 
-            padding-bottom: 20px; 
-            margin-bottom: 30px;
-            background: transparent !important;
-        }
-        .seo-section h2 { 
-            color: var(--tn-green) !important; 
-            font-size: 28px !important;
-            margin-bottom: 10px !important;
-            border-left: 6px solid var(--tn-dark);
-            padding-left: 15px;
-            margin-top: 40px;
-        }
-        .seo-section p { color: #334155 !important; font-size: 16px; text-align: justify; }
+        .seo-header-block { text-align: center; border-bottom: 3px solid var(--tn-blue); padding-bottom: 25px; margin-bottom: 35px; }
+        .seo-article h2 { color: var(--tn-blue) !important; font-size: 30px !important; margin-top: 40px !important; margin-bottom: 15px !important; font-weight: 700; }
+        .seo-article h3 { color: var(--tn-blue) !important; margin-top: 30px; font-size: 22px; border-left: 6px solid var(--tn-orange); padding-left: 15px; font-weight: 600; }
+        .seo-article p { color: #334155 !important; font-size: 16px; text-align: justify; margin-bottom: 20px; }
+        .seo-article ul, .seo-article ol { margin-bottom: 25px; padding-left: 20px; font-size: 16px; }
+        .seo-article li { margin-bottom: 10px; }
         
-        .seo-section table { width: 100%; border-collapse: collapse; margin: 25px 0; background: #ffffff; box-shadow: 0 4px 6px rgba(0,0,0,0.02); border-radius: 8px; overflow: hidden; }
-        .seo-section th, .seo-section td { padding: 15px; border: 1px solid #e2e8f0; text-align: left; color: #334155 !important; }
-        .seo-section th { background: #e8f5e9; color: var(--tn-green) !important; font-weight: bold; }
-        .seo-section tr:nth-child(even) { background-color: #f8fafc; }
+        .seo-article table { width: 100%; border-collapse: collapse; margin: 30px 0; background: #ffffff; box-shadow: 0 4px 6px rgba(0,0,0,0.01); display: block; overflow-x: auto; }
+        .seo-article th, .seo-article td { border: 1px solid #e2e8f0; padding: 16px; text-align: left; color: #334155 !important; font-size: 15px; white-space: nowrap; }
+        .seo-article th { background-color: #f0f7fd; color: var(--tn-blue) !important; font-weight: 700; }
 
-        .links-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; margin: 40px 0; width: 100%; box-sizing: border-box; }
-        .link-card { display: flex; align-items: center; justify-content: center; background: #ffffff; padding: 18px 20px; border-radius: 16px; text-decoration: none; color: var(--tn-corporate) !important; font-weight: 700; font-size: 15px; border: 1px solid #e2e8f0; transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1); box-sizing: border-box; text-align: center; }
-        .link-card:hover { border-color: var(--tn-green); transform: translateY(-4px); box-shadow: 0 12px 20px rgba(27, 94, 32, 0.1); background: linear-gradient(135deg, #ffffff, #e8f5e9); }
+        .faq-block { background: #ffffff; padding: 22px; border-radius: 14px; border: 1px solid #e2e8f0; margin-bottom: 20px; box-shadow: 0 4px 6px rgba(0,0,0,0.01); }
+        .faq-block p b { color: var(--tn-blue); font-size: 16px; display: block; margin-bottom: 8px; }
+
+        /* Law Ledger UI Card */
+        .footer-copyright-box { 
+            margin-top: 60px; 
+            text-align: center; 
+            font-size: 13px; 
+            color: #475569; 
+            background: #ffffff; 
+            padding: 35px; 
+            border-radius: 24px; 
+            border: 1px solid #e2e8f0;
+            border-top: 6px solid #0f4c81;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.03);
+        }
+        .footer-copyright-box p { margin: 8px 0; line-height: 1.7; }
+        .footer-law-accent { font-weight: 800; color: #0f172a; text-transform: uppercase; font-size: 12px; letter-spacing: 1.5px; margin-bottom: 15px !important; display: inline-block; background: #f1f5f9; padding: 6px 16px; border-radius: 30px; border: 1px solid #cbd5e1; }
+
+        .lang-section { display: none; }
+        .lang-section.active-lang { display: block; }
 
         @media (max-width: 600px) {
-            .res-display { grid-template-columns: 1fr; gap: 10px; }
-            .seo-section h2 { font-size: 22px !important; }
-            .links-grid { grid-template-columns: 1fr; gap: 12px; }
-            .link-card { padding: 15px 18px; }
-            .input-grid { grid-template-columns: 1fr; gap: 10px; }
+            header { padding: 30px 15px; border-radius: 15px; }
+            header h1 { font-size: 24px; }
+            header p { font-size: 14px; }
+            .plot-container { padding: 20px 15px; }
+            .input-grid { grid-template-columns: 1fr; gap: 15px; } 
+            .result-grid { grid-template-columns: 1fr; gap: 12px; }
+            .res-panel { padding: 20px; border-radius: 15px; }
+            .btn { width: 100%; padding: 14px; font-size: 14px; }
+            .u-btn { width: 100%; }
+            .seo-article h2 { font-size: 24px !important; }
+            .seo-article h3 { font-size: 18px; }
+            .lang-btn { flex: 1; padding: 10px 15px; font-size: 15px; min-width: auto; }
         }
 
-        /* ANTI-BLANK PRINT INFRASTRUCTURE FIXED LAYERING */
+        /* Print layouts */
         @media print {
-            html, body { background: #ffffff !important; color: #000000 !important; margin: 0 !important; padding: 0 !important; }
-            .container { max-width: 100% !important; width: 100% !important; padding: 0 !important; margin: 0 !important; }
+            html, body { height: auto; overflow: visible; background: #ffffff !important; padding: 0 !important; margin: 0 !important; }
+            * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; color: #000000 !important; }
+            @page { margin: 10mm 10mm; size: A4 portrait; }
+            .tool-wrapper, .btn-box, .util-btns, #resHead, .seo-article, .back-btn, .plot-container, .lang-switcher, .footer-copyright-box { display: none !important; }
             
-            header, .lang-toggle, .form-card, .controls, .util-btns, #resHead, .seo-section, .back-btn, footer { 
-                display: none !important; 
-                opacity: 0 !important;
-                visibility: hidden !important;
-                height: 0 !important;
-                margin: 0 !important;
-                padding: 0 !important;
-            }
-            
-            .result-panel { 
+            .res-panel { 
                 display: block !important; 
-                visibility: visible !important;
                 background: #ffffff !important; 
-                color: #000000 !important; 
-                padding: 25px !important; 
-                margin: 0 auto !important;
-                width: 100% !important;
-                box-sizing: border-box;
-                border: 3px double var(--tn-green) !important; 
-                border-radius: 0px !important;
-                box-shadow: none !important;
+                padding: 30px 20px !important; 
+                margin: 0 !important; 
+                width: 100% !important; 
+                border: 5px double #0f4c81 !important; 
+                border-radius: 0px !important; 
+                box-shadow: none !important; 
             }
-            
-            .print-header-block {
-                display: block !important;
-                text-align: center;
-                border-bottom: 2px solid var(--tn-green) !important;
-                padding-bottom: 12px;
-                margin-bottom: 20px;
-            }
-            .print-header-block img { display: inline-block !important; }
-
-            .res-grid { display: block !important; margin-top: 15px; }
-            .res-item { 
-                background: transparent !important; 
-                border: none !important;
-                border-bottom: 1px solid #e2e8f0 !important;
-                padding: 10px 4px !important;
-                display: flex !important;
-                flex-direction: row !important;
-                justify-content: space-between !important;
-                align-items: center !important;
-                border-radius: 0px !important;
-                text-align: left !important;
-            }
-            .res-item span { color: #1e293b !important; font-size: 13px !important; font-weight: 600; text-align: left !important; }
-            .res-item b { color: var(--tn-dark) !important; font-size: 15px !important; font-weight: 700; text-align: right !important; }
-
-            .extra-res-box {
-                background: transparent !important;
-                border: none !important;
-                border-top: 1px dashed #cbd5e1 !important;
-                padding: 10px 0 !important;
-            }
-            .extra-res-box p { display: flex; justify-content: space-between; font-size: 13px; color: #1e293b; text-align: left !important; }
-            .extra-res-box b { color: #000000 !important; }
-
-            .print-footer-block {
-                display: block !important;
-                text-align: center;
-                margin-top: 40px;
-                border-top: 1px solid #cbd5e1 !important;
-                padding-top: 20px;
-            }
+            .print-only-section { display: block !important; }
+            .print-header-block { display: block !important; text-align: center; border-bottom: 3px double #0f4c81 !important; padding-bottom: 15px; margin-bottom: 25px; }
+            .result-grid { display: grid !important; grid-template-columns: repeat(2, 1fr) !important; gap: 12px !important; margin-top: 20px; }
+            .res-item { background: transparent !important; border: none !important; border-bottom: 2px solid #0f4c81 !important; padding: 10px 5px !important; border-radius: 0px !important; }
+            .res-item span { color: #000000 !important; font-size: 12px !important; font-weight: bold !important; }
+            .res-item b { color: #0f4c81 !important; font-size: 16px !important; font-weight: 800 !important; }
+            .print-footer-block { display: block !important; margin-top: 40px; border-top: 2px dashed #0f4c81 !important; padding-top: 20px; }
+            .print-footer-container { display: table !important; width: 100% !important; }
+            .print-footer-left { display: table-cell !important; width: 65% !important; text-align: left !important; }
+            .print-footer-right { display: table-cell !important; width: 35% !important; text-align: right !important; }
         }
     </style>
 </head>
 <body>
 
-<div class="container">
-    <div class="form-card">
-        <header>
-            <h1 id="mainTitle">Tamil Nadu Land Area Addition Tool</h1>
-            <p id="sTitle">Add multiple patches/patta accounts in Grounds and Cents smoothly with integrated base metric compilation grids.</p>
-        </header>
-        
-        <div class="lang-toggle">
-            <button class="lang-btn active" id="enBtn" onclick="toggleLang('en')">English</button>
-            <button class="lang-btn" id="tnBtn" onclick="toggleLang('ta')">தமிழ்</button>
-        </div>
+<div class="tool-wrapper">
+    <header>
+        <h1 id="mainTitle">Tamilnadu Land Area Addition Calculator</h1>
+        <p id="mainSubTitle">Tamil Nadu Revenue Framework: 1 Acre = 100 Cents | 1 Cent = 435.6 Sq Ft | 1 Ground = 2400 Sq Ft</p>
+    </header>
 
-        <div class="form-container-block">
-            <div class="sec-h" id="hSecTitle">Land Accumulation Ledger (நிலக் കൂട്ടல் பட்டியல் விவரம்)</div>
-            <div id="plotsArea">
-                <div class="plot-entry">
-                    <span class="plot-title" id="p1Title">Plot Details #1</span>
-                    <div class="grid-inputs">
-                        <div class="input-group"><label class="lbl-g">Grounds</label><input type="number" class="g-in" placeholder="0" value="0"></div>
-                        <div class="input-group"><label class="lbl-c">Cents</label><input type="number" class="c-in" placeholder="0" value="0"></div>
-                    </div>
-                </div>
-                <div class="plot-entry">
-                    <span class="plot-title" id="p2Title">Plot Details #2</span>
-                    <div class="grid-inputs">
-                        <div class="input-group"><label class="lbl-g">Grounds</label><input type="number" class="g-in" placeholder="0" value="0"></div>
-                        <div class="input-group"><label class="lbl-c">Cents</label><input type="number" class="c-in" placeholder="0" value="0"></div>
-                    </div>
-                </div>
+    <div class="lang-switcher">
+        <button class="lang-btn active" onclick="switchLanguage('en')">English</button>
+        <button class="lang-btn" onclick="switchLanguage('ta')">தமிழ்</button>
+    </div>
+
+    <div id="plotsList">
+        <div class="plot-container">
+            <span class="plot-header" data-en="Plot Detail #1" data-ta="நிலத்தின் விவரம் #1">Plot Detail #1</span>
+            <div class="input-grid">
+                <div class="field"><label data-en="Acre" data-ta="ஏக்கர்">Acre (ஏக்கர்)</label><input type="number" class="a-val" placeholder="0" min="0"></div>
+                <div class="field"><label data-en="Cent" data-ta="சென்ட்">Cent (சென்ட்)</label><input type="number" class="c-val" placeholder="0" min="0"></div>
             </div>
-
-            <div class="controls">
-                <button class="btn btn-add" id="btnAdd" onclick="addNewPlot()">+ Add More Plot</button>
-                <button class="btn btn-calc" id="btnCalc" onclick="calculateTNTotal()">Calculate Total Area</button>
+        </div>
+        <div class="plot-container">
+            <span class="plot-header" data-en="Plot Detail #2" data-ta="நிலத்தின் விவரம் #2">Plot Detail #2</span>
+            <div class="input-grid">
+                <div class="field"><label data-en="Acre" data-ta="ஏக்கர்">Acre (ஏக்கர்)</label><input type="number" class="a-val" placeholder="0" min="0"></div>
+                <div class="field"><label data-en="Cent" data-ta="சென்ட்">Cent (சென்ட்)</label><input type="number" class="c-val" placeholder="0" min="0"></div>
             </div>
         </div>
     </div>
 
-    <div id="resultBox" class="result-panel">
+    <div class="btn-box">
+        <button class="btn btn-add" id="btnAddPlot" onclick="addNewPlot()">+ Add More Plot</button>
+        <button class="btn btn-calc" id="btnCalc" onclick="calculateTotal()">Calculate Total Area</button>
+        <button class="btn btn-reset" id="btnReset" onclick="resetForm()">Reset</button>
+    </div>
+</div> 
+
+<div id="resPanel" class="res-panel">
+    <div class="print-header-block">
+        <div style="display: flex; justify-content: center; align-items: center; gap: 10px; margin-bottom: 5px;">
+            <img src="favicon.png" alt="SST" style="width: 32px; height: 32px;">
+            <h2 style="font-size: 24px; color: #0f4c81; margin: 0; font-weight: 900; letter-spacing: 1px;">SHAYAN SMART TOOLS</h2>
+        </div>
+        <p style="font-size: 11px; color: #0a3256; font-weight: bold; margin: 0 0 15px 0; letter-spacing: 0.5px; text-transform: uppercase;">TAMIL NADU REVENUE STANDARD AREA ADDITION REPORT - 2026</p>
         
-        <div class="print-header-block">
-            <div style="display: flex; justify-content: center; align-items: center; gap: 10px; margin-bottom: 5px;">
-                <img src="favicon.png" alt="SST" style="width: 30px; height: 30px;">
-                <h2 style="font-size: 22px; color: #1b5e20; margin: 0; font-weight: 900; letter-spacing: 1px;">SHAYAN SMART TOOLS</h2>
+        <div style="background: #f8fafc; border: 1px solid #cbd5e1; padding: 12px; border-radius: 6px; display: grid; grid-template-columns: 1fr 1fr; font-size: 12px; text-align: left; gap: 8px; color: #334155;">
+            <div><strong>DOCUMENT REF:</strong> <span id="pDocRef" style="color:#0f4c81; font-weight:bold;">SST-TN-ADD-0000</span></div>
+            <div style="text-align: right;"><strong>DATE:</strong> <span id="pDocDate" style="color:#0f4c81; font-weight:bold;">--/--/----</span></div>
+            <div><strong>JURISDICTION:</strong> State of Tamil Nadu (தமிழ்நாடு)</div>
+            <div><strong>ENGINE LOGIC:</strong> 100-Cent Matrix & Ground-SqFt Standard Engine</div>
+        </div>
+    </div>
+
+    <div class="print-only-section">
+        <h4 style="color:#0f4c81; margin: 15px 0 5px 0; font-size: 14px; text-transform: uppercase; border-bottom: 1px solid #cbd5e1; padding-bottom: 4px;" id="printInputsTitle">Entered Plot Dimensions (பதிவு செய்யப்பட்ட நில விவரங்கள்)</h4>
+        <table class="print-table">
+            <thead>
+                <tr>
+                    <th id="thPlotNo">Plot No / எண்.</th>
+                    <th id="thAcre">Acre / ஏக்கர்</th>
+                    <th id="thCent">Cent / சென்ட்</th>
+                </tr>
+            </thead>
+            <tbody id="print-plots-summary"></tbody>
+        </table>
+    </div>
+
+    <h3 id="resHead">Moththa Nilapparabhu / மொத்த பரப்பளவு (Total Combined Area)</h3>
+    
+    <div class="result-grid">
+        <div class="res-item" id="print-input-row" style="display:none;"><span id="lblCombinedInput">Initial Combined Input:</span> <b id="rInputVal">0 Combined Plots Computed</b></div>
+        <div class="res-item"><span id="lblResAcre">Acre (ஏக்கர்)</span><b id="ra">0 Acre</b></div>
+        <div class="res-item"><span id="lblResCent">Cent (சென்ட்)</span><b id="rc">0 Cent</b></div>
+        <div class="res-item"><span id="lblResGround">Equivalent Ground (கிரவுண்ட்)</span><b id="rground">0 Ground</b></div>
+        <div class="res-item"><span id="lblResSqft">Total Square Feet</span><b id="rsq">0 sq ft</b></div>
+        <div class="res-item"><span id="lblResSqm">Total Square Meter</span><b id="rsqm">0 sq m</b></div>
+    </div>
+
+    <div class="print-footer-block">
+        <div class="print-footer-container">
+            <div class="print-footer-left">
+                <p style="margin: 0; font-weight: bold; color: #0f4c81; text-transform: uppercase; font-size: 11px;">🔒 SECURITY DISCLAIMER & STATUTORY RECORDS NOTICE</p>
+                <p style="margin: 6px 0 0 0; font-size: 10px; color: #475569; line-height: 1.5;">This mathematical calculation is processed according to Tamil Nadu Revenue Department conventions (1 Acre = 100 Cents, 1 Cent = 435.6 Sq.Ft., 1 Ground = 2400 Sq.Ft.). Cross-verify computations with certified land surveyors or the Tamil Nilam portal before implementing legal mutations, documentation, or sales deed transactions.</p>
+                <p style="margin: 12px 0 0 0; font-size: 11px; font-weight: bold; color: #0f4c81;">🌐 OFFICIAL PORTAL: www.shayansmarttools.in</p>
             </div>
-            <p style="font-size: 11px; color: var(--tn-dark); font-weight: bold; margin: 0 0 10px 0; letter-spacing: 0.5px; text-transform: uppercase;">TAMIL NADU REVENUE MULTI-PLOT TOTALING SUMMARY EXAM LOG - 2026</p>
-            
-            <div style="background: #f8fafc; border: 1px solid #cbd5e1; padding: 10px; border-radius: 4px; display: grid; grid-template-columns: 1fr 1fr; font-size: 11px; text-align: left; gap: 5px; color: #334155;">
-                <div><strong>DOCUMENT REF:</strong> <span id="pDocRef" style="color:#1b5e20; font-weight:bold;">SST-TN-ADD-0000</span></div>
-                <div style="text-align: right;"><strong>DATE:</strong> <span id="pDocDate" style="color:#1b5e20; font-weight:bold;">--/--/----</span></div>
-                <div><strong>JURISDICTION:</strong> Land Administration of Tamil Nadu (தமிழ்நாடு)</div>
-                <div style="text-align: right;"><strong>STATUS:</strong> Patwari Scales Securely Checked</div>
-            </div>
-        </div>
-
-        <div class="bkl-special" style="background: rgba(255,255,255,0.05); padding: 20px; border-radius: 15px; text-align: center; margin-bottom: 20px; border: 1px dashed var(--tn-green);">
-            <span id="fmtText" style="display:block; font-size: 14px; color: #94a3b8; font-weight: bold; margin-bottom: 5px;">Tamil Nadu Output Summary Format (மனையடி-சென்ட்):</span>
-            <strong id="pb_main" style="font-size: 24px; color: #81c784;">0 Grounds, 0 Cents</strong>
-        </div>
-
-        <h3 id="resTitle">Total Land Result (கூட்டல் முடிவு விவரம்):</h3>
-        <div class="res-display">
-            <div class="res-item"><span id="uGround">Grounds</span><b id="outGround">0</b></div>
-            <div class="res-item"><span id="uCent">Cents</span><b id="outCent">0</b></div>
-        </div>
-        
-        <div class="extra-res-box">
-            <p><span id="lblPrintSq">Total Square Feet Matrix:</span><b id="outSq">0</b></p>
-            <p><span id="lblPrintSqm">Total Square Meters Matrix:</span><b id="outSqm">0</b></p>
-            <p><span id="lblPrintAcre">Equivalent Acre Allocation Size:</span><b id="outAcre">0</b></p>
-            <p><span id="lblPrintHec">Estimated Total Hectare (Hec):</span><b id="outHec">0</b></p>
-        </div>
-
-        <div class="print-footer-block">
-            <div style="margin: 0 auto; max-width: 85%; font-size: 11px; color: #475569; line-height: 1.6; text-align: center;">
-                <p style="margin: 0; font-weight: bold; color: #1b5e20; text-transform: uppercase; font-size: 12px;">🔒 SECURITY DISCLAIMER & REVENUE COMPLIANCE NOTICE</p>
-                <p style="margin: 6px 0 0 0;">This calculation mapping summary handles spatial dimensions using official parameters (1 Ground = 2,400 Sq.Ft, 1 Cent = 435.6 Sq.Ft). For official property deed submissions, Patta updates, or legal mutations, cross-verify layout metrics with your local Village Administrative Officer (VAO) or any district sub-registrar registry copy.</p>
-                
-                <div style="display: inline-block; border: 1px dashed #1b5e20; padding: 6px 20px; border-radius: 4px; margin-top: 15px; margin-bottom: 12px; background: #f8fafc; font-size: 10px; font-weight: bold; color: #1b5e20; text-transform: uppercase; letter-spacing: 0.5px;">
-                    SHAYAN SMART TOOLS [SST SEAL] - OFFICIAL TAMIL NILAM GRID REGULATION
+            <div class="print-footer-right">
+                <div style="inline-block; text-align: center;">
+                    <img src="seal.png" alt="SST Official Stamp" style="width: 110px; height: auto; display: block; margin: 0 auto 5px auto;">
+                    <div style="font-size: 11px; font-weight: bold; color: #1e293b; border-top: 1px solid #cbd5e1; padding-top: 4px; width: 140px; margin-top: 8px;">Authorised Signature</div>
                 </div>
-                <p style="margin: 5px 0 0 0; font-size: 12px; font-weight: bold; color: #1b5e20;">🌐 SST OFFICIAL ACCESS: www.shayansmarttools.in</p>
             </div>
         </div>
-
-        <div class="util-btns">
-            <button class="u-btn" onclick="copyResult()" style="background:#475569;" id="btnCopy">📋 Copy Details</button>
-            <button class="u-btn" onclick="shareWhatsApp()" style="background:#22c55e;" id="btnShare">📲 WhatsApp Share</button>
-            <button class="u-btn" onclick="printLandReport()" style="background:#2b7cff;" id="btnPrint">🖨️ Print Report</button>
-        </div>
     </div>
 
-    <div class="back-btn" style="text-align: center; margin-top: 20px;">
-        <a href="index.html" style="color: var(--tn-green); font-weight: bold; text-decoration: none;" id="lnkBack">⬅ Back to All Tools</a>
+    <div class="util-btns">
+        <button class="u-btn" style="background:#475569;" id="btnCopy" onclick="copyData()">📋 Copy Results</button>
+        <button class="u-btn" style="background:#22c55e;" id="btnWA" onclick="shareWA()">📲 WhatsApp</button>
+        <button class="u-btn" style="background:#0f4c81;" id="btnPrint" onclick="printLandReport()">🖨️ Print Report</button>
+    </div>
+</div>
+
+<div class="back-btn" style="text-align:center; margin-top: 20px;"><a href="index.html" id="lnkBack" style="color:var(--tn-blue); font-weight:bold; text-decoration:none;">⬅ Back to All Tools Dashboard</a></div>
+
+<article id="content-en" class="seo-article lang-section active-lang">
+    <div class="seo-header-block">
+        <h2>Tamilnadu Land Area Addition: Highly Accurate Acre-Cent Sum Engine</h2>
+        <p>Calculate, combine, and aggregate multiple agricultural, commercial, or residential plots using official Tamil Nadu land department equations with automatic base-100 overflow carry logic.</p>
     </div>
 
-    <article class="seo-section">
-        <div class="seo-header-block">
-            <h2 id="introH2" style="border:none; padding:0; text-align:center; font-size:2.3rem !important;">Tamil Nadu Land Area Addition: Grounds and Cents ka Total Jod Kaise Karein?</h2>
-            <p style="font-size: 17px; color: #555; text-align: center; margin: 5px 0 0 0;" id="seoSubTitle">Patta Chitta land registry norms aur Tamil Nilam portal parameters ke anusaar multiple scattered plots ka total calculation manual guide.</p>
-        </div>
+    <section>
+        <h3>1. Powerful Introduction to Tamil Nadu Land Measurement System</h3>
+        <p>Managing agricultural layout subdivisions, urban land sales, or ancestral layouts in Tamil Nadu requires total conformance with state land metrics. The official state land administration department, operating via the <b>Tamil Nilam (தமிழ்நிலம்)</b> electronic portal, records land ownership strictly in <b>Acres and Cents</b> for large areas, and <b>Square Feet or Grounds</b> for high-value urban properties across Chennai, Coimbatore, Madurai, Trichy, and Salem divisions.</p>
+        <p>When legal practitioners, real estate developers, or private land buyers attempt to aggregate physical property units scattered across different <b>Survey Numbers or Sub-division Numbers</b>, normal digital calculators produce mathematical errors. This occurs because regular systems use standard base-10 arithmetic, whereas land math works via custom multi-unit parameters. Our smart <b>Tamilnadu Land Area Addition Tool</b> resolves this mathematical challenge instantly. It automatically computes structural overruns, handles fractional cent values properly, and generates an integrated breakdown across Acre, Cent, Ground, Square Feet, and Square Meter metrics based on modern revenue standards.</p>
+    </section>
 
-        <section>
-            <p>
-                Tamil Nadu state mein land administration ka system baki Indian states se bilkul alag hai. Yahan Chennai ho ya Coimbatore, Madurai ho ya Trichy, state revenue authorities (Patta Chitta registration portals) par data mukhya roop se metric measurements (Hectares aur Ares) mein save hota hai. Lekin ground level deal layouts, rural agriculture spaces, aur local property registration documents mein hamesha traditional systems mukhya roop se <b>Grounds aur Cents</b> ka prayog kiya jata hai. Parivarik asset divisions, bank structural financing evaluations, ya highway patches pooling ke dauran jab ek hi owner ke alag-alag scattered khasra boundaries ya surveyed fields records ko ek sath jodhna hota hai, tab values fractional units hone ki wajah se manual calculations mein errors aane ka risk sabse zyada chalta hai, jiski wajah se registration operations aur patta change mutation procedures tehsil offices mein pending ho jaati hain.
-            </p>
-            <p>
-                Is calculation load aur documentation structural loop boundaries issue ko handle karne ke liye Shayan Smart Tools ne is advanced <b>Tamil Nadu Land Area Addition Calculator</b> ko completely dynamic mathematical array blocks par code kiya hai. Yeh tool bina browser response block kiye limitless user entries ko instantly safe values mein total process kar deta hai. Is framework logic mein standard metrics ke anusaar sateek **1 Ground = 2,400 Square Feet** ($2400\text{ Sq.Ft}$) aur **1 Cent = 435.6 Square Feet** spatial footprint dimensions coordinate execute hote hain. Jab aap multiple rows add karke value inputs inject karte hain, toh software background variables mapping run karke automatic equivalent square values compile kar deta hai aur grand breakdown summary rendering card display holds rests kar deta hai.
-            </p>
-        </section>
+    <section>
+        <h3>2. How to Use the Tamilnadu Land Addition Calculator</h3>
+        <p>Our layout simplifies the complex process of totaling multi-plot dimensions. Follow these specific instructions:</p>
+        <ol>
+            <li><b>Input Plot Values:</b> In the pre-configured data fields, enter the exact <b>Acre</b> and <b>Cent</b> metrics for your initial property fragments. If a particular plot profile has only cent attributes, you can safely leave the Acre box empty or input a numerical zero.</li>
+            <li><b>Inject Additional Rows:</b> If you have multiple survey pieces to total, click the <b>"+ Add More Plot"</b> button. This adds a new input row dynamically. There is no structural cap on the number of fields you can combine.</li>
+            <li><b>Execute Mathematical Process:</b> Click on <b>"Calculate Total Area"</b>. The algorithm aggregates all plot values, processes cent overruns using base-100 conversion parameters, and updates the results dashboard.</li>
+            <li><b>Export & Transmit:</b> Use the functional shortcut tabs to instantly <b>Copy Results</b> to your clipboard, generate a print layout report with <b>Print Report</b>, or forward calculation summaries instantly using <b>WhatsApp</b>.</li>
+        </ol>
+    </section>
 
-        <h2>Is Jod Calculator Ko Use Kaise Karein? (Step-by-Step User Manual)</h2>
-        <p>Is transparent layout architecture framework par apna calculations ledger execution finish karna behad asan hai, bas niche diye gaye instructional flow check karein:</p>
-        <ul style="padding-left: 20px;">
-            <li><b>Step 1:</b> Sabse pehle user entry input slots blocks data matrix par ja kar apne pehle patta plot (Plot Details #1) ka dynamic Grounds aur Cents data enter karein.</li>
-            <li><b>Step 2:</b> Uske thik niche diye gaye space details layout section mein apne dusre patch ya survey grid limits ka numerical data fill up karein.</li>
-            <li><b>Step 3:</b> Agar aapke holding ledger records mein 2 se zyada segments hain, toh bina kisi crash error risk ke <b>"+ Add More Plot"</b> structural processing button ko click karke multiple input columns rows runtime push kar lijiye.</li>
-            <li><b>Step 4:</b> Data cross-verify karke direct **"Calculate Total Area"** action operational key use karein. Verified Left-aligned system document result invoice instant visible scale scrolls up ho jayegi.</li>
+    <section>
+        <h3>3. Real-World Practical Example (Base-100 Carry Arithmetic)</h3>
+        <p>Let's examine how the underlying software framework handles land addition formulas. Suppose you are executing a combined layout compilation for property registration at a Sub-Registrar Office (SRO) in Tamil Nadu, requiring you to combine two land survey profiles:</p>
+        <ul>
+            <li><b>Survey Parcel 1:</b> 1 Acre and 78 Cents</li>
+            <li><b>Survey Parcel 2:</b> 2 Acres and 45 Cents</li>
         </ul>
+        <p><b>Step-by-Step Processing Framework:</b></p>
+        <ol>
+            <li><b>Sum the Cent Columns:</b> 78 Cents + 45 Cents = 123 Cents.</li>
+            <li><b>Trigger Base-100 Carry Forward:</b> Because 123 Cents is greater than the state parameter of 100 Cents per Acre, the logic performs a conversion: <code>123 - 100 = 23 Cents</code>. The remaining 23 Cents stay in the cent column, and 1 integer Acre carries over to the primary Acre stack.</li>
+            <li><b>Sum the Acre Columns:</b> 1 Acre + 2 Acres + 1 Acre (Carried Over from Cent calculation) = 4 Acres.</li>
+            <li><b>Final Compiled Output:</b> The system outputs exactly <b>4 Acres and 23 Cents</b>. It then automatically maps this value into urban units like 76.77 Grounds, 1,84,302.8 Square Feet, or 17,122.31 Square Meters.</li>
+        </ol>
+    </section>
 
-        <h2>Tamil Nadu Traditional Land Measurements Table Matrix</h2>
-        <div style="overflow-x: auto;">
-            <table>
-                <thead>
-                    <tr><th>Official Local Unit Name</th><th>Tamil Nadu Conversion Scale Parameters Breakdown</th><th>Approx Square Feet (Sq Ft)</th><th>Approx Square Meters (Sq M)</th></tr>
-                </thead>
-                <tbody>
-                    <tr><td><b>1 Ground (மனையடி)</b></td><td>Standard Urban/Suburban Plot Metric Layer</td><td>2,400 Sq Ft</td><td>222.96 Sq M</td></tr>
-                    <tr><td><b>1 Cent (சென்ட்)</b></td><td>Standard Agriculture/Scattered Patch Element</td><td>435.6 Sq Ft</td><td>40.46 Sq M</td></tr>
-                    <tr><td><b>1 Acre</b></td><td>100 Cents Dynamic Alignment Scale Block</td><td>43,560 Sq Ft</td><td>4,046.86 Sq M</td></tr>
-                    <tr><td><b>1 Hectare (Sarkari Registry)</b></td><td>Metric System State Structural Standalone Base</td><td>1,07,639.10 Sq Ft</td><td>10,000 Sq M</td></tr>
-                </tbody>
-            </table>
-        </div>
+    <section>
+        <h3>4. Deep-Dive into Tamil Nadu Land Laws and Valuation Systems</h3>
+        <p>Land transactions across Tamil Nadu are legally guided by structural regulations like the <b>Tamil Nadu Patta Pass Book Act, 1983</b> and the guidelines of the Registration Department. Properties must be carefully tracked using <b>Patta, Chitta, and Adangal</b> extracts. Because land registration fees and guideline values are assessed per square foot or per cent, entering incorrect combined dimensions into a sale deed can delay property mutation processes at the Taluk office.</p>
+        <p>Furthermore, urban and suburban markets use different metrics. While rural fields use the standard Acre-Cent system, residential layouts use the <b>Ground</b> unit (where 1 Ground equals exactly 2,400 Square Feet). Our calculator resolves these differences by automatically linking rural and urban land parameters into a unified dashboard, ensuring your documentation matches official registration files perfectly.</p>
+    </section>
 
-        <h2>8 Crucial Frequently Asked Questions (FAQs) - தமிழ்நாடு நில அளவீடு கூட்டல்</h2>
-        <div style="border-bottom: 1px solid #e2e8f0; padding-bottom: 15px; margin-bottom: 15px;">
-            <h4 style="margin-bottom: 8px; color:var(--tn-green);">Q1. Tamil Nadu revenue system mein 1 Ground mein kitne square feet hote hain?</h4>
-            <p style="margin:0;">Ans: Tamil Nadu land administration standards ke anusaar, 1 standard local Ground segment footprint strictly **2,400 Square Feet** footprint area maps hold karta hai.</p>
-        </div>
-        <div style="border-bottom: 1px solid #e2e8f0; padding-bottom: 15px; margin-bottom: 15px;">
-            <h4>Q2. 1 Cent layout block ka square formatting values kya hai?</h4>
-            <p style="margin:0;">Ans: Properties mutation rules scale sheets ke mutabik, TN registers records mein 1 local individual Cent boundary area sateek **435.6 Square Feet** measure design rests karta hai.</p>
-        </div>
-        <div style="border-bottom: 1px solid #e2e8f0; padding-bottom: 15px; margin-bottom: 15px;">
-            <h4>Q3. Kya yeh tool dynamic text switches karne par browser functions block to crash karega?</h4>
-            <p style="margin:0;">Ans: Bilkul nahi! Is calculation suite engineering codes ko inner nodes structural validation metrics logic system design kiya hai. Language change karne par variables background context clean execute hotey hain, calculator hamesha live chalega.</p>
-        </div>
-        <div style="border-bottom: 1px solid #e2e8f0; padding-bottom: 15px; margin-bottom: 15px;">
-            <h4>Q4. 1 Acre area boundaries data parameters mein kitne traditional Cents set hote hain?</h4>
-            <p style="margin:0;">Ans: Land measuring geometry laws standard metrics alignment rules mapping charts ke mutabik 1 standalone full Acre spatial canvas strictly **100 Cents** elements space block allocation ke barabar chalta hai.</p>
-        </div>
-        <div style="border-bottom: 1px solid #e2e8f0; padding-bottom: 15px; margin-bottom: 15px;">
-            <h4>Q5. Patta Chitta computer sheet records ke Hectares data layers ko isme kaise add up karein?</h4>
-            <p style="margin:0;">Ans: Agar Patta documents par metric elements (Hectare-Are) darj hain, toh side menu panel list par available *TN Metric to Cents converter* tool parameters utilize karke values match badal lein, fir is tool mein entry direct append up kar sakte hain.</p>
-        </div>
-        <div style="border-bottom: 1px solid #e2e8f0; padding-bottom: 15px; margin-bottom: 15px;">
-            <h4>Q6. Print dynamic invoices summaries output format blocks clean left-aligned aayenge?</h4>
-            <p style="margin:0;">Ans: Ji haan, hamare specialized print engine configurations reporting layouts layers structures invoice layouts blocks variables data lists templates ko automatic realign kar dete hain, jisse absolute sheet reporting left-aligned secure print save aati hai.</p>
-        </div>
-        <div style="border-bottom: 1px solid #e2e8f0; padding-bottom: 15px; margin-bottom: 15px;">
-            <h4>Q7. 1 standard Ground model aur Cent parameters metrics relation mapping format kya hai?</h4>
-            <p style="margin:0;">Ans: Core engineering dimensions analysis conversion rule base ratio indicators mathematics ke mutabik, 1 traditional complete Ground structure model exactly **5.5096 Cents** agriculture element properties scale metrics ke equal rests hota hai ($2400 / 435.6$).</p>
-        </div>
-        <div style="padding-bottom: 15px;">
-            <h4>Q8. Is dynamic simultaneous multi-plot land addition software setup compiler system ko kisne program aur develop kiya?</h4>
-            <p style="margin:0;">Ans: Is multi-plot parsing entry software architecture script page setup coding modules execution core blocks logic ko Shayan Smart Tools portal networks par **Muksidul Islam** ne absolute parameters browser-safe scripts ke sath natively line execute kiya hai.</p>
-        </div>
+    <h3>5. Comprehensive Conversion Reference Matrix Table</h3>
+    <table>
+        <thead>
+            <tr>
+                <th>Land Unit Type</th>
+                <th>Revenue Mapping & Mathematical Relations</th>
+                <th>Equivalent (Sq. Feet)</th>
+                <th>Equivalent (Sq. Meters)</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr><td><b>1 Acre (ஏக்கர்)</b></td><td>100 Cents / 43.56 Grounds (Standard Revenue Mapping)</td><td>43,560 Sq Ft</td><td>4,046.85 Sq M</td></tr>
+            <tr><td><b>1 Cent (சென்ட்)</b></td><td>1/100th fraction of an Acre / 435.6 Square Feet</td><td>435.6 Sq Ft</td><td>40.46 Sq M</td></tr>
+            <tr><td><b>1 Ground (கிரவுண்ட்)</b></td><td>Traditional urban plot standard / 2,400 Square Feet</td><td>2,400 Sq Ft</td><td>222.96 Sq M</td></tr>
+            <tr><td><b>1 Standard Plot</b></td><td>Generally referenced as 1 Ground in residential layouts</td><td>2,400 Sq Ft</td><td>222.96 Sq M</td></tr>
+            <tr><td><b>1 Cent to Ground</b></td><td>1 Cent is equivalent to approx 0.1815 Ground units</td><td>435.6 Sq Ft</td><td>40.46 Sq M</td></tr>
+        </tbody>
+    </table>
 
-        <h3 id="lblDashTitle">Quick Access Other Tools</h3>
-        <div class="links-grid">
-            <a href="index.html" class="link-card" id="dshHome">Main Dashboard</a>
-            <a href="punjab-land-area-addition.html" class="link-card" id="dshPb">Punjab Land Addition</a>
-            <a href="rajasthan-land-area-addition.html" class="link-card" id="dshRj">Rajasthan Land Addition</a>
-            <a href="haryana-land-area-addition.html" class="link-card" id="dshHr">Haryana Land Addition</a>
-        </div>
+    <h3>6. 15 Frequently Asked Questions (Top Google Search Queries)</h3>
+    <div id="faq-container-en">
+        <div class="faq-block"><p><b>Q1. How many Cents equal exactly 1 Acre in Tamilnadu?</b><br>Ans: According to official Tamil Nadu land revenue parameters, exactly 100 Cents make up 1 Acre.</p></div>
+        <div class="faq-block"><p><b>Q2. What is the square feet measurement of 1 Ground in Tamilnadu?</b><br>Ans: In Tamil Nadu, especially across urban property layouts, 1 Ground is equal to exactly 2,400 Square Feet.</p>
+</div>
+        <div class="faq-block"><p><b>Q3. How many Grounds are there in 1 Acre of land?</b><br>Ans: 1 Acre contains approximately 18.15 Grounds based on standard mathematical conversions (43,560 divided by 2,400).</p></div>
+        <div class="faq-block"><p><b>Q4. What is the exact square feet value of 1 Cent?</b><br>Ans: 1 standard Cent is equal to exactly 435.6 Square Feet.</p></div>
+        <div class="faq-block"><p><b>Q5. Is this land addition tool directly linked with Tamil Nilam?</b><br>Ans: No, this is an independent calculation engine created by Shayan Smart Tools based on official Tamil Nadu land revenue conversion standards.</p></div>
+        <div class="faq-block"><p><b>Q6. Why do regular smartphone calculators show wrong values for land addition?</b><br>Ans: Regular calculators use base-10 metrics. They cannot process land revenue constraints where 99 Cents + 2 Cents equals 1 Acre and 1 Cent instead of 1.01 Acres.</p></div>
+        <div class="faq-block"><p><b>Q7. How many square meters equal one Cent in Tamilnadu?</b><br>Ans: One Cent is equal to approximately 40.46 Square Meters.</p></div>
+        <div class="faq-block"><p><b>Q8. How many Cents make up 1 Ground?</b><br>Ans: 1 Ground (2,400 Sq.Ft.) is equal to approximately 5.51 Cents of land area.</p></div>
+        <div class="faq-block"><p><b>Q9. Can I total land records without entering Acre values?</b><br>Ans: Yes, you can leave the Acre field blank or enter zero and input values only into the Cent field; the engine will adjust automatically.</p></div>
+        <div class="faq-block"><p><b>Q10. What documents verify land ownership metrics in Tamilnadu?</b><br>Ans: Land metrics are verified through Patta, Chitta, and Adangal extracts sourced from the Tamil Nilam portal.</p></div>
+        <div class="faq-block"><p><b>Q11. What is the relation between Acre and Ground in Chennai real estate?</b><br>Ans: Chennai property developments list 1 Acre as equivalent to 18.15 standard Grounds for guideline valuation.</p></div>
+        <div class="faq-block"><p><b>Q12. How does this calculator determine total square feet?</b><br>Ans: The engine converts all inputs into total cents and multiplies the absolute total by 435.6.</p></div>
+        <div class="faq-block"><p><b>Q13. Can this calculation printout be used as a legal land deed document?</b><br>Ans: No, this printout is a mathematical reference ledger. For official registration work, always cross-verify your metrics with a certified surveyor or your local Tahsildar office.</p></div>
+        <div class="faq-block"><p><b>Q14. What does "Moththa Nilapparabhu" signify on this site?</b><br>Ans: "Moththa Nilapparabhu" is the formal Tamil translation for total combined area or grand total land volume.</p></div>
+        <div class="faq-block"><p><b>Q15. Does the calculator handle fractional land points?</b><br>Ans: Yes, the system processes fractional decimal values for both cents and acres accurately.</p></div>
+    </div>
+</article>
 
-        <div style="margin-top: 40px; padding:25px; border: 2px dashed #ffb300; background: #ffffff; border-radius: 12px; font-size:13px;">
-            <p style="margin:0; text-align: center;"><b>Copyright Notice Notice:</b> Shayan Smart Tools © 2026. All Rights Reserved. Indian Copyright Act, 1957 compliance standard modules logic setups tracking loops automatic protection scripts secured.</p>
-        </div>
-    </article>
+<article id="content-ta" class="seo-article lang-section">
+    <div class="seo-header-block">
+        <h2>தமிழ்நாடு நிலப்பரப்பு கூட்டல்: துல்லியமான ஏக்டர்-சென்ட் கால்குலேட்டர்</h2>
+        <p>தமிழ்நாடு தமிழ்நிலம் (Tamil Nilam) வருவாய்த்துறை விதிமுறைகளின்படி, பல நில அளவைகளை துல்லியமாக கூட்ட உதவும் மேம்பட்ட கணித கால்குலேட்டர்.</p>
+    </div>
+
+    <section>
+        <h3>1. தமிழ்நாட்டு நில அளவை முறை பற்றிய அறிமுகம்</h3>
+        <p>தமிழ்நாட்டில் விவசாய நிலங்கள், வீட்டுமனைகள் அல்லது வணிக வளாகங்களை வாங்கும்போதும் விற்கும்போதும் நிலத்தின் பரப்பளவை துல்லியமாக கணக்கிடுவது மிக முக்கியம். தமிழக அரசின் அதிகாரப்பூர்வ <b>தமிழ்நிலம் (Tamil Nilam)</b> போர்ட்டலில் கிராமப்புற நிலங்கள் <b>ஏக்கர் மற்றும் சென்ட்</b> என்றும், சென்னை, கோவை, மதுரை போன்ற நகர்ப்புறங்களில் <b>சதுர அடி மற்றும் கிரவுண்ட் (Ground)</b> என்றும் பதிவுகள் பராமரிக்கப்படுகின்றன.</p>
+        <p>வெவ்வேறு பட்டா அல்லது சர்வே எண்களைக் கொண்ட நிலங்களை ஒன்றாகக் கூட்டும் போது, சாதாரண மொபைல் கால்குலேட்டர்கள் தவறான முடிவுகளைக் கொடுக்கும். ஏனெனில் நில அளவை என்பது 100-சென்ட் என்ற விதியின் அடிப்படையில் இயங்குகிறது. Shayan Smart Tools இன் இந்த கால்குலேட்டர் இப்பிரச்சினையை தீர்த்து, துல்லியமான கணக்கீட்டை ஏக்கர், சென்ட், கிரவுண்ட், சதுர அடி மற்றும் சதுர மீட்டரில் நொடியில் வழங்குகிறது. இது நில அளவையாளர்கள், வழக்கறிஞர்கள் மற்றும் பொதுமக்கள் பயன்படுத்த ஏற்றவாறு வடிவமைக்கப்பட்டுள்ளது.</p>
+    </section>
+
+    <section>
+        <h3>2. இந்த நிலப்பரப்பு கால்குலேட்டரை எவ்வாறு பயன்படுத்துவது?</h3>
+        <p>நிலங்களை ஒன்றாக கூட்டுவது மிகவும் எளிது, பின்வரும் வழிமுறைகளைப் பின்பற்றுங்கள்:</p>
+        <ol>
+            <li><b>நில விவரங்களை உள்ளிடவும்:</b> முதல் மற்றும் இரண்டாம் நிலத்தின் <b>ஏக்கர்</b> மற்றும் <b>சென்ட்</b> அளவுகளை உள்ளிடுங்கள். நிலம் சென்ட் அளவில் மட்டும் இருந்தால் ஏக்கர் பகுதியில் 0 என குறிப்பிடலாம்.</li>
+            <li><b>கூடுதல் நிலங்களை சேர்க்க:</b> உங்களிடம் இரண்டிற்கும் மேற்பட்ட சர்வே எண்கள் இருந்தால், <b>"+ Add More Plot"</b> பொத்தானை அழுத்தி புதிய உள்ளீட்டு பெட்டிகளைத் திறந்து கொள்ளலாம்.</li>
+            <li><b>கணக்கிட:</b> அனைத்து விவரங்களையும் உள்ளிட்ட பிறகு <b>"Calculate Total Area"</b> பொத்தானைக் கிளிக் செய்தால், பேஸ்-100 விதியின்படி கணக்கிடப்பட்ட மொத்த பரப்பளவு உடனடியாகத் தோன்றும்.</li>
+            <li><b>பகிர மற்றும் சேமிக்க:</b> <b>Copy Results</b>, <b>Print Report</b> அல்லது <b>WhatsApp</b> பொத்தான்களைப் பயன்படுத்தி முடிவுகளை எளிதாகப் பகிரலாம் அல்லது பிடிஎஃப் ஆக பதிவிறக்கலாம்.</li>
+        </ol>
+    </section>
+
+    <section>
+        <h3>3. நேரடி கணக்கீடு உதாரணம் (Base-100 கேரி விதி)</h3>
+        <p>இந்த மென்பொருள் பின்னணியில் எவ்வாறு கணக்கிடுகிறது என்பதை ஒரு எளிய உதாரணம் மூலம் புரிந்து கொள்ளலாம். உங்களிடம் பத்திரப்பதிவுக்காக இரண்டு வெவ்வேறு சர்வே எண்கள் கொண்ட நிலங்கள் உள்ளன என வைப்போம்:</p>
+        <ul>
+            <li><b>நிலப் பகுதி 1:</b> 1 ஏக்கர் மற்றும் 78 சென்ட்</li>
+            <li><b>நிலப் பகுதி 2:</b> 2 ஏக்கர் மற்றும் 45 சென்ட்</li>
+        </ul>
+        <p><b>படிப் படியான கூட்டல் முறை:</b></p>
+        <ol>
+            <li><b>சென்ட்களை கூட்டுக:</b> 78 + 45 = 123 சென்ட்.</li>
+            <li><b>ஏக்கர் மாற்றம்:</b> நில வருவாய் விதியின்படி 100 சென்ட் என்பது 1 ஏக்கர் ஆகும். எனவே, <code>123 - 100 = 23 சென்ட்</code> மீதமிருக்கும், 1 ஏக்கர் முதன்மை ஏக்கர் மதிப்புடன் கூட்டப்படும்.</li>
+            <li><b>ஏக்கர்களை கூட்டுக:</b> 1 ஏக்கர் + 2 ஏக்கர் + 1 ஏக்கர் (சென்ட் கூட்டலில் இருந்து கிடைத்தது) = 4 ஏக்கர்.</li>
+            <li><b>இறுதி முடிவு:</b> உங்களது மொத்த நிலப்பரப்பு <b>4 ஏக்கர் 23 சென்ட்</b> ஆகும். இதனை நமது கால்குலேட்டர் 76.77 கிரவுண்ட் அல்லது 1,84,302.8 சதுர அடி என மாற்றித் தரும்.</li>
+        </ol>
+    </section>
+
+    <section>
+        <h3>4. தமிழ்நாடு நில சட்டங்கள் மற்றும் வழிகாட்டி மதிப்பு பகுப்பாய்வு</h3>
+        <p>தமிழ்நாட்டில் நிலப் பரிமாற்றங்கள் <b>தமிழ்நாடு பட்டா பாஸ் புக் சட்டம், 1983</b> இன் படி கட்டுப்படுத்தப்படுகின்றன. நிலத்தின் துல்லியமான பரப்பளவு <b>பட்டா, சிட்டா மற்றும் அடங்கல்</b> ஆவணங்களுடன் ஒத்துப்போக வேண்டும். பத்திரப்பதிவின் போது பரப்பளவில் ஒரு சென்ட் தவறாக இருந்தாலும், வட்டாட்சியர் (Tahsildar) அலுவலகத்தில் பட்டா மாறுதல் (Patta Mutation) செய்யும்போது விண்ணப்பம் நிராகரிக்கப்பட வாய்ப்புள்ளது.</p>
+        <p>நகர்ப்புறங்களில் 1 கிரவுண்ட் என்பது 2,400 சதுர அடிகளாக வரையறுக்கப்பட்டுள்ளது. மனைப் பிரிவுகள் (Layouts) அமைக்கும் போது இந்த அளவீடு முக்கிய பங்கு வகிக்கிறது. எங்களது கால்குலேட்டர் கிராமப்புற மற்றும் நகர்ப்புற நில அளவீடுகளை ஒருங்கிணைத்து துல்லியமான முடிவை வழங்குவதால், ஆவணப் பணிகளில் தவறுகள் ஏற்படுவது முற்றிலும் தவிர்க்கப்படுகிறது.</p>
+    </section>
+
+    <h3>5. தமிழ்நாடு நில அளவீட்டு மாற்று அட்டவணை</h3>
+    <table>
+        <thead>
+            <tr>
+                <th>நில அலகின் வகை</th>
+                <th>வருவாய் மேப்பிங் மற்றும் கணிதத் தொடர்பு</th>
+                <th>சதுர அடி (Sq. Feet)</th>
+                <th>சதுர மீட்டர் (Sq. Meters)</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr><td><b>1 ஏக்கர் (Acre)</b></td><td>100 சென்ட் / 43.56 கிரவுண்ட்</td><td>43,560 ச. அடி</td><td>4,046.85 ச. மீ.</td></tr>
+            <tr><td><b>1 சென்ட் (Cent)</b></td><td>ஏக்கரின் 1/100 பகுதி / 435.6 சதுர அடி</td><td>435.6 ச. அடி</td><td>40.46 ச. மீ.</td></tr>
+            <tr><td><b>1 கிரவுண்ட் (Ground)</b></td><td>நகர்ப்புற மனை அளவு / 2,400 சதுர அடி</td><td>2,400 ச. அடி</td><td>222.96 ச. மீ.</td></tr>
+            <tr><td><b>1 சதுர அடி</b></td><td>நில அளவையின் அடிப்படை அலகு</td><td>1 ச. அடி</td><td>0.0929 ச. மீ.</td></tr>
+            <tr><td><b>1 சென்ட் - கிரவுண்ட் மதிப்பு</b></td><td>1 சென்ட் என்பது தோராயமாக 0.1815 கிரவுண்ட்</td><td>435.6 ச. அடி</td><td>40.46 ச. மீ.</td></tr>
+        </tbody>
+    </table>
+
+    <h3>6. அடிக்கடி கேட்கப்படும் கேள்விகள் (FAQs)</h3>
+    <div id="faq-container-ta">
+        <div class="faq-block"><p><b>கேள்வி 1. தமிழ்நாட்டில் 1 ஏக்கருக்கு எத்தனை சென்ட்?</b><br>பதில்: தமிழ்நாட்டின் நில வருவாய் விதிகளின்படி, 1 ஏக்கர் என்பது சரியாக 100 சென்ட் ஆகும்.</p></div>
+        <div class="faq-block"><p><b>கேள்வி 2. 1 கிரவுண்ட் நிலம் என்பது எத்தனை சதுர அடி?</b><br>பதில்: தமிழ்நாட்டில் நகர்ப்புற வீட்டுமன கணக்கீட்டில் 1 கிரவுண்ட் என்பது சரியாக 2,400 சதுர அடி ஆகும்.</p></div>
+        <div class="faq-block"><p><b>கேள்வி 3. ஒரு ஏக்கரில் எத்தனை கிரவுண்ட் நிலம் இருக்கும்?</b><br>பதில்: ஒரு ஏக்கரில் தோராயமாக 18.15 கிரவுண்ட் நிலம் இருக்கும் (43,560 / 2,400).</p></div>
+        <div class="faq-block"><p><b>கேள்வி 4. 1 சென்ட் என்பது எத்தனை சதுர அடி?</b><br>பதில்: 1 சென்ட் என்பது சரியாக 435.6 சதுர அடி ஆகும்.</p></div>
+        <div class="faq-block"><p><b>கேள்வி 5. இந்த கால்குலேட்டர் தமிழ்நிலம் போர்ட்டலுடன் நேரடியாக இணைக்கப்பட்டுள்ளதா?</b><br>பதில்: இல்லை, இது தமிழக அரசின் நில அளவீட்டு விதிகளை அடிப்படையாகக் கொண்டு Shayan Smart Tools ஆல் உருவாக்கப்பட்ட தனிப்பட்ட கால்குலேட்டர் ஆகும்.</p></div>
+        <div class="faq-block"><p><b>கேள்வி 6. சாதாரண கால்குலேட்டர்கள் நிலத்தைக் கூட்டும்போது ஏன் தவறு செய்கின்றன?</b><br>பதில்: சாதாரண கால்குலேட்டர்கள் பேஸ்-10 முறையில் இயங்குகின்றன. ஆனால் நில அளவை பேஸ்-100 (99 சென்ட் + 2 சென்ட் = 1 ஏக்கர் 1 சென்ட்) முறையில் இயங்குவதால் தவறு நடக்கிறது.</p></div>
+        <div class="faq-block"><p><b>கேள்வி 7. 1 சென்ட் நிலம் எத்தனை சதுர மீட்டருக்கு சமம்?</b><br>பதில்: 1 சென்ட் என்பது தோராயமாக 40.46 சதுர மீட்டர் ஆகும்.</p></div>
+        <div class="faq-block"><p><b>கேள்வி 8. 1 கிரவுண்ட் நிலத்திற்கு எத்தனை சென்ட்?</b><br>பதில்: 1 கிரவுண்ட் நிலம் என்பது தோராயமாக 5.51 சென்ட் ஆகும்.</p></div>
+        <div class="faq-block"><p><b>கேள்வி 9. ஏக்கர் குறிப்பிடாமல் சென்ட்டை மட்டும் கூட்ட முடியுமா?</b><br>பதில்: ஆம், ஏக்கர் பகுதியில் பூஜ்ஜியம் (0) என உள்ளிட்டு சென்ட்டை மட்டும் எளிதாகக் கூட்டலாம்.</p></div>
+        <div class="faq-block"><p><b>கேள்வி 10. தமிழ்நாட்டில் நில ஆவணங்களை எவ்வாறு சரிபார்ப்பது?</b><br>பதில்: தமிழக அரசின் தமிழ்நிலம் இணையதளத்தின் மூலம் பட்டா, சிட்டா ஆவணங்களை சரிபார்க்கலாம்.</p></div>
+        <div class="faq-block"><p><b>கேள்வி 11. இந்த கால்குலேட்டர் சதுர அடியை எவ்வாறு கணக்கிடுகிறது?</b><br>பதில்: இந்த கருவி அனைத்து உள்ளீடுகளையும் முதலில் மொத்த சென்ட் மதிப்பாக மாற்றி, பின்னர் அதனை 435.6 ஆல் பெருக்கி துல்லியமான சதுர அடியைக் கணக்கிடுகிறது.</p></div>
+        <div class="faq-block"><p><b>கேள்வி 12. இந்த அச்சு அறிக்கையை நீதிமன்ற ஆவணமாகப் பயன்படுத்தலாமா?</b><br>பதில்: இல்லை, இது ஒரு கணித சரிபார்ப்புக் கருவி மட்டுமே. அதிகாரப்பூர்வத் தேவைகளுக்கு சான்றளிக்கப்பட்ட நில அளவையர் அல்லது வட்டாட்சியரை அணுகவும்.</p></div>
+        <div class="faq-block"><p><b>கேள்வி 13. "மொத்த பரப்பளவு" என்பதன் பொருள் என்ன?</b><br>பதில்: வழங்கப்பட்ட அனைத்து நிலப்பகுதிகளின் ஒட்டுமொத்த கூட்டுத்தொகை (Grand Total) என்று பொருள்படும்.</p></div>
+        <div class="faq-block"><p><b>கேள்வி 14. சென்னாரேக்காட்டில் நில வழிகாட்டி மதிப்பு எவ்வாறு கணக்கிடப்படுகிறது?</b><br>பதில்: நகர்ப்புறங்களில் சதுர அடி அல்லது கிரவுண்ட் அடிப்படையிலும், புறநகரில் சென்ட் அடிப்படையிலும் கணக்கிடப்படுகிறது.</p></div>
+        <div class="faq-block"><p><b>கேள்வி 15. இந்த கால்குலேட்டரில் தசம எண்களைப் பயன்படுத்தலாமா?</b><br>பதில்: ஆம், சென்ட் மற்றும் ஏக்கர் மதிப்புகளில் புள்ளி வைத்த எண்களையும் (உதாரணம்: 1.5) துல்லியமாகக் கணக்கிட முடியும்.</p></div>
+    </div>
+</article>
+
+<div class="footer-copyright-box">
+    <div class="footer-law-accent">Statutory Cyber Law Protection Vault</div>
+    <p><b>Copyright Protection Notice:</b> Shayan Smart Tools Core Processing Engines, Localization Scripts, and Structural Web Algorithms © 2026. All rights reserved.</p>
+    <p style="font-size: 12px; color: #64748b;">This application canvas layout and mathematical processing engines are strictly protected under global software copyright acts and Indian IP Protection Laws. Any unauthorized deployment of this architecture will initiate immediate legal escalations.</p>
 </div>
 
 <script>
-    var pCount = 2;
-    var currentL = 'en';
+    let plotIdx = 2;
+    let currentLang = 'en';
 
-    var trans = {
+    const translations = {
         en: {
-            title: "Tamil Nadu Land Area Addition Tool",
-            stitle: "Add multiple patches/patta accounts in Grounds and Cents smoothly with integrated base metric compilation grids.",
+            title: "Tamilnadu Land Area Addition Calculator",
+            subtitle: "Tamil Nadu Revenue Framework: 1 Acre = 100 Cents | 1 Cent = 435.6 Sq Ft | 1 Ground = 2400 Sq Ft",
             addBtn: "+ Add More Plot",
             calcBtn: "Calculate Total Area",
-            resHead: "Total Land Result (கூட்டல் முடிவு விவரம்):",
-            unitG: "Grounds", unitC: "Cents",
-            copyBtn: "📋 Copy Details", shareBtn: "📲 WhatsApp Share", printBtn: "🖨️ Print Report",
-            copyMsg: "Calculation Details Copied!",
-            shI: "Land Accumulation Ledger (நிலக் കൂട്ടல் பட்டியல் விவரம்)",
-            rsq: "Total Square Feet Matrix:", rsm: "Total Square Meters Matrix:", racre: "Equivalent Acre Allocation Size:", rhec: "Estimated Total Hectare (Hec):", bk: "⬅ Back to All Tools",
-            seot: "Tamil Nadu Land Area Addition: Grounds and Cents ka Total Jod Kaise Karein?",
-            seos: "Patta Chitta land registry norms aur Tamil Nilam portal parameters ke anusaar multiple scattered plots ka total calculation manual guide.",
-            dt: "Quick Access Other Tools", d1: "Main Dashboard", d2: "Punjab Land Addition", d3: "Rajasthan Land Addition", d4: "Haryana Land Addition",
-            fmtText: "Tamil Nadu Output Summary Format (மனையடி-சென்ட்):"
+            resetBtn: "Reset",
+            resHead: "Moththa Nilapparabhu / மொத்த பரப்பளவு (Total Combined Area)",
+            lblCombinedInput: "Initial Combined Input:",
+            lblResAcre: "Acre (ஏக்கர்)",
+            lblResCent: "Cent (சென்ட்)",
+            lblResGround: "Equivalent Ground (கிரவுண்ட்)",
+            lblResSqft: "Total Square Feet",
+            lblResSqm: "Total Square Meter",
+            btnCopy: "📋 Copy Results",
+            btnWA: "📲 WhatsApp",
+            btnPrint: "🖨️ Print Report",
+            backLnk: "⬅ Back to All Tools Dashboard",
+            printInputsTitle: "Entered Plot Dimensions",
+            thPlotNo: "Plot No",
+            thAcre: "Acre",
+            thCent: "Cent"
         },
         ta: {
-            title: "தமிழ்நாடு நிலக் കൂട്ടல் கணக்கிடுவான்",
-            stitle: "ஒருங்கிணைந்த அடிப்படை மெட்ரிக் தொகுப்பு கட்டங்களுடன் கிரவுண்ட் மற்றும் சென்ட்களில் பல நில அடுக்குகளை எளிதாக கூட்டுவதற்கான தளம்.",
-            addBtn: "+ கூடுதல் நிலம் சேர்",
-            calcBtn: "மொத்த பரப்பளவை கூட்டு",
-            resHead: "நிலக் கூட்டல் இறுதி முடிவு விவரம்:",
-            unitG: "கிரவுண்ட் (Grounds)", unitC: "சென்ட் (Cents)",
-            copyBtn: "📋 விவரங்களை நகலெடு", shareBtn: "📲 வாட்ஸ்அப் பகிர்க", printBtn: "🖨️ அறிக்கை அச்சிடுக",
-            copyMsg: "நிலக் கூட்டல் கணக்கீடு விவரம் நகலெடுக்கப்பட்டது!",
-            shI: "நிலக் கூட்டல் உள்ளீட்டு பட்டியல் विवरण विवरणम ledger",
-            rsq: "மொத்த சதுர அடி பரப்பளவு அளவுரு (Sq.Ft):", rsm: "மொத்த சதுர மீட்டர் பரப்பளவு அளவுரு (Sq.Mt):", racre: "ஏக்கர் கணக்கீட்டு நிகர மதிப்பு (Acre):", rhec: "மதிப்பிடப்பட்ட மொத்த ஹெக்டேர் அளவு (Ha):", bk: "⬅ அனைத்து கருவிகளின் பட்டியல்",
-            seot: "தமிழ்நாடு நில பரப்பளவு கூட்டல் இயங்குதளம்: மனையடி மற்றும் சென்ட் கூட்டு முறை கையேடு",
-            seos: "பட்டா சிட்டா நிலப் பதிவு விதிமுறைகள் மற்றும் தமிழ் நிலம் போர்டல் தரவுகளின்படி பல சிதறிய நிலப் பொட்டலங்களின் மொத்த கணக்கீடு கையேடு.",
-            dt: "பிற முக்கிய டிஜிட்டல் சாதனங்கள்", d1: "🏠 முதன்மை கட்டுப்பாட்டு அறை", d2: "பஞ்சாப் நிலக் கூட்டல் கருவி", d3: "ராஜஸ்தான் நிலக் கூட்டல் கருவி", d4: "ஹரியானா நிலக் கூட்டல் கருவி",
-            fmtText: "தமிழ்நாடு நிலையான வெளியீட்டு வடிவம் (மனையடி-சென்ட்):"
+            title: "தமிழ்நாடு நிலப்பரப்பு கூட்டல் கால்குலேட்டர்",
+            subtitle: "தமிழ்நாடு வருவாய் அளவீட்டு முறை: 1 ஏக்கர் = 100 சென்ட் | 1 சென்ட் = 435.6 ச.அடி | 1 கிரவுண்ட் = 2400 ச.அடி",
+            addBtn: "+ கூடுதல் நிலத்தை சேர்க்க",
+            calcBtn: "மொத்த பரப்பளவை கணக்கிடு",
+            resetBtn: "ரிசெட் செய்க",
+            resHead: "மொத்த பரப்பளவு (Total Combined Area)",
+            lblCombinedInput: "மொத்த சர்வே எண்கள்:",
+            lblResAcre: "ஏக்கர்",
+            lblResCent: "சென்ட்",
+            lblResGround: "சமமான கிரவுண்ட்",
+            lblResSqft: "மொத்த சதுர அடி",
+            lblResSqm: "மொத்த சதுர மீட்டர்",
+            btnCopy: "📋 முடிவுகளை நகலெடு",
+            btnWA: "📲 வாட்ஸ்அப் பகிர்வு",
+            btnPrint: "🖨️ அறிக்கையை அச்சிடு",
+            backLnk: "⬅ அனைத்து கருவிகள் டாஷ்போர்டுக்குச் செல்லவும்",
+            printInputsTitle: "பதிவு செய்யப்பட்ட நில விவரங்கள்",
+            thPlotNo: "எண்.",
+            thAcre: "ஏக்கர்",
+            thCent: "சென்ட்"
         }
     };
 
-    function toggleLang(l) {
-        currentL = l;
-        document.getElementById('enBtn').className = (l === 'en' ? 'lang-btn active' : 'lang-btn');
-        document.getElementById('tnBtn').className = (l === 'ta' ? 'lang-btn active' : 'lang-btn');
-        
-        document.getElementById('mainTitle').innerText = trans[l].title;
-        document.getElementById('sTitle').innerText = trans[l].stitle;
-        document.getElementById('btnAdd').innerText = trans[l].addBtn;
-        document.getElementById('btnCalc').innerText = trans[l].calcBtn;
-        document.getElementById('resTitle').innerText = trans[l].resHead;
-        document.getElementById('uGround').innerText = trans[l].unitG;
-        document.getElementById('uCent').innerText = trans[l].unitC;
-        document.getElementById('btnCopy').innerText = trans[l].copyBtn;
-        document.getElementById('btnShare').innerText = trans[l].shareBtn;
-        document.getElementById('btnPrint').innerText = trans[l].printBtn;
-        document.getElementById('lnkBack').innerText = trans[l].bk;
-        document.getElementById('hSecTitle').innerText = trans[l].shI;
-        document.getElementById('fmtText').innerText = trans[l].fmtText;
-
-        document.getElementById('lblPrintSq').innerText = trans[l].rsq;
-        document.getElementById('lblPrintSqm').innerText = trans[l].rsm;
-        document.getElementById('lblPrintAcre').innerText = trans[l].racre;
-        document.getElementById('lblPrintHec').innerText = trans[l].rhec;
-
-        document.getElementById('introH2').innerText = trans[l].seot;
-        document.getElementById('seoSubTitle').innerText = trans[l].seos;
-
-        var gLabels = document.getElementsByClassName('lbl-g');
-        for (var i = 0; i < gLabels.length; i++) { gLabels[i].innerText = trans[l].unitG; }
-
-        var cLabels = document.getElementsByClassName('lbl-c');
-        for (var i = 0; i < cLabels.length; i++) { cLabels[i].innerText = trans[l].unitC; }
-        
-        document.getElementById('lblDashTitle').innerText = trans[l].dt;
-        document.getElementById('dshHome').innerText = trans[l].d1;
-        document.getElementById('dshPb').innerText = trans[l].d2;
-        document.getElementById('dshRj').innerText = trans[l].d3;
-        document.getElementById('dshHr').innerText = trans[l].d4;
-
-        for (var i = 1; i <= pCount; i++) {
-            var el = document.getElementById('p' + i + 'Title');
-            if(el) el.innerText = (l === 'en' ? 'Plot Details #' + i : 'நிலப் பகுதி விவரம் #' + i);
+    function switchLanguage(lang) {
+        currentLang = lang;
+        document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.remove('active'));
+        if(lang === 'en') {
+            document.querySelectorAll('.lang-btn')[0].classList.add('active');
+            document.getElementById('content-en').classList.add('active-lang');
+            document.getElementById('content-ta').classList.remove('active-lang');
+        } else {
+            document.querySelectorAll('.lang-btn')[1].classList.add('active');
+            document.getElementById('content-ta').classList.add('active-lang');
+            document.getElementById('content-en').classList.remove('active-lang');
         }
+
+        document.getElementById('mainTitle').innerText = translations[lang].title;
+        document.getElementById('mainSubTitle').innerText = translations[lang].subtitle;
+        document.getElementById('btnAddPlot').innerText = translations[lang].addBtn;
+        document.getElementById('btnCalc').innerText = translations[lang].calcBtn;
+        document.getElementById('btnReset').innerText = translations[lang].resetBtn;
+        document.getElementById('resHead').innerText = translations[lang].resHead;
+        
+        document.getElementById('lblCombinedInput').innerText = translations[lang].lblCombinedInput;
+        document.getElementById('lblResAcre').innerText = translations[lang].lblResAcre;
+        document.getElementById('lblResCent').innerText = translations[lang].lblResCent;
+        document.getElementById('lblResGround').innerText = translations[lang].lblResGround;
+        document.getElementById('lblResSqft').innerText = translations[lang].lblResSqft;
+        document.getElementById('lblResSqm').innerText = translations[lang].lblResSqm;
+
+        document.getElementById('btnCopy').innerText = translations[lang].btnCopy;
+        document.getElementById('btnWA').innerText = translations[lang].btnWA;
+        document.getElementById('btnPrint').innerText = translations[lang].btnPrint;
+        document.getElementById('lnkBack').innerText = translations[lang].backLnk;
+        
+        document.getElementById('printInputsTitle').innerText = translations[lang].printInputsTitle;
+        document.getElementById('thPlotNo').innerText = translations[lang].thPlotNo;
+        document.getElementById('thAcre').innerText = translations[lang].thAcre;
+        document.getElementById('thCent').innerText = translations[lang].thCent;
+
+        document.querySelectorAll('.plot-container').forEach(container => {
+            const header = container.querySelector('.plot-header');
+            const labels = container.querySelectorAll('label');
+            if(header) header.innerText = header.getAttribute(`data-${lang}`) || header.innerText;
+            if(labels.length > 0) {
+                labels[0].innerText = labels[0].getAttribute(`data-${lang}`);
+                labels[1].innerText = labels[1].getAttribute(`data-${lang}`);
+            }
+        });
     }
 
     function addNewPlot() {
-        pCount++;
-        var area = document.getElementById('plotsArea');
-        var div = document.createElement('div');
-        div.className = 'plot-entry';
-        div.innerHTML = '<span class="plot-title" id="p' + pCount + 'Title">' + (currentL === 'en' ? 'Plot Details #' + pCount : 'நிலப் பகுதி विवरण #' + pCount) + '</span>' +
-            '<div class="grid-inputs">' +
-                '<div class="input-group"><label class="lbl-g">' + trans[currentL].unitG + '</label><input type="number" class="g-in" placeholder="0" value="0"></div>' +
-                '<div class="input-group"><label class="lbl-c">' + trans[currentL].unitC + '</label><input type="number" class="c-in" placeholder="0" value="0"></div>' +
-            '</div>';
-        area.appendChild(div);
+        plotIdx++;
+        const list = document.getElementById('plotsList');
+        const div = document.createElement('div');
+        div.className = 'plot-container';
+        
+        let headerText = currentLang === 'en' ? `Plot Detail #${plotIdx}` : `நிலத்தின் விவரம் #${plotIdx}`;
+        let labelAcre = currentLang === 'en' ? 'Acre' : 'ஏக்கர்';
+        let labelCent = currentLang === 'en' ? 'Cent' : 'சென்ட்';
+
+        div.innerHTML = `
+            <span class="plot-header" data-en="Plot Detail #${plotIdx}" data-ta="நிலத்தின் விவரம் #${plotIdx}">${headerText}</span>
+            <div class="input-grid">
+                <div class="field"><label data-en="Acre" data-ta="ஏக்கர்">${labelAcre}</label><input type="number" class="a-val" placeholder="0" min="0"></div>
+                <div class="field"><label data-en="Cent" data-ta="சென்ட்">${labelCent}</label><input type="number" class="c-val" placeholder="0" min="0"></div>
+            </div>`;
+        list.appendChild(div);
     }
 
-    function calculateTNTotal() {
-        var gVal = 0;
-        var cVal = 0;
+    function calculateTotal() {
+        let ta = 0, tc = 0;
+        let validPlots = 0;
         
-        var gElements = document.getElementsByClassName('g-in');
-        for (var i = 0; i < gElements.length; i++) { gVal += (Number(gElements[i].value) || 0); }
-        
-        var cElements = document.getElementsByClassName('c-in');
-        for (var i = 0; i < cElements.length; i++) { cVal += (Number(cElements[i].value) || 0); }
+        const summaryBody = document.getElementById('print-plots-summary');
+        summaryBody.innerHTML = '';
 
-        // Combined Multipliers Map: 1 Ground = 2400 Sq.Ft, 1 Cent = 435.6 Sq.Ft
-        var totalSqFt = (gVal * 2400) + (cVal * 435.6);
-        var totalSqm = totalSqFt / 10.7639104;
-        var totalAcre = totalSqFt / 43560;
-        var totalHec = totalSqFt / 107639.104;
+        const aInputs = document.querySelectorAll('.a-val');
+        const cInputs = document.querySelectorAll('.c-val');
 
-        // Recursive extraction output variables metrics parameters back conversion layouts
-        var finalGround = Math.floor(totalSqFt / 2400);
-        var remainingSq = totalSqFt % 2400;
-        var finalCent = (remainingSq / 435.6).toFixed(2);
+        aInputs.forEach((item, index) => {
+            let aVal = Number(item.value) || 0;
+            let cVal = Number(cInputs[index].value) || 0;
+            
+            ta += aVal;
+            tc += cVal;
+            validPlots++;
 
-        document.getElementById('outGround').innerText = gVal;
-        document.getElementById('outCent').innerText = cVal.toFixed(2);
+            let row = document.createElement('tr');
+            row.innerHTML = `<td>Plot #${index + 1}</td><td>${aVal}</td><td>${cVal}</td>`;
+            summaryBody.appendChild(row);
+        });
 
-        document.getElementById('outSq').innerText = Math.round(totalSqFt).toLocaleString('en-IN') + " sq ft";
-        document.getElementById('outSqm').innerText = Math.round(totalSqm).toLocaleString('en-IN') + " sq m";
-        document.getElementById('outAcre').innerText = totalAcre.toFixed(4);
-        document.getElementById('outHec').innerText = totalHec.toFixed(4);
-
-        if (currentL === 'en') {
-            document.getElementById('pb_main').innerText = finalGround + " Grounds, " + finalCent + " Cents";
-        } else {
-            document.getElementById('pb_main').innerText = finalGround + " கிரவுண்ட், " + finalCent + " சென்ட்";
+        // Tamil Nadu Carry Forward Logic (1 Acre = 100 Cents)
+        if (tc >= 100) {
+            ta += Math.floor(tc / 100);
+            tc %= 100;
         }
 
-        var options = { day: 'numeric', month: 'long', year: 'numeric' };
-        var today = new Date().toLocaleDateString('en-IN', options);
-        document.getElementById('pDocDate').innerText = today + " (IST)";
+        document.getElementById('ra').innerText = ta + " Acre";
+        document.getElementById('rc').innerText = tc.toFixed(2) + " Cent";
         
-        var randID = Math.floor(1000000000 + Math.random() * 9000000000);
-        document.getElementById('pDocRef').innerText = "SST-TN-ADD-" + randID;
+        // Land Conversions Matrix Mapping
+        let totalCent = (ta * 100) + tc;
+        let totalSqft = totalCent * 435.6; // 1 Cent = 435.6 Sq Ft
+        let totalSqm = totalSqft / 10.76391;
+        let totalGround = totalSqft / 2400; // 1 Ground = 2400 Sq Ft
 
-        var resPanel = document.getElementById('resultBox');
-        resPanel.style.display = 'block';
-        resPanel.scrollIntoView({behavior: 'smooth'});
+        document.getElementById('rground').innerText = totalGround.toFixed(2) + " Ground";
+        document.getElementById('rsq').innerText = Math.round(totalSqft).toLocaleString('en-IN') + " sq ft";
+        document.getElementById('rsqm').innerText = totalSqm.toLocaleString('en-IN', {maximumFractionDigits: 2}) + " sq m";
+        
+        let options = { day: 'numeric', month: 'long', year: 'numeric' };
+        let today = new Date().toLocaleDateString('en-IN', options);
+        document.getElementById('pDocDate').innerText = today + " (IST)";
+        document.getElementById('rInputVal').innerText = `${validPlots} Plots Computed`;
+        
+        let randID = Math.floor(1000000000 + Math.random() * 9000000000);
+        document.getElementById('pDocRef').innerText = `SST-TN-ADD-${randID}`;
+
+        const resPanel = document.getElementById('resPanel');
+        resPanel.style.display = "block";
+        resPanel.scrollIntoView({ behavior: 'smooth' });
+    }
+
+    function resetForm() {
+        const list = document.getElementById('plotsList');
+        list.innerHTML = `
+            <div class="plot-container">
+                <span class="plot-header" data-en="Plot Detail #1" data-ta="நிலத்தின் விவரம் #1">${currentLang === 'en' ? 'Plot Detail #1' : 'நிலத்தின் விவரம் #1'}</span>
+                <div class="input-grid">
+                    <div class="field"><label data-en="Acre" data-ta="ஏக்கர்">${currentLang === 'en' ? 'Acre' : 'ஏக்கர்'}</label><input type="number" class="a-val" placeholder="0" min="0"></div>
+                    <div class="field"><label data-en="Cent" data-ta="சென்ட்">${currentLang === 'en' ? 'Cent' : 'சென்ட்'}</label><input type="number" class="c-val" placeholder="0" min="0"></div>
+                </div>
+            </div>
+            <div class="plot-container">
+                <span class="plot-header" data-en="Plot Detail #2" data-ta="நிலத்தின் விவரம் #2">${currentLang === 'en' ? 'Plot Detail #2' : 'நிலத்தின் விவரம் #2'}</span>
+                <div class="input-grid">
+                    <div class="field"><label data-en="Acre" data-ta="ஏக்கர்">${currentLang === 'en' ? 'Acre' : 'ஏக்கர்'}</label><input type="number" class="a-val" placeholder="0" min="0"></div>
+                    <div class="field"><label data-en="Cent" data-ta="சென்ட்">${currentLang === 'en' ? 'Cent' : 'சென்ட்'}</label><input type="number" class="c-val" placeholder="0" min="0"></div>
+                </div>
+            </div>`;
+        plotIdx = 2;
+        document.getElementById('resPanel').style.display = "none";
+        window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
     function printLandReport() {
-        var resPanel = document.getElementById('resultBox');
-        if (resPanel.style.display !== "block") { 
-            alert("Calculate total bounds first before printing!"); 
+        const resPanel = document.getElementById('resPanel');
+        if(resPanel.style.display !== "block") { 
+            alert(currentLang === 'en' ? "Calculate metrics first!" : "முதலில் பரப்பளவை கணக்கிடவும்!"); 
             return; 
         }
+        const printRow = document.getElementById('print-input-row');
+        printRow.style.display = "flex";
         window.print();
+        printRow.style.display = "none";
     }
 
-    document.addEventListener('contextmenu', function(e) { e.preventDefault(); });
-    document.onkeydown = function(e) {
-        if (e.ctrlKey && (e.keyCode === 67 || e.keyCode === 85 || e.keyCode === 73)) {
-            alert("Copyright Warning: Structural protection rules active on Shayan Smart Tools code assets.");
-            return false;
-        }
-    };
-
-    function copyResult() {
-        var textCopy = "";
-        if(currentL === 'en') {
-            textCopy = "Tamil Nadu Multi-Plot Addition Result:\nStandard Layout: " + document.getElementById('pb_main').innerText + "\nTotal Area Canvas: " + document.getElementById('outSq').innerText + "\nCalculated via Shayan Smart Tools Platform.";
-        } else {
-            textCopy = "தமிழ்நாடு நிலக் കൂട്ടல் கணக்கீடு முடிவு விவரம்:\nவெளியீட்டு வடிவம்: " + document.getElementById('pb_main').innerText + "\nமொத்த பரப்பளவு: " + document.getElementById('outSq').innerText + "\nஷாயன் ஸ்மார்ட் டூல்ஸ் மூலம் கணக்கிடப்பட்டது.";
-        }
-        navigator.clipboard.writeText(textCopy);
-        alert(trans[currentL].copyMsg);
+    function copyData() {
+        let text = `Tamilnadu Land Area Addition Results:\n` +
+                   `Total: ${document.getElementById('ra').innerText} & ${document.getElementById('rc').innerText}\n` +
+                   `Ground Value: ${document.getElementById('rground').innerText}\n` +
+                   `Sq Ft: ${document.getElementById('rsq').innerText}\n` +
+                   `Sq Meter: ${document.getElementById('rsqm').innerText}\n` +
+                   `Calculated securely via Shayan Smart Tools`;
+        navigator.clipboard.writeText(text);
+        alert(currentLang === 'en' ? "Copied successfully!" : "வெற்றிகரமாக நகலெடுக்கப்பட்டது!");
     }
 
-    function shareWhatsApp() {
-        var textShare = "";
-        if(currentL === 'en') {
-            textShare = "Tamil Nadu Land Accumulation: " + document.getElementById('pb_main').innerText + ". Net Area Multipliers: " + document.getElementById('outSq').innerText + ". Verified via Shayan Smart Tools.";
-        } else {
-            textShare = "தமிழ்நாடு நிலப் பரப்பு கூட்டல் நற்பேறு விவரம்: " + document.getElementById('pb_main').innerText + ". மொத்த சதுர அடி: " + document.getElementById('outSq').innerText + ". ಷಾಯನ್ ஸ்மார்ட் டூல்ஸ் தளம் மூலமாக பார்க்கப்பட்டது.";
-        }
-        window.open("https://wa.me/?text=" + encodeURIComponent(textShare), '_blank');
+    function shareWA() {
+        let text = `Tamilnadu Land Area Addition Results:\n` +
+                   `Total: ${document.getElementById('ra').innerText}, ${document.getElementById('rc').innerText}\n` +
+                   `Ground System: ${document.getElementById('rground').innerText}\n` +
+                   `Sq Ft: ${document.getElementById('rsq').innerText}`;
+        window.open("https://wa.me/?text=" + encodeURIComponent(text));
     }
 </script>
 
