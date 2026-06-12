@@ -3,614 +3,754 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Punjab Land Area Addition Tool | ਪੰਜਾਬ ਜਮੀਨ ਦਾ ਜੋੜ ਕੈਲਕੁਲੇਟਰ Free 2026 | Shayan Smart Tools</title>
+    <title>Punjab Land Area Addition Calculator Free 2026 | जमीन क्षेत्रफल जोड़ कैलकुलेटर | Shayan Smart Tools</title>
     <link rel="canonical" href="https://shayansmarttools.in/punjab-land-area-addition.html" />
+    <link rel="icon" type="image/png" href="favicon.png" />
 
-    <meta name="description" content="Official Punjab Land Area Addition Tool. Add multiple plots in Kanal and Marla with automated 20-unit base carry forward logic. 100% Free by Shayan Smart Tools.">
-    <meta name="keywords" content="Punjab Land Area Addition, ਪੰਜਾਬ ਜਮੀਨ ਦਾ ਜੋੜ, Kanal Marla Addition Calculator, Punjab Land Sum Tool, Shayan Smart Tools Punjab, Jamabandi Fard Jod Punjab">
+    <meta name="description" content="Official Punjab Land Area Addition Tool. Add multiple agricultural or residential plots in Acre (Killa), Kanaal, Marla, and Sarsahi formats accurately with Punjab Revenue carry logic. Best SEO tool for Jamabandi PLRA records.">
+    <meta name="keywords" content="Punjab Land Area Addition, जमीन क्षेत्रफल जोड़ कैलकुलेटर, Jamabandi Punjab, PLRA Killa Calculator, Punjab Land Area Sum, Acre Kanaal Marla Calculator, Marla to Sarsahi Conversion, Punjab land registry math">
     <meta name="author" content="Muksidul islam">
     <meta name="robots" content="index, follow">
 
     <style>
         :root {
-            --pb-green: #2e7d32;
-            --pb-dark: #1b5e20;
-            --pb-corporate: #0f172a;
+            --pb-blue: #0f4c81;
+            --dark-blue: #0a3256;
+            --pb-gold: #ffaa00;
             --text-dark: #334155;
             --white: #ffffff;
-            --bg: #f8fafc;
-            --pb-gold: #ffb300;
+            --bg: #f4f7fa;
+        }
+
+        * {
+            box-sizing: border-box;
         }
 
         body {
-            font-family: 'Poppins', sans-serif;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             line-height: 1.6;
+            color: var(--text-dark);
+            max-width: 950px;
+            margin: 0 auto;
+            padding: 15px;
             background-color: var(--bg);
-            margin: 0;
-            padding: 20px;
-            color: #333;
         }
 
-        .container { max-width: 850px; margin: 0 auto; }
+        .tool-wrapper { padding: 10px 0; text-align: center; }
 
         header {
-            background: linear-gradient(135deg, var(--pb-green), var(--pb-corporate));
-            color: #fff; padding: 40px 20px; border-radius: 25px; text-align: center;
-            border-bottom: 6px solid var(--pb-gold); margin-bottom: 30px;
+            background: linear-gradient(135deg, var(--pb-blue), var(--dark-blue));
+            color: #fff; padding: 45px 20px; border-radius: 25px; text-align: center;
+            border-bottom: 6px solid var(--pb-gold); margin-bottom: 25px;
+            box-shadow: 0 10px 25px rgba(15, 76, 129, 0.15);
         }
-        header h1 { color: white; margin: 0 0 10px 0; font-size: 26px; text-transform: uppercase; }
-        header p { color: #f1f5f9; margin: 0; font-size: 16px; }
-        
-        .lang-toggle { display: flex; justify-content: center; gap: 10px; margin-bottom: 25px; }
-        .lang-btn { padding: 10px 25px; border-radius: 50px; border: 2px solid var(--pb-green); background: white; cursor: pointer; font-weight: 700; transition: 0.3s; color: var(--pb-green); }
-        .lang-btn.active { background: var(--pb-green); color: white; }
+        header h1 { color: white; margin: 0 0 10px 0; font-size: 32px; text-transform: uppercase; letter-spacing: 0.5px; }
+        header p { color: #ebf5ff; margin: 0; font-size: 16px; font-weight: 500; }
 
-        /* CLEAN NO CONTAINER BOX LAYOUT */
-        .form-card { 
-            background: transparent !important; 
-            padding: 10px 0; 
-            border: none !important; 
-            box-shadow: none !important; 
-            margin-bottom: 20px;
-        }
-
-        .plot-entry {
-            background: rgba(255, 255, 255, 0.6);
-            padding: 20px;
-            border-radius: 16px;
-            margin-bottom: 15px;
-            border: 1px solid #cbd5e1;
-            backdrop-filter: blur(5px);
-            animation: fadeIn 0.4s ease;
-        }
-
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-
-        .plot-title { font-weight: bold; color: var(--pb-green); margin-bottom: 15px; display: block; border-bottom: 1px solid #cbd5e1; padding-bottom: 5px; }
-        .sec-h { font-size: 16px; font-weight: bold; color: var(--pb-green); margin-bottom: 20px; border-bottom: 2px solid #cbd5e1; padding-bottom: 8px; text-transform: uppercase; letter-spacing: 0.5px; }
-
-        .grid-inputs {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+        .lang-switcher {
+            display: flex;
+            justify-content: center;
             gap: 15px;
+            margin: 25px 0;
+        }
+        .lang-btn {
+            padding: 11px 32px;
+            border: 2px solid var(--pb-blue);
+            background: var(--white);
+            color: var(--pb-blue);
+            font-weight: 700;
+            font-size: 16px;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            min-width: 140px;
+            text-align: center;
+            outline: none;
+            box-shadow: 0 4px 6px rgba(15, 76, 129, 0.05);
+        }
+        .lang-btn.active {
+            background: var(--pb-blue);
+            color: var(--white);
         }
 
-        .input-group { display: flex; flex-direction: column; }
-        label { font-size: 12px; font-weight: 800; color: var(--pb-green); margin-bottom: 8px; text-transform: uppercase; }
-        input { width: 100%; padding: 15px; border: 1px solid #cbd5e1; border-radius: 12px; font-size: 16px; box-sizing: border-box; outline: none; transition: 0.3s; background: var(--white); text-align: center; }
-        input:focus { border-color: var(--pb-green); background: #fff; box-shadow: 0 0 8px rgba(46, 125, 50, 0.1); }
-
-        .controls { display: flex; gap: 15px; justify-content: center; margin: 30px 0; flex-wrap: wrap; }
-        .btn { padding: 16px 35px; border: none; border-radius: 12px; font-weight: 800; cursor: pointer; transition: 0.3s; font-size: 15px; text-transform: uppercase; letter-spacing: 0.5px; }
-        .btn-add { background: #5d4037; color: white; }
-        .btn-calc { background: var(--pb-green); color: white; }
-
-        /* OFFICIAL PUNJAB GOVERNMENT PORTAL LINK BLOCKS */
-        .govt-portal-section { width: 100%; text-align: left; margin: 25px auto 30px auto; max-width: 850px; }
-        .govt-portal-section h4 { font-size: 12px; font-weight: 800; color: var(--pb-green); letter-spacing: 0.5px; text-transform: uppercase; margin-bottom: 12px; }
-        .govt-card-link { display: flex; align-items: center; justify-content: space-between; background: #ffffff; border: 1px solid #e2e8f0; padding: 16px 20px; border-radius: 14px; text-decoration: none; color: #1e293b; font-weight: 700; font-size: 15px; margin-bottom: 12px; transition: 0.3s; box-shadow: 0 4px 6px rgba(0,0,0,0.01); }
-        .govt-card-link:hover { border-color: var(--pb-green); background: #fffdfb; transform: translateY(-2px); box-shadow: 0 6px 12px rgba(46,125,50,0.05); }
-        .govt-card-left { display: flex; align-items: center; gap: 12px; }
-        .govt-card-left span.icon { font-size: 18px; }
-        
-        /* RESULTS UI */
-        .result-panel {
-            background: #0f172a; color: white; padding: 25px; border-radius: 25px; margin-top: 30px; display: none; border: 2px solid var(--pb-gold); position: relative;
+        /* Plot Containers */
+        .plot-container {
+            background: var(--white);
+            padding: 25px;
+            border-radius: 16px;
+            margin-bottom: 20px;
+            border: 1px solid #e2e8f0;
+            border-left: 6px solid var(--pb-blue);
+            box-shadow: 0 4px 6px rgba(0,0,0,0.02);
+            transition: 0.3s;
+            text-align: left;
         }
-        .result-panel h3 { margin-top: 0; text-align: center; color: var(--pb-gold); font-size: 1.4rem; margin-bottom: 20px; }
-        
-        .res-display { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; margin: 20px 0; }
-        .res-inner-item { background: rgba(255,255,255,0.05); padding: 15px; border-radius: 12px; display: flex; flex-direction: column; align-items: center; gap: 5px; border-bottom: 4px solid var(--pb-gold); }
-        .res-inner-item span { font-size: 12px; color: #94a3b8; font-weight: bold; text-transform: uppercase; }
-        .res-inner-item b { font-size: 24px; color: #fff; }
+        .plot-container:hover { transform: translateY(-2px); box-shadow: 0 6px 12px rgba(0,0,0,0.05); }
+        .plot-header { font-weight: 800; color: var(--pb-blue); margin-bottom: 15px; display: block; border-bottom: 1px solid #e2e8f0; padding-bottom: 5px; text-transform: uppercase; font-size: 13px; letter-spacing: 0.5px; }
 
-        .extra-res-box { background: rgba(255,255,255,0.02); padding: 15px; border-radius: 12px; margin-top: 15px; border-left: 4px solid var(--pb-green); text-align: left; }
-        .extra-res-box p { margin: 5px 0; font-size: 15px; }
-        .extra-res-box b { color: var(--pb-gold); }
+        /* Responsive Input Grid System */
+        .input-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; }
+        .field { display: flex; flex-direction: column; }
+        label { font-size: 12px; font-weight: bold; margin-bottom: 6px; color: var(--pb-blue); text-transform: uppercase; letter-spacing: 0.3px; }
+        input { padding: 14px; border: 1px solid #cbd5e1; border-radius: 10px; font-size: 16px; text-align: center; background: var(--white); outline: none; transition: 0.3s; font-weight: 600; width: 100%; }
+        input:focus { border-color: var(--pb-blue); box-shadow: 0 0 8px rgba(15, 76, 129, 0.15); }
+
+        .btn-box { display: flex; gap: 15px; justify-content: center; margin: 35px 0; flex-wrap: wrap; }
+        .btn { padding: 15px 35px; border: none; border-radius: 10px; font-weight: 800; cursor: pointer; transition: 0.3s; font-size: 15px; text-transform: uppercase; letter-spacing: 0.5px; min-width: 160px; }
+        .btn-add { background: #2f3e4f; color: white; } 
+        .btn-calc { background: var(--pb-blue); color: white; }
+        .btn-reset { background: #ef4444; color: white; }
+        .btn:hover { transform: translateY(-3px); box-shadow: 0 8px 15px rgba(0,0,0,0.12); }
+
+        /* Advanced Premium Results UI */
+        .res-panel { background: #0f172a; color: white; padding: 25px; border-radius: 25px; margin-top: 35px; display: none; border: 2px solid var(--pb-blue); position: relative; text-align: left; box-shadow: 0 15px 30px rgba(0,0,0,0.2); }
+        .res-panel h3 { margin-top: 0; text-align: center; color: #38bdf8; font-size: 1.4rem; margin-bottom: 20px; }
+        .result-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; }
+        .res-item { background: rgba(255,255,255,0.05); padding: 15px; border-radius: 12px; display: flex; flex-direction: column; align-items: flex-start; gap: 5px; border-left: 4px solid var(--pb-blue); }
+        .res-item span { font-size: 12px; color: #94a3b8; font-weight: bold; text-transform: uppercase; }
+        .res-item b { font-size: 20px; color: #38bdf8; word-break: break-all; }
+
+        /* Print Specific Styling */
+        .print-only-section { display: none; margin: 15px 0; }
+        .print-table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+        .print-table th, .print-table td { border: 1px solid #cbd5e1; padding: 8px; text-align: center; font-size: 13px; }
+        .print-table th { background-color: #f0f7ff; color: var(--pb-blue); font-weight: bold; }
 
         .print-header-block, .print-footer-block { display: none; }
-        .util-btns { display: flex; gap: 10px; margin-top: 25px; }
-        .u-btn { flex: 1; padding: 15px; border-radius: 12px; border: none; font-weight: 800; cursor: pointer; transition: 0.3s; color: white; font-size: 14px; text-align: center; }
 
-        /* CLEAN FIXED SEO ARTICLE LAYER - BACKGROUND CLEAR */
+        .util-btns { display: flex; gap: 12px; margin-top: 25px; flex-wrap: wrap; }
+        .u-btn { flex: 1; padding: 15px; border: none; border-radius: 12px; font-weight: 800; cursor: pointer; color: white; font-size: 14px; text-align: center; transition: 0.3s; text-transform: uppercase; min-width: 140px; }
+
+        /* SEO Article Layer */
         .seo-article { 
             background: transparent !important; 
-            padding: 20px 0; 
-            margin-top: 50px; 
-            line-height: 1.8; 
+            padding: 30px 0; 
+            margin-top: 40px; 
+            line-height: 1.85; 
             border: none !important;
             color: #334155 !important;
             text-align: left;
         }
-        .seo-article .seo-header-block {
+        .seo-header-block { text-align: center; border-bottom: 3px solid var(--pb-blue); padding-bottom: 25px; margin-bottom: 35px; }
+        .seo-article h2 { color: var(--pb-blue) !important; font-size: 30px !important; margin-top: 40px !important; margin-bottom: 15px !important; font-weight: 700; }
+        .seo-article h3 { color: var(--pb-blue) !important; margin-top: 30px; font-size: 22px; border-left: 6px solid var(--pb-gold); padding-left: 15px; font-weight: 600; }
+        .seo-article p { color: #334155 !important; font-size: 16px; text-align: justify; margin-bottom: 20px; }
+        .seo-article ul, .seo-article ol { margin-bottom: 25px; padding-left: 20px; font-size: 16px; }
+        .seo-article li { margin-bottom: 10px; }
+        
+        .seo-article table { width: 100%; border-collapse: collapse; margin: 30px 0; background: #ffffff; box-shadow: 0 4px 6px rgba(0,0,0,0.01); display: block; overflow-x: auto; }
+        .seo-article th, .seo-article td { border: 1px solid #e2e8f0; padding: 16px; text-align: left; color: #334155 !important; font-size: 15px; white-space: nowrap; }
+        .seo-article th { background-color: #f0f7ff; color: var(--pb-blue) !important; font-weight: 700; }
+
+        .faq-block { background: #ffffff; padding: 22px; border-radius: 14px; border: 1px solid #e2e8f0; margin-bottom: 20px; box-shadow: 0 4px 6px rgba(0,0,0,0.01); }
+        .faq-block p b { color: var(--pb-blue); font-size: 16px; display: block; margin-bottom: 8px; }
+
+        /* Law Ledger UI Card */
+        .footer-copyright-box { 
+            margin-top: 60px; 
             text-align: center; 
-            border-bottom: 3px solid var(--pb-green); 
-            padding-bottom: 20px; 
-            margin-bottom: 30px;
-            background: transparent !important;
+            font-size: 13px; 
+            color: #475569; 
+            background: #ffffff; 
+            padding: 35px; 
+            border-radius: 24px; 
+            border: 1px solid #e2e8f0;
+            border-top: 6px solid #1e293b;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.03);
         }
-        .seo-article h2 { 
-            color: var(--pb-green) !important; 
-            font-size: 26px !important;
-            margin-bottom: 15px !important;
-            border-left: 6px solid var(--pb-dark);
-            padding-left: 15px;
-            margin-top: 45px;
-            font-weight: 800;
-            text-transform: uppercase;
-        }
-        .seo-article h3 { color: var(--pb-dark) !important; margin-top: 30px; font-size: 20px; font-weight: 700; border-left: 4px solid var(--pb-gold); padding-left: 10px; }
-        .seo-article p { color: #334155 !important; font-size: 16px; text-align: justify; margin-bottom: 15px; }
-        .seo-article ul, .seo-article ol { padding-left: 20px; margin-bottom: 20px; }
-        .seo-article li { margin-bottom: 8px; font-size: 15px; }
-        .content-image { width: 100%; max-height: 340px; object-fit: cover; border-radius: 16px; margin: 25px 0; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
+        .footer-copyright-box p { margin: 8px 0; line-height: 1.7; }
+        .footer-law-accent { font-weight: 800; color: #0f172a; text-transform: uppercase; font-size: 12px; letter-spacing: 1.5px; margin-bottom: 15px !important; display: inline-block; background: #f1f5f9; padding: 6px 16px; border-radius: 30px; border: 1px solid #cbd5e1; }
 
-        .seo-article table { width: 100%; border-collapse: collapse; margin: 25px 0; background: #ffffff; box-shadow: 0 4px 6px rgba(0,0,0,0.02); border-radius: 8px; overflow: hidden; }
-        .seo-article th, .seo-article td { padding: 15px; border: 1px solid #e2e8f0; text-align: left; color: #334155 !important; }
-        .seo-article th { background: #fdf2e9; color: var(--pb-dark) !important; font-weight: bold; }
-        .seo-article tr:nth-child(even) { background-color: #f8fafc; }
+        .lang-section { display: none; }
+        .lang-section.active-lang { display: block; }
 
-        /* 🔥 PREMIUM STYLISH INTERNAL LINKS DASHBOARD GRID */
-        .sst-dashboard-grid {
-            display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; margin: 40px 0; width: 100%; box-sizing: border-box;
-        }
-        .sst-dash-btn {
-            display: flex; align-items: center; gap: 15px; background: #ffffff; padding: 18px 20px; border-radius: 16px; text-decoration: none; color: var(--pb-dark) !important; font-weight: 700; font-size: 15px; border: 1px solid #e2e8f0; transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1); box-sizing: border-box;
-        }
-        .sst-dash-icon {
-            display: flex; align-items: center; justify-content: center; width: 42px; height: 42px; background: #fffbf7; border-radius: 12px; font-size: 20px; border: 1px solid #bbdefb; transition: transform 0.3s ease;
-        }
-        .sst-dash-title { flex: 1; line-height: 1.3; text-align: left; }
-        .sst-dash-btn:hover {
-            border-color: var(--pb-green); transform: translateY(-4px); box-shadow: 0 12px 20px rgba(46, 125, 50, 0.1); background: linear-gradient(135deg, #ffffff, #e8f5e9);
-        }
-        .sst-dash-btn:hover .sst-dash-icon { transform: scale(1.1) rotate(5deg); background: var(--pb-green); color: #fff; }
-
-        @media (max-width: 600px) { 
-            .res-display { grid-template-columns: 1fr; gap: 10px; } 
-            .seo-article { padding: 20px 0; }
-            .seo-article h2 { font-size: 22px !important; }
-            .sst-dashboard-grid { grid-template-columns: 1fr; gap: 12px; }
-            .sst-dash-btn { padding: 15px 18px; }
-            .plot-entry { padding: 15px; }
-            .grid-inputs { grid-template-columns: 1fr; gap: 10px; }
+        @media (max-width: 600px) {
+            header { padding: 30px 15px; border-radius: 15px; }
+            header h1 { font-size: 24px; }
+            header p { font-size: 14px; }
+            .plot-container { padding: 20px 15px; }
+            .input-grid { grid-template-columns: 1fr; gap: 15px; } 
+            .result-grid { grid-template-columns: 1fr; gap: 12px; }
+            .res-panel { padding: 20px; border-radius: 15px; }
+            .btn { width: 100%; padding: 14px; font-size: 14px; }
+            .u-btn { width: 100%; }
+            .seo-article h2 { font-size: 24px !important; }
+            .seo-article h3 { font-size: 18px; }
+            .lang-btn { flex: 1; padding: 10px 15px; font-size: 15px; min-width: auto; }
         }
 
-        /* ANTI-BLANK PRINT INFRASTRUCTURE FIXED LAYER */
+        /* Print layouts */
         @media print {
-            html, body { background: #ffffff !important; color: #000000 !important; margin: 0 !important; padding: 0 !important; }
-            .container { max-width: 100% !important; width: 100% !important; padding: 0 !important; margin: 0 !important; }
+            html, body { height: auto; overflow: visible; background: #ffffff !important; padding: 0 !important; margin: 0 !important; }
+            * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; color: #000000 !important; }
+            @page { margin: 10mm 10mm; size: A4 portrait; }
+            .tool-wrapper, .btn-box, .util-btns, #resHead, .seo-article, .back-btn, .plot-container, .lang-switcher, .footer-copyright-box { display: none !important; }
             
-            .form-card, .lang-toggle, .controls, .govt-portal-section, .util-btns, #resHead, .seo-article, .back-btn { 
-                display: none !important; opacity: 0 !important; visibility: hidden !important; height: 0 !important; margin: 0 !important; padding: 0 !important;
+            .res-panel { 
+                display: block !important; 
+                background: #ffffff !important; 
+                padding: 30px 20px !important; 
+                margin: 0 !important; 
+                width: 100% !important; 
+                border: 5px double #0f4c81 !important; 
+                border-radius: 0px !important; 
+                box-shadow: none !important; 
             }
-            
-            .result-panel { 
-                display: block !important; visibility: visible !important; background: #ffffff !important; color: #000000 !important; padding: 25px !important; margin: 0 auto !important; width: 100% !important; box-sizing: border-box; border: 3px double var(--pb-green) !important; border-radius: 0px !important; box-shadow: none !important;
-            }
-            .print-header-block { display: block !important; text-align: center; border-bottom: 2px solid var(--pb-green) !important; padding-bottom: 12px; margin-bottom: 20px; }
-            .print-header-block img { display: inline-block !important; }
-            .bkl-special { background: #e8f5e9 !important; border: 1px dashed var(--pb-green) !important; color: #000000 !important; border-radius: 0px !important; }
-            .bkl-special strong { color: var(--pb-dark) !important; }
-            .res-display { display: block !important; margin-top: 15px; }
-            .res-inner-item { 
-                background: transparent !important; border: none !important; border-bottom: 1px solid #e2e8f0 !important; padding: 10px 4px !important; display: flex !important; flex-direction: row !important; justify-content: space-between !important; align-items: center !important; border-radius: 0px !important; text-align: left !important;
-            }
-            .res-inner-item span { color: #1e293b !important; font-size: 13px !important; font-weight: 600; text-align: left !important; }
-            .res-inner-item b { color: var(--pb-dark) !important; font-size: 15px !important; font-weight: 700; text-align: right !important; }
-            .extra-res-box { background: transparent !important; border: none !important; border-top: 1px dashed #cbd5e1 !important; padding: 10px 0 !important; }
-            .extra-res-box p { display: flex; justify-content: space-between; font-size: 13px; color: #1e293b; text-align: left !important; }
-            .extra-res-box b { color: #000000 !important; }
-            .print-footer-block { display: block !important; text-align: center; margin-top: 40px; border-top: 1px solid #cbd5e1 !important; padding-top: 20px; }
+            .print-only-section { display: block !important; }
+            .print-header-block { display: block !important; text-align: center; border-bottom: 3px double #0f4c81 !important; padding-bottom: 15px; margin-bottom: 25px; }
+            .result-grid { display: grid !important; grid-template-columns: repeat(2, 1fr) !important; gap: 12px !important; margin-top: 20px; }
+            .res-item { background: transparent !important; border: none !important; border-bottom: 2px solid #0f4c81 !important; padding: 10px 5px !important; border-radius: 0px !important; }
+            .res-item span { color: #000000 !important; font-size: 12px !important; font-weight: bold !important; }
+            .res-item b { color: #0f4c81 !important; font-size: 16px !important; font-weight: 800 !important; }
+            .print-footer-block { display: block !important; margin-top: 40px; border-top: 2px dashed #0f4c81 !important; padding-top: 20px; }
+            .print-footer-container { display: table !important; width: 100% !important; }
+            .print-footer-left { display: table-cell !important; width: 65% !important; text-align: left !important; }
+            .print-footer-right { display: table-cell !important; width: 35% !important; text-align: right !important; }
         }
     </style>
 </head>
 <body>
 
-<div class="container">
-    <div class="form-card">
-        <header>
-            <h1 id="mainTitle">Punjab Land Area Addition Tool</h1>
-            <p id="sTitle">Add multiple plots/khata holdings in Kanal and Marla with automated 20-unit base carry logic.</p>
-        </header>
-        
-        <div class="lang-toggle">
-            <button class="lang-btn active" id="enBtn" onclick="toggleLang('en')">English</button>
-            <button class="lang-btn" id="paBtn" onclick="toggleLang('pa')">ਪੰਜਾਬੀ</button>
-        </div>
+<div class="tool-wrapper">
+    <header>
+        <h1 id="mainTitle">Punjab Land Area Addition Calculator</h1>
+        <p id="mainSubTitle">Punjab Land Records Framework: 1 Acre (Killa) = 8 Kanaal = 160 Marla | 1 Kanaal = 20 Marla</p>
+    </header>
 
-        <div class="sec-h" id="hSecTitle">Land Accumulation Ledger (ਜਮੀਨ ਜੋੜ ਪ੍ਰਵਿਸ਼ਟੀ)</div>
-        <div id="plotsArea">
-            <div class="plot-entry">
-                <span class="plot-title" id="p1Title">Plot Details #1</span>
-                <div class="grid-inputs">
-                    <div class="input-group"><label class="lbl-k">Kanal</label><input type="number" class="k-in" placeholder="0" value="0"></div>
-                    <div class="input-group"><label class="lbl-m">Marla</label><input type="number" class="m-in" placeholder="0" value="0"></div>
+    <div class="lang-switcher">
+        <button class="lang-btn active" onclick="switchLanguage('en')">English</button>
+        <button class="lang-btn" onclick="switchLanguage('hi')">हिंदी</button>
+    </div>
+
+    <div id="plotsList">
+        <div class="plot-container">
+            <span class="plot-header" data-en="Plot Detail #1" data-hi="जमीन प्लॉट विवरण #1">Plot Detail #1</span>
+            <div class="input-grid">
+                <div class="field"><label data-en="Acre / Killa" data-hi="एकड़ / किल्ला">Acre (एकड़)</label><input type="number" class="a-val" placeholder="0" min="0"></div>
+                <div class="field"><label data-en="Kanaal" data-hi="कनाल">Kanaal (कनाल)</label><input type="number" class="k-val" placeholder="0" min="0"></div>
+                <div class="field"><label data-en="Marla" data-hi="मरला">Marla (मरला)</label><input type="number" class="m-val" placeholder="0" min="0"></div>
+            </div>
+        </div>
+        <div class="plot-container">
+            <span class="plot-header" data-en="Plot Detail #2" data-hi="जमीन प्लॉट विवरण #2">Plot Detail #2</span>
+            <div class="input-grid">
+                <div class="field"><label data-en="Acre / Killa" data-hi="एकड़ / किल्ला">Acre (एकड़)</label><input type="number" class="a-val" placeholder="0" min="0"></div>
+                <div class="field"><label data-en="Kanaal" data-hi="कनाल">Kanaal (कनाल)</label><input type="number" class="k-val" placeholder="0" min="0"></div>
+                <div class="field"><label data-en="Marla" data-hi="मरला">Marla (मरला)</label><input type="number" class="m-val" placeholder="0" min="0"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="btn-box">
+        <button class="btn btn-add" id="btnAddPlot" onclick="addNewPlot()">+ Add More Plot</button>
+        <button class="btn btn-calc" id="btnCalc" onclick="calculateTotal()">Calculate Total Beriz</button>
+        <button class="btn btn-reset" id="btnReset" onclick="resetForm()">Reset</button>
+    </div>
+</div> 
+
+<div id="resPanel" class="res-panel">
+    <div class="print-header-block">
+        <div style="display: flex; justify-content: center; align-items: center; gap: 10px; margin-bottom: 5px;">
+            <img src="favicon.png" alt="SST" style="width: 32px; height: 32px;">
+            <h2 style="font-size: 24px; color: #0f4c81; margin: 0; font-weight: 900; letter-spacing: 1px;">SHAYAN SMART TOOLS</h2>
+        </div>
+        <p style="font-size: 11px; color: #0a3256; font-weight: bold; margin: 0 0 15px 0; letter-spacing: 0.5px; text-transform: uppercase;">PUNJAB REVENUE STANDARD AREA ADDITION REPORT - 2026</p>
+        
+        <div style="background: #f8fafc; border: 1px solid #cbd5e1; padding: 12px; border-radius: 6px; display: grid; grid-template-columns: 1fr 1fr; font-size: 12px; text-align: left; gap: 8px; color: #334155;">
+            <div><strong>DOCUMENT REF:</strong> <span id="pDocRef" style="color:#0f4c81; font-weight:bold;">SST-PB-ADD-0000</span></div>
+            <div style="text-align: right;"><strong>DATE:</strong> <span id="pDocDate" style="color:#0f4c81; font-weight:bold;">--/--/----</span></div>
+            <div><strong>JURISDICTION:</strong> State of Punjab (पंजाब)</div>
+            <div><strong>ENGINE LOGIC:</strong> 8-Kanaal & 20-Marla Revenue Standard Matrix</div>
+        </div>
+    </div>
+
+    <div class="print-only-section">
+        <h4 style="color:#0f4c81; margin: 15px 0 5px 0; font-size: 14px; text-transform: uppercase; border-bottom: 1px solid #cbd5e1; padding-bottom: 4px;" id="printInputsTitle">Entered Plot Dimensions (दर्ज किए गए प्लॉट विवरण)</h4>
+        <table class="print-table">
+            <thead>
+                <tr>
+                    <th id="thPlotNo">Plot No / क्र.</th>
+                    <th id="thAcre">Acre / एकड़</th>
+                    <th id="thKanaal">Kanaal / कनाल</th>
+                    <th id="thMarla">Marla / मरला</th>
+                </tr>
+            </thead>
+            <tbody id="print-plots-summary"></tbody>
+        </table>
+    </div>
+
+    <h3 id="resHead">Ekun Ksheftrafal / कुल क्षेत्रफल (Total Combined Area)</h3>
+    
+    <div class="result-grid">
+        <div class="res-item" id="print-input-row" style="display:none;"><span id="lblCombinedInput">Initial Combined Input:</span> <b id="rInputVal">0 Combined Plots Computed</b></div>
+        <div class="res-item"><span id="lblResAcre">Acre / Killa (एकड़ / किल्ला)</span><b id="ra">0 Acre</b></div>
+        <div class="res-item"><span id="lblResKanaal">Kanaal (कनाल)</span><b id="rk">0 Kanaal</b></div>
+        <div class="res-item"><span id="lblResMarla">Marla (मरला)</span><b id="rm">0 Marla</b></div>
+        <div class="res-item"><span id="lblResSarsahi">Equivalent Sarsahi (सरसाही)</span><b id="rsarsahi">0 Sarsahi</b></div>
+        <div class="res-item"><span id="lblResSqft">Total Square Feet</span><b id="rsq">0 sq ft</b></div>
+        <div class="res-item"><span id="lblResSqm">Total Square Meter</span><b id="rsqm">0 sq m</b></div>
+        <div class="res-item"><span id="lblResGaj">Total Square Yards (Gaj)</span><b id="rgaj">0 Gaj</b></div>
+    </div>
+
+    <div class="print-footer-block">
+        <div class="print-footer-container">
+            <div class="print-footer-left">
+                <p style="margin: 0; font-weight: bold; color: #0f4c81; text-transform: uppercase; font-size: 11px;">🔒 SECURITY DISCLAIMER & STATUTORY RECORDS NOTICE</p>
+                <p style="margin: 6px 0 0 0; font-size: 10px; color: #475569; line-height: 1.5;">This mathematical ledger computation is compiled based on Punjab Land Revenue parameters (1 Acre/Killa = 8 Kanaal, 1 Kanaal = 20 Marla, 1 Marla = 9 Sarsahi). Standard conversions align 1 Marla to 272.25 Sq.Ft (or 30.25 Sq.Yards/Gaj). Cross-verify results with official PLRA Jamabandi records or local Patwari frameworks for legal land registry transactions.</p>
+                <p style="margin: 12px 0 0 0; font-size: 11px; font-weight: bold; color: #0f4c81;">🌐 OFFICIAL PORTAL: www.shayansmarttools.in</p>
+            </div>
+            <div class="print-footer-right">
+                <div style="display: inline-block; text-align: center;">
+                    <img src="seal.png" alt="SST Official Stamp" style="width: 110px; height: auto; display: block; margin: 0 auto 5px auto;">
+                    <div style="font-size: 11px; font-weight: bold; color: #1e293b; border-top: 1px solid #cbd5e1; padding-top: 4px; width: 140px; margin-top: 8px;">Authorised Signature</div>
                 </div>
             </div>
-            <div class="plot-entry">
-                <span class="plot-title" id="p2Title">Plot Details #2</span>
-                <div class="grid-inputs">
-                    <div class="input-group"><label class="lbl-k">Kanal</label><input type="number" class="k-in" placeholder="0" value="0"></div>
-                    <div class="input-group"><label class="lbl-m">Marla</label><input type="number" class="m-in" placeholder="0" value="0"></div>
-                </div>
-            </div>
-        </div>
-
-        <div class="controls">
-            <button class="btn btn-add" id="btnAdd" onclick="addNewPlot()">+ Add More Plot</button>
-            <button class="btn btn-calc" id="btnCalc" onclick="calculatePBTotal()">Calculate Total Area</button>
         </div>
     </div>
 
-    <!-- OFFICIAL PUNJAB GOVERNMENT REVENUE PORTAL LINKS INTEGRATION -->
-    <div class="govt-portal-section">
-        <h4 id="lblGovtHead">Official Punjab Land Portals</h4>
-        <a href="https://jamabandi.punjab.gov.in/" target="_blank" class="govt-card-link">
-            <div class="govt-card-left">
-                <span class="icon">🌐</span>
-                <span id="lblAnyrorLink">PLRS Bhulekh Punjab (Jamabandi Fard Records)</span>
-            </div>
-            <div class="govt-card-right">➔</div>
-        </a>
-        <a href="https://revenue.punjab.gov.in/" target="_blank" class="govt-card-link">
-            <div class="govt-card-left">
-                <span class="icon">💰</span>
-                <span id="lblGarviLink">IGR Punjab (Property Registration & Registry Desk)</span>
-            </div>
-            <div class="govt-card-right">➔</div>
-        </a>
+    <div class="util-btns">
+        <button class="u-btn" style="background:#475569;" id="btnCopy" onclick="copyData()">📋 Copy Results</button>
+        <button class="u-btn" style="background:#22c55e;" id="btnWA" onclick="shareWA()">📲 WhatsApp</button>
+        <button class="u-btn" style="background:#0f4c81;" id="btnPrint" onclick="printLandReport()">🖨️ Print Report</button>
+    </div>
+</div>
+
+<div class="back-btn" style="text-align:center; margin-top: 20px;"><a href="index.html" id="lnkBack" style="color:var(--pb-blue); font-weight:bold; text-decoration:none;">⬅ Back to All Tools Dashboard</a></div>
+
+<article id="content-en" class="seo-article lang-section active-lang">
+    <div class="seo-header-block">
+        <h2>Punjab Land Area Addition: Highly Accurate Acre-Kanaal-Marla Sum Engine</h2>
+        <p>Calculate, combine, and aggregate multiple agricultural or residential plots using official Punjab Land Records Society (PLRA) metrics with automatic base-20 and base-8 carry forward logic.</p>
     </div>
 
-    <div id="resultBox" class="result-panel">
-        
-        <div class="print-header-block">
-            <div style="display: flex; justify-content: center; align-items: center; gap: 10px; margin-bottom: 5px;">
-                <img src="favicon.png" alt="SST" style="width: 30px; height: 30px;">
-                <h2 style="font-size: 22px; color: #1b5e20; margin: 0; font-weight: 900; letter-spacing: 1px;">SHAYAN SMART TOOLS</h2>
-            </div>
-            <p style="font-size: 11px; color: var(--pb-dark); font-weight: bold; margin: 0 0 10px 0; letter-spacing: 0.5px; text-transform: uppercase;">PUNJAB REVENUE ACCUMULATION VERIFIED CERTIFICATE - 2026</p>
-            
-            <div style="background: #f8fafc; border: 1px solid #cbd5e1; padding: 10px; border-radius: 4px; display: grid; grid-template-columns: 1fr 1fr; font-size: 11px; text-align: left; gap: 5px; color: #334155;">
-                <div><strong>DOCUMENT REF:</strong> <span id="pDocRef" style="color:#1b5e20; font-weight:bold;">SST-PB-ADD-0000</span></div>
-                <div style="text-align: right;"><strong>DATE:</strong> <span id="pDocDate" style="color:#1b5e20; font-weight:bold;">--/--/----</span></div>
-                <div><strong>JURISDICTION:</strong> State of Punjab (ਪੰਜਾਬ)</div>
-                <div style="text-align: right;"><strong>STATUS:</strong> Matrix Jod Securely Verified</div>
-            </div>
-        </div>
+    <section>
+        <h3>1. Powerful Introduction to Punjab Land Measurement System</h3>
+        <p>Managing agricultural, commercial, and residential properties in Punjab requires deep alignment with state land records rules. While the official government portal—<b>Jamabandi PLRA (पंजाब लैंड रिकॉर्ड्स)</b>—logs data digitally using <b>Acre, Kanaal, and Marla</b>, local transactions still widely apply traditional regional units like <b>Killa, Karam, and Sarsahi</b> depending on the specific administrative division. Whether you are dealing with plots in the Majha, Malwa, or Doaba regions, discrepancies in mathematical interpretation can create large discrepancies in legal records.</p>
+        <p>When you attempt to combine multiple property fragments from different <b>Khewat, Khatauni, or Khasra Numbers</b>, standard mobile calculators fall short because land math involves complex custom frameworks. Our smart <b>Punjab Jaminichi Beriz Tool</b> resolves this mathematical complexity instantly, preventing rounding errors and providing a complete output breakdown into Acre (Killa), Kanaal, Marla, Sarsahi, Square Feet, Square Yards (Gaj), and Square Meters. This tool provides land surveyors (Patwaris), buyers, realtors, and legal professionals with clean data processing algorithms tailored specifically to Punjab State Revenue Standards.</p>
+    </section>
 
-        <div class="bkl-special">
-            <span id="fmtText" style="display:block; font-size: 14px; color: #94a3b8; font-weight: bold; margin-bottom: 5px;">Punjab Standard Format (ਕਨਾਲ-ਮਰਲਾ):</span>
-            <strong id="pb_main" style="font-size: 24px; color: #81c784;">0 Kanal, 0 Marla</strong>
-        </div>
+    <section>
+        <h3>2. How to Use the Punjab Land Addition Calculator</h3>
+        <p>Our intuitive layout makes combining multiple land plots incredibly easy. Follow these simple operational steps:</p>
+        <ol>
+            <li><b>Enter Plot Dimensions:</b> In the pre-configured input rows, enter the respective <b>Acre</b>, <b>Kanaal</b>, and <b>Marla</b> values for your first two plots. If an entry consists purely of Marlas, simply leave the Acre and Kanaal columns blank or enter zero.</li>
+            <li><b>Add Additional Parcels:</b> If you have more than two plots to combine, simply click the <b>"+ Add More Plot"</b> button to dynamically inject a new data entry line. There is no ceiling limit to the number of input components you can accumulate.</li>
+            <li><b>Run Mathematical Engine:</b> Click on <b>"Calculate Total Beriz"</b>. The algorithm instantly groups your plots, processes structural overruns via the base-20 (Marla to Kanaal) and base-8 (Kanaal to Acre) carry matrix, and updates your unified dashboard.</li>
+            <li><b>Save or Share:</b> Use the built-in functional shortcuts to instantly <b>Copy Results</b> to your system clipboard, export a clean PDF report using <b>Print Report</b>, or push automated messages via <b>WhatsApp</b>.</li>
+        </ol>
+    </section>
 
-        <h3 id="resHead">Total Land Area (ਕੁੱਲ ਰκਬਾ):</h3>
-        <div class="res-display">
-            <div class="res-inner-item"><span id="unitK">Kanal</span><b id="outK">0</b></div>
-            <div class="res-inner-item"><span id="unitM">Marla</span><b id="outM">0</b></div>
-        </div>
-
-        <div class="extra-res-box">
-            <p><span id="lblPrintSq">Total Square Feet Matrix:</span> <b id="outSq">0</b> sq ft</p>
-            <p><span id="lblPrintSqm">Total Square Meters Matrix:</span> <b id="outSqm">0</b> sq m</p>
-            <p><span id="lblPrintKilla">Equivalent Killa / Acre Size:</span> <b id="outKilla">0</b> killa</p>
-            <p><span id="lblPrintHec">Estimated Total Hectare:</span> <b id="outHec">0</b> ha</p>
-        </div>
-        
-        <div class="print-footer-block">
-            <div style="margin: 0 auto; max-width: 85%; font-size: 11px; color: #475569; line-height: 1.6; text-align: center;">
-                <p style="margin: 0; font-weight: bold; color: #1b5e20; text-transform: uppercase; font-size: 12px;">🔒 SECURITY DISCLAIMER & STATUTORY AUDIT NOTICE</p>
-                <p style="margin: 6px 0 0 0;">This calculation compilation is structured strictly using Punjab Board of Revenue parameters (1 Marla = 272.25 Sq.Ft, 20 Marla = 1 Kanal). For official property boundary assignment or mutation additions, cross-verify metrics via your local Halqa Patwari.</p>
-                
-                <div style="display: inline-block; border: 1px dashed #1b5e20; padding: 6px 20px; border-radius: 4px; margin-top: 15px; margin-bottom: 12px; background: #f8fafc; font-size: 10px; font-weight: bold; color: #1b5e20; text-transform: uppercase; letter-spacing: 0.5px;">
-                    SHAYAN SMART TOOLS [SST SEAL] - OFFICIAL ADDITION TRACKER SYSTEM
-                </div>
-                <p style="margin: 5px 0 0 0; font-size: 12px; font-weight: bold; color: #1b5e20;">🌐 SST OFFICIAL ACCESS: www.shayansmarttools.in</p>
-            </div>
-        </div>
-
-        <div class="util-btns">
-            <button class="u-btn" onclick="copyResult()" style="background:#475569;" id="btnCopy">📋 Copy Result</button>
-            <button class="u-btn" onclick="shareWhatsApp()" style="background:#22c55e;" id="btnShare">📲 WhatsApp Share</button>
-            <button class="u-btn" onclick="printLandReport()" style="background:#2b7cff;" id="btnPrint">🖨️ Print Report</button>
-        </div>
-    </div>
-
-    <div class="back-btn" style="text-align: center; margin-top: 20px;">
-        <a href="index.html" style="color: var(--pb-green); font-weight: bold; text-decoration: none;" id="lnkBack">⬅ Back to All Tools</a>
-    </div>
-
-    <article class="seo-article">
-        <div class="seo-header-block">
-            <h2 id="seoTitle" style="border:none; padding:0; text-align:center; font-size:2.3rem !important;">Punjab Land Area Addition: Kanal aur Marla ka Total Jod Kaise Karein?</h2>
-            <p style="font-size: 17px; color: #555; text-align: center; margin: 5px 0 0 0;" id="seoSubTitle">Punjab Jamabandi (PLRS) portal guidelines aur sub-registrar validation ke anusaar multiple plots ka total arithmetic sum scale manual guide.</p>
-        </div>
-<img src="Punjab1.webp" class="content-image" loading="lazy" alt="Scenic One-Horned Rhinoceros Standing in Assam Valley Valley Plain Lands">
-
-        <section>
-            <h3>1. Complete Infrastructure of Land Holding Summation in Punjab</h3>
-            <p>
-                Punjab mein zameen ki naap-jokh aur revenue records ka management behad systematic hai. Yahan rural agriculture fields ho ya Amritsar, Ludhiana, Jalandhar jaise bade shehron ke residential layout grids, har jagah zameen ka hisab-kitab mukhya roop se <b>Kanal aur Marla</b> mein kiya jata hai. Punjab Land Records Society (PLRS) ke official database ya Fard copy par jab aap apna records check karte hain, toh multiple khasra plots ka area alag-alag fragments mein darj hota hai. Local land evaluation ya family distribution partition deeds ke dauran jor lagane par galti hone ka darr rehta hai.
-            </p>
-            <p>
-                Is math confusion ko bypass karne ke liye Shayan Smart Tools ne is interactive <b>Punjab Land Area Addition Calculator</b> ko standard modules par align kiya hai. Punjab land mapping guidelines ke anusar <b>1 Marla = 272.25 Square Feet</b> dimensional frame ke barabar hota hai aur sateek <b>20 Marla milkar 1 Kanal</b> ka micro area block form karte hain. Saath hi, 8 standard Kanals milkar pure <b>1 Killa / Acre</b> form karte hain. Jab aap khet ke alag-alag tukdon ka raw data is grid system par feed karte hain, toh hamari arithmetic loop execution automated base shifting apply karke values ko sateek roop se format kar deti hai aur total square feet, meters aur hectare ka summary analytics complete certificate design mein safely browser engine screen par show kar deti hai.
-            </p>
-        </section>
-
-        <h2>Is Jod Calculator Ko Use Kaise Karein? (Dynamic User Guide)</h2>
-        <ul style="padding-left: 20px;">
-            <li><b>Step 1:</b> Sabse pehle input interface panel par ja kar apne pehle holding account (Plot Details #1) ka exact Kanal aur Marla value bharein.</li>
-            <li><b>Step 2:</b> Dusre patch ya registry sheet ka boundary numerical area fill karein. Floating entries automatically parsing layers ke through calculate hoti hain.</li>
-            <li><b>Step 3:</b> Agar aapke paas jamin ke do se zyada tukde (scattered land properties) hain, toh bina kisi tension ke <b>"+ Add More Plot"</b> button ko hit karke naye slots open kar sakte hain.</li>
-            <li><b>Step 4:</b> Final allocation metrics calculate karne ke liye <b>"Calculate Total Area"</b> option select karein. Dashboard instantly open ho kar left-aligned data summary copy render kar dega.</li>
+    <section>
+        <h3>3. Real-World Practical Example (Custom Carry-Forward Arithmetic)</h3>
+        <p>Let's understand how our automated software engine handles standard revenue calculations on the backend. Suppose you have two distinct Khasra plots under a single Khewat that need to be aggregated for a mutation (Intakhaj/Dakhil Kharij) deed:</p>
+        <ul>
+            <li><b>Property Fragment 1:</b> 1 Acre, 6 Kanaal, and 15 Marla</li>
+            <li><b>Property Fragment 2:</b> 0 Acre, 4 Kanaal, and 12 Marla</li>
         </ul>
+        <p><b>Step-by-step Execution Process:</b></p>
+        <ol>
+            <li><b>Sum the Marla Units:</b> 15 Marla + 12 Marla = 27 Marla.</li>
+            <li><b>Apply Marla to Kanaal Carry Logic:</b> Since 27 Marla exceeds the standard 20 Marla limit per Kanaal, the algorithm calculates: <code>27 - 20 = 7 Marla</code> remaining. 1 full Kanaal is safely carried over to the primary Kanaal stack.</li>
+            <li><b>Sum the Kanaal Units:</b> 6 Kanaal + 4 Kanaal + 1 Kanaal (Carried Over) = 11 Kanaal.</li>
+            <li><b>Apply Kanaal to Acre Carry Logic:</b> Since 11 Kanaal exceeds the standard 8 Kanaal limit per Acre, the algorithm calculates: <code>11 - 8 = 3 Kanaal</code> remaining. 1 full Acre is carried over to the Acre stack.</li>
+            <li><b>Sum the Acre Units:</b> 1 Acre + 0 Acre + 1 Acre (Carried Over) = 2 Acres.</li>
+            <li><b>Final Consolidated Result:</b> The engine pushes out exactly <b>2 Acre, 3 Kanaal, and 7 Marla</b>. It then automatically maps this value into auxiliary values like 387 Sarsahi, 105,336.75 square feet, or 11,704 Gaj (Square Yards).</li>
+        </ol>
+    </section>
 
-        <h2>Punjab Land Revenue Conversion Master Scale Chart</h2>
-        <div style="overflow-x: auto;">
-            <table>
-                <thead>
-                    <tr><th>Sarkari Unit Name</th><th>Punjab Local Standard Scale Breakdown</th><th>Square Feet (Sq Feet)</th><th>Square Meters (Sq Meter)</th></tr>
-                </thead>
-                <tbody>
-                    <tr><td><b>1 Killa (Acre)</b></td><td>8 Kanal Standard Registry Blocks</td><td>43,560 Sq Ft</td><td>4,046.86 Sq M</td></tr>
-                    <tr><td><b>1 Kanal</b></td><td>20 Symmetric Marla Layout Grid</td><td>5,445 Sq Ft</td><td>505.85 Sq M</td></tr>
-                    <tr><td><b>1 Marla</b></td><td>Smallest standard block (16.5x16.5 ft)</td><td>272.25 Sq Ft</td><td>25.29 Sq M</td></tr>
-                    <tr><td><b>1 Hectare</b></td><td>Global Metric Scale Tracking System</td><td>1,07,639.10 Sq Ft</td><td>10,000 Sq M</td></tr>
-                </tbody>
-            </table>
-        </div>
-<img src="Punjab2.webp" class="content-image" loading="lazy" alt="Scenic One-Horned Rhinoceros Standing in Assam Valley Valley Plain Lands">
+    <section>
+        <h3>4. Deep-Dive into Punjab Revenue Land Metrics and Law</h3>
+        <p>Land administration in Punjab is legally shaped by historic frameworks like the <b>Punjab Land Revenue Act, 1887</b>. These laws govern the transfer, partition, and mutation processing of agricultural land. Because these transactions are heavily scrutinized by Tehsildars, Naib-Tehsildars, and Land Revenue Patwaris, even minor math discrepancies in deed formatting can cause a registration or mutation to be rejected.</p>
+        <p>Furthermore, standardizing units across different regions remains an issue. For instance, in some specific local areas, a smaller Karam measurement (54 inches) changes the Marla dimension slightly, but for formal state valuation and PLRA digital records, the standard Karam of 66 inches is applied globally. This dictates 1 Marla to be exactly 272.25 Square Feet (30.25 Square Yards). Our tool follows this strict state revenue equation to make sure your paperwork matches official data structures perfectly.</p>
+    </section>
 
-        <section>
-            <h3>2. Five Detailed Practical Real-Life Case Study Examples</h3>
-            <p>
-                Punjab land records verification systems aur cumulative area addition operations ko deeply parakhne ke liye niche diye gaye 5 real-world corporate scenarios data analytics case studies ko dhyan se check karein:
-            </p>
-            <ul>
-                <li><strong>Case Study 1 (Agriculture Field Consolidation in Amritsar):</strong> Border belt zone Amritsar rural me ek kisan apne do scattered khasra plots ka total area nikalna chahta hai. Plot #1 ka size 5 Kanal 14 Marla hai aur Plot #2 ka size 3 Kanal 12 Marla hai. Jab ye metrics is software loop arithmetic algorithm me load hote hain, toh system automatic Base-20 carry rules apply karke values ko jodta hai ($14 + 12 = 26\text{ Marla}$ jo badal jata hai 1 Kanal 6 Marla me). Final visible result panel display flat strictly sateek **9 Kanal 6 Marla** ($50,366.25\text{ Sq.Ft}$) display kar deta hai.</li>
-                <li><strong>Case Study 2 (Scattered Urban Plots Integration in Jalandhar Periphery):</strong> Jalandhar commercial zoning hub near ek investor teen residential plot patches ka integrated area summation check evaluate karna chahta hai, jinki values क्रमशः 0 Kanal 18 Marla, 1 Kanal 15 Marla, aur 2 Kanal 17 Marla darj hain. Calculator processor background threads inside high speed calculation run karke combined output ledger par sateek **5 Kanal 10 Marla** ($32,670\text{ Square Feet}$) matrix data block completely absolute lock rests karta hai.</li>
-                <li><strong>Case Study 3 (Macro Farmland Acquisition Budgeting Study):</strong> Ludhiana industrial smart expansion sector me jab aapas me link up teen different agriculture accounts data sheets parameters verification lines me values 12 Kanal 8 Marla, 18 Kanal 16 Marla, aur 9 Kanal 12 Marla load hold karti hain, tab standalone engine parameters parsing layer straight evaluate hoke exact standard result update panel par **40 Kanal 16 Marla** ($2,22,156\text{ Sq.Ft}$) show karwata hai, jo exactly 5.10 killa data canvas forms hold chalta hai.</li>
-            </ul>
-        </section>
+    <h3>5. Comprehensive Conversion Reference Matrix Table</h3>
+    <table>
+        <thead>
+            <tr>
+                <th>Land Unit Type</th>
+                <th>Revenue Mapping & Mathematical Relations</th>
+                <th>Equivalent (Sq. Feet)</th>
+                <th>Equivalent (Sq. Yards / Gaj)</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr><td><b>1 Acre / Killa (एकड़)</b></td><td>8 Kanaal / 160 Marla (Standard Revenue Unit)</td><td>43,560 Sq Ft</td><td>4,840 Gaj</td></tr>
+            <tr><td><b>1 Kanaal (कनाल)</b></td><td>20 Marla / 1/8th part of a standard Killa</td><td>5,445 Sq Ft</td><td>605 Gaj</td></tr>
+            <tr><td><b>1 Marla (मरला)</b></td><td>9 Sarsahi / 1/20th part of a standard Kanaal</td><td>272.25 Sq Ft</td><td>30.25 Gaj</td></tr>
+            <tr><td><b>1 Sarsahi (सरसाही)</b></td><td>1/9th part of Marla / 1 Karam x 1 Karam Space</td><td>30.25 Sq Ft</td><td>3.36 Gaj</td></tr>
+            <tr><td><b>1 Karam (करम)</b></td><td>Standard Revenue length unit (66 Inches)</td><td>Linear Measure</td><td>2.2 Linear Yards</td></tr>
+        </tbody>
+    </table>
 
-        <section id="faqContainer">
-            <h2>3. 15 Important Frequently Asked Questions (FAQs) - ਪੰਜਾਬ ਜਮੀਨ ਦਾ ਹਿਸਾਬ (Hinglish Matrix)</h2>
-            <div style="border-bottom: 1px solid #cbd5e1; padding-bottom: 15px; margin-bottom: 15px;">
-                <p><b>Q1. Punjab mein 1 Kanal mein kitne Marla hote hain?</b><br>Ans: Punjab revenue records policy ke anusaar, 1 standard Kanal block ke andar strictly **20 Marlas** nirdharit hotey hain.</p>
-            </div>
-            <div style="border-bottom: 1px solid #cbd5e1; padding-bottom: 15px; margin-bottom: 15px;">
-                <p><b>Q2. 1 Killa mein kitne Kanal aur Marla hote hain?</b><br>Ans: Punjab revenue scale structure mein 1 standard Killa/Acre block exactly **8 Kanal** (Yani 8x20 = 160 Marlas) ke barabar hota hai.</p>
-            </div>
-            <div style="border-bottom: 1px solid #cbd5e1; padding-bottom: 15px; margin-bottom: 15px;">
-                <p><b>Q3. New updated rules inside me kya yeh tool automatic carry forward logic process karta hai?</b><br>Ans: Ji haan! Is calculator mein pure **Base-20 Carry-Forward System** programmed hai. Jaise hi input layers mein Marlas ka total 20 ya usse upar jati hai, yeh automatic use Kanal mein shift kar deta hai.</p>
-            </div>
-            <div style="border-bottom: 1px solid #cbd5e1; padding-bottom: 15px; margin-bottom: 15px;">
-                <p><b>Q4. Punjab mein 1 Marla kitne Square Feet structural area ke barabar hota hai?</b><br>Ans: Punjab Board of Revenue manual guidelines ke anusar, 1 standard Marla spatial plot segment ka dimensions exactly **272.25 Square Feet** hota hai.</p>
-            </div>
-            <div style="border-bottom: 1px solid #cbd5e1; padding-bottom: 15px; margin-bottom: 15px;">
-                <p><b>Q5. Jamabandi fard copy ke scattered fields ko isme kaise add karein?</b><br>Ans: Aap apni fard sheet par darj sabhi survey numbers ke individual Kanal-Marla parameter components ko is tool mein alag-alag rows mein enter karke ek sath sateek grand total nikal sakte hain.</p>
-            </div>
-            <div style="border-bottom: 1px solid #cbd5e1; padding-bottom: 15px; margin-bottom: 15px;">
-                <p><b>Q6. 1 Kanal mein kitne Square Feet space hota hai?</b><br>Ans: Standard dimensional mapping equations ke anusar, 1 standard Kanal block boundary area sateek **5,445 Square Feet** canvas area ke equal hota hai.</p>
-            </div>
-            <div style="border-bottom: 1px solid #cbd5e1; padding-bottom: 15px; margin-bottom: 15px;">
-                <p><b>Q7. Is advanced high wordcount addition engine structural logic page ko kisne programmed kiya hai?</b><br>Ans: Is optimized computational data entry checks metrics addition calculator interface lines ko software development engineer Muksidul Islam ne flawlessly code kiya hai.</p>
-            </div>
-            <div style="border-bottom: 1px solid #cbd5e1; padding-bottom: 15px; margin-bottom: 15px;">
-                <p><b>Q8. PLRS Jamabandi Punjab network server portals par areas files kis format me save rehti hain?</b><br>Ans: Official bhulekh systems registries sheets tracking filters inside me data record variables strictly international metrics grids units metric streams Hectare-Are formats run chalta hai.</p>
-            </div>
-            <div style="border-bottom: 1px solid #cbd5e1; padding-bottom: 15px; margin-bottom: 15px;">
-                <p><b>Q9. Malwa region land systems properties records checking inside bigha structure value square feet limit kya hold karegi?</b><br>Ans: Malwa traditional mapping metrics rules under 1 local standard traditional Punjab Bigha equals flat exact **16,200 Square Feet** grounding spatial footprint mesh.</p>
-            </div>
-            <img src="Punjab3.webp" class="content-image" loading="lazy" alt="Scenic One-Horned Rhinoceros Standing in Assam Valley Valley Plain Lands">
+    <h3>6. 15 Frequently Asked Questions (Top Google Search Queries)</h3>
+    <div id="faq-container-en">
+        <div class="faq-block"><p><b>Q1. How many Kanaals make exactly 1 Acre/Killa in Punjab?</b><br>Ans: In Punjab's official revenue records and PLRA Jamabandi platform, exactly 8 Kanaals make up 1 Acre (Killa).</p></div>
+        <div class="faq-block"><p><b>Q2. What is the standard area of 1 Kanaal in Punjab?</b><br>Ans: Under standard state calculations, 1 Kanaal is mapped to 20 Marlas, which is equivalent to 5,445 Square Feet.</p></div>
+        <div class="faq-block"><p><b>Q3. How many Marlas are there in 1 True Acre?</b><br>Ans: 1 standard Acre contains exactly 160 Marlas across all districts in Punjab's official measurement matrix.</p></div>
+        <div class="faq-block"><p><b>Q4. How many square feet are in one Marla in Punjab?</b><br>Ans: There are exactly 272.25 square feet in 1 standard Marla unit in official records.</p></div>
+        <div class="faq-block"><p><b>Q5. Is this tool official or associated with PLRA Jamabandi?</b><br>Ans: No, this is an independent calculation engine developed by Shayan Smart Tools based strictly on official Punjab Land Revenue standards.</p></div>
+        <div class="faq-block"><p><b>Q6. Why do mobile calculators give wrong answers for Punjab land addition?</b><br>Ans: Standard calculators use base-10 decimal points. Punjab land records use complex base-20 (Marlas) and base-8 (Kanaals) carry logic.</p></div>
+        <div class="faq-block"><p><b>Q7. How many square yards (Gaj) equal one Marla in Punjab?</b><br>Ans: One standard Marla equals exactly 30.25 Square Yards (Gaj).</p></div>
+        <div class="faq-block"><p><b>Q8. What is a Sarsahi value in Punjab records?</b><br>Ans: A Sarsahi is the smallest traditional unit. 9 Sarsahis combine to make exactly 1 standard Marla.</p></div>
+        <div class="faq-block"><p><b>Q9. What is the length of 1 Karam in land records?</b><br>Ans: The standard revenue Karam length in Punjab is 66 inches (5.5 feet).</p></div>
+        <div class="faq-block"><p><b>Q10. What laws govern land mutations and records in Punjab?</b><br>Ans: Property mutations, records of rights, and land registries are governed by the Punjab Land Revenue Act of 1887.</p></div>
+        <div class="faq-block"><p><b>Q11. Can I calculate land area without entering Acres or Kanaals?</b><br>Ans: Yes, you can fill out only the Marla input section and leave other values as zero; the calculator will adjust automatically.</p></div>
+        <div class="faq-block"><p><b>Q12. What is the relation between Killa and Acre in Punjab?</b><br>Ans: In general agricultural terminology in Punjab, 1 Killa is traditionally synonymous with 1 standard Acre.</p></div>
+        <div class="faq-block"><p><b>Q13. How does this calculator derive square yards (Gaj) values?</b><br>Ans: The engine converts all units into total Marlas, multiplies by 272.25 to get square feet, and then divides by 9.</p></div>
+        <div class="faq-block"><p><b>Q14. What does "Total Beriz" mean on this page?</b><br>Ans: "Beriz" is a traditional revenue term used across India that means the total consolidated sum of values.</p></div>
+        <div class="faq-block"><p><b>Q15. Can I use this report printout for official court registries?</b><br>Ans: This report serves as an explicit reference ledger for calculation verification. For court filings or official deeds, cross-verify results with your local Patwari or Tehsildar.</p></div>
+    </div>
+</article>
 
-            <div style="border-bottom: 1px solid #cbd5e1; padding-bottom: 15px; margin-bottom: 15px;">
-                <p><b>Q10. 1 Sarsai block layout dimension parameters unit check metrics inside value scale footprint kya chalta hai?</b><br>Ans: Systems checking parameters specifications under 1 linear Karam mapping square mesh ($1\text{ Karam} \times 1\text{ Karam}$) equals sateek **30.25 Square Feet** surface ground space ratio checks log.</p>
-            </div>
-            <div style="border-bottom: 1px solid #cbd5e1; padding-bottom: 15px; margin-bottom: 15px;">
-                <p><b>Q11. Kya properties partition deeds alignment contracts calculations checking me is framework summaries sheet useful hai?</b><br>Ans: Ji haan, parivarik batwara split grids verification, land aggregation valuation tasks checks me ye 100% mathematically stable and highly accurate standalone validation tool chalta hai.</p>
-            </div>
-            <div style="border-bottom: 1px solid #cbd5e1; padding-bottom: 15px; margin-bottom: 15px;">
-                <p><b>Q12. Square Meters scaling layers logic metrics processing values base conversion factor calculation criteria kya apply hota hai?</b><br>Ans: Multiplier programmatic pipeline routines checks parameters compliance inside me square feet values parameters ko straight automatically divide parameter system of 10.7639104 forward karta hai.</p>
-            </div>
-            <div style="border-bottom: 1px solid #cbd5e1; padding-bottom: 15px; margin-bottom: 15px;">
-                <p><b>Q13. Ghumaon unit setup layout details values charts parameters check inside ratio footprint size kya hold chalega?</b><br>Ans: Historical tracking terminology documents registers inside me 1 traditional custom Ghumaon value checks metrics strictly universal **1 Acre / Killa** limit ke absolute equal rules define karta hai.</p>
-            </div>
-            <div style="border-bottom: 1px solid #cbd5e1; padding-bottom: 15px; margin-bottom: 15px;">
-                <p><b>Q14. Sub-registrar verification desks asset tracking validation me circle rate valuations parameters criteria integration kya chalta hai?</b><br>Ans: Government registration billing desks data entry logs controls inside me dimensions total size coordinates values multiply baseline parameters circle prices check map complete hota hai.</p>
-            </div>
-            <div style="border-bottom: 1px solid #cbd5e1; padding-bottom: 15px; margin-bottom: 15px;">
-                <p><b>Q15. Kya is calculation statement invoice system output results block data hard printable copies trace out ho sakti hain?</b><br>Ans: Ji haan, structural design elements triggers logic option handler 'Print Report' hit karke aap secure unique document summary ref registration key tracking details data print hard sheet download le sakte hain.</p>
-            </div>
-        </section>
+<article id="content-hi" class="seo-article lang-section">
+    <div class="seo-header-block">
+        <h2>पंजाब भूमि क्षेत्रफल जोड़: अत्यधिक सटीक एकड़-कनाल-मरला सम इंजन</h2>
+        <p>पंजाब लैंड रिकॉर्ड्स सोसाइटी (PLRA) के आधिकारिक भूमि रिकॉर्ड मानकों के अनुसार एकाधिक भूखंडों (Plots) को स्वचालित रूप से जोड़ने वाला उन्नत कैलकुलेटर।</p>
+    </div>
 
-        <!-- 🔥 PREMIUM STYLISH INTERNAL LINKS DASHBOARD GRID -->
-        <h3 id="lblDashTitle" style="border:none; padding:0; margin-bottom:15px;">Quick Access Other Tools</h3>
-        <div class="sst-dashboard-grid">
-            <a class="sst-dash-btn" href="index.html" id="dshHome">
-                <div class="sst-dash-icon">🏠</div>
-                <span class="sst-dash-title">Main Dashboard</span>
-            </a>
-            <a class="sst-dash-btn" href="punjab-land-area-calculator.html" id="dshCalc">
-                <div class="sst-dash-icon">🏡</div>
-                <span class="sst-dash-title">Punjab Land Calculator</span>
-            </a>
-            <a class="sst-dash-btn" href="punjab-bigha-to-sqft-calculator.html" id="dshB2S">
-                <div class="sst-dash-icon">📐</div>
-                <span class="sst-dash-title">Punjab Bigha to Sq Ft</span>
-            </a>
-            <a class="sst-dash-btn" href="punjab-land-cost-calculator.html" id="dshCost">
-                <div class="sst-dash-icon">💰</div>
-                <span class="sst-dash-title">Punjab Land Cost Calculator</span>
-            </a>
-        </div>
+    <section>
+        <h3>१. विस्तृत प्रस्तावना: पंजाब भूमि मापन प्रणाली</h3>
+        <p>पंजाब राज्य में कृषि, व्यावसायिक या आवासीय भूमि के प्रबंधन, खरीद-बिक्री और राजस्व कार्यों के लिए सटीक जमीन की पैमाइश का होना अनिवार्य है। पंजाब के सरकारी पोर्टल <b>जमाबंदी PLRA (Jamabandi)</b> पर जमीन की मुख्य प्रविष्टि <b>एकड़, कनाल और मरला</b> में की जाती है, जबकि स्थानीय क्षेत्रों में <b>किल्ला, करम और सरसाही</b> का प्रयोग धड़ल्ले से होता है। माझा, मालवा और दोआबा जैसे अलग-अलग क्षेत्रों में जमीन नापने के पारंपरिक पैमानों में थोड़ा अंतर देखने को मिलता है, जिससे आम जनता और जमीन खरीदारों में अक्सर भ्रम पैदा हो जाता है।</p>
+        <p>जब आप अलग-अलग खेवट, खतौनी या खसरा नंबर के टुकड़ों को आपस में जोड़ते हैं, तो साधारण दशमलव कैलकुलेटर फेल हो जाते हैं क्योंकि भूमि मापन 20-मरला (कनाल के लिए) और 8-कनाल (एकड़ के लिए) के विशेष ओव्हरफ्लो पर काम करता है। Shayan Smart Tools का यह विशेष कैलकुलेटर इसी समस्या को तुरंत हल करता है और परिणाम को एकड़, कनाल, मरला, सरसाही, वर्ग फुट, गज (वर्ग यार्ड) और वर्ग मीटर में प्रदर्शित करता है। यह टूल विशेष रूप से पंजाब के पटवारी (Patwari), लेखपाल, रजिस्ट्री वकीलों और आम नागरिकों के लिए डिज़ाइन किया गया है ताकि वे बिना किसी त्रुटि के सटीक गणना कर सकें।</p>
+    </section>
 
-        <div style="margin-top: 40px; padding:25px; border: 2px dashed #ffb300; background: #ffffff; border-radius: 12px; font-size:13px;">
-            <p style="margin:0; text-align: center;"><b>Copyright Notice:</b> Shayan Smart Tools © 2026. All Rights Reserved. Indian Copyright Act, 1957 ke standards ke tahat core loop algorithms safe hain. Extraction scripts automated blocking invoke karegi.</p>
-        </div>
-    </article>
+    <section>
+        <h3>२. कैलकुलेटर का उपयोग कैसे करें?</h3>
+        <p>भूखंडों को जोड़ना बेहद आसान है, बस इन आसान चरणों का पालन करें:</p>
+        <ol>
+            <li><b>प्लॉट का आकार भरें:</b> पहले और दूसरे प्लॉट के <b>एकड़</b>, <b>कनाल</b> और <b>मरला</b> मान इनपुट करें। यदि किसी प्लॉट का आकार केवल मरला में है, तो एकड़ और कनाल वाले कॉलम को खाली छोड़ दें या 0 लिखें।</li>
+            <li><b>और प्लॉट जोड़ें:</b> यदि आपके पास 2 से अधिक प्लॉट हैं जिन्हें आपस में जोड़ना है, तो <b>"+ Add More Plot"</b> बटन दबाकर नया इनपुट बॉक्स खोलें। आप असीमित संख्या में प्लॉट जोड़ सकते हैं।</li>
+            <li><b>जोड़ की गणना करें:</b> सभी विवरण भरकर <b>"Calculate Total Beriz"</b> पर क्लिक करें, बेस-20 और बेस-8 ओव्हरफ्लो तकनीक के आधार पर गणितीय गणना होकर परिणाम तुरंत आपके सामने आ जाएगा।</li>
+            <li><b>शेयर या सेव करें:</b> आप सीधे <b>Copy Results</b>, <b>Print Report</b> या <b>WhatsApp</b> बटन का उपयोग करके विवरण सुरक्षित साझा या पीडीएफ के रूप में डाउनलोड कर सकते हैं।</li>
+        </ol>
+    </section>
+
+    <section>
+        <h3>३. वास्तविक गणना उदाहरण (मिश्रित बेस कैरी नियम)</h3>
+        <p>यह सॉफ्टवेयर टूल बैकएंड पर गणना को किस प्रकार संभालता है, इसे एक उदाहरण से समझें। मान लीजिए आपके पास दाखिल-खारिज (Mutation) के लिए दो अलग-अलग खसरा की जमीनें हैं:</p>
+        <ul>
+            <li><b>जमीन का टुकड़ा १:</b> 1 एकड़, 6 कनाल और 15 मरला</li>
+            <li><b>जमीन का टुकड़ा २:</b> 0 एकड़, 4 कनाल और 12 मरला</li>
+        </ul>
+        <p><b>स्टेप-बाय-स्टेप जोड़ की प्रक्रिया:</b></p>
+        <ol>
+            <li><b>मरला को जोड़ें:</b> 15 + 12 = 27 मरला।</li>
+            <li><b>मरला टू कनाल कैरी लगाएं:</b> चूंकि 27 मरला 20 से अधिक है (20 मरला = 1 कनाल), अतः <code>27 - 20 = 7 मरला</code> बचेगा और 1 पूरा कनाल कनाल के हिस्से में जुड़ (Carry) जाएगा।</li>
+            <li><b>कनाल को जोड़ें:</b> 6 कनाल + 4 कनाल + 1 कनाल (हासिल का) = 11 कनाल।</li>
+            <li><b>कनाल टू एकड़ कैरी लगाएं:</b> चूंकि 11 कनाल 8 से अधिक है (8 कनाल = 1 एकड़), अतः <code>11 - 8 = 3 कनाल</code> बचेगा और 1 पूरा एकड़ मुख्य एकड़ के हिस्से में जुड़ जाएगा।</li>
+            <li><b>एकड़ को जोड़ें:</b> 1 एकड़ + 0 एकड़ + 1 एकड़ (हासिल का) = 2 एकड़।</li>
+            <li><b>अंतिम समेकित परिणाम:</b> आपका कुल क्षेत्रफल <b>2 एकड़, 3 कनाल और 7 मरला</b> प्रदर्शित होगा। इसके बाद हमारा सिस्टम इसे वर्ग फुट, गज (Gaj) और सरसाही में बदल देता है।</li>
+        </ol>
+    </section>
+
+    <section>
+        <h3>४. पंजाब भूमि कानून और राजस्व प्रणालियों का गहरा विश्लेषण</h3>
+        <p>पंजाब में भूमि का हस्तांतरण और दाखिल-खारिज केवल गणितीय ही नहीं, बल्कि कानूनी रूप से भी जटिल है। यहाँ ऐतिहासिक <b>पंजाब लैंड रेवेन्यू एक्ट, 1887</b> लागू है। इस कानून के तहत जमीनी रिकॉर्ड का रखरखाव और म्यूटेशन की प्रक्रिया संचालित होती है। जब भी कोई पटवारी या राजस्व अधिकारी किसी डीड (Deed) या फर्द का मिलान करता है, तो क्षेत्रफल में एक मरला की भी गलती होने पर दाखिल-खारिज याचिका तहसीलदार या नायब-तहसीलदार द्वारा खारिज की जा सकती है।</p>
+        <p>स्थानीय स्तर पर, पंजाब में 'करम' (Karam) की लंबाई ६६ इंच मानी जाती है, जिसके आधार पर १ मरला का क्षेत्रफल २७२.२५ वर्ग फुट या ३०.२५ वर्ग गज (गज) निर्धारित होता है। सरकारी डिजिटल रिकॉर्ड यानी PLRA पोर्टल पूरी तरह इसी मानक का पालन करता है। हमारा कैलकुलेटर इसी आधिकारिक सरकारी विन्यास पर आधारित है, जिससे आपके दस्तावेजी कार्यों में कोई विसंगति नहीं आती।</p>
+    </section>
+
+    <h3>५. मानक रूपांतरण तालिका (Punjab Unit Matrix)</h3>
+    <table>
+        <thead>
+            <tr>
+                <th>इकाई का नाम</th>
+                <th>राजस्व संबंध और परिभाषा</th>
+                <th>वर्ग फुट (Sq. Feet)</th>
+                <th>वर्ग गज / गज (Gaj)</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr><td><b>1 एकड़ / किल्ला (Acre)</b></td><td>8 कनाल / 160 मरला मानक राजस्व इकाई</td><td>43,560 चौ. फुट</td><td>4,840 वर्ग गज</td></tr>
+            <tr><td><b>1 कनाल (Kanaal)</b></td><td>20 मरला के बराबर / एकड़ का 1/8वां भाग</td><td>5,445 चौ. फुट</td><td>605 वर्ग गज</td></tr>
+            <tr><td><b>1 मरला (Marla)</b></td><td>9 सरसाही के बराबर / कनाल का 1/20वां भाग</td><td>272.25 चौ. फुट</td><td>30.25 वर्ग गज</td></tr>
+            <tr><td><b>1 सरसाही (Sarsahi)</b></td><td>मरला का 1/9 वां हिस्सा / 1 करम x 1 करम का वर्गाकार क्षेत्र</td><td>30.25 चौ. फुट</td><td>3.36 वर्ग गज</td></tr>
+            <tr><td><b>1 करम (Karam)</b></td><td>पारंपरिक राजस्व लंबाई मापन इकाई (66 इंच)</td><td>लीनियर माप</td><td>2.2 लीनियर गज</td></tr>
+        </tbody>
+    </table>
+
+    <h3>६. १५ अक्सर पूछे जाने वाले प्रश्न (FAQs - Top Google Search Queries)</h3>
+    <div id="faq-container-hi">
+        <div class="faq-block"><p><b>प्रश्न १. पंजाब में 1 एकड़ (किल्ला) में कितने कनाल होते हैं?</b><br>उत्तर: पंजाब के राजस्व नियमों और जमाबंदी पोर्टल के अनुसार, 1 एकड़ में सटीक 8 कनाल होते हैं।</p></div>
+        <div class="faq-block"><p><b>प्रश्न २. पंजाब में 1 कनाल में कितने मरला होते हैं?</b><br>उत्तर: सरकारी विन्यास के अनुसार यहाँ 1 कनाल जमीन का मान 20 मरला के बराबर माना जाता है।</p></div>
+        <div class="faq-block"><p><b>प्रश्न ३. 1 मरला में कुल कितने वर्ग फुट क्षेत्र आते हैं?</b><br>उत्तर: पंजाब के मानक रिकॉर्ड में 1 मरला में ठीक 272.25 वर्ग फुट (Square Feet) स्थान होता है।</p></div>
+        <div class="faq-block"><p><b>प्रश्न ४. क्या यह टूल जमाबंदी PLRA सरकारी पोर्टल से सीधे संबद्ध है?</b><br>उत्तर: नहीं, यह Shayan Smart Tools द्वारा विकसित एक स्वतंत्र कैलकुलेटर है, जो पूरी तरह से राज्य के आधिकारिक राजस्व गणना नियमों पर काम करता है।</p></div>
+        <div class="faq-block"><p><b>प्रश्न ५. 1 एकड़ में कुल कितने मरला शामिल होते हैं?</b><br>उत्तर: पंजाब के भूमि मापन मैट्रिक्स के अनुसार 1 एकड़ (किल्ला) में कुल 160 मरला जमीन होती है।</p></div>
+        <div class="faq-block"><p><b>प्रश्न ६. सामान्य कैलकुलेटर पंजाब की जमीन जोड़ने में क्यों गलती करते हैं?</b><br>उत्तर: सामान्य कैलकुलेटर बेस-10 (दशमलव) पर चलते हैं, जबकि पंजाब की जमीन का गणित बेस-20 (मरला) और बेस-8 (कनाल) के जटिल नियमों पर चलता है।</p></div>
+        <div class="faq-block"><p><b>प्रश्न ७. 1 मरला में कितने वर्ग गज या 'गज' होते हैं?</b><br>उत्तर: पंजाब भूमि राजस्व नियमों के तहत 1 मरला सटीक 30.25 वर्ग गज (Gaj) के समतुल्य होता है।</p></div>
+        <div class="faq-block"><p><b>प्रश्न ८. पंजाब भूमि रिकॉर्ड में सरसाही (Sarsahi) क्या है?</b><br>उत्तर: सरसाही पंजाब की सबसे छोटी पारंपरिक राजस्व इकाई है। कुल 9 सरसाही मिलकर 1 मरला बनाती हैं।</p></div>
+        <div class="faq-block"><p><b>प्रश्न ९. 1 करम (Karam) की वास्तविक लंबाई कितनी होती है?</b><br>उत्तर: पंजाब के जमीनी रिकॉर्ड के अनुसार 1 करम की लंबाई ठीक 66 इंच (5.5 फीट) होती है।</p></div>
+        <div class="faq-block"><p><b>प्रश्न १०. पंजाब में भूमि रिकॉर्ड और म्यूटेशन को नियंत्रित करने वाला मुख्य अधिनियम कौन सा है?</b><br>उत्तर: यहाँ म्यूटेशन और जमाबंदी मुख्य रूप से पंजाब लैंड रेवेन्यू एक्ट, 1887 द्वारा नियंत्रित होता है।</p></div>
+        <div class="faq-block"><p><b>प्रश्न ११. क्या मैं एकड़ या कनाल डाले बिना केवल मरला जोड़ सकता हूँ?</b><br>उत्तर: हाँ, आप एकड़ और कनाल वाले कॉलम को खाली छोड़ सकते हैं और केवल मरला डालकर "Calculate" दबा सकते हैं, सिस्टम सही ढंग से काम करेगा।</p></div>
+        <div class="faq-block"><p><b>प्रश्न १२. क्या पंजाब में किल्ला और एकड़ एक ही समान होते हैं?</b><br>उत्तर: हाँ, पंजाब के अधिकांश कृषि क्षेत्रों में 'किल्ला' शब्द का प्रयोग 'एकड़' के लिए ही किया जाता है।</p></div>
+        <div class="faq-block"><p><b>प्रश्न १३. यह कैलकुलेटर वर्ग गज (Gaj) की गणना कैसे करता है?</b><br>उत्तर: यह टूल सबसे पहले सभी इकाइयों को कुल मरला में बदलता है, उसे 272.25 से गुणा करके वर्ग फुट निकालता है और फिर उसे 9 से भाग देता है।</p></div>
+        <div class="faq-block"><p><b>प्रश्न १४. इस वेबपेज पर प्रयुक्त शब्द "Beriz" का क्या अर्थ है?</b><br>उत्तर: "बेरीज" एक पारंपरिक राजस्व (Revenue) शब्द है जिसका अर्थ "कुल संचित जोड़" या "Grand Total" होता है।</p></div>
+        <div class="faq-block"><p><b>प्रश्न १५. क्या इस कैलकुलेटर की प्रिंट रिपोर्ट अदालती कार्यों के लिए मान्य है?</b><br>उत्तर: यह टूल केवल आपकी गणितीय शुद्धता और संदर्भ (Reference) के लिए है। किसी भी कानूनी विवाद, रजिस्ट्री या सरकारी काम के लिए अपने क्षेत्र के पटवारी या राजस्व कार्यालय से ही सत्यापन करवाएं।</p></div>
+    </div>
+</article>
+
+<div class="footer-copyright-box">
+    <div class="footer-law-accent">Statutory Cyber Law Protection Vault</div>
+    <p><b>Copyright Protection Notice:</b> Shayan Smart Tools Core Processing Engines, Localization Scripts, and Structural Web Algorithms © 2026. All rights reserved.</p>
+    <p style="font-size: 12px; color: #64748b;">This application canvas layout and mathematical processing engines are strictly protected under global software copyright acts and Indian IP Protection Laws. Any unauthorized deployment of this architecture will initiate immediate legal escalations.</p>
 </div>
 
 <script>
-    var pCount = 2;
-    var currentL = 'en';
+    let plotIdx = 2;
+    let currentLang = 'en';
 
-    var trans = {
+    const translations = {
         en: {
-            title: "Punjab Land Area Addition Tool",
-            stitle: "Add multiple plots/khata holdings in Kanal and Marla with automated 20-unit base carry logic.",
+            title: "Punjab Land Area Addition Calculator",
+            subtitle: "Punjab Land Records Framework: 1 Acre (Killa) = 8 Kanaal = 160 Marla | 1 Kanaal = 20 Marla",
             addBtn: "+ Add More Plot",
-            calcBtn: "Calculate Total Area",
-            resHead: "Total Land Area (ਕੁੱਲ ਰਕਬਾ):",
-            unitK: "Kanal", unitM: "Marla",
-            sqLabel: "Total Square Feet Matrix: ",
-            copyBtn: "📋 Copy Result", shareBtn: "📲 WhatsApp Share", printBtn: "🖨️ Print Report",
-            copyMsg: "Result Details Copied!",
-            shI: "Land Accumulation Ledger (ਜਮੀਨ ਜੋੜ ਪ੍ਰਵਿਸ਼ਟੀ)",
-            rsq: "Total Square Feet Matrix:", rsm: "Total Square Meters Matrix:", rkilla: "Equivalent Killa / Acre Size:", rhec: "Estimated Total Hectare:", bk: "⬅ Back to All Tools",
-            seot: "Punjab Land Area Addition: Kanal aur Marla ka Total Jod Kaise Karein?",
-            seos: "Punjab Jamabandi (PLRS) portal guidelines aur sub-registrar validation ke anusaar multiple plots ka total arithmetic sum scale manual guide.",
-            dt: "Related Tools & Internal Dashboards", dh: "Main Dashboard", dc: "Punjab Land Calculator", db: "Punjab Bigha to Sq Ft", dco: "Punjab Land Cost Calculator"
+            calcBtn: "Calculate Total Beriz",
+            resetBtn: "Reset",
+            resHead: "Ekun Ksheftrafal / कुल क्षेत्रफल (Total Combined Area)",
+            lblCombinedInput: "Initial Combined Input:",
+            lblResAcre: "Acre / Killa (एकड़ / किल्ला)",
+            lblResKanaal: "Kanaal (कनाल)",
+            lblResMarla: "Marla (मरला)",
+            lblResSarsahi: "Equivalent Sarsahi (सरसाही)",
+            lblResSqft: "Total Square Feet",
+            lblResSqm: "Total Square Meter",
+            lblResGaj: "Total Square Yards (Gaj)",
+            btnCopy: "📋 Copy Results",
+            btnWA: "📲 WhatsApp",
+            btnPrint: "🖨️ Print Report",
+            backLnk: "⬅ Back to All Tools Dashboard",
+            printInputsTitle: "Entered Plot Dimensions",
+            thPlotNo: "Plot No",
+            thAcre: "Acre",
+            thKanaal: "Kanaal",
+            thMarla: "Marla"
         },
-        pa: {
-            title: "ਪੰਜਾਬ ਜਮੀਨ ਜੋੜ ਕੈਲਕੁਲੇਟਰ",
-            stitle: "ਸਵੈਚਾਲਿਤ ਕੈਰੀ ਫਾਰਵਰਡ ਲੋਜਿਕ ਮੈਟ੍ਰਿਕਸ ਦੇ ਨਾਲ ਕਨਾਲ ਅਤੇ ਮਰਲਾ ਵਿੱਚ ਕਈ ਪਲਾਟਾਂ ਨੂੰ ਜੋੜੋ।",
-            addBtn: "+ ਹੋਰ ਪਲਾਟ ਜੋੜੋ",
-            calcBtn: "ਕੁੱਲ ਜੋੜ ਕੱਢੋ",
-            resHead: "ਕੁੱਲ ਰਕਬਾ ਨਤੀਜਾ ਵੇਰਵਾ:",
-            unitK: "ਕਨਾਲ (Kanal)", unitM: "ਮਰਲਾ (Marla)",
-            sqLabel: "ਕੁੱਲ ਵਰਗ ਫੁੱਟ: ",
-            copyBtn: "📋 ਵੇਰਵੇ ਕਾਪี ਕਰੋ", shareBtn: "📲 ਵਟਸਐਪ ਸ਼ੇਅਰ ਕਰੋ", printBtn: "🖨️ ਰਿਪੋਰਟ ਪ੍ਰਿੰਟ ਕਰੋ",
-            copyMsg: "ਜੋੜ ਦਾ ਨਤੀਜਾ ਕਾਪੀ ਹੋ ਗਿਆ!",
-            shI: "ਪਲਾਟ ਜੋੜ ਪ੍ਰਵਿਸ਼ਟੀ ਵੇਰਵੇ ਸੂਚੀ",
-            rsq: "ਕੁੱਲ ਵਰਗਫੁੱਟ ਪਰਿਮਾਣ (Sq.Ft):", rsm: "ਕੁੱਲ ਵਰਗਮੀਟਰ ਪਰਿਮਾਣ (Sq.Mt):", rkilla: "ਏਕੜ / ਕਿੱਲਾ ਬਰਾਬਰ ਰਕਬਾ:", rhec: "ਅਨੁਮਾਨਿਤ ਕੁੱਲ ਹੈਕਟੇਅਰ (Ha):", bk: "⬅ ਸਾਰੇ ਸਾਧਨਾਂ ਦੀ ਸੂਚੀ",
-            seot: "ਪੰਜਾਬ ਭੂਮੀ ਜੋੜ ਕੈਲਕੁਲੇਟਰ: ਕਨਾਲ ਅਤੇ ਮਰਲਾ ਦਾ ਕੁੱਲ ਜੋੜ ਅਤੇ ਕੈਰੀ ਨਿਯਮ",
-            seos: "ਪੰਜਾਬ ਭੂਮੀ ਮਾਲ ਵਿਭਾਗ ਦੇ ਮਾਪਦੰਡਾਂ ਅਤੇ ਜਮ੍ਹਾਬੰਦੀ ਪ੍ਰਣਾਲੀ ਦੇ ਅਨੁਸਾਰ ਕਈ ਪਲਾਟਾਂ ਦਾ ਕੁੱล ਖੇਤਰਫਲ ਕੱਢਣ ਦਾ ਮੈנੂਅਲ।",
-            dt: "ਸੰਬੰଧਿਤ ਡਿજીਟਲ ਟੂਲਸ ਅਤੇ ਡੈਸ਼ਬੋਰਡ", dh: "मुੱਖ ਡੈਸ਼ਬੋਰਡ", dc: "🏡 ਪੰਜਾਬ ਜਮੀਨ ਕੈਲκੁਲੇਟਰ", db: "📏 ਬੀਘਾ ਤੋਂ ਵਰਗ ਫੁੱਟ ਕੈਲਕੁਲੇਟਰ", dco: "💰 ਜਮੀਨ ਮੁੱਲ ਕੈਲਕੁਲੇਟਰ"
+        hi: {
+            title: "पंजाब जमीन क्षेत्रफल जोड़ कैलकुलेटर",
+            subtitle: "पंजाब राजस्व मानक प्रणाली: 1 एकड़ = 8 कनाल = 160 मरला | 1 कनाल = 20 मरला",
+            addBtn: "+ और प्लॉट जोड़ें",
+            calcBtn: "कुल जोड़ गणना करें",
+            resetBtn: "रिसेट करें",
+            resHead: "कुल क्षेत्रफल (Total Combined Area)",
+            lblCombinedInput: "कुल सबमिट किए गए प्लॉट:",
+            lblResAcre: "एकड़ / किल्ला",
+            lblResKanaal: "कनाल",
+            lblResMarla: "मरला",
+            lblResSarsahi: "समतुल्य सरसाही",
+            lblResSqft: "कुल वर्ग फुट",
+            lblResSqm: "कुल वर्ग मीटर",
+            lblResGaj: "कुल वर्ग गज (Gaj)",
+            btnCopy: "📋 परिणाम कॉपी करें",
+            btnWA: "📲 व्हाट्सएप शेयर",
+            btnPrint: "🖨️ रिपोर्ट प्रिंट करें",
+            backLnk: "⬅ सभी टूल्स डैशबोर्ड पर वापस जाएं",
+            printInputsTitle: "दर्ज किए गए प्लॉट का विवरण",
+            thPlotNo: "क्र.",
+            thAcre: "एकड़",
+            thKanaal: "कनाल",
+            thMarla: "मरला"
         }
     };
 
-    function toggleLang(l) {
-        currentL = l;
-        document.getElementById('enBtn').className = (l === 'en' ? 'lang-btn active' : 'lang-btn');
-        document.getElementById('paBtn').className = (l === 'pa' ? 'lang-btn active' : 'lang-btn');
-        
-        document.getElementById('mainTitle').innerText = trans[l].title;
-        document.getElementById('sTitle').innerText = trans[l].stitle;
-        document.getElementById('btnAdd').innerText = trans[l].addBtn;
-        document.getElementById('btnCalc').innerText = trans[l].calcBtn;
-        document.getElementById('resHead').innerText = trans[l].resHead;
-        document.getElementById('unitK').innerText = trans[l].unitK;
-        document.getElementById('unitM').innerText = trans[l].unitM;
-        document.getElementById('btnCopy').innerText = trans[l].copyBtn;
-        document.getElementById('btnShare').innerText = trans[l].shareBtn;
-        document.getElementById('btnPrint').innerText = trans[l].printBtn;
-        document.getElementById('lnkBack').innerText = trans[l].bk;
-        document.getElementById('hSecTitle').innerText = trans[l].shI;
-
-        document.getElementById('lblPrintSq').innerText = trans[l].rsq;
-        document.getElementById('lblPrintSqm').innerText = trans[l].rsm;
-        document.getElementById('lblPrintKilla').innerText = trans[l].rkilla;
-        document.getElementById('lblPrintHec').innerText = trans[l].rhec;
-
-        document.getElementById('seoTitle').innerText = trans[l].seot;
-        document.getElementById('seoSubTitle').innerText = trans[l].seos;
-
-        var kLabels = document.getElementsByClassName('lbl-k');
-        for (var i = 0; i < kLabels.length; i++) { kLabels[i].innerText = trans[l].unitK; }
-
-        var mLabels = document.getElementsByClassName('lbl-m');
-        for (var i = 0; i < mLabels.length; i++) { mLabels[i].innerText = trans[l].unitM; }
-        
-        document.getElementById('lblDashTitle').innerText = trans[l].dt;
-        document.getElementById('dshHome').querySelector('.sst-dash-title').innerText = trans[l].dh;
-        document.getElementById('dshCalc').querySelector('.sst-dash-title').innerText = trans[l].dc;
-        document.getElementById('dshB2S').querySelector('.sst-dash-title').innerText = trans[l].db;
-        document.getElementById('dshCost').querySelector('.sst-dash-title').innerText = trans[l].dco;
-
-        for (var i = 1; i <= pCount; i++) {
-            var el = document.getElementById('p' + i + 'Title');
-            if(el) el.innerText = (l === 'en' ? 'Plot Details #' + i : 'ਪਲਾਟ ਵੇਰਵਾ #' + i);
+    function switchLanguage(lang) {
+        currentLang = lang;
+        document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.remove('active'));
+        if(lang === 'en') {
+            document.querySelectorAll('.lang-btn')[0].classList.add('active');
+            document.getElementById('content-en').classList.add('active-lang');
+            document.getElementById('content-hi').classList.remove('active-lang');
+        } else {
+            document.querySelectorAll('.lang-btn')[1].classList.add('active');
+            document.getElementById('content-hi').classList.add('active-lang');
+            document.getElementById('content-en').classList.remove('active-lang');
         }
+
+        document.getElementById('mainTitle').innerText = translations[lang].title;
+        document.getElementById('mainSubTitle').innerText = translations[lang].subtitle;
+        document.getElementById('btnAddPlot').innerText = translations[lang].addBtn;
+        document.getElementById('btnCalc').innerText = translations[lang].calcBtn;
+        document.getElementById('btnReset').innerText = translations[lang].resetBtn;
+        document.getElementById('resHead').innerText = translations[lang].resHead;
+        
+        document.getElementById('lblCombinedInput').innerText = translations[lang].lblCombinedInput;
+        document.getElementById('lblResAcre').innerText = translations[lang].lblResAcre;
+        document.getElementById('lblResKanaal').innerText = translations[lang].lblResKanaal;
+        document.getElementById('lblResMarla').innerText = translations[lang].lblResMarla;
+        document.getElementById('lblResSarsahi').innerText = translations[lang].lblResSarsahi;
+        document.getElementById('lblResSqft').innerText = translations[lang].lblResSqft;
+        document.getElementById('lblResSqm').innerText = translations[lang].lblResSqm;
+        document.getElementById('lblResGaj').innerText = translations[lang].lblResGaj;
+
+        document.getElementById('btnCopy').innerText = translations[lang].btnCopy;
+        document.getElementById('btnWA').innerText = translations[lang].btnWA;
+        document.getElementById('btnPrint').innerText = translations[lang].btnPrint;
+        document.getElementById('lnkBack').innerText = translations[lang].backLnk;
+        
+        document.getElementById('printInputsTitle').innerText = translations[lang].printInputsTitle;
+        document.getElementById('thPlotNo').innerText = translations[lang].thPlotNo;
+        document.getElementById('thAcre').innerText = translations[lang].thAcre;
+        document.getElementById('thKanaal').innerText = translations[lang].thKanaal;
+        document.getElementById('thMarla').innerText = translations[lang].thMarla;
+
+        document.querySelectorAll('.plot-container').forEach(container => {
+            const header = container.querySelector('.plot-header');
+            const labels = container.querySelectorAll('label');
+            if(header) header.innerText = header.getAttribute(`data-${lang}`) || header.innerText;
+            if(labels.length > 0) {
+                labels[0].innerText = labels[0].getAttribute(`data-${lang}`);
+                labels[1].innerText = labels[1].getAttribute(`data-${lang}`);
+                labels[2].innerText = labels[2].getAttribute(`data-${lang}`);
+            }
+        });
     }
 
     function addNewPlot() {
-        pCount++;
-        var area = document.getElementById('plotsArea');
-        var div = document.createElement('div');
-        div.className = 'plot-entry';
-        div.innerHTML = '<span class="plot-title" id="p' + pCount + 'Title">' + (currentL === 'en' ? 'Plot Details #' + pCount : 'ਪਲਾਟ ਵੇਰਵਾ #' + pCount) + '</span>' +
-            '<div class="grid-inputs">' +
-                '<div class="input-group"><label class="lbl-k">' + trans[currentL].unitK + '</label><input type="number" class="k-in" placeholder="0" value="0"></div>' +
-                '<div class="input-group"><label class="lbl-m">' + trans[currentL].unitM + '</label><input type="number" class="m-in" placeholder="0" value="0"></div>' +
-            '</div>';
-        area.appendChild(div);
+        plotIdx++;
+        const list = document.getElementById('plotsList');
+        const div = document.createElement('div');
+        div.className = 'plot-container';
+        
+        let headerText = currentLang === 'en' ? `Plot Detail #${plotIdx}` : `जमीन प्लॉट विवरण #${plotIdx}`;
+        let labelAcre = currentLang === 'en' ? 'Acre / Killa' : 'एकड़ / किल्ला';
+        let labelKanaal = currentLang === 'en' ? 'Kanaal' : 'कनाल';
+        let labelMarla = currentLang === 'en' ? 'Marla' : 'मरला';
+
+        div.innerHTML = `
+            <span class="plot-header" data-en="Plot Detail #${plotIdx}" data-hi="जमीन प्लॉट विवरण #${plotIdx}">${headerText}</span>
+            <div class="input-grid">
+                <div class="field"><label data-en="Acre / Killa" data-hi="एकड़ / किल्ला">${labelAcre}</label><input type="number" class="a-val" placeholder="0" min="0"></div>
+                <div class="field"><label data-en="Kanaal" data-hi="कनाल">${labelKanaal}</label><input type="number" class="k-val" placeholder="0" min="0"></div>
+                <div class="field"><label data-en="Marla" data-hi="मरला">${labelMarla}</label><input type="number" class="m-val" placeholder="0" min="0"></div>
+            </div>`;
+        list.appendChild(div);
     }
 
-    function calculatePBTotal() {
-        var k = 0;
-        var m = 0;
+    function calculateTotal() {
+        let ta = 0, tk = 0, tm = 0;
+        let validPlots = 0;
         
-        var kElements = document.getElementsByClassName('k-in');
-        for (var i = 0; i < kElements.length; i++) { k += (Number(kElements[i].value) || 0); }
-        
-        var mElements = document.getElementsByClassName('m-in');
-        for (var i = 0; i < mElements.length; i++) { m += (Number(mElements[i].value) || 0); }
+        const summaryBody = document.getElementById('print-plots-summary');
+        summaryBody.innerHTML = '';
 
-        if(m >= 20) { 
-            k += Math.floor(m / 20); 
-            m = m % 20; 
+        const aInputs = document.querySelectorAll('.a-val');
+        const kInputs = document.querySelectorAll('.k-val');
+        const mInputs = document.querySelectorAll('.m-val');
+
+        aInputs.forEach((item, index) => {
+            let aVal = Number(item.value) || 0;
+            let kVal = Number(kInputs[index].value) || 0;
+            let mVal = Number(mInputs[index].value) || 0;
+            
+            ta += aVal;
+            tk += kVal;
+            tm += mVal;
+            validPlots++;
+
+            let row = document.createElement('tr');
+            row.innerHTML = `<td>Plot #${index + 1}</td><td>${aVal}</td><td>${kVal}</td><td>${mVal}</td>`;
+            summaryBody.appendChild(row);
+        });
+
+        // Punjab Complex Revenue Carry Forward Logic
+        // 1 Kanaal = 20 Marla
+        if (tm >= 20) {
+            tk += Math.floor(tm / 20);
+            tm %= 20;
+        }
+        
+        // 1 Acre = 8 Kanaal
+        if (tk >= 8) {
+            ta += Math.floor(tk / 8);
+            tk %= 8;
         }
 
-        document.getElementById('outK').innerText = k;
-        document.getElementById('outM').innerText = m;
+        document.getElementById('ra').innerText = ta + " Acre / Killa";
+        document.getElementById('rk').innerText = tk + " Kanaal";
+        document.getElementById('rm').innerText = tm.toFixed(2) + " Marla";
         
-        var totalSq = (k * 5445) + (m * 272.25);
-        var totalSqm = totalSq / 10.7639104;
-        var totalKilla = totalSq / 43560;
-        var totalHec = totalSq / 107639.104;
+        // Punjab Revenue Calculations (Standard Karam = 66 inches)
+        // Total Marlas
+        let totalMarla = (ta * 160) + (tk * 20) + tm;
+        
+        // 1 Marla = 9 Sarsahi
+        let totalSarsahi = totalMarla * 9;
+        // 1 Marla = 272.25 Sq Ft
+        let totalSqft = totalMarla * 272.25; 
+        // 1 Square Yard (Gaj) = 9 Sq Ft -> 1 Marla = 30.25 Gaj
+        let totalGaj = totalSqft / 9;
+        let totalSqm = totalSqft / 10.76391;
 
-        document.getElementById('outSq').innerText = Math.round(totalSq).toLocaleString('en-IN');
-        document.getElementById('outSqm').innerText = Math.round(totalSqm).toLocaleString('en-IN');
-        document.getElementById('outKilla').innerText = totalKilla.toFixed(4);
-        document.getElementById('outHec').innerText = totalHec.toFixed(4);
-
-        if (currentL === 'en') {
-            document.getElementById('pb_main').innerText = k + " Kanal, " + m + " Marla";
-        } else {
-            document.getElementById('pb_main').innerText = k + " ਕਨਾਲ, " + m + " ਮਰਲਾ";
-        }
-
-        var options = { day: 'numeric', month: 'long', year: 'numeric' };
-        var today = new Date().toLocaleDateString('en-IN', options);
+        document.getElementById('rsarsahi').innerText = totalSarsahi.toFixed(1) + " Sarsahi";
+        document.getElementById('rsq').innerText = Math.round(totalSqft).toLocaleString('en-IN') + " sq ft";
+        document.getElementById('rgaj').innerText = totalGaj.toLocaleString('en-IN', {maximumFractionDigits: 2}) + " Gaj (Sq Yards)";
+        document.getElementById('rsqm').innerText = totalSqm.toLocaleString('en-IN', {maximumFractionDigits: 2}) + " sq m";
+        
+        let options = { day: 'numeric', month: 'long', year: 'numeric' };
+        let today = new Date().toLocaleDateString('en-IN', options);
         document.getElementById('pDocDate').innerText = today + " (IST)";
+        document.getElementById('rInputVal').innerText = `${validPlots} Plots Computed`;
         
-        var randID = Math.floor(1000000000 + Math.random() * 9000000000);
-        document.getElementById('pDocRef').innerText = "SST-PB-ADD-" + randID;
+        let randID = Math.floor(1000000000 + Math.random() * 9000000000);
+        document.getElementById('pDocRef').innerText = `SST-PB-ADD-${randID}`;
 
-        var resPanel = document.getElementById('resultBox');
-        resPanel.style.display = 'block';
-        resPanel.scrollIntoView({behavior: 'smooth'});
+        const resPanel = document.getElementById('resPanel');
+        resPanel.style.display = "block";
+        resPanel.scrollIntoView({ behavior: 'smooth' });
+    }
+
+    function resetForm() {
+        const list = document.getElementById('plotsList');
+        list.innerHTML = `
+            <div class="plot-container">
+                <span class="plot-header" data-en="Plot Detail #1" data-hi="जमीन प्लॉट विवरण #1">${currentLang === 'en' ? 'Plot Detail #1' : 'जमीन प्लॉट विवरण #1'}</span>
+                <div class="input-grid">
+                    <div class="field"><label data-en="Acre / Killa" data-hi="एकड़ / किल्ला">${currentLang === 'en' ? 'Acre' : 'एकड़'}</label><input type="number" class="a-val" placeholder="0" min="0"></div>
+                    <div class="field"><label data-en="Kanaal" data-hi="कनाल">${currentLang === 'en' ? 'Kanaal' : 'कनाल'}</label><input type="number" class="k-val" placeholder="0" min="0"></div>
+                    <div class="field"><label data-en="Marla" data-hi="मरला">${currentLang === 'en' ? 'Marla' : 'मरला'}</label><input type="number" class="m-val" placeholder="0" min="0"></div>
+                </div>
+            </div>
+            <div class="plot-container">
+                <span class="plot-header" data-en="Plot Detail #2" data-hi="जमीन प्लॉट विवरण #2">${currentLang === 'en' ? 'Plot Detail #2' : 'जमीन प्लॉट विवरण #2'}</span>
+                <div class="input-grid">
+                    <div class="field"><label data-en="Acre / Killa" data-hi="एकड़ / किल्ला">${currentLang === 'en' ? 'Acre' : 'एकड़'}</label><input type="number" class="a-val" placeholder="0" min="0"></div>
+                    <div class="field"><label data-en="Kanaal" data-hi="कनाल">${currentLang === 'en' ? 'Kanaal' : 'कनाल'}</label><input type="number" class="k-val" placeholder="0" min="0"></div>
+                    <div class="field"><label data-en="Marla" data-hi="मरला">${currentLang === 'en' ? 'Marla' : 'मरला'}</label><input type="number" class="m-val" placeholder="0" min="0"></div>
+                </div>
+            </div>`;
+        plotIdx = 2;
+        document.getElementById('resPanel').style.display = "none";
+        window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
     function printLandReport() {
-        var resPanel = document.getElementById('resultBox');
-        if (resPanel.style.display !== "block") { 
-            alert(currentL === 'en' ? "Calculate first before printing!" : "ਪ੍ਰਿੰਟ ਕਰਨ ਤੋਂ ਪਹਿਲਾਂ ਗਣਨਾ ਕਰੋ!"); 
+        const resPanel = document.getElementById('resPanel');
+        if(resPanel.style.display !== "block") { 
+            alert(currentLang === 'en' ? "Calculate metrics first!" : "पहले गणना करें!"); 
             return; 
         }
+        const printRow = document.getElementById('print-input-row');
+        printRow.style.display = "flex";
         window.print();
+        printRow.style.display = "none";
     }
 
-    function copyResult() {
-        var t = "Total Accumulated Area: " + document.getElementById('outK').innerText + " Kanal, " + document.getElementById('outM').innerText + " Marla. Calculated via Shayan Smart Tools";
-        navigator.clipboard.writeText(t);
-        alert(trans[currentL].copyMsg);
+    function copyData() {
+        let text = `Punjab Land Area Addition Results:\n` +
+                   `Total: ${document.getElementById('ra').innerText}, ${document.getElementById('rk').innerText} & ${document.getElementById('rm').innerText}\n` +
+                   `Sarsahi Metric: ${document.getElementById('rsarsahi').innerText}\n` +
+                   `Sq Ft: ${document.getElementById('rsq').innerText}\n` +
+                   `Gaj (Sq Yards): ${document.getElementById('rgaj').innerText}\n` +
+                   `Calculated securely via Shayan Smart Tools`;
+        navigator.clipboard.writeText(text);
+        alert(currentLang === 'en' ? "Copied successfully!" : "सफलतापूर्वक कॉपी किया गया!");
     }
 
-    function shareWhatsApp() {
-        var t = "Punjab Land Addition Result: " + document.getElementById('outK').innerText + " Kanal, " + document.getElementById('outM').innerText + " Marla. Total Area: " + document.getElementById('outSq').innerText + " Sq.Ft. Verified via Shayan Smart Tools";
-        window.open("https://wa.me/?text=" + encodeURIComponent(t), '_blank');
+    function shareWA() {
+        let text = `Punjab Land Area Addition Results:\n` +
+                   `Total: ${document.getElementById('ra').innerText}, ${document.getElementById('rk').innerText}, ${document.getElementById('rm').innerText}\n` +
+                   `Gaj Structure: ${document.getElementById('rgaj').innerText}\n` +
+                   `Sq Ft: ${document.getElementById('rsq').innerText}`;
+        window.open("https://wa.me/?text=" + encodeURIComponent(text));
     }
 </script>
 
