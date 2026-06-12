@@ -1,706 +1,740 @@
 <!DOCTYPE html>
-<html lang="kn">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Karnataka Land Area Addition Tool | ಕರ್ನಾಟಕ ಭೂಮಿ ಕಂದಾಯ ಒಟ್ಟು ಸೇರ್ಪಡೆ | Shayan Smart Tools</title>
+    <title>Karnataka Land Area Addition Calculator Free 2026 | ಕರ್ನಾಟಕ ಜಮೀನು ವಿಸ್ತೀರ್ಣ ಕ್ಯಾಲ್ಕುಲೇಟರ್ | Shayan Smart Tools</title>
     <link rel="canonical" href="https://shayansmarttools.in/karnataka-land-area-addition.html" />
+    <link rel="icon" type="image/png" href="favicon.png" />
 
-    <meta name="description" content="Official Karnataka Land Area Addition Tool. Add multiple plots in Acre, Gunta, and Anae accurately with automated carry forward base shifting logic. 100% Free by Shayan Smart Tools.">
-    <meta name="keywords" content="Karnataka Land Area Addition, ಕರ್ನಾಟಕ ಭೂಮಿ கூட்டಲ್, Acre Gunta Anae Addition Calculator, Bhoomi Portal Jod Calculator, Shayan Smart Tools Karnataka, RTC Pahani Area Addition">
+    <meta name="description" content="Official Karnataka Land Area Addition Tool. Add multiple agricultural or residential plots in Acre, Gunta, and Anna formats accurately with Karnataka Bhoomi carry forward logic (1 Acre = 40 Gunta). Best SEO tool for land records.">
+    <meta name="keywords" content="Karnataka Land Area Addition, ಕರ್ನಾಟಕ ಜಮೀನು ವಿಸ್ತೀರ್ण ಕ್ಯಾಲ್ಕುಲೇಟರ್, Bhoomi Karnataka Land Calculator, Acre Gunta Anna Sum, Karnataka Land Area Calculator, Gunta to Square Feet Conversion, Karnataka land registry math, RTC area calculator">
     <meta name="author" content="Muksidul islam">
     <meta name="robots" content="index, follow">
 
     <style>
         :root {
-            --ka-red: #b71c1c;
-            --ka-dark: #7f0000;
-            --ka-corporate: #0f172a;
+            --ka-red: #bd1a11;
+            --ka-yellow: #f7cb15;
+            --ka-dark-blue: #0b2545;
             --text-dark: #334155;
             --white: #ffffff;
-            --bg: #f8fafc;
-            --ka-gold: #ffb300;
-            --bg-light: #fffdeb;
+            --bg: #fffbf4;
+            --border-color: #cbd5e1;
+        }
+
+        * {
+            box-sizing: border-box;
         }
 
         body {
-            font-family: 'Poppins', sans-serif;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             line-height: 1.6;
+            color: var(--text-dark);
+            max-width: 950px;
+            margin: 0 auto;
+            padding: 15px;
             background-color: var(--bg);
-            margin: 0;
-            padding: 20px;
-            color: #333;
         }
 
-        .container { max-width: 850px; margin: 0 auto; }
+        .tool-wrapper { padding: 10px 0; text-align: center; }
 
         header {
-            background: linear-gradient(135deg, var(--ka-red), var(--ka-corporate));
-            color: #fff; padding: 40px 20px; border-radius: 25px; text-align: center;
-            border-bottom: 6px solid var(--ka-gold); margin-bottom: 30px;
+            background: linear-gradient(135deg, var(--ka-red), #800e08);
+            color: #fff; padding: 45px 20px; border-radius: 25px; text-align: center;
+            border-bottom: 6px solid var(--ka-yellow); margin-bottom: 25px;
+            box-shadow: 0 10px 25px rgba(189, 26, 17, 0.15);
         }
-        header h1 { color: white; margin: 0 0 10px 0; font-size: 26px; text-transform: uppercase; font-weight: 900; }
-        header p { color: #f1f5f9; margin: 0; font-size: 16px; }
-        
-        .lang-toggle { display: flex; justify-content: center; gap: 10px; margin-bottom: 25px; }
-        .lang-btn { padding: 10px 25px; border-radius: 50px; border: 2px solid var(--ka-red); background: white; cursor: pointer; font-weight: 700; transition: 0.3s; color: var(--ka-red); }
-        .lang-btn.active { background: var(--ka-red); color: white; }
+        header h1 { color: white; margin: 0 0 10px 0; font-size: 32px; text-transform: uppercase; letter-spacing: 0.5px; }
+        header p { color: #fff3d1; margin: 0; font-size: 16px; font-weight: 500; }
 
-        .form-card { 
-            background: transparent !important; 
-            padding: 10px 0; 
-            border: none !important; 
-            box-shadow: none !important; 
-            margin-bottom: 20px;
-        }
-
-        .plot-entry {
-            background: rgba(255, 255, 255, 0.6);
-            padding: 20px;
-            border-radius: 16px;
-            margin-bottom: 15px;
-            border: 1px solid #cbd5e1;
-            backdrop-filter: blur(5px);
-            animation: fadeIn 0.4s ease;
-        }
-
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-
-        .plot-title { font-weight: bold; color: var(--ka-red); margin-bottom: 15px; display: block; border-bottom: 1px solid #cbd5e1; padding-bottom: 5px; }
-        .sec-h { font-size: 16px; font-weight: bold; color: var(--ka-red); margin-bottom: 20px; border-bottom: 2px solid #cbd5e1; padding-bottom: 8px; text-transform: uppercase; letter-spacing: 0.5px; }
-
-        .grid-inputs {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+        .lang-switcher {
+            display: flex;
+            justify-content: center;
             gap: 15px;
+            margin: 25px 0;
+        }
+        .lang-btn {
+            padding: 11px 32px;
+            border: 2px solid var(--ka-red);
+            background: var(--white);
+            color: var(--ka-red);
+            font-weight: 700;
+            font-size: 16px;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            min-width: 140px;
+            text-align: center;
+            outline: none;
+            box-shadow: 0 4px 6px rgba(189, 26, 17, 0.05);
+        }
+        .lang-btn.active {
+            background: var(--ka-red);
+            color: var(--white);
         }
 
-        .input-group { display: flex; flex-direction: column; }
-        label { font-size: 12px; font-weight: 800; color: var(--ka-red); margin-bottom: 8px; text-transform: uppercase; }
-        input { width: 100%; padding: 15px; border: 1px solid #cbd5e1; border-radius: 12px; font-size: 16px; box-sizing: border-box; outline: none; transition: 0.3s; background: var(--white); text-align: center; }
-        input:focus { border-color: var(--ka-red); background: #fff; box-shadow: 0 0 8px rgba(183, 28, 28, 0.1); }
+        /* Plot Containers */
+        .plot-container {
+            background: var(--white);
+            padding: 25px;
+            border-radius: 16px;
+            margin-bottom: 20px;
+            border: 1px solid #e2e8f0;
+            border-left: 6px solid var(--ka-red);
+            box-shadow: 0 4px 6px rgba(0,0,0,0.02);
+            transition: 0.3s;
+            text-align: left;
+        }
+        .plot-container:hover { transform: translateY(-2px); box-shadow: 0 6px 12px rgba(0,0,0,0.05); }
+        .plot-header { font-weight: 800; color: var(--ka-red); margin-bottom: 15px; display: block; border-bottom: 1px solid #e2e8f0; padding-bottom: 5px; text-transform: uppercase; font-size: 13px; letter-spacing: 0.5px; }
 
-        .controls { display: flex; gap: 15px; justify-content: center; margin: 30px 0; flex-wrap: wrap; }
-        .btn { padding: 16px 35px; border: none; border-radius: 12px; font-weight: 800; cursor: pointer; transition: 0.3s; font-size: 15px; text-transform: uppercase; letter-spacing: 0.5px; }
-        .btn-add { background: #5d4037; color: white; }
+        /* Input Grid System */
+        .input-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; }
+        .field { display: flex; flex-direction: column; }
+        label { font-size: 12px; font-weight: bold; margin-bottom: 6px; color: var(--ka-red); text-transform: uppercase; letter-spacing: 0.3px; }
+        input { padding: 14px; border: 1px solid var(--border-color); border-radius: 10px; font-size: 16px; text-align: center; background: var(--white); outline: none; transition: 0.3s; font-weight: 600; width: 100%; }
+        input:focus { border-color: var(--ka-red); box-shadow: 0 0 8px rgba(189, 26, 17, 0.15); }
+
+        .btn-box { display: flex; gap: 15px; justify-content: center; margin: 35px 0; flex-wrap: wrap; }
+        .btn { padding: 15px 35px; border: none; border-radius: 10px; font-weight: 800; cursor: pointer; transition: 0.3s; font-size: 15px; text-transform: uppercase; letter-spacing: 0.5px; min-width: 160px; }
+        .btn-add { background: var(--ka-dark-blue); color: white; } 
         .btn-calc { background: var(--ka-red); color: white; }
-        
-        .gov-links-title { font-size: 13px; font-weight: 800; color: var(--ka-red); margin-top: 20px; text-transform: uppercase; letter-spacing: 0.5px; text-align: left; }
-        .gov-links-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; margin-top: 8px; margin-bottom: 25px; }
-        .gov-link-card { display: flex; align-items: center; justify-content: space-between; background: #ffffff; border: 1px solid #e2e8f0; padding: 14px 18px; border-radius: 12px; text-decoration: none; color: #1e293b !important; font-weight: bold; font-size: 13px; transition: 0.3s; box-shadow: 0 2px 4px rgba(0,0,0,0.02); }
-        .gov-link-card:hover { border-color: var(--ka-red); background: #ffebee; transform: translateY(-2px); }
-        .gov-link-card span { font-size: 14px; }
+        .btn-reset { background: #ef4444; color: white; }
+        .btn:hover { transform: translateY(-3px); box-shadow: 0 8px 15px rgba(0,0,0,0.12); }
 
-        .result-panel {
-            background: #0f172a; color: white; padding: 25px; border-radius: 25px; margin-top: 30px; display: none; border: 2px solid var(--ka-gold); position: relative;
-        }
-        .result-panel h3 { margin-top: 0; text-align: center; color: var(--ka-gold); font-size: 1.4rem; margin-bottom: 20px; }
-        
-        .res-display { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin: 20px 0; }
-        .res-item { background: rgba(255,255,255,0.05); padding: 15px; border-radius: 12px; display: flex; flex-direction: column; align-items: center; gap: 5px; border-bottom: 4px solid var(--ka-gold); }
+        /* Premium Results UI */
+        .res-panel { background: #0b1a30; color: white; padding: 25px; border-radius: 25px; margin-top: 35px; display: none; border: 2px solid var(--ka-red); position: relative; text-align: left; box-shadow: 0 15px 30px rgba(0,0,0,0.2); }
+        .res-panel h3 { margin-top: 0; text-align: center; color: var(--ka-yellow); font-size: 1.4rem; margin-bottom: 20px; }
+        .result-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; }
+        .res-item { background: rgba(255,255,255,0.05); padding: 15px; border-radius: 12px; display: flex; flex-direction: column; align-items: flex-start; gap: 5px; border-left: 4px solid var(--ka-yellow); }
         .res-item span { font-size: 12px; color: #94a3b8; font-weight: bold; text-transform: uppercase; }
-        .res-item b { font-size: 24px; color: #fff; font-family: monospace; }
+        .res-item b { font-size: 20px; color: var(--ka-yellow); word-break: break-all; }
 
-        .extra-res-box { background: rgba(255,255,255,0.02); padding: 15px; border-radius: 12px; margin-top: 15px; border-left: 4px solid var(--ka-red); text-align: left; }
-        .extra-res-box p { margin: 5px 0; font-size: 15px; display: flex; justify-content: space-between; align-items: center; }
-        .extra-res-box b { color: var(--ka-gold); font-family: monospace; }
+        /* Print Specific Styling */
+        .print-only-section { display: none; margin: 15px 0; }
+        .print-table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+        .print-table th, .print-table td { border: 1px solid #cbd5e1; padding: 8px; text-align: center; font-size: 13px; }
+        .print-table th { background-color: #fffbeb; color: var(--ka-red); font-weight: bold; }
 
         .print-header-block, .print-footer-block { display: none; }
-        .util-btns { display: flex; gap: 10px; margin-top: 25px; }
-        .u-btn { flex: 1; padding: 16px; border-radius: 12px; border: none; font-weight: 800; cursor: pointer; transition: 0.3s; color: white; font-size: 14px; text-align: center; text-transform: uppercase; }
 
-        .seo-section { 
+        .util-btns { display: flex; gap: 12px; margin-top: 25px; flex-wrap: wrap; }
+        .u-btn { flex: 1; padding: 15px; border: none; border-radius: 12px; font-weight: 800; cursor: pointer; color: white; font-size: 14px; text-align: center; transition: 0.3s; text-transform: uppercase; min-width: 140px; }
+
+        /* SEO Article Layer */
+        .seo-article { 
             background: transparent !important; 
-            padding: 20px 0; 
-            margin-top: 50px; 
-            line-height: 1.8; 
+            padding: 30px 0; 
+            margin-top: 40px; 
+            line-height: 1.85; 
             border: none !important;
             color: #334155 !important;
             text-align: left;
         }
-        .seo-section .seo-header-block {
+        .seo-header-block { text-align: center; border-bottom: 3px solid var(--ka-red); padding-bottom: 25px; margin-bottom: 35px; }
+        .seo-article h2 { color: var(--ka-red) !important; font-size: 30px !important; margin-top: 40px !important; margin-bottom: 15px !important; font-weight: 700; }
+        .seo-article h3 { color: var(--ka-red) !important; margin-top: 30px; font-size: 22px; border-left: 6px solid var(--ka-yellow); padding-left: 15px; font-weight: 600; }
+        .seo-article p { color: #334155 !important; font-size: 16px; text-align: justify; margin-bottom: 20px; }
+        .seo-article ul, .seo-article ol { margin-bottom: 25px; padding-left: 20px; font-size: 16px; }
+        .seo-article li { margin-bottom: 10px; }
+        
+        .seo-article table { width: 100%; border-collapse: collapse; margin: 30px 0; background: #ffffff; box-shadow: 0 4px 6px rgba(0,0,0,0.01); display: block; overflow-x: auto; }
+        .seo-article th, .seo-article td { border: 1px solid #e2e8f0; padding: 16px; text-align: left; color: #334155 !important; font-size: 15px; white-space: nowrap; }
+        .seo-article th { background-color: #fffbeb; color: var(--ka-red) !important; font-weight: 700; }
+
+        .faq-block { background: #ffffff; padding: 22px; border-radius: 14px; border: 1px solid #e2e8f0; margin-bottom: 20px; box-shadow: 0 4px 6px rgba(0,0,0,0.01); }
+        .faq-block p b { color: var(--ka-red); font-size: 16px; display: block; margin-bottom: 8px; }
+
+        .footer-copyright-box { 
+            margin-top: 60px; 
             text-align: center; 
-            border-bottom: 3px solid var(--ka-red); 
-            padding-bottom: 20px; 
-            margin-bottom: 30px;
-            background: transparent !important;
+            font-size: 13px; 
+            color: #475569; 
+            background: #ffffff; 
+            padding: 35px; 
+            border-radius: 24px; 
+            border: 1px solid #e2e8f0;
+            border-top: 6px solid #bd1a11;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.03);
         }
-        .seo-section h2 { 
-            color: var(--ka-red) !important; 
-            font-size: 26px !important;
-            margin-bottom: 10px !important;
-            border-left: 6px solid var(--ka-dark);
-            padding-left: 15px;
-            margin-top: 40px;
-            font-weight: 800;
-        }
-        .seo-section h3 { color: var(--ka-red) !important; margin-top: 30px; font-weight: 700; }
-        .seo-section p { color: #334155 !important; font-size: 16px; text-align: justify; margin-bottom: 15px; }
-        .seo-section ul, .seo-section ol { padding-left: 20px; margin-bottom: 20px; }
-        .seo-section li { margin-bottom: 8px; font-size: 15px; }
-        .content-image { width: 100%; max-height: 340px; object-fit: cover; border-radius: 16px; margin: 25px 0; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
+        .footer-copyright-box p { margin: 8px 0; line-height: 1.7; }
+        .footer-law-accent { font-weight: 800; color: #0b2545; text-transform: uppercase; font-size: 12px; letter-spacing: 1.5px; margin-bottom: 15px !important; display: inline-block; background: #f1f5f9; padding: 6px 16px; border-radius: 30px; border: 1px solid #cbd5e1; }
 
-        .seo-section table { width: 100%; border-collapse: collapse; margin: 25px 0; background: #ffffff; box-shadow: 0 4px 6px rgba(0,0,0,0.02); border-radius: 8px; overflow: hidden; }
-        .seo-section th, .seo-section td { padding: 15px; border: 1px solid #e2e8f0; text-align: left; color: #334155 !important; }
-        .seo-section th { background: #fffde7; color: var(--ka-dark) !important; font-weight: bold; }
-        .seo-section tr:nth-child(even) { background-color: #f8fafc; }
-
-        .example-card { background: #fffde7; border-left: 6px solid var(--ka-red); padding: 20px; border-radius: 12px; margin: 20px 0; border-top: 1px solid #cbd5e1; border-right: 1px solid #cbd5e1; border-bottom: 1px solid #cbd5e1; }
-        .example-card h4 { margin-top: 0; margin-bottom: 10px; color: var(--ka-red); font-size: 16px; font-weight: bold; }
-
-        .links-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; margin: 40px 0; width: 100%; box-sizing: border-box; }
-        .link-card { display: flex; align-items: center; justify-content: center; background: #ffffff; padding: 18px 20px; border-radius: 16px; text-decoration: none; color: var(--ka-corporate) !important; font-weight: 700; font-size: 15px; border: 1px solid #e2e8f0; transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1); box-sizing: border-box; text-align: center; }
-        .link-card:hover { border-color: var(--ka-red); transform: translateY(-4px); box-shadow: 0 12px 20px rgba(183, 28, 28, 0.1); background: linear-gradient(135deg, #ffffff, #fffde7); }
+        .lang-section { display: none; }
+        .lang-section.active-lang { display: block; }
 
         @media (max-width: 600px) {
-            .res-display { grid-template-columns: 1fr; gap: 10px; }
-            .gov-links-grid, .gov-links-title { max-width: 100%; }
-            .seo-section h2 { font-size: 22px !important; }
-            .links-grid { grid-template-columns: 1fr; gap: 12px; }
-            .link-card { padding: 15px 18px; }
-            .input-grid { grid-template-columns: 1fr; gap: 10px; }
+            header { padding: 30px 15px; border-radius: 15px; }
+            header h1 { font-size: 24px; }
+            header p { font-size: 14px; }
+            .plot-container { padding: 20px 15px; }
+            .input-grid { grid-template-columns: 1fr; gap: 15px; } 
+            .result-grid { grid-template-columns: 1fr; gap: 12px; }
+            .res-panel { padding: 20px; border-radius: 15px; }
+            .btn { width: 100%; padding: 14px; font-size: 14px; }
+            .u-btn { width: 100%; }
+            .seo-article h2 { font-size: 24px !important; }
+            .seo-article h3 { font-size: 18px; }
+            .lang-btn { flex: 1; padding: 10px 15px; font-size: 15px; min-width: auto; }
         }
 
+        /* Print Layouts */
         @media print {
-            html, body { background: #ffffff !important; color: #000000 !important; margin: 0 !important; padding: 0 !important; }
-            .container { max-width: 100% !important; width: 100% !important; padding: 0 !important; margin: 0 !important; }
+            html, body { height: auto; overflow: visible; background: #ffffff !important; padding: 0 !important; margin: 0 !important; }
+            * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; color: #000000 !important; }
+            @page { margin: 10mm 10mm; size: A4 portrait; }
+            .tool-wrapper, .btn-box, .util-btns, #resHead, .seo-article, .back-btn, .plot-container, .lang-switcher, .footer-copyright-box { display: none !important; }
             
-            header, .lang-toggle, .form-card, .controls, .util-btns, .gov-links-title, .gov-links-grid, #resHead, .seo-section, .back-btn, footer { 
-                display: none !important; 
-                opacity: 0 !important;
-                visibility: hidden !important;
-                height: 0 !important;
-                margin: 0 !important;
-                padding: 0 !important;
-            }
-            
-            .result-panel { 
+            .res-panel { 
                 display: block !important; 
-                visibility: visible !important;
                 background: #ffffff !important; 
-                color: #000000 !important; 
-                padding: 25px !important; 
-                margin: 0 auto !important;
-                width: 100% !important;
-                box-sizing: border-box;
-                border: 3px double var(--ka-red) !important; 
-                border-radius: 0px !important;
-                box-shadow: none !important;
+                padding: 30px 20px !important; 
+                margin: 0 !important; 
+                width: 100% !important; 
+                border: 5px double var(--ka-red) !important; 
+                border-radius: 0px !important; 
+                box-shadow: none !important; 
             }
-            
-            .print-header-block {
-                display: block !important;
-                text-align: center;
-                border-bottom: 2px solid var(--ka-red) !important;
-                padding-bottom: 12px;
-                margin-bottom: 20px;
-            }
-            .print-header-block img { display: inline-block !important; }
-
-            .res-grid { display: block !important; margin-top: 15px; }
-            .res-item { 
-                background: transparent !important; 
-                border: none !important;
-                border-bottom: 1px solid #e2e8f0 !important;
-                padding: 10px 4px !important;
-                display: flex !important;
-                flex-direction: row !important;
-                justify-content: space-between !important;
-                align-items: center !important;
-                border-radius: 0px !important;
-                text-align: left !important;
-            }
-            .res-item span { color: #1e293b !important; font-size: 13px !important; font-weight: 600; text-align: left !important; }
-            .res-item b { color: var(--ka-dark) !important; font-size: 15px !important; font-weight: 700; text-align: right !important; }
-
-            .extra-res-box {
-                background: transparent !important;
-                border: none !important;
-                border-top: 1px dashed #cbd5e1 !important;
-                padding: 10px 0 !important;
-            }
-            .extra-res-box p { display: flex; justify-content: space-between; font-size: 13px; color: #1e293b; text-align: left !important; }
-            .extra-res-box b { color: #000000 !important; }
-
-            .print-footer-block {
-                display: block !important;
-                text-align: center;
-                margin-top: 40px;
-                border-top: 1px solid #cbd5e1 !important;
-                padding-top: 20px;
-            }
+            .print-only-section { display: block !important; }
+            .print-header-block { display: block !important; text-align: center; border-bottom: 3px double var(--ka-red) !important; padding-bottom: 15px; margin-bottom: 25px; }
+            .result-grid { display: grid !important; grid-template-columns: repeat(2, 1fr) !important; gap: 12px !important; margin-top: 20px; }
+            .res-item { background: transparent !important; border: none !important; border-bottom: 2px solid var(--ka-red) !important; padding: 10px 5px !important; border-radius: 0px !important; }
+            .res-item span { color: #000000 !important; font-size: 12px !important; font-weight: bold !important; }
+            .res-item b { color: var(--ka-red) !important; font-size: 16px !important; font-weight: 800 !important; }
+            .print-footer-block { display: block !important; margin-top: 40px; border-top: 2px dashed var(--ka-red) !important; padding-top: 20px; }
+            .print-footer-container { display: table !important; width: 100% !important; }
+            .print-footer-left { display: table-cell !important; width: 65% !important; text-align: left !important; }
+            .print-footer-right { display: table-cell !important; width: 35% !important; text-align: right !important; }
         }
     </style>
 </head>
 <body>
 
-<div class="container">
-    <div class="form-card">
-        <header>
-            <h1 id="mainTitle">Karnataka Land Area Addition Tool</h1>
-            <p id="sTitle">Add multiple patches/Bhoomi survey slots in Acre, Gunta, and Anae safely with integrated forward carry shifts logic.</p>
-        </header>
+<div class="tool-wrapper">
+    <header>
+        <h1 id="mainTitle">Karnataka Land Area Addition Calculator</h1>
+        <p id="mainSubTitle">Official Bhoomi Revenue Matrix: 1 Acre = 40 Gunta | 1 Gunta = 4 Anna / 16 Paisa</p>
+    </header>
+
+    <div class="lang-switcher">
+        <button class="lang-btn active" onclick="switchLanguage('en')">English</button>
+        <button class="lang-btn" onclick="switchLanguage('kn')">ಕನ್ನಡ</button>
+    </div>
+
+    <div id="plotsList">
+        <div class="plot-container">
+            <span class="plot-header" data-en="Plot Detail #1" data-kn="ಭೂಮಿ ಪ್ಲಾಟ್ ವಿವರ #1">Plot Detail #1</span>
+            <div class="input-grid">
+                <div class="field"><label data-en="Acre" data-kn="ಎಕರೆ">Acre (ಎಕರೆ)</label><input type="number" class="a-val" placeholder="0" min="0"></div>
+                <div class="field"><label data-en="Gunta" data-kn="ಗುಂಟೆ">Gunta (ಗುಂಟೆ)</label><input type="number" class="g-val" placeholder="0" min="0" max="39"></div>
+                <div class="field"><label data-en="Anna" data-kn="ಆಣೆ">Anna (ಆಣೆ)</label><input type="number" class="an-val" placeholder="0" min="0" max="3"></div>
+            </div>
+        </div>
+        <div class="plot-container">
+            <span class="plot-header" data-en="Plot Detail #2" data-kn="ಭೂಮಿ ಪ್ಲಾಟ್ ವಿವರ #2">Plot Detail #2</span>
+            <div class="input-grid">
+                <div class="field"><label data-en="Acre" data-kn="ಎಕರೆ">Acre (ಎಕರೆ)</label><input type="number" class="a-val" placeholder="0" min="0"></div>
+                <div class="field"><label data-en="Gunta" data-kn="ಗುಂಟೆ">Gunta (ಗುಂಟೆ)</label><input type="number" class="g-val" placeholder="0" min="0" max="39"></div>
+                <div class="field"><label data-en="Anna" data-kn="ಆಣೆ">Anna (ಆಣೆ)</label><input type="number" class="an-val" placeholder="0" min="0" max="3"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="btn-box">
+        <button class="btn btn-add" id="btnAddPlot" onclick="addNewPlot()">+ Add More Plot</button>
+        <button class="btn btn-calc" id="btnCalc" onclick="calculateTotal()">Calculate Total Beriz</button>
+        <button class="btn btn-reset" id="btnReset" onclick="resetForm()">Reset</button>
+    </div>
+</div> 
+
+<div id="resPanel" class="res-panel">
+    <div class="print-header-block">
+        <div style="display: flex; justify-content: center; align-items: center; gap: 10px; margin-bottom: 5px;">
+            <img src="favicon.png" alt="SST" style="width: 32px; height: 32px;">
+            <h2 style="font-size: 24px; color: #bd1a11; margin: 0; font-weight: 900; letter-spacing: 1px;">SHAYAN SMART TOOLS</h2>
+        </div>
+        <p style="font-size: 11px; color: #800e08; font-weight: bold; margin: 0 0 15px 0; letter-spacing: 0.5px; text-transform: uppercase;">KARNATAKA LAND REVENUE AREA ADDITION REPORT - 2026</p>
         
-        <div class="lang-toggle">
-            <button class="lang-btn active" id="enBtn" onclick="setLang('en')">English</button>
-            <button class="lang-btn" id="kaBtn" onclick="setLang('kn')">ಕನ್ನಡ</button>
+        <div style="background: #f8fafc; border: 1px solid #cbd5e1; padding: 12px; border-radius: 6px; display: grid; grid-template-columns: 1fr 1fr; font-size: 12px; text-align: left; gap: 8px; color: #334155;">
+            <div><strong>DOCUMENT REF:</strong> <span id="pDocRef" style="color:#bd1a11; font-weight:bold;">SST-KA-ADD-0000</span></div>
+            <div style="text-align: right;"><strong>DATE:</strong> <span id="pDocDate" style="color:#bd1a11; font-weight:bold;">--/--/----</span></div>
+            <div><strong>JURISDICTION:</strong> State of Karnataka (ಕರ್ನಾಟಕ)</div>
+            <div><strong>ENGINE LOGIC:</strong> 40-Gunta & 4-Anna Bhoomi Technical Matrix</div>
         </div>
+    </div>
 
-        <div class="form-container-block">
-            <div class="sec-h" id="hSecTitle">Land Accumulation Ledger (ಭೂಮಿ ಒಟ್ಟು ಸೇರಿಸುವಿಕೆ ಪಟ್ಟಿ)</div>
-            <div id="plotsArea">
-                <div class="plot-entry">
-                    <span class="plot-title" id="p1Title">Plot Details #1</span>
-                    <div class="grid-inputs">
-                        <div class="input-group"><label class="lbl-a">Acre</label><input type="number" class="a-in" placeholder="0" value="0"></div>
-                        <div class="input-group"><label class="lbl-g">Gunta</label><input type="number" class="g-in" placeholder="0" value="0"></div>
-                        <div class="input-group"><label class="lbl-an">Anae</label><input type="number" class="an-in" placeholder="0" value="0"></div>
-                    </div>
+    <div class="print-only-section">
+        <h4 style="color:#bd1a11; margin: 15px 0 5px 0; font-size: 14px; text-transform: uppercase; border-bottom: 1px solid #cbd5e1; padding-bottom: 4px;" id="printInputsTitle">Entered Plot Dimensions (ದಾಖಲಿಸಿದ ಪ್ಲಾಟ್ ವಿವರಗಳು)</h4>
+        <table class="print-table">
+            <thead>
+                <tr>
+                    <th id="thPlotNo">Plot No / ಕ್ರ.ಸಂ.</th>
+                    <th id="thAcre">Acre / ಎಕರೆ</th>
+                    <th id="thGunta">Gunta / ಗುಂಟೆ</th>
+                    <th id="thAnna">Anna / ಆಣೆ</th>
+                </tr>
+            </thead>
+            <tbody id="print-plots-summary"></tbody>
+        </table>
+    </div>
+
+    <h3 id="resHead">Kula Kshethrafala / ಒಟ್ಟು ವಿಸ್ತೀರ್ಣ (Total Combined Area)</h3>
+    
+    <div class="result-grid">
+        <div class="res-item" id="print-input-row" style="display:none;"><span id="lblCombinedInput">Initial Combined Input:</span> <b id="rInputVal">0 Combined Plots Computed</b></div>
+        <div class="res-item"><span id="lblResAcre">Acre (ಎಕರೆ)</span><b id="ra">0 Acre</b></div>
+        <div class="res-item"><span id="lblResGunta">Gunta (ಗುಂಟೆ)</span><b id="rg">0 Gunta</b></div>
+        <div class="res-item"><span id="lblResAnna">Anna (ಆಣೆ)</span><b id="ran">0 Anna</b></div>
+        <div class="res-item"><span id="lblResTotalGunta">Total Gunta Fraction</span><b id="rtg">0.00 Gunta</b></div>
+        <div class="res-item"><span id="lblResSqft">Total Square Feet</span><b id="rsq">0 sq ft</b></div>
+        <div class="res-item"><span id="lblResSqm">Total Square Meter</span><b id="rsqm">0 sq m</b></div>
+        <div class="res-item"><span id="lblResAnkan">Total Ankan (Local)</span><b id="rankan">0 Ankan</b></div>
+    </div>
+
+    <div class="print-footer-block">
+        <div class="print-footer-container">
+            <div class="print-footer-left">
+                <p style="margin: 0; font-weight: bold; color: #bd1a11; text-transform: uppercase; font-size: 11px;">🔒 SECURITY DISCLAIMER & STATUTORY RECORDS NOTICE</p>
+                <p style="margin: 6px 0 0 0; font-size: 10px; color: #475569; line-height: 1.5;">This mathematical ledger computation is compiled based on Karnataka Land Revenue parameters (1 Acre = 40 Gunta, 1 Gunta = 4 Anna). Standard conversions align 1 Gunta to 1,089 Sq.Ft. Cross-verify results with official Bhoomi Mojini records or local Kaveri framework and Revenue Circle Officer frameworks for legal land registry transactions.</p>
+                <p style="margin: 12px 0 0 0; font-size: 11px; font-weight: bold; color: #bd1a11;">🌐 OFFICIAL PORTAL: www.shayansmarttools.in</p>
+            </div>
+            <div class="print-footer-right">
+                <div style="display: inline-block; text-align: center;">
+                    <img src="seal.png" alt="SST Official Stamp" style="width: 110px; height: auto; display: block; margin: 0 auto 5px auto;">
+                    <div style="font-size: 11px; font-weight: bold; color: #1e293b; border-top: 1px solid #cbd5e1; padding-top: 4px; width: 140px; margin-top: 8px;">Authorised Signature</div>
                 </div>
-                <div class="plot-entry">
-                    <span class="plot-title" id="p2Title">Plot Details #2</span>
-                    <div class="grid-inputs">
-                        <div class="input-group"><label class="lbl-a">Acre</label><input type="number" class="a-in" placeholder="0" value="0"></div>
-                        <div class="input-group"><label class="lbl-g">Gunta</label><input type="number" class="g-in" placeholder="0" value="0"></div>
-                        <div class="input-group"><label class="lbl-an">Anae</label><input type="number" class="an-in" placeholder="0" value="0"></div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="controls">
-                <button class="btn btn-add" id="btnAdd" onclick="addNewPlot()">+ Add More Plot</button>
-                <button class="btn btn-calc" id="btnCalc" onclick="calculateKATotal()">Calculate Total Area</button>
             </div>
         </div>
     </div>
 
-    <div class="gov-links-title" id="lblGovTitle">Official Karnataka Land Portals</div>
-    <div class="gov-links-grid">
-        <a href="https://bhoomi.karnataka.gov.in/" target="_blank" class="gov-link-card">
-            <span id="govLink1">🌐 Bhoomi Karnataka (RTC records)</span> <span>↗</span>
-        </a>
-        <a href="https://kaverionline.karnataka.gov.in/" target="_blank" class="gov-link-card">
-            <span id="govLink2">💰 Kaveri Online (Registry & Valuation)</span> <span>↗</span>
-        </a>
+    <div class="util-btns">
+        <button class="u-btn" style="background:#475569;" id="btnCopy" onclick="copyData()">📋 Copy Results</button>
+        <button class="u-btn" style="background:#22c55e;" id="btnWA" onclick="shareWA()">📲 WhatsApp</button>
+        <button class="u-btn" style="background:#bd1a11;" id="btnPrint" onclick="printLandReport()">🖨️ Print Report</button>
+    </div>
+</div>
+
+<div class="back-btn" style="text-align:center; margin-top: 20px;"><a href="index.html" id="lnkBack" style="color:var(--ka-red); font-weight:bold; text-decoration:none;">⬅ Back to All Tools Dashboard</a></div>
+
+<article id="content-en" class="seo-article lang-section active-lang">
+    <div class="seo-header-block">
+        <h2>Karnataka Land Area Addition: Highly Accurate Acre-Gunta-Anna Sum Engine</h2>
+        <p>Calculate, combine, and aggregate multiple agricultural or residential plots using official Bhoomi land framework metrics with automatic base-40 and base-4 carry forward logic.</p>
     </div>
 
-    <div id="resultBox" class="result-panel">
-        
-        <div class="print-header-block">
-            <div style="display: flex; justify-content: center; align-items: center; gap: 10px; margin-bottom: 5px;">
-                <img src="favicon.png" alt="SST" style="width: 30px; height: 30px;">
-                <h2 style="font-size: 22px; color: #b71c1c; margin: 0; font-weight: 900; letter-spacing: 1px;">SHAYAN SMART TOOLS</h2>
-            </div>
-            <p style="font-size: 11px; color: var(--ka-dark); font-weight: bold; margin: 0 0 10px 0; letter-spacing: 0.5px; text-transform: uppercase;">KARNATAKA LAND REVENUE COMPILATION VERIFIED CERTIFICATE - 2026</p>
-            
-            <div style="background: #f8fafc; border: 1px solid #cbd5e1; padding: 10px; border-radius: 4px; display: grid; grid-template-columns: 1fr 1fr; font-size: 11px; text-align: left; gap: 5px; color: #334155;">
-                <div><strong>DOCUMENT REF:</strong> <span id="pDocRef" style="color:#b71c1c; font-weight:bold;">SST-KA-ADD-0000</span></div>
-                <div style="text-align: right;"><strong>DATE:</strong> <span id="pDocDate">--/--/----</span></div>
-                <div><strong>JURISDICTION:</strong> State of Karnataka (ಕರ್ನಾಟಕ)</div>
-                <div style="text-align: right;"><strong>STATUS:</strong> Bhoomi Matrix Securely Compiled</div>
-            </div>
-        </div>
+    <section>
+        <h3>1. Powerful Introduction to Karnataka Land Measurement System</h3>
+        <p>Managing agricultural, commercial, and residential properties in Karnataka requires deep alignment with state land records rules. While the official government portal—<b>Bhoomi (ಭೂಮಿ)</b>—logs data digitally using <b>Acre and Gunta</b>, local transactions still widely apply traditional regional units like <b>Anna and Paisa</b> depending on the specific administrative division. Whether you are dealing with plots in the Bangalore, Mysore, Belgaum, or Kalaburagi divisions, discrepancies in mathematical interpretation can create large variances in legal records.</p>
+        <p>When you attempt to combine multiple property fragments from different <b>Survey Numbers or Hissa Numbers</b>, standard mobile calculators fall short because land math involves complex custom frameworks. Our smart <b>Karnataka Jaminu Kshethrafala Sum Tool</b> resolves this mathematical complexity instantly, preventing rounding errors and providing a complete output breakdown into Acre, Gunta, Anna, Square Feet, Square Meters, and local metrics like Ankan. This tool provides land surveyors, buyers, realtors, and legal professionals with clean data processing algorithms tailored specifically to Karnataka State Revenue Standards.</p>
+    </section>
 
-        <div class="bkl-special" style="background: rgba(255,255,255,0.05); padding: 20px; border-radius: 15px; text-align: center; margin-bottom: 20px; border: 1px dashed var(--ka-red);">
-            <span id="fmtText" style="display:block; font-size: 14px; color: #94a3b8; font-weight: bold; margin-bottom: 5px;">Karnataka Standard Format (ಎಕರೆ-ಗುಂಟೆ-ಆಣೆ):</span>
-            <strong id="pb_main" style="font-size: 24px; color: #81c784;">0 Acre, 0 Gunta, 0 Anae</strong>
-        </div>
+    <section>
+        <h3>2. How to Use the Karnataka Land Addition Calculator</h3>
+        <p>Our intuitive layout makes combining multiple land plots incredibly easy. Follow these simple operational steps:</p>
+        <ol>
+            <li><b>Enter Plot Dimensions:</b> In the pre-configured input rows, enter the respective <b>Acre</b>, <b>Gunta</b>, and <b>Anna</b> values for your first two plots. If an entry consists purely of guntas, simply leave the Acre column blank or enter zero.</li>
+            <li><b>Add Additional Parcels:</b> If you have more than two plots to combine, simply click the <b>"+ Add More Plot"</b> button to dynamically inject a new data entry line. There is no ceiling limit to the number of input components you can accumulate.</li>
+            <li><b>Run Mathematical Engine:</b> Click on <b>"Calculate Total Beriz"</b>. The algorithm instantly groups your plots, processes structural overruns via the custom base-40 and base-4 carry matrix, and updates your unified dashboard.</li>
+            <li><b>Save or Share:</b> Use the built-in functional shortcuts to instantly <b>Copy Results</b> to your system clipboard, export a clean PDF report using <b>Print Report</b>, or push automated messages via <b>WhatsApp</b>.</li>
+        </ol>
+    </section>
 
-        <h3 id="resHead">Total Land Result (ಒಟ್ಟು ವಿಸ್ತೀರ್ಣ ಫಲಿತಾಂಶ):</h3>
-        <div class="res-display">
-            <div class="res-item"><span id="uAcre">Acre</span><b id="outAcre">0</b></div>
-            <div class="res-item"><span id="uGunta">Gunta</span><b id="outGunta">0</b></div>
-            <div class="res-item"><span id="uAnae">Anae</span><b id="outAnae">0</b></div>
-        </div>
-        
-        <div class="extra-res-box">
-            <p><span id="txtSqText">Total Square Feet Matrix:</span><b id="outSq">0</b></p>
-            <p><span id="txtSqmText">Total Square Meters Matrix:</span><b id="outSqm">0</b></p>
-            <p><span id="txtAcreText">Total Acres Representation:</span><b id="outAcNet">0</b></p>
-            <p><span id="txtHecText">Estimated Total Hectare (Ha):</span><b id="outHec">0</b></p>
-        </div>
+    <section>
+        <h3>3. Real-World Practical Example (Custom Carry Arithmetic)</h3>
+        <p>Let's understand how our automated software engine handles standard revenue calculations on the backend. Suppose you have two distinct Hissa plots under a single Survey Number that need to be aggregated for a mutation (Podium) deed:</p>
+        <ul>
+            <li><b>Property Fragment 1:</b> 1 Acre, 35 Gunta, and 3 Anna</li>
+            <li><b>Property Fragment 2:</b> 2 Acre, 15 Gunta, and 2 Anna</li>
+        </ul>
+        <p><b>Step-by-step Execution Process:</b></p>
+        <ol>
+            <li><b>Sum the Anna Units:</b> 3 Anna + 2 Anna = 5 Anna. Since 4 Anna equals 1 Gunta, the algorithm sets <code>5 - 4 = 1 Anna</code> as remaining, and 1 Gunta carries forward.</li>
+            <li><b>Sum the Gunta Units:</b> 35 Gunta + 15 Gunta + 1 Gunta (Carried Over) = 51 Gunta. Since 40 Gunta equals 1 Acre, the algorithm processes: <code>51 - 40 = 11 Gunta</code> remaining. 1 full Acre is safely carried over to the primary Acre stack.</li>
+            <li><b>Sum the Acre Units:</b> 1 Acre + 2 Acre + 1 Acre (Carried Over) = 4 Acres.</li>
+            <li><b>Final Consolidated Result:</b> The engine pushes out exactly <b>4 Acre, 11 Gunta, and 1 Anna</b>. It then automatically maps this value into auxiliary values like 1,86,119 Square Feet or 17,291 Square Meters.</li>
+        </ol>
+    </section>
 
-        <div class="print-footer-block">
-            <div style="margin: 0 auto; max-width: 85%; font-size: 11px; color: #475569; line-height: 1.6; text-align: center;">
-                <p style="margin: 0; font-weight: bold; color: #b71c1c; text-transform: uppercase; font-size: 12px;">🔒 SECURITY DISCLAIMER & STATUTORY BHOOMI COMPLIANCE NOTICE</p>
-                <p style="margin: 6px 0 0 0;">This calculation mapping compilation is structured strictly using Karnataka Revenue traditional shifting rules (16 Anae = 1 Gunta, 40 Gunta = 1 Acre, 1 Gunta = 1,089 Sq.Ft). For official mutation alignments, survey map additions, or registration clearances, verify layout profiles via your village accountant or local Bhoomi dynamic system.</p>
-                
-                <div style="display: inline-block; border: 1px dashed #b71c1c; padding: 6px 20px; border-radius: 4px; margin-top: 15px; margin-bottom: 12px; background: #f8fafc; font-size: 10px; font-weight: bold; color: #b71c1c; text-transform: uppercase; letter-spacing: 0.5px;">
-                    SHAYAN SMART TOOLS [SST SEAL] - OFFICIAL DLR KANUNGO PLATFORM MATCH
-                </div>
-                <p style="margin: 5px 0 0 0; font-size: 12px; font-weight: bold; color: #b71c1c;">🌐 SST OFFICIAL ACCESS: www.shayansmarttools.in</p>
-            </div>
-        </div>
+    <section>
+        <h3>4. Deep-Dive into Karnataka Revenue Land Metrics and Law</h3>
+        <p>Land administration in Karnataka is legally shaped by historic frameworks like the <b>Karnataka Land Revenue Act, 1964</b>. These laws govern the transfer, conversion, and processing of agricultural lands. Because these transactions are heavily scrutinized by Tahsildars, Revenue Inspectors, and Village Accountants, minor math discrepancies in deed formatting can cause a mutation registration to be systematically rejected.</p>
+        <p>Furthermore, standardizing units across different regions remains an issue. For instance, in coastal districts like Mangalore or Udupi, local terms vary slightly from North Karnataka regions. However, for formal state valuation, Bhoomi matches 1 Acre to exactly 40 Guntas, and sets 1 Gunta to 1,089 Square Feet. Our tool follows this strict state revenue equation to make sure your paperwork matches official data structures perfectly.</p>
+    </section>
 
-        <div class="util-btns">
-            <button class="u-btn" onclick="copyResult()" style="background:#475569;" id="btnCopy">📋 Copy Details</button>
-            <button class="u-btn" onclick="shareWhatsApp()" style="background:#22c55e;" id="btnShare">📲 WhatsApp Share</button>
-            <button class="u-btn" onclick="printLandReport()" style="background:#2b7cff;" id="btnPrint">🖨️ Print Report</button>
-        </div>
+    <h3>5. Comprehensive Conversion Reference Matrix Table</h3>
+    <table>
+        <thead>
+            <tr>
+                <th>Land Unit Type</th>
+                <th>Revenue Mapping & Mathematical Relations</th>
+                <th>Equivalent (Sq. Feet)</th>
+                <th>Equivalent (Sq. Meters)</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr><td><b>1 Acre (ಎಕರೆ)</b></td><td>40 Gunta (Standard State Revenue Metric)</td><td>43,560 Sq Ft</td><td>4,046.85 Sq M</td></tr>
+            <tr><td><b>1 Gunta (ಗುಂಟೆ)</b></td><td>1/40th part of an Acre / 4 Annas</td><td>1,089 Sq Ft</td><td>101.17 Sq M</td></tr>
+            <tr><td><b>1 Anna (ಆಣೆ)</b></td><td>1/4th part of a standard Gunta</td><td>272.25 Sq Ft</td><td>25.29 Sq M</td></tr>
+            <tr><td><b>1 Ankan (ಅಂಕಣ)</b></td><td>Localized interior architecture unit (Bangalore standard)</td><td>72 Sq Ft</td><td>6.68 Sq M</td></tr>
+            <tr><td><b>1 Cent (ಸೆಂಟ್)</b></td><td>Used widely in border regions (100 Cents = 1 Acre)</td><td>435.6 Sq Ft</td><td>40.46 Sq M</td></tr>
+        </tbody>
+    </table>
+
+    <h3>6. 15 Frequently Asked Questions (Top Google Search Queries)</h3>
+    <div id="faq-container-en">
+        <div class="faq-block"><p><b>Q1. How many Guntas make exactly 1 Acre in Karnataka?</b><br>Ans: In Karnataka's official Bhoomi database, exactly 40 Guntas make up 1 Acre.</p></div>
+        <div class="faq-block"><p><b>Q2. What is the standard area of 1 Gunta in Square Feet?</b><br>Ans: Under standard state calculations, 1 Gunta is mapped to exactly 1,089 Square Feet.</p></div>
+        <div class="faq-block"><p><b>Q3. How many Annas are there in 1 Gunta?</b><br>Ans: 1 Gunta contains exactly 4 Annas across all revenue districts in Karnataka.</p></div>
+        <div class="faq-block"><p><b>Q4. What is the equivalent value of 1 Anna in Square Feet?</b><br>Ans: There are exactly 272.25 square feet in 1 standard Anna unit.</p></div>
+        <div class="faq-block"><p><b>Q5. Is this tool official or associated with Bhoomi Karnataka?</b><br>Ans: No, this is an independent calculation engine developed by Shayan Smart Tools based strictly on official Karnataka Land Revenue standards.</p></div>
+        <div class="faq-block"><p><b>Q6. Why do mobile calculators give wrong answers for land addition?</b><br>Ans: Standard calculators use base-10 metrics. Land records use base-40 carry logic for guntas (where 39 guntas + 2 guntas equals 1 acre and 1 gunta, not 41 guntas).</p></div>
+        <div class="faq-block"><p><b>Q7. How many square meters equal one Gunta in Karnataka?</b><br>Ans: One Gunta equals roughly 101.17 square meters.</p></div>
+        <div class="faq-block"><p><b>Q8. What does "Kula Kshethrafala" mean on this page?</b><br>Ans: "Kula Kshethrafala" is the traditional Kannada revenue term for total combined area or grand summary.</p></div>
+        <div class="faq-block"><p><b>Q9. What is an Ankan metric and where is it used?</b><br>Ans: Ankan is a traditional local land unit used primarily in parts of Southern Karnataka, usually mapping to 72 square feet.</p></div>
+        <div class="faq-block"><p><b>Q10. Can I calculate land area without entering Acres?</b><br>Ans: Yes, you can fill out only the Gunta or Anna input sections and leave the Acre value as zero; the calculator will adjust automatically.</p></div>
+        <div class="faq-block"><p><b>Q11. How does the Bhoomi system store fractional land data?</b><br>Ans: Bhoomi stores fractional properties using specific decimal values mapped tightly against the 40-Gunta framework.</p></div>
+        <div class="faq-block"><p><b>Q12. What laws govern property mutation in Karnataka?</b><br>Ans: Land processes and registries are governed systematically under the Karnataka Land Revenue Act, 1964.</p></div>
+        <div class="faq-block"><p><b>Q13. How does this calculator derive square meters values?</b><br>Ans: The engine converts all active rows into absolute square feet values, then applies a precise factor to calculate square meters.</p></div>
+        <div class="faq-block"><p><b>Q14. What is the relation between Cent and Gunta?</b><br>Ans: 1 Gunta is approximately equivalent to 2.5 Cents in agricultural measurement standards.</p></div>
+        <div class="faq-block"><p><b>Q15. Can I use this printout report for official registration deeds?</b><br>Ans: This report serves as an explicit mathematical reference ledger. For actual registrations, verify details with your local sub-registrar office or a certified surveyor.</p></div>
+    </div>
+</article>
+
+<article id="content-kn" class="seo-article lang-section">
+    <div class="seo-header-block">
+        <h2>ಕರ್ನಾಟಕ ಜಮೀನು ವಿಸ್ತೀರ್ಣ ಕ್ಯಾಲ್ಕುಲೇಟರ್: ಎಕರೆ-ಗುಂಟೆ-ಆಣೆ ನಿಖರ ಲೆಕ್ಕಾಚಾರ</h2>
+        <p>ಕರ್ನಾಟಕ ಸರ್ಕಾರದ ಅಧಿಕೃತ ಭೂಮಿ (Bhoomi) ಕಂದಾಯ ನಿಯಮಾವಳಿಗಳ ಪ್ರಕಾರ ಬಹು ಪ್ಲಾಟ್‌ಗಳ ವಿಸ್ತೀರ್ಣವನ್ನು ಆಟೋಮ್ಯಾಟಿಕ್ ಬೇಸ್-40 ಕ್ಯಾರಿ ಫಾರ್ವರ್ಡ್ ತಂತ್ರಜ್ಞಾನದಲ್ಲಿ ಲೆಕ್ಕಹಾಕಿ.</p>
     </div>
 
-    <div class="back-btn" style="text-align: center; margin-top: 20px;">
-        <a href="index.html" style="color: var(--ka-red); font-weight: bold; text-decoration: none;" id="lnkBack">⬅ Back to All Tools</a>
+    <section>
+        <h3>೧. ಕರ್ನಾಟಕ ಕಂದಾಯ ಇಲಾಖೆಯ ಭೂಮಿ ಮಾಪನ ವ್ಯವಸ್ಥೆಯ ಪರಿಚಯ</h3>
+        <p>ಕರ್ನಾಟಕ ರಾಜ್ಯದಲ್ಲಿ ಕೃಷಿ, ವಾಣಿಜ್ಯ ಮತ್ತು ವಸತಿ ಭೂಮಿಯ ನಿರ್ವಹಣೆಗೆ ರಾಜ್ಯದ ಅಧಿಕೃತ ಕಂದಾಯ ನಿಯಮಗಳ ಸ್ಪಷ್ಟ ಜ್ಞಾನ ಅತ್ಯಗತ್ಯ. ಸರ್ಕಾರದ ಅಧಿಕೃತ ಪೋರ್ಟಲ್ ಆದ <b>ಭೂಮಿ (Bhoomi)</b> ಯಲ್ಲಿ ಜಮೀನಿನ ವಿವರಗಳನ್ನು <b>ಎಕರೆ ಮತ್ತು ಗುಂಟೆ</b> ರೂಪದಲ್ಲಿ ನಮೂದಿಸಲಾಗುತ್ತದೆ. ಆದರೆ ಸ್ಥಳೀಯ ವ್ಯವಹಾರಗಳಲ್ಲಿ ಇಂದಿಗೂ <b>ಆಣೆ ಮತ್ತು ಪೈಸೆ</b> ಮುಂತಾದ ಸಾಂಪ್ರದಾಯಿಕ ಘಟಕಗಳನ್ನು ವ್ಯಾಪಕವಾಗಿ ಬಳಸಲಾಗುತ್ತದೆ. ಬೆಂಗಳೂರು, ಮೈಸೂರು, ಬೆಳಗಾವಿ ಅಥವಾ ಕಲಬುರಗಿ ಯಾವುದೇ ವಿಭಾಗದಲ್ಲೂ ಕಂದಾಯದ ಗಣಿತದಲ್ಲಿ ಸಣ್ಣ ವ್ಯತ್ಯಾಸವಾದರೂ ಕಾನೂನು ದಾಖಲೆಗಳಲ್ಲಿ ದೊಡ್ಡ ತೊಂದರೆ ಎದುರಾಗಬಹುದು.</p>
+        <p>ನೀವು ಬೇರೆ ಬೇರೆ <b>ಸರ್ವೆ ನಂಬರ್ ಅಥವಾ ಹಿಸ್ಸಾ ನಂಬರ್</b> ನ ಪ್ಲಾಟ್‌ಗಳನ್ನು ಒಟ್ಟಿಗೆ ಸೇರಿಸಲು ಸಾಮಾನ್ಯ ಮೊಬೈಲ್ ಕ್ಯಾಲ್ಕುಲೇಟರ್ ಬಳಸಿದರೆ ಅದು ತಪ್ಪು ಫಲಿತಾಂಶ ನೀಡುತ್ತದೆ, ಏಕೆಂದರೆ ಭೂಮಿಯ ಲೆಕ್ಕಾಚಾರವು ಬೇಸ್-40 ರಚನೆಯಲ್ಲಿ ಕಾರ್ಯನಿರ್ವಹಿಸುತ್ತದೆ. Shayan Smart Tools ನ ಈ ಸುಧಾರಿತ ಇಂಜಿನ್ ಈ ಎಲ್ಲಾ ಸಂಕೀರ್ಣತೆಗಳನ್ನು ನಿವಾರಿಸಿ, ನಿಖರವಾದ ಒಟ್ಟು ಮೊತ್ತವನ್ನು ಎಕರೆ, ಗುಂಟೆ, ಆಣೆ ಹಾಗೂ ಚದರ ಅಡಿ ಮತ್ತು ಚದರ ಮೀಟರ್‌ಗಳಲ್ಲಿ ಒದಗಿಸುತ್ತದೆ. ಇದು ಸರ್ವೇಯರ್, ರಿಯಲ್ ಎಸ್ಟೇಟ್ ವೃತ್ತಿಪರರು ಮತ್ತು ಸಾರ್ವಜನಿಕರಿಗೆ ಸೂಕ್ತವಾದ ಸಾಧನವಾಗಿದೆ.</p>
+    </section>
+
+    <section>
+        <h3>೨. ಈ ಕ್ಯಾಲ್ಕುಲೇಟರ್ ಅನ್ನು ಬಳಸುವುದು ಹೇಗೆ?</h3>
+        <p>ನಮ್ಮ ಬಳಕೆದಾರ ಸ್ನೇಹಿ ವಿನ್ಯಾಸದಲ್ಲಿ ಪ್ಲಾಟ್‌ಗಳನ್ನು ಒಟ್ಟುಗೂಡಿಸುವುದು ಅತ್ಯಂತ ಸರಳವಾಗಿದೆ:</p>
+        <ol>
+            <li><b>ಪ್ಲಾಟ್ ವಿವರ ನಮೂದಿಸಿ:</b> ಮೊದಲ ಎರಡು ಪ್ಲಾಟ್‌ಗಳ <b>ಎಕರೆ</b>, <b>ಗುಂಟೆ</b> ಮತ್ತು <b>ಆಣೆ</b> ಮೌಲ್ಯಗಳನ್ನು ನಿಗದಿಪಡಿಸಿದ ಬಾಕ್ಸ್‌ಗಳಲ್ಲಿ ನಮೂದಿಸಿ. ಎಕರೆ ಇಲ್ಲದಿದ್ದರೆ ಶೂನ್ಯ (0) ಎಂದು ಬಿಡಿ.</li>
+            <li><b>ಹೆಚ್ಚಿನ ಪ್ಲಾಟ್‌ಗಳನ್ನು ಸೇರಿಸಿ:</b> ನಿಮ್ಮ ಬಳಿ ಎರಡಕ್ಕಿಂತ ಹೆಚ್ಚು ಪ್ಲಾಟ್‌ಗಳಿದ್ದರೆ, <b>"+ Add More Plot"</b> ಬಟನ್ ಕ್ಲಿಕ್ ಮಾಡುವ ಮೂಲಕ ಹೆಚ್ಚುವರಿ ಸಾಲುಗಳನ್ನು ಸೃಷ್ಟಿಸಿಕೊಳ್ಳಿ.</li>
+            <li><b>ಲೆಕ್ಕಾಚಾರ ಚಾಲನೆ ಮಾಡಿ:</b> ಎಲ್ಲಾ ವಿವರಗಳನ್ನು ಭರ್ತಿ ಮಾಡಿದ ನಂತರ <b>"Calculate Total Beriz"</b> ಬಟನ್ ಒತ್ತಿರಿ. ಇದು ಆಟೋಮ್ಯಾಟಿಕ್ ಆಗಿ ಬೇಸ್-40 ನಿಯಮದಡಿ ಲೆಕ್ಕಾಚಾರ ಮುಗಿಸಿ ಫಲಿತಾಂಶವನ್ನು ಪ್ರದರ್ಶಿಸುತ್ತದೆ.</li>
+            <li><b>ವರದಿ ಉಳಿಸಿ ಅಥವಾ ಹಂಚಿಕೊಳ್ಳಿ:</b> ಅಂತರ್ನಿರ್ಮಿತ ಶಾರ್ಟ್‌ಕಟ್‌ಗಳ ಮೂಲಕ ಫಲಿತಾಂಶವನ್ನು <b>Copy Results</b> ಮಾಡಬಹುದು, <b>Print Report</b> ಮೂಲಕ PDF ಮಾಡಿಕೊಳ್ಳಬಹುದು ಅಥವಾ <b>WhatsApp</b> ನಲ್ಲಿ ಹಂಚಿಕೊಳ್ಳಬಹುದು.</li>
+        </ol>
+    </section>
+
+    <section>
+        <h3>೩. ನೈಜ ಗಣಿತದ ಉದಾಹರಣೆ (ಬೇಸ್-40 ಕ್ಯಾರಿ ನಿಯಮ)</h3>
+        <p>ನಮ್ಮ ತಂತ್ರಾಂಶವು ಬ್ಯಾಕೆಂಡ್‌ನಲ್ಲಿ ಭೂಮಿಯ ಲೆಕ್ಕವನ್ನು ಹೇಗೆ ನಿರ್ವಹಿಸುತ್ತದೆ ಎಂಬುದನ್ನು ಈ ಕೆಳಗಿನ ಉದಾಹರಣೆಯ ಮೂಲಕ ತಿಳಿಯಿರಿ:</p>
+        <ul>
+            <li><b>ಭಾಗ ೧:</b> 1 ಎಕರೆ, 35 ಗುಂಟೆ, 3 ಆಣೆ</li>
+            <li><b>ಭಾಗ ೨:</b> 2 ಎಕರೆ, 15 ಗುಂಟೆ, 2 ಆಣೆ</li>
+        </ul>
+        <p><b>ಹಂತ-ಹಂತದ ಲೆಕ್ಕಾಚಾರದ ಪ್ರಕ್ರಿಯೆ:</b></p>
+        <ol>
+            <li><b>ಆಣೆಗಳ ಮೊತ್ತ:</b> 3 ಆಣೆ + 2 ಆಣೆ = 5 ಆಣೆ. ಕಂದಾಯ ನಿಯಮದ ಪ್ರಕಾರ 4 ಆಣೆ ಅಂದರೆ 1 ಗುಂಟೆ. ಆದ್ದರಿಂದ <code>5 - 4 = 1 ಆಣೆ</code> ಉಳಿಯುತ್ತದೆ, 1 ಗುಂಟೆ ಮುಂದೆ ಸಾಗುತ್ತದೆ (Carry).</li>
+            <li><b>ಗುಂಟೆಗಳ ಮೊತ್ತ:</b> 35 ಗುಂಟೆ + 15 ಗುಂಟೆ + 1 ಗುಂಟೆ (ಕ್ಯಾರಿ ಬಂದದ್ದು) = 51 ಗುಂಟೆ. 40 ಗುಂಟೆ ಎಂದರೆ 1 ಎಕರೆ ಆದ ಕಾರಣ: <code>51 - 40 = 11 ಗುಂಟೆ</code> ಉಳಿಯುತ್ತದೆ ಮತ್ತು 1 ಎಕರೆ ಮುಂದೆ ಸಾಗುತ್ತದೆ.</li>
+            <li><b>ಎಕರೆಗಳ ಮೊತ್ತ:</b> 1 ಎಕರೆ + 2 ಎಕರೆ + 1 ಎಕರೆ (ಕ್ಯಾರಿ ಬಂದದ್ದು) = 4 ಎಕರೆ.</li>
+            <li><b>ಅಂತಿಮ ಒಟ್ಟು ಫಲಿತಾಂಶ:</b> ನಮ್ಮ ಇಂಜಿನ್ ನಿಖರವಾಗಿ <b>4 ಎಕರೆ, 11 ಗುಂಟೆ, 1 ಆಣೆ</b> ಎಂದು ಫಲಿತಾಂಶ ನೀಡುತ್ತದೆ.</li>
+        </ol>
+    </section>
+
+    <section>
+        <h3>೪. ಕರ್ನಾಟಕ ಭೂ ಸುಧಾರಣೆ ಮತ್ತು ಕಂದಾಯ ಕಾಯ್ದೆಯ ವಿಶ್ಲೇಷಣೆ</h3>
+        <p>ಕರ್ನಾಟಕದಲ್ಲಿ ಭೂಮಿಯ ವರ್ಗಾವಣೆ ಮತ್ತು ಪೋಡಿ ಪ್ರಕ್ರಿಯೆಗಳು <b>ಕರ್ನಾಟಕ ಭೂ ಕಂದಾಯ ಕಾಯ್ದೆ 1964</b> ರ ಅಡಿಯಲ್ಲಿ ನಿಯಂತ್ರಿಸಲ್ಪಡುತ್ತವೆ. ತಹಶೀಲ್ದಾರ್ ಅಥವಾ ಕಂದಾಯ ನಿರೀಕ್ಷಕರು ಭೂ ದಾಖಲೆಗಳನ್ನು ಪರಿಶೀಲಿಸುವಾಗ ವಿಸ್ತೀರ್ಣದಲ್ಲಿ ಸಣ್ಣ ವ್ಯತ್ಯಾಸ ಕಂಡುಬಂದರೂ ನಿಮ್ಮ ಮ್ಯುಟೇಷನ್ (ಖಾತಾ ಬದಲಾವಣೆ) ಅರ್ಜಿಯನ್ನು ತಿರಸ್ಕರಿಸಬಹುದು. ದಕ್ಷಿಣ ಕರ್ನಾಟಕದಲ್ಲಿ ಚಾಲ್ತಿಯಲ್ಲಿರುವ ಅಂಕಣ ಮೌಲ್ಯಗಳು ಉತ್ತರ ಕರ್ನಾಟಕಕ್ಕಿಂತ ಭಿನ್ನವಾಗಿರುತ್ತವೆ. ಆದರೆ ಅಧಿಕೃತವಾಗಿ 1 ಗುಂಟೆ ಎಂದರೆ 1,089 ಚದರ ಅಡಿ ಎಂಬ ನಿಯಮವನ್ನೇ ಬಳಸಲಾಗುತ್ತದೆ. ನಮ್ಮ ಟೂಲ್ ಈ ಸರ್ಕಾರಿ ನಿಯಮಾವಳಿಗಳಿಗೆ ಸಂಪೂರ್ಣ ಬದ್ಧವಾಗಿದೆ.</p>
+    </section>
+
+    <h3>೫. ಅಧಿಕೃತ ರೂಪಾಂತರ ಕೋಷ್ಟಕ (Karnataka Unit Matrix)</h3>
+    <table>
+        <thead>
+            <tr>
+                <th>ಘಟಕದ ಹೆಸರು</th>
+                <th>ಕಂದಾಯ ಸಂಬಂಧ ಮತ್ತು ವ್ಯಾಖ್ಯಾನ</th>
+                <th>ಚದರ ಅಡಿ (Sq. Feet)</th>
+                <th>ಚದರ ಮೀಟರ್ (Sq. Meters)</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr><td><b>1 ಎಕರೆ (Acre)</b></td><td>40 ಗುಂಟೆಗಳು (ಅಧಿಕೃತ ಕಂದಾಯ ಮಾನದಂಡ)</td><td>43,560 ಚದರ ಅಡಿ</td><td>4,046.85 ಚದರ ಮೀ</td></tr>
+            <tr><td><b>1 ಗುಂಟೆ (Gunta)</b></td><td>ಎಕರೆಯ 1/40 ನೇ ಭಾಗ / 4 ಆಣೆಗಳು</td><td>1,089 ಚದರ ಅಡಿ</td><td>101.17 ಚದರ ಮೀ</td></tr>
+            <tr><td><b>1 ಆಣೆ (Anna)</b></td><td>1 ಗುಂಟೆಯ 1/4 ನೇ ಭಾಗ</td><td>272.25 ಚದರ ಅಡಿ</td><td>25.29 ಚದರ ಮೀ</td></tr>
+            <tr><td><b>1 ಅಂಕಣ (Ankan)</b></td><td>ಸ್ಥಳೀಯ ಸಾಂಪ್ರದಾಯಿಕ ಅಳತೆ ಘಟಕ</td><td>72 ಚದರ ಅಡಿ</td><td>6.68 ಚದರ ಮೀ</td></tr>
+            <tr><td><b>1 ಸೆಂಟ್ (Cent)</b></td><td>ಗಡಿ ಜಿಲ್ಲೆಗಳಲ್ಲಿ ಬಳಕೆಯಲ್ಲಿದೆ (100 ಸೆಂಟ್ = 1 ಎಕರೆ)</td><td>435.6 ಚದರ ಅಡಿ</td><td>40.46 ಚದರ ಮೀ</td></tr>
+        </tbody>
+    </table>
+
+    <h3>೬. ಪದೇ ಪದೇ ಕೇಳಲಾಗುವ ಪ್ರಶ್ನೆಗಳು (FAQs)</h3>
+    <div id="faq-container-kn">
+        <div class="faq-block"><p><b>ಪ್ರಶ್ನೆ ೧. ಕರ್ನಾಟಕದಲ್ಲಿ 1 ಎಕರೆಗೆ ಎಷ್ಟು ಗುಂಟೆಗಳು?</b><br>ಉತ್ತರ: ಅಧಿಕೃತ ಭೂಮಿ ದಾಖಲೆಗಳ ಪ್ರಕಾರ 1 ಎಕರೆಗೆ ನಿಖರವಾಗಿ 40 ಗುಂಟೆಗಳು ಇರುತ್ತವೆ.</p></div>
+        <div class="faq-block"><p><b>ಪ್ರಶ್ನೆ ೨. 1 ಗುಂಟೆ ಜಮೀನು ಅಂದರೆ ಎಷ್ಟು ಚದರ ಅಡಿ?</b><br>ಉತ್ತರ: ಕರ್ನಾಟಕ ಕಂದಾಯ ನಿಯಮದ ಪ್ರಕಾರ 1 ಗುಂಟೆ ಜಮೀನು 1,089 ಚದರ ಅಡಿಗೆ ಸಮನಾಗಿರುತ್ತದೆ.</p></div>
+        <div class="faq-block"><p><b>ಪ್ರಶ್ನೆ ೩. ಒಂದು ಗುಂಟೆಯಲ್ಲಿ ಎಷ್ಟು ಆಣೆಗಳು ಇರುತ್ತವೆ?</b><br>ಉತ್ತರ: ಕರ್ನಾಟಕದ ಎಲ್ಲಾ ಜಿಲ್ಲೆಗಳಲ್ಲೂ 1 ಗುಂಟೆಯಲ್ಲಿ ಒಟ್ಟು 4 ಆಣೆಗಳು ಇರುತ್ತವೆ.</p></div>
+        <div class="faq-block"><p><b>ಪ್ರಶ್ನೆ ೪. 1 ಆಣೆ ಜಮೀನು ಅಂದರೆ ಎಷ್ಟು ಚದರ ಅಡಿ?</b><br>ಉತ್ತರ: 1 ಆಣೆ ಜಮೀನು ಎಂದರೆ ನಿಖರವಾಗಿ 272.25 ಚದರ ಅಡಿ ವಿಸ್ತೀರ್ಣ.</p></div>
+        <div class="faq-block"><p><b>ಪ್ರಶ್ನೆ ೫. ಈ ಕ್ಯಾಲ್ಕುಲೇಟರ್ ಮೊಬೈಲ್ ಫೋನ್‌ಗಿಂತ ಹೇಗೆ ಭಿನ್ನವಾಗಿದೆ?</b><br>ಉತ್ತರ: ಮೊಬೈಲ್ ಕ್ಯಾಲ್ಕುಲೇಟರ್ ಬೇಸ್-10 ರ ಮೇಲೆ ನಡೆಯುತ್ತದೆ, ಆದರೆ ಭೂಮಿಯ ಲೆಕ್ಕಕ್ಕೆ ಬೇಸ್-40 ರ ವಿಶೇಷ ತಂತ್ರಜ್ಞಾನ ಬೇಕಾಗುತ್ತದೆ, ಅದನ್ನು ನಮ್ಮ ಟೂಲ್ ಒದಗಿಸುತ್ತದೆ.</p></div>
+        <div class="faq-block"><p><b>ಪ್ರಶ್ನೆ ೬. "ಕುಲ ಕ್ಷೇತ್ರಫಲ" ಎಂದರೇನು?</b><br>ಉತ್ತರ: ಇದು ಒಟ್ಟು ಸಂಯೋಜಿತ ವಿಸ್ತೀರ್ಣ ಅಥವಾ ಗ್ರ್ಯಾಂಡ್ ಟೋಟಲ್ ಅನ್ನು ಸೂಚಿಸುವ ಅಧಿಕೃತ ಕಂದಾಯ ಪದವಾಗಿದೆ.</p></div>
+        <div class="faq-block"><p><b>ಪ್ರಶ್ನೆ ೭. ಎಕರೆ ನಮೂದಿಸದೆ ಬರಿ ಗುಂಟೆ ಲೆಕ್ಕ ಹಾಕಬಹುದೇ?</b><br>ಉತ್ತರ: ಖಂಡಿತವಾಗಿ ಸಾಧ್ಯವಿದೆ, ಎಕರೆ ಕಾಲಂ ಅನ್ನು ಖಾಲಿ ಬಿಟ್ಟು ಬರಿ ಗುಂಟೆ ಅಥವಾ ಆಣೆ ಹಾಕಿ ಲೆಕ್ಕ ಮಾಡಬಹುದು.</p></div>
+        <div class="faq-block"><p><b>ಪ್ರಶ್ನೆ ೮. 1 ಗುಂಟೆ ಎಷ್ಟು ಚದರ ಮೀಟರ್‌ಗೆ ಸಮನಾಗಿರುತ್ತದೆ?</b><br>ಉತ್ತರ: 1 ಗುಂಟೆ ಸರಿಸುಮಾರು 101.17 ಚದರ ಮೀಟರ್‌ಗೆ ಸಮನಾಗಿರುತ್ತದೆ.</p></div>
+        <div class="faq-block"><p><b>ಪ್ರಶ್ನೆ ೯. 1 ಅಂಕಣ ಅಂದರೆ ಎಷ್ಟು ಜಾಗ?</b><br>ಉತ್ತರ: ದಕ್ಷಿಣ ಕರ್ನಾಟಕದ ಕೆಲವು ಭಾಗಗಳಲ್ಲಿ ಬಳಕೆಯಾಗುವ ಅಂಕಣವು ಸಾಮಾನ್ಯವಾಗಿ 72 ಚದರ ಅಡಿ ಜಾಗವನ್ನು ಹೊಂದಿರುತ್ತದೆ.</p></div>
+        <div class="faq-block"><p><b>ಪ್ರಶ್ನೆ ೧೦. ಈ ವರದಿಯನ್ನು ನೇರವಾಗಿ ನ್ಯಾಯಾಲಯದ ದಾಖಲೆಗಳಿಗೆ ಬಳಸಬಹುದೇ?</b><br>ಉತ್ತರ: ಇದು ಕೇವಲ ಗಣಿತದ ಪರಿಶೀಲನೆಗಾಗಿ ಇರುವ ಉಲ್ಲೇಖ ವರದಿಯಾಗಿದೆ. ಅಧಿಕೃತ ಕೆಲಸಗಳಿಗೆ ನಿಮ್ಮ ಹತ್ತಿರದ ನಾಡಕಚೇರಿ ಅಥವಾ ಪ್ರಮಾಣೀಕೃತ ಸರ್ವೇಯರ್ ಅನ್ನು ಸಂಪರ್ಕಿಸಿ.</p></div>
     </div>
+</article>
 
-    <article class="seo-section">
-        <div class="seo-header-block">
-            <h2 id="introH2" style="border:none; padding:0; text-align:center; font-size:2.3rem !important;">Karnataka Land Area Addition: Acre, Guntha aur Anae ka Total Jod Kaise Karein?</h2>
-            <p style="font-size: 17px; color: #555; text-align: center; margin: 5px 0 0 0;" id="seoSubTitle">Bhoomi Karnataka portal framework aur Directorate of Land Records (DLR) guidelines ke anusaar multiple fields ka complete guide.</p>
-        </div>
-<img src="karnataka1.webp" class="content-image" loading="lazy" alt="Scenic One-Horned Rhinoceros Standing in Assam Valley Valley Plain Lands">
-
-        <section>
-            <h2>1. Introduction to Karnataka Land Tracking and Digital Survey Systems</h2>
-            <p>
-                Karnataka state mein zameen ki naap (Land Area Measurement) aur dynamic mutation management records ka processing system India mein kaafi advanced mana jata hai. Yahan Bengaluru, Mysuru, Hubballi-Dharwad, Belagavi, Mangaluru aur Kalaburagi jaise alag-alag clusters mein **Bhoomi Portal Karnataka** par computerized records layout standard form mein Hectares aur Ares mein hote hain, lekin jab baat local tehsil sub-registrar registries ke execution, ancestral property batwara partitions ya local rural area accounting listings ki aati hai, toh standard parameters mukhya roop se <b>Acre, Gunta, aur Anae</b> logic systems par hi run karte hain. Kai scattered khasra plot chunks ya survey units numbers ko ek sath manual ledger accounts par total jodhna kafi mushkil hota hai, kyunki fraction modules base values normal numeric calculations filters ko crash karke galti hone ka darr lagatar badha deti hain.
-            </p>
-            <p>
-                Is load factor mathematics errors aur data verification logs breakdown samasya ko tackle karne ke liye Shayan Smart Tools ne is high-speed <b>Karnataka Land Area Addition Calculator</b> engine ko compile kiya hai. Is modern non-housing interface module ke piche strict **Base-16 and Base-40 Carry Forward Loops Logic** set kiya gaya hai. State patterns ke mutabik ground parameters standard calculations mein clear ratio hota hai jahan exactly <b>16 Anae milkar 1 Gunta</b> banti hai ($68.06\text{ Sq.Ft}$ single anae index size) aur sateek <b>40 Guntha milkar 1 standard Acre</b> ($43,560\text{ Sq.Ft}$) allocations create karte hain. Tool aapke multiple layout entries parameters ko seconds mein parse karke precise total compile rests kar deta hai aur verified visual card template print metrics layout open rests hold show kar dega.
-            </p>
-        </section>
-
-        <section>
-            <h2>2. Deep Technical Breakdown of Shifting Arithmetic Framework</h2>
-            <p>
-                Bhoomi system land evaluation database processes me addition arrays ko accurately track karne ke liye state revenue manual kuch core structural carry forward criteria guidelines set karta hai. Jab aam mathematical packages me in fractions ko normal fractional integers ki tarah add up kiya jata hai, toh pure evaluation systems scale me major fractional variation create ho jata hai jo registration deeds ko complete invalid bana deta hai.
-            </p>
-            <p>
-                Hamara standard programmatic structure baseline matrix shifts logic ko apply karta hai jisme data execution niche diye standard flow limits par rests karta hai:
-            </p>
-            <ul>
-                <li><b>The Micro Anae Carry Shift Loop (Base-16 Processing):</b> Jab aap multiple survey properties fractions fields enter karte hain, toh automatic data loop system sabhi loose inputs records se custom sub-unit arrays fetch karta hai. Agar completely structural addition loop ke baad dynamic Anae count pure value 16 ya usse zyada trace hoti hai, toh compiler direct $16\text{ Anae} = 1\text{ Guntha}$ formula nirdharit karke integer division value ko custom shift matrix par forward push kar deta hai aur bache hue remaining area metrics fraction ko as remainder lock karta hai.</li>
-                <li><b>The Macro Guntha Boundary Shift Loop (Base-40 Processing):</b> Secondary structural verification phase me sabhi dynamic Guntha variables entries ko evaluate kiya jata hai. Kyuki 1 standard Acre land contains exactly 40 individual Guntas cells footprint, isliye agar runtime calculation grid data parameters total balance 40 ya usse greater resting hold map karta hai, toh framework immediate $40\text{ Guntha} = 1\text{ Acre}$ logical calculation apply kakar mathematical value direct structural Acre column segment me additive shift pipeline par transfer kardeta hai.</li>
-            </ul>
-        </section>
-
-        <section>
-            <h2>3. Practical Land Addition Examples & Calculation Flow</h2>
-            <p>Fractions math operations ko aur crystal clear transparent tarike se evaluate karne ke liye niche do complex practical structural examples pradan kiye gaye hain:</p>
-            
-            <div class="example-card">
-                <h4>Example 1: Manual Mathematical Jod Framework of Two Plots</h4>
-                <p>Maan lijiye aapke pass do different survey numbers ki zameen hain jinka size niche diye mutabik hai:</p>
-                <ul>
-                    <li><code>Plot 1 Data Feed:</code> 1 Acre, 25 Guntha, 12 Anae</li>
-                    <li><code>Plot 2 Data Feed:</code> 2 Acre, 22 Guntha, 8 Anae</li>
-                </ul>
-                <p><b>Step-by-Step Shifting Carry Addition:</b></p>
-                <ol>
-                    <li>Loose Anae summation block loop: $12 + 8 = 20\text{ Anae}$. Chuki yeh 16 se bada hai, isliye $20 / 16 = 1\text{ Guntha}$ carry forward hoga aur remainder bachega <b>4 Anae</b>.</li>
-                    <li>Loose Guntha summation block loop: $25 + 22 + 1\text{ (Carry Out)} = 48\text{ Guntha}$. Chuki yeh 40 se bada hai, isliye $48 / 40 = 1\text{ Acre}$ carry forward hoga aur remainder bachega <b>8 Guntha</b>.</li>
-                    <li>Loose Acre summation block loop: $1 + 2 + 1\text{ (Carry Out)} = \mathbf{4\text{ Acre}}$.</li>
-                    <li><b>Final Structured Area:</b> 4 Acre, 8 Guntha, 4 Anae ($182,915.62\text{ Total Sq Ft}$).</li>
-                </ol>
-            </div>
-
-            <div class="example-card">
-                <h4>Example 2: Multiple Fragmented Micro Slots Accumulation</h4>
-                <p>Agar aap teen chote-chote scattered agriculture compartments ko merge kar rahe hain:</p>
-                <ul>
-                    <li><code>Slot A Feed:</code> 0 Acre, 38 Guntha, 10 Anae</li>
-                    <li><code>Slot B Feed:</code> 0 Acre, 10 Guntha, 14 Anae</li>
-                    <li><code>Slot C Feed:</code> 1 Acre, 02 Guntha, 04 Anae</li>
-                </ul>
-                <p><b>Core Shifting Calculations:</b> Total Anae = $10 + 14 + 4 = 28\text{ Anae} \rightarrow 1\text{ Gunta (Carry)}, 12\text{ Anae (Remainder)}$. Total Guntha = $38 + 10 + 2 + 1\text{ (Carry)} = 51\text{ Guntha} \rightarrow 1\text{ Acre (Carry)}, 11\text{ Guntha (Remainder)}$. Total Net Acre = $0 + 0 + 1 + 1\text{ (Carry)} = 2\text{ Acre}$. <b>Net Total Output:</b> 2 Acre, 11 Guntha, 12 Anae.</p>
-            </div>
-        </section>
-
-        <section>
-            <h2>4. Karnataka Land Measurement Traditional Units Table Matrix</h2>
-            <p>Directorate of Land Records (DLR) aur integrated Kaveri mutation monitoring registers check limits parameters table formatting niche dynamic values me systems standards par mapping rules display karti hai:</p>
-            <div style="overflow-x: auto;">
-                <table>
-                    <thead>
-                        <tr><th>Official Local Unit Name</th><th>Karnataka Survey Conversion Scale Breakdown</th><th>Approx Square Feet (Sq Ft)</th><th>Approx Square Meters (Sq M)</th><th>Global Macro Multipliers Alignment</th></tr>
-                    </thead>
-                    <tbody>
-                        <tr><td><b>1 Anae (ಆಣೆ)</b></td><td>Micro fractional division ($1/16\text{ of Gunta}$)</td><td>68.0625 Sq Ft</td><td>6.323 Sq M</td><td>0.00156 Net Acres Fraction Structure</td></tr>
-                        <tr><td><b>1 Gunta (ಗುಂಟೆ)</b></td><td>Standard boundary canvas loop ($33 \times 33\text{ ft}$)</td><td>1,089 Sq Ft</td><td>101.171 Sq M</td><td>0.025 Net Acres Functional Grid Cell</td></tr>
-                        <tr><td><b>1 Cent (ಸೆಂಟ್)</b></td><td>Universal micro plotting standard layout element</td><td>435.6 Sq Ft</td><td>40.468 Sq M</td><td>0.010 Net Acres Standard Vector Point</td></tr>
-                        <tr><td><b>1 Acre (ಎಕರೆ)</b></td><td>Standard 40 Gunta Complete Symmetric Grid</td><td>43,560 Sq Ft</td><td>4,046.856 Sq M</td><td>1.00 Net Absolute Land Surface Record</td></tr>
-                        <tr><td><b>1 Hectare (Ha)</b></td><td>Sarkari central global metric structural scale</td><td>1,07,639.1 Sq Ft</td><td>10,000 Sq M</td><td>2.4711 Net Absolute Survey Units Limit</td></tr>
-                    </tbody>
-                </table>
-            </div>
-        </section>
-<img src="karnataka2.webp" class="content-image" loading="lazy" alt="Scenic One-Horned Rhinoceros Standing in Assam Valley Valley Plain Lands">
-
-        <section>
-            <h2>5. Step-by-Step Operations & How To Use Guide</h2>
-            <p>Muksidul Islam ke advanced fluid layout programming parameters checking standards ke mutabik is web entry matrix control module workflow process ko seamless direct steps diyan se structure kiya gaya hai:</p>
-            <ol>
-                <li><b>Verify Property Credentials via RTC:</b> Sabse pehle apne sabhi scattered land survey slips documents (Pahani fard entries lines) se Acre column index, Guntha metrics numbers aur loose Anae unit values verify karke note down karein.</li>
-                <li><b>Feed Initial Ledger Slots:</b> Screen panel layout display boxes par ja kar Plot Details #1 aur Plot Details #2 fields me respect values carefully entry stack fill up karein.</li>
-                <li><b>Deploy Real-Time Infinite Plot Additions:</b> Agar khata data sheet par properties count 2 se zyada hai, toh simple layout control parameter trigger command key <b>"+ Add More Plot"</b> tap karein. Client execution panel seamless animation transitions ke sath extra plot tracking inputs columns mount kar dega.</li>
-                <li><b>Fire Computation Switch:</b> Processing complete karne ke liye direct mechanical trigger option button **"Calculate Total Area"** press karein. Processing sequence dynamic logic matrix process kakar absolute detailed summary list card unhide rests kar dega.</li>
-            </ol>
-        </section>
-<img src="karnataka3.webp" class="content-image" loading="lazy" alt="Scenic One-Horned Rhinoceros Standing in Assam Valley Valley Plain Lands">
-
-        <section id="faqContainer">
-            <h2 id="hFaqHead">6. 15 Important Frequently Asked Questions (FAQs) - Karnataka Land Area Addition Logic (Hinglish Matrix)</h2>
-            <div id="faqList"></div>
-        </section>
-
-        <h2 id="lblDashTitle" style="border:none; padding:0; margin-bottom:15px;">Quick Access Other Tools</h2>
-        <div class="links-grid">
-            <a href="index.html" class="link-card" id="dshHome">Main Dashboard</a>
-            <a href="punjab-land-area-addition.html" class="link-card" id="dshPb">Punjab Land Addition</a>
-            <a href="rajasthan-land-area-addition.html" class="link-card" id="dshRj">Rajasthan Land Addition</a>
-            <a href="haryana-land-area-addition.html" class="link-card" id="dshHr">Haryana Land Addition</a>
-        </div>
-
-        <div style="margin-top: 40px; padding:25px; border: 2px dashed #ffb300; background: #ffffff; border-radius: 12px; font-size:13px;">
-            <p style="margin:0; text-align: center;"><b>Copyright Notice:</b> Shayan Smart Tools © 2026. All Rights Reserved. Indian Copyright Act, 1957 structural codes protection directives automated restrictions layers applied rests.</p>
-        </div>
-    </article>
+<div class="footer-copyright-box">
+    <div class="footer-law-accent">Statutory Cyber Law Protection Vault</div>
+    <p><b>Copyright Protection Notice:</b> Shayan Smart Tools Core Processing Engines, Localization Scripts, and Structural Web Algorithms © 2026. All rights reserved.</p>
+    <p style="font-size: 12px; color: #64748b;">This application canvas layout and mathematical processing engines are strictly protected under global software copyright acts and Indian IP Protection Laws. Any unauthorized deployment of this architecture will initiate immediate legal escalations.</p>
 </div>
 
 <script>
-    document.addEventListener('contextmenu', e => e.preventDefault());
-    document.onkeydown = function(e) {
-        if (e.ctrlKey && (e.keyCode === 67 || e.keyCode === 85 || e.keyCode === 73)) {
-            alert("Copyright Warning: Copying content from Shayan Smart Tools is prohibited.");
-            return false;
-        }
-    };
+    let plotIdx = 2;
+    let currentLang = 'en';
 
-    var pCount = 2;
-    var currentL = 'en';
-
-    var trans = {
+    const translations = {
         en: {
-            title: "Karnataka Land Area Addition Tool",
-            stitle: "Add multiple patches/Bhoomi survey slots in Acre, Gunta, and Anae safely with integrated forward carry shifts logic.",
+            title: "Karnataka Land Area Addition Calculator",
+            subtitle: "Official Bhoomi Revenue Matrix: 1 Acre = 40 Gunta | 1 Gunta = 4 Anna / 16 Paisa",
             addBtn: "+ Add More Plot",
-            calcBtn: "Calculate Total Area",
-            resHead: "Total Land Result (ಒಟ್ಟು ವಿಸ್ತೀರ್ಣ ಫಲಿತಾಂಶ):",
-            unitA: "Acre", unitG: "Gunta", unitAn: "Anae",
-            copyBtn: "📋 Copy Details", shareBtn: "📲 WhatsApp Share", printBtn: "🖨️ Print Report",
-            copyMsg: "Calculation Details Copied!",
-            shI: "Land Accumulation Ledger (ಭೂಮಿ ಒಟ್ಟು ಸೇರಿಸುವಿಕೆ ಪಟ್ಟಿ)",
-            rsq: "Total Square Feet Matrix:", rsm: "Total Square Meters Matrix:", racre: "Total Acres Representation:", rhec: "Estimated Total Hectare (Ha):", bk: "⬅ Back to All Tools",
-            seot: "Karnataka Land Area Addition: Acre, Guntha aur Anae ka Total Jod Kaise Karein?",
-            seos: "Bhoomi Karnataka portal framework aur Directorate of Land Records (DLR) guidelines ke anusaar multiple fields ka complete guide.",
-            dt: "Quick Access Other Tools", d1: "Main Dashboard", d2: "Punjab Land Addition", d3: "Rajasthan Land Addition", d4: "Haryana Land Addition",
-            fmtText: "Karnataka Standard Format (ಎಕರೆ-ಗುಂಟೆ-ಆಣೆ):",
-            faqH: "6. 15 Important Frequently Asked Questions (FAQs) - Karnataka Land Area Addition Logic (Hinglish Matrix)",
-            gTitle: "Official Karnataka Land Portals", 
-            gl1: "🌐 Bhoomi Karnataka (RTC records)", 
-            gl2: "💰 Kaveri Online (Registry & Valuation)"
+            calcBtn: "Calculate Total Beriz",
+            resetBtn: "Reset",
+            resHead: "Kula Kshethrafala / ಒಟ್ಟು ವಿಸ್ತೀರ್ಣ (Total Combined Area)",
+            lblCombinedInput: "Initial Combined Input:",
+            lblResAcre: "Acre (ಎಕರೆ)",
+            lblResGunta: "Gunta (ಗುಂಟೆ)",
+            lblResAnna: "Anna (ಆಣೆ)",
+            lblResTotalGunta: "Total Gunta Fraction",
+            lblResSqft: "Total Square Feet",
+            lblResSqm: "Total Square Meter",
+            lblResAnkan: "Total Ankan (Local)",
+            btnCopy: "📋 Copy Results",
+            btnWA: "📲 WhatsApp",
+            btnPrint: "🖨️ Print Report",
+            backLnk: "⬅ Back to All Tools Dashboard",
+            printInputsTitle: "Entered Plot Dimensions",
+            thPlotNo: "Plot No",
+            thAcre: "Acre",
+            thGunta: "Gunta",
+            thAnna: "Anna"
         },
         kn: {
-            title: "ಕರ್ನಾಟಕ ಭೂಮಿ ವಿಸ್ತೀರ್ಣ ಒಟ್ಟು ಸೇರ್ಪಡೆ ಸಾಧನ",
-            stitle: "ಸಂಯೋಜಿತ ಫಾರ್ವರ್ಡ್ ಕ್ಯಾರಿ ಶಿಫ್ಟ್ ತರ್ಕದೊಂದಿಗೆ ಎಕರೆ, ಗುಂಟೆ ಮತ್ತು ಆಣೆಗಳಲ್ಲಿ ಬಹು ಭೂಮಿ ಸቅಿತಿ ದಾಖಲೆಗಳನ್ನು ಸೇರಿಸುವ ಡಿಜಿಟಲ್ ಪ್ಲಾಟ್‌ಫಾರ್ಮ್.",
-            addBtn: "+ ಹೆಚ್ಚಿನ ಜಮೀನು ಸೇರಿಸಿ",
-            calcBtn: "ಒಟ್ಟು ವಿಸ್ತೀರ್ಣ ಲೆಕ್ಕ ಹಾಕಿ",
-            resHead: "ಭೂಮಿ ಒಟ್ಟು ಸೇರ್ಪಡೆ ಅಂತಿಮ ಫಲಿತಾಂಶ ವರದಿ:",
-            unitA: "ಎಕರೆ (Acre)", unitG: "ಗುಂಟೆ (Gunta)", unitAn: "ಆಣೆ (Anae)",
-            copyBtn: "📋 ವಿವರಗಳನ್ನು ನಕಲಿಸಿ", shareBtn: "📲 ವಾಟ್ಸಾಪ್ ಹಂಚಿಕೊಳ್ಳಿ", printBtn: "🖨️ ವರದಿ ಮುದ್ರಿಸಿ",
-            copyMsg: "ಭೂಮಿ ಒಟ್ಟು ಮೊತ್ತದ ಗಣನೆ ವಿವರ ನಕಲಿಸಲಾಗಿದೆ!",
-            shI: "ಭೂಮಿ ಒಟ್ಟು ಸೇರಿಸುವಿಕೆ ಪ್ರವಿಷ್ಟಿ ಖಾತಾ ಪಟ್ಟಿ ವಿವರ ವಿವರಂ ledger",
-            rsq: "ಒಟ್ಟು ಚದರ ಅಡಿ ವಿಸ್ತೀರ್ಣ ಪರಿಮಾಣ ಸೂಚಿ (Sq.Ft):", rsm: "ಒಟ್ಟು ಚದರ ಮೀಟರ್ ವಿಸ್ತೀರ್ಣ ಪರಿಮಾಣ ಸೂಚಿ (Sq.Mt):", racre: "ಒಟ್ಟು ನಿವ್ವಳ ಎಕರೆ ಪರಿವರ್ತನೆ ಮೌಲ್ಯ (Net Acre):", rhec: "ಅಂದಾಜು ಒಟ್ಟು ಹೆಕ್ಟೇರ್ ವಿಸ್ತೀರ್ಣದ ಪ್ರಮಾಣ (Ha):", bk: "⬅ ಎಲ್ಲಾ ಡಿಜಿಟಲ್ ಸಾಧನಗಳ ಪಟ್ಟಿ",
-            seot: "ಕರ್ನಾಟಕ ಭೂಮಿ ವಿಸ್ತೀರ್ಣ ಒಟ್ಟು ಮೊತ್ತ ಗಣಕಯಂತ್ರ: ಎಕರೆ, ಗುಂಟೆ nicotine ಮತ್ತು ಆಣೆ ಸಂಕಲನ ಕೈಪಿಡಿ",
-            seos: "ಭೂಮಿ ಕರ್ನಾಟಕ ಕಂದಾಯ ಪೋರ್ಟಲ್ ನಿಯಮಗಳು ಮತ್ತು ಭೂ ದಾಖಲೆಗಳ ನಿರ್ದೇಶನಾಲಯ (DLR) ಮಾರ್ಗಸೂಚಿಗಳ ಪ್ರಕಾರ ವಿವಿಧ ಸರ್ವೇ ನಂಬರ್‌ಗಳ ವಿಸ್ತೀರ್ಣ ಲೆಕ್ಕಾಚಾರ.",
-            dt: "ಇತರ ಪ್ರಮುಖ ಇಂಟರ್ನಲ್ ಡಿಜಿಟಲ್ ಲಿಂಕ್ಸ್", d1: "🏠 ಮುಖ್ಯ ನಿಯಂತ್ರಣ ಫಲಕ", d2: "ಪಂಜಾಬ್ ಜಮೀನು ಸಂಕಲನ ಸಾಧನ", d3: "ರಾಜಸ್ಥಾನ ಜಮೀನು ಸಂಕಲನ ಸಾಧನ", d4: "ಹರಿಯಾಣ ಜಮೀನು ಸಂಕಲನ ಸಾಧನ",
-            fmtText: "ಕರ್ನಾಟಕ ಪ್ರಮಾಣಿತ ಔಟ್‌ಪುಟ್ ಸ್ವರೂಪ (ಎಕರೆ-ಗುಂಟೆ-ಆಣೆ):",
-            gTitle: "ಕರ್ನಾಟಕ ಸರ್ಕಾರಿ ಭೂಮಿ ಪೋರ್ಟಲ್‌ಗಳು", 
-            gl1: "🌐 ಭೂಮಿ ಕರ್ನಾಟಕ (RTC ದಾಖಲೆಗಳು)", 
-            gl2: "💰 ಕಾವೇರಿ ಆನ್‌ಲೈನ್ (ನೋಂದಣಿ ಮತ್ತು ಮೌಲ್ಯಮಾಪನ)",
-            faqH: "6. 15 Important Frequently Asked Questions (FAQs) - Karnataka Land Area Addition Logic (Hinglish Matrix)"
+            title: "ಕರ್ನಾಟಕ ಜಮೀನು ವಿಸ್ತೀರ್ಣ ಕ್ಯಾಲ್ಕುಲೇಟರ್",
+            subtitle: "ಅಧಿಕೃತ ಭೂಮಿ ಕಂದಾಯ ನಿಯಮಾವಳಿ: 1 ಎಕರೆ = 40 ಗುಂಟೆ | 1 ಗುಂಟೆ = 4 ಆಣೆ",
+            addBtn: "+ ಹೆಚ್ಚಿನ ಪ್ಲಾಟ್ ಸೇರಿಸಿ",
+            calcBtn: "ಒಟ್ಟು ಮೊತ್ತ ಲೆಕ್ಕಾಚಾರ ಮಾಡಿ",
+            resetBtn: "ರಿಸೆಟ್ ಮಾಡಿ",
+            resHead: "ಒಟ್ಟು ವಿಸ್ತೀರ್ಣ (Total Combined Area)",
+            lblCombinedInput: "ಒಟ್ಟು ಸಬ್ಮಿಟ್ ಮಾಡಿದ ಪ್ಲಾಟ್‌ಗಳು:",
+            lblResAcre: "ಎಕರೆ",
+            lblResGunta: "ಗುಂಟೆ",
+            lblResAnna: "ಆಣೆ",
+            lblResTotalGunta: "ಒಟ್ಟು ಗುಂಟೆ ಭಾಗ",
+            lblResSqft: "ಒಟ್ಟು ಚದರ ಅಡಿ",
+            lblResSqm: "ಒಟ್ಟು ಚದರ ಮೀಟರ್",
+            lblResAnkan: "ಒಟ್ಟು ಅಂಕಣ (ಸ್ಥಳೀಯ)",
+            btnCopy: "📋 ಫಲಿತಾಂಶ ನಕಲಿಸಿ",
+            btnWA: "📲 ವಾಟ್ಸಾಪ್ ಹಂಚಿಕೆ",
+            btnPrint: "🖨️ ವರದಿ ಪ್ರಿಂಟ್ ಮಾಡಿ",
+            backLnk: "⬅ ಎಲ್ಲಾ ಪರಿಕರಗಳ ಡ್ಯಾಶ್‌ಬೋರ್ಡ್‌ಗೆ ಹಿಂತಿರುಗಿ",
+            printInputsTitle: "ದಾಖಲಿಸಿದ ಪ್ಲಾಟ್ ವಿವರಗಳು",
+            thPlotNo: "ಕ್ರ.ಸಂ.",
+            thAcre: "ಎಕರೆ",
+            thGunta: "ಗುಂಟೆ",
+            thAnna: "ಆಣೆ"
         }
     };
 
-    const faqsData = [
-        { q_en: "Bhoomi Karnataka records monitoring data models me 1 standard Acre me kitne Guntha bante hain?", a_en: "Karnataka state land administration matrix parameters ke anusar 1 standard Acre space data envelope strictly sharp pure **40 Guntha** cells hold karta hai." },
-        { q_en: "Traditional land calculations formats me Guntha aur Anae metrics boundaries units ka relation kya chalta hai?", a_en: "Sarkari layout manuals compliance guidelines ke mutabik 1 complete unified standard Guntha frame mesh me sateek pure **16 Anae fraction blocks** store hote hain." },
-        { q_en: "Zameen summation analytics me 1 standard loose Guntha ka absolute size square feet data check limits me kya hai?", a_en: "Geometric tracking maps regulations analysis parameters ke tehat 1 single standard Guntha element canvas perfectly flat exact **1,089 Square Feet** footprint parameters execute karta hai." },
-        { q_en: "Dirctorate of Land Records (DLR) guidelines baseline arithmetic models me 1 Anae zameen square feet data index me kitna hota hai?", a_en: "Calculations equations logic metrics loops ratio verification limits ke anusar 1 individual Anae fraction layout structure perfectly exact **68.0625 Square Feet** limits balance rests karta hai." },
-        { q_en: "Agar plots accumulation variables checking cells entry panels inputs me fraction parameters digits pass karein toh accept hoga?", a_en: "Haan, tool internal float validation nodes completely advanced system configurations par set hain, jo dynamic float integers fractions inputs arrays accept kakar smooth total map rests karte hain." },
-        { q_en: "Kya ye multiple scattered khasra survey addition software data parameters information servers networks par log karta hai?", a_en: "Bilkul nahi, ye platform completely independent client side execution pipeline data secure browser parameters limits par run chalta hai jo 100% hidden safe private hai." },
-        { q_en: "RTC Pahani land registry sheets configurations loops checks verification rules indicators arrays me Cent unit ka relation kya hai?", a_en: "State revenue tracking matrix logic calculations lines parameters me 1 standard Guntha block area clear parameter pure 2.5 Cents land vectors indicators ke barabar space balance run karta hai." },
-        { q_en: "Kya language selection switch element toggle switch apply karne par numbers records dashboard metrics sections parameters reset ho jayenge?", a_en: "Bilkul nahi, is framework core scripts modules properties safe global values retainment configurations loop constraints standard verify layers par structure hain, data completely safe rehta hai." },
-        { q_en: "1 full standard global Acre space frames yield fields models checks parameters me total kitne local traditional Guntha map honge?", a_en: "Traditional configurations system act regulations parameters framework mapping indexes me sharp sateek parameters loop flat **40 Guntha elements value setup** data matrix load run hold chalta hai." },
-        { q_en: "Urban estate markets plotting construction zones layouts metrics frames checkpoints me Gaj unit square feet equation metrics loops kya hold karta hai?", a_en: "Standard boundaries layouts factors dimensions definitions metrics par verification criteria baseline me 1 standard Square Yard yaani local terminology Gaj envelope exact flat **9 Square Feet** analytics lines check systems complete hold chalta hai." },
-        { q_en: "Kya main is multi-plot simultaneous calculations summary dashboard copy certified watermark sheets physical print out nikal sakte hain?", a_en: "Haan, user runtime script instruction module parameter select button 'Print Report' filter control command key run click karke Shayan Smart Tools verified stamp alignment page page template hard copy display printout trace out nikal sakte hain." },
-        { q_en: "Agar properties coordinate bounds inputs text parameters entry structures validations checks negative integer pass ho jayein to framework panel me kya process trace hoga?", a_en: "SST security dynamic check parameters control modal validation triggers system indicators auto alert pop up warnings prompt block dynamic execute karke runtime script calculations process safely freeze blocks drop run setup kar dega." },
-        { q_en: "Bhoomi online records certificate mutation logs data structures format metrics checks rules system format specifications checks layout style kya hai?", a_en: "Pahani management documentations checks entries sheets records hamesha systemized components notation formats clear patterns jaise Acres, Guntas, aur Annas multi channels variables divisions data frames render karti hain." },
-        { q_en: "Is premium search engines optimized fluid fast mobile responsive multi patch land addition compiler dynamic calculations script lines vectors codes kisne build kiya hai?", a_en: "Is engineered absolute error protection data layers mathematical conversions processing script parameters automation program configurations components vectors code streams logic block software parameters codes specialists application developer Muksidul Islam ne safely compile configure script write kiya hai." },
-        { q_en: "North India states aur South India adjacent states land specifications acts monitoring bounds matrices frames metrics sizes ratios change kyu baithte hain?", a_en: "Kyunki land measurement systems regional history rules legislative frameworks, state level local dynamic revenue Acts parameters guidelines bounds parameters variations, historical bounds, geographical acts structures constraints configurations parameters structures guidelines indices bounds par verify execute hote hain." }
-    ];
+    function switchLanguage(lang) {
+        currentLang = lang;
+        document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.remove('active'));
+        if(lang === 'en') {
+            document.querySelectorAll('.lang-btn')[0].classList.add('active');
+            document.getElementById('content-en').classList.add('active-lang');
+            document.getElementById('content-kn').classList.remove('active-lang');
+        } else {
+            document.querySelectorAll('.lang-btn')[1].classList.add('active');
+            document.getElementById('content-kn').classList.add('active-lang');
+            document.getElementById('content-en').classList.remove('active-lang');
+        }
 
-    function renderFAQs() {
-        const listContainer = document.getElementById('faqList');
-        if(!listContainer) return;
-        listContainer.innerHTML = '';
-        faqsData.forEach((faq, index) => {
-            const faqBlock = document.createElement('div');
-            faqBlock.style.borderBottom = '1px solid #e2e8f0';
-            faqBlock.style.paddingBottom = '15px';
-            faqBlock.style.marginBottom = '15px';
-            faqBlock.innerHTML = `
-                <h4 style="color:var(--ka-red); margin-bottom:8px;">Q${index + 1}. ${faq.q_en}</h4>
-                <p style="margin:0;">Ans: ${faq.a_en}</p>
-            `;
-            listContainer.appendChild(faqBlock);
+        document.getElementById('mainTitle').innerText = translations[lang].title;
+        document.getElementById('mainSubTitle').innerText = translations[lang].subtitle;
+        document.getElementById('btnAddPlot').innerText = translations[lang].addBtn;
+        document.getElementById('btnCalc').innerText = translations[lang].calcBtn;
+        document.getElementById('btnReset').innerText = translations[lang].resetBtn;
+        document.getElementById('resHead').innerText = translations[lang].resHead;
+        
+        document.getElementById('lblCombinedInput').innerText = translations[lang].lblCombinedInput;
+        document.getElementById('lblResAcre').innerText = translations[lang].lblResAcre;
+        document.getElementById('lblResGunta').innerText = translations[lang].lblResGunta;
+        document.getElementById('lblResAnna').innerText = translations[lang].lblResAnna;
+        document.getElementById('lblResTotalGunta').innerText = translations[lang].lblResTotalGunta;
+        document.getElementById('lblResSqft').innerText = translations[lang].lblResSqft;
+        document.getElementById('lblResSqm').innerText = translations[lang].lblResSqm;
+        document.getElementById('lblResAnkan').innerText = translations[lang].lblResAnkan;
+
+        document.getElementById('btnCopy').innerText = translations[lang].btnCopy;
+        document.getElementById('btnWA').innerText = translations[lang].btnWA;
+        document.getElementById('btnPrint').innerText = translations[lang].btnPrint;
+        document.getElementById('lnkBack').innerText = translations[lang].backLnk;
+        
+        document.getElementById('printInputsTitle').innerText = translations[lang].printInputsTitle;
+        document.getElementById('thPlotNo').innerText = translations[lang].thPlotNo;
+        document.getElementById('thAcre').innerText = translations[lang].thAcre;
+        document.getElementById('thGunta').innerText = translations[lang].thGunta;
+        document.getElementById('thAnna').innerText = translations[lang].thAnna;
+
+        document.querySelectorAll('.plot-container').forEach(container => {
+            const header = container.querySelector('.plot-header');
+            const labels = container.querySelectorAll('label');
+            if(header) header.innerText = header.getAttribute(`data-${lang}`) || header.innerText;
+            if(labels.length > 0) {
+                labels[0].innerText = labels[0].getAttribute(`data-${lang}`);
+                labels[1].innerText = labels[1].getAttribute(`data-${lang}`);
+                labels[2].innerText = labels[2].getAttribute(`data-${lang}`);
+            }
         });
     }
 
-    function setLang(l) {
-        currentL = l;
-        document.getElementById('enBtn').className = (l === 'en' ? 'lang-btn active' : 'lang-btn');
-        document.getElementById('kaBtn').className = (l === 'kn' ? 'lang-btn active' : 'lang-btn');
-        
-        document.getElementById('mainTitle').innerText = trans[l].title;
-        document.getElementById('sTitle').innerText = trans[l].stitle;
-        document.getElementById('btnAdd').innerText = trans[l].addBtn;
-        document.getElementById('btnCalc').innerText = trans[l].calcBtn;
-        document.getElementById('resHead').innerText = trans[l].resHead;
-        document.getElementById('uAcre').innerText = trans[l].unitA;
-        document.getElementById('uGunta').innerText = trans[l].unitG;
-        document.getElementById('uAnae').innerText = trans[l].unitAn;
-        document.getElementById('btnCopy').innerText = trans[l].copyBtn;
-        document.getElementById('btnShare').innerText = trans[l].shareBtn;
-        document.getElementById('btnPrint').innerText = trans[l].printBtn;
-        document.getElementById('lnkBack').innerText = trans[l].bk;
-        document.getElementById('hSecTitle').innerText = trans[l].shI;
-        document.getElementById('fmtText').innerText = trans[l].fmtText;
-
-        document.getElementById('txtSqText').innerText = trans[l].rsq;
-        document.getElementById('txtSqmText').innerText = trans[l].rsm;
-        document.getElementById('txtAcreText').innerText = trans[l].racre;
-        document.getElementById('txtHecText').innerText = trans[l].rhec;
-
-        document.getElementById('introH2').innerText = trans[l].seot;
-        document.getElementById('seoSubTitle').innerText = trans[l].seos;
-        document.getElementById('hFaqHead').innerText = trans[l].faqH;
-
-        var aLabels = document.getElementsByClassName('lbl-a');
-        for (var i = 0; i < aLabels.length; i++) { aLabels[i].innerText = trans[l].unitA; }
-
-        var gLabels = document.getElementsByClassName('lbl-g');
-        for (var i = 0; i < gLabels.length; i++) { gLabels[i].innerText = trans[l].unitG; }
-
-        var anLabels = document.getElementsByClassName('lbl-an');
-        for (var i = 0; i < anLabels.length; i++) { anLabels[i].innerText = trans[l].unitAn; }
-        
-        document.getElementById('lblDashTitle').innerText = trans[l].dt;
-        document.getElementById('dshHome').innerText = trans[l].d1;
-        document.getElementById('dshPb').innerText = trans[l].d2;
-        document.getElementById('dshRj').innerText = trans[l].d3;
-        document.getElementById('dshHr').innerText = trans[l].d4;
-
-        document.getElementById('lblGovTitle').innerText = trans[l].gTitle;
-        document.getElementById('govLink1').innerText = trans[l].gl1;
-        document.getElementById('govLink2').innerText = trans[l].gl2;
-
-        for (var i = 1; i <= pCount; i++) {
-            var el = document.getElementById('p' + i + 'Title');
-            if(el) el.innerText = (l === 'en' ? 'Plot Details #' + i : 'ಭೂಮಿ ಪ್ಲಾಟ್ ವಿವರ #' + i);
-        }
-
-        renderFAQs();
-    }
-
     function addNewPlot() {
-        pCount++;
-        var area = document.getElementById('plotsArea');
-        var div = document.createElement('div');
-        div.className = 'plot-entry';
-        div.innerHTML = '<span class="plot-title" id="p' + pCount + 'Title">' + (currentL === 'en' ? 'Plot Details #' + pCount : 'ಭೂಮಿ ಪ್ಲಾಟ್ ವಿವರ #' + pCount) + '</span>' +
-            '<div class="grid-inputs">' +
-                '<div class="input-group"><label class="lbl-a">' + trans[currentL].unitA + '</label><input type="number" class="a-in" placeholder="0" value="0"></div>' +
-                '<div class="input-group"><label class="lbl-g">' + trans[currentL].unitG + '</label><input type="number" class="g-in" placeholder="0" value="0"></div>' +
-                '<div class="input-group"><label class="lbl-an">' + trans[currentL].unitAn + '</label><input type="number" class="an-in" placeholder="0" value="0"></div>' +
-            '</div>';
-        area.appendChild(div);
+        plotIdx++;
+        const list = document.getElementById('plotsList');
+        const div = document.createElement('div');
+        div.className = 'plot-container';
+        
+        let headerText = currentLang === 'en' ? `Plot Detail #${plotIdx}` : `ಭೂಮಿ ಪ್ಲಾಟ್ ವಿವರ #${plotIdx}`;
+        let labelAcre = currentLang === 'en' ? 'Acre' : 'ಎಕರೆ';
+        let labelGunta = currentLang === 'en' ? 'Gunta' : 'ಗುಂಟೆ';
+        let labelAnna = currentLang === 'en' ? 'Anna' : 'ಆಣೆ';
+
+        div.innerHTML = `
+            <span class="plot-header" data-en="Plot Detail #${plotIdx}" data-kn="ಭೂಮಿ ಪ್ಲಾಟ್ ವಿವರ #${plotIdx}">${headerText}</span>
+            <div class="input-grid">
+                <div class="field"><label data-en="Acre" data-kn="ಎಕರೆ">${labelAcre}</label><input type="number" class="a-val" placeholder="0" min="0"></div>
+                <div class="field"><label data-en="Gunta" data-kn="ಗುಂಟೆ">${labelGunta}</label><input type="number" class="g-val" placeholder="0" min="0" max="39"></div>
+                <div class="field"><label data-en="Anna" data-kn="ಆಣೆ">${labelAnna}</label><input type="number" class="an-val" placeholder="0" min="0" max="3"></div>
+            </div>`;
+        list.appendChild(div);
     }
 
-    function calculateKATotal() {
-        var aTot = 0, gTot = 0, anTot = 0;
+    function calculateTotal() {
+        let totalAcre = 0, totalGunta = 0, totalAnna = 0;
+        let validPlots = 0;
         
-        var aElements = document.getElementsByClassName('a-in');
-        for (var i = 0; i < aElements.length; i++) { aTot += (Number(aElements[i].value) || 0); }
-        
-        var gElements = document.getElementsByClassName('g-in');
-        for (var i = 0; i < gElements.length; i++) { gTot += (Number(gElements[i].value) || 0); }
-        
-        var anElements = document.getElementsByClassName('an-in');
-        for (var i = 0; i < anElements.length; i++) { anTot += (Number(anElements[i].value) || 0); }
+        const summaryBody = document.getElementById('print-plots-summary');
+        summaryBody.innerHTML = '';
 
-        if(anTot >= 16) { 
-            gTot += Math.floor(anTot / 16); 
-            anTot = anTot % 16; 
-        }
-        if(gTot >= 40) { 
-            aTot += Math.floor(gTot / 40); 
-            gTot = gTot % 40; 
-        }
+        const aInputs = document.querySelectorAll('.a-val');
+        const gInputs = document.querySelectorAll('.g-val');
+        const anInputs = document.querySelectorAll('.an-val');
 
-        document.getElementById('outAcre').innerText = aTot;
-        document.getElementById('outGunta').innerText = gTot;
-        document.getElementById('outAnae').innerText = anTot;
-        
-        var totalSqFt = (aTot * 43560) + (gTot * 1089) + (anTot * 68.0625);
-        var totalSqm = totalSqFt / 10.7639104;
-        var totalAcNet = totalSqFt / 43560;
-        var totalHec = totalSqFt / 107639.104;
+        aInputs.forEach((item, index) => {
+            let aVal = Number(item.value) || 0;
+            let gVal = Number(gInputs[index].value) || 0;
+            let anVal = Number(anInputs[index].value) || 0;
+            
+            totalAcre += aVal;
+            totalGunta += gVal;
+            totalAnna += anVal;
+            validPlots++;
 
-        document.getElementById('outSq').innerText = Math.round(totalSqFt).toLocaleString('en-IN') + " sq ft";
-        document.getElementById('outSqm').innerText = Math.round(totalSqm).toLocaleString('en-IN') + " sq m";
-        document.getElementById('outAcNet').innerText = totalAcNet.toFixed(4) + " acres";
-        document.getElementById('outHec').innerText = totalHec.toFixed(4);
+            let row = document.createElement('tr');
+            row.innerHTML = `<td>Plot #${index + 1}</td><td>${aVal}</td><td>${gVal}</td><td>${anVal}</td>`;
+            summaryBody.appendChild(row);
+        });
 
-        if (currentL === 'en') {
-            document.getElementById('pb_main').innerText = aTot + " Acre, " + gTot + " Gunta, " + anTot + " Anae";
-        } else {
-            document.getElementById('pb_main').innerText = aTot + " ಎಕರೆ, " + gTot + " ಗುಂಟೆ, " + anTot + " ಆಣೆ";
+        // Karnataka Land Base-4 Logic for Anna (4 Anna = 1 Gunta)
+        if (totalAnna >= 4) {
+            totalGunta += Math.floor(totalAnna / 4);
+            totalAnna %= 4;
         }
 
-        var options = { day: 'numeric', month: 'long', year: 'numeric' };
-        var today = new Date().toLocaleDateString('en-IN', options);
+        // Karnataka Land Base-40 Logic for Gunta (40 Gunta = 1 Acre)
+        if (totalGunta >= 40) {
+            totalAcre += Math.floor(totalGunta / 40);
+            totalGunta %= 40;
+        }
+
+        document.getElementById('ra').innerText = totalAcre + " Acre";
+        document.getElementById('rg').innerText = totalGunta + " Gunta";
+        document.getElementById('ran').innerText = totalAnna + " Anna";
+        
+        // Exact Calculations (1 Gunta = 1089 Sq Ft, 1 Anna = 1089/4 = 272.25 Sq Ft)
+        let exactGuntas = (totalAcre * 40) + totalGunta + (totalAnna / 4);
+        document.getElementById('rtg').innerText = exactGuntas.toFixed(2) + " Guntas";
+
+        let totalSqft = exactGuntas * 1089; 
+        let totalSqm = totalSqft / 10.76391;
+        let totalAnkan = totalSqft / 72; // Local architectural reference (1 Ankan = 72 sqft)
+
+        document.getElementById('rsq').innerText = Math.round(totalSqft).toLocaleString('en-IN') + " sq ft";
+        document.getElementById('rsqm').innerText = totalSqm.toLocaleString('en-IN', {maximumFractionDigits: 2}) + " sq m";
+        document.getElementById('rankan').innerText = Math.round(totalAnkan).toLocaleString('en-IN') + " Ankan";
+        
+        let options = { day: 'numeric', month: 'long', year: 'numeric' };
+        let today = new Date().toLocaleDateString('en-IN', options);
         document.getElementById('pDocDate').innerText = today + " (IST)";
+        document.getElementById('rInputVal').innerText = `${validPlots} Plots Computed`;
         
-        var randID = Math.floor(1000000000 + Math.random() * 9000000000);
-        document.getElementById('pDocRef').innerText = "SST-KA-ADD-" + randID;
+        let randID = Math.floor(1000000000 + Math.random() * 9000000000);
+        document.getElementById('pDocRef').innerText = `SST-KA-ADD-${randID}`;
 
-        var resPanel = document.getElementById('resultBox');
-        resPanel.style.display = 'block';
-        resPanel.scrollIntoView({behavior: 'smooth'});
+        const resPanel = document.getElementById('resPanel');
+        resPanel.style.display = "block";
+        resPanel.scrollIntoView({ behavior: 'smooth' });
+    }
+
+    function resetForm() {
+        const list = document.getElementById('plotsList');
+        list.innerHTML = `
+            <div class="plot-container">
+                <span class="plot-header" data-en="Plot Detail #1" data-kn="ಭೂಮಿ ಪ್ಲಾಟ್ ವಿವರ #1">${currentLang === 'en' ? 'Plot Detail #1' : 'ಭೂಮಿ ಪ್ಲಾಟ್ ವಿವರ #1'}</span>
+                <div class="input-grid">
+                    <div class="field"><label data-en="Acre" data-kn="ಎಕರೆ">${currentLang === 'en' ? 'Acre' : 'ಎಕರೆ'}</label><input type="number" class="a-val" placeholder="0" min="0"></div>
+                    <div class="field"><label data-en="Gunta" data-kn="ಗುಂಟೆ">${currentLang === 'en' ? 'Gunta' : 'ಗುಂಟೆ'}</label><input type="number" class="g-val" placeholder="0" min="0" max="39"></div>
+                    <div class="field"><label data-en="Anna" data-kn="ಆಣೆ">${currentLang === 'en' ? 'Anna' : 'ಆಣೆ'}</label><input type="number" class="an-val" placeholder="0" min="0" max="3"></div>
+                </div>
+            </div>
+            <div class="plot-container">
+                <span class="plot-header" data-en="Plot Detail #2" data-kn="ಭೂಮಿ ಪ್ಲಾಟ್ ವಿವರ #2">${currentLang === 'en' ? 'Plot Detail #2' : 'ಭೂಮಿ ಪ್ಲಾಟ್ ವಿವರ #2'}</span>
+                <div class="input-grid">
+                    <div class="field"><label data-en="Acre" data-kn="ಎಕರೆ">${currentLang === 'en' ? 'Acre' : 'ಎಕರೆ'}</label><input type="number" class="a-val" placeholder="0" min="0"></div>
+                    <div class="field"><label data-en="Gunta" data-kn="ಗುಂಟೆ">${currentLang === 'en' ? 'Gunta' : 'ಗುಂಟೆ'}</label><input type="number" class="g-val" placeholder="0" min="0" max="39"></div>
+                    <div class="field"><label data-en="Anna" data-kn="ಆಣೆ">${currentLang === 'en' ? 'Anna' : 'ಆಣೆ'}</label><input type="number" class="an-val" placeholder="0" min="0" max="3"></div>
+                </div>
+            </div>`;
+        plotIdx = 2;
+        document.getElementById('resPanel').style.display = "none";
+        window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
     function printLandReport() {
-        var resPanel = document.getElementById('resultBox');
-        if (resPanel.style.display !== "block") { 
-            alert("Calculate total bounds first before printing!"); 
+        const resPanel = document.getElementById('resPanel');
+        if(resPanel.style.display !== "block") { 
+            alert(currentLang === 'en' ? "Calculate metrics first!" : "ಮೊದಲು ಲೆಕ್ಕಾಚಾರ ಮಾಡಿ!"); 
             return; 
         }
+        const printRow = document.getElementById('print-input-row');
+        printRow.style.display = "flex";
         window.print();
+        printRow.style.display = "none";
     }
 
-    function copyResult() {
-        var textCopy = "";
-        if(currentL === 'en') {
-            textCopy = "Karnataka Land Area Addition Compilation Result:\nAccumulation System: " + document.getElementById('pb_main').innerText + "\nTotal Area Canvas: " + document.getElementById('outSq').innerText + "\nCalculated via Shayan Smart Tools.";
-        } else {
-            textCopy = "ಕರ್ನಾಟಕ ಭೂಮಿ ಒಟ್ಟು ಸಂಕಲನ ಫಲಿತಾಂಶ ವರದಿ:\nಲೆಕ್ಕಾಚಾರದ ಸ್ವರೂಪ: " + document.getElementById('pb_main').innerText + "\nಒಟ್ಟು ಚದರ ಅಡಿ: " + document.getElementById('outSq').innerText + "\nಶಾಯನ್ ಸ್ಮಾರ್ಟ್ ಟೂಲ್ಸ್ ಮೂಲಕ ಪರಿಶೀಲಿಸಲಾಗಿದೆ.";
-        }
-        navigator.clipboard.writeText(textCopy);
-        alert(trans[currentL].copyMsg);
+    function copyData() {
+        let text = `Karnataka Land Area Addition Results:\n` +
+                   `Total: ${document.getElementById('ra').innerText}, ${document.getElementById('rg').innerText} & ${document.getElementById('ran').innerText}\n` +
+                   `Fractional Guntas: ${document.getElementById('rtg').innerText}\n` +
+                   `Sq Ft: ${document.getElementById('rsq').innerText}\n` +
+                   `Sq Meter: ${document.getElementById('rsqm').innerText}\n` +
+                   `Calculated securely via Shayan Smart Tools`;
+        navigator.clipboard.writeText(text);
+        alert(currentLang === 'en' ? "Copied successfully!" : "ಯಶಸ್ವಿಯಾಗಿ ನಕಲಿಸಲಾಗಿದೆ!");
     }
 
-    function shareWhatsApp() {
-        var textShare = "";
-        if(currentL === 'en') {
-            textShare = "Karnataka Land Accumulation Matrix: " + document.getElementById('pb_main').innerText + ". Net Area Multipliers: " + document.getElementById('outSq').innerText + ". Verified via Shayan Smart Tools.";
-        } else {
-            textShare = "ಕರ್ನಾಟಕ ಭೂಮಿ वಿಸ್ತೀರ್ಣ ಒಟ್ಟು ಸಂಕಲನ ಫಲಿತಾಂಶ: " + document.getElementById('pb_main').innerText + ". ಒಟ್ಟು ಚದರ ಅಡಿ ವಿಸ್ತೀರ್ಣ: " + document.getElementById('outSq').innerText + ". ಶಾಯನ್ ಸ್ಮಾರ್ಟ್ ಟೂಲ್ಸ್ ಮೂಲಕ ಅಳೆಯಲಾಗಿದೆ.";
-        }
-        window.open("https://wa.me/?text=" + encodeURIComponent(textShare), '_blank');
+    function shareWA() {
+        let text = `Karnataka Land Area Addition Results:\n` +
+                   `Total: ${document.getElementById('ra').innerText}, ${document.getElementById('rg').innerText}, ${document.getElementById('ran').innerText}\n` +
+                   `Sq Ft: ${document.getElementById('rsq').innerText}`;
+        window.open("https://wa.me/?text=" + encodeURIComponent(text));
     }
-
-    setLang('en');
 </script>
 
 </body>
