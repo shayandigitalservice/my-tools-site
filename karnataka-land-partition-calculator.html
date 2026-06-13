@@ -1,0 +1,876 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Karnataka Land Partition Calculator Free 2026 | ಭೂಮಿ ಜಮೀನು ಪಾಲು ಲೆಕ್ಕಾಚಾರ | Shayan Smart Tools</title>
+    <link rel="canonical" href="https://shayansmarttools.in/karnataka-land-partition-calculator.html" />
+    <link rel="icon" type="image/png" href="favicon.png" />
+
+    <meta name="description" content="Official Karnataka Land Partition Calculator. Divide or partition agricultural, residential, or commercial plots in Acre, Gunta, and Anna formats accurately with dynamic partner-share matrices. Fully compliant with Karnataka Bhoomi revenue standards.">
+    <meta name="keywords" content="Karnataka Land Partition Calculator, ಭೂಮಿ ಜಮೀನು ಪಾಲು ಲೆಕ್ಕಾಚಾರ, Bhoomi land calculator Karnataka, Acre Gunta Anna Calculator, Karnataka land area division tool, Bhoomi Karnataka land calculation, Karnataka land mutation math, Acre to Square Feet conversion Karnataka">
+    <meta name="author" content="Muksidul islam">
+    <meta name="robots" content="index, follow">
+
+    <style>
+        :root {
+            --karnataka-red: #800000;
+            --dark-red: #4a0000;
+            --karnataka-yellow: #ffcc00;
+            --text-dark: #334155;
+            --white: #ffffff;
+            --bg: #fdfaf4;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--text-dark);
+            max-width: 950px;
+            margin: 0 auto;
+            padding: 15px;
+            background-color: var(--bg);
+        }
+
+        .tool-wrapper { padding: 10px 0; text-align: center; }
+
+        header {
+            background: linear-gradient(135deg, var(--karnataka-red), var(--dark-red));
+            color: #fff; padding: 45px 20px; border-radius: 25px; text-align: center;
+            border-bottom: 6px solid var(--karnataka-yellow); margin-bottom: 25px;
+            box-shadow: 0 10px 25px rgba(128, 0, 0, 0.15);
+        }
+        header h1 { color: white; margin: 0 0 10px 0; font-size: 32px; text-transform: uppercase; letter-spacing: 0.5px; }
+        header p { color: #fff5eb; margin: 0; font-size: 16px; font-weight: 500; }
+
+        .lang-switcher {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin: 25px 0;
+        }
+        .lang-btn {
+            padding: 11px 32px;
+            border: 2px solid var(--karnataka-red);
+            background: var(--white);
+            color: var(--karnataka-red);
+            font-weight: 700;
+            font-size: 16px;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            min-width: 140px;
+            text-align: center;
+            outline: none;
+            box-shadow: 0 4px 6px rgba(128, 0, 0, 0.05);
+        }
+        .lang-btn.active {
+            background: var(--karnataka-red);
+            color: var(--white);
+        }
+
+        .section-fieldset {
+            border: 1px solid #cbd5e1;
+            border-radius: 16px;
+            background: var(--white);
+            padding: 25px;
+            margin-bottom: 25px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.01);
+            text-align: left;
+        }
+        .section-legend {
+            font-weight: 800;
+            color: var(--karnataka-red);
+            padding: 0 15px;
+            text-transform: uppercase;
+            font-size: 14px;
+            letter-spacing: 0.5px;
+        }
+
+        .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; }
+        .field { display: flex; flex-direction: column; }
+        label { font-size: 12px; font-weight: bold; margin-bottom: 6px; color: var(--karnataka-red); text-transform: uppercase; letter-spacing: 0.3px; }
+        input, select { padding: 14px; border: 1px solid #cbd5e1; border-radius: 10px; font-size: 16px; text-align: center; background: var(--white); outline: none; transition: 0.3s; font-weight: 600; width: 100%; }
+        input:focus, select:focus { border-color: var(--karnataka-red); box-shadow: 0 0 8px rgba(128, 0, 0, 0.15); }
+
+        .partner-wrapper {
+            margin-top: 15px;
+        }
+        .partner-row {
+            display: grid;
+            grid-template-columns: 2fr 1.5fr 0.5fr;
+            gap: 15px;
+            margin-bottom: 15px;
+            background: #f8fafc;
+            padding: 15px;
+            border-radius: 12px;
+            border: 1px dashed #cbd5e1;
+            align-items: center;
+        }
+
+        .btn-box { display: flex; gap: 15px; justify-content: center; margin: 35px 0 15px 0; flex-wrap: wrap; }
+        .btn { padding: 15px 35px; border: none; border-radius: 10px; font-weight: 800; cursor: pointer; transition: 0.3s; font-size: 15px; text-transform: uppercase; letter-spacing: 0.5px; min-width: 160px; }
+        .btn-add { background: #2f3e4f; color: white; } 
+        .btn-calc { background: var(--karnataka-red); color: white; }
+        .btn-reset { background: #ef4444; color: white; }
+        .btn-remove { background: #fee2e2; color: #ef4444; padding: 14px; font-weight: bold; border-radius: 10px; border: 1px solid #fca5a5; }
+        .btn:hover { transform: translateY(-3px); box-shadow: 0 8px 15px rgba(0,0,0,0.12); }
+        .btn-remove:hover { background: #fca5a5; color: #b91c1c; }
+
+        .portal-links-wrapper {
+            background: var(--white);
+            border: 1px solid #cbd5e1;
+            border-radius: 16px;
+            padding: 20px;
+            margin: 25px auto;
+            max-width: 100%;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.01);
+            text-align: left;
+        }
+        .portal-links-title {
+            font-size: 13px;
+            font-weight: 800;
+            color: var(--karnataka-red);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 12px;
+            display: block;
+            border-bottom: 1px dashed #cbd5e1;
+            padding-bottom: 6px;
+        }
+        .gov-portal-links { display: flex; gap: 20px; flex-wrap: wrap; }
+        .gov-link-node { font-size: 13px; color: #800000; font-weight: bold; text-decoration: none; display: inline-flex; align-items: center; gap: 6px; background: #fff5f5; padding: 8px 16px; border-radius: 8px; border: 1px solid #fecaca; transition: all 0.2s ease; }
+        .gov-link-node:hover { background: #fee2e2; text-decoration: underline; transform: translateY(-1px); }
+
+        .res-panel { background: #1a0b0b; color: white; padding: 25px; border-radius: 25px; margin-top: 35px; display: none; border: 2px solid var(--karnataka-red); position: relative; text-align: left; box-shadow: 0 15px 30px rgba(0,0,0,0.2); }
+        .res-panel h3 { margin-top: 0; text-align: center; color: #fecaca; font-size: 1.4rem; margin-bottom: 20px; border-bottom: 1px dashed rgba(255,255,255,0.1); padding-bottom: 15px; }
+        #resultsList { display: flex; flex-direction: column; gap: 20px; }
+        .partner-result-card { background: rgba(255,255,255,0.04); border-left: 6px solid var(--karnataka-yellow); padding: 20px; border-radius: 14px; border-top: 1px solid rgba(255,255,255,0.05); }
+        .partner-result-card h4 { margin: 0 0 10px 0; font-size: 18px; color: #fca5a5; display: flex; justify-content: space-between; }
+        .p-res-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 10px; }
+        .p-res-box { background: rgba(0,0,0,0.3); padding: 10px; border-radius: 8px; text-align: center; border: 1px solid rgba(255,255,255,0.05); }
+        .p-res-box small { display: block; font-size: 11px; color: #94a3b8; text-transform: uppercase; margin-bottom: 3px; }
+        .p-res-box span { font-weight: 700; font-size: 16px; color: #fff; }
+        .p-meta-info { font-size: 12px; color: #94a3b8; display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; border-top: 1px solid rgba(255,255,255,0.05); padding-top: 10px; margin-top: 5px; }
+
+        .print-only-section { display: none; margin: 15px 0; }
+        .print-table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+        .print-table th, .print-table td { border: 1px solid #cbd5e1; padding: 8px; text-align: center; font-size: 13px; }
+        .print-table th { background-color: #fff5f5; color: var(--karnataka-red); font-weight: bold; }
+        .print-header-block, .print-footer-block { display: none; }
+
+        .util-btns { display: flex; gap: 12px; margin-top: 25px; flex-wrap: wrap; }
+        .u-btn { flex: 1; padding: 15px; border: none; border-radius: 12px; font-weight: 800; cursor: pointer; color: white; font-size: 14px; text-align: center; transition: 0.3s; text-transform: uppercase; min-width: 140px; }
+
+        .print-footer-container { display: flex; justify-content: space-between; align-items: flex-start; gap: 15px; margin-top: 15px; }
+        .v-badge-wrapper { text-align: center; width: 110px; }
+        .v-badge-wrapper img { width: 95px; height: 95px; object-fit: contain; background: #fff; padding: 4px; border: 1px solid #cbd5e1; border-radius: 6px; display: block; margin: 0 auto 5px auto; }
+        .v-badge-wrapper span { font-size: 9px; font-weight: 800; color: #1e293b; text-transform: uppercase; letter-spacing: 0.3px; display: block; margin-bottom: 2px; }
+        .v-badge-wrapper .sig-line { font-size: 10px; font-weight: 800; color: #800000; border-top: 1px dashed #475569; margin-top: 8px; padding-top: 4px; white-space: nowrap; }
+
+        .seo-article { 
+            background: transparent !important; 
+            padding: 30px 0; 
+            margin-top: 40px; 
+            line-height: 1.85; 
+            border: none !important;
+            color: #334155 !important;
+            text-align: left;
+        }
+        .seo-header-block { text-align: center; border-bottom: 3px solid var(--karnataka-red); padding-bottom: 25px; margin-bottom: 35px; }
+        .seo-article h2 { color: var(--karnataka-red) !important; font-size: 30px !important; margin-top: 40px !important; margin-bottom: 15px !important; font-weight: 700; }
+        .seo-article h3 { color: var(--karnataka-red) !important; margin-top: 30px; font-size: 22px; border-left: 6px solid var(--karnataka-yellow); padding-left: 15px; font-weight: 600; }
+        .seo-article p { color: #334155 !important; font-size: 16px; text-align: justify; margin-bottom: 20px; }
+        .seo-article ul, .seo-article ol { margin-bottom: 25px; padding-left: 20px; font-size: 16px; }
+        .seo-article li { margin-bottom: 10px; }
+        
+        .seo-article table { width: 100%; border-collapse: collapse; margin: 30px 0; background: #ffffff; box-shadow: 0 4px 6px rgba(0,0,0,0.01); display: block; overflow-x: auto; }
+        .seo-article th, .seo-article td { border: 1px solid #e2e8f0; padding: 16px; text-align: left; color: #334155 !important; font-size: 15px; white-space: nowrap; }
+        .seo-article th { background-color: #fff5f5; color: var(--karnataka-red) !important; font-weight: 700; }
+
+        .faq-block { background: #ffffff; padding: 22px; border-radius: 14px; border: 1px solid #e2e8f0; margin-bottom: 20px; box-shadow: 0 4px 6px rgba(0,0,0,0.01); }
+        .faq-block p b { color: var(--karnataka-red); font-size: 16px; display: block; margin-bottom: 8px; }
+
+        .footer-copyright-box { 
+            margin-top: 60px; 
+            text-align: center; 
+            font-size: 13px; 
+            color: #475569; 
+            background: #ffffff; 
+            padding: 35px; 
+            border-radius: 24px; 
+            border: 1px solid #e2e8f0;
+            border-top: 6px solid #4a0000;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.03);
+        }
+        .footer-copyright-box p { margin: 8px 0; line-height: 1.7; }
+        .footer-law-accent { font-weight: 800; color: #0f172a; text-transform: uppercase; font-size: 12px; letter-spacing: 1.5px; margin-bottom: 15px !important; display: inline-block; background: #f1f5f9; padding: 6px 16px; border-radius: 30px; border: 1px solid #cbd5e1; }
+
+        .lang-section { display: none; }
+        .lang-section.active-lang { display: block; }
+
+        @media (max-width: 600px) {
+            header { padding: 30px 15px; border-radius: 15px; }
+            header h1 { font-size: 24px; }
+            header p { font-size: 14px; }
+            .grid-3 { grid-template-columns: 1fr; gap: 12px; }
+            .partner-row { grid-template-columns: 1fr; gap: 10px; }
+            .p-res-grid { grid-template-columns: repeat(3, 1fr); }
+            .btn { width: 100%; padding: 14px; font-size: 14px; }
+            .u-btn { width: 100%; }
+            .seo-article h2 { font-size: 24px !important; }
+            .seo-article h3 { font-size: 18px; }
+            .lang-btn { flex: 1; padding: 10px 15px; font-size: 15px; min-width: auto; }
+            .gov-portal-links { flex-direction: column; gap: 10px; }
+            .gov-link-node { width: 100%; justify-content: center; }
+        }
+
+        @media print {
+            html, body { height: auto; overflow: visible; background: #ffffff !important; padding: 0 !important; margin: 0 !important; }
+            * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; color: #000000 !important; }
+            @page { margin: 10mm 10mm; size: A4 portrait; }
+            .tool-wrapper, .btn-box, .portal-links-wrapper, .util-btns, .seo-article, .back-btn, .section-fieldset, .lang-switcher, .footer-copyright-box { display: none !important; }
+            
+            .res-panel { 
+                display: block !important; 
+                background: #ffffff !important; 
+                padding: 30px 20px !important; 
+                margin: 0 !important; 
+                width: 100% !important; 
+                border: 5px double #800000 !important; 
+                border-radius: 0px !important; 
+                box-shadow: none !important; 
+            }
+            .res-panel h3 { color: #800000 !important; border-bottom: 2px solid #800000 !important; font-weight: bold; }
+            .partner-result-card { background: transparent !important; border: 1px solid #cbd5e1 !important; border-left: 6px solid #800000 !important; color: #000000 !important; margin-bottom: 15px; page-break-inside: avoid; }
+            .partner-result-card h4 { color: #800000 !important; }
+            .p-res-box { background: transparent !important; border: 1px solid #cbd5e1 !important; }
+            .p-res-box span { color: #000000 !important; }
+            .p-res-box small { color: #475569 !important; }
+            .p-meta-info span { color: #475569 !important; }
+            
+            .print-only-section { display: block !important; }
+            .print-header-block { display: block !important; text-align: center; border-bottom: 3px double #800000 !important; padding-bottom: 15px; margin-bottom: 25px; }
+            .print-footer-block { display: block !important; margin-top: 40px; border-top: 2px dashed #800000 !important; padding-top: 20px; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="tool-wrapper">
+    <header>
+        <h1 id="mainTitle">Karnataka Land Partition Calculator</h1>
+        <p id="mainSubTitle">Official Karnataka Bhoomi Revenue Matrix: 1 Acre = 40 Guntas | 1 Gunta = 16 Annas (Anawari Base) | 1 Acre = 43,560 Sq. Ft.</p>
+    </header>
+
+    <div class="lang-switcher">
+        <button class="lang-btn active" onclick="switchLanguage('en')">English</button>
+        <button class="lang-btn" onclick="switchLanguage('kn')">ಕನ್ನಡ</button>
+    </div>
+
+    <div class="section-fieldset">
+        <span class="section-legend" id="lblTotalLandHeading">Total Land Area to Partition</span>
+        <div class="grid-3" style="margin-top: 15px;">
+            <div class="field">
+                <label id="lblInputAcre">Acre (ಎಕರೆ)</label>
+                <input type="number" id="totalAcre" placeholder="0" min="0" value="1">
+            </div>
+            <div class="field">
+                <label id="lblInputGunta">Gunta (ಗುಂಟೆ)</label>
+                <input type="number" id="totalGunta" placeholder="0" min="0" max="39" value="0">
+            </div>
+            <div class="field">
+                <label id="lblInputAnna">Anna/Paisa (ಆಣೆ)</label>
+                <input type="number" id="totalAnna" placeholder="0" min="0" max="15" value="0">
+            </div>
+        </div>
+    </div>
+
+    <div class="section-fieldset">
+        <span class="section-legend" id="lblPartitionBasis">Partition Allocation Mode</span>
+        <div class="field" style="margin-top:15px;">
+            <select id="partitionMode">
+                <option value="percentage">Percentage (%) - Collective Sum Equals 100%</option>
+                <option value="ratio">Ratio / Equal Distribution Parts (e.g., 1:2:1)</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="section-fieldset">
+        <span class="section-legend" id="lblShareholdersHeading">Partners / Shareholders Allocation Records</span>
+        <div id="partnersContainer" class="partner-wrapper">
+            <div class="partner-row">
+                <input type="text" class="p-name" placeholder="Partner Name" value="Partner A">
+                <input type="number" class="p-share" placeholder="Share Value" value="50" min="0">
+                <button type="button" class="btn-remove" onclick="removePartnerRow(this)">X</button>
+            </div>
+            <div class="partner-row">
+                <input type="text" class="p-name" placeholder="Partner Name" value="Partner B">
+                <input type="number" class="p-share" placeholder="Share Value" value="50" min="0">
+                <button type="button" class="btn-remove" onclick="removePartnerRow(this)">X</button>
+            </div>
+        </div>
+        <button class="btn btn-add" id="btnAddPartner" onclick="addNewPartnerRow()">+ Add Shareholder</button>
+    </div>
+
+    <div class="btn-box">
+        <button class="btn btn-calc" id="btnCalc" onclick="processPartitionCalculation()">Compute Partition Records</button>
+        <button class="btn btn-reset" id="btnReset" onclick="resetCalculatorForm()">Reset Canvas</button>
+    </div>
+
+    <div class="portal-links-wrapper">
+        <span class="portal-links-title" id="lblPortalTitle">Official Karnataka Government Portals</span>
+        <div class="gov-portal-links">
+            <a href="https://bhoomi.karnataka.gov.in/" target="_blank" class="gov-link-node">🌐 Bhoomi Land Records Portal</a>
+            <a href="https://landrecords.karnataka.gov.in/" target="_blank" class="gov-link-node">🏛️ Revenue Department Services</a>
+        </div>
+    </div>
+</div> 
+
+<div id="resPanel" class="res-panel">
+    <div class="print-header-block">
+        <div style="display: flex; justify-content: center; align-items: center; gap: 10px; margin-bottom: 5px;">
+            <img src="favicon.png" alt="SST" style="width: 32px; height: 32px;">
+            <h2 style="font-size: 24px; color: #800000; margin: 0; font-weight: 900; letter-spacing: 1px;">SHAYAN SMART TOOLS</h2>
+        </div>
+        <p style="font-size: 11px; color: #4a0000; font-weight: bold; margin: 0 0 15px 0; letter-spacing: 0.5px; text-transform: uppercase;">KARNATAKA LAND REVENUE RECORD (BHOOMI) PARTITION SHEET - 2026</p>
+        
+        <div style="background: #f8fafc; border: 1px solid #cbd5e1; padding: 12px; border-radius: 6px; display: grid; grid-template-columns: 1fr 1fr; font-size: 12px; text-align: left; gap: 8px; color: #334155;">
+            <div><strong>LEDGER REF NO:</strong> <span id="pDocRef" style="color:#800000; font-weight:bold;">SST-KA-PAR-0000</span></div>
+            <div style="text-align: right;"><strong>COMPUTATION DATE:</strong> <span id="pDocDate" style="color:#800000; font-weight:bold;">--/--/----</span></div>
+            <div><strong>JURISDICTION ZONE:</strong> State of Karnataka (ಕರ್ನಾಟಕ)</div>
+            <div><strong>UNIT EQUATION BASE:</strong> Bhoomi Standard Base-40/Base-16 Engine</div>
+        </div>
+    </div>
+
+    <div class="print-only-section">
+        <h4 style="color:#800000; margin: 15px 0 5px 0; font-size: 14px; text-transform: uppercase; border-bottom: 1px solid #cbd5e1; padding-bottom: 4px;" id="printInputsTitle">Initial Property Pool Before Subdivision</h4>
+        <table class="print-table">
+            <thead>
+                <tr>
+                    <th id="thTotalAcre">Total Acre</th>
+                    <th id="thTotalGunta">Total Gunta</th>
+                    <th id="thTotalAnna">Total Anna</th>
+                    <th id="thTotalSqft">Equivalent Sq. Feet</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td id="tdPrintAcre">0</td>
+                    <td id="tdPrintGunta">0</td>
+                    <td id="tdPrintAnna">0</td>
+                    <td id="tdPrintSqft">0 sq ft</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <h3 id="resHead">Final Disaggregated Partition Shares (ವಿಭಜಿತ ಭಾಗಗಳು)</h3>
+    
+    <div id="resultsList"></div>
+
+    <div class="print-footer-block">
+        <div class="print-footer-container">
+            <div class="v-badge-wrapper">
+                <img src="qrcode.png" alt="Verification QR">
+                <span>Scan to Verify</span>
+                <div class="sig-line" id="lblAuthSigLeft">AUTHORIZED SIGNATURE</div>
+            </div>
+
+            <div style="flex: 1; text-align: center; padding: 0 10px;">
+                <p style="margin: 0; font-weight: bold; color: #800000; text-transform: uppercase; font-size: 10px;">🔒 STATUTORY REVENUE DISAGGREGATION SECURITY NOTICE</p>
+                <p style="margin: 5px 0 0 0; font-size: 9px; color: #475569; line-height: 1.4; text-align: justify;">This mathematical model completely complies with the land legacy frameworks utilized by the Karnataka Integrated Land Records Management System (Bhoomi Engine) (1 Acre = 40 Guntas, 1 Gunta = 16 Annas, 1 Gunta = 1,089 Sq. Ft.). Rounded-off metrics contain architectural adjustments. Cross-verify with authorized copies from regional Nada Kacheri Taluk Offices or local Revenue Inspector village survey logs for structural registry mapping.</p>
+                <p style="margin: 10px 0 0 0; font-size: 10px; font-weight: bold; color: #800000;">OFFICIAL HUB: www.shayansmarttools.in</p>
+            </div>
+
+            <div class="v-badge-wrapper">
+                <img src="seal.png" alt="Revenue Seal">
+                <span>Official Seal</span>
+                <div class="sig-line" id="lblAuthSigRight">AUTHORIZED SIGNATURE</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="util-btns">
+        <button class="u-btn" style="background:#475569;" id="btnCopy" onclick="copyCalculatedLedger()">📋 Copy Partition Text</button>
+        <button class="u-btn" style="background:#22c55e;" id="btnWA" onclick="dispatchWhatsAppShare()">📲 Send to WhatsApp</button>
+        <button class="u-btn" style="background:#800000;" id="btnPrint" onclick="triggerReportPrint()">🖨️ Print Legal Sheet</button>
+    </div>
+</div>
+
+<div class="back-btn" style="text-align:center; margin-top: 20px;"><a href="index.html" id="lnkBack" style="color:var(--karnataka-red); font-weight:bold; text-decoration:none;">⬅ Back to All Tools Dashboard</a></div>
+
+<article id="content-en" class="seo-article lang-section active-lang">
+    <div class="seo-header-block">
+        <h2>Karnataka Land Partition Calculator: Advanced Acre-Gunta-Anna Fractional Division Engine</h2>
+        <p>Compute, split, and divide ancestral or joint real estate property across Karnataka using the standard Bhoomi mathematical metrics with absolute accuracy.</p>
+    </div>
+
+    <section>
+        <h3>1. Deep Integration into Karnataka's Land Survey Framework & Revenue Math</h3>
+        <p>Real estate management, registry tracking, and legacy estate settlements in the state of Karnataka demand flawless alignment with regional revenue arithmetic. Unlike other northern Indian territories that evaluate spaces via standard Bighas or Marlas, the land administrative infrastructure in Karnataka relies completely on traditional colonial-era metrics overseen by the <b>Bhoomi Portal Architecture</b>, universally referred to as the <b>Karnataka Land Records management system</b>. Land values here are registered strictly under <b>Acre, Gunta, and Anna/Paisa</b> matrices.</p>
+        <p>When multiple co-sharers or legal descendants decide to parse or partition a mutual property tract, calculating individual allotments using normal consumer-grade applications causes fatal rounding mistakes. This is due to the non-decimal configuration of Karnataka's land metrics: where 1 Gunta is exactly 1/40th fraction of an acre, and 1 Gunta itself is traditionally subdivided into 16 Annas (Anawari expression used to define absolute fractional fractions). Our professional-grade <b>Karnataka Land Partition Calculator</b> mitigates these specific engineering constraints by deploying base-40 and base-16 quotient algorithms. This structural integrity ensures that whether you are dealing with fertile black cotton soil across the Deccan Plateau or highly priced tech-park commercial layouts in Bengaluru city, your partition calculations align precisely with state revenue survey rules.</p>
+    </section>
+
+    <section>
+        <h3>2. Explicit Operational Protocol for Dividing Land Parcels</h3>
+        <p>Our platform handles advanced algorithmic land fragmentation through a seamless user interface. Follow this operational checklist:</p>
+        <ol>
+            <li><b>Establish the Primary Real Estate Base Pool:</b> Feed the aggregate volume of the land target into the labeled fields under <b>Acre</b>, <b>Gunta</b>, and <b>Anna/Paisa</b>. If the plot lacks large parameters, configure Acre to zero and input only the gunta or fractional fractions.</li>
+            <li><b>Choose the Allocation Mode:</b> Decide your division metrics using our drop-down list. Use <b>Percentage Mode</b> to divide based on percentage targets (ensuring the cumulative sum maps out to 100%). Alternatively, choose <b>Ratio Mode</b> to process divisions using whole numbers or arbitrary fractions (e.g., separating land between heirs in a 2:1:1 ratio).</li>
+            <li><b>Populate the Shareholder Registry:</b> Change partner titles and insert their corresponding target metrics. Need more entities? Click <b>"+ Add Shareholder"</b> to add an unlimited number of allocation fields to the active stack.</li>
+            <li><b>Generate the Settlement Ledger:</b> Click <b>"Compute Partition Records"</b>. The algorithm instantly converts the primary land pool into raw square footage, splits it via the chosen mathematical mode, and reconstructs the data into precise Acre-Gunta-Anna breakdowns for each partner.</li>
+        </ol>
+    </section>
+
+    <section>
+        <h3>3. Structural Mathematical Breakdown: A Practical Partition Scenario</h3>
+        <p>To demonstrate the robustness of our calculation engine, let us review an actual mathematical breakdown of a complex land partition scenario. Suppose an ancestral estate measuring <b>4 Acres, 20 Guntas, and 8 Annas</b> needs to be partitioned among three legal beneficiaries with varying percentages:</p>
+        <ul>
+            <li><b>Beneficiary 1 (Partner A):</b> 50% Allocation Share</li>
+            <li><b>Beneficiary 2 (Partner B):</b> 30% Allocation Share</li>
+            <li><b>Beneficiary 3 (Partner C):</b> 20% Allocation Share</li>
+        </ul>
+        <p><b>Backend Processing Steps:</b></p>
+        <ol>
+            <li><b>Unification to Lowest Common Matrix (Anna/Paisa):</b> 
+                The algorithm processes the pool into total Annas:
+                <br>4 Acres &times; 40 &times; 16 = 2,560 Annas
+                <br>20 Guntas &times; 16 = 320 Annas
+                <br>Total Pool = 2,560 + 320 + 8 = 2,888 Annas
+            </li>
+            <li><b>Execution of Individual Fractional Shares:</b>
+                <ul>
+                    <li>Partner A: 2,888 &times; 0.50 = 1,444 Annas</li>
+                    <li>Partner B: 2,888 &times; 0.30 = 866.4 Annas</li>
+                    <li>Partner C: 2,888 &times; 0.20 = 577.6 Annas</li>
+                </ul>
+            </li>
+            <li><b>Reconstruction to Acre-Gunta-Anna Format:</b>
+                For Partner B (866.4 Annas):
+                <br>866.4 / 16 = 54.15 Guntas
+                <br>54.15 / 40 = 1 Acre (Remaining 14.15 Guntas)
+                <br>0.15 Guntas &times; 16 = 2.4 Annas
+                <br>Result: <b>1 Acre, 14 Guntas, 2.4 Annas</b> (Equivalent to 61,142.4 Sq. Ft.).
+            </li>
+        </ol>
+    </section>
+
+    <section>
+        <h3>4. Statutory Frameworks Governing Land Mutation & Amalgamation in Karnataka</h3>
+        <p>Land partition in Karnataka is not merely an isolated mathematical exercise; it is heavily regulated by statutory frameworks, primarily the <b>Karnataka Land Revenue Act, 1964</b>. When a mutual joint agricultural estate undergoes physical or structural partition (Podu Process), co-sharers must file for a formal partition case under Section 54 of the Civil Procedure Code or execute a registered Partition Deed followed by <b>J-Slip mutation processing</b> through the local Upazila Tahsildar or Revenue Inspector.</p>
+        <p>Whether you are filing for a 'Phodi' mutation to acquire independent survey numbers, executing an allocation deed for property gift processing, or preparing boundaries for commercial land layouts, accuracy is paramount. Even a tiny error in deed calculations can cause the automated system on the Bhoomi platform or Kaveri 2.0 registration system to reject your application due to mismatched metrics. Our partition engine aligns your mathematical documentation perfectly with state land measurement rules to keep your paperwork clean.</p>
+    </section>
+
+    <h3>5. Official Karnataka Revenue Conversion Matrix Table</h3>
+    <table>
+        <thead>
+            <tr>
+                <th>Karnataka Unit Type</th>
+                <th>Standard Revenue Equation Definitions</th>
+                <th>Square Feet Equivalent (Sq. Ft.)</th>
+                <th>Square Yards Equivalent (Sq. Yds)</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr><td><b>1 Acre</b></td><td>40 Guntas (Standard Survey Measurement Pool)</td><td>43,560 Sq Ft</td><td>4,840 Sq Yds</td></tr>
+            <tr><td><b>1 Gunta</b></td><td>16 Annas / 1/40th Fraction of 1 Acre Base</td><td>1,089 Sq Ft</td><td>121 Sq Yds</td></tr>
+            <tr><td><b>1 Anna (Gunta fraction)</b></td><td>1/16th Fraction of 1 Gunta / 68.06 Square Feet Base</td><td>68.06 Sq Ft</td><td>7.56 Sq Yds</td></tr>
+            <tr><td><b>2.471 Acres</b></td><td>Equivalent value to 1 Standard International Hectare</td><td>1,07,639 Sq Ft</td><td>11,959 Sq Yds</td></tr>
+            <tr><td><b>1 Cents</b></td><td>1/100th Fraction of an Acre / Alternative Coastal unit</td><td>435.6 Sq Ft</td><td>48.4 Sq Yds</td></tr>
+        </tbody>
+    </table>
+
+    <h3>6. 15 Critical Frequently Asked Questions (Google SERP Optimization Nodes)</h3>
+    <div id="faq-container-en">
+        <div class="faq-block"><p><b>Q1. How many Guntas combine to form exactly one Acre in Karnataka?</b><br>Ans: Under the official Karnataka Revenue matrix, exactly 40 Guntas combine to form 1 standard Acre.</p></div>
+        <div class="faq-block"><p><b>Q2. What is the standard equivalent area of 1 Gunta in square feet?</b><br>Ans: 1 Gunta is exactly equal to 1,089 square feet in Karnataka's land measurement framework.</p></div>
+        <div class="faq-block"><p><b>Q3. What does Anna mean in Karnataka land conversion maps?</b><br>Ans: An Anna represents a 1/16th sub-fractional metric of a single Gunta, historically tied to the Anawari classification system.</p></div>
+        <div class="faq-block"><p><b>Q4. How many square feet constitute an absolute Acre in Bengaluru?</b><br>Ans: One absolute standard Acre of land anywhere in Karnataka equals exactly 43,560 square feet.</p></div>
+        <div class="faq-block"><p><b>Q5. Does this tool integrate directly with the official Bhoomi Land Records database?</b><br>Ans: No, this is an independent calculation engine designed by Shayan Smart Tools based strictly on the mathematical standards used by the Karnataka Revenue Department.</p></div>
+        <div class="faq-block"><p><b>Q6. Why do general smart calculators fail during Gunta tracking computations?</b><br>Ans: Standard calculators operate on decimal base-10. Karnataka land tracking relies on non-decimal base-40 (Guntas to Acre) and base-16 (Annas to Gunta), needing dynamic custom math parameters.</p></div>
+        <div class="faq-block"><p><b>Q7. How many square meters make up one standard Gunta unit?</b><br>Ans: One Gunta equals approximately 101.17 square meters.</p></div>
+        <div class="faq-block"><p><b>Q8. What does Phodi (Podu) process mean in Karnataka land laws?</b><br>Ans: Phodi is the statutory process of dividing a collective multi-owner land survey number into distinct individual land plots with unique sub-numbers.</p></div>
+        <div class="faq-block"><p><b>Q9. How many cents are equivalent to 1 Gunta of property?</b><br>Ans: One Gunta is exactly equivalent to 2.5 cents of land asset.</p></div>
+        <div class="faq-block"><p><b>Q10. Can I divide corporate real estate layouts using custom fractional ratios like 3:2:1?</b><br>Ans: Yes, switch the calculator's mode to Ratio Mode. The engine will handle the math automatically regardless of the ratio integers used.</p></div>
+        <div class="faq-block"><p><b>Q11. What role does a Revenue Inspector play during an estate partition tracking?</b><br>Ans: The Revenue Inspector verifies land ownership records, inspects boundary landmarks, and forwards reports to the Tahsildar for partition validation.</p></div>
+        <div class="faq-block"><p><b>Q12. How much land area constitutes one standard Gunta in square yards?</b><br>Ans: One Gunta equals exactly 121 square yards.</p></div>
+        <div class="faq-block"><p><b>Q13. What is the minimal value threshold documented inside Bhoomi RTC files?</b><br>Ans: Bhoomi systems log land area down to fractional Annas, capturing metrics down to the nearest square inch.</p></div>
+        <div class="faq-block"><p><b>Q14. How can I export the generated partition breakdown into a document format?</b><br>Ans: Click the "Print Legal Sheet" button to instantly save the formatted report as a clean PDF document.</p></div>
+        <div class="faq-block"><p><b>Q15. Can this output be used directly as a substitute for an official court partition decree?</b><br>Ans: No, this tool is designed for calculation and planning purposes. Legal partitions must be formalized through the appropriate revenue courts or certified by a registered Tahsildar.</p></div>
+    </div>
+</article>
+
+<article id="content-kn" class="seo-article lang-section">
+    <div class="seo-header-block">
+        <h2>ಕರ್ನಾಟಕ ಜಮೀನು ಪಾಲು ಲೆಕ್ಕಾಚಾರ: ಎಕರೆ-ಗುಂಟೆ-ಆಣೆ ಭಾಗಶಃ ವಿಭಜನೆಯ ಸುಧಾರಿತ ತಂತ್ರಜ್ಞಾನ</h2>
+        <p>ಕರ್ನಾಟಕ ಸರ್ಕಾರದ ಭೂಮಿ (Bhoomi) ಪೋರ್ಟಲ್‌ನ ಅಧಿಕೃತ ನಿಯಮಾವಳಿಗಳ ಅನ್ವಯ, ಜಂಟಿ ಅಥವಾ ಪಿತ್ರಾರ್ಜಿತ ಆಸ್ತಿಯನ್ನು ಅತ್ಯಂತ ನಿಖರವಾಗಿ ಪಾಲು ಮಾಡಿ.</p>
+    </div>
+
+    <section>
+        <h3>1. ಕರ್ನಾಟಕದ ಭೂ ಸಮೀಕ್ಷೆ ಮತ್ತು ಕಂದಾಯ ಗಣಿತದ ವ್ಯವಸ್ಥೆ</h3>
+        <p>ಕರ್ನಾಟಕ ರಾಜ್ಯದಲ್ಲಿ ಆಸ್ತಿ ನಿರ್ವಹಣೆ, ನೋಂದಣಿ ಪ್ರಕ್ರಿಯೆ ಮತ್ತು ಪಿತ್ರಾರ್ಜಿತ ಆಸ್ತಿ ಪಾಲು ಮಾಡುವಾಗ ಕಂದಾಯ ಇಲಾಖೆಯ ಅಧಿಕೃತ ಗಣಿತದ ಸೂತ್ರಗಳನ್ನು ಅರಿತುಕೊಳ್ಳುವುದು ಅತ್ಯಗತ್ಯ. ಭಾರತದ ಇತರೆ ರಾಜ್ಯಗಳಂತೆ ಇಲ್ಲಿ ಬಿಘಾ ಅಥವಾ ಮರ್ಲಾ ಪದ್ಧತಿ ಜಾರಿಯಲ್ಲಿಲ್ಲ; ಬದಲಾಗಿ ಕರ್ನಾಟಕದ ಕಂದಾಯ ಆಡಳಿತವು ಸಂಪೂರ್ಣವಾಗಿ <b>ಎಕರೆ, ಗುಂಟೆ ಮತ್ತು ಆಣೆ/ಪೈಸೆ</b> ಮಾದರಿಯನ್ನು ಅವಲಂಬಿಸಿದೆ. ಸರ್ಕಾರದ ಅಧಿಕೃತ <b>ಭೂಮಿ (Bhoomi)</b> ಪೋರ್ಟಲ್‌ನಲ್ಲಿ ಎಲ್ಲಾ ದಾಖಲೆಗಳು ಇದೇ ಮಾನದಂಡದಲ್ಲಿ ಇರುತ್ತವೆ.</p>
+        <p>ಜಂಟಿ ಖಾತೆಯ ಭೂಮಿಯನ್ನು ಹಂಚಿಕೆ ಮಾಡುವಾಗ ಸಾಮಾನ್ಯ ಮೊಬೈಲ್ ಕ್ಯಾಲ್ಕುಲೇಟರ್ ಬಳಸಿದರೆ ದೊಡ್ಡ ತಪ್ಪುಗಳು ಸಂಭವಿಸಬಹುದು. ಏಕೆಂದರೆ ಕರ್ನಾಟಕದ ಭೂಮಾಪನವು ದಶಮಾಂಶ ಪದ್ಧತಿಯಲ್ಲಿಲ್ಲ. 1 ಗುಂಟೆ ಎಂದರೆ 1 ಎಕರೆಯ 40 ನೇ ಭಾಗ, ಮತ್ತು 1 ಗುಂಟೆಯನ್ನು ಆಣೆ (ಅನಾವರಿ ಪದ್ಧತಿ) ರೂಪದಲ್ಲಿ 16 ಭಾಗಗಳಾಗಿ ವಿಂಗಡಿಸಲಾಗುತ್ತದೆ. Shayan Smart Tools ಅಭಿವೃದ್ಧಿಪಡಿಸಿರುವ ಈ <b>Karnataka Land Partition Calculator</b> ಸಾಧನವು Base-40 ಮತ್ತು Base-16 ಆಲ್ಗಾರಿದಮ್ ಬಳಸಿ ಈ ಕ್ಲಿಷ್ಟಕರ ಲೆಕ್ಕಾಚಾರವನ್ನು ಸುಲಭಗೊಳಿಸುತ್ತದೆ. ಬಯಲುಸೀಮೆಯ ಕೃಷಿ ಭೂಮಿಯೇ ಇರಲಿ ಅಥವಾ ಬೆಂಗಳೂರಿನ ವಾಣಿಜ್ಯ ಆಸ್ತಿಯೇ ಇರಲಿ, ಇದು ನಿಖರ ಫಲಿತಾಂಶ ನೀಡುತ್ತದೆ.</p>
+    </section>
+
+    <section>
+        <h3>2. ಕ್ಯಾಲ್ಕುಲೇಟರ್ ಬಳಸುವ ಸರಳ ಹಂತಗಳು</h3>
+        <p>ನಮ್ಮ ಈ ತಂತ್ರಜ್ಞಾನದ ಸೌಲಭ್ಯವನ್ನು ಬಳಕೆದಾರರಿಗೆ ಸುಲಭವಾಗುವಂತೆ ವಿನ್ಯಾಸಗೊಳಿಸಲಾಗಿದೆ. ಈ ಕೆಳಗಿನ ಹಂತಗಳನ್ನು ಅನುಸರಿಸಿ:</p>
+        <ol>
+            <li><b>ಒಟ್ಟು ಭೂಮಿಯ ವಿಸ್ತೀರ್ಣ ನಮೂದಿಸಿ:</b> ನೀವು ವಿಭಜಿಸಲು ಬಯಸುವ ಒಟ್ಟು ಜಮೀನಿನ ಪ್ರಮಾಣವನ್ನು <b>Acre</b>, <b>Gunta</b>, ಮತ್ತು <b>Anna</b> ಬಾಕ್ಸ್‌ಗಳಲ್ಲಿ ನಮೂದಿಸಿ. ಎಕರೆ ಇಲ್ಲದಿದ್ದರೆ ಶೂನ್ಯ (0) ಹಾಕಿ ಗುಂಟೆ ನಮೂದಿಸಬಹುದು.</li>
+            <li><b>ಹಂಚಿಕೆ ವಿಧಾನವನ್ನು ಆರಿಸಿ:</b> ನೀವು ಆಸ್ತಿಯನ್ನು ಶೇಕಡಾವಾರು (Percentage Mode) ಹಂಚಿಕೆ ಮಾಡಲು ಬಯಸುತ್ತೀರಾ ಅಥವಾ ಅನುಪಾತದ (Ratio Mode) ಆಧಾರದ ಮೇಲೆ ಮಾಡಲು ಬಯಸುತ್ತೀರಾ ಎಂಬುದನ್ನು ಆಯ್ಕೆ ಮಾಡಿ (ಉದಾಹರಣೆಗೆ 2:1:1 ಅನುಪಾತ).</li>
+            <li><b>ಷೇರುದಾರರ ಹೆಸರು ಮತ್ತು ಭಾಗ ನಮೂದಿಸಿ:</b> ವಾರಸುದಾರರ ಹೆಸರು ಮತ್ತು ಅವರ ಪಾಲಿನ ಸಂಖ್ಯೆಯನ್ನು ಬರೆಯಿರಿ. ಷೇರುದಾರರ ಸಂಖ್ಯೆ ಹೆಚ್ಚಿದ್ದರೆ <b>"+ Add Shareholder"</b> ಬಟನ್ ಒತ್ತಿ ಹೆಚ್ಚುವರಿ ಕಾಲಂ ಸೇರಿಸಬಹುದು.</li>
+            <li><b>ಫಲಿತಾಂಶವನ್ನು ಪಡೆದುಕೊಳ್ಳಿ:</b> ಎಲ್ಲಾ ಮಾಹಿತಿ ಭರ್ತಿ ಮಾಡಿದ ನಂತರ <b>"Compute Partition Records"</b> ಬಟನ್ ಕ್ಲಿಕ್ ಮಾಡಿ. ನಮ್ಮ ಸಾಫ್ಟ್‌ವೇರ್ ತಕ್ಷಣವೇ ಒಟ್ಟು ಭೂಮಿಯನ್ನು ಚದರ ಅಡಿಗೆ ಪರಿವರ್ತಿಸಿ, ಪ್ರತಿಯೊಬ್ಬರ ಪಾಲನ್ನು ಎಕರೆ-ಗುಂಟೆ-ಆಣೆ ರೂಪದಲ್ಲಿ ಪ್ರದರ್ಶಿಸುತ್ತದೆ.</li>
+        </ol>
+    </section>
+
+    <section>
+        <h3>3. ಜಮೀನು ವಿಭಜನೆಯ ಒಂದು ನೈಜ ಉದಾಹರಣೆ (ಗಣಿತದ ವಿಶ್ಲೇಷಣೆ)</h3>
+        <p>ನಮ್ಮ ಆಲ್ಗಾರಿದಮ್ ಬ್ಯಾಕೆಂಡ್‌ನಲ್ಲಿ ಹೇಗೆ ಕೆಲಸ ಮಾಡುತ್ತದೆ ಎಂಬುದನ್ನು ಅರ್ಥಮಾಡಿಕೊಳ್ಳೋಣ. ಉದಾಹರಣೆಗೆ, ಒಂದು ಪಿತ್ರಾರ್ಜಿತ ಆಸ್ತಿಯ ಒಟ್ಟು ವಿಸ್ತೀರ್ಣ <b>4 ಎಕರೆ, 20 ಗುಂಟೆ, ಮತ್ತು 8 ಆಣೆ</b> ಆಗಿದ್ದು, ಅದನ್ನು ಮೂರು ಜನ ವಾರಸುದಾರರಿಗೆ ಈ ಕೆಳಗಿನ ಶೇಕಡಾವಾರು ಪ್ರಮಾಣದಲ್ಲಿ ಹಂಚಬೇಕಾಗಿದೆ:</p>
+        <ul>
+            <li><b>ಮೊದಲ ಫಲಾನುಭವಿ (Partner A):</b> 50% ಪಾಲು</li>
+            <li><b>ಎರಡನೇ ಫಲಾನುಭವಿ (Partner B):</b> 30% ಪಾಲು</li>
+            <li><b>ಮೂರನೇ ಫಲಾನುಭವಿ (Partner C):</b> 20% ಪಾಲು</li>
+        </ul>
+        <p><b>ಗಣನೆ ಪ್ರಕ್ರಿಯೆ:</b></p>
+        <ol>
+            <li><b>ಒಟ್ಟು ಭೂಮಿಯನ್ನು ಆಣೆ ರೂಪಕ್ಕೆ ಪರಿವರ್ತಿಸುವುದು:</b>
+                <br>4 ಎಕರೆ &times; 40 &times; 16 = 2,560 ಆಣೆ
+                <br>20 ಗುಂಟೆ &times; 16 = 320 ಆಣೆ
+                <br>ಒಟ್ಟು ಆಣೆ = 2,560 + 320 + 8 = 2,888 ಆಣೆ
+            </li>
+            <li><b>ಷೇರುಗಳ ಆಧಾರದ ಮೇಲೆ ವಿಭಜನೆ:</b>
+                <ul>
+                    <li>Partner A: 2,888 &times; 0.50 = 1,444 ಆಣೆ</li>
+                    <li>Partner B: 2,888 &times; 0.30 = 866.4 ಆಣೆ</li>
+                    <li>Partner C: 2,888 &times; 0.20 = 577.6 ಆಣೆ</li>
+                </ul>
+            </li>
+            <li><b>ಮರಳಿ ಎಕರೆ-ಗುಂಟೆ-ಆಣೆ ರೂಪಕ್ಕೆ ಪರಿವರ್ತನೆ:</b>
+                Partner B ಗೆ (866.4 ಆಣೆ):
+                <br>866.4 / 16 = 54.15 ಗುಂಟೆ
+                <br>54.15 / 40 = 1 ಎಕರೆ (ಉಳಿದ 14.15 ಗುಂಟೆ)
+                <br>0.15 ಗುಂಟೆ &times; 16 = 2.4 ಆಣೆ
+                <br>ಅಂತಿಮ ಫಲಿತಾಂಶ: <b>1 ಎಕರೆ, 14 ಗುಂಟೆ, 2.4 ಆಣೆ</b> (ಇದು 61,142.4 ಚದರ ಅಡಿಗೆ ಸಮಾನವಾಗಿದೆ).
+            </li>
+        </ol>
+    </section>
+
+    <section>
+        <h3>4. ಕರ್ನಾಟಕ ಭೂ ಕಂದಾಯ ಕಾಯ್ದೆ ಮತ್ತು ಮ್ಯುಟೇಷನ್ ನಿಯಮಗಳು</h3>
+        <p>ಆಸ್ತಿ ವಿಭಜನೆಯು ಕೇವಲ ಗಣಿತದ ಲೆಕ್ಕಾಚಾರವಲ್ಲ, ಇದು ಕಾನೂನು ಪ್ರಕ್ರಿಯೆಯಾಗಿದೆ. <b>ಕರ್ನಾಟಕ ಭೂ ಕಂದಾಯ ಕಾಯ್ದೆ, 1964</b> ರ ಅನ್ವಯ, ಜಂಟಿ ಕೃಷಿ ಭೂಮಿಯನ್ನು ಅಧಿಕೃತವಾಗಿ ವಿಭಜಿಸಲು (ಪೋಡಿ ಪ್ರಕ್ರಿಯೆ) ತಹಶೀಲ್ದಾರ್ ಕಚೇರಿಯಲ್ಲಿ ಅರ್ಜಿ ಸಲ್ಲಿಸಬೇಕು. ತದನಂತರ ಕಂದಾಯ ನಿರೀಕ್ಷಕರು ಮತ್ತು ಸರ್ವೇಯರ್ ಸ್ಥಳ ಪರಿಶೀಲನೆ ನಡೆಸಿ ಹೊಸ <b>ಹಿಸ್ಸಾ ನಂಬರ್</b> ಮತ್ತು ಆರ್‌ಟಿಸಿ (RTC) ನೀಡುತ್ತಾರೆ.</p>
+        <p>ಕಾವೇರಿ 2.0 (Kaveri 2.0) ಪೋರ್ಟಲ್‌ನಲ್ಲಿ ನೋಂದಣಿ ಮಾಡುವಾಗ ಅಥವಾ ವಿಭಜನಾ ಪತ್ರ ಸಿದ್ಧಪಡಿಸುವಾಗ ಲೆಕ್ಕಾಚಾರದಲ್ಲಿ ಸಣ್ಣ ತಪ್ಪಾದರೂ ಅರ್ಜಿ ತಿರಸ್ಕೃತಗೊಳ್ಳಬಹುದು. ಆದ್ದರಿಂದ ಯಾವುದೇ ಕಾನೂನು ಪ್ರಕ್ರಿಯೆಗೆ ಮುನ್ನ ಈ ಕ್ಯಾಲ್ಕುಲೇಟರ್ ಬಳಸಿ ನಿಖರತೆ ಖಚಿತಪಡಿಸಿಕೊಳ್ಳುವುದು ಸೂಕ್ತ.</p>
+    </section>
+
+    <h3>5. ಕರ್ನಾಟಕ ಸರ್ಕಾರದ ಕಂದಾಯ ಭೂ ಮಾಪನ ಪರಿವರ್ತನೆ ಕೋಷ್ಟಕ</h3>
+    <table>
+        <thead>
+            <tr>
+                <th>ಭೂಮಿ ಘಟಕ (Unit Type)</th>
+                <th>ಕಂದಾಯ ಇಲಾಖೆಯ ಪ್ರಮಾಣಿತ ವ್ಯಾಖ್ಯಾನ</th>
+                <th>ಚದರ ಅಡಿ (Sq. Feet)</th>
+                <th>ಚದರ ಗಜ (Sq. Yards)</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr><td><b>೧ ಎಕರೆ</b></td><td>೪೦ ಗುಂಟೆ (ಪ್ರಮಾಣಿತ ಮಾಪನ)</td><td>೪೩,೫೬೦ Sq Ft</td><td>೪,೮೪೦ Sq Yds</td></tr>
+            <tr><td><b>೧ ಗುಂಟೆ</b></td><td>೧೬ ಆಣೆ / ೧ ಎಕರೆಯ ೪೦ ನೇ ಭಾಗ</td><td>೧,೦೮೯ Sq Ft</td><td>೧೨೧ Sq Yds</td></tr>
+            <tr><td><b>೧ ಆಣೆ (ಗುಂಟೆಯ ಭಾಗ)</b></td><td>೧/೧೬ ನೇ ಭಾಗ / ೬೮.೦೬ ಚದರ ಅಡಿ</td><td>೬೮.೦೬ Sq Ft</td><td>೭.೫೬ Sq Yds</td></tr>
+            <tr><td><b>೧ ಹೆಕ್ಟೇರ್</b></td><td>ಸುಮಾರು ೨.೪೭೧ ಎಕರೆಗೆ ಸಮಾನ</td><td>೧,೦೭,೬೩೯ Sq Ft</td><td>೧೧,೯೫೯ Sq Yds</td></tr>
+            <tr><td><b>೧ ಸೆಂಟ್ಸ್</b></td><td>೧ ಎಕರೆಯ ೧೦೦ ನೇ ಭಾಗ</td><td>೪೩೫.೬ Sq Ft</td><td>೪೮.೪ Sq Yds</td></tr>
+        </tbody>
+    </table>
+
+    <h3>6. ಪದೇ ಪದೇ ಕೇಳಲಾಗುವ ಪ್ರಶ್ನೆಗಳು (FAQs)</h3>
+    <div id="faq-container-kn">
+        <div class="faq-block"><p><b>ಪ್ರಶ್ನೆ ೧. ಕರ್ನಾಟಕದಲ್ಲಿ ಒಂದು ಎಕರೆಗೆ ಎಷ್ಟು ಗುಂಟೆ ಇರುತ್ತದೆ?</b><br>ಉತ್ತರ: ಕರ್ನಾಟಕ ಕಂದಾಯ ನಿಯಮಗಳ ಪ್ರಕಾರ ೧ ಎಕರೆಗೆ ಸರಿಯಾಗಿ ೪೦ ಗುಂಟೆ ಇರುತ್ತದೆ.</p></div>
+        <div class="faq-block"><p><b>ಪ್ರಶ್ನೆ ೨. ಒಂದು ಗುಂಟೆ ಜಮೀನಿನಲ್ಲಿ ಎಷ್ಟು ಚದರ ಅಡಿ ಇರುತ್ತದೆ?</b><br>ಉತ್ತರ: ಕರ್ನಾಟಕದ ಭೂಮಾಪನದ ಪ್ರಕಾರ ೧ ಗುಂಟೆ ಎಂದರೆ ೧,೦೮೯ ಚದರ ಅಡಿ.</p></div>
+        <div class="faq-block"><p><b>ಪ್ರಶ್ನೆ ೩. ಜಮೀನಿನ ಲೆಕ್ಕದಲ್ಲಿ 'ಆಣೆ' ಎಂದರೆ ಏನು?</b><br>ಉತ್ತರ: ಒಂದು ಗುಂಟೆಯ ೧೬ ನೇ ಭಾಗವನ್ನು ಒಂದು 'ಆಣೆ' ಅಥವಾ 'ಪೈಸೆ' ಎನ್ನಲಾಗುತ್ತದೆ.</p></div>
+        <div class="faq-block"><p><b>ಪ್ರಶ್ನೆ ೪. ಒಂದು ಎಕರೆ ಭೂಮಿಯಲ್ಲಿ ಒಟ್ಟು ಎಷ್ಟು ಚದರ ಅಡಿ ಇರುತ್ತದೆ?</b><br>ಉತ್ತರ: ಕರ್ನಾಟಕದಲ್ಲಿ ಒಂದು ಎಕರೆ ಭೂಮಿ ಎಂದರೆ ೪೩,೫೬೦ ಚದರ ಅಡಿ.</p></div>
+        <div class="faq-block"><p><b>ಪ್ರಶ್ನೆ ೫. ಈ ಕ್ಯಾಲ್ಕುಲೇಟರ್ ಭೂಮಿ ಪೋರ್ಟಲ್‌ನ ಅಧಿಕೃತ ಆಪ್ಲಿಕೇಶನ್ ಆಗಿದೆಯೇ?</b><br>ಉತ್ತರ: ಅಲ್ಲ, ಇದು Shayan Smart Tools ಅಭಿವೃದ್ಧಿಪಡಿಸಿದ ಸ್ವತಂತ್ರ ಕ್ಯಾಲ್ಕುಲೇಟರ್ ಆಗಿದ್ದು, ರಾಜ್ಯ ಕಂದಾಯ ಇಲಾಖೆಯ ಗಣಿತದ ಸೂತ್ರಗಳನ್ನು ಆಧರಿಸಿದೆ.</p></div>
+        <div class="faq-block"><p><b>ಪ್ರಶ್ನೆ ೬. ಭೂಮಿ ಪಾಲು ಮಾಡುವಾಗ ಸಾಮಾನ್ಯ ಕ್ಯಾಲ್ಕುಲೇಟರ್‌ಗಳು ಏಕೆ ತಪ್ಪು ತೋರಿಸುತ್ತವೆ?</b><br>ಉತ್ತರ: ಸಾಮಾನ್ಯ ಕ್ಯಾಲ್ಕುಲೇಟರ್‌ಗಳು ಹತ್ತರ ದಶಮಾಂಶದಲ್ಲಿ ಕೆಲಸ ಮಾಡುತ್ತವೆ, ಆದರೆ ನಮ್ಮ ಭೂಮಿ ಲೆಕ್ಕಾಚಾರವು Base-40 ಮತ್ತು Base-16 ಮಾದರಿಯಲ್ಲಿ ನಡೆಯುವುದರಿಂದ ವಿಶೇಷ ಕೋಡಿಂಗ್ ಅಗತ್ಯವಿದೆ.</p></div>
+        <div class="faq-block"><p><b>ಪ್ರಶ್ನೆ ೭. ಒಂದು ಗುಂಟೆ ಎಂದರೆ ಎಷ್ಟು ಚದರ ಮೀಟರ್?</b><br>ಉತ್ತರ: ೧ ಗುಂಟೆ ಎಂದರೆ ಸುಮಾರು ೧೦೧.೧೭ ಚದರ ಮೀಟರ್ ಆಗಿರುತ್ತದೆ.</p></div>
+        <div class="faq-block"><p><b>ಪ್ರಶ್ನೆ ೮. ಕರ್ನಾಟಕದಲ್ಲಿ 'ಪೋಡಿ' (Phodi) ಪ್ರಕ್ರಿಯೆ ಎಂದರೆ ಏನು?</b><br>ಉತ್ತರ: ಜಂಟಿ ಖಾತೆಯ ಸರ್ವೇ ನಂಬರ್ ಅನ್ನು ಕಾನೂನುಬದ್ಧವಾಗಿ ವಿಭಜಿಸಿ ಪ್ರತಿಯೊಬ್ಬರಿಗೂ ಪ್ರತ್ಯೇಕ ಹಿಸ್ಸಾ ನಂಬರ್ ನೀಡುವ ಪ್ರಕ್ರಿಯೆಯೇ ಪೋಡಿಯಾಗಿದೆ.</p></div>
+        <div class="faq-block"><p><b>ಪ್ರಶ್ನೆ ೯. ಒಂದು ಗುಂಟೆ ಜಮೀನು ಎಷ್ಟು ಸೆಂಟ್ಸ್‌ಗೆ ಸಮಾನವಾಗಿರುತ್ತದೆ?</b><br>ಉತ್ತರ: ೧ ಗುಂಟೆ ಜಮೀನು ಸರಿಯಾಗಿ ೨.೫ ಸೆಂಟ್ಸ್‌ಗೆ ಸಮಾನವಾಗಿರುತ್ತದೆ.</p></div>
+        <div class="faq-block"><p><b>ಪ್ರಶ್ನೆ ೧೦. ಈ ವರದಿಯನ್ನು ಪಿಡಿಎಫ್ (PDF) ರೂಪದಲ್ಲಿ ಡೌನ್‌ಲೋಡ್ ಮಾಡಬಹುದೇ?</b><br>ಉತ್ತರ: ಹೌದು, "Print Legal Sheet" ಬಟನ್ ಒತ್ತಿ ನೀವು ಇದನ್ನು ಸ್ವಚ್ಛವಾದ ಪಿಡಿಎಫ್ ರೂಪದಲ್ಲಿ ಸೇವ್ ಮಾಡಬಹುದು.</p></div>
+    </div>
+</article>
+
+<div class="footer-copyright-box">
+    <div class="footer-law-accent">Statutory Software IP Security Core</div>
+    <p><b>Copyright Protection Notice:</b> Shayan Smart Tools Processing Infrastructure, Karnataka Localization Schemas, and Engine Core © 2026. All rights reserved.</p>
+    <p style="font-size: 12px; color: #64748b;">This application code architecture, non-decimal cascading logic formulas, and vector asset representations are legally protected under Indian Copyright Amendment Acts and global software licensing terms. Litigation processes will automatically apply to source theft.</p>
+</div>
+
+<script>
+    let partnerCount = 2;
+    let activeLanguageMode = 'en';
+
+    const textDictionary = {
+        en: {
+            title: "Karnataka Land Partition Calculator",
+            subtitle: "Official Karnataka Bhoomi Revenue Matrix: 1 Acre = 40 Guntas | 1 Gunta = 16 Annas | 1 Acre = 43,560 Sq. Ft.",
+            addBtn: "+ Add Shareholder",
+            calcBtn: "Compute Partition Records",
+            resetBtn: "Reset Canvas",
+            resHead: "Final Disaggregated Partition Shares (ವಿಭಜಿತ ಭಾಗಗಳು)",
+            btnCopy: "📋 Copy Partition Text",
+            btnWA: "📲 Send to WhatsApp",
+            btnPrint: "🖨️ Print Legal Sheet",
+            backLnk: "⬅ Back to All Tools Dashboard",
+            printInputsTitle: "Initial Property Pool Before Subdivision",
+            thTotalAcre: "Total Acre",
+            thTotalGunta: "Total Gunta",
+            thTotalAnna: "Total Anna",
+            thTotalSqft: "Equivalent Sq. Feet",
+            portalTitle: "Official Karnataka Government Portals",
+            authSig: "AUTHORIZED SIGNATURE"
+        },
+        kn: {
+            title: "ಕರ್ನಾಟಕ ಜಮೀನು ಪಾಲು ಲೆಕ್ಕಾಚಾರ",
+            subtitle: "ಅಧಿಕೃತ ಭೂಮಿ ನಿಯಮಾವಳಿಗಳು: ೧ ಎಕರೆ = ೪೦ ಗುಂಟೆ | ೧ ಗುಂಟೆ = ೧೬ ಆಣೆ | ೧ ಎಕರೆ = ೪೩,೫೬ zero ಚದರ ಅಡಿ",
+            addBtn: "+ ಷೇರುದಾರರನ್ನು ಸೇರಿಸಿ",
+            calcBtn: "ಜಮೀನು ಪಾಲು ಹಂಚಿಕೆ ಮಾಡಿ",
+            resetBtn: "ಮರುಹೊಂದಿಸಿ",
+            resHead: "ವಿಭಜಿತ ಭಾಗಗಳು (Final Allocated Shares)",
+            btnCopy: "📋 ಫಲಿತಾಂಶ ನಕಲಿಸಿ",
+            btnWA: "📲 ವಾಟ್ಸಾಪ್‌ಗೆ ಕಳುಹಿಸಿ",
+            btnPrint: "🖨️ ಕಾನೂನು ಪ್ರತಿ ಮುದ್ರಿಸಿ",
+            backLnk: "⬅ ಮುಖ್ಯ ಡ್ಯಾಶ್‌ಬೋರ್ಡ್‌ಗೆ ಹಿಂತಿರುಗಿ",
+            printInputsTitle: "ವಿಭಜನೆಗೆ ಮುನ್ನ ಒಟ್ಟು ಆಸ್ತಿಯ ವಿವರ",
+            thTotalAcre: "ಒಟ್ಟು ಎಕರೆ",
+            thTotalGunta: "ಒಟ್ಟು ಗುಂಟೆ",
+            thTotalAnna: "ಒಟ್ಟು ಆಣೆ",
+            thTotalSqft: "ಸಮತುಲ್ಯ ಚದರ ಅಡಿ",
+            portalTitle: "ಕರ್ನಾಟಕ ಸರ್ಕಾರದ ಅಧಿಕೃತ ಪೋರ್ಟಲ್‌ಗಳು",
+            authSig: "ಅಧಿಕೃತ ಸಹಿ"
+        }
+    };
+
+    function switchLanguage(lang) {
+        activeLanguageMode = lang;
+        document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.remove('active'));
+        if(lang === 'en') {
+            document.querySelectorAll('.lang-btn')[0].classList.add('active');
+            document.getElementById('content-en').classList.add('active-lang');
+            document.getElementById('content-kn').classList.remove('active-lang');
+        } else {
+            document.querySelectorAll('.lang-btn')[1].classList.add('active');
+            document.getElementById('content-kn').classList.add('active-lang');
+            document.getElementById('content-en').classList.remove('active-lang');
+        }
+
+        document.getElementById('mainTitle').innerText = textDictionary[lang].title;
+        document.getElementById('mainSubTitle').innerText = textDictionary[lang].subtitle;
+        document.getElementById('btnAddPartner').innerText = textDictionary[lang].addBtn;
+        document.getElementById('btnCalc').innerText = textDictionary[lang].calcBtn;
+        document.getElementById('btnReset').innerText = textDictionary[lang].resetBtn;
+        document.getElementById('resHead').innerText = textDictionary[lang].resHead;
+        
+        document.getElementById('btnCopy').innerText = textDictionary[lang].btnCopy;
+        document.getElementById('btnWA').innerText = textDictionary[lang].btnWA;
+        document.getElementById('btnPrint').innerText = textDictionary[lang].btnPrint;
+        document.getElementById('lnkBack').innerText = textDictionary[lang].backLnk;
+        
+        document.getElementById('printInputsTitle').innerText = textDictionary[lang].printInputsTitle;
+        document.getElementById('thTotalAcre').innerText = textDictionary[lang].thTotalAcre;
+        document.getElementById('thTotalGunta').innerText = textDictionary[lang].thTotalGunta;
+        document.getElementById('thTotalAnna').innerText = textDictionary[lang].thTotalAnna;
+        document.getElementById('thTotalSqft').innerText = textDictionary[lang].thTotalSqft;
+        document.getElementById('lblPortalTitle').innerText = textDictionary[lang].portalTitle;
+        document.getElementById('lblAuthSigLeft').innerText = textDictionary[lang].authSig;
+        document.getElementById('lblAuthSigRight').innerText = textDictionary[lang].authSig;
+
+        document.getElementById('lblTotalLandHeading').innerText = lang === 'en' ? "Total Land Area to Partition" : "ವಿಭಜಿಸಬೇಕಾದ ಒಟ್ಟು ಜಮೀನಿನ ವಿಸ್ತೀರ್ಣ";
+        document.getElementById('lblInputAcre').innerText = lang === 'en' ? "Acre (ಎಕರೆ)" : "ಎಕರೆ";
+        document.getElementById('lblInputGunta').innerText = lang === 'en' ? "Gunta (ಗುಂಟೆ)" : "ಗುಂಟೆ";
+        document.getElementById('lblInputAnna').innerText = lang === 'en' ? "Anna/Paisa (ಆಣೆ)" : "ಆಣೆ";
+        document.getElementById('lblPartitionBasis').innerText = lang === 'en' ? "Partition Allocation Mode" : "ಆಸ್ತಿ ಹಂಚಿಕೆ ವಿಧಾನ";
+        document.getElementById('lblShareholdersHeading').innerText = lang === 'en' ? "Partners / Shareholders Allocation Records" : "ಷೇರುದಾರರ ಅಥವಾ ವಾರಸುದಾರರ ಪಟ್ಟಿ";
+
+        document.querySelectorAll('.partner-row').forEach(row => {
+            const nameInput = row.querySelector('.p-name');
+            if(nameInput && nameInput.value.startsWith('Partner ')) {
+                nameInput.placeholder = lang === 'en' ? "Partner Name" : "ಷೇರುದಾರರ ಹೆಸರು";
+            }
+        });
+    }
+
+    function addNewPartnerRow() {
+        partnerCount++;
+        const container = document.getElementById('partnersContainer');
+        const div = document.createElement('div');
+        div.className = 'partner-row';
+        
+        let labelSuffix = String.fromCharCode(64 + partnerCount);
+        if(partnerCount > 26) labelSuffix = partnerCount;
+
+        let namePlaceholder = activeLanguageMode === 'en' ? 'Partner Name' : 'ಷೇರುದಾರರ ಹೆಸರು';
+        let defaultName = activeLanguageMode === 'en' ? `Partner ${labelSuffix}` : `ಷೇರುದಾರ ${labelSuffix}`;
+
+        div.innerHTML = `
+            <input type="text" class="p-name" placeholder="${namePlaceholder}" value="${defaultName}">
+            <input type="number" class="p-share" placeholder="Value" value="0" min="0">
+            <button type="button" class="btn-remove" onclick="removePartnerRow(this)">X</button>
+        `;
+        container.appendChild(div);
+    }
+
+    function removePartnerRow(btnElement) {
+        const container = document.getElementById('partnersContainer');
+        if(container.querySelectorAll('.partner-row').length <= 1) {
+            alert(activeLanguageMode === 'en' ? "Minimum one shareholder is mandatory!" : "ಕನಿಷ್ಠ ಒಬ್ಬ ಷೇರುದಾರರು ಇರಲೇಬೇಕು!");
+            return;
+        }
+        btnElement.parentElement.remove();
+    }
+
+    function processPartitionCalculation() {
+        const acre = parseFloat(document.getElementById('totalAcre').value) || 0;
+        const gunta = parseFloat(document.getElementById('totalGunta').value) || 0;
+        const anna = parseFloat(document.getElementById('totalAnna').value) || 0;
+
+        const aggregatePoolAnna = (acre * 40 * 16) + (gunta * 16) + anna;
+        const totalSqftValue = aggregatePoolAnna * 68.0625;
+
+        if(aggregatePoolAnna <= 0) {
+            alert(activeLanguageMode === 'en' ? "Please key in a valid property volume pool." : "ದಯವಿಟ್ಟು ಸರಿಯಾದ ಆಸ್ತಿ ವಿಸ್ತೀರ್ಣದ ಪ್ರಮಾಣವನ್ನು ನಮೂದಿಸಿ.");
+            return;
+        }
+
+        document.getElementById('tdPrintAcre').innerText = acre;
+        document.getElementById('tdPrintGunta').innerText = gunta;
+        document.getElementById('tdPrintAnna').innerText = anna;
+        document.getElementById('tdPrintSqft').innerText = Math.round(totalSqftValue).toLocaleString('en-IN') + " sq ft";
+
+        const rows = document.querySelectorAll('.partner-row');
+        const mode = document.getElementById('partitionMode').value;
+
+        let shareholderArray = [];
+        let runningInputValueSum = 0;
+
+        rows.forEach(row => {
+            let name = row.querySelector('.p-name').value.trim() || "Anonymous Shareholder";
+            let rawShare = parseFloat(row.querySelector('.p-share').value) || 0;
+            shareholderArray.push({ partnerName: name, targetValue: rawShare });
+            runningInputValueSum += rawShare;
+        });
+
+        if(runningInputValueSum <= 0) {
+            alert(activeLanguageMode === 'en' ? "Combined partition values must be greater than zero." : "ಷೇರುಗಳ ಒಟ್ಟು ಮೊತ್ತ ಶೂನ್ಯಕ್ಕಿಂತ ಹೆಚ್ಚಿರಬೇಕು.");
+            return;
+        }
+
+        if(mode === 'percentage' && Math.abs(runningInputValueSum - 100) > 0.05) {
+            let warnMsg = activeLanguageMode === 'en' 
+                ? "Warning: Your cumulative percentage sum is " + runningInputValueSum + "%, not exactly 100%. Proceed with proportional division?"
+                : "ಎಚ್ಚರಿಕೆ: ನಿಮ್ಮ ಒಟ್ಟು ಶೇಕಡಾವಾರು ಮೊತ್ತವು " + runningInputValueSum + "% ಆಗಿದೆ, 100% ಅಲ್ಲ. ಇದೇ ಅನುಪಾತದಲ್ಲಿ ಮುಂದುವರಿಯಬೇಕೆ?";
+            if(!confirm(warnMsg)) return;
+        }
+
+        const targetContainer = document.getElementById('resultsList');
+        targetContainer.innerHTML = '';
+
+        shareholderArray.forEach(partner => {
+            let individualAnnaAllocation = aggregatePoolAnna * (partner.targetValue / runningInputValueSum);
+            let individualSqftAllocation = individualAnnaAllocation * 68.0625;
+            let individualSqydAllocation = individualSqftAllocation / 9;
+
+            let workingRemainder = individualAnnaAllocation;
+
+            let outAcre = Math.floor(workingRemainder / (40 * 16));
+            workingRemainder %= (40 * 16);
+
+            let outGunta = Math.floor(workingRemainder / 16);
+            workingRemainder %= 16;
+
+            let outAnna = workingRemainder.toFixed(2);
+
+            let displayBadge = mode === 'percentage' ? partner.targetValue + "% Share" : "Ratio Allocation: " + partner.targetValue;
+            const card = document.createElement('div');
+            card.className = 'partner-result-card';
+            
+            card.innerHTML = `
+                <h4><span>👤 ${partner.partnerName}</span> <span style="font-size:13px; background:var(--karnataka-yellow); color:#000; padding:2px 10px; border-radius:30px; font-weight:800;">${displayBadge}</span></h4>
+                <div class="p-res-grid">
+                    <div class="p-res-box"><small>Acre (ಎಕರೆ)</small><span>${outAcre}</span></div>
+                    <div class="p-res-box"><small>Gunta (ಗುಂಟೆ)</small><span>${outGunta}</span></div>
+                    <div class="p-res-box"><small>Anna (ಆಣೆ)</small><span>${outAnna}</span></div>
+                </div>
+                <div class="p-meta-info">
+                    <div><span>Square Feet:</span> <b>${Math.round(individualSqftAllocation).toLocaleString('en-IN')} sq ft</b></div>
+                    <div style="text-align:right;"><span>Square Yards:</span> <b>${Math.round(individualSqydAllocation).toLocaleString('en-IN')} sq yds</b></div>
+                </div>
+            `;
+            targetContainer.appendChild(card);
+        });
+
+        let formatConfig = { day: 'numeric', month: 'long', year: 'numeric' };
+        document.getElementById('pDocDate').innerText = new Date().toLocaleDateString('en-IN', formatConfig) + " (IST)";
+        document.getElementById('pDocRef').innerText = "SST-KA-PAR-" + Math.floor(1000000000 + Math.random() * 9000000000);
+
+        const resPanel = document.getElementById('resPanel');
+        resPanel.style.display = "block";
+        resPanel.scrollIntoView({ behavior: 'smooth' });
+    }
+
+    function resetCalculatorForm() {
+        document.getElementById('totalAcre').value = "1";
+        document.getElementById('totalGunta').value = "0";
+        document.getElementById('totalAnna').value = "0";
+        document.getElementById('partitionMode').selectedIndex = 0;
+        
+        const container = document.getElementById('partnersContainer');
+        container.innerHTML = `
+            <div class="partner-row">
+                <input type="text" class="p-name" placeholder="Partner Name" value="Partner A">
+                <input type="number" class="p-share" placeholder="Share Value" value="50" min="0">
+                <button type="button" class="btn-remove" onclick="removePartnerRow(this)">X</button>
+            </div>
+            <div class="partner-row">
+                <input type="text" class="p-name" placeholder="Partner Name" value="Partner B">
+                <input type="number" class="p-share" placeholder="Share Value" value="50" min="0">
+                <button type="button" class="btn-remove" onclick="removePartnerRow(this)">X</button>
+            </div>
+        `;
+        partnerCount = 2;
+        document.getElementById('resPanel').style.display = "none";
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function copyCalculatedLedger() {
+        let textOutput = "Karnataka Land Partition Summary Report:\n-----------------------------------\n";
+        const cards = document.querySelectorAll('.partner-result-card');
+        
+        cards.forEach(card => {
+            let name = card.querySelector('h4 span').innerText;
+            let vals = card.querySelectorAll('.p-res-box span');
+            let sqft = card.querySelector('.p-meta-info b').innerText;
+            textOutput += name + " Allocation: " + vals[0].innerText + " Acre, " + vals[1].innerText + " Gunta, " + vals[2].innerText + " Anna (" + sqft + ")\n";
+        });
+        
+        textOutput += "\nProcessed accurately via Shayan Smart Tools Engine Framework.";
+        navigator.clipboard.writeText(textOutput);
+        alert(activeLanguageMode === 'en' ? "Partition breakdown copied successfully!" : "ವಿಭಜನೆಯ ಸಂಪೂರ್ಣ ವಿವರಗಳನ್ನು ನಕಲಿಸಲಾಗಿದೆ!");
+    }
+
+    function dispatchWhatsAppShare() {
+        let summaryLine = "Karnataka Property Partition Breakdown. Pool split accurately into individual Acre-Gunta-Anna allocations via Shayan Smart Tools. View breakdown by printing active system nodes securely.";
+        window.open("https://wa.me/?text=" + encodeURIComponent(summaryLine));
+    }
+
+    function triggerReportPrint() {
+        if(document.getElementById('resPanel').style.display !== "block") {
+            alert(activeLanguageMode === 'en' ? "Please calculate metrics first!" : "ದಯವಿಟ್ಟು ಮೊದಲು ಲೆಕ್ಕಾಚಾರ ಪೂರ್ಣಗೊಳಿಸಿ!");
+            return;
+        }
+        window.print();
+    }
+</script>
+
+</body>
+</html>
