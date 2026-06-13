@@ -1,0 +1,888 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tamil Nadu Land Partition Calculator Free 2026 | நிலப் பிரிவினை கால்குலேட்டர் | Shayan Smart Tools</title>
+    <link rel="canonical" href="https://shayansmarttools.in/tamilnadu-land-partition.html" />
+    <link rel="icon" type="image/png" href="favicon.png" />
+
+    <meta name="description" content="Official Tamil Nadu Land Partition Calculator. Divide or partition traditional and standard real estate land plots in Acre, Cent, Ground, and Square Feet formats accurately with dynamic partner-share matrices. Fully compliant with Tamil Nadu Any条/Patta revenue standards.">
+    <meta name="keywords" content="Tamil Nadu Land Partition Calculator, நிலப் பிரிவினை கால்குலேட்டர், Tamil Nadu land division tool, Cent to Ground calculator TN, Acre Cent Square Feet calculator, Anyror TN land math, Tamil Nadu land mutation area division, Patta Chitta land area calculation">
+    <meta name="author" content="Muksidul islam">
+    <meta name="robots" content="index, follow">
+
+    <style>
+        :root {
+            --tn-blue: #0f4c81;
+            --dark-blue: #0a3154;
+            --tn-gold: #ffb300;
+            --text-dark: #334155;
+            --white: #ffffff;
+            --bg: #f4f7fa;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--text-dark);
+            max-width: 950px;
+            margin: 0 auto;
+            padding: 15px;
+            background-color: var(--bg);
+        }
+
+        .tool-wrapper { padding: 10px 0; text-align: center; }
+
+        header {
+            background: linear-gradient(135deg, var(--tn-blue), var(--dark-blue));
+            color: #fff; padding: 45px 20px; border-radius: 25px; text-align: center;
+            border-bottom: 6px solid var(--tn-gold); margin-bottom: 25px;
+            box-shadow: 0 10px 25px rgba(15, 76, 129, 0.15);
+        }
+        header h1 { color: white; margin: 0 0 10px 0; font-size: 32px; text-transform: uppercase; letter-spacing: 0.5px; }
+        header p { color: #ebf5ff; margin: 0; font-size: 16px; font-weight: 500; }
+
+        .lang-switcher {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin: 25px 0;
+        }
+        .lang-btn {
+            padding: 11px 32px;
+            border: 2px solid var(--tn-blue);
+            background: var(--white);
+            color: var(--tn-blue);
+            font-weight: 700;
+            font-size: 16px;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            min-width: 140px;
+            text-align: center;
+            outline: none;
+            box-shadow: 0 4px 6px rgba(15, 76, 129, 0.05);
+        }
+        .lang-btn.active {
+            background: var(--tn-blue);
+            color: var(--white);
+        }
+
+        .section-fieldset {
+            border: 1px solid #cbd5e1;
+            border-radius: 16px;
+            background: var(--white);
+            padding: 25px;
+            margin-bottom: 25px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.01);
+            text-align: left;
+        }
+        .section-legend {
+            font-weight: 800;
+            color: var(--tn-blue);
+            padding: 0 15px;
+            text-transform: uppercase;
+            font-size: 14px;
+            letter-spacing: 0.5px;
+        }
+
+        .grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px; }
+        .field { display: flex; flex-direction: column; }
+        label { font-size: 12px; font-weight: bold; margin-bottom: 6px; color: var(--tn-blue); text-transform: uppercase; letter-spacing: 0.3px; }
+        input, select { padding: 14px; border: 1px solid #cbd5e1; border-radius: 10px; font-size: 16px; text-align: center; background: var(--white); outline: none; transition: 0.3s; font-weight: 600; width: 100%; }
+        input:focus, select:focus { border-color: var(--tn-blue); box-shadow: 0 0 8px rgba(15, 76, 129, 0.15); }
+
+        .partner-wrapper {
+            margin-top: 15px;
+        }
+        .partner-row {
+            display: grid;
+            grid-template-columns: 2fr 1.5fr 0.5fr;
+            gap: 15px;
+            margin-bottom: 15px;
+            background: #f8fafc;
+            padding: 15px;
+            border-radius: 12px;
+            border: 1px dashed #cbd5e1;
+            align-items: center;
+        }
+
+        .btn-box { display: flex; gap: 15px; justify-content: center; margin: 35px 0 15px 0; flex-wrap: wrap; }
+        .btn { padding: 15px 35px; border: none; border-radius: 10px; font-weight: 800; cursor: pointer; transition: 0.3s; font-size: 15px; text-transform: uppercase; letter-spacing: 0.5px; min-width: 160px; }
+        .btn-add { background: #2f3e4f; color: white; } 
+        .btn-calc { background: var(--tn-blue); color: white; }
+        .btn-reset { background: #ef4444; color: white; }
+        .btn-remove { background: #fee2e2; color: #ef4444; padding: 14px; font-weight: bold; border-radius: 10px; border: 1px solid #fca5a5; }
+        .btn:hover { transform: translateY(-3px); box-shadow: 0 8px 15px rgba(0,0,0,0.12); }
+        .btn-remove:hover { background: #fca5a5; color: #b91c1c; }
+
+        /* Portal Navigation Panel Layout */
+        .portal-links-wrapper {
+            background: var(--white);
+            border: 1px solid #cbd5e1;
+            border-radius: 16px;
+            padding: 20px;
+            margin: 25px auto;
+            max-width: 100%;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.01);
+            text-align: left;
+        }
+        .portal-links-title {
+            font-size: 13px;
+            font-weight: 800;
+            color: var(--tn-blue);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 12px;
+            display: block;
+            border-bottom: 1px dashed #cbd5e1;
+            padding-bottom: 6px;
+        }
+        .gov-portal-links { display: flex; gap: 20px; flex-wrap: wrap; }
+        .gov-link-node { font-size: 13px; color: #0f4c81; font-weight: bold; text-decoration: none; display: inline-flex; align-items: center; gap: 6px; background: #f0f7ff; padding: 8px 16px; border-radius: 8px; border: 1px solid #bfe0ff; transition: all 0.2s ease; }
+        .gov-link-node:hover { background: #e0efff; text-decoration: underline; transform: translateY(-1px); }
+
+        /* Results Panel Layout */
+        .res-panel { background: #0b1116; color: white; padding: 25px; border-radius: 25px; margin-top: 35px; display: none; border: 2px solid var(--tn-blue); position: relative; text-align: left; box-shadow: 0 15px 30px rgba(0,0,0,0.2); }
+        .res-panel h3 { margin-top: 0; text-align: center; color: #38bdf8; font-size: 1.4rem; margin-bottom: 20px; border-bottom: 1px dashed rgba(255,255,255,0.1); padding-bottom: 15px; }
+        #resultsList { display: flex; flex-direction: column; gap: 20px; }
+        .partner-result-card { background: rgba(255,255,255,0.04); border-left: 6px solid var(--tn-gold); padding: 20px; border-radius: 14px; border-top: 1px solid rgba(255,255,255,0.05); }
+        .partner-result-card h4 { margin: 0 0 10px 0; font-size: 18px; color: #38bdf8; display: flex; justify-content: space-between; }
+        .p-res-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-bottom: 10px; }
+        .p-res-box { background: rgba(0,0,0,0.3); padding: 10px; border-radius: 8px; text-align: center; border: 1px solid rgba(255,255,255,0.05); }
+        .p-res-box small { display: block; font-size: 11px; color: #94a3b8; text-transform: uppercase; margin-bottom: 3px; }
+        .p-res-box span { font-weight: 700; font-size: 16px; color: #fff; }
+        .p-meta-info { font-size: 12px; color: #94a3b8; display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; border-top: 1px solid rgba(255,255,255,0.05); padding-top: 10px; margin-top: 5px; }
+
+        /* Print Architecture System */
+        .print-only-section { display: none; margin: 15px 0; }
+        .print-table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+        .print-table th, .print-table td { border: 1px solid #cbd5e1; padding: 8px; text-align: center; font-size: 13px; }
+        .print-table th { background-color: #f0f7ff; color: var(--tn-blue); font-weight: bold; }
+        .print-header-block, .print-footer-block { display: none; }
+
+        .util-btns { display: flex; gap: 12px; margin-top: 25px; flex-wrap: wrap; }
+        .u-btn { flex: 1; padding: 15px; border: none; border-radius: 12px; font-weight: 800; cursor: pointer; color: white; font-size: 14px; text-align: center; transition: 0.3s; text-transform: uppercase; min-width: 140px; }
+
+        /* Verification Grouping Elements */
+        .print-footer-container { display: flex; justify-content: space-between; align-items: flex-start; gap: 15px; margin-top: 15px; }
+        .v-badge-wrapper { text-align: center; width: 110px; }
+        .v-badge-wrapper img { width: 95px; height: 95px; object-fit: contain; background: #fff; padding: 4px; border: 1px solid #cbd5e1; border-radius: 6px; display: block; margin: 0 auto 5px auto; }
+        .v-badge-wrapper span { font-size: 9px; font-weight: 800; color: #1e293b; text-transform: uppercase; letter-spacing: 0.3px; display: block; margin-bottom: 2px; }
+        .v-badge-wrapper .sig-line { font-size: 10px; font-weight: 800; color: var(--tn-blue); border-top: 1px dashed #475569; margin-top: 8px; padding-top: 4px; white-space: nowrap; }
+
+        /* SEO Article Typography */
+        .seo-article { 
+            background: transparent !important; 
+            padding: 30px 0; 
+            margin-top: 40px; 
+            line-height: 1.85; 
+            border: none !important;
+            color: #334155 !important;
+            text-align: left;
+        }
+        .seo-header-block { text-align: center; border-bottom: 3px solid var(--tn-blue); padding-bottom: 25px; margin-bottom: 35px; }
+        .seo-article h2 { color: var(--tn-blue) !important; font-size: 30px !important; margin-top: 40px !important; margin-bottom: 15px !important; font-weight: 700; }
+        .seo-article h3 { color: var(--tn-blue) !important; margin-top: 30px; font-size: 22px; border-left: 6px solid var(--tn-gold); padding-left: 15px; font-weight: 600; }
+        .seo-article p { color: #334155 !important; font-size: 16px; text-align: justify; margin-bottom: 20px; }
+        .seo-article ul, .seo-article ol { margin-bottom: 25px; padding-left: 20px; font-size: 16px; }
+        .seo-article li { margin-bottom: 10px; }
+        
+        .seo-article table { width: 100%; border-collapse: collapse; margin: 30px 0; background: #ffffff; box-shadow: 0 4px 6px rgba(0,0,0,0.01); display: block; overflow-x: auto; }
+        .seo-article th, .seo-article td { border: 1px solid #e2e8f0; padding: 16px; text-align: left; color: #334155 !important; font-size: 15px; white-space: nowrap; }
+        .seo-article th { background-color: #f0f7ff; color: var(--tn-blue) !important; font-weight: 700; }
+
+        .faq-block { background: #ffffff; padding: 22px; border-radius: 14px; border: 1px solid #e2e8f0; margin-bottom: 20px; box-shadow: 0 4px 6px rgba(0,0,0,0.01); }
+        .faq-block p b { color: var(--tn-blue); font-size: 16px; display: block; margin-bottom: 8px; }
+
+        .footer-copyright-box { 
+            margin-top: 60px; 
+            text-align: center; 
+            font-size: 13px; 
+            color: #475569; 
+            background: #ffffff; 
+            padding: 35px; 
+            border-radius: 24px; 
+            border: 1px solid #e2e8f0;
+            border-top: 6px solid var(--tn-blue);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.03);
+        }
+        .footer-copyright-box p { margin: 8px 0; line-height: 1.7; }
+        .footer-law-accent { font-weight: 800; color: #0f172a; text-transform: uppercase; font-size: 12px; letter-spacing: 1.5px; margin-bottom: 15px !important; display: inline-block; background: #f1f5f9; padding: 6px 16px; border-radius: 30px; border: 1px solid #cbd5e1; }
+
+        .lang-section { display: none; }
+        .lang-section.active-lang { display: block; }
+
+        @media (max-width: 600px) {
+            header { padding: 30px 15px; border-radius: 15px; }
+            header h1 { font-size: 24px; }
+            header p { font-size: 14px; }
+            .grid-4 { grid-template-columns: 1fr; gap: 12px; }
+            .partner-row { grid-template-columns: 1fr; gap: 10px; }
+            .p-res-grid { grid-template-columns: repeat(2, 1fr); }
+            .btn { width: 100%; padding: 14px; font-size: 14px; }
+            .u-btn { width: 100%; }
+            .seo-article h2 { font-size: 24px !important; }
+            .seo-article h3 { font-size: 18px; }
+            .lang-btn { flex: 1; padding: 10px 15px; font-size: 15px; min-width: auto; }
+            .gov-portal-links { flex-direction: column; gap: 10px; }
+            .gov-link-node { width: 100%; justify-content: center; }
+        }
+
+        /* Print Media Layout Engine */
+        @media print {
+            html, body { height: auto; overflow: visible; background: #ffffff !important; padding: 0 !important; margin: 0 !important; }
+            * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; color: #000000 !important; }
+            @page { margin: 10mm 10mm; size: A4 portrait; }
+            .tool-wrapper, .btn-box, .portal-links-wrapper, .util-btns, .seo-article, .back-btn, .section-fieldset, .lang-switcher, .footer-copyright-box { display: none !important; }
+            
+            .res-panel { 
+                display: block !important; 
+                background: #ffffff !important; 
+                padding: 30px 20px !important; 
+                margin: 0 !important; 
+                width: 100% !important; 
+                border: 5px double #0f4c81 !important; 
+                border-radius: 0px !important; 
+                box-shadow: none !important; 
+            }
+            .res-panel h3 { color: #0f4c81 !important; border-bottom: 2px solid #0f4c81 !important; font-weight: bold; }
+            .partner-result-card { background: transparent !important; border: 1px solid #cbd5e1 !important; border-left: 6px solid #0f4c81 !important; color: #000000 !important; margin-bottom: 15px; page-break-inside: avoid; }
+            .partner-result-card h4 { color: #0f4c81 !important; }
+            .p-res-box { background: transparent !important; border: 1px solid #cbd5e1 !important; }
+            .p-res-box span { color: #000000 !important; }
+            .p-res-box small { color: #475569 !important; }
+            .p-meta-info span { color: #475569 !important; }
+            
+            .print-only-section { display: block !important; }
+            .print-header-block { display: block !important; text-align: center; border-bottom: 3px double #0f4c81 !important; padding-bottom: 15px; margin-bottom: 25px; }
+            .print-footer-block { display: block !important; margin-top: 40px; border-top: 2px dashed #0f4c81 !important; padding-top: 20px; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="tool-wrapper">
+    <header>
+        <h1 id="mainTitle">Tamil Nadu Land Partition Calculator</h1>
+        <p id="mainSubTitle">Official Tamil Nadu Land Matrix Engine: 1 Acre = 100 Cents | 1 Ground = 2400 Sq. Ft. | 1 Cent = 435.6 Sq. Ft.</p>
+    </header>
+
+    <div class="lang-switcher">
+        <button class="lang-btn active" onclick="switchLanguage('en')">English</button>
+        <button class="lang-btn" onclick="switchLanguage('ta')">தமிழ்</button>
+    </div>
+
+    <div class="section-fieldset">
+        <span class="section-legend" id="lblTotalLandHeading">Total Land Area to Partition</span>
+        <div class="grid-4" style="margin-top: 15px;">
+            <div class="field">
+                <label id="lblInputAcre">Acre (ஏக்கர்)</label>
+                <input type="number" id="totalAcre" placeholder="0" min="0" value="0">
+            </div>
+            <div class="field">
+                <label id="lblInputCent">Cent (சென்ட்)</label>
+                <input type="number" id="totalCent" placeholder="0" min="0" value="0">
+            </div>
+            <div class="field">
+                <label id="lblInputGround">Ground (கிரவுண்டு)</label>
+                <input type="number" id="totalGround" placeholder="0" min="0" value="1">
+            </div>
+            <div class="field">
+                <label id="lblInputSqft">Sq. Ft. (சதுர அடி)</label>
+                <input type="number" id="totalSqftField" placeholder="0" min="0" value="0">
+            </div>
+        </div>
+    </div>
+
+    <div class="section-fieldset">
+        <span class="section-legend" id="lblPartitionBasis">Partition Allocation Mode</span>
+        <div class="field" style="margin-top:15px;">
+            <select id="partitionMode">
+                <option value="percentage">Percentage (%) - Collective Sum Equals 100%</option>
+                <option value="ratio">Ratio / Equal Distribution Parts (e.g., 1:2:1)</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="section-fieldset">
+        <span class="section-legend" id="lblShareholdersHeading">Partners / Shareholders Allocation Records</span>
+        <div id="partnersContainer" class="partner-wrapper">
+            <div class="partner-row">
+                <input type="text" class="p-name" placeholder="Partner Name" value="Partner A">
+                <input type="number" class="p-share" placeholder="Share Value" value="50" min="0">
+                <button type="button" class="btn-remove" onclick="removePartnerRow(this)">X</button>
+            </div>
+            <div class="partner-row">
+                <input type="text" class="p-name" placeholder="Partner Name" value="Partner B">
+                <input type="number" class="p-share" placeholder="Share Value" value="50" min="0">
+                <button type="button" class="btn-remove" onclick="removePartnerRow(this)">X</button>
+            </div>
+        </div>
+        <button class="btn btn-add" id="btnAddPartner" onclick="addNewPartnerRow()">+ Add Shareholder</button>
+    </div>
+
+    <div class="btn-box">
+        <button class="btn btn-calc" id="btnCalc" onclick="processPartitionCalculation()">Compute Partition Records</button>
+        <button class="btn btn-reset" id="btnReset" onclick="resetCalculatorForm()">Reset Canvas</button>
+    </div>
+
+    <div class="portal-links-wrapper">
+        <span class="portal-links-title" id="lblPortalTitle">Official Tamil Nadu Government Portals</span>
+        <div class="gov-portal-links">
+            <a href="https://eservices.tn.gov.in/" target="_blank" class="gov-link-node">🌐 TN e-Services (Patta & Chitta)</a>
+            <a href="https://tnreginet.gov.in/" target="_blank" class="gov-link-node">🏛️ Inspector General of Registration</a>
+        </div>
+    </div>
+</div> 
+
+<div id="resPanel" class="res-panel">
+    <div class="print-header-block">
+        <div style="display: flex; justify-content: center; align-items: center; gap: 10px; margin-bottom: 5px;">
+            <img src="favicon.png" alt="SST" style="width: 32px; height: 32px;">
+            <h2 style="font-size: 24px; color: #0f4c81; margin: 0; font-weight: 900; letter-spacing: 1px;">SHAYAN SMART TOOLS</h2>
+        </div>
+        <p style="font-size: 11px; color: #0a3154; font-weight: bold; margin: 0 0 15px 0; letter-spacing: 0.5px; text-transform: uppercase;">TAMIL NADU LAND REVENUE RECORD PARTITION SHEET - 2026</p>
+        
+        <div style="background: #f8fafc; border: 1px solid #cbd5e1; padding: 12px; border-radius: 6px; display: grid; grid-template-columns: 1fr 1fr; font-size: 12px; text-align: left; gap: 8px; color: #334155;">
+            <div><strong>LEDGER REF NO:</strong> <span id="pDocRef" style="color:#0f4c81; font-weight:bold;">SST-TN-PAR-0000</span></div>
+            <div style="text-align: right;"><strong>COMPUTATION DATE:</strong> <span id="pDocDate" style="color:#0f4c81; font-weight:bold;">--/--/----</span></div>
+            <div><strong>JURISDICTION ZONE:</strong> State of Tamil Nadu (தமிழ்நாடு)</div>
+            <div><strong>UNIT EQUATION BASE:</strong> Standalone Structural Grid Cascade Engine</div>
+        </div>
+    </div>
+
+    <div class="print-only-section">
+        <h4 style="color:#0f4c81; margin: 15px 0 5px 0; font-size: 14px; text-transform: uppercase; border-bottom: 1px solid #cbd5e1; padding-bottom: 4px;" id="printInputsTitle">Initial Property Pool Before Subdivision</h4>
+        <table class="print-table">
+            <thead>
+                <tr>
+                    <th id="thTotalAcre">Total Acre</th>
+                    <th id="thTotalCent">Total Cent</th>
+                    <th id="thTotalGround">Total Ground</th>
+                    <th id="thTotalSqft">Equivalent Sq. Feet</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td id="tdPrintAcre">0</td>
+                    <td id="tdPrintCent">0</td>
+                    <td id="tdPrintGround">0</td>
+                    <td id="tdPrintSqft">0 sq ft</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <h3 id="resHead">Final Disaggregated Partition Shares (பிரித்தெடுக்கப்பட்ட பங்குகள்)</h3>
+    
+    <div id="resultsList"></div>
+
+    <div class="print-footer-block">
+        <div class="print-footer-container">
+            <div class="v-badge-wrapper">
+                <img src="qrcode.png" alt="Verification QR">
+                <span>Scan to Verify</span>
+                <div class="sig-line" id="lblAuthSigLeft">AUTHORIZED SIGNATURE</div>
+            </div>
+
+            <div style="flex: 1; text-align: center; padding: 0 10px;">
+                <p style="margin: 0; font-weight: bold; color: #0f4c81; text-transform: uppercase; font-size: 10px;">🔒 STATUTORY REVENUE DISAGGREGATION SECURITY NOTICE</p>
+                <p style="margin: 5px 0 0 0; font-size: 9px; color: #475569; line-height: 1.4; text-align: justify;">This mathematical model completely complies with the land measurement systems utilized across the Tamil Nadu Land Records administration framework (1 Acre = 100 Cents, 1 Cent = 435.6 Sq. Ft., 1 Ground = 2400 Sq. Ft.). Rounded-off metrics contain structural adjustments. Cross-verify with authorized copies from regional Taluk Offices or local Village Administrative Officer (VAO) revenue logs for physical boundary execution.</p>
+                <p style="margin: 10px 0 0 0; font-size: 10px; font-weight: bold; color: #0f4c81;">OFFICIAL HUB: www.shayansmarttools.in</p>
+            </div>
+
+            <div class="v-badge-wrapper">
+                <img src="seal.png" alt="Revenue Seal">
+                <span>Official Seal</span>
+                <div class="sig-line" id="lblAuthSigRight">AUTHORIZED SIGNATURE</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="util-btns">
+        <button class="u-btn" style="background:#475569;" id="btnCopy" onclick="copyCalculatedLedger()">📋 Copy Partition Text</button>
+        <button class="u-btn" style="background:#22c55e;" id="btnWA" onclick="dispatchWhatsAppShare()">📲 Send to WhatsApp</button>
+        <button class="u-btn" style="background:#0f4c81;" id="btnPrint" onclick="triggerReportPrint()">🖨️ Print Legal Sheet</button>
+    </div>
+</div>
+
+<div class="back-btn" style="text-align:center; margin-top: 20px;"><a href="index.html" id="lnkBack" style="color:var(--tn-blue); font-weight:bold; text-decoration:none;">⬅ Back to All Tools Dashboard</a></div>
+
+<article id="content-en" class="seo-article lang-section active-lang">
+    <div class="seo-header-block">
+        <h2>Tamil Nadu Land Partition Calculator: Advanced Real Estate Fragmentation & Survey System</h2>
+        <p>Compute, split, and allocate joint, ancestral, or collaborative land plots across Tamil Nadu utilizing metric standards matching Patta-Chitta and RegiNet records flawlessly.</p>
+    </div>
+
+    <section>
+        <h3>1. Deep Integration into Tamil Nadu's Land Survey Framework & Revenue Math</h3>
+        <p>Real estate management, asset distributions, and ancestral real estate litigation settlements in the state of Tamil Nadu require strict computational alignment with statutory survey configurations. Unlike many north Indian territories that analyze land spaces strictly in terms of Bighas or Marlas, the land registration infrastructure managed by the <b>Department of Revenue Administration</b> and monitored via the <b>Tamil Nadu e-Services (Patta Chitta) portal</b> tracks properties using <b>Acre, Cent, Ground, and Square Feet</b> metrics depending heavily on regional urbanization zones.</p>
+        <p>When multiple corporate entities, legal heirs, or co-sharers seek to parse a vast shared landscape, standard consumer applications produce severe fractional errors. This is due to the non-decimal parameters applied in traditional land metrics: where 1 Cent equals exactly 435.6 square feet, and 1 Ground equals exactly 2,400 square feet. Our enterprise-grade <b>Tamil Nadu Land Partition Calculator</b> implements advanced conversion cascade scripts. Whether you are subdividing agricultural tracts in Thanjavur or high-value residential or commercial zones across Chennai or Coimbatore, this allocation tool operates smoothly without precision drift.</p>
+    </section>
+
+    <section>
+        <h3>2. Explicit Operational Protocol for Dividing Land Parcels</h3>
+        <p>Our infrastructure parses structural multi-partner real estate fragmentation smoothly. Execute calculations using the following systemic checklist:</p>
+        <ol>
+            <li><b>Establish the Aggregate Real Estate Base Pool:</b> Feed the property limits into the designated numeric inputs under <b>Acre</b>, <b>Cent</b>, <b>Ground</b>, and <b>Sq. Ft.</b>. If you only possess a unified square foot metric, clear the higher fields and input the total value directly into the square feet field.</li>
+            <li><b>Choose the Allocation Mode:</b> Define the mathematical matrix through the configuration panel. Opt for <b>Percentage Mode</b> to partition based on individual percentages (the total must equal 100%). Alternatively, employ <b>Ratio Mode</b> to parse land divisions using arbitrary relative weights or integer shares (e.g., dividing among heirs in ratios like 3:2:1).</li>
+            <li><b>Populate the Shareholder Registry:</b> Provide the identifiers for each partner and configure their target metrics. Click <b>"+ Add Shareholder"</b> to add an unlimited number of allocation fields to the active calculation stack.</li>
+            <li><b>Generate the Settlement Ledger:</b> Click <b>"Compute Partition Records"</b>. The calculation module transforms the total asset area into raw square footage, maps individual proportional distributions, and translates the data into comprehensive breakdowns across Acre, Cent, Ground, and Square Feet for each partner.</li>
+        </ol>
+    </section>
+
+    <section>
+        <h3>3. Structural Mathematical Breakdown: A Practical Partition Scenario</h3>
+        <p>To demonstrate the computational robustness of our application core, let us evaluate an interactive simulation of real-world multi-partner real estate fragmentation. Suppose a collective plot measuring <b>2 Acres, 15 Cents, and 3 Grounds</b> must be parsed among three legal beneficiaries with differing allocation weights:</p>
+        <ul>
+            <li><b>Beneficiary 1 (Partner A):</b> 50% Allocation Share</li>
+            <li><b>Beneficiary 2 (Partner B):</b> 30% Allocation Share</li>
+            <li><b>Beneficiary 3 (Partner C):</b> 20% Allocation Share</li>
+        </ul>
+        <p><b>Backend Processing Steps:</b></p>
+        <ol>
+            <li><b>Unification to Lowest Common Matrix (Square Feet):</b> 
+                The algorithm processes the pool into total Square Feet:
+                <br>2 Acres &times; 43,560 = 87,120 Sq. Ft.
+                <br>15 Cents &times; 435.6 = 6,534 Sq. Ft.
+                <br>3 Grounds &times; 2,400 = 7,200 Sq. Ft.
+                <br>Total Consolidated Pool = 87,120 + 6,534 + 7,200 = 100,854 Sq. Ft.
+            </li>
+            <li><b>Execution of Individual Fractional Shares:</b>
+                <ul>
+                    <li>Partner A: 100,854 &times; 0.50 = 50,427 Sq. Ft.</li>
+                    <li>Partner B: 100,854 &times; 0.30 = 30,256.2 Sq. Ft.</li>
+                    <li>Partner C: 100,854 &times; 0.20 = 20,170.8 Sq. Ft.</li>
+                </ul>
+            </li>
+            <li><b>Reconstruction to Tamil Nadu Unit Formats:</b>
+                For Partner A (50,427 Sq. Ft.):
+                <br>50,427 / 43,560 = 1 Acre (Remaining 6,867 Sq. Ft.)
+                <br>6,867 / 435.6 = 15.76 Cents
+                <br>Simultaneously displayed in alternative urban formats: **21.01 Grounds** for urban registry transparency.
+            </li>
+        </ol>
+    </section>
+
+    <section>
+        <h3>4. Statutory Frameworks Governing Land Mutation & Subdivision in Tamil Nadu</h3>
+        <p>Property partitioning across Tamil Nadu is deeply integrated with state legal codes, notably the <b>Tamil Nadu Patta Pass Book Act, 1983</b> and the guidelines of the <b>Registration Department (TN RegiNet)</b>. When a shared property tract is split among owners, a formal application for field-subdivision (Subdivision Patta Mutation) must be filed with the local Tahsildar through e-Services portals. Following this, the Field Surveyor updates the Field Measurement Sketch (FMB) and assigns independent sub-numbers to the survey tract.</p>
+        <p>Whether you are drafting legal partition deeds, organizing gift settlements, or planning residential villa layouts, accurate calculations are essential. Minor discrepancies in area statements can lead to registration delays at the Sub-Registrar's Office due to mismatches with parent title documents. Our engine provides the exact values needed to keep your documentation accurate and compliant.</p>
+    </section>
+
+    <h3>5. Official Tamil Nadu Revenue Conversion Matrix Table</h3>
+    <table>
+        <thead>
+            <tr>
+                <th>Tamil Nadu Unit Type</th>
+                <th>Standard Revenue Equation Definitions</th>
+                <th>Square Feet Equivalent (Sq. Ft.)</th>
+                <th>Square Meters Equivalent (Sq. M.)</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr><td><b>1 Acre</b></td><td>100 Cents / 18.15 Grounds (Standard Survey Base)</td><td>43,560 Sq Ft</td><td>4,046.8 Sq M</td></tr>
+            <tr><td><b>1 Cent</b></td><td>435.6 Square Feet / 40.46 Square Meters Base</td><td>435.6 Sq Ft</td><td>40.46 Sq M</td></tr>
+            <tr><td><b>1 Ground</b></td><td>2,400 Square Feet (Standard Urban Measure)</td><td>2,400 Sq Ft</td><td>222.96 Sq M</td></tr>
+            <tr><td><b>1 Ankanam</b></td><td>Traditional measure used in areas bordering AP (72 Sq. Ft.)</td><td>72 Sq Ft</td><td>6.68 Sq M</td></tr>
+            <tr><td><b>1 Hectare</b></td><td>Equivalent value to 2.471 Acres of Land</td><td>1,07,639 Sq Ft</td><td>10,000 Sq M</td></tr>
+        </tbody>
+    </table>
+
+    <h3>6. 15 Critical Frequently Asked Questions (Google SERP Optimization Nodes)</h3>
+    <div id="faq-container-en">
+        <div class="faq-block"><p><b>Q1. How many square feet combine to form exactly one Ground in Tamil Nadu?</b><br>Ans: Under the statutory real estate norms of Tamil Nadu, exactly 2,400 square feet make up 1 standard Ground.</p></div>
+        <div class="faq-block"><p><b>Q2. What is the precise equivalent area of 1 Cent of land in square feet?</b><br>Ans: 1 Cent is exactly equal to 435.6 square feet in the Tamil Nadu revenue calculation layout.</p></div>
+        <div class="faq-block"><p><b>Q3. How many Grounds are contained within 1 standard Acre?</b><br>Ans: One Acre contains exactly 18.15 Grounds of land (43,560 divided by 2,400).</p></div>
+        <div class="faq-block"><p><b>Q4. What does the term Patta mutation signify during a property partition?</b><br>Ans: Patta mutation is the official process of updating the government land records to transfer the title from the collective ancestors to the independent legal beneficiaries.</p></div>
+        <div class="faq-block"><p><b>Q5. Does this application link with the live TN RegiNet portal?</b><br>Ans: No, this is an independent calculation module developed by Shayan Smart Tools based on the official guidelines of the Tamil Nadu Revenue Department.</p></div>
+        <div class="faq-block"><p><b>Q6. Why do general mobile calculators cause rounding errors in Cent partitions?</b><br>Ans: Cents involve non-integer products ($435.6\text{ sq ft}$). Standard calculators introduce fractional drift, whereas our engine handles these decimals accurately.</p></div>
+        <div class="faq-block"><p><b>Q7. How many square meters match up to 1 standard Ground unit?</b><br>Ans: One standard Ground corresponds to approximately 222.96 square meters.</p></div>
+        <div class="faq-block"><p><b>Q8. What is an Imperfect Partition under Tamil Nadu land revenue guidelines?</b><br>Ans: An imperfect partition divides the physical area shares among the co-owners while leaving the collective revenue tax obligation under a joint Patta record.</p></div>
+        <div class="faq-block"><p><b>Q9. What traditional measurement unit is referred to as Ankanam?</b><br>Ans: Ankanam is a traditional land metric used in regions bordering Andhra Pradesh, equivalent to 72 square feet.</p></div>
+        <div class="faq-block"><p><b>Q10. Can I divide large properties using custom ratios like 4:3:2?</b><br>Ans: Yes. Switch the application mode to Ratio Mode, and the engine will handle the distribution logic across all partners automatically.</p></div>
+        <div class="faq-block"><p><b>Q11. What official role does a Village Administrative Officer (VAO) perform in property partition?</b><br>Ans: The VAO verifies property titles, manages local land records (A-Register), and initiates mutation recommendations for the Tahsildar's review.</p></div>
+        <div class="faq-block"><p><b>Q12. How much land area constitutes one standard Cent in square yards?</b><br>Ans: One Cent equals exactly 48.4 square yards.</p></div>
+        <div class="faq-block"><p><b>Q13. What is the minimum fraction recorded on the TN e-Services platform?</b><br>Ans: The electronic database tracks areas down to two decimal places of a Cent or square meter for precise record maintenance.</p></div>
+        <div class="faq-block"><p><b>Q14. How can I export the generated partition breakdown summary into a file?</b><br>Ans: Click "Print Legal Sheet" to save the formatted report directly as a clean, print-ready PDF document.</p></div>
+        <div class="faq-block"><p><b>Q15. Can this output substitute for a certified decree from a civil court?</b><br>Ans: No. This tool is designed for calculation and estate planning purposes. Legal divisions must be registered through a deed or formalized by a competent Revenue Authority.</p></div>
+    </div>
+</article>
+
+<article id="content-ta" class="seo-article lang-section">
+    <div class="seo-header-block">
+        <h2>தமிழ்நாடு நிலப் பிரிவினை கால்குலேட்டர்: மேம்பட்ட நிலப் பகிர்வு மற்றும் கணக்கீட்டு முறை</h2>
+        <p>தமிழ்நாட்டின் பட்டா-சிட்டா மற்றும் ரெஜினெட் (RegiNet) வருவாய் பதிவுகளுக்கு ஏற்ப, கூட்டு அல்லது பৈতৃক சொத்துக்களை ஏக்கர், சென்ட், கிரவுண்டு மற்றும் சதுர அடி கணக்கில் துல்லியமாகப் பிரித்திடுங்கள்.</p>
+    </div>
+
+    <section>
+        <h3>1. தமிழக நில அளவை மற்றும் வருவாய்த்துறை கணக்கீட்டு முறை</h3>
+        <p>தமிழ்நாட்டில் சொத்து மேலாண்மை, வாரிசுரிமை பாகப்பிரிவினை மற்றும் நிலம் தொடர்பான ஆவணங்களைச் சரிபார்க்கும் போது, மாநில வருவாய்த்துறையின் கணக்கீட்டு முறைகளைப் பின்பற்றுவது மிகவும் அவசியமாகும். இந்தியாவின் பிற மாநிலங்களைப் போலன்றி, <b>நில நிர்வாக ஆணையம்</b> மற்றும் <b>பட்டா சிட்டா (TN e-Services) வலைத்தளம்</b> ஆகியவற்றின் மூலம் சொத்துக்கள் <b>ஏக்கர், சென்ட், கிரவுண்டு மற்றும் சதுர அடி</b> ஆகிய அலகுகளின் அடிப்படையில் பதிவு செய்யப்படுகின்றன.</p>
+        <p>ஒன்றுக்கும் மேற்பட்ட வாரிசுகள் அல்லது பங்குதாரர்கள் ஒரு பெரிய நிலப்பரப்பைப் பிரிக்கும் போது, சாதாரண மொபைல் கால்குலேட்டர்களைப் பயன்படுத்தினால் கணக்கீட்டுத் தவறுகள் ஏற்பட வாய்ப்புகள் அதிகம். ஏனெனில், நில அளவீட்டில் 1 சென்ட் என்பது துல்லியமாக 435.6 சதுர அடிகளையும், 1 கிரவுண்டு என்பது 2,400 சதுர அடிகளையும் கொண்டதாகும். Shayan Smart Tools-ன் இந்த <b>தமிழ்நாடு நிலப் பிரிவினை கால்குலேட்டர்</b>, நகர்ப்புற மற்றும் கிராமப்புற நிலப் பதிவுகளுக்கு ஏற்ப துல்லியமான முடிவுகளை வழங்குகிறது.</p>
+    </section>
+
+    <section>
+        <h3>2. கால்குலேட்டரைப் பயன்படுத்துவதற்கான வழிமுறைகள்</h3>
+        <p>எங்களது தளம் கூட்டு சொத்துக்களைப் பிரிக்கும் செயல்முறையை எளிதாக்குகிறது. கீழே உள்ள வழிமுறைகளைப் பின்பற்றவும்:</p>
+        <ol>
+            <li><b>மொத்த நிலத்தின் பரப்பளவை உள்ளிடவும்:</b> நீங்கள் பிரிக்க விரும்பும் நிலத்தின் அளவை <b>ஏக்கர் (Acre)</b>, <b>சென்ட் (Cent)</b>, <b>கிரவுண்டு (Ground)</b>, அல்லது <b>சதுர அடி (Sq. Ft.)</b> ஆகிய பெட்டிகளில் உள்ளிடவும். உங்களிடம் மொத்த சதுர அடி மட்டுமே இருந்தால், மற்ற பெட்டிகளை பூஜ்ஜியமாக்கிவிட்டு நேரடியாக சதுர அடி பெட்டியில் எழுதலாம்.</li>
+            <li><b>பகிர்வு முறையைத் தேர்ந்தெடுக்கவும் (Allocation Mode):</b> நிலத்தை சதவீத அடிப்படையில் பிரிக்க வேண்டுமா (Percentage Mode) அல்லது விகிதாச்சார அடிப்படையில் பிரிக்க வேண்டுமா (Ratio Mode) என்பதை முடிவு செய்யவும். சதவீத முறையில் மொத்த கூட்டுத்தொகை 100% ஆக இருக்க வேண்டும். விகிதாச்சார முறையில் 3:2:1 போன்ற பங்கீடுகளைப் பயன்படுத்தலாம்.</li>
+            <li><b>பங்குதாரர்களின் விவரங்களைச் சேர்க்கவும்:</b> ஒவ்வொரு வாரிசு அல்லது பங்குதாரரின் பெயரை எழுதி, அவர்களின் பங்கின் மதிப்பை உள்ளிடவும். கூடுதல் நபர்களைச் சேர்க்க <b>"+ Add Shareholder"</b> பொத்தானைக் கிளிக் செய்யவும்.</li>
+            <li><b>முடிவுகளைப் பெறுக:</b> விவரங்களைப் பூர்த்தி செய்த பிறகு, <b>"Compute Partition Records"</b> பொத்தானைக் கிளிக் செய்யவும். எங்களது மென்பொருள் உடனடியாக மொத்த நிலத்தையும் சதுர அடியாக மாற்றி, ஒவ்வொரு பங்குதாரருக்கும் உரிய நில அளவை துல்லியமாக கணக்கிட்டு வழங்கும்.</li>
+        </ol>
+    </section>
+
+    <section>
+        <h3>3. நிலப் பிரிவினை - ஒரு நடைமுறை உதாரணம் (கணித விளக்கம்)</h3>
+        <p>இந்த கணக்கீட்டு முறை எவ்வாறு செயல்படுகிறது என்பதை ஒரு சிறிய உதாரணத்தின் மூலம் புரிந்து கொள்வோம். <b>2 ஏக்கர், 15 சென்ட் மற்றும் 3 கிரவுண்டு</b> பரப்பளவுள்ள ஒரு கூட்டுச் சொத்தை மூன்று பங்குதாரர்களுக்கு கீழே உள்ள சதவீத அடிப்படையில் பிரிக்க வேண்டும் என வைத்துக் கொள்வோம்:</p>
+        <ul>
+            <li><b>பங்குதாரர் ஏ (Partner A):</b> 50% பங்கு</li>
+            <li><b>பங்குதாரர் பி (Partner B):</b> 30% பங்கு</li>
+            <li><b>பங்குதாரர் சி (Partner C):</b> 20% பங்கு</li>
+        </ul>
+        <p><b>பின்னணி கணக்கீட்டு படிகள்:</b></p>
+        <ol>
+            <li><b>ஒட்டுமொத்த நிலத்தையும் சதுர அடியாக மாற்றுதல்:</b>
+                <br>2 ஏக்கர் &times; 43,560 = 87,120 சதுர அடி
+                <br>15 சென்ட் &times; 435.6 = 6,534 சதுர அடி
+                <br>3 கிரவுண்டு &times; 2,400 = 7,200 சதுர அடி
+                <br>மொத்த நிலப்பரப்பு = 87,120 + 6,534 + 7,200 = 100,854 சதுர அடி
+            </li>
+            <li><b>ஒவ்வொருவரின் தனிப்பட்ட பங்கு:</b>
+                <ul>
+                    <li>பங்குதாரர் ஏ: 100,854 &times; 0.50 = 50,427 சதுர அடி</li>
+                    <li>பங்குதாரர் பி: 100,854 &times; 0.30 = 30,256.2 சதுர அடி</li>
+                    <li>பங்குதாரர் சி: 100,854 &times; 0.20 = 20,170.8 சதுர அடி</li>
+                </ul>
+            </li>
+            <li><b>மீண்டும் பாரம்பரிய அலகுகளாக மாற்றுதல்:</b>
+                பங்குதாரர் ஏ-விற்கு (50,427 சதுர அடி):
+                <br>50,427 / 43,560 = 1 ஏக்கர் (மீதி 6,867 சதுர அடி)
+                <br>6,867 / 435.6 = 15.76 சென்ட்
+                <br>நகர்ப்புற பதிவுகளுக்காக இது **21.01 கிரவுண்டு** எனவும் காட்டப்படும்.
+            </li>
+        </ol>
+    </section>
+
+    <section>
+        <h3>4. தமிழ்நாட்டின் நில உட்பிரிவு மற்றும் பட்டா மாறுதல் சட்டங்கள்</h3>
+        <p>தமிழ்நாட்டில் நிலப் பிரிவினை என்பது வெறும் கணித கணக்கீடு மட்டுமல்ல, அது சட்ட நடைமுறைகளுக்கும் உட்பட்டது. <b>தமிழ்நாடு பட்டா கணக்கு புத்தகச் சட்டம் 1983</b>-ன் படி, ஒரு நிலத்தைப் பிரிக்கும் போது, சம்பந்தப்பட்ட வாரிசுகள் தாலுகா அலுவலகத்திலோ அல்லது இ-சேவை மையங்கள் மூலமாகவோ வட்டாட்சியரிடம் (Tahsildar) கூட்டுப் பட்டாவைத் தனிப் பட்டாவாக மாற்ற (Subdivision Patta Mutation) விண்ணப்பிக்க வேண்டும். இதன் பின்னர், நில அளவையர் (Field Surveyor) இடத்தை நேரில் பார்வையிட்டு, புல வரைபடத்தை (FMB) புதுப்பித்து, புதிய உட்பிரிவு எண்களை வழங்குவார்.</p>
+        <p>பாகப்பிரிவினை பத்திரங்கள், தான செட்டில்மென்ட் பத்திரங்கள் அல்லது வீட்டு மனை லேஅவுட்கள் தயாரிக்கும் போது நில அளவுகள் சரியாக இருப்பது அவசியம். ஆவணங்களில் உள்ள அளவுகளில் சிறு தவறு இருந்தாலும், சார்பதிவாளர் அலுவலகத்தில் (Sub-Registrar Office) பத்திரம் பதிவு செய்யப்படுவதில் சிக்கல் ஏற்படும். எங்களது கால்குலேட்டர் ஆவணங்களைச் சரியாகத் தயாரிக்கத் துல்லியமான மதிப்புகளை வழங்குகிறது.</p>
+    </section>
+
+    <h3>5. தமிழக அரசின் அதிகாரப்பூர்வ நில மாற்று அட்டவணை</h3>
+    <table>
+        <thead>
+            <tr>
+                <th>நில அலகு (Unit Type)</th>
+                <th>வருவாய்த்துறை வரையறை</th>
+                <th>சதுர அடி (Sq. Feet)</th>
+                <th>சதுர மீட்டர் (Sq. Meters)</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr><td><b>1 ஏக்கர்</b></td><td>100 சென்ட் / 18.15 கிரவுண்டு</td><td>43,560 Sq Ft</td><td>4,046.8 Sq M</td></tr>
+            <tr><td><b>1 சென்ட்</b></td><td>435.6 சதுர அடி கொண்ட அடிப்படை அலகு</td><td>435.6 Sq Ft</td><td>40.46 Sq M</td></tr>
+            <tr><td><b>1 கிரவுண்டு</b></td><td>2,400 சதுர அடி (நகர்ப்புற நில அளவீடு)</td><td>2,400 Sq Ft</td><td>222.96 Sq M</td></tr>
+            <tr><td><b>1 அங்கணம்</b></td><td>ஆந்திர எல்லைப் பகுதிகளில் பயன்படும் அலகு (72 சதுர அடி)</td><td>72 Sq Ft</td><td>6.68 Sq M</td></tr>
+            <tr><td><b>1 ஹெக்டேர்</b></td><td>2.471 ஏக்கருக்குச் சமமான பரப்பளவு</td><td>1,07,639 Sq Ft</td><td>10,000 Sq M</td></tr>
+        </tbody>
+    </table>
+
+    <h3>6. சினேகமாக கேட்கப்படும் கேள்விகள் (FAQs)</h3>
+    <div id="faq-container-ta">
+        <div class="faq-block"><p><b>கேள்வி 1. தமிழ்நாட்டில் ஒரு கிரவுண்டு என்பது எத்தனை சதுர அடிகளைக் கொண்டது?</b><br>பதில்: தமிழ்நாட்டின் நில அளவை விதிகளின்படி, ஒரு கிரவுண்டு என்பது சரியாக 2,400 சதுர அடிகளாகும்.</p></div>
+        <div class="faq-block"><p><b>கேள்வி 2. ஒரு சென்ட் நிலம் என்பது எத்தனை சதுர அடிக்குச் சமம்?</b><br>பதில்: தமிழ்நாட்டில் ஒரு சென்ட் நிலம் என்பது துல்லியமாக 435.6 சதுர அடிகளைக் கொண்டதாகும்.</p></div>
+        <div class="faq-block"><p><b>கேள்வி 3. ஒரு ஏக்கர் நிலத்தில் எத்தனை கிரவுண்டுகள் உள்ளன?</b><br>பதில்: ஒரு ஏக்கர் நிலத்தில் சரியாக 18.15 கிரவுண்டுகள் உள்ளன (43,560 ஐ 2,400 ஆல் வகுக்கக் கிடைப்பது).</p></div>
+        <div class="faq-block"><p><b>கேள்வி 4. பாகப்பிரிவினையின் போது பட்டா மாறுதல் (Patta Mutation) ஏன் அவசியமாகிறது?</b><br>பதில்: கூட்டுச் சொத்தாக இருக்கும் நிலத்தின் உரிமையை மாற்றி, வாரிசுகளின் பெயரில் தனித்தனியாக பட்டா வாங்குவதே பட்டா மாறுதல் எனப்படும்.</p></div>
+        <div class="faq-block"><p><b>கேள்வி 5. இந்த கால்குலேட்டர் நேரடியாக ரெஜினெட் (RegiNet) தளத்துடன் இணைக்கப்பட்டுள்ளதா?</b><br>பதில்: இல்லை, இது தமிழ்நாட்டின் வருவாய்த்துறை விதிகளின்படி ஷயான் ஸ்மார்ட் டூல்ஸ் உருவாக்கிய தனிப்பட்ட கணக்கீட்டு மென்பொருளாகும்.</p></div>
+        <div class="faq-block"><p><b>கேள்வி 6. சென்ட் கணக்குகளைப் பிரிக்கும் போது சாதாரண கால்குலேட்டர்களில் ஏன் தவறு வருகிறது?</b><br>பதில்: சென்ட் கணக்குகள் தசம எண்களைக் ($435.6\text{ sq ft}$) கொண்டிருப்பதால், சாதாரண கால்குலேட்டர்களில் துல்லியமான பங்கீட்டைப் பெற முடியாது; ஆனால் எங்களது மென்பொருள் இதைத் துல்லியமாகக் கணக்கிடும்.</p></div>
+        <div class="faq-block"><p><b>கேள்வி 7. ஒரு கிரவுண்டு என்பது எத்தனை சதுர மீட்டருக்குச் சமம்?</b><br>பதில்: ஒரு கிரவுண்டு என்பது தோராயமாக 222.96 சதுர மீட்டருக்குச் சமமாகும்.</p></div>
+        <div class="faq-block"><p><b>கேள்வி 8. கிராம நிர்வாக அலுவலரின் (VAO) பங்கு நிலப் பிரிவினையில் என்ன?</b><br>பதில்: விஏஓ நிலத்தின் உரிமைகளைச் சரிபார்த்து, ஆவணங்களைப் பதிவு செய்து, பட்டா மாறுதலுக்கான பரிந்துரைகளை வட்டாட்சியருக்கு அனுப்புவார்.</p></div>
+        <div class="faq-block"><p><b>கேள்வி 9. ஒரு சென்ட் நிலம் என்பது எத்தனை சதுர கஜம்?</b><br>பதில்: ஒரு சென்ட் நிலம் என்பது சரியாக 48.4 சதுர கஜம் (Square Yards) ஆகும்.</p></div>
+        <div class="faq-block"><p><b>கேள்வி 10. இந்த கால்குலேட்டரிலிருந்து பெறப்படும் அறிக்கையை பிடிஎஃப் (PDF) ஆக சேமிக்க முடியுமா?</b><br>பதில்: ஆம், "Print Legal Sheet" பொத்தானைக் கிளிக் செய்வதன் மூலம் இந்த அறிக்கையை நீங்கள் பிடிஎஃப் ஆகப் பதிவிறக்கம் செய்து கொள்ளலாம்.</p></div>
+    </div>
+</article>
+
+<div class="footer-copyright-box">
+    <div class="footer-law-accent">Statutory Software IP Security Core</div>
+    <p><b>Copyright Protection Notice:</b> Shayan Smart Tools Processing Infrastructure, Tamil Nadu Localization Schemas, and Engine Core © 2026. All rights reserved.</p>
+    <p style="font-size: 12px; color: #64748b;">This application code architecture, non-decimal cascading logic formulas, and vector asset representations are legally protected under Indian Copyright Amendment Acts and global software licensing terms. Litigation processes will automatically apply to source theft.</p>
+</div>
+
+<script>
+    let partnerCount = 2;
+    let activeLanguageMode = 'en';
+
+    const textDictionary = {
+        en: {
+            title: "Tamil Nadu Land Partition Calculator",
+            subtitle: "Official Tamil Nadu Land Matrix Engine: 1 Acre = 100 Cents | 1 Ground = 2400 Sq. Ft. | 1 Cent = 435.6 Sq. Ft.",
+            addBtn: "+ Add Shareholder",
+            calcBtn: "Compute Partition Records",
+            resetBtn: "Reset Canvas",
+            resHead: "Final Disaggregated Partition Shares (பிரித்தெடுக்கப்பட்ட பங்குகள்)",
+            btnCopy: "📋 Copy Partition Text",
+            btnWA: "📲 Send to WhatsApp",
+            btnPrint: "🖨️ Print Legal Sheet",
+            backLnk: "⬅ Back to All Tools Dashboard",
+            printInputsTitle: "Initial Property Pool Before Subdivision",
+            thTotalAcre: "Total Acre",
+            thTotalCent: "Total Cent",
+            thTotalGround: "Total Ground",
+            thTotalSqft: "Equivalent Sq. Feet",
+            portalTitle: "Official Tamil Nadu Government Portals",
+            authSig: "AUTHORIZED SIGNATURE"
+        },
+        ta: {
+            title: "தமிழ்நாடு நிலப் பிரிவினை கால்குலேட்டர்",
+            subtitle: "அதிகாரப்பூர்வ நில அளவீடு: 1 ஏக்கர் = 100 சென்ட் | 1 கிரவுண்டு = 2400 சதுர அடி | 1 சென்ட் = 435.6 சதுர அடி",
+            addBtn: "+ பங்குதாரரைச் சேர்க்கவும்",
+            calcBtn: "நிலப் பிரிவினையைக் கணக்கிடுக",
+            resetBtn: "மீட்டமைக்கவும்",
+            resHead: "இறுதி நிலப் பங்கீட்டு விவரங்கள் (Final Allocated Shares)",
+            btnCopy: "📋 முடிவுகளை நகலெடு",
+            btnWA: "📲 வாட்ஸ்அப்பில் அனுப்பவும்",
+            btnPrint: "🖨️ சான்றிதழை அச்சிடுக",
+            backLnk: "⬅ முதன்மை பலகைக்குத் திரும்பு",
+            printInputsTitle: "பிரிப்பிற்கு முந்தைய மொத்த நில அளவு",
+            thTotalAcre: "மொத்த ஏக்கர்",
+            thTotalCent: "மொத்த சென்ட்",
+            thTotalGround: "மொத்த கிரவுண்டு",
+            thTotalSqft: "சமமான சதுர அடி",
+            portalTitle: "தமிழக அரசின் அதிகாரப்பூர்வ வலைத்தளங்கள்",
+            authSig: "அங்கீகரிக்கப்பட்ட கையொப்பம்"
+        }
+    };
+
+    function switchLanguage(lang) {
+        activeLanguageMode = lang;
+        document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.remove('active'));
+        if(lang === 'en') {
+            document.querySelectorAll('.lang-btn')[0].classList.add('active');
+            document.getElementById('content-en').classList.add('active-lang');
+            document.getElementById('content-ta').classList.remove('active-lang');
+        } else {
+            document.querySelectorAll('.lang-btn')[1].classList.add('active');
+            document.getElementById('content-ta').classList.add('active-lang');
+            document.getElementById('content-en').classList.remove('active-lang');
+        }
+
+        document.getElementById('mainTitle').innerText = textDictionary[lang].title;
+        document.getElementById('mainSubTitle').innerText = textDictionary[lang].subtitle;
+        document.getElementById('btnAddPartner').innerText = textDictionary[lang].addBtn;
+        document.getElementById('btnCalc').innerText = textDictionary[lang].calcBtn;
+        document.getElementById('btnReset').innerText = textDictionary[lang].resetBtn;
+        document.getElementById('resHead').innerText = textDictionary[lang].resHead;
+        
+        document.getElementById('btnCopy').innerText = textDictionary[lang].btnCopy;
+        document.getElementById('btnWA').innerText = textDictionary[lang].btnWA;
+        document.getElementById('btnPrint').innerText = textDictionary[lang].btnPrint;
+        document.getElementById('lnkBack').innerText = textDictionary[lang].backLnk;
+        
+        document.getElementById('printInputsTitle').innerText = textDictionary[lang].printInputsTitle;
+        document.getElementById('thTotalAcre').innerText = textDictionary[lang].thTotalAcre;
+        document.getElementById('thTotalCent').innerText = textDictionary[lang].thTotalCent;
+        document.getElementById('thTotalGround').innerText = textDictionary[lang].thTotalGround;
+        document.getElementById('thTotalSqft').innerText = textDictionary[lang].thTotalSqft;
+        document.getElementById('lblPortalTitle').innerText = textDictionary[lang].portalTitle;
+        document.getElementById('lblAuthSigLeft').innerText = textDictionary[lang].authSig;
+        document.getElementById('lblAuthSigRight').innerText = textDictionary[lang].authSig;
+
+        // Sync inline field headers
+        document.getElementById('lblTotalLandHeading').innerText = lang === 'en' ? "Total Land Area to Partition" : "பிரிவினைக்குரிய மொத்த நிலப்பரப்பு";
+        document.getElementById('lblInputAcre').innerText = lang === 'en' ? "Acre (ஏக்கர்)" : "ஏக்கர்";
+        document.getElementById('lblInputCent').innerText = lang === 'en' ? "Cent (சென்ட்)" : "சென்ட்";
+        document.getElementById('lblInputGround').innerText = lang === 'en' ? "Ground (கிரவுண்டு)" : "கிரவுண்டு";
+        document.getElementById('lblInputSqft').innerText = lang === 'en' ? "Sq. Ft. (சதுர அடி)" : "சதுர அடி";
+        document.getElementById('lblPartitionBasis').innerText = lang === 'en' ? "Partition Allocation Mode" : "நில ஒதுக்கீட்டு முறை";
+        document.getElementById('lblShareholdersHeading').innerText = lang === 'en' ? "Partners / Shareholders Allocation Records" : "பங்குதாரர்கள் / வாரிசுகளின் பட்டியல்";
+
+        // Handle placeholder mutations safely
+        document.querySelectorAll('.partner-row').forEach(row => {
+            const nameInput = row.querySelector('.p-name');
+            if(nameInput && nameInput.value.startsWith('Partner ')) {
+                nameInput.placeholder = lang === 'en' ? "Partner Name" : "பங்குதாரர் பெயர்";
+            }
+        });
+    }
+
+    function addNewPartnerRow() {
+        partnerCount++;
+        const container = document.getElementById('partnersContainer');
+        const div = document.createElement('div');
+        div.className = 'partner-row';
+        
+        let labelSuffix = String.fromCharCode(64 + partnerCount);
+        if(partnerCount > 26) labelSuffix = partnerCount;
+
+        let namePlaceholder = activeLanguageMode === 'en' ? 'Partner Name' : 'பங்குதாரர் பெயர்';
+        let defaultName = activeLanguageMode === 'en' ? `Partner ${labelSuffix}` : `பங்குதாரர் ${labelSuffix}`;
+
+        div.innerHTML = `
+            <input type="text" class="p-name" placeholder="${namePlaceholder}" value="${defaultName}">
+            <input type="number" class="p-share" placeholder="Value" value="0" min="0">
+            <button type="button" class="btn-remove" onclick="removePartnerRow(this)">X</button>
+        `;
+        container.appendChild(div);
+    }
+
+    function removePartnerRow(btnElement) {
+        const container = document.getElementById('partnersContainer');
+        if(container.querySelectorAll('.partner-row').length <= 1) {
+            alert(activeLanguageMode === 'en' ? "Minimum one shareholder is mandatory!" : "குறைந்தது ஒரு பங்குதாரர் இருக்க வேண்டும்!");
+            return;
+        }
+        btnElement.parentElement.remove();
+    }
+
+    function processPartitionCalculation() {
+        const acre = parseFloat(document.getElementById('totalAcre').value) || 0;
+        const cent = parseFloat(document.getElementById('totalCent').value) || 0;
+        const ground = parseFloat(document.getElementById('totalGround').value) || 0;
+        const extraSqft = parseFloat(document.getElementById('totalSqftField').value) || 0;
+
+        // Consolidated Pool Calculation in Sq. Ft.
+        const totalSqftValue = (acre * 43560) + (cent * 435.6) + (ground * 2400) + extraSqft;
+
+        if(totalSqftValue <= 0) {
+            alert(activeLanguageMode === 'en' ? "Please key in a valid property volume pool." : "தயவுசெய்து சரியான நில அளவை உள்ளிடவும்.");
+            return;
+        }
+
+        document.getElementById('tdPrintAcre').innerText = acre;
+        document.getElementById('tdPrintCent').innerText = cent;
+        document.getElementById('tdPrintGround').innerText = ground;
+        document.getElementById('tdPrintSqft').innerText = Math.round(totalSqftValue).toLocaleString('en-IN') + " sq ft";
+
+        const rows = document.querySelectorAll('.partner-row');
+        const mode = document.getElementById('partitionMode').value;
+
+        let shareholderArray = [];
+        let runningInputValueSum = 0;
+
+        rows.forEach(row => {
+            let name = row.querySelector('.p-name').value.trim() || "Anonymous Shareholder";
+            let rawShare = parseFloat(row.querySelector('.p-share').value) || 0;
+            shareholderArray.push({ partnerName: name, targetValue: rawShare });
+            runningInputValueSum += rawShare;
+        });
+
+        if(runningInputValueSum <= 0) {
+            alert(activeLanguageMode === 'en' ? "Combined partition values must be greater than zero." : "பங்கு மதிப்புகளின் கூட்டுத்தொகை பூஜ்ஜியத்தை விட அதிகமாக இருக்க வேண்டும்.");
+            return;
+        }
+
+        if(mode === 'percentage' && Math.abs(runningInputValueSum - 100) > 0.05) {
+            let warnMsg = activeLanguageMode === 'en' 
+                ? "Warning: Your cumulative percentage sum is " + runningInputValueSum + "%, not exactly 100%. Proceed with proportional division?"
+                : "எச்சரிக்கை: உங்களின் மொத்த சதவீத கூட்டுத்தொகை " + runningInputValueSum + "% ஆக உள்ளது, சரியாக 100% இல்லை. விகிதாச்சாரப்படி தொடரலாமா?";
+            if(!confirm(warnMsg)) return;
+        }
+
+        const targetContainer = document.getElementById('resultsList');
+        targetContainer.innerHTML = '';
+
+        shareholderArray.forEach(partner => {
+            let individualSqftAllocation = totalSqftValue * (partner.targetValue / runningInputValueSum);
+            
+            // Format Conversion Logic for Display Columns (Cascading Breakdown)
+            let remSqft = individualSqftAllocation;
+            
+            let outAcre = Math.floor(remSqft / 43560);
+            remSqft %= 43560;
+            
+            let outCent = (remSqft / 435.6).toFixed(2);
+            let outGround = (individualSqftAllocation / 2400).toFixed(2);
+
+            let displayBadge = mode === 'percentage' ? partner.targetValue + "% Share" : "Ratio Allocation: " + partner.targetValue;
+            const card = document.createElement('div');
+            card.className = 'partner-result-card';
+            
+            card.innerHTML = `
+                <h4><span>👤 ${partner.partnerName}</span> <span style="font-size:13px; background:var(--tn-gold); color:#000; padding:2px 10px; border-radius:30px; font-weight:800;">${displayBadge}</span></h4>
+                <div class="p-res-grid">
+                    <div class="p-res-box"><small>Acre (ஏக்கர்)</small><span>${outAcre}</span></div>
+                    <div class="p-res-box"><small>Cent (சென்ட்)</small><span>${outCent}</span></div>
+                    <div class="p-res-box"><small>Ground (கிரவுண்டு)</small><span>${outGround}</span></div>
+                    <div class="p-res-box"><small>Sq. Ft. (சதுர அடி)</small><span>${Math.round(individualSqftAllocation).toLocaleString('en-IN')}</span></div>
+                </div>
+                <div class="p-meta-info">
+                    <div><span>Total Value in Yards:</span> <b>${Math.round(individualSqftAllocation / 9).toLocaleString('en-IN')} sq yds</b></div>
+                    <div style="text-align:right;"><span>Conversion Standard:</span> <b>TN Revenue Base</b></div>
+                </div>
+            `;
+            targetContainer.appendChild(card);
+        });
+
+        let formatConfig = { day: 'numeric', month: 'long', year: 'numeric' };
+        document.getElementById('pDocDate').innerText = new Date().toLocaleDateString('en-IN', formatConfig) + " (IST)";
+        document.getElementById('pDocRef').innerText = "SST-TN-PAR-" + Math.floor(1000000000 + Math.random() * 9000000000);
+
+        const resPanel = document.getElementById('resPanel');
+        resPanel.style.display = "block";
+        resPanel.scrollIntoView({ behavior: 'smooth' });
+    }
+
+    function resetCalculatorForm() {
+        document.getElementById('totalAcre').value = "0";
+        document.getElementById('totalCent').value = "0";
+        document.getElementById('totalGround').value = "1";
+        document.getElementById('totalSqftField').value = "0";
+        document.getElementById('partitionMode').selectedIndex = 0;
+        
+        const container = document.getElementById('partnersContainer');
+        container.innerHTML = `
+            <div class="partner-row">
+                <input type="text" class="p-name" placeholder="Partner Name" value="Partner A">
+                <input type="number" class="p-share" placeholder="Share Value" value="50" min="0">
+                <button type="button" class="btn-remove" onclick="removePartnerRow(this)">X</button>
+            </div>
+            <div class="partner-row">
+                <input type="text" class="p-name" placeholder="Partner Name" value="Partner B">
+                <input type="number" class="p-share" placeholder="Share Value" value="50" min="0">
+                <button type="button" class="btn-remove" onclick="removePartnerRow(this)">X</button>
+            </div>
+        `;
+        partnerCount = 2;
+        document.getElementById('resPanel').style.display = "none";
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function copyCalculatedLedger() {
+        let textOutput = "Tamil Nadu Land Partition Summary Report:\n-----------------------------------\n";
+        const cards = document.querySelectorAll('.partner-result-card');
+        
+        cards.forEach(card => {
+            let name = card.querySelector('h4 span').innerText;
+            let vals = card.querySelectorAll('.p-res-box span');
+            textOutput += name + " Allocation: " + vals[0].innerText + " Acre, " + vals[1].innerText + " Cent (" + vals[2].innerText + " Grounds / " + vals[3].innerText + " Sq Ft)\n";
+        });
+        
+        textOutput += "\nProcessed accurately via Shayan Smart Tools Engine Framework.";
+        navigator.clipboard.writeText(textOutput);
+        alert(activeLanguageMode === 'en' ? "Partition breakdown copied successfully!" : "பிரிவினை விவரங்கள் வெற்றிகரமாக நகலெடுக்கப்பட்டன!");
+    }
+
+    function dispatchWhatsAppShare() {
+        let summaryLine = "Tamil Nadu Property Partition Breakdown. Pool split accurately into Acre-Cent-Ground allocations via Shayan Smart Tools. View breakdown by printing active system nodes securely.";
+        window.open("https://wa.me/?text=" + encodeURIComponent(summaryLine));
+    }
+
+    function triggerReportPrint() {
+        if(document.getElementById('resPanel').style.display !== "block") {
+            alert(activeLanguageMode === 'en' ? "Please calculate metrics first!" : "தயவுசெய்து முதலில் கணக்கீட்டைச் செய்யவும்!");
+            return;
+        }
+        window.print();
+    }
+</script>
+
+</body>
+</html>
