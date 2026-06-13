@@ -1,0 +1,824 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Odisha Land Partition Calculator Free 2026 | ଜମି ଭାଗ ମାପ କାଲକୁଲେଟର | Shayan Smart Tools</title>
+    <link rel="canonical" href="https://shayansmarttools.in/odisha-land-partition.html" />
+    <link rel="icon" type="image/png" href="favicon.png" />
+
+    <meta name="description" content="Official Odisha Land Partition Calculator. Divide or partition agricultural, residential, or commercial plots in Acre, Decimal, and Guntha formats accurately with dynamic partner-share matrices. Fully compliant with Odisha Bhulekh revenue standards.">
+    <meta name="keywords" content="Odisha Land Partition Calculator, ଜମି ଭାଗ ମାପ କାଲକୁଲେଟର, Bhulekh land calculator Odisha, Acre Decimal Guntha Calculator, Odisha land area division tool, Revenue department Odisha land calculation, Odisha land mutation math, Acre to Square Feet conversion Odisha">
+    <meta name="author" content="Muksidul islam">
+    <meta name="robots" content="index, follow">
+
+    <style>
+        :root {
+            --odisha-blue: #0d47a1;
+            --dark-blue: #0a2540;
+            --odisha-gold: #ff9100;
+            --text-dark: #334155;
+            --white: #ffffff;
+            --bg: #f0f4f8;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--text-dark);
+            max-width: 950px;
+            margin: 0 auto;
+            padding: 15px;
+            background-color: var(--bg);
+        }
+
+        .tool-wrapper { padding: 10px 0; text-align: center; }
+
+        header {
+            background: linear-gradient(135deg, var(--odisha-blue), var(--dark-blue));
+            color: #fff; padding: 45px 20px; border-radius: 25px; text-align: center;
+            border-bottom: 6px solid var(--odisha-gold); margin-bottom: 25px;
+            box-shadow: 0 10px 25px rgba(13, 71, 161, 0.15);
+        }
+        header h1 { color: white; margin: 0 0 10px 0; font-size: 32px; text-transform: uppercase; letter-spacing: 0.5px; }
+        header p { color: #ebf3ff; margin: 0; font-size: 16px; font-weight: 500; }
+
+        .lang-switcher {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin: 25px 0;
+        }
+        .lang-btn {
+            padding: 11px 32px;
+            border: 2px solid var(--odisha-blue);
+            background: var(--white);
+            color: var(--odisha-blue);
+            font-weight: 700;
+            font-size: 16px;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            min-width: 140px;
+            text-align: center;
+            outline: none;
+            box-shadow: 0 4px 6px rgba(13, 71, 161, 0.05);
+        }
+        .lang-btn.active {
+            background: var(--odisha-blue);
+            color: var(--white);
+        }
+
+        .section-fieldset {
+            border: 1px solid #cbd5e1;
+            border-radius: 16px;
+            background: var(--white);
+            padding: 25px;
+            margin-bottom: 25px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.01);
+            text-align: left;
+        }
+        .section-legend {
+            font-weight: 800;
+            color: var(--odisha-blue);
+            padding: 0 15px;
+            text-transform: uppercase;
+            font-size: 14px;
+            letter-spacing: 0.5px;
+        }
+
+        .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; }
+        .field { display: flex; flex-direction: column; }
+        label { font-size: 12px; font-weight: bold; margin-bottom: 6px; color: var(--odisha-blue); text-transform: uppercase; letter-spacing: 0.3px; }
+        input, select { padding: 14px; border: 1px solid #cbd5e1; border-radius: 10px; font-size: 16px; text-align: center; background: var(--white); outline: none; transition: 0.3s; font-weight: 600; width: 100%; }
+        input:focus, select:focus { border-color: var(--odisha-blue); box-shadow: 0 0 8px rgba(13, 71, 161, 0.15); }
+
+        .partner-wrapper {
+            margin-top: 15px;
+        }
+        .partner-row {
+            display: grid;
+            grid-template-columns: 2fr 1.5fr 0.5fr;
+            gap: 15px;
+            margin-bottom: 15px;
+            background: #f8fafc;
+            padding: 15px;
+            border-radius: 12px;
+            border: 1px dashed #cbd5e1;
+            align-items: center;
+        }
+
+        .btn-box { display: flex; gap: 15px; justify-content: center; margin: 35px 0 15px 0; flex-wrap: wrap; }
+        .btn { padding: 15px 35px; border: none; border-radius: 10px; font-weight: 800; cursor: pointer; transition: 0.3s; font-size: 15px; text-transform: uppercase; letter-spacing: 0.5px; min-width: 160px; }
+        .btn-add { background: #2f3e4f; color: white; } 
+        .btn-calc { background: var(--odisha-blue); color: white; }
+        .btn-reset { background: #ef4444; color: white; }
+        .btn-remove { background: #fee2e2; color: #ef4444; padding: 14px; font-weight: bold; border-radius: 10px; border: 1px solid #fca5a5; }
+        .btn:hover { transform: translateY(-3px); box-shadow: 0 8px 15px rgba(0,0,0,0.12); }
+        .btn-remove:hover { background: #fca5a5; color: #b91c1c; }
+
+        /* Portal Navigation Panel Layout */
+        .portal-links-wrapper {
+            background: var(--white);
+            border: 1px solid #cbd5e1;
+            border-radius: 16px;
+            padding: 20px;
+            margin: 25px auto;
+            max-width: 100%;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.01);
+            text-align: left;
+        }
+        .portal-links-title {
+            font-size: 13px;
+            font-weight: 800;
+            color: var(--odisha-blue);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 12px;
+            display: block;
+            border-bottom: 1px dashed #cbd5e1;
+            padding-bottom: 6px;
+        }
+        .gov-portal-links { display: flex; gap: 20px; flex-wrap: wrap; }
+        .gov-link-node { font-size: 13px; color: #0d47a1; font-weight: bold; text-decoration: none; display: inline-flex; align-items: center; gap: 6px; background: #f0f7ff; padding: 8px 16px; border-radius: 8px; border: 1px solid #bba3f7; transition: all 0.2s ease; }
+        .gov-link-node:hover { background: #e0f0ff; text-decoration: underline; transform: translateY(-1px); }
+
+        /* Results Panel Layout */
+        .res-panel { background: #0b1017; color: white; padding: 25px; border-radius: 25px; margin-top: 35px; display: none; border: 2px solid var(--odisha-blue); position: relative; text-align: left; box-shadow: 0 15px 30px rgba(0,0,0,0.2); }
+        .res-panel h3 { margin-top: 0; text-align: center; color: #60a5fa; font-size: 1.4rem; margin-bottom: 20px; border-bottom: 1px dashed rgba(255,255,255,0.1); padding-bottom: 15px; }
+        #resultsList { display: flex; flex-direction: column; gap: 20px; }
+        .partner-result-card { background: rgba(255,255,255,0.04); border-left: 6px solid var(--odisha-gold); padding: 20px; border-radius: 14px; border-top: 1px solid rgba(255,255,255,0.05); }
+        .partner-result-card h4 { margin: 0 0 10px 0; font-size: 18px; color: #60a5fa; display: flex; justify-content: space-between; }
+        .p-res-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 10px; }
+        .p-res-box { background: rgba(0,0,0,0.3); padding: 10px; border-radius: 8px; text-align: center; border: 1px solid rgba(255,255,255,0.05); }
+        .p-res-box small { display: block; font-size: 11px; color: #94a3b8; text-transform: uppercase; margin-bottom: 3px; }
+        .p-res-box span { font-weight: 700; font-size: 16px; color: #fff; }
+        .p-meta-info { font-size: 12px; color: #94a3b8; display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; border-top: 1px solid rgba(255,255,255,0.05); padding-top: 10px; margin-top: 5px; }
+
+        /* Print Architecture System */
+        .print-only-section { display: none; margin: 15px 0; }
+        .print-table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+        .print-table th, .print-table td { border: 1px solid #cbd5e1; padding: 8px; text-align: center; font-size: 13px; }
+        .print-table th { background-color: #f0f7ff; color: var(--odisha-blue); font-weight: bold; }
+        .print-header-block, .print-footer-block { display: none; }
+
+        .util-btns { display: flex; gap: 12px; margin-top: 25px; flex-wrap: wrap; }
+        .u-btn { flex: 1; padding: 15px; border: none; border-radius: 12px; font-weight: 800; cursor: pointer; color: white; font-size: 14px; text-align: center; transition: 0.3s; text-transform: uppercase; min-width: 140px; }
+
+        /* Verification Grouping Elements */
+        .print-footer-container { display: flex; justify-content: space-between; align-items: flex-start; gap: 15px; margin-top: 15px; }
+        .v-badge-wrapper { text-align: center; width: 110px; }
+        .v-badge-wrapper img { width: 95px; height: 95px; object-fit: contain; background: #fff; padding: 4px; border: 1px solid #cbd5e1; border-radius: 6px; display: block; margin: 0 auto 5px auto; }
+        .v-badge-wrapper span { font-size: 9px; font-weight: 800; color: #1e293b; text-transform: uppercase; letter-spacing: 0.3px; display: block; margin-bottom: 2px; }
+        .v-badge-wrapper .sig-line { font-size: 10px; font-weight: 800; color: var(--odisha-blue); border-top: 1px dashed #475569; margin-top: 8px; padding-top: 4px; white-space: nowrap; }
+
+        /* SEO Article Typography */
+        .seo-article { 
+            background: transparent !important; 
+            padding: 30px 0; 
+            margin-top: 40px; 
+            line-height: 1.85; 
+            border: none !important;
+            color: #334155 !important;
+            text-align: left;
+        }
+        .seo-header-block { text-align: center; border-bottom: 3px solid var(--odisha-blue); padding-bottom: 25px; margin-bottom: 35px; }
+        .seo-article h2 { color: var(--odisha-blue) !important; font-size: 30px !important; margin-top: 40px !important; margin-bottom: 15px !important; font-weight: 700; }
+        .seo-article h3 { color: var(--odisha-blue) !important; margin-top: 30px; font-size: 22px; border-left: 6px solid var(--odisha-gold); padding-left: 15px; font-weight: 600; }
+        .seo-article p { color: #334155 !important; font-size: 16px; text-align: justify; margin-bottom: 20px; }
+        .seo-article ul, .seo-article ol { margin-bottom: 25px; padding-left: 20px; font-size: 16px; }
+        .seo-article li { margin-bottom: 10px; }
+        
+        .seo-article table { width: 100%; border-collapse: collapse; margin: 30px 0; background: #ffffff; box-shadow: 0 4px 6px rgba(0,0,0,0.01); display: block; overflow-x: auto; }
+        .seo-article th, .seo-article td { border: 1px solid #e2e8f0; padding: 16px; text-align: left; color: #334155 !important; font-size: 15px; white-space: nowrap; }
+        .seo-article th { background-color: #f0f7ff; color: var(--odisha-blue) !important; font-weight: 700; }
+
+        .faq-block { background: #ffffff; padding: 22px; border-radius: 14px; border: 1px solid #e2e8f0; margin-bottom: 20px; box-shadow: 0 4px 6px rgba(0,0,0,0.01); }
+        .faq-block p b { color: var(--odisha-blue); font-size: 16px; display: block; margin-bottom: 8px; }
+
+        .footer-copyright-box { 
+            margin-top: 60px; 
+            text-align: center; 
+            font-size: 13px; 
+            color: #475569; 
+            background: #ffffff; 
+            padding: 35px; 
+            border-radius: 24px; 
+            border: 1px solid #e2e8f0;
+            border-top: 6px solid var(--odisha-blue);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.03);
+        }
+        .footer-copyright-box p { margin: 8px 0; line-height: 1.7; }
+        .footer-law-accent { font-weight: 800; color: #0f172a; text-transform: uppercase; font-size: 12px; letter-spacing: 1.5px; margin-bottom: 15px !important; display: inline-block; background: #f1f5f9; padding: 6px 16px; border-radius: 30px; border: 1px solid #cbd5e1; }
+
+        .lang-section { display: none; }
+        .lang-section.active-lang { display: block; }
+
+        @media (max-width: 600px) {
+            header { padding: 30px 15px; border-radius: 15px; }
+            header h1 { font-size: 24px; }
+            header p { font-size: 14px; }
+            .grid-3 { grid-template-columns: 1fr; gap: 12px; }
+            .partner-row { grid-template-columns: 1fr; gap: 10px; }
+            .p-res-grid { grid-template-columns: repeat(3, 1fr); }
+            .btn { width: 100%; padding: 14px; font-size: 14px; }
+            .u-btn { width: 100%; }
+            .seo-article h2 { font-size: 24px !important; }
+            .seo-article h3 { font-size: 18px; }
+            .lang-btn { flex: 1; padding: 10px 15px; font-size: 15px; min-width: auto; }
+            .gov-portal-links { flex-direction: column; gap: 10px; }
+            .gov-link-node { width: 100%; justify-content: center; }
+        }
+
+        /* Print Media Layout Engine */
+        @media print {
+            html, body { height: auto; overflow: visible; background: #ffffff !important; padding: 0 !important; margin: 0 !important; }
+            * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; color: #000000 !important; }
+            @page { margin: 10mm 10mm; size: A4 portrait; }
+            .tool-wrapper, .btn-box, .portal-links-wrapper, .util-btns, .seo-article, .back-btn, .section-fieldset, .lang-switcher, .footer-copyright-box { display: none !important; }
+            
+            .res-panel { 
+                display: block !important; 
+                background: #ffffff !important; 
+                padding: 30px 20px !important; 
+                margin: 0 !important; 
+                width: 100% !important; 
+                border: 5px double #0d47a1 !important; 
+                border-radius: 0px !important; 
+                box-shadow: none !important; 
+            }
+            .res-panel h3 { color: #0d47a1 !important; border-bottom: 2px solid #0d47a1 !important; font-weight: bold; }
+            .partner-result-card { background: transparent !important; border: 1px solid #cbd5e1 !important; border-left: 6px solid #0d47a1 !important; color: #000000 !important; margin-bottom: 15px; page-break-inside: avoid; }
+            .partner-result-card h4 { color: #0d47a1 !important; }
+            .p-res-box { background: transparent !important; border: 1px solid #cbd5e1 !important; }
+            .p-res-box span { color: #000000 !important; }
+            .p-res-box small { color: #475569 !important; }
+            .p-meta-info span { color: #475569 !important; }
+            
+            .print-only-section { display: block !important; }
+            .print-header-block { display: block !important; text-align: center; border-bottom: 3px double #0d47a1 !important; padding-bottom: 15px; margin-bottom: 25px; }
+            .print-footer-block { display: block !important; margin-top: 40px; border-top: 2px dashed #0d47a1 !important; padding-top: 20px; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="tool-wrapper">
+    <header>
+        <h1 id="mainTitle">Odisha Land Partition Calculator</h1>
+        <p id="mainSubTitle">Official Odisha Bhulekh Revenue Matrix: 1 Acre = 100 Decimals | 1 Decimal = 1 Guntha (Regional Metric Variant) | 1 Acre = 43,560 Sq. Ft.</p>
+    </header>
+
+    <div class="lang-switcher">
+        <button class="lang-btn active" onclick="switchLanguage('en')">English</button>
+        <button class="lang-btn" onclick="switchLanguage('or')">ଓଡ଼ିଆ</button>
+    </div>
+
+    <div class="section-fieldset">
+        <span class="section-legend" id="lblTotalLandHeading">Total Land Area to Partition</span>
+        <div class="grid-3" style="margin-top: 15px;">
+            <div class="field">
+                <label id="lblInputAcre">Acre (ଏକର)</label>
+                <input type="number" id="totalAcre" placeholder="0" min="0" value="1">
+            </div>
+            <div class="field">
+                <label id="lblInputDecimal">Decimal (ଡେସିମିଲ୍)</label>
+                <input type="number" id="totalDecimal" placeholder="0" min="0" max="99" value="0">
+            </div>
+            <div class="field">
+                <label id="lblInputGuntha">Guntha / Sq. Perch (ଗୁଣ୍ଠ)</label>
+                <input type="number" id="totalGuntha" placeholder="0" min="0" max="39" value="0">
+            </div>
+        </div>
+    </div>
+
+    <div class="section-fieldset">
+        <span class="section-legend" id="lblPartitionBasis">Partition Allocation Mode</span>
+        <div class="field" style="margin-top:15px;">
+            <select id="partitionMode">
+                <option value="percentage">Percentage (%) - Collective Sum Equals 100%</option>
+                <option value="ratio">Ratio / Equal Distribution Parts (e.g., 1:2:1)</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="section-fieldset">
+        <span class="section-legend" id="lblShareholdersHeading">Partners / Shareholders Allocation Records</span>
+        <div id="partnersContainer" class="partner-wrapper">
+            <div class="partner-row">
+                <input type="text" class="p-name" placeholder="Partner Name" value="Partner A">
+                <input type="number" class="p-share" placeholder="Share Value" value="50" min="0">
+                <button type="button" class="btn-remove" onclick="removePartnerRow(this)">X</button>
+            </div>
+            <div class="partner-row">
+                <input type="text" class="p-name" placeholder="Partner Name" value="Partner B">
+                <input type="number" class="p-share" placeholder="Share Value" value="50" min="0">
+                <button type="button" class="btn-remove" onclick="removePartnerRow(this)">X</button>
+            </div>
+        </div>
+        <button class="btn btn-add" id="btnAddPartner" onclick="addNewPartnerRow()">+ Add Shareholder</button>
+    </div>
+
+    <div class="btn-box">
+        <button class="btn btn-calc" id="btnCalc" onclick="processPartitionCalculation()">Compute Partition Records</button>
+        <button class="btn btn-reset" id="btnReset" onclick="resetCalculatorForm()">Reset Canvas</button>
+    </div>
+
+    <div class="portal-links-wrapper">
+        <span class="portal-links-title" id="lblPortalTitle">Official Odisha Government Portals</span>
+        <div class="gov-portal-links">
+            <a href="http://bhulekh.ori.nic.in/" target="_blank" class="gov-link-node">🌐 Odisha Bhulekh Portal</a>
+            <a href="https://revnue.odisha.gov.in/" target="_blank" class="gov-link-node">🏛️ Revenue & DM Department</a>
+        </div>
+    </div>
+</div> 
+
+<div id="resPanel" class="res-panel">
+    <div class="print-header-block">
+        <div style="display: flex; justify-content: center; align-items: center; gap: 10px; margin-bottom: 5px;">
+            <img src="favicon.png" alt="SST" style="width: 32px; height: 32px;">
+            <h2 style="font-size: 24px; color: #0d47a1; margin: 0; font-weight: 900; letter-spacing: 1px;">SHAYAN SMART TOOLS</h2>
+        </div>
+        <p style="font-size: 11px; color: #0a2540; font-weight: bold; margin: 0 0 15px 0; letter-spacing: 0.5px; text-transform: uppercase;">ODISHA LAND REVENUE RECORD (BHULEKH) PARTITION SHEET - 2026</p>
+        
+        <div style="background: #f8fafc; border: 1px solid #cbd5e1; padding: 12px; border-radius: 6px; display: grid; grid-template-columns: 1fr 1fr; font-size: 12px; text-align: left; gap: 8px; color: #334155;">
+            <div><strong>LEDGER REF NO:</strong> <span id="pDocRef" style="color:#0d47a1; font-weight:bold;">SST-OD-PAR-0000</span></div>
+            <div style="text-align: right;"><strong>COMPUTATION DATE:</strong> <span id="pDocDate" style="color:#0d47a1; font-weight:bold;">--/--/----</span></div>
+            <div><strong>JURISDICTION ZONE:</strong> State of Odisha (ଓଡ଼ିଶା)</div>
+            <div><strong>UNIT EQUATION BASE:</strong> Bhulekh Standard Base-100/Acre Metric Engine</div>
+        </div>
+    </div>
+
+    <div class="print-only-section">
+        <h4 style="color:#0d47a1; margin: 15px 0 5px 0; font-size: 14px; text-transform: uppercase; border-bottom: 1px solid #cbd5e1; padding-bottom: 4px;" id="printInputsTitle">Initial Property Pool Before Subdivision</h4>
+        <table class="print-table">
+            <thead>
+                <tr>
+                    <th id="thTotalAcre">Total Acre</th>
+                    <th id="thTotalDecimal">Total Decimal</th>
+                    <th id="thTotalGuntha">Total Guntha</th>
+                    <th id="thTotalSqft">Equivalent Sq. Feet</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td id="tdPrintAcre">0</td>
+                    <td id="tdPrintDecimal">0</td>
+                    <td id="tdPrintGuntha">0</td>
+                    <td id="tdPrintSqft">0 sq ft</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <h3 id="resHead">Final Disaggregated Partition Shares (বিভাজিত অংশসমূহ)</h3>
+    
+    <div id="resultsList"></div>
+
+    <div class="print-footer-block">
+        <div class="print-footer-container">
+            <div class="v-badge-wrapper">
+                <img src="qrcode.png" alt="Verification QR">
+                <span>Scan to Verify</span>
+                <div class="sig-line" id="lblAuthSigLeft">AUTHORIZED SIGNATURE</div>
+            </div>
+
+            <div style="flex: 1; text-align: center; padding: 0 10px;">
+                <p style="margin: 0; font-weight: bold; color: #0d47a1; text-transform: uppercase; font-size: 10px;">🔒 STATUTORY REVENUE DISAGGREGATION SECURITY NOTICE</p>
+                <p style="margin: 5px 0 0 0; font-size: 9px; color: #475569; line-height: 1.4; text-align: justify;">This mathematical model completely complies with the land systems utilized by the Odisha Integrated Land Records Management System (Bhulekh) (1 Acre = 100 Decimals, 1 Decimal = 435.6 Sq. Ft., 1 Guntha = 1089 Sq. Ft. dynamic mapping). Rounded-off metrics contain structural adjustments. Cross-verify with authorized copies from regional Tahasildar offices or local Revenue Inspector (RI) circles for physical registry mapping.</p>
+                <p style="margin: 10px 0 0 0; font-size: 10px; font-weight: bold; color: #0d47a1;">OFFICIAL HUB: www.shayansmarttools.in</p>
+            </div>
+
+            <div class="v-badge-wrapper">
+                <img src="seal.png" alt="Revenue Seal">
+                <span>Official Seal</span>
+                <div class="sig-line" id="lblAuthSigRight">AUTHORIZED SIGNATURE</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="util-btns">
+        <button class="u-btn" style="background:#475569;" id="btnCopy" onclick="copyCalculatedLedger()">📋 Copy Partition Text</button>
+        <button class="u-btn" style="background:#22c55e;" id="btnWA" onclick="dispatchWhatsAppShare()">📲 Send to WhatsApp</button>
+        <button class="u-btn" style="background:#0d47a1;" id="btnPrint" onclick="triggerReportPrint()">🖨️ Print Legal Sheet</button>
+    </div>
+</div>
+
+<div class="back-btn" style="text-align:center; margin-top: 20px;"><a href="index.html" id="lnkBack" style="color:var(--odisha-blue); font-weight:bold; text-decoration:none;">⬅ Back to All Tools Dashboard</a></div>
+
+<article id="content-en" class="seo-article lang-section active-lang">
+    <div class="seo-header-block">
+        <h2>Odisha Land Partition Calculator: Advanced Acre-Decimal-Guntha Fractional Division Engine</h2>
+        <p>Compute, split, and divide ancestral or joint real estate property across Odisha using the standard Bhulekh mathematical metrics with absolute accuracy.</p>
+    </div>
+
+    <section>
+        <h3>1. Deep Integration into Odisha's Land Survey Framework & Revenue Math</h3>
+        <p>Real estate management, registry tracking, and legacy estate settlements in the state of Odisha demand flawless alignment with regional revenue arithmetic. Unlike other northern Indian territories that evaluate spaces via standard Bighas or Marlas, the land administrative infrastructure in Odisha relies completely on traditional and modern standard parameters overseen by the <b>Integrated Land Records Management System</b>, universally referred to as the <b>Odisha Bhulekh portal</b>. Land values here are registered strictly under <b>Acre, Decimal, and Guntha</b> matrices.</p>
+        <p>When multiple co-sharers or legal descendants decide to parse or partition a mutual property tract, calculating individual allotments using normal consumer-grade applications causes fatal rounding mistakes. This is due to the dynamic configuration of Odisha's land metrics: where 1 Decimal constitutes 1/100th of an Acre, but regional subdivisions like Guntha vary structurally across coastal and interior districts. Our professional-grade <b>Odisha Land Partition Calculator</b> mitigates these specific engineering constraints by deploying highly precise decimal quotient algorithms. This structural integrity ensures that whether you are dealing with fertile agricultural plains across the Mahanadi delta or highly priced commercial layouts in Bhubaneswar or Cuttack cities, your partition calculations align precisely with state revenue survey rules.</p>
+    </section>
+
+    <section>
+        <h3>2. Explicit Operational Protocol for Dividing Land Parcels</h3>
+        <p>Our platform handles advanced algorithmic land fragmentation through a seamless user interface. Follow this operational checklist:</p>
+        <ol>
+            <li><b>Establish the Primary Real Estate Base Pool:</b> Feed the aggregate volume of the land target into the labeled fields under <b>Acre</b>, <b>Decimal</b>, and <b>Guntha</b>. If the plot lacks large parameters, configure Acre to zero and input only the decimal or guntha quantities.</li>
+            <li><b>Choose the Allocation Mode:</b> Decide your division metrics using our drop-down list. Use <b>Percentage Mode</b> to divide based on percentage targets (ensuring the cumulative sum maps out to 100%). Alternatively, choose <b>Ratio Mode</b> to process divisions using whole numbers or arbitrary fractions (e.g., separating land between four heirs in a 1:2:1:1 ratio).</li>
+            <li><b>Populate the Shareholder Registry:</b> Change partner titles and insert their corresponding target metrics. Need more entities? Click <b>"+ Add Shareholder"</b> to add an unlimited number of allocation fields to the active stack.</li>
+            <li><b>Generate the Settlement Ledger:</b> Click <b>"Compute Partition Records"</b>. The algorithm instantly converts the primary land pool into raw square footage, splits it via the chosen mathematical mode, and reconstructs the data into precise Acre-Decimal breakdowns for each partner.</li>
+        </ol>
+    </section>
+
+    <section>
+        <h3>3. Structural Mathematical Breakdown: A Practical Partition Scenario</h3>
+        <p>To demonstrate the robustness of our calculation engine, let us review an actual mathematical breakdown of a complex land partition scenario. Suppose an ancestral estate measuring <b>5 Acres, 40 Decimals</b> needs to be partitioned among three legal beneficiaries with varying percentages:</p>
+        <ul>
+            <li><b>Beneficiary 1 (Partner A):</b> 50% Allocation Share</li>
+            <li><b>Beneficiary 2 (Partner B):</b> 30% Allocation Share</li>
+            <li><b>Beneficiary 3 (Partner C):</b> 20% Allocation Share</li>
+        </ul>
+        <p><b>Backend Processing Steps:</b></p>
+        <ol>
+            <li><b>Unification to Lowest Common Matrix (Decimals):</b> 
+                The algorithm processes the pool into total Decimals:
+                <br>5 Acres &times; 100 = 500 Decimals
+                <br>Total Pool = 500 + 40 = 540 Decimals
+            </li>
+            <li><b>Execution of Individual Fractional Shares:</b>
+                <ul>
+                    <li>Partner A: 540 &times; 0.50 = 270 Decimals</li>
+                    <li>Partner B: 540 &times; 0.30 = 162 Decimals</li>
+                    <li>Partner C: 540 &times; 0.20 = 108 Decimals</li>
+                </ul>
+            </li>
+            <li><b>Reconstruction to Acre-Decimal Format:</b>
+                For Partner A (270 Decimals):
+                <br>270 / 100 = 2 Acres (Remaining 70 Decimals)
+                <br>Result: <b>2 Acres and 70 Decimals</b> (Equivalent to 1,17,612 Sq. Ft.).
+            </li>
+        </ol>
+    </section>
+
+    <section>
+        <h3>4. Statutory Frameworks Governing Land Mutation & Amalgamation in Odisha</h3>
+        <p>Land partition in Odisha is not merely an isolated mathematical exercise; it is heavily regulated by statutory frameworks, primarily the <b>Odisha Estate Abolition Act</b> and the <b>Odisha Land Reforms Act, 1960</b>. When a mutual joint-holding family estate undergoes physical or structural partition, co-sharers must file for a formal partition case under Section 19 of the OLR Act before the local Revenue Tahasildar. Following this, field verification is executed by Revenue Inspectors (RI) and Amin surveyors to issue independent <b>Chaka or Plot Numbers</b> and separate RoR (Record of Rights) ledgers.</p>
+        <p>Whether you are filing for a field mutation, executing an allocation deed for ancestral property distribution, or preparing boundaries for industrial corridors, mathematical accuracy is paramount. Even a tiny error in deed calculations can cause the automated system at the Registration Sub-Registrar’s office (e-Registration Odisha) to flag your application for data mismatch. Our partition engine aligns your mathematical documentation perfectly with state land measurement rules to keep your paperwork completely clean.</p>
+    </section>
+
+    <h3>5. Official Odisha Revenue Conversion Matrix Table</h3>
+    <table>
+        <thead>
+            <tr>
+                <th>Odisha Unit Type</th>
+                <th>Standard Revenue Equation Definitions</th>
+                <th>Square Feet Equivalent (Sq. Ft.)</th>
+                <th>Square Yards Equivalent (Sq. Yds)</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr><td><b>1 Acre</b></td><td>100 Decimals (Standard Survey Base)</td><td>43,560 Sq Ft</td><td>4,840 Sq Yds</td></tr>
+            <tr><td><b>1 Decimal</b></td><td>1/100th Fraction of 1 Acre / 435.6 Base</td><td>435.6 Sq Ft</td><td>48.4 Sq Yds</td></tr>
+            <tr><td><b>1 Guntha</b></td><td>Regional variant standard (1/40th of Acre or customized)</td><td>1,089 Sq Ft</td><td>121 Sq Yds</td></tr>
+            <tr><td><b>1 Hectare</b></td><td>Equivalent value to 2.471 Acres approximately</td><td>1,07,639 Sq Ft</td><td>11,959 Sq Yds</td></tr>
+        </tbody>
+    </table>
+
+    <h3>6. 10 Critical Frequently Asked Questions (Google SERP Optimization Nodes)</h3>
+    <div id="faq-container-en">
+        <div class="faq-block"><p><b>Q1. How many Decimals combine to form exactly one Acre in Odisha?</b><br>Ans: Under the official Odisha Revenue matrix, exactly 100 Decimals combine to form 1 standard Acre.</p></div>
+        <div class="faq-block"><p><b>Q2. What is the standard equivalent area of 1 Decimal in square feet?</b><br>Ans: 1 Decimal is exactly equal to 435.6 square feet in Odisha's land measurement framework.</p></div>
+        <div class="faq-block"><p><b>Q3. How many Gunthas constitute an acre in regional southern/western Odisha records?</b><br>Ans: Traditionally, 40 Gunthas combine to form 1 standard Acre in specific territorial land surveys of Odisha.</p></div>
+        <div class="faq-block"><p><b>Q4. What is the total square footage of 1 Acre of land in Bhubaneswar or Cuttack?</b><br>Ans: One absolute standard Acre of land anywhere in Odisha equals exactly 43,560 square feet.</p></div>
+        <div class="faq-block"><p><b>Q5. Does this tool integrate directly with the official Odisha Bhulekh system?</b><br>Ans: No, this is an independent calculation engine designed by Shayan Smart Tools based strictly on the mathematical standards used by the Odisha Revenue Department.</p></div>
+        <div class="faq-block"><p><b>Q6. Why fail calculations using basic mobile calculators for land partition?</b><br>Ans: Standard calculators use base-10 fractions. Odisha's legacy records use a mixed notation of non-decimal Gunthas and fractional decimal structures, which require specialized scripts to avoid rounding errors.</p></div>
+        <div class="faq-block"><p><b>Q7. How many square meters make up one standard Decimal unit?</b><br>Ans: One Decimal equals approximately 40.46 square meters.</p></div>
+        <div class="faq-block"><p><b>Q8. What is the dynamic process of land partition mutation under Tahasildar jurisdiction?</b><br>Ans: Parties submit a legal partition deed or apply under Section 19 of the OLR Act, prompting an field survey by the Amin before generating separate Khatiyan sheets.</p></div>
+        <div class="faq-block"><p><b>Q9. Can I divide properties using custom fractional ratios like 3:2:1?</b><br>Ans: Yes, switch the calculator's mode to Ratio Mode. The engine will handle the math automatically regardless of the ratio integers used.</p></div>
+        <div class="faq-block"><p><b>Q10. Can this output be used directly as a substitute for an official court partition decree?</b><br>Ans: No, this tool is designed for calculation and planning purposes. Legal partitions must be formalized through the appropriate revenue courts or certified by a registered Tahasildar.</p></div>
+    </div>
+</article>
+
+<article id="content-or" class="seo-article lang-section">
+    <div class="seo-header-block">
+        <h2>ଓଡ଼ିଶା ଜମି ଭାଗ ମାପ କାଲକୁଲେଟର: ଏକର-ଡେସିମିଲ୍ ଗାଣିତିକ ବିଶ୍ଳେଷଣ</h2>
+        <p>ଓଡ଼ିଶା ସରକାରଙ୍କ ଭୂଲେଖ (Bhulekh) ପୋର୍ଟାଲ୍ ଏବଂ ରାଜସ୍ୱ ବିଭାଗର ନିୟମାନୁସାରେ ପୈତୃକ କିମ୍ବା ଯୌଥ ସମ୍ପତ୍ତିର ଅଂଶ ଅତି ସଠିକ୍ ଭାବରେ ଭାଗ କରନ୍ତୁ।</p>
+    </div>
+
+    <section>
+        <h3>1. ଓଡ଼ିଶାର ଭୂମି ସର୍ଭେ ପଦ୍ଧତି ଏବଂ ରାଜସ୍ୱ ବ୍ୟବସ୍ଥା</h3>
+        <p>ଓଡ଼ିଶାରେ ଜମି କ୍ରୟ-ବିକ୍ରୟ, ଉତ୍ତରାଧିକାରୀ ସୂତ୍ରରେ ମିଳୁଥିବା ସମ୍ପତ୍ତିର ଭାଗ-ବଣ୍ଟା କିମ୍ବା ନାମଜାରୀ (Mutation) ପ୍ରକ୍ରିୟା ପାଇଁ ରାଜସ୍ୱ ବିଭାଗର ସଠିକ୍ ଗାଣିତିକ ସୂତ୍ର ଜାଣିବା ଅତ୍ୟନ୍ତ ଜରୁରୀ ଅଟେ। ଭାରତର ଅନ୍ୟ କିଛି ଅଞ୍ଚଳ ପରି ଏଠାରେ ବିଘା ବ୍ୟବହାର କରାଯାଏ ନାହିଁ; ବରଂ ଓଡ଼ିଶାର ଭୂମି ପ୍ରଶାସନ ସମ୍ପୂର୍ଣ୍ଣ ରୂପେ <b>ଏକର, ଡେସିମିଲ୍ ଏବଂ ଗୁଣ୍ଠ</b> ପଦ୍ଧତି ଉପରେ ପ୍ରତିଷ୍ଠିତ। ସରକାରୀ ଭୂମି ପୋର୍ଟାଲ୍ <b>ଭୂଲେଖ (Odisha Bhulekh)</b>-ରେ ସବୁ ତଥ୍ୟ ଏହି ଏକକରେ ସଂରକ୍ଷିତ କରାଯାଇଥାଏ।</p>
+        <p>ଯେତେବେଳେ ଗୋଟିଏ ଯୌଥ ଜମିକୁ କେତେଜଣ ଅଂଶୀଦାରଙ୍କ ମଧ୍ୟରେ ଭାଗ କରାଯାଏ, ସେତେବେଳେ ସାଧାରଣ କାଲକୁଲେଟର ବ୍ୟବହାର କଲେ ବଡ଼ ଭୁଲ ହୋଇପାରେ। Shayan Smart Tools-ର ଏହି <b>Odisha Land Partition Calculator</b> ଏହି ଜଟିଳ ଗାଣିତିକ ସମୀକରଣକୁ ସହଜରେ ସମାଧାନ କରିଥାଏ। ଭୁବନେଶ୍ୱର ପରି ସହରାଞ୍ଚଳ ହେଉ କିମ୍ବା ଗ୍ରାମାଞ୍ଚଳର କୃଷି ଜମି, ଏହା ପ୍ରତ୍ୟେକ ଅଂଶୀଦାରଙ୍କ ସଠିକ୍ ପ୍ରାପ୍ୟ ଜମିର ପରିମାଣ ନିର୍ଦ୍ଧାରଣ କରେ।</p>
+    </section>
+
+    <section>
+        <h3>2. କାଲକୁଲେଟର ବ୍ୟବହାର କରିବାର ସହଜ ନିୟମ</h3>
+        <p>ଆମର ଏହି ସୂତ୍ର ବହୁତ ସରଳ ଭାବରେ ପ୍ରସ୍ତୁତ କରାଯାଇଛି। ତଳେ ଦିଆଯାଇଥିବା ପଦକ୍ଷେପଗୁଡ଼ିକୁ ଅନୁସରଣ କରନ୍ତୁ:</p>
+        <ol>
+            <li><b>ମୂଳ ଜମିର ପରିମାଣ ଲେଖନ୍ତୁ:</b> ଆପଣ ଭାଗ କରିବାକୁ ଚାହୁଁଥିବା ମୂଳ ଜମିର ପରିମାଣକୁ <b>Acre</b>, <b>Decimal</b>, ଏବଂ <b>Guntha</b> ବାକ୍ସରେ ସଠିକ୍ ଭାବରେ ଲେଖନ୍ତୁ।</li>
+            <li><b>ବିଭାଜନ ପଦ୍ଧତି ଚୟନ କରନ୍ତୁ:</b> ଆପଣ ଜମିକୁ ପ୍ରତିଶତ ହିସାବରେ ଭାଗ କରିବାକୁ ଚାହାଁନ୍ତି (Percentage Mode) ନା ଅନୁପାତରେ (Ratio Mode), ତାହା ମେନୁରୁ ବାଛନ୍ତୁ।</li>
+            <li><b>ଅଂଶୀଦାରଙ୍କ ନାମ ଏବଂ ଅଂଶ ଲେଖନ୍ତୁ:</b> ଅଂଶୀଦାରମାନଙ୍କ ନାମ ଏବଂ ସେମାନଙ୍କ ପ୍ରାପ୍ୟ ଭାଗ ଲେଖନ୍ତୁ। ଯଦି ଅଂଶୀଦାର ସଂଖ୍ୟା ଅଧିକ, ତେବେ <b>"+ Add Shareholder"</b> ବଟନ୍ କ୍ଲିକ୍ କରି ଯୋଡ଼ିପାରିବେ।</li>
+            <li><b>ଫଳାଫଳ ପାଆନ୍ତୁ:</b> ସବୁ ତଥ୍ୟ ପୂରଣ କରିବା ପରେ <b>"Compute Partition Records"</b> ବଟନ୍ କ୍ଲିକ୍ କରନ୍ତୁ। ଏହା ସଙ୍ଗେ ସଙ୍ଗେ ପ୍ରତ୍ୟେକ ବ୍ୟକ୍ତିଙ୍କ ଭାଗ ସଠିକ୍ ଭାବେ ଦେଖାଇବ।</li>
+        </ol>
+    </section>
+
+    <section>
+        <h3>3. ଜମି ବିଭାଜନର ଏକ ବାସ୍ତବ ଉଦାହରଣ</h3>
+        <p>ଆସନ୍ତୁ ବୁଝିବା ଏହି କାଲକୁଲେଟର କିପରି କାମ କରେ। ମନେକରନ୍ତୁ, ଏକ ପୈତୃକ ଜମି ଯାହାର ମୋଟ ପରିମାଣ <b>୫ ଏକର ଏବଂ ୪୦ ଡେସିମିଲ୍</b>, ତାକୁ ତିନିଜଣ ଉତ୍ତରାଧିକାରୀଙ୍କ ମଧ୍ୟରେ ୫୦%, ୩୦% ଏବଂ ୨୦% ହିସାବରେ ଭାଗ କରିବାକୁ ହେବ:</p>
+        <ul>
+            <li><b>ପ୍ରଥମ ଅଂଶୀଦାର (Partner A):</b> ୫୦% ଅଂଶ (୨ ଏକର ୭୦ ଡେସିମିଲ୍)</li>
+            <li><b>ଦ୍ୱିତୀୟ ଅଂଶୀଦାର (Partner B):</b> ୩୦% ଅଂଶ (୧ ଏକର ୬୨ ଡେସିମିଲ୍)</li>
+            <li><b>ତୃତୀୟ ଅଂଶୀଦାର (Partner C):</b> ୨୦% ଅଂଶ (୧ ଏକର ୦୮ ଡେସିମିଲ୍)</li>
+        </ul>
+    </section>
+
+    <section>
+        <h3>4. ଓଡ଼ିଶା ଭୂମି ଆଇନ ଏବଂ ମ୍ୟୁଟେସନ ପ୍ରକ୍ରିୟା</h3>
+        <p>ଜମି ଭାଗବଣ୍ଟା କେବଳ ଏକ ଗାଣିତିକ ହିସାବ ନୁହେଁ, ଏହା ଆଇନଗତ ପ୍ରକ୍ରିୟା ସହ ଜଡ଼ିତ। <b>Odisha Land Reforms Act, 1960</b> ଅନୁସାରେ ଜମିର ସରକାରୀ ବିଭାଜନ ପାଇଁ ସ୍ଥାନୀୟ ତହସିଲଦାର (Tahasildar) କାର୍ଯ୍ୟାଳୟରେ ଆବେଦନ କରିବାକୁ ପଡ଼ିଥାଏ। ଏହା ପରେ ରେଭେନ୍ୟୁ ଇନ୍ସପେକ୍ଟର (RI) ଏବଂ ଅମିନଙ୍କ ଦ୍ୱାରା ଜମିର ସୀମା ନିର୍ଦ୍ଧାରଣ କରାଯାଇ ଭୂଲେଖ ପୋର୍ଟାଲ୍‌ରେ ନୂଆ ପ୍ଲଟ୍ ନମ୍ବର ଏବଂ ପଟ୍ଟା ପ୍ରଦାନ କରାଯାଏ।</p>
+    </section>
+
+    <h3>5. ଓଡ଼ିଶା ସରକାରଙ୍କ ପ୍ରାମାଣିକ ଭୂମି ରୂପାନ୍ତର ତାଲିକା</h3>
+    <table>
+        <thead>
+            <tr>
+                <th>ଭୂମି ଏକକ (Unit Type)</th>
+                <th>ରାଜସ୍ୱ ବିଭାଗର ସଂଜ୍ଞା</th>
+                <th>ବର୍ଗ ଫୁଟ (Sq. Feet)</th>
+                <th>ବର୍ଗ ଗଜ (Sq. Yards)</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr><td><b>୧ ଏକର</b></td><td>୧୦୦ ଡେସିମିଲ୍</td><td>୪୩,୫୬୦ Sq Ft</td><td>୪,୮୪୦ Sq Yds</td></tr>
+            <tr><td><b>୧ ଡେସିମିଲ୍</b></td><td>୧ ଏକରର ୧୦୦ ଭାଗରୁ ଭାଗେ</td><td>୪୩୫.୬ Sq Ft</td><td>୪୮.୪ Sq Yds</td></tr>
+            <tr><td><b>୧ ଗୁଣ୍ଠ</b></td><td>ଆଞ୍ଚଳିକ ମାପ ଏକକ</td><td>୧,୦୮୯ Sq Ft</td><td>୧୨୧ Sq Yds</td></tr>
+        </tbody>
+    </table>
+
+    <h3>6. ସଘନେ ସୋଧା ପ୍ରଶ୍ନ ବଳୀ (FAQs)</h3>
+    <div id="faq-container-or">
+        <div class="faq-block"><p><b>ପ୍ରଶ୍ନ ୧. ଓଡ଼ିଶାରେ ଏକ ଏକରରେ କେତେ ଡେସିମିଲ୍ ଥାଏ?</b><br>ଉତ୍ତର: ଓଡ଼ିଶା ରାଜସ୍ୱ ନିୟମ ଅନୁସାରେ ୧ ଏକର ଜମିରେ ବରାବର ୧୦୦ ଡେସିମିଲ୍ ଥାଏ।</p></div>
+        <div class="faq-block"><p><b>ପ୍ରଶ୍ନ ୨. ଏକ ଡେସିମିଲ୍ ଜମିରେ କେତେ ବର୍ଗ ଫୁଟ୍ ଥାଏ?</b><br>ଉତ୍ତର: ଓଡ଼ିଶାର ଜମି ମାପ ହିସାବରେ ୧ ଡେସିମିଲ୍ ଜମି ମାନେ ୪୩୫.୬ ବର୍ଗ ଫୁଟ୍।</p></div>
+        <div class="faq-block"><p><b>ପ୍ରଶ୍ନ ୩. ୧ ଏକର ଜମିରେ ମୋଟ କେତେ ବର୍ଗ ଫୁଟ୍ ଥାଏ?</b><br>ଉତ୍ତର: ଓଡ଼ିଶାରେ ୧ ଏକର ଜମିର ମୋଟ ସାଇଜ୍ ହେଉଛି ୪୩,୫୬୦ ବର୍ଗ ଫୁଟ୍।</p></div>
+        <div class="faq-block"><p><b>ପ୍ରଶ୍ନ ୪. ଜମିର ପାର୍ଟିସନ ପାଇଁ ସରକାରୀ ଆବେଦନ କେଉଠି କରିବାକୁ ହୁଏ?</b><br>ଉତ୍ତର: ଆପଣଙ୍କର ସ୍ଥାନୀୟ ତହସିଲଦାର କାର୍ଯ୍ୟାଳୟରେ ଏଥିପାଇଁ ଆବେଦନ କରିବାକୁ ହୋଇଥାଏ।</p></div>
+        <div class="faq-block"><p><b>ପ୍ରଶ୍ନ ୫. ଏହି ରିପୋର୍ଟକୁ ପିଡିଏଫ୍ ଭାବେ ସେଭ୍ କରାଯାଇ ପାରିବ କି?</b><br>ଉତ୍ତର: ହଁ, "Print Legal Sheet" ବଟନ୍ କ୍ଲିକ୍ କରି ଆପଣ ଏହାକୁ ପିଡିଏଫ୍ ଆକାରରେ ସେଭ୍ କରିପାରିବେ।</p></div>
+    </div>
+</article>
+
+<div class="footer-copyright-box">
+    <div class="footer-law-accent">Statutory Software IP Security Core</div>
+    <p><b>Copyright Protection Notice:</b> Shayan Smart Tools Processing Infrastructure, Odisha Localization Schemas, and Engine Core © 2026. All rights reserved.</p>
+    <p style="font-size: 12px; color: #64748b;">This application code architecture, cascading logic formulas, and vector asset representations are legally protected under Indian Copyright Amendment Acts and global software licensing terms.</p>
+</div>
+
+<script>
+    let partnerCount = 2;
+    let activeLanguageMode = 'en';
+
+    const textDictionary = {
+        en: {
+            title: "Odisha Land Partition Calculator",
+            subtitle: "Official Odisha Bhulekh Revenue Matrix: 1 Acre = 100 Decimals | 1 Decimal = 435.6 Sq. Ft. | 1 Acre = 43,560 Sq. Ft.",
+            addBtn: "+ Add Shareholder",
+            calcBtn: "Compute Partition Records",
+            resetBtn: "Reset Canvas",
+            resHead: "Final Disaggregated Partition Shares",
+            btnCopy: "📋 Copy Partition Text",
+            btnWA: "📲 Send to WhatsApp",
+            btnPrint: "🖨️ Print Legal Sheet",
+            backLnk: "⬅ Back to All Tools Dashboard",
+            printInputsTitle: "Initial Property Pool Before Subdivision",
+            thTotalAcre: "Total Acre",
+            thTotalDecimal: "Total Decimal",
+            thTotalGuntha: "Total Guntha",
+            thTotalSqft: "Equivalent Sq. Feet",
+            portalTitle: "Official Odisha Government Portals",
+            authSig: "AUTHORIZED SIGNATURE"
+        },
+        or: {
+            title: "ଓଡ଼ିଶା ଜମି ଭାଗ ମାପ କାଲକୁଲେଟର",
+            subtitle: "ସରକାରୀ ଭୂଲେଖ ନିୟମାବଳୀ: ୧ ଏକର = ୧୦୦ ଡେସିମିଲ୍ | ୧ ଡେସିମିଲ୍ = ୪୩୫.୬ ବର୍ଗ ଫୁଟ",
+            addBtn: "+ ଅଂଶୀଦାର ଯୋଡ଼ନ୍ତୁ",
+            calcBtn: "ଜମି ବିଭାଜନ ହିସାବ କରନ୍ତୁ",
+            resetBtn: "ପୁନର୍ବାର ସେଟ୍ କରନ୍ତୁ",
+            resHead: "ଚୂଡ଼ାନ୍ତ ବିଭାଜିତ ଅଂଶପତ୍ର (Final Allocated Shares)",
+            btnCopy: "📋 ଫଳାଫଳ କପି କରନ୍ତୁ",
+            btnWA: "📲 ହ୍ୱାଟ୍ସଆପ୍‌ରେ ପଠାନ୍ତୁ",
+            btnPrint: "🖨️ ଆଇନଗତ ନକଲ ପ୍ରିଣ୍ଟ କରନ୍ତୁ",
+            backLnk: "⬅ ମୁଖ୍ୟ ଡ୍ୟାଶବୋର୍ଡକୁ ଫେରନ୍ତୁ",
+            printInputsTitle: "ବିଭାଜନ ପୂର୍ବର ମୋଟ ଜମି",
+            thTotalAcre: "ମୋଟ ଏକର",
+            thTotalDecimal: "ମୋଟ ଡେସିମିଲ୍",
+            thTotalGuntha: "ମୋଟ ଗୁଣ୍ଠ",
+            thTotalSqft: "ସମତୁଲ୍ୟ ବର୍ଗ ଫୁଟ",
+            portalTitle: "ଓଡ଼ିଶା ସରକାରଙ୍କ ଆଧିକାରିକ ୱେବସାଇଟ୍",
+            authSig: "ଅଧିକୃତ ସ୍ବାକ୍ଷର"
+        }
+    };
+
+    function switchLanguage(lang) {
+        activeLanguageMode = lang;
+        document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.remove('active'));
+        if(lang === 'en') {
+            document.querySelectorAll('.lang-btn')[0].classList.add('active');
+            document.getElementById('content-en').classList.add('active-lang');
+            document.getElementById('content-or').classList.remove('active-lang');
+        } else {
+            document.querySelectorAll('.lang-btn')[1].classList.add('active');
+            document.getElementById('content-or').classList.add('active-lang');
+            document.getElementById('content-en').classList.remove('active-lang');
+        }
+
+        document.getElementById('mainTitle').innerText = textDictionary[lang].title;
+        document.getElementById('mainSubTitle').innerText = textDictionary[lang].subtitle;
+        document.getElementById('btnAddPartner').innerText = textDictionary[lang].addBtn;
+        document.getElementById('btnCalc').innerText = textDictionary[lang].calcBtn;
+        document.getElementById('btnReset').innerText = textDictionary[lang].resetBtn;
+        document.getElementById('resHead').innerText = textDictionary[lang].resHead;
+        
+        document.getElementById('btnCopy').innerText = textDictionary[lang].btnCopy;
+        document.getElementById('btnWA').innerText = textDictionary[lang].btnWA;
+        document.getElementById('btnPrint').innerText = textDictionary[lang].btnPrint;
+        document.getElementById('lnkBack').innerText = textDictionary[lang].backLnk;
+        
+        document.getElementById('printInputsTitle').innerText = textDictionary[lang].printInputsTitle;
+        document.getElementById('thTotalAcre').innerText = textDictionary[lang].thTotalAcre;
+        document.getElementById('thTotalDecimal').innerText = textDictionary[lang].thTotalDecimal;
+        document.getElementById('thTotalGuntha').innerText = textDictionary[lang].thTotalGuntha;
+        document.getElementById('thTotalSqft').innerText = textDictionary[lang].thTotalSqft;
+        document.getElementById('lblPortalTitle').innerText = textDictionary[lang].portalTitle;
+        document.getElementById('lblAuthSigLeft').innerText = textDictionary[lang].authSig;
+        document.getElementById('lblAuthSigRight').innerText = textDictionary[lang].authSig;
+
+        document.getElementById('lblTotalLandHeading').innerText = lang === 'en' ? "Total Land Area to Partition" : "ବିଭାଜନ ହେବାକୁ ଥିବା ମୋଟ ଜମି";
+        document.getElementById('lblInputAcre').innerText = lang === 'en' ? "Acre (ଏକର)" : "ଏକର";
+        document.getElementById('lblInputDecimal').innerText = lang === 'en' ? "Decimal (ଡେସିମିଲ୍)" : "ଡେସିମିଲ୍";
+        document.getElementById('lblInputGuntha').innerText = lang === 'en' ? "Guntha / Sq. Perch (ଗୁଣ୍ଠ)" : "ଗୁଣ୍ଠ";
+        document.getElementById('lblPartitionBasis').innerText = lang === 'en' ? "Partition Allocation Mode" : "ଜମି ବଣ୍ଟନର ପଦ୍ଧତି";
+        document.getElementById('lblShareholdersHeading').innerText = lang === 'en' ? "Partners / Shareholders Allocation Records" : "ଅଂଶୀଦାର ବା ଉତ୍ତରାଧିକାରୀମାନଙ୍କ ତାଲିକା";
+    }
+
+    function addNewPartnerRow() {
+        partnerCount++;
+        const container = document.getElementById('partnersContainer');
+        const div = document.createElement('div');
+        div.className = 'partner-row';
+        
+        let labelSuffix = String.fromCharCode(64 + partnerCount);
+        if(partnerCount > 26) labelSuffix = partnerCount;
+
+        let namePlaceholder = activeLanguageMode === 'en' ? 'Partner Name' : 'ଅଂଶୀଦାରଙ୍କ ନାମ';
+        let defaultName = activeLanguageMode === 'en' ? `Partner ${labelSuffix}` : `ଅଂଶୀଦାର ${labelSuffix}`;
+
+        div.innerHTML = `
+            <input type="text" class="p-name" placeholder="${namePlaceholder}" value="${defaultName}">
+            <input type="number" class="p-share" placeholder="Value" value="0" min="0">
+            <button type="button" class="btn-remove" onclick="removePartnerRow(this)">X</button>
+        `;
+        container.appendChild(div);
+    }
+
+    function removePartnerRow(btnElement) {
+        const container = document.getElementById('partnersContainer');
+        if(container.querySelectorAll('.partner-row').length <= 1) {
+            alert(activeLanguageMode === 'en' ? "Minimum one shareholder is mandatory!" : "କମ୍‌ରେ କମ୍ ଜଣେ ଅଂଶୀଦାର ରହିବା ଆବଶ୍ୟକ!");
+            return;
+        }
+        btnElement.parentElement.remove();
+    }
+
+    function processPartitionCalculation() {
+        const acre = parseFloat(document.getElementById('totalAcre').value) || 0;
+        const decimal = parseFloat(document.getElementById('totalDecimal').value) || 0;
+        const guntha = parseFloat(document.getElementById('totalGuntha').value) || 0;
+
+        // Convert Everything to lowest base element: Sq. Footage
+        // 1 Acre = 43560 Sq Ft, 1 Decimal = 435.6 Sq Ft, 1 Guntha = 1089 Sq Ft
+        const aggregatePoolSqft = (acre * 43560) + (decimal * 435.6) + (guntha * 1089);
+
+        if(aggregatePoolSqft <= 0) {
+            alert(activeLanguageMode === 'en' ? "Please key in a valid property volume pool." : "ଦୟାକରି ସଠିକ୍ ଜମିର ପରିମାଣ ଲେଖନ୍ତୁ।");
+            return;
+        }
+
+        document.getElementById('tdPrintAcre').innerText = acre;
+        document.getElementById('tdPrintDecimal').innerText = decimal;
+        document.getElementById('tdPrintGuntha').innerText = guntha;
+        document.getElementById('tdPrintSqft').innerText = aggregatePoolSqft.toLocaleString('en-IN') + " sq ft";
+
+        const rows = document.querySelectorAll('.partner-row');
+        const mode = document.getElementById('partitionMode').value;
+
+        let shareholderArray = [];
+        let runningInputValueSum = 0;
+
+        rows.forEach(row => {
+            let name = row.querySelector('.p-name').value.trim() || "Anonymous Shareholder";
+            let rawShare = parseFloat(row.querySelector('.p-share').value) || 0;
+            shareholderArray.push({ partnerName: name, targetValue: rawShare });
+            runningInputValueSum += rawShare;
+        });
+
+        if(runningInputValueSum <= 0) {
+            alert(activeLanguageMode === 'en' ? "Combined partition values must be greater than zero." : "ମୋଟ ସମଷ୍ଟି ଶୂନରୁ ଅଧିକ ହେବା ଉଚିତ୍।");
+            return;
+        }
+
+        const targetContainer = document.getElementById('resultsList');
+        targetContainer.innerHTML = '';
+
+        shareholderArray.forEach(partner => {
+            let individualSqftAllocation = aggregatePoolSqft * (partner.targetValue / runningInputValueSum);
+            let individualSqydAllocation = individualSqftAllocation / 9;
+
+            // Convert back to Acre & Decimals format
+            let totalDecimalsAllocated = individualSqftAllocation / 435.6;
+            let outAcre = Math.floor(totalDecimalsAllocated / 100);
+            let outDecimal = (totalDecimalsAllocated % 100).toFixed(2);
+
+            let displayBadge = mode === 'percentage' ? partner.targetValue + "% Share" : "Ratio Allocation: " + partner.targetValue;
+            const card = document.createElement('div');
+            card.className = 'partner-result-card';
+            
+            card.innerHTML = `
+                <h4><span>👤 ${partner.partnerName}</span> <span style="font-size:13px; background:var(--odisha-gold); color:#000; padding:2px 10px; border-radius:30px; font-weight:800;">${displayBadge}</span></h4>
+                <div class="p-res-grid">
+                    <div class="p-res-box"><small>Acre (ଏକର)</small><span>${outAcre}</span></div>
+                    <div class="p-res-box"><small>Decimal (ଡେସିମିଲ୍)</small><span>${outDecimal}</span></div>
+                    <div class="p-res-box"><small>Status</small><span style="font-size:12px; color:#60a5fa;">Computed</span></div>
+                </div>
+                <div class="p-meta-info">
+                    <div><span>Square Feet:</span> <b>${Math.round(individualSqftAllocation).toLocaleString('en-IN')} sq ft</b></div>
+                    <div style="text-align:right;"><span>Square Yards:</span> <b>${Math.round(individualSqydAllocation).toLocaleString('en-IN')} sq yds</b></div>
+                </div>
+            `;
+            targetContainer.appendChild(card);
+        });
+
+        let formatConfig = { day: 'numeric', month: 'long', year: 'numeric' };
+        document.getElementById('pDocDate').innerText = new Date().toLocaleDateString('en-IN', formatConfig) + " (IST)";
+        document.getElementById('pDocRef').innerText = "SST-OD-PAR-" + Math.floor(1000000000 + Math.random() * 9000000000);
+
+        const resPanel = document.getElementById('resPanel');
+        resPanel.style.display = "block";
+        resPanel.scrollIntoView({ behavior: 'smooth' });
+    }
+
+    function resetCalculatorForm() {
+        document.getElementById('totalAcre').value = "1";
+        document.getElementById('totalDecimal').value = "0";
+        document.getElementById('totalGuntha').value = "0";
+        document.getElementById('partitionMode').selectedIndex = 0;
+        
+        const container = document.getElementById('partnersContainer');
+        container.innerHTML = `
+            <div class="partner-row">
+                <input type="text" class="p-name" placeholder="Partner Name" value="Partner A">
+                <input type="number" class="p-share" placeholder="Share Value" value="50" min="0">
+                <button type="button" class="btn-remove" onclick="removePartnerRow(this)">X</button>
+            </div>
+            <div class="partner-row">
+                <input type="text" class="p-name" placeholder="Partner Name" value="Partner B">
+                <input type="number" class="p-share" placeholder="Share Value" value="50" min="0">
+                <button type="button" class="btn-remove" onclick="removePartnerRow(this)">X</button>
+            </div>
+        `;
+        partnerCount = 2;
+        document.getElementById('resPanel').style.display = "none";
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function copyCalculatedLedger() {
+        let textOutput = "Odisha Land Partition Summary Report:\n-----------------------------------\n";
+        const cards = document.querySelectorAll('.partner-result-card');
+        
+        cards.forEach(card => {
+            let name = card.querySelector('h4 span').innerText;
+            let vals = card.querySelectorAll('.p-res-box span');
+            let sqft = card.querySelector('.p-meta-info b').innerText;
+            textOutput += name + " Allocation: " + vals[0].innerText + " Acre, " + vals[1].innerText + " Decimal (" + sqft + ")\n";
+        });
+        
+        textOutput += "\nProcessed accurately via Shayan Smart Tools Engine Framework.";
+        navigator.clipboard.writeText(textOutput);
+        alert(activeLanguageMode === 'en' ? "Partition breakdown copied successfully!" : "ସବିଶେଷ ତଥ୍ୟ ସଫଳତାର ସହ କପି ହୋଇଛି!");
+    }
+
+    function dispatchWhatsAppShare() {
+        let summaryLine = "Odisha Property Partition Breakdown. Pool split accurately via Shayan Smart Tools Engine securely.";
+        window.open("https://wa.me/?text=" + encodeURIComponent(summaryLine));
+    }
+
+    function triggerReportPrint() {
+        if(document.getElementById('resPanel').style.display !== "block") {
+            alert(activeLanguageMode === 'en' ? "Please calculate metrics first!" : "ଦୟାକରି ପ୍ରଥମେ ହିସାବ କରନ୍ତୁ!");
+            return;
+        }
+        window.print();
+    }
+</script>
+
+</body>
+</html>
