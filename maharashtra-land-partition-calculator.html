@@ -1,0 +1,885 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Maharashtra Land Partition Calculator Free 2026 | जमीन वाटणी क्युलेटर | Shayan Smart Tools</title>
+    <link rel="canonical" href="https://shayansmarttools.in/maharashtra-land-partition-calculator.html" />
+    <link rel="icon" type="image/png" href="favicon.png" />
+
+    <meta name="description" content="Official Maharashtra Land Partition Calculator. Divide or partition agricultural, residential, or commercial plots in Hectare, R (Guntha), and Square Meter formats accurately with dynamic partner-share matrices. Fully compliant with Mahabhulekh 7/12 revenue standards.">
+    <meta name="keywords" content="Maharashtra Land Partition Calculator, जमीन वाटणी क्युलेटर, Mahabhulekh land calculator Maharashtra, Hectare R Guntha Calculator, Maharashtra land area division tool, 7/12 utara land calculation, Maharashtra land mutation math, Guntha to Square Feet conversion Maharashtra">
+    <meta name="author" content="Muksidul islam">
+    <meta name="robots" content="index, follow">
+
+    <style>
+        :root {
+            --mahi-orange: #e65100;
+            --dark-orange: #bf360c;
+            --mahi-gold: #ffb300;
+            --text-dark: #334155;
+            --white: #ffffff;
+            --bg: #fffcf9;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--text-dark);
+            max-width: 950px;
+            margin: 0 auto;
+            padding: 15px;
+            background-color: var(--bg);
+        }
+
+        .tool-wrapper { padding: 10px 0; text-align: center; }
+
+        header {
+            background: linear-gradient(135deg, var(--mahi-orange), var(--dark-orange));
+            color: #fff; padding: 45px 20px; border-radius: 25px; text-align: center;
+            border-bottom: 6px solid var(--mahi-gold); margin-bottom: 25px;
+            box-shadow: 0 10px 25px rgba(230, 81, 0, 0.15);
+        }
+        header h1 { color: white; margin: 0 0 10px 0; font-size: 32px; text-transform: uppercase; letter-spacing: 0.5px; }
+        header p { color: #fff3e0; margin: 0; font-size: 16px; font-weight: 500; }
+
+        .lang-switcher {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin: 25px 0;
+        }
+        .lang-btn {
+            padding: 11px 32px;
+            border: 2px solid var(--mahi-orange);
+            background: var(--white);
+            color: var(--mahi-orange);
+            font-weight: 700;
+            font-size: 16px;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            min-width: 140px;
+            text-align: center;
+            outline: none;
+            box-shadow: 0 4px 6px rgba(230, 81, 0, 0.05);
+        }
+        .lang-btn.active {
+            background: var(--mahi-orange);
+            color: var(--white);
+        }
+
+        .section-fieldset {
+            border: 1px solid #cbd5e1;
+            border-radius: 16px;
+            background: var(--white);
+            padding: 25px;
+            margin-bottom: 25px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.01);
+            text-align: left;
+        }
+        .section-legend {
+            font-weight: 800;
+            color: var(--mahi-orange);
+            padding: 0 15px;
+            text-transform: uppercase;
+            font-size: 14px;
+            letter-spacing: 0.5px;
+        }
+
+        .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; }
+        .field { display: flex; flex-direction: column; }
+        label { font-size: 12px; font-weight: bold; margin-bottom: 6px; color: var(--mahi-orange); text-transform: uppercase; letter-spacing: 0.3px; }
+        input, select { padding: 14px; border: 1px solid #cbd5e1; border-radius: 10px; font-size: 16px; text-align: center; background: var(--white); outline: none; transition: 0.3s; font-weight: 600; width: 100%; }
+        input:focus, select:focus { border-color: var(--mahi-orange); box-shadow: 0 0 8px rgba(230, 81, 0, 0.15); }
+
+        .partner-wrapper {
+            margin-top: 15px;
+        }
+        .partner-row {
+            display: grid;
+            grid-template-columns: 2fr 1.5fr 0.5fr;
+            gap: 15px;
+            margin-bottom: 15px;
+            background: #f8fafc;
+            padding: 15px;
+            border-radius: 12px;
+            border: 1px dashed #cbd5e1;
+            align-items: center;
+        }
+
+        .btn-box { display: flex; gap: 15px; justify-content: center; margin: 35px 0 15px 0; flex-wrap: wrap; }
+        .btn { padding: 15px 35px; border: none; border-radius: 10px; font-weight: 800; cursor: pointer; transition: 0.3s; font-size: 15px; text-transform: uppercase; letter-spacing: 0.5px; min-width: 160px; }
+        .btn-add { background: #2f3e4f; color: white; } 
+        .btn-calc { background: var(--mahi-orange); color: white; }
+        .btn-reset { background: #ef4444; color: white; }
+        .btn-remove { background: #fee2e2; color: #ef4444; padding: 14px; font-weight: bold; border-radius: 10px; border: 1px solid #fca5a5; }
+        .btn:hover { transform: translateY(-3px); box-shadow: 0 8px 15px rgba(0,0,0,0.12); }
+        .btn-remove:hover { background: #fca5a5; color: #b91c1c; }
+
+        /* Portal Navigation Panel Layout */
+        .portal-links-wrapper {
+            background: var(--white);
+            border: 1px solid #cbd5e1;
+            border-radius: 16px;
+            padding: 20px;
+            margin: 25px auto;
+            max-width: 100%;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.01);
+            text-align: left;
+        }
+        .portal-links-title {
+            font-size: 13px;
+            font-weight: 800;
+            color: var(--mahi-orange);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 12px;
+            display: block;
+            border-bottom: 1px dashed #cbd5e1;
+            padding-bottom: 6px;
+        }
+        .gov-portal-links { display: flex; gap: 20px; flex-wrap: wrap; }
+        .gov-link-node { font-size: 13px; color: #e65100; font-weight: bold; text-decoration: none; display: inline-flex; align-items: center; gap: 6px; background: #fff5f5; padding: 8px 16px; border-radius: 8px; border: 1px solid #fed7d7; transition: all 0.2s ease; }
+        .gov-link-node:hover { background: #feebec; text-decoration: underline; transform: translateY(-1px); }
+
+        /* Results Panel Layout */
+        .res-panel { background: #140802; color: white; padding: 25px; border-radius: 25px; margin-top: 35px; display: none; border: 2px solid var(--mahi-orange); position: relative; text-align: left; box-shadow: 0 15px 30px rgba(0,0,0,0.2); }
+        .res-panel h3 { margin-top: 0; text-align: center; color: #ffb300; font-size: 1.4rem; margin-bottom: 20px; border-bottom: 1px dashed rgba(255,255,255,0.1); padding-bottom: 15px; }
+        #resultsList { display: flex; flex-direction: column; gap: 20px; }
+        .partner-result-card { background: rgba(255,255,255,0.04); border-left: 6px solid var(--mahi-gold); padding: 20px; border-radius: 14px; border-top: 1px solid rgba(255,255,255,0.05); }
+        .partner-result-card h4 { margin: 0 0 10px 0; font-size: 18px; color: #ffb300; display: flex; justify-content: space-between; }
+        .p-res-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 10px; }
+        .p-res-box { background: rgba(0,0,0,0.3); padding: 10px; border-radius: 8px; text-align: center; border: 1px solid rgba(255,255,255,0.05); }
+        .p-res-box small { display: block; font-size: 11px; color: #94a3b8; text-transform: uppercase; margin-bottom: 3px; }
+        .p-res-box span { font-weight: 700; font-size: 16px; color: #fff; }
+        .p-meta-info { font-size: 12px; color: #94a3b8; display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; border-top: 1px solid rgba(255,255,255,0.05); padding-top: 10px; margin-top: 5px; }
+
+        /* Print Architecture System */
+        .print-only-section { display: none; margin: 15px 0; }
+        .print-table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+        .print-table th, .print-table td { border: 1px solid #cbd5e1; padding: 8px; text-align: center; font-size: 13px; }
+        .print-table th { background-color: #fff5f5; color: var(--mahi-orange); font-weight: bold; }
+        .print-header-block, .print-footer-block { display: none; }
+
+        .util-btns { display: flex; gap: 12px; margin-top: 25px; flex-wrap: wrap; }
+        .u-btn { flex: 1; padding: 15px; border: none; border-radius: 12px; font-weight: 800; cursor: pointer; color: white; font-size: 14px; text-align: center; transition: 0.3s; text-transform: uppercase; min-width: 140px; }
+
+        /* Verification Grouping Elements */
+        .print-footer-container { display: flex; justify-content: space-between; align-items: flex-start; gap: 15px; margin-top: 15px; }
+        .v-badge-wrapper { text-align: center; width: 110px; }
+        .v-badge-wrapper img { width: 95px; height: 95px; object-fit: contain; background: #fff; padding: 4px; border: 1px solid #cbd5e1; border-radius: 6px; display: block; margin: 0 auto 5px auto; }
+        .v-badge-wrapper span { font-size: 9px; font-weight: 800; color: #1e293b; text-transform: uppercase; letter-spacing: 0.3px; display: block; margin-bottom: 2px; }
+        .v-badge-wrapper .sig-line { font-size: 10px; font-weight: 800; color: #e65100; border-top: 1px dashed #475569; margin-top: 8px; padding-top: 4px; white-space: nowrap; }
+
+        /* SEO Article Typography */
+        .seo-article { 
+            background: transparent !important; 
+            padding: 30px 0; 
+            margin-top: 40px; 
+            line-height: 1.85; 
+            border: none !important;
+            color: #334155 !important;
+            text-align: left;
+        }
+        .seo-header-block { text-align: center; border-bottom: 3px solid var(--mahi-orange); padding-bottom: 25px; margin-bottom: 35px; }
+        .seo-article h2 { color: var(--mahi-orange) !important; font-size: 30px !important; margin-top: 40px !important; margin-bottom: 15px !important; font-weight: 700; }
+        .seo-article h3 { color: var(--mahi-orange) !important; margin-top: 30px; font-size: 22px; border-left: 6px solid var(--mahi-gold); padding-left: 15px; font-weight: 600; }
+        .seo-article p { color: #334155 !important; font-size: 16px; text-align: justify; margin-bottom: 20px; }
+        .seo-article ul, .seo-article ol { margin-bottom: 25px; padding-left: 20px; font-size: 16px; }
+        .seo-article li { margin-bottom: 10px; }
+        
+        .seo-article table { width: 100%; border-collapse: collapse; margin: 30px 0; background: #ffffff; box-shadow: 0 4px 6px rgba(0,0,0,0.01); display: block; overflow-x: auto; }
+        .seo-article th, .seo-article td { border: 1px solid #e2e8f0; padding: 16px; text-align: left; color: #334155 !important; font-size: 15px; white-space: nowrap; }
+        .seo-article th { background-color: #fff5f5; color: var(--mahi-orange) !important; font-weight: 700; }
+
+        .faq-block { background: #ffffff; padding: 22px; border-radius: 14px; border: 1px solid #e2e8f0; margin-bottom: 20px; box-shadow: 0 4px 6px rgba(0,0,0,0.01); }
+        .faq-block p b { color: var(--mahi-orange); font-size: 16px; display: block; margin-bottom: 8px; }
+
+        .footer-copyright-box { 
+            margin-top: 60px; 
+            text-align: center; 
+            font-size: 13px; 
+            color: #475569; 
+            background: #ffffff; 
+            padding: 35px; 
+            border-radius: 24px; 
+            border: 1px solid #e2e8f0;
+            border-top: 6px solid #e65100;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.03);
+        }
+        .footer-copyright-box p { margin: 8px 0; line-height: 1.7; }
+        .footer-law-accent { font-weight: 800; color: #0f172a; text-transform: uppercase; font-size: 12px; letter-spacing: 1.5px; margin-bottom: 15px !important; display: inline-block; background: #f1f5f9; padding: 6px 16px; border-radius: 30px; border: 1px solid #cbd5e1; }
+
+        .lang-section { display: none; }
+        .lang-section.active-lang { display: block; }
+
+        @media (max-width: 600px) {
+            header { padding: 30px 15px; border-radius: 15px; }
+            header h1 { font-size: 24px; }
+            header p { font-size: 14px; }
+            .grid-3 { grid-template-columns: 1fr; gap: 12px; }
+            .partner-row { grid-template-columns: 1fr; gap: 10px; }
+            .p-res-grid { grid-template-columns: repeat(3, 1fr); }
+            .btn { width: 100%; padding: 14px; font-size: 14px; }
+            .u-btn { width: 100%; }
+            .seo-article h2 { font-size: 24px !important; }
+            .seo-article h3 { font-size: 18px; }
+            .lang-btn { flex: 1; padding: 10px 15px; font-size: 15px; min-width: auto; }
+            .gov-portal-links { flex-direction: column; gap: 10px; }
+            .gov-link-node { width: 100%; justify-content: center; }
+        }
+
+        /* Print Media Layout Engine */
+        @media print {
+            html, body { height: auto; overflow: visible; background: #ffffff !important; padding: 0 !important; margin: 0 !important; }
+            * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; color: #000000 !important; }
+            @page { margin: 10mm 10mm; size: A4 portrait; }
+            .tool-wrapper, .btn-box, .portal-links-wrapper, .util-btns, .seo-article, .back-btn, .section-fieldset, .lang-switcher, .footer-copyright-box { display: none !important; }
+            
+            .res-panel { 
+                display: block !important; 
+                background: #ffffff !important; 
+                padding: 30px 20px !important; 
+                margin: 0 !important; 
+                width: 100% !important; 
+                border: 5px double #e65100 !important; 
+                border-radius: 0px !important; 
+                box-shadow: none !important; 
+            }
+            .res-panel h3 { color: #e65100 !important; border-bottom: 2px solid #e65100 !important; font-weight: bold; }
+            .partner-result-card { background: transparent !important; border: 1px solid #cbd5e1 !important; border-left: 6px solid #e65100 !important; color: #000000 !important; margin-bottom: 15px; page-break-inside: avoid; }
+            .partner-result-card h4 { color: #e65100 !important; }
+            .p-res-box { background: transparent !important; border: 1px solid #cbd5e1 !important; }
+            .p-res-box span { color: #000000 !important; }
+            .p-res-box small { color: #475569 !important; }
+            .p-meta-info span { color: #475569 !important; }
+            
+            .print-only-section { display: block !important; }
+            .print-header-block { display: block !important; text-align: center; border-bottom: 3px double #e65100 !important; padding-bottom: 15px; margin-bottom: 25px; }
+            .print-footer-block { display: block !important; margin-top: 40px; border-top: 2px dashed #e65100 !important; padding-top: 20px; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="tool-wrapper">
+    <header>
+        <h1 id="mainTitle">Maharashtra Land Partition Calculator</h1>
+        <p id="mainSubTitle">Official Maharashtra Bhulekh Matrix: 1 Hectare = 100 R (Guntha) | 1 R = 101.17 Sq. Meters | 1 R = 1,089 Sq. Ft.</p>
+    </header>
+
+    <div class="lang-switcher">
+        <button class="lang-btn active" onclick="switchLanguage('en')">English</button>
+        <button class="lang-btn" onclick="switchLanguage('mr')">मराठी</button>
+    </div>
+
+    <div class="section-fieldset">
+        <span class="section-legend" id="lblTotalLandHeading">Total Land Area to Partition</span>
+        <div class="grid-3" style="margin-top: 15px;">
+            <div class="field">
+                <label id="lblInputBigha">Hectare (हेक्टर)</label>
+                <input type="number" id="totalHectare" placeholder="0" min="0" value="1" step="0.0001">
+            </div>
+            <div class="field">
+                <label id="lblInputKatha">R / Guntha (आर / गुंठा)</label>
+                <input type="number" id="totalR" placeholder="0" min="0" max="99" value="0">
+            </div>
+            <div class="field">
+                <label id="lblInputLessa">Sq. Meter (चौ. मीटर)</label>
+                <input type="number" id="totalSqMeter" placeholder="0" min="0" max="101.16" value="0" step="0.01">
+            </div>
+        </div>
+    </div>
+
+    <div class="section-fieldset">
+        <span class="section-legend" id="lblPartitionBasis">Partition Allocation Mode</span>
+        <div class="field" style="margin-top:15px;">
+            <select id="partitionMode">
+                <option value="percentage">Percentage (%) - Collective Sum Equals 100%</option>
+                <option value="ratio">Ratio / Equal Distribution Parts (e.g., 1:2:1)</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="section-fieldset">
+        <span class="section-legend" id="lblShareholdersHeading">Partners / Shareholders Allocation Records</span>
+        <div id="partnersContainer" class="partner-wrapper">
+            <div class="partner-row">
+                <input type="text" class="p-name" placeholder="Partner Name" value="Partner A">
+                <input type="number" class="p-share" placeholder="Share Value" value="50" min="0">
+                <button type="button" class="btn-remove" onclick="removePartnerRow(this)">X</button>
+            </div>
+            <div class="partner-row">
+                <input type="text" class="p-name" placeholder="Partner Name" value="Partner B">
+                <input type="number" class="p-share" placeholder="Share Value" value="50" min="0">
+                <button type="button" class="btn-remove" onclick="removePartnerRow(this)">X</button>
+            </div>
+        </div>
+        <button class="btn btn-add" id="btnAddPartner" onclick="addNewPartnerRow()">+ Add Shareholder</button>
+    </div>
+
+    <div class="btn-box">
+        <button class="btn btn-calc" id="btnCalc" onclick="processPartitionCalculation()">Compute Partition Records</button>
+        <button class="btn btn-reset" id="btnReset" onclick="resetCalculatorForm()">Reset Canvas</button>
+    </div>
+
+    <div class="portal-links-wrapper">
+        <span class="portal-links-title" id="lblPortalTitle">Official Maharashtra Government Portals</span>
+        <div class="gov-portal-links">
+            <a href="https://bhulekh.mahabhumi.gov.in/" target="_blank" class="gov-link-node">🌐 Mahabhulekh Portal</a>
+            <a href="https://mahabhumi.gov.in/" target="_blank" class="gov-link-node">🏛️ Revenue Department</a>
+        </div>
+    </div>
+</div> 
+
+<div id="resPanel" class="res-panel">
+    <div class="print-header-block">
+        <div style="display: flex; justify-content: center; align-items: center; gap: 10px; margin-bottom: 5px;">
+            <img src="favicon.png" alt="SST" style="width: 32px; height: 32px;">
+            <h2 style="font-size: 24px; color: #e65100; margin: 0; font-weight: 900; letter-spacing: 1px;">SHAYAN SMART TOOLS</h2>
+        </div>
+        <p style="font-size: 11px; color: #bf360c; font-weight: bold; margin: 0 0 15px 0; letter-spacing: 0.5px; text-transform: uppercase;">MAHARASHTRA LAND REVENUE RECORD (7/12) PARTITION SHEET - 2026</p>
+        
+        <div style="background: #f8fafc; border: 1px solid #cbd5e1; padding: 12px; border-radius: 6px; display: grid; grid-template-columns: 1fr 1fr; font-size: 12px; text-align: left; gap: 8px; color: #334155;">
+            <div><strong>MUTATION REF NO:</strong> <span id="pDocRef" style="color:#e65100; font-weight:bold;">SST-MH-PAR-0000</span></div>
+            <div style="text-align: right;"><strong>COMPUTATION DATE:</strong> <span id="pDocDate" style="color:#e65100; font-weight:bold;">--/--/----</span></div>
+            <div><strong>JURISDICTION ZONE:</strong> State of Maharashtra (महाराष्ट्र)</div>
+            <div><strong>UNIT EQUATION BASE:</strong> Mahabhumi Metric Base-100 Framework Engine</div>
+        </div>
+    </div>
+
+    <div class="print-only-section">
+        <h4 style="color:#e65100; margin: 15px 0 5px 0; font-size: 14px; text-transform: uppercase; border-bottom: 1px solid #cbd5e1; padding-bottom: 4px;" id="printInputsTitle">Initial Property Pool Before Subdivision</h4>
+        <table class="print-table">
+            <thead>
+                <tr>
+                    <th id="thTotalBigha">Total Hectare</th>
+                    <th id="thTotalKatha">Total R (Guntha)</th>
+                    <th id="thTotalLessa">Total Sq. Meter</th>
+                    <th id="thTotalSqft">Equivalent Sq. Feet</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td id="tdPrintBigha">0</td>
+                    <td id="tdPrintKatha">0</td>
+                    <td id="tdPrintLessa">0</td>
+                    <td id="tdPrintSqft">0 sq ft</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <h3 id="resHead">Final Disaggregated Partition Shares (विभागणी तक्ता)</h3>
+    
+    <div id="resultsList"></div>
+
+    <div class="print-footer-block">
+        <div class="print-footer-container">
+            <div class="v-badge-wrapper">
+                <img src="qrcode.png" alt="Verification QR">
+                <span>Scan to Verify</span>
+                <div class="sig-line" id="lblAuthSigLeft">AUTHORIZED SIGNATURE</div>
+            </div>
+
+            <div style="flex: 1; text-align: center; padding: 0 10px;">
+                <p style="margin: 0; font-weight: bold; color: #e65100; text-transform: uppercase; font-size: 10px;">🔒 STATUTORY REVENUE DISAGGREGATION SECURITY NOTICE</p>
+                <p style="margin: 5px 0 0 0; font-size: 9px; color: #475569; line-height: 1.4; text-align: justify;">This mathematical model completely complies with the land systems utilized by the Maharashtra Integrated Land Records Systems (Mahabhulekh) / 7/12 Utara (1 Hectare = 100 R, 1 R = 101.17 Sq. Meters, 1 R = 1089 Sq. Ft.). Rounded-off metrics contain structural adjustments. Cross-verify with authorized copies from regional Talathi Office, Tahsildar revenue courts, or local sub-registrar books for dynamic physical registry mapping.</p>
+                <p style="margin: 10px 0 0 0; font-size: 10px; font-weight: bold; color: #e65100;">OFFICIAL HUB: www.shayansmarttools.in</p>
+            </div>
+
+            <div class="v-badge-wrapper">
+                <img src="seal.png" alt="Revenue Seal">
+                <span>Official Seal</span>
+                <div class="sig-line" id="lblAuthSigRight">AUTHORIZED SIGNATURE</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="util-btns">
+        <button class="u-btn" style="background:#475569;" id="btnCopy" onclick="copyCalculatedLedger()">📋 Copy Partition Text</button>
+        <button class="u-btn" style="background:#22c55e;" id="btnWA" onclick="dispatchWhatsAppShare()">📲 Send to WhatsApp</button>
+        <button class="u-btn" style="background:#e65100;" id="btnPrint" onclick="triggerReportPrint()">🖨️ Print Legal Sheet</button>
+    </div>
+</div>
+
+<div class="back-btn" style="text-align:center; margin-top: 20px;"><a href="index.html" id="lnkBack" style="color:var(--mahi-orange); font-weight:bold; text-decoration:none;">⬅ Back to All Tools Dashboard</a></div>
+
+<article id="content-en" class="seo-article lang-section active-lang">
+    <div class="seo-header-block">
+        <h2>Maharashtra Land Partition Calculator: Advanced Hectare-R-Square Meter Fractional Division Engine</h2>
+        <p>Compute, split, and divide ancestral or joint real estate property across Maharashtra using the standard Mahabhulekh metric parameters with absolute accuracy.</p>
+    </div>
+
+    <section>
+        <h3>1. Deep Integration into Maharashtra's Land Survey Framework & Revenue Math</h3>
+        <p>Real estate management, registry tracking, and legacy estate settlements in the state of Maharashtra demand flawless alignment with regional revenue arithmetic. Unlike other northern Indian territories that evaluate spaces via traditional local Bighas or Marlas, the land administrative infrastructure in Maharashtra relies completely on standardized metric parameters overseen by the <b>Department of Land Records (Mahabhumi)</b>, universally accessed through the <b>Mahabhulekh 7/12 portal</b>. Land values here are registered strictly under <b>Hectare, R (Guntha), and Square Meter</b> matrices.</p>
+        <p>When multiple co-sharers, legal descendants, or family members decide to parse or partition a mutual property tract (heirship land partition), calculating individual allotments using normal consumer-grade decimal applications causes critical rounding mistakes. This is due to the non-decimal breakdown configuration of specific fractional survey numbers on the Satbara Utara (7/12). Our professional-grade <b>Maharashtra Land Partition Calculator</b> mitigates these engineering constraints by deploying strict base-100 metric quotient algorithms mapped to exact square meter dimensions. This structural integrity ensures that whether you are dealing with fertile black cotton soils across Vidarbha, sprawling sugarcane belts in Western Maharashtra, or high-value urban commercial layouts in Pune, Thane, and Mumbai suburban areas, your partition calculations align precisely with state revenue survey rules under the Maharashtra Land Revenue Code (MLRC), 1966.</p>
+    </section>
+
+    <section>
+        <h3>2. Explicit Operational Protocol for Dividing Land Parcels</h3>
+        <p>Our platform handles advanced algorithmic land fragmentation through a seamless user interface. Follow this operational checklist:</p>
+        <ol>
+            <li><b>Establish the Primary Real Estate Base Pool:</b> Feed the aggregate volume of the land target into the labeled fields under <b>Hectare</b>, <b>R / Guntha</b>, and <b>Square Meter</b>. If the plot lacks large parameters (such as a small non-agricultural commercial or residential plot), configure Hectare to zero and input only the R or square meter quantities.</li>
+            <li><b>Choose the Allocation Mode:</b> Decide your division metrics using our drop-down list. Use <b>Percentage Mode</b> to divide based on percentage targets (ensuring the cumulative sum maps out to 100%). Alternatively, choose <b>Ratio Mode</b> to process divisions using whole numbers or arbitrary fractions (e.g., separating parental land between three siblings in a 2:2:1 ratio or equal halves).</li>
+            <li><b>Populate the Shareholder Registry:</b> Change partner titles and insert their corresponding target metrics. Need more entities? Click <b>"+ Add Shareholder"</b> to add an unlimited number of allocation fields to the active stack.</li>
+            <li><b>Generate the Settlement Ledger:</b> Click <b>"Compute Partition Records"</b>. The algorithm instantly converts the primary land pool into raw square meters, splits it via the chosen mathematical mode, and reconstructs the data into precise Hectare-R-Square Meter breakdowns for each partner card.</li>
+        </ol>
+    </section>
+
+    <section>
+        <h3>3. Structural Mathematical Breakdown: A Practical Partition Scenario</h3>
+        <p>To demonstrate the robustness of our calculation engine, let us review an actual mathematical breakdown of a complex land partition scenario. Suppose an ancestral agricultural estate measuring <b>2 Hectares, 40 R, and 50 Square Meters</b> needs to be partitioned among three legal beneficiaries with varying percentages:</p>
+        <ul>
+            <li><b>Beneficiary 1 (Partner A):</b> 50% Allocation Share</li>
+            <li><b>Beneficiary 2 (Partner B):</b> 30% Allocation Share</li>
+            <li><b>Beneficiary 3 (Partner C):</b> 20% Allocation Share</li>
+        </ul>
+        <p><b>Backend Processing Steps:</b></p>
+        <ol>
+            <li><b>Unification to Lowest Common Matrix (Square Meter):</b> 
+                The algorithm processes the pool into total Square Meters:
+                <br>2 Hectares &times; 10,000 = 20,000 Sq. Meters
+                <br>40 R &times; 101.17 = 4,046.8 Sq. Meters
+                <br>Input Sq. Meters = 50 Sq. Meters
+                <br>Total Pool = 20,000 + 4,046.8 + 50 = 24,096.8 Sq. Meters
+            </li>
+            <li><b>Execution of Individual Fractional Shares:</b>
+                <ul>
+                    <li>Partner A: 24,096.8 &times; 0.50 = 12,048.4 Sq. Meters</li>
+                    <li>Partner B: 24,096.8 &times; 0.30 = 7,229.04 Sq. Meters</li>
+                    <li>Partner C: 24,096.8 &times; 0.20 = 4,819.36 Sq. Meters</li>
+                </ul>
+            </li>
+            <li><b>Reconstruction to Hectare-R-Square Meter Format:</b>
+                For Partner A (12,048.4 Sq. Meters):
+                <br>12,048.4 / 10,000 = 1 Hectare (Remaining 2,048.4 Sq. Meters)
+                <br>2,048.4 / 101.17 = 20 R (Remaining 25.0 Sq. Meters)
+                <br>Result: <b>1 Hectare, 20 R, 25.0 Sq. Meters</b> (Equivalent to approx. 129,683 Sq. Ft.).
+            </li>
+        </ol>
+    </section>
+
+    <section>
+        <h3>4. Statutory Frameworks Governing Land Mutation & Amalgamation in Maharashtra</h3>
+        <p>Land partition in Maharashtra is not merely an isolated mathematical exercise; it is heavily regulated by statutory frameworks, primarily <b>Section 85 of the Maharashtra Land Revenue Code, 1966</b>. When a mutual joint holding or ancestral estate undergoes physical or structural partition among co-sharers, they must file for a formal partition case before the Revenue Court of the local Tahsildar or apply through the online e-Hakk system for dynamic entry mutation. Following this, field verification is executed by Circle Officers or Talathis along with Land Records Surveyors (Bhumi Abhilekh Deputy Superintendent Office) to execute official measurement (Moje) and assign independent sub-numbers (Hissa numbers) under the original Survey Number.</p>
+        <p>Whether you are filing for a mutual family settlement deed (Vatap Patra), executing a gift deed, or preparing detailed boundaries for non-agricultural (NA) plotting projects, mathematical accuracy is paramount. Even a tiny error in deed calculations can cause the automated systems at the Sub-Registrar’s office or the Mahabhulekh mutation workflow to flag your application for data mismatch. Our partition engine aligns your mathematical documentation perfectly with state land measurement rules to keep your paperwork clean and unchallengable.</p>
+    </section>
+
+    <h3>5. Official Maharashtra Revenue Conversion Matrix Table</h3>
+    <table>
+        <thead>
+            <tr>
+                <th>Maharashtra Unit Type</th>
+                <th>Standard Revenue Equation Definitions</th>
+                <th>Square Meters Equivalent (Sq. M)</th>
+                <th>Square Feet Equivalent (Sq. Ft.)</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr><td><b>1 Hectare</b></td><td>100 R (Guntha) / Standard Survey Base Scale</td><td>10,000 Sq M</td><td>1,07,639 Sq Ft</td></tr>
+            <tr><td><b>1 R (Guntha)</b></td><td>1/100th Fraction of 1 Hectare Base Scale</td><td>101.17 Sq M</td><td>1,089 Sq Ft</td></tr>
+            <tr><td><b>1 Square Meter</b></td><td>Standard SI Unit Metric utilized on newer 7/12 formats</td><td>1 Sq M</td><td>10.7639 Sq Ft</td></tr>
+            <tr><td><b>1 Acre</b></td><td>Traditional Imperial measure mapping to R equivalents</td><td>4,046.85 Sq M</td><td>43,560 Sq Ft</td></tr>
+            <li><b>Note:</b> 1 Hectare consists of exactly 2.47105 Acres according to standard revenue conversions.</li>
+        </tbody>
+    </table>
+
+    <h3>6. 15 Critical Frequently Asked Questions (Google SERP Optimization Nodes)</h3>
+    <div id="faq-container-en">
+        <div class="faq-block"><p><b>Q1. How many R (Guntha) combine to form exactly one Hectare in Maharashtra?</b><br>Ans: Under the official Maharashtra Revenue matrix, exactly 100 R (Guntha) combine to form 1 standard Hectare.</p></div>
+        <div class="faq-block"><p><b>Q2. What is the standard equivalent area of 1 R (Guntha) in square feet?</b><br>Ans: 1 R (commonly called Guntha in Maharashtra) is exactly equal to 1,089 square feet.</p></div>
+        <div class="faq-block"><p><b>Q3. What is the equivalent area of 1 R in square meters on the Mahabhulekh portal?</b><br>Ans: Under standard land survey dimensions, 1 R equals exactly 101.17 square meters.</p></div>
+        <div class="faq-block"><p><b>Q4. How many acres are there in one standard Hectare unit in Maharashtra?</b><br>Ans: One standard Hectare of land contains approximately 2.47 acres of land parcel.</p></div>
+        <div class="faq-block"><p><b>Q5. Does this tool integrate directly with the official Mahabhulekh system?</b><br>Ans: No, this is an independent calculation engine designed by Shayan Smart Tools based strictly on the metric mathematical standards used by the Maharashtra Revenue Department.</p></div>
+        <div class="faq-block"><p><b>Q6. Why do general mobile calculators fail for multi-partner land partition?</b><br>Ans: Standard calculators do not process the automatic conversion between decimal fractional hectares and standard square meter remainders, leading to structural compounding errors.</p></div>
+        <div class="faq-block"><p><b>Q7. Under which section of the MLRC can co-sharers apply for land partition?</b><br>Ans: Co-sharers can apply for formal land partition under Section 85 of the Maharashtra Land Revenue Code, 1966.</p></div>
+        <div class="faq-block"><p><b>Q8. What does a "Vatap Patra" mean in Maharashtra land records?</b><br>Ans: A Vatap Patra is a formal family partition deed executed among joint owners to legally split ancestral land parcels.</p></div>
+        <div class="faq-block"><p><b>Q9. How many square feet constitute exactly one acre of land?</b><br>Ans: One standard acre consists of exactly 43,560 square feet of area pool.</p></div>
+        <div class="faq-block"><p><b>Q10. Can I divide properties using custom fractional ratios like 3:2:1?</b><br>Ans: Yes, switch the calculator's mode to Ratio Mode. The engine will handle the math automatically regardless of the ratio integers configured.</p></div>
+        <div class="faq-block"><p><b>Q11. What official role does a Talathi play during the mutation of partitioned land?</b><br>Ans: The Talathi reviews the formal partition order or registered deed to enter the new names and updated area allocations into the 7/12 ledger (Record of Rights).</p></div>
+        <div class="faq-block"><p><b>Q12. What does "Pot Kharaba" land mean on a Maharashtra 7/12 extract?</b><br>Ans: Pot Kharaba refers to uncultivable or waste land within a survey number, which is included in total area but excluded from revenue assessments.</p></div>
+        <div class="faq-block"><p><b>Q13. What is the minimum land area required for a separate agricultural plot registration?</b><br>Ans: Under the Prevention of Fragmentation Act, Maharashtra regulates minimum area standards (frequently 11 R or 20 R depending on location) to prevent unviable fragmentation.</p></div>
+        <div class="faq-block"><p><b>Q14. How can I export the generated partition breakdown into a document format?</b><br>Ans: Click the "Print Legal Sheet" button to instantly save the formatted report as a clean PDF document.</p></div>
+        <div class="faq-block"><p><b>Q15. Can this output be used directly as a substitute for an official revenue court order?</b><br>Ans: No, this tool is designed for calculation and structural planning purposes. Legal partitions must be formalized through the Tahsildar court or registered mutation deeds.</p></div>
+    </div>
+</article>
+
+<article id="content-mr" class="seo-article lang-section">
+    <div class="seo-header-block">
+        <h2>महाराष्ट्र जमीन वाटणी क्युलेटर: हेक्टर-आर-चौकट मीटर अचूक विभागणी इंजिन</h2>
+        <p>महाराष्ट्र सरकारच्या भूमी अभिलेख (महाभुलेख) आणि ७/१२ उताऱ्याच्या अधिकृत नियमांनुसार संयुक्त किंवा पौत्रिक जमिनीची वाटणी अत्यंत अचूकतेने करा.</p>
+    </div>
+
+    <section>
+        <h3>१. महाराष्ट्राची भूमी अभिलेख पद्धत आणि महसूल गणित</h3>
+        <p>महाराष्ट्रामध्ये जमिनीची खरेदी-विक्री, वारसदार हक्काने मिळणाऱ्या मालमत्तेची वाटणी किंवा फेरफार (Mutation) प्रक्रियेसाठी महसूल विभागाचे अचूक गणीत समजून घेणे अत्यंत आवश्यक आहे. भारताच्या इतर काही राज्यांप्रमाणे येथे बिघा किंवा मरला पद्धत वापरली जात नाही; तर महाराष्ट्रातील जमीन प्रशासन पूर्णपणे <b>हेक्टर, आर (गुंठा) आणि चौरस मीटर</b> या मेट्रिक पद्धतीवर आधारित आहे. शासकीय भूमी अभिलेख पँनेल <b>महाभुलेख ७/१२ (Satbara)</b> वर सर्व नोंदी याच एककात केल्या जातात.</p>
+        <p>जेव्हा एखादी सामायिक जमीन किंवा शेतजमीन अनेक खातेदार किंवा भाऊबंधांमध्ये विभागायची असते, तेव्हा सामान्य दशांश कॅल्क्युलेटर वापरल्यास मोठ्या चुका होऊ शकतात. याचे कारण ७/१२ उताऱ्यावरील पोट-हिश्श्यांचे गुंतागुंतीचे वर्गीकरण आहे. आमचे हे <b>Maharashtra Land Partition Calculator</b> या क्लिष्ट महसूल समीकरणांना बेस-१०० आणि चौरस मीटर परिमाणांवर आधारित अल्गोरिदमद्वारे काही सेकंदात सोडवते. पश्चिम महाराष्ट्रातील बागायती शेती असो, विदर्भातील कापसाची क्षेत्रे असोत किंवा पुणे-मुंबई परिसरातील अकृषक (NA) प्लॉट्स असोत, हे क्युलेटर महाराष्ट्र जमीन महसूल कायदा (MLRC), १९६६ च्या नियमांना धरून अचूक वाटणी दाखवते.</p>
+    </section>
+
+    <section>
+        <h3>२. कॅल्क्युलेटर वापरण्याची सोपी पद्धत</h3>
+        <p>आमचे हे डिजिटल सँजुल अत्यंत सोप्या आणि युझर-फ्रेंडली पद्धतीने डिझाइन केले गेले आहे. खालील पायऱ्या फॉलो करा:</p>
+        <ol>
+            <li><b>एकूण जमिनीचे क्षेत्रफळ टाका:</b> तुम्हाला ज्या जमिनीची वाटणी करायची आहे तिचे एकूण क्षेत्रफळ उताऱ्याप्रमाणे <b>Hectare</b>, <b>R / Guntha</b>, आणि <b>Square Meter</b> च्या रकान्यात भरा. क्षेत्रफळ हेक्टरमध्ये नसेल तर तिथे शून्य (0) लिहून फक्त आर आणि चौ.मी. टाका.</li>
+            <li><b>वाटणीची पद्धत निवडा (Allocation Mode):</b> तुम्हाला जमीन टक्केवारीच्या रूपात वाटायची आहे (Percentage Mode) की विशिष्ट प्रमाणात किंवा हिश्श्यांच्या संख्येत विभागणी करायची आहे (Ratio Mode) ते निवडा. उदाहरणार्थ, तीन भावांमध्ये २:२:१ या प्रमाणात जमीन विभागता येईल.</li>
+            <li><b>खातेदार/अंशधारकांची नावे जोडा:</b> सर्व वारसदारांची नावे आणि त्यांचा हिस्सा संख्या किंवा टक्केवारी नोंदवा. अंशधारक दोनपेक्षा जास्त असल्यास <b>"+ Add Shareholder"</b> बटणावर क्लिक करून तुम्ही कितीही नवे रकाने जोडू शकता.</li>
+            <li><b>अंतिम निकाल मिळवा:</b> सर्व माहिती भरल्यावर <b>"Compute Partition Records"</b> वर क्लिक करा. आमचे इंजिन एकूण जमिनीचे चौरस मीटरमध्ये रूपांतर करून, प्रत्येक भागीदाराच्या नावासमोर त्याचे स्वतंत्र हेक्टर-आर-चौ.मी. मधील क्षेत्रफळ आणि चौरस फूट रूपांतर स्पष्टपणे दाखवेल.</li>
+        </ol>
+    </section>
+
+    <section>
+        <h3>३. जमीन वाटणीचे प्रत्यक्ष गणिताचे उदाहरण</h3>
+        <p>हे कॅल्क्युलेटर बॅकएंडला कशा प्रकारे काम करते, याचे एक व्यावहारिक उदाहरण पाहू. समजा, ७/१२ उताऱ्यावरील एकूण क्षेत्रफळ <b>२ हेक्टर, ४० आर, आणि ५० चौरस मीटर</b> आहे आणि त्याची वाटणी तीन वारसदारांमध्ये खालील टक्केवारीनुसार करायची आहे:</p>
+        <ul>
+            <li><b>प्रथम वारसदार (Partner A):</b> ५०% हिस्सा</li>
+            <li><b>द्वितीय वारसदार (Partner B):</b> ३०% हिस्सा</li>
+            <li><b>तृतीय वारसदार (Partner C):</b> २०% हिस्सा</li>
+        </ul>
+        <p><b>गणना प्रक्रिया:</b></p>
+        <ol>
+            <li><b>एकूण क्षेत्राचे चौरस मीटरमध्ये रूपांतर:</b>
+                <br>२ हेक्टर &times; १०,००० = २०,००० चौ.मी.
+                <br>४० आर &times; १०१.१७ = ४,०४६.८ चौ.मी.
+                <br>दिलेले चौ.मी. = ५० चौ.मी.
+                <br>एकूण पूल = २०,००० + ४,०४६.८ + ५० = २४,०९६.८ चौ.मी.
+            </li>
+            <li><b>टक्केवारीनुसार हिस्सा वाटप:</b>
+                <ul>
+                    <li>Partner A: २४,०९६.८ &times; ०.५० = १२,०४८.४ चौ.मी.</li>
+                    <li>Partner B: २४,०९६.८ &times; ०.३० = ७,२२९.०४ चौ.मी.</li>
+                    <li>Partner C: २४,०९६.८ &times; ०.२० = ४,८१९.३६ चौ.मी.</li>
+                </ul>
+            </li>
+            <li><b>पुन्हा हेक्टर-आर-चौरस मीटर रचनेत रूपांतर:</b>
+                Partner A साठी (१२,०४८.४ चौ.मी.):
+                <br>१२,०४८.४ / १०,००० = १ हेक्टर (बाकी राहतात २,०४८.४ चौ.मी.)
+                <br>२,०४८.४ / १०१.१७ = २० आर (बाकी राहतात २५.० चौ.मी.)
+                <br>म्हणजेच, Partner A ला <b>१ हेक्टर, २० आर, २५.० चौ.मी.</b> जमीन प्राप्त होईल.
+            </li>
+        </ol>
+    </section>
+
+    <section>
+        <h3>४. जमिनीची अधिकृत वाटणी, फेरफार आणि कायदेशीर तरतुदी</h3>
+        <p>महाराष्ट्रात जमिनीची केवळ तोंडी किंवा कागदावर केलेली वाटणी पुरेशी नसते; त्याला कायदेशीर मान्यता मिळणे गरजेचे आहे. <b>महाराष्ट्र जमीन महसूल कायदा, १९६६ च्या कलम ८५</b> अन्वये सहधारकांनी अधिकृत जमीन वाटणीसाठी स्थानिक तहसीलदार न्यायालयात अर्ज करणे बंधनकारक आहे. यानंतर, भूमी अभिलेख विभागामार्फत अधिकृत मोजणी (Moje) केली जाते, आणि संबंधित तलाठी ७/१२ उताऱ्यावर नवीन **पोट-हिस्सा किंवा नवीन गट नंबर** ची नोंद फेरफाराद्वारे घेतात.</p>
+        <p>वारस हक्काचे वाटणीपत्र (Vatap Patra) तयार करताना, बक्षीसपत्र करताना किंवा एन.ए. (NA) प्लॉट्सच्या सीमारेषा निश्चित करताना क्षेत्राची गणना अत्यंत अचूक असावी लागते. या कॅल्क्युलेटरच्या साहाय्याने मिळालेला रिपोर्ट तुम्हाला कायदेशीर दस्तऐवज आणि नोंदणी प्रक्रियेची अचूक पूर्वतयारी करण्यास मदत करतो.</p>
+    </section>
+
+    <h3>५. महाराष्ट्र शासन प्रमाणित जमीन रूपांतर तक्ता</h3>
+    <table>
+        <thead>
+            <tr>
+                <th>भूमी एकल (Unit Type)</th>
+                <th>महसूल विभागाची मानकर व्याख्या</th>
+                <th>चौरस मीटर (Sq. Meters)</th>
+                <th>चौरस फूट (Sq. Feet)</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr><td><b>१ हेक्टर</b></td><td>१०० आर / गुंठा (प्रमाणित महसूल पाया)</td><td>१०,००० चौ.मी.</td><td>१,०७,६३९ चौ.फूट</td></tr>
+            <tr><td><b>१ आर (गुंठा)</b></td><td>१ हेक्टरचा १०० वा भाग</td><td>१०१.१७ चौ.मी.</td><td>१,०८९ चौ.फूट</td></tr>
+            <tr><td><b>१ चौरस मीटर</b></td><td>प्रमाणित मेट्रिक एस.आय. युनिट</td><td>१ चौ.मी.</td><td>१०.७६ चौ.फूट</td></tr>
+            <tr><td><b>१ एकर</b></td><td>पारंपारिक परिमाण (सुमारे ४० आर)</td><td>४,०४६.८५ चौ.मी.</td><td>४३,५६० चौ.फूट</td></tr>
+        </tbody>
+    </table>
+
+    <h3>६. सध्‍या विचारले जाणारे महत्त्वाचे प्रश्न (FAQs)</h3>
+    <div id="faq-container-as">
+        <div class="faq-block"><p><b>प्रश्न १. महाराष्ट्रामध्ये एक हेक्टर म्हणजे किती आर किंवा गुंठे होतात?</b><br>उत्तर: अधिकृत महसूल नियमांनुसार १ हेक्टर म्हणजे तंतोतंत १०० आर (गुंठे) जमीन होते.</p></div>
+        <div class="faq-block"><p><b>प्रश्न २. एक आर (किंवा एक गुंठा) जमिनीत किती चौरस फूट क्षेत्रफळ असते?</b><br>उत्तर: महाराष्ट्रात १ आर किंवा १ गुंठा जमीन म्हणजे नेमके १,०८९ चौरस फूट जागा होय.</p></div>
+        <div class="faq-block"><p><b>प्रश्न ३. ७/१२ उताऱ्यावरील १ आर क्षेत्रफळ चौरस मीटरमध्ये किती धरले जाते?</b><br>उत्तर: सरकारी मोजणीनुसार १ आर क्षेत्र म्हणजे १०१.१७ चौरस मीटर जमीन ठरते.</p></div>
+        <div class="faq-block"><p><b>प्रश्न ४. एक हेक्टर जमीन म्हणजे किती एकर क्षेत्र होते?</b><br>उत्तर: १ हेक्टर जमीन ब्रिटिश/पारंपारिक मोजमापानुसार सुमारे २.४७ एकर एवढी असते.</p></div>
+        <div class="faq-block"><p><b>प्रश्न ५. हे कॅल्क्युलेटर महाभुलेख प’र्‍टलचे अधिकृत ॲप्लिकेशन आहे का?</b><br>उत्तर: नाही, हे Shayan Smart Tools द्वारे विकसित केलेले एक स्वतंत्र कॅल्क्युलेटर आहे, जे महाराष्ट्र महसूल विभागाच्या प्रमाणित गणितावर काम करते.</p></div>
+        <div class="faq-block"><p><b>प्रश्न ६. वाटणी करताना नेहमीच्या कॅल्क्युलेटरवर क्षेत्रफळ चुकते का?</b><br>उत्तर: होय, कारण सामान्य कॅल्क्युलेटर दशांश पद्धतीवर चालतात, तर जमिनीचे आर आणि चौ.मी. चे रूपांतर शंभराच्या पटीत व १०१.१७ च्या गुणोत्तरात करावे लागते.</p></div>
+        <div class="faq-block"><p><b>प्रश्न ७. तहसीलदार कोर्टात जमीन वाटणीचा अर्ज कोणत्या कलमांतर्गत केला जातो?</b><br>उत्तर: महाराष्ट्र जमीन महसूल कायदा १९६६ च्या कलम ८५ अन्वये अधिकृत वाटणीचा अर्ज सादर केला जातो.</p></div>
+        <div class="faq-block"><p><b>प्रश्न ८. जमिनीच्या संदर्भात 'वाटणीपत्र' म्हणजे काय?</b><br>उत्तर: कुटुंबातील सामायिक किंवा पित्रोपार्जित जमिनीची सर्व संमतीने कायदेशीर स्वतंत्र विभागणी करण्याचा दस्तऐवज म्हणजेच वाटणीपत्र (Vatap Patra) होय.</p></div>
+        <div class="faq-block"><p><b>प्रश्न ९. एक एकर जमिनीत एकूण किती चौरस फूट जागा असते?</b><br>उत्तर: १ एकर जमिनीत एकूण ४३,५६० चौरस फूट जागा समाविष्ट असते.</p></div>
+        <div class="faq-block"><p><b>प्रश्न १०. या रिपोर्टची पीडीएफ फाईल मोबाईलवर सेव्ह करता येऊ शकते का?</b><br>उत्तर: नक्कीच, "Print Legal Sheet" बटणावर क्लिक करून तुम्ही हा संपूर्ण तक्ता स्वच्छ पीडीएफ स्वरूपात डाउनलोड करू शकता.</p></div>
+    </div>
+</article>
+
+<div class="footer-copyright-box">
+    <div class="footer-law-accent">Statutory Software IP Security Core</div>
+    <p><b>Copyright Protection Notice:</b> Shayan Smart Tools Processing Infrastructure, Maharashtra Localization Schemas, and Engine Core © 2026. All rights reserved.</p>
+    <p style="font-size: 12px; color: #64748b;">This application code architecture, metric cascading logic formulas, and vector asset representations are legally protected under Indian Copyright Amendment Acts and global software licensing terms. Litigation processes will automatically apply to source theft.</p>
+</div>
+
+<script>
+    let partnerCount = 2;
+    let activeLanguageMode = 'en';
+
+    const textDictionary = {
+        en: {
+            title: "Maharashtra Land Partition Calculator",
+            subtitle: "Official Maharashtra Bhulekh Matrix: 1 Hectare = 100 R (Guntha) | 1 R = 101.17 Sq. Meters | 1 R = 1,089 Sq. Ft.",
+            addBtn: "+ Add Shareholder",
+            calcBtn: "Compute Partition Records",
+            resetBtn: "Reset Canvas",
+            resHead: "Final Disaggregated Partition Shares (विभागणी तक्ता)",
+            btnCopy: "📋 Copy Partition Text",
+            btnWA: "📲 Send to WhatsApp",
+            btnPrint: "🖨️ Print Legal Sheet",
+            backLnk: "⬅ Back to All Tools Dashboard",
+            printInputsTitle: "Initial Property Pool Before Subdivision",
+            thTotalBigha: "Total Hectare",
+            thTotalKatha: "Total R (Guntha)",
+            thTotalLessa: "Total Sq. Meter",
+            thTotalSqft: "Equivalent Sq. Feet",
+            portalTitle: "Official Maharashtra Government Portals",
+            authSig: "AUTHORIZED SIGNATURE"
+        },
+        mr: {
+            title: "महाराष्ट्र जमीन वाटणी क्युलेटर",
+            subtitle: "अधिकृत भूमी अभिलेख नियमावली: १ हेक्टर = १०० आर (गुंठा) | १ आर = १०१.१७ चौ. मीटर | १ आर = १,०८९ चौ. फूट",
+            addBtn: "+ वारसदार/खातेदार जोडा",
+            calcBtn: "जमीन विभागणी गणना करा",
+            resetBtn: "रीसेट करा",
+            resHead: "अंतिम विभागणी तक्ता (Final Allocated Shares)",
+            btnCopy: "📋 निकाल कॉपी करा",
+            btnWA: "📲 व्हॉट्सॲपवर पाठवा",
+            btnPrint: "🖨️ कायदेशीर प्रत प्रिंट करा",
+            backLnk: "⬅ मुख्य डॅशबोर्डवर जा",
+            printInputsTitle: "विभागणीपूर्वीचे एकूण क्षेत्रफळ",
+            thTotalBigha: "एकूण हेक्टर",
+            thTotalKatha: "एकूण आर (गुंठा)",
+            thTotalLessa: "एकूण चौ. मीटर",
+            thTotalSqft: "समजेल चौरस फूट",
+            portalTitle: "महाराष्ट्र शासनाचे अधिकृत वेबपोर्टल्स",
+            authSig: "अधिकृत स्वाक्षरी"
+        }
+    };
+
+    function switchLanguage(lang) {
+        activeLanguageMode = lang;
+        document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.remove('active'));
+        if(lang === 'en') {
+            document.querySelectorAll('.lang-btn')[0].classList.add('active');
+            document.getElementById('content-en').classList.add('active-lang');
+            document.getElementById('content-mr').classList.remove('active-lang');
+        } else {
+            document.querySelectorAll('.lang-btn')[1].classList.add('active');
+            document.getElementById('content-mr').classList.add('active-lang');
+            document.getElementById('content-en').classList.remove('active-lang');
+        }
+
+        document.getElementById('mainTitle').innerText = textDictionary[lang].title;
+        document.getElementById('mainSubTitle').innerText = textDictionary[lang].subtitle;
+        document.getElementById('btnAddPartner').innerText = textDictionary[lang].addBtn;
+        document.getElementById('btnCalc').innerText = textDictionary[lang].calcBtn;
+        document.getElementById('btnReset').innerText = textDictionary[lang].resetBtn;
+        document.getElementById('resHead').innerText = textDictionary[lang].resHead;
+        
+        document.getElementById('btnCopy').innerText = textDictionary[lang].btnCopy;
+        document.getElementById('btnWA').innerText = textDictionary[lang].btnWA;
+        document.getElementById('btnPrint').innerText = textDictionary[lang].btnPrint;
+        document.getElementById('lnkBack').innerText = textDictionary[lang].backLnk;
+        
+        document.getElementById('printInputsTitle').innerText = textDictionary[lang].printInputsTitle;
+        document.getElementById('thTotalBigha').innerText = textDictionary[lang].thTotalBigha;
+        document.getElementById('thTotalKatha').innerText = textDictionary[lang].thTotalKatha;
+        document.getElementById('thTotalLessa').innerText = textDictionary[lang].thTotalLessa;
+        document.getElementById('thTotalSqft').innerText = textDictionary[lang].thTotalSqft;
+        document.getElementById('lblPortalTitle').innerText = textDictionary[lang].portalTitle;
+        document.getElementById('lblAuthSigLeft').innerText = textDictionary[lang].authSig;
+        document.getElementById('lblAuthSigRight').innerText = textDictionary[lang].authSig;
+
+        // Sync inline field headers
+        document.getElementById('lblTotalLandHeading').innerText = lang === 'en' ? "Total Land Area to Partition" : "विभागणी करायचे एकूण क्षेत्रफळ";
+        document.getElementById('lblInputBigha').innerText = lang === 'en' ? "Hectare (हेक्टर)" : "हेक्टर";
+        document.getElementById('lblInputKatha').innerText = lang === 'en' ? "R / Guntha (आर / गुंठा)" : "आर / गुंठा";
+        document.getElementById('lblInputLessa').innerText = lang === 'en' ? "Sq. Meter (चौ. मीटर)" : "चौरस मीटर";
+        document.getElementById('lblPartitionBasis').innerText = lang === 'en' ? "Partition Allocation Mode" : "जमीन वाटणीची पद्धत";
+        document.getElementById('lblShareholdersHeading').innerText = lang === 'en' ? "Partners / Shareholders Allocation Records" : "खातेदार / वारसदारांची यादी व हिस्सा";
+
+        // Handle placeholder mutations safely
+        document.querySelectorAll('.partner-row').forEach(row => {
+            const nameInput = row.querySelector('.p-name');
+            if(nameInput && nameInput.value.startsWith('Partner ')) {
+                nameInput.placeholder = lang === 'en' ? "Partner Name" : "भागीदाराचे नाव";
+            }
+        });
+    }
+
+    function addNewPartnerRow() {
+        partnerCount++;
+        const container = document.getElementById('partnersContainer');
+        const div = document.createElement('div');
+        div.className = 'partner-row';
+        
+        let labelSuffix = String.fromCharCode(64 + partnerCount);
+        if(partnerCount > 26) labelSuffix = partnerCount;
+
+        let namePlaceholder = activeLanguageMode === 'en' ? 'Partner Name' : 'भागीदाराचे नाव';
+        let defaultName = activeLanguageMode === 'en' ? `Partner ${labelSuffix}` : `भागीदार ${labelSuffix}`;
+
+        div.innerHTML = `
+            <input type="text" class="p-name" placeholder="${namePlaceholder}" value="${defaultName}">
+            <input type="number" class="p-share" placeholder="Value" value="0" min="0">
+            <button type="button" class="btn-remove" onclick="removePartnerRow(this)">X</button>
+        `;
+        container.appendChild(div);
+    }
+
+    function removePartnerRow(btnElement) {
+        const container = document.getElementById('partnersContainer');
+        if(container.querySelectorAll('.partner-row').length <= 1) {
+            alert(activeLanguageMode === 'en' ? "Minimum one shareholder is mandatory!" : "प्रक्रियेसाठी किमान एक खातेदार असणे अनिवार्य आहे!");
+            return;
+        }
+        btnElement.parentElement.remove();
+    }
+
+    function processPartitionCalculation() {
+        const hectare = parseFloat(document.getElementById('totalHectare').value) || 0;
+        const rValue = parseFloat(document.getElementById('totalR').value) || 0;
+        const sqMeter = parseFloat(document.getElementById('totalSqMeter').value) || 0;
+
+        // Unification to Metric Base Square Meters
+        // 1 Hectare = 10,000 Sq. Meters
+        // 1 R = 101.17 Sq. Meters
+        const aggregatePoolSqM = (hectare * 10000) + (rValue * 101.17) + sqMeter;
+        const totalSqftValue = aggregatePoolSqM * 10.76391;
+
+        if(aggregatePoolSqM <= 0) {
+            alert(activeLanguageMode === 'en' ? "Please key in a valid property volume pool." : "कृपया अचूक जमिनीचे क्षेत्रफळ प्रविष्ट करा.");
+            return;
+        }
+
+        document.getElementById('tdPrintBigha').innerText = hectare;
+        document.getElementById('tdPrintKatha').innerText = rValue;
+        document.getElementById('tdPrintLessa').innerText = sqMeter;
+        document.getElementById('tdPrintSqft').innerText = Math.round(totalSqftValue).toLocaleString('en-IN') + " sq ft";
+
+        const rows = document.querySelectorAll('.partner-row');
+        const mode = document.getElementById('partitionMode').value;
+
+        let shareholderArray = [];
+        let runningInputValueSum = 0;
+
+        rows.forEach(row => {
+            let name = row.querySelector('.p-name').value.trim() || "Anonymous Shareholder";
+            let rawShare = parseFloat(row.querySelector('.p-share').value) || 0;
+            shareholderArray.push({ partnerName: name, targetValue: rawShare });
+            runningInputValueSum += rawShare;
+        });
+
+        if(runningInputValueSum <= 0) {
+            alert(activeLanguageMode === 'en' ? "Combined partition values must be greater than zero." : "एकूण हिश्श्यांची बेरीज शून्यापेक्षा जास्त असणे आवश्यक आहे.");
+            return;
+        }
+
+        if(mode === 'percentage' && Math.abs(runningInputValueSum - 100) > 0.05) {
+            let warnMsg = activeLanguageMode === 'en' 
+                ? "Warning: Your cumulative percentage sum is " + runningInputValueSum + "%, not exactly 100%. Proceed with proportional division?"
+                : "सावधानता: तुमच्या टक्केवारीची एकूण बेरीज " + runningInputValueSum + "% आहे, पूर्ण १००% नाही. याच प्रमाणात विभागणी करायची का?";
+            if(!confirm(warnMsg)) return;
+        }
+
+        const targetContainer = document.getElementById('resultsList');
+        targetContainer.innerHTML = '';
+
+        shareholderArray.forEach(partner => {
+            let individualSqMAllocation = aggregatePoolSqM * (partner.targetValue / runningInputValueSum);
+            let individualSqftAllocation = individualSqMAllocation * 10.76391;
+
+            let workingRemainder = individualSqMAllocation;
+
+            let outHectare = Math.floor(workingRemainder / 10000);
+            workingRemainder %= 10000;
+
+            let outR = Math.floor(workingRemainder / 101.17);
+            workingRemainder %= 101.17;
+
+            let outSqM = workingRemainder.toFixed(2);
+
+            let displayBadge = mode === 'percentage' ? partner.targetValue + "% Share" : "Ratio Allocation: " + partner.targetValue;
+            const card = document.createElement('div');
+            card.className = 'partner-result-card';
+            
+            card.innerHTML = `
+                <h4><span>👤 ${partner.partnerName}</span> <span style="font-size:13px; background:var(--mahi-gold); color:#000; padding:2px 10px; border-radius:30px; font-weight:800;">${displayBadge}</span></h4>
+                <div class="p-res-grid">
+                    <div class="p-res-box"><small>Hectare (हेक्टर)</small><span>${outHectare}</span></div>
+                    <div class="p-res-box"><small>R / Guntha (आर)</small><span>${outR}</span></div>
+                    <div class="p-res-box"><small>Sq. Meter (चौ.मी.)</small><span>${outSqM}</span></div>
+                </div>
+                <div class="p-meta-info">
+                    <div><span>Square Feet:</span> <b>${Math.round(individualSqftAllocation).toLocaleString('en-IN')} sq ft</b></div>
+                    <div style="text-align:right;"><span>Square Meters:</span> <b>${Math.round(individualSqMAllocation).toLocaleString('en-IN')} sq m</b></div>
+                </div>
+            `;
+            targetContainer.appendChild(card);
+        });
+
+        let formatConfig = { day: 'numeric', month: 'long', year: 'numeric' };
+        document.getElementById('pDocDate').innerText = new Date().toLocaleDateString('en-IN', formatConfig) + " (IST)";
+        document.getElementById('pDocRef').innerText = "SST-MH-PAR-" + Math.floor(1000000000 + Math.random() * 9000000000);
+
+        const resPanel = document.getElementById('resPanel');
+        resPanel.style.display = "block";
+        resPanel.scrollIntoView({ behavior: 'smooth' });
+    }
+
+    function resetCalculatorForm() {
+        document.getElementById('totalHectare').value = "1";
+        document.getElementById('totalR').value = "0";
+        document.getElementById('totalSqMeter').value = "0";
+        document.getElementById('partitionMode').selectedIndex = 0;
+        
+        const container = document.getElementById('partnersContainer');
+        container.innerHTML = `
+            <div class="partner-row">
+                <input type="text" class="p-name" placeholder="Partner Name" value="Partner A">
+                <input type="number" class="p-share" placeholder="Share Value" value="50" min="0">
+                <button type="button" class="btn-remove" onclick="removePartnerRow(this)">X</button>
+            </div>
+            <div class="partner-row">
+                <input type="text" class="p-name" placeholder="Partner Name" value="Partner B">
+                <input type="number" class="p-share" placeholder="Share Value" value="50" min="0">
+                <button type="button" class="btn-remove" onclick="removePartnerRow(this)">X</button>
+            </div>
+        `;
+        partnerCount = 2;
+        document.getElementById('resPanel').style.display = "none";
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function copyCalculatedLedger() {
+        let textOutput = "Maharashtra Land Partition Summary Report:\n-----------------------------------\n";
+        const cards = document.querySelectorAll('.partner-result-card');
+        
+        cards.forEach(card => {
+            let name = card.querySelector('h4 span').innerText;
+            let vals = card.querySelectorAll('.p-res-box span');
+            let sqft = card.querySelector('.p-meta-info b').innerText;
+            textOutput += name + " Allocation: " + vals[0].innerText + " Hectare, " + vals[1].innerText + " R, " + vals[2].innerText + " Sq. Meter (" + sqft + ")\n";
+        });
+        
+        textOutput += "\nProcessed accurately via Shayan Smart Tools Engine Framework.";
+        navigator.clipboard.writeText(textOutput);
+        alert(activeLanguageMode === 'en' ? "Partition breakdown copied successfully!" : "विभागणीचा तपशील यशस्वीरित्या कॉपी केला आहे!");
+    }
+
+    function dispatchWhatsAppShare() {
+        let summaryLine = "Maharashtra Property Partition Breakdown. Pool split accurately into individual Hectare-R-Square Meter allocations via Shayan Smart Tools.";
+        window.open("https://wa.me/?text=" + encodeURIComponent(summaryLine));
+    }
+
+    function triggerReportPrint() {
+        if(document.getElementById('resPanel').style.display !== "block") {
+            alert(activeLanguageMode === 'en' ? "Please calculate metrics first!" : "कृपया आधी गणना पूर्ण करा!");
+            return;
+        }
+        window.print();
+    }
+</script>
+
+</body>
+</html>
