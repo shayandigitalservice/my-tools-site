@@ -24,6 +24,8 @@
 
         * {
             box-sizing: border-box;
+            margin: 0;
+            padding: 0;
         }
 
         body {
@@ -85,7 +87,7 @@
         .section-legend {
             font-weight: 800;
             color: var(--mp-orange);
-            padding: 0 15px;
+            padding: 0 5px;
             text-transform: uppercase;
             font-size: 14px;
             letter-spacing: 0.5px;
@@ -117,7 +119,7 @@
         .btn-add { background: #2f3e4f; color: white; } 
         .btn-calc { background: var(--mp-orange); color: white; }
         .btn-reset { background: #ef4444; color: white; }
-        .btn-remove { background: #fee2e2; color: #ef4444; padding: 14px; font-weight: bold; border-radius: 10px; border: 1px solid #fca5a5; }
+        .btn-remove { background: #fee2e2; color: #ef4444; padding: 14px; font-weight: bold; border-radius: 10px; border: 1px solid #fca5a5; cursor: pointer;}
         .btn:hover { transform: translateY(-3px); box-shadow: 0 8px 15px rgba(0,0,0,0.12); }
         .btn-remove:hover { background: #fca5a5; color: #b91c1c; }
 
@@ -152,7 +154,7 @@
         .res-panel h3 { margin-top: 0; text-align: center; color: #ff9800; font-size: 1.4rem; margin-bottom: 20px; border-bottom: 1px dashed rgba(255,255,255,0.1); padding-bottom: 15px; }
         #resultsList { display: flex; flex-direction: column; gap: 20px; }
         .partner-result-card { background: rgba(255,255,255,0.04); border-left: 6px solid var(--mp-gold); padding: 20px; border-radius: 14px; border-top: 1px solid rgba(255,255,255,0.05); }
-        .partner-result-card h4 { margin: 0 0 10px 0; font-size: 18px; color: #ff9800; display: flex; justify-content: space-between; }
+        .partner-result-card h4 { margin: 0 0 10px 0; font-size: 18px; color: #ff9800; display: flex; justify-content: space-between; align-items: center; }
         .p-res-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 10px; }
         .p-res-box { background: rgba(0,0,0,0.3); padding: 10px; border-radius: 8px; text-align: center; border: 1px solid rgba(255,255,255,0.05); }
         .p-res-box small { display: block; font-size: 11px; color: #94a3b8; text-transform: uppercase; margin-bottom: 3px; }
@@ -218,6 +220,8 @@
         .lang-section { display: none; }
         .lang-section.active-lang { display: block; }
 
+        .back-btn a { display: inline-block; padding: 5px 10px;}
+
         @media (max-width: 600px) {
             header { padding: 30px 15px; border-radius: 15px; }
             header h1 { font-size: 24px; }
@@ -280,7 +284,7 @@
 
     <div class="section-fieldset">
         <span class="section-legend" id="lblTotalLandHeading">Total Land Area to Partition</span>
-        <div class="grid-3" style="margin-top: 15px; grid-template-columns: repeat(3, 1fr);">
+        <div class="grid-3" style="margin-top: 15px;">
             <div class="field">
                 <label id="lblInputHectare">Hectare (हेक्टेयर)</label>
                 <input type="number" id="totalHectare" placeholder="0" min="0" step="0.0001" value="1">
@@ -534,7 +538,7 @@
 
     <section>
         <h3>3. भूमि विभाजन का एक वास्तविक उदाहरण (गাণিতिक विश्लेषण)</h3>
-        <p>यह समझने के लिए कि हमारा कैलकुलेटर बैकएंड में किस तरह काम करता है, आइए एक व्यावहारिक उदाहरण देखते हैं। मान लीजिए कि <b>4.0000 हेक्टेयर</b> की एक कृषि भूमि को तीन कानूनी उत्तराधिकारियों के बीच क्रमशः निम्नलिखित प्रतिशत में विभाजित करना है:</p>
+        <p>यह समझने के लिए कि हमारा केलकुलेटर बैकएंड में किस तरह काम करता है, आइए एक व्यावहारिक उदाहरण देखते हैं। मान लीजिए कि <b>4.0000 हेक्टेयर</b> की एक कृषि भूमि को तीन कानूनी उत्तराधिकारियों के बीच क्रमशः निम्नलिखित प्रतिशत में विभाजित करना है:</p>
         <ul>
             <li><b>प्रथम हिस्सेदार (Partner A):</b> 50% हिस्सेदारी</li>
             <li><b>द्वितीय हिस्सेदार (Partner B):</b> 30% हिस्सेदारी</li>
@@ -657,16 +661,17 @@
         }
     };
 
-    // Live calculation sync on base input change
-    document.getElementById('totalHectare').addEventListener('input', function() {
-        const hect = parseFloat(this.value) || 0;
+    function updateLiveConversion() {
+        const hect = parseFloat(document.getElementById('totalHectare').value) || 0;
         document.getElementById('totalAcre').value = (hect * 2.47105).toFixed(3);
         document.getElementById('totalBigha').value = (hect * 3.954).toFixed(3);
-    });
+    }
+
+    // Live calculation sync on base input change
+    document.getElementById('totalHectare').addEventListener('input', updateLiveConversion);
 
     // Initialize display mappings on load
-    document.getElementById('totalAcre').value = (1 * 2.47105).toFixed(3);
-    document.getElementById('totalBigha').value = (1 * 3.954).toFixed(3);
+    updateLiveConversion();
 
     function switchLanguage(lang) {
         activeLanguageMode = lang;
@@ -713,7 +718,7 @@
         // Handle placeholder updates safely
         document.querySelectorAll('.partner-row').forEach(row => {
             const nameInput = row.querySelector('.p-name');
-            if(nameInput && (nameInput.value.startsWith('Partner ') || nameInput.value.startsWith('हिस्सेदार '))) {
+            if(nameInput) {
                 nameInput.placeholder = lang === 'en' ? "Partner Name" : "हिस्सेदार का नाम";
             }
         });
@@ -827,8 +832,7 @@
 
     function resetCalculatorForm() {
         document.getElementById('totalHectare').value = "1";
-        document.getElementById('totalAcre').value = (1 * 2.47105).toFixed(3);
-        document.getElementById('totalBigha').value = (1 * 3.954).toFixed(3);
+        updateLiveConversion();
         document.getElementById('partitionMode').selectedIndex = 0;
         
         const container = document.getElementById('partnersContainer');
