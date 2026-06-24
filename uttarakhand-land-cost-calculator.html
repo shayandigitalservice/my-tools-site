@@ -152,6 +152,8 @@
             --white: #ffffff;
             --bg: #f2f7f7;
             --uk-gold: #e11d48;
+            --or-purple: #7c3aed;
+            --or-dark: #1e3a8a;
         }
 
         body {
@@ -225,7 +227,7 @@
         .jh-standard-banner p { margin: 0 0 5px 0; font-size: 14px; color: #94a3b8; font-weight: bold; text-transform: uppercase; letter-spacing: 0.5px; }
         .jh-standard-banner h4 { margin: 0; font-size: 24px; color: #14b8a6; font-weight: 700; }
 
-        .print-header-block, .print-footer-block { display: none; }
+        .print-header-block, .print-verification-zone, .print-footer-block { display: none; }
         
         .util-btns { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 10px; margin-top: 30px; }
         .u-btn { padding: 16px 10px; border: none; border-radius: 14px; font-weight: 700; cursor: pointer; color: white; font-size: 14px; text-align: center; transition: 0.3s; font-family: 'Roboto', sans-serif; display: flex; align-items: center; justify-content: center; gap: 6px; text-transform: uppercase; }
@@ -281,39 +283,172 @@
             .donut-chart::before { width: 75px; height: 75px; }
         }
 
-        /* 🖨️ DETAILED PROFESSIONAL PRINT SHEET CSS STYLES */
+        /* PREMIUM PRINT MATRIX */
         @media print {
-            * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; color-adjust: exact !important; }
-            @page { margin: 15mm; size: A4 portrait; }
-            body { background: #ffffff !important; color: #000000 !important; padding: 0; margin: 0; font-family: 'Roboto', sans-serif; }
+            * { 
+                -webkit-print-color-adjust: exact !important; 
+                print-color-adjust: exact !important; 
+            }
+            @page { 
+                margin: 15mm; 
+                size: A4 portrait; 
+            }
+            body { 
+                background: #ffffff !important; 
+                color: #000000 !important; 
+                padding: 0; 
+                margin: 0; 
+            }
+            /* Hide non-printable elements */
+            .tool-wrapper > header, 
+            .lang-switch, 
+            .gov-links-title, 
+            .gov-links-grid, 
+            .input-grid, 
+            .btn-convert, 
+            .govt-portal-section,
+            .util-btns, 
+            .registry-disclaimer,
+            .chart-container,
+            .ui-how-to-use-box,
+            .conversion-results-title,
+            #resHead, 
+            .seo-article, 
+            .back-btn { 
+                display: none !important; 
+            }
             
-            /* Hide unnecessary UI elements when printing */
-            .tool-wrapper > header, .lang-switch, .input-grid, .btn-convert, .govt-portal-section, .util-btns, .conversion-results-title, .seo-article, .back-btn, .registry-disclaimer, .donut-chart, .chart-legends, .ui-how-to-use-box { display: none !important; }
+            /* Display and format the print panel */
+            .res-panel { 
+                display: block !important; 
+                background: #ffffff !important; 
+                color: #000000 !important; 
+                padding: 30px !important; 
+                width: 100% !important; 
+                box-sizing: border-box; 
+                border: 5px double #0369a1 !important; 
+                border-radius: 0px !important; 
+                box-shadow: none !important;
+                margin: 0 !important;
+            }
+            .print-header-block { 
+                display: block !important; 
+                text-align: center; 
+                border-bottom: 2px solid var(--or-purple) !important; 
+                padding-bottom: 12px; 
+                margin-bottom: 20px; 
+            }
+            .bkl-special { 
+                display: block !important;
+                background: #e0f2fe !important; 
+                border: 1px dashed var(--or-purple) !important; 
+                color: #000 !important; 
+                padding: 20px;
+                border-radius: 15px;
+                text-align: center;
+                margin-bottom: 20px;
+            }
             
-            /* Formatted calculation print block wrapper */
-            .res-panel { display: block !important; background: #ffffff !important; color: #000000 !important; padding: 30px !important; margin: 0 !important; width: 100% !important; box-sizing: border-box; border: 2px solid #0d9488 !important; border-radius: 0px !important; box-shadow: none !important; }
-            .print-header-block { display: block !important; text-align: center; border-bottom: 2px solid #0d9488 !important; padding-bottom: 15px; margin-bottom: 25px; }
+            .res-grid { 
+                display: block !important; 
+                margin-top: 15px; 
+            }
+            .res-item { 
+                background: transparent !important; 
+                border: none !important; 
+                border-bottom: 1px solid #cbd5e1 !important; 
+                padding: 12px 4px !important; 
+                display: flex !important; 
+                justify-content: space-between !important; 
+                flex-direction: row !important; 
+                border-radius: 0px !important;
+                box-shadow: none !important;
+            }
+            .res-item span { 
+                color: #1e293b !important; 
+                font-size: 13px !important; 
+                font-weight: 600; 
+                text-transform: uppercase; 
+            }
+            .res-item b { 
+                color: var(--or-dark) !important; 
+                font-size: 15px !important; 
+                font-weight: bold; 
+            }
             
-            .jh-standard-banner { background: #f0fdfa !important; border: 1px dashed #0d9488 !important; color: #000000 !important; padding: 15px !important; border-radius: 8px !important; }
-            .jh-standard-banner h4 { color: #0d9488 !important; margin: 5px 0 0 0 !important; }
-
-            .chart-container { background: transparent !important; border: 1px solid #cbd5e1 !important; margin: 20px 0 !important; padding: 15px !important; border-radius: 10px !important; }
-            .word-format-box { border: 1px solid #cbd5e1 !important; background: #f8fafc !important; color: #1e293b !important; margin-top: 15px !important; padding: 12px !important; border-radius: 6px !important; }
-            .word-format-box span { color: #0d9488 !important; font-size: 16px !important; font-weight: bold; }
-
-            .res-grid { display: flex !important; flex-direction: column !important; gap: 0 !important; margin-top: 20px; }
-            .res-item { background: transparent !important; border: none !important; border-bottom: 1px dashed #cbd5e1 !important; padding: 14px 5px !important; display: flex !important; justify-content: space-between !important; flex-direction: row !important; border-radius: 0px !important; box-shadow: none !important; }
-            .res-item span { color: #334155 !important; font-size: 14px !important; font-weight: 600; text-transform: uppercase; }
-            .res-item b { color: #0f172a !important; font-size: 16px !important; font-weight: bold; }
-            
-            /* Highlight row inside print ledger sheet */
-            .res-item.highlight-panel { background: #f0fdfa !important; border: 1px solid #0d9488 !important; padding: 15px 10px !important; margin-top: 10px; border-radius: 6px !important; }
-            .res-item.highlight-panel span { color: #115e59 !important; font-weight: 800; }
-            .res-item b.net-tag { font-size: 20px !important; font-weight: 900; color: #0d9488 !important; }
-            
-            .print-footer-block { display: block !important; text-align: center; margin-top: 50px; border-top: 2px dashed #cbd5e1 !important; padding-top: 20px; page-break-inside: avoid; }
-            .sst-github-seal-wrapper { display: flex !important; justify-content: center !important; align-items: center !important; margin: 15px 0 !important; width: 100%; }
-            .sst-seal-frame { width: 100px !important; height: 100px !important; }
+            /* Verification QR and Seal layout */
+            .print-verification-zone {
+                display: flex !important;
+                justify-content: space-between;
+                align-items: flex-end;
+                margin-top: 40px;
+                padding: 0 10px;
+            }
+            .scanner-box {
+                text-align: left;
+                width: 160px;
+            }
+            .scanner-image-wrap {
+                width: 120px;
+                height: 120px;
+                border: 1.5px solid #cbd5e1;
+                border-radius: 10px;
+                overflow: hidden;
+                box-shadow: 0 4px 10px rgba(0,0,0,0.06);
+                background: #ffffff;
+            }
+            .scanner-image-wrap img {
+                width: 100%;
+                height: 100%;
+                object-fit: contain;
+            }
+            .signature-container {
+                text-align: right;
+                width: 220px;
+                display: flex;
+                flex-direction: column;
+                align-items: flex-end;
+                gap: 5px;
+            }
+            .seal-image-wrap {
+                width: 90px;
+                height: 90px;
+                margin-bottom: 5px;
+            }
+            .seal-image-wrap img {
+                width: 100%;
+                height: 100%;
+                object-fit: contain;
+                opacity: 0.85;
+            }
+            .signature-box {
+                padding-top: 0px;
+                width: 100%;
+                font-size: 12px;
+                font-weight: bold;
+                color: #0f172a;
+                text-transform: uppercase;
+                letter-spacing: 0.5px;
+            }
+            .print-footer-block { 
+                display: block !important; 
+                text-align: center; 
+                margin-top: 30px; 
+                border-top: 1px solid #cbd5e1 !important; 
+                padding-top: 20px; 
+            }
+            .word-format-box {
+                border: 1px dashed #cbd5e1 !important; 
+                color: #000 !important; 
+                margin-top: 10px !important;
+                background: transparent !important;
+            }
+            .word-format-box span {
+                color: var(--or-dark) !important;
+            }
+            .jh-standard-banner {
+                display: none !important;
+            }
         }
     </style>
 </head>
@@ -399,16 +534,22 @@
             
             <div class="print-header-block">
                 <div style="display: flex; justify-content: center; align-items: center; gap: 10px; margin-bottom: 5px;">
-                    <h2 style="font-size: 24px; color: #0d9488; margin: 0; font-weight: 900; letter-spacing: 1px;">SHAYAN SMART TOOLS</h2>
+                    <img src="favicon.png" alt="SST" style="width: 30px; height: 30px;">
+                    <h2 style="font-size: 22px; color: var(--or-dark); margin: 0; font-weight: 900; letter-spacing: 1px;">SHAYAN SMART TOOLS</h2>
                 </div>
-                <p style="font-size: 11px; color: #e11d48; font-weight: bold; margin: 0 0 10px 0; letter-spacing: 0.5px; text-transform: uppercase;">UTTARAKHAND DEVBLOOMI LAND VALUATION & REGISTRY SUMMARY - 2026</p>
+                <p style="font-size: 11px; color: var(--or-purple); font-weight: bold; margin: 0 0 10px 0; letter-spacing: 0.5px; text-transform: uppercase;">UTTARAKHAND REVENUE LAND AREA SUMMARY - 2026</p>
                 
-                <div style="background: #f8fafc; border: 1px solid #cbd5e1; padding: 12px; border-radius: 6px; display: grid; grid-template-columns: 1fr 1fr; font-size: 12px; text-align: left; gap: 6px; color: #334155;">
-                    <div><strong>DOCUMENT REF:</strong> <span id="pDocRef" style="color:#0d9488; font-weight:bold;">SST-UK-REGS-00000</span></div>
+                <div style="background: #f8fafc; border: 1px solid #cbd5e1; padding: 10px; border-radius: 4px; display: grid; grid-template-columns: 1fr 1fr; font-size: 11px; text-align: left; gap: 5px; color: #334155;">
+                    <div><strong>DOCUMENT REF:</strong> <span id="pDocRef" style="color:var(--or-dark); font-weight:bold;">SST-UK-0000</span></div>
                     <div style="text-align: right;"><strong>DATE:</strong> <span id="pDocDate">--/--/----</span></div>
-                    <div><strong>JURISDICTION:</strong> State of Uttarakhand (UK)</div>
-                    <div style="text-align: right;"><strong>KHASRA / KHATOUNI:</strong> <span id="pDocKhasra" style="font-weight:bold; color:#e11d48;">N/A</span></div>
+                    <div><strong>JURISDICTION:</strong> State of Uttarakhand (उत्तराखंड)</div>
+                    <div style="text-align: right;"><strong>STATUS:</strong> Digitally Secured Calculations</div>
                 </div>
+            </div>
+
+            <div class="bkl-special">
+                <span id="fmtText" style="display:block; font-size: 14px; color: #94a3b8; font-weight: bold; margin-bottom: 5px;">Uttarakhand Standard Format:</span>
+                <strong id="bklText" style="font-size: 24px; color: var(--uk-gold);">0 Nali, 0 Muthi</strong>
             </div>
 
             <div class="registry-disclaimer" id="discBox">
@@ -424,7 +565,7 @@
             <div class="conversion-results-title" id="resHead">Conversion Results / Breakdown</div>
             
             <div class="res-grid">
-                <div class="res-item" id="print-input-row" style="display:none;"><span>Input Data Feed Context:</span> <b id="rInputVal">-</b></div>
+                <div class="res-item" id="print-input-row" style="display:none;"><span id="lblSource">Initial Data Input Feed</span> <b id="rInputVal">0</b></div>
                 <div class="res-item"><span>Total Equivalent Square Feet (Sq.Ft):</span> <b id="outTotalSqft" class="price-tag">0 sq ft</b></div>
                 <div class="res-item"><span>Total Equivalent Nali Matrix:</span> <b id="outTotalDecimal">0.0000 Nali</b></div>
                 <div class="res-item"><span>Pure Land Market Cost (₹):</span> <b id="outLandCost" class="price-tag">₹0</b></div>
@@ -450,15 +591,36 @@
                 </div>
             </div>
 
-            <div class="print-footer-block">
-                <div style="margin: 0 auto; max-width: 100%; font-size: 11px; color: #475569; line-height: 1.6; text-align: center; position: relative;">
-                    <p style="margin: 0; font-weight: bold; color: #0d9488; text-transform: uppercase; font-size: 12px; text-align: left;">🔒 SECURITY DISCLAIMER & VERIFICATION NOTICE</p>
-                    <p style="margin: 6px 0 0 0; text-align: left; max-width: 100%;">This computation is an automated metrics compilation sheet, generated via metrics evaluation frameworks configured under official Uttarakhand revenue guidelines. Collector guideline rates and regional sub-registrar ledger books fluctuate depending upon actual parcel coordinates.</p>
-                    
-                    <div style="display: block; border: 1px dashed #0d9488; padding: 6px 20px; border-radius: 4px; margin-top: 15px; margin-bottom: 12px; background: #f0fdfa; font-size: 10px; font-weight: bold; color: #0d9488; text-transform: uppercase; text-align: center;">
-                        SHAYAN SMART TOOLS [AUTOMATED SEAL LEDGER LAYER]
+            <div class="print-verification-zone">
+                <div class="scanner-box">
+                    <div style="background: linear-gradient(135deg, #0369a1, #0f172a); color: #ffffff; padding: 5px 2px; text-align: center; font-size: 8px; font-weight: 800; letter-spacing: 0.5px; text-transform: uppercase; border-top-left-radius: 10px; border-top-right-radius: 10px; width: 120px; border: 1.5px solid #cbd5e1; border-bottom: none; box-sizing: border-box;">
+                        Scan to Open Tool
                     </div>
-                    <p style="margin: 5px 0 0 0; font-size: 12px; font-weight: bold; color: #0d9488; text-align: center;">🌐 SST OFFICIAL ACCESS: www.shayansmarttools.in</p>
+                    <div class="scanner-image-wrap">
+                        <img src="qrcode.png" alt="Verification QR Code">
+                    </div>
+                    <div style="background: #f8fafc; border: 1.5px solid #cbd5e1; border-top: none; padding: 4px; text-align: center; font-size: 8px; font-family: monospace; color: #475569; font-weight: bold; border-bottom-left-radius: 10px; border-bottom-right-radius: 10px; width: 120px; box-sizing: border-box;">
+                        SHAYAN SMART TOOLS
+                    </div>
+                </div>
+                <div class="signature-container">
+                    <div class="seal-image-wrap">
+                        <img src="seal.png" alt="Official SST Seal">
+                    </div>
+                    <div class="signature-box">
+                        Authorized Signatory
+                    </div>
+                </div>
+            </div>
+
+            <div class="print-footer-block">
+                <div style="margin: 0 auto; max-width: 85%; font-size: 11px; color: #475569; line-height: 1.6; text-align: center;">
+                    <p style="margin: 0; font-weight: bold; color: var(--or-dark); text-transform: uppercase; font-size: 12px;">🔒 SECURITY DISCLAIMER & VERIFICATION NOTICE</p>
+                    <p style="margin: 6px 0 0 0;">This computation is an automated generated metrics summary sheet, digitally verified via standard Uttarakhand Bhulekh revenue mapping rules (1 Hectare = 50 Nali = 800 Muthi). Cross-verify survey records with official mutation papers.</p>
+                    <div style="display: inline-block; border: 1px dashed var(--or-dark); padding: 6px 20px; border-radius: 4px; margin-top: 15px; margin-bottom: 12px; background: #f8fafc; font-size: 10px; font-weight: bold; color: var(--or-dark); text-transform: uppercase;">
+                        SHAYAN SMART TOOLS [SST SEAL] - OFFICIAL UNIT PLATFORM
+                    </div>
+                    <p style="margin: 5px 0 0 0; font-size: 12px; font-weight: bold; color: var(--or-purple);">🌐 SST OFFICIAL ACCESS: www.shayansmarttools.in</p>
                 </div>
             </div>
 
@@ -571,7 +733,7 @@
                 <tbody>
                     <tr><td>1</td><td><b>Dehradun (देहरादून)</b></td><td>Capital / High Density Zone</td><td>₹2,500 - ₹9,000+ per Sq.Ft</td></tr>
                     <tr><td>2</td><td><b>Haridwar (हरिद्वार)</b></td><td>Commercial / Plain Religious Area</td><td>₹1,500 - ₹6,000 per Sq.Ft</td></tr>
-                    <tr><td>3</td><td><b>Nainital (नैनीtal)</b></td><td>Tourism Core / Hill Layout</td><td>₹2,000 - ₹7,500 per Sq.Ft</td></tr>
+                    <tr><td>3</td><td><b>Nainital (नैनीताल)</b></td><td>Tourism Core / Hill Layout</td><td>₹2,000 - ₹7,500 per Sq.Ft</td></tr>
                     <tr><td>4</td><td><b>Udham Singh Nagar (ऊधमसिंह नगर)</b></td><td>Industrial / Agri Plains Belt</td><td>₹1,000 - ₹4,000 per Sq.Ft</td></tr>
                     <tr><td>5</td><td><b>Pauri Garhwal (पौड़ी गढ़वाल)</b></td><td>Institutional / Semi-Hill Zone</td><td>₹30,000 - ₹6,000,000 per Nali</td></tr>
                     <tr><td>6</td><td><b>Almora (अल्मोड़ा)</b></td><td>Cultural Residential Core</td><td>₹40,000 - ₹800,000 per Nali</td></tr>
@@ -824,6 +986,7 @@
 
             const stampDuty = landCost * stampDutyRate;
             
+            // Urban zone maps 1% additional local bodies infrastructure optimization surcharge/cess
             const cessAmount = (region === 'urban') ? (landCost * 0.01) : 0;
             
             let regFees = landCost * 0.02;
@@ -834,6 +997,12 @@
             const netBudget = landCost + stampDuty + cessAmount + regFees;
 
             document.getElementById('jhStandardOutput').innerText = nali.toFixed(4) + " Nali Allocation Matrix";
+            
+            // Format nali and muthi values for print block standard format banner
+            let wholeNali = Math.floor(nali);
+            let remMuthi = Math.round((nali - wholeNali) * 16); // 1 Nali = 16 Muthi
+            document.getElementById('bklText').innerText = `${wholeNali} Nali, ${remMuthi} Muthi`;
+
             document.getElementById('outTotalSqft').innerText = Math.round(sqft).toLocaleString('en-IN') + " sq ft";
             document.getElementById('outTotalDecimal').innerText = nali.toFixed(4) + " Nali";
             document.getElementById('outLandCost').innerText = "₹" + Math.round(landCost).toLocaleString('en-IN');
@@ -855,13 +1024,12 @@
             let options = { day: 'numeric', month: 'long', year: 'numeric' };
             let today = new Date().toLocaleDateString('en-IN', options);
             document.getElementById('pDocDate').innerText = today + " (IST)";
-            document.getElementById('pDocKhasra').innerText = khasra ? khasra : "N/A (Not Provided)";
             
             let displayUnitLabel = unit.toUpperCase();
-            document.getElementById('rInputVal').innerText = `${area} ${displayUnitLabel} @ ₹${price}/Unit [${region.toUpperCase()} - ${ownership.toUpperCase()}]`;
+            document.getElementById('rInputVal').innerText = `${area} ${displayUnitLabel} @ ₹${price}/Unit [${region.toUpperCase()} - ${ownership.toUpperCase()}] ${khasra ? '(Khata/Khasra: '+khasra+')' : ''}`;
             
-            let randID = Math.floor(10000000 + Math.random() * 90000000);
-            document.getElementById('pDocRef').innerText = `SST-UK-REGS-${randID}`;
+            let randID = Math.floor(1000 + Math.random() * 9000);
+            document.getElementById('pDocRef').innerText = `SST-UK-${randID}`;
 
             resPanel.style.display = "block";
             resPanel.scrollIntoView({ behavior: 'smooth' });
@@ -890,8 +1058,8 @@
         function copyCostData() {
             let copyText = `--- UTTARAKHAND LAND REGISTRY BUDGET STATEMENT ---\n`;
             copyText += `Statement Ref ID: ${document.getElementById('pDocRef').innerText}\n`;
-            copyText += `Khata/Khatouni Ref: ${document.getElementById('pDocKhasra').innerText}\n`;
             copyText += `Devbhoomi Allocation: ${document.getElementById('jhStandardOutput').innerText}\n`;
+            copyText += `Format: ${document.getElementById('bklText').innerText}\n`;
             copyText += `Pure Land Cost Base: ${document.getElementById('outLandCost').innerText}\n`;
             copyText += `Stamp Duty Amount: ${document.getElementById('outStampDuty').innerText}\n`;
             copyText += `Cess/Surcharge Amount: ${document.getElementById('outCess').innerText}\n`;
@@ -905,9 +1073,9 @@
 
         function shareCostWA() {
             let text = `*UTTARAKHAND LAND REGISTRY BUDGET STATEMENT*\n`;
-            text += `Ref: ${document.getElementById('pDocRef').innerText}\n`;
-            text += `Khata/Khatouni: ${document.getElementById('pDocKhasra').innerText}\n\n`;
+            text += `Ref: ${document.getElementById('pDocRef').innerText}\n\n`;
             text += `• Allocation: ${document.getElementById('jhStandardOutput').innerText}\n`;
+            text += `• Format: ${document.getElementById('bklText').innerText}\n`;
             text += `• Pure Land Cost: ${document.getElementById('outLandCost').innerText}\n`;
             text += `• Stamp Duty: ${document.getElementById('outStampDuty').innerText}\n`;
             text += `• Cess/Surcharge: ${document.getElementById('outCess').innerText}\n`;
