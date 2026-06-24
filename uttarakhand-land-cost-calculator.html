@@ -225,7 +225,7 @@
         .jh-standard-banner p { margin: 0 0 5px 0; font-size: 14px; color: #94a3b8; font-weight: bold; text-transform: uppercase; letter-spacing: 0.5px; }
         .jh-standard-banner h4 { margin: 0; font-size: 24px; color: #14b8a6; font-weight: 700; }
 
-        .print-header-block, .print-footer-block { display: none; }
+        .print-header-block, .print-footer-block, .print-verification-zone { display: none; }
         
         .util-btns { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 10px; margin-top: 30px; }
         .u-btn { padding: 16px 10px; border: none; border-radius: 14px; font-weight: 700; cursor: pointer; color: white; font-size: 14px; text-align: center; transition: 0.3s; font-family: 'Roboto', sans-serif; display: flex; align-items: center; justify-content: center; gap: 6px; text-transform: uppercase; }
@@ -281,28 +281,183 @@
             .donut-chart::before { width: 75px; height: 75px; }
         }
 
+        /* ==========================================================================
+           ADVANCED SEPARATE PRINT ARCHITECTURE LAYER
+           ========================================================================== */
         @media print {
-            * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; color-adjust: exact !important; }
-            @page { margin: 15mm; size: A4 portrait; }
-            body { background: #ffffff !important; color: #000000 !important; padding: 0; margin: 0; font-family: 'Roboto', sans-serif; }
-            .tool-wrapper > header, .lang-switch, .input-grid, .btn-convert, .govt-portal-section, .util-btns, .conversion-results-title, .seo-article, .back-btn, .registry-disclaimer, .donut-chart, .chart-legends, .ui-how-to-use-box { display: none !important; }
+            * { 
+                -webkit-print-color-adjust: exact !important; 
+                print-color-adjust: exact !important; 
+            }
+            @page { 
+                margin: 15mm; 
+                size: A4 portrait; 
+            }
             
-            .res-panel { display: block !important; background: #ffffff !important; color: #000000 !important; padding: 25px !important; margin: 0 !important; width: 100% !important; box-sizing: border-box; border: 3px double var(--uk-teal) !important; border-radius: 0px !important; }
-            .print-header-block { display: block !important; text-align: center; border-bottom: 2px solid var(--uk-teal) !important; padding-bottom: 12px; margin-bottom: 20px; }
-            .jh-standard-banner { background: #f0fdfa !important; border: 1px dashed var(--uk-teal) !important; color: #000000 !important; }
-            .jh-standard-banner h4 { color: var(--uk-teal) !important; }
-
-            .chart-container { background: transparent !important; border: 1px solid #cbd5e1 !important; margin: 15px 0 !important; padding: 10px !important; }
-            .word-format-box { border: 1px dashed #cbd5e1 !important; color: #000 !important; margin-top: 10px !important; }
-            .word-format-box span { color: var(--uk-teal) !important; }
-
-            .res-grid { display: block !important; margin-top: 15px; }
-            .res-item { background: transparent !important; border: none !important; border-bottom: 1px solid #cbd5e1 !important; padding: 12px 4px !important; display: flex !important; justify-content: space-between !important; flex-direction: row !important; border-radius: 0px !important; box-shadow: none !important; }
-            .res-item span { color: #1e293b !important; font-size: 13px !important; font-weight: 600; text-transform: uppercase; }
-            .res-item b { color: var(--uk-dark) !important; font-size: 15px !important; font-weight: bold; }
-            .res-item b.net-tag { font-size: 16px !important; font-weight: 900; color: #115e59 !important; }
+            body { 
+                background: #ffffff !important; 
+                color: #000000 !important; 
+                padding: 0; 
+                margin: 0; 
+            }
+            .tool-wrapper > header, 
+            .lang-switch, 
+            .gov-links-title, 
+            .govt-portal-section, 
+            .input-grid, 
+            .btn-convert, 
+            .util-btns, 
+            #resHead, 
+            .seo-article, 
+            .back-btn,
+            .registry-disclaimer,
+            .donut-chart,
+            .chart-legends,
+            .ui-how-to-use-box,
+            .conversion-results-title { 
+                display: none !important; 
+            }
             
-            .print-footer-block { display: block !important; text-align: center; margin-top: 40px; border-top: 1px solid #cbd5e1 !important; padding-top: 20px; }
+            .res-panel { 
+                display: block !important; 
+                background: #ffffff !important; 
+                color: #000000 !important; 
+                padding: 0px !important; 
+                width: 100% !important; 
+                border: none !important;
+                border-radius: 0px !important; 
+                box-shadow: none !important;
+                margin-top: 0px !important;
+                max-width: 100% !important;
+            }
+            
+            .print-header-block { 
+                display: block !important; 
+                text-align: center; 
+                border-bottom: 2px dashed #0f172a !important; 
+                padding-bottom: 15px; 
+                margin-bottom: 25px; 
+            }
+            .jh-standard-banner { 
+                background: #f1f5f9 !important; 
+                border: 2px solid #0284c7 !important; 
+                border-radius: 8px !important;
+                color: #000000 !important; 
+                padding: 15px !important;
+                margin-bottom: 20px !important;
+            }
+            .jh-standard-banner h4 { 
+                color: #0f172a !important; 
+                font-size: 26px !important; 
+            }
+            
+            .res-grid { 
+                display: block !important; 
+                margin-top: 20px; 
+            }
+            .res-item { 
+                background: #ffffff !important; 
+                border: none !important; 
+                border-bottom: 1px dashed #94a3b8 !important; 
+                padding: 12px 6px !important; 
+                border-radius: 0px !important;
+                display: flex !important; 
+                justify-content: space-between !important; 
+                flex-direction: row !important; 
+                box-shadow: none !important;
+            }
+            .res-item span { 
+                color: #334155 !important; 
+                font-size: 13px !important; 
+                font-weight: 700; 
+                text-transform: uppercase; 
+            }
+            .res-item b { 
+                color: #000000 !important; 
+                font-size: 15px !important; 
+                font-weight: bold; 
+                font-family: monospace; 
+            }
+            .res-item b.net-tag {
+                font-size: 18px !important;
+                color: #0d9488 !important;
+            }
+            
+            .word-format-box {
+                border: 1px dashed #cbd5e1 !important;
+                color: #000 !important;
+                margin-top: 15px !important;
+                background: transparent !important;
+            }
+            .word-format-box span {
+                color: #0d9488 !important;
+            }
+
+            .print-verification-zone {
+                display: flex !important;
+                justify-content: space-between;
+                align-items: flex-end;
+                margin-top: 50px;
+                padding: 0 5px;
+                page-break-inside: avoid;
+            }
+            .scanner-box { 
+                text-align: left; 
+                width: 130px; 
+            }
+            .scanner-image-wrap { 
+                width: 110px; 
+                height: 110px; 
+                border: 1px dashed #64748b; 
+                padding: 4px; 
+                background: #fff; 
+            }
+            .scanner-image-wrap img { 
+                width: 100%; 
+                height: 100%; 
+                object-fit: contain; 
+            }
+            
+            .signature-container { 
+                text-align: right; 
+                width: 200px; 
+                display: flex; 
+                flex-direction: column; 
+                align-items: flex-end; 
+            }
+            .seal-image-wrap { 
+                width: 85px; 
+                height: 85px; 
+                margin-bottom: 5px; 
+            }
+            .seal-image-wrap img { 
+                width: 100%; 
+                height: 100%; 
+                object-fit: contain; 
+            }
+            .signature-box { 
+                font-size: 11px; 
+                font-weight: bold; 
+                color: #0f172a; 
+                border-top: 1px solid #000; 
+                padding-top: 4px; 
+                width: 100%; 
+                text-transform: uppercase; 
+                letter-spacing: 0.5px; 
+                text-align: center; 
+            }
+
+            .print-footer-block { 
+                display: block !important; 
+                text-align: center; 
+                margin-top: 40px; 
+                border-top: 1px solid #cbd5e1 !important; 
+                padding-top: 15px; 
+                page-break-inside: avoid;
+            }
+            .print-footer-block .sst-github-seal-wrapper {
+                display: none !important;
+            }
         }
     </style>
 </head>
@@ -437,6 +592,20 @@
                     <div class="legend-item"><span class="legend-color" style="background:var(--uk-teal);"></span><span id="legCost">Land Value Cost</span></div>
                     <div class="legend-item"><span class="legend-color" style="background:var(--uk-gold);"></span><span id="legStamp">Stamp Duty Slab</span></div>
                     <div class="legend-item"><span class="legend-color" style="background:#3b82f6;"></span><span id="legReg">Registration Fee (2%)</span></div>
+                </div>
+            </div>
+
+            <div class="print-verification-zone">
+                <div class="scanner-box">
+                    <div class="scanner-image-wrap">
+                        <img src="qr-code.png" alt="QR Verify" onerror="this.parentNode.style.border='1px dashed #000'">
+                    </div>
+                </div>
+                <div class="signature-container">
+                    <div class="seal-image-wrap">
+                        <img src="seal.png" alt="Official Seal" onerror="this.style.display='none';">
+                    </div>
+                    <div class="signature-box">Authorized Ledger Layer</div>
                 </div>
             </div>
 
@@ -917,3 +1086,4 @@
     </script>
 </body>
 </html>
+ 
