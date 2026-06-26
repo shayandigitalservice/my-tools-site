@@ -7,7 +7,7 @@
     <link rel="canonical" href="https://shayansmarttools.in/kerala-irregular-land-calculator.html" />
 
     <meta name="description" content="Official Kerala Irregular Land Area Calculator by Shayan Smart Tools. Calculate complex tedi-medi zameen maps using Heron's Formula. Accuracy in Cent, Marla, and Ares for Bhunaksha Kerala.">
-    <meta name="keywords" content="Kerala Land Calculator, ക്രമരഹിത ഭൂമി അളവ് കാൽക്കുലേറ്റർ, Kerala irregular land calculator, Cent Marla Calculator Kerala, Bhunaksha Triangulation, Shayan Smart Tools Kerala, Bhoomi Mapa, E-Rekha Kerala, Land Survey Kerala">
+    <meta name="keywords" content="Kerala Land Calculator, ക്രമരഹിത ഭൂമി അളവ് കാൽക്കുലേറ്റർ, Kerala irregular land calculator, Cent Marla Calculator Kerala, Bhunaksha Triangulation, Shayan Smart Tools Kerala, Bhoomi Mapa">
     <meta name="author" content="Muksidul islam">
     <meta name="robots" content="index, follow">
 <script type="application/ld+json">
@@ -141,20 +141,21 @@
 
     <style>
         :root {
-            --gj-blue: #005f53; 
+            --gj-blue: #005f53; /* Deep Teal / Kerala Style Greenish Blue */
             --gj-dark: #072a24;
             --gj-corporate: #0b1a17;
             --text-dark: #334155;
             --white: #ffffff;
             --bg: #f4f7f6;
-            --gj-gold: #e5a93b; 
+            --gj-gold: #e5a93b; /* Coconut Mustard Gold */
+            --accent-orange: #d97706;
         }
 
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             line-height: 1.6;
             color: var(--text-dark);
-            max-width: 900px;
+            max-width: 850px;
             margin: 0 auto;
             padding: 20px;
             background-color: var(--bg);
@@ -169,10 +170,9 @@
             background: linear-gradient(135deg, var(--gj-blue), var(--gj-corporate));
             color: var(--gj-gold); padding: 40px 20px; border-radius: 25px; text-align: center;
             border-bottom: 6px solid var(--gj-gold); margin-bottom: 30px;
-            box-shadow: 0 10px 25px rgba(7, 42, 36, 0.15);
         }
-        header h1 { color: #ffffff; margin: 0 0 10px 0; font-size: 28px; text-transform: uppercase; font-weight: 900; letter-spacing: 0.5px; }
-        header p { color: #f1f5f9; margin: 0; font-size: 16px; font-weight: 500; opacity: 0.9; }
+        header h1 { color: #ffffff; margin: 0 0 10px 0; font-size: 26px; text-transform: uppercase; font-weight: 900; }
+        header p { color: #f1f5f9; margin: 0; font-size: 16px; font-weight: 500; }
 
         .lang-toggle {
             display: flex;
@@ -182,15 +182,14 @@
         }
 
         .lang-btn {
-            padding: 12px 30px;
+            padding: 10px 25px;
             border: 2px solid var(--gj-blue);
             background: white;
             border-radius: 50px;
             cursor: pointer;
             font-weight: 700;
             color: var(--gj-blue);
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            transition: 0.3s;
         }
 
         .lang-btn.active {
@@ -199,119 +198,155 @@
         }
 
         .form-container-block {
-            background: var(--white);
-            padding: 30px;
-            border-radius: 24px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.04);
-            margin-bottom: 30px;
-            border: 1px solid #e2e8f0;
+            background: transparent !important;
+            padding: 10px 0;
+            border: none !important;
+            box-shadow: none !important;
+            margin-bottom: 20px;
         }
 
-        .sec-h { font-size: 18px; font-weight: bold; color: var(--gj-blue); margin-bottom: 25px; border-bottom: 3px solid var(--gj-gold); padding-bottom: 10px; text-transform: uppercase; letter-spacing: 0.5px; text-align: left; }
+        .sec-h { font-size: 16px; font-weight: bold; color: var(--gj-blue); margin-bottom: 20px; border-bottom: 2px solid #cbd5e1; padding-bottom: 8px; text-transform: uppercase; letter-spacing: 0.5px; text-align: left; }
 
         .input-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-            gap: 20px;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 15px;
         }
 
         .field { display: flex; flex-direction: column; text-align: left; }
-        label { font-size: 13px; font-weight: 800; color: var(--gj-dark); margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.3px; }
-        input { width: 100%; padding: 15px; border: 2px solid #e2e8f0; border-radius: 12px; font-size: 16px; box-sizing: border-box; outline: none; transition: 0.3s; background: var(--white); text-align: center; font-weight: bold; }
-        input:focus { border-color: var(--gj-blue); background: #fff; box-shadow: 0 0 10px rgba(0, 95, 83, 0.15); }
+        label { font-size: 12px; font-weight: 800; color: var(--gj-blue); margin-bottom: 8px; text-transform: uppercase; }
+        input { width: 100%; padding: 15px; border: 1px solid #cbd5e1; border-radius: 12px; font-size: 16px; box-sizing: border-box; outline: none; transition: 0.3s; background: var(--white); text-align: center; }
+        input:focus { border-color: var(--gj-blue); background: #fff; box-shadow: 0 0 8px rgba(0, 95, 83, 0.1); }
 
         .btn-calc {
-            width: 100%; padding: 20px; background: linear-gradient(135deg, var(--gj-blue), var(--gj-dark)); color: #ffffff; border: none; border-radius: 15px; font-size: 19px; font-weight: 800; cursor: pointer; transition: 0.3s; text-transform: uppercase; letter-spacing: 1px; margin-top: 30px; box-shadow: 0 5px 15px rgba(0, 95, 83, 0.3);
+            width: 100%; padding: 20px; background: var(--gj-blue); color: #ffffff; border: none; border-radius: 15px; font-size: 18px; font-weight: 800; cursor: pointer; transition: 0.3s; text-transform: uppercase; letter-spacing: 1px; margin-top: 25px;
         }
-        .btn-calc:hover { transform: translateY(-3px); box-shadow: 0 12px 25px rgba(0, 95, 83, 0.4); }
+        .btn-calc:hover { transform: translateY(-3px); box-shadow: 0 10px 20px rgba(0, 95, 83, 0.2); }
+
+        /* GOVT LINK UI BLOCK */
+        .govt-link-box {
+            margin: 20px 0;
+            background: #e0f2f1;
+            border: 2px solid var(--gj-blue);
+            border-radius: 15px;
+            padding: 15px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 15px;
+            text-align: left;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.03);
+        }
+        .govt-link-text h4 { margin: 0 0 4px 0; color: var(--gj-dark); font-size: 15px; font-weight: 800; }
+        .govt-link-text p { margin: 0; color: #475569; font-size: 12px; }
+        .govt-btn {
+            background: var(--gj-blue);
+            color: white !important;
+            text-decoration: none;
+            padding: 10px 18px;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 700;
+            white-space: nowrap;
+            transition: 0.2s;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .govt-btn:hover { background: var(--gj-corporate); transform: scale(1.02); }
 
         .diag-box {
-            background: #ffffff;
-            padding: 25px;
-            border-radius: 24px;
-            margin: 30px 0;
-            border: 1px solid #e2e8f0;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.03);
+            background: rgba(255, 255, 255, 0.6);
+            padding: 20px;
+            border-radius: 16px;
+            margin: 25px 0;
+            border: 1px dashed var(--gj-blue);
+            backdrop-filter: blur(5px);
             text-align: center;
         }
-        .diag-box img { max-width: 100%; height: auto; border-radius: 16px; border: 1px solid #e2e8f0; }
+        .diag-box img { max-width: 100%; height: auto; border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
 
         .result-panel {
-            background: #0b1a17; color: white; padding: 30px; border-radius: 25px; margin-top: 30px; display: none; border: 2px solid var(--gj-gold); position: relative; box-shadow: 0 15px 35px rgba(7, 42, 36, 0.3);
+            background: #0b1a17; color: white; padding: 25px; border-radius: 25px; margin-top: 30px; display: none; border: 2px solid var(--gj-gold); position: relative;
         }
-        .result-panel h3 { margin-top: 0; text-align: center; color: var(--gj-gold); font-size: 1.5rem; margin-bottom: 20px; letter-spacing: 0.5px; }
+        .result-panel h3 { margin-top: 0; text-align: center; color: var(--gj-gold); font-size: 1.4rem; margin-bottom: 20px; }
         
         .res-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin: 20px 0; }
-        .res-item { background: rgba(255,255,255,0.05); padding: 18px; border-radius: 14px; display: flex; flex-direction: column; align-items: center; gap: 5px; border-bottom: 4px solid var(--gj-gold); }
-        .res-item span { font-size: 13px; color: #cbd5e1; font-weight: bold; text-transform: uppercase; }
-        .res-item b { font-size: 26px; color: #fff; font-family: monospace; }
+        .res-item { background: rgba(255,255,255,0.05); padding: 15px; border-radius: 12px; display: flex; flex-direction: column; align-items: center; gap: 5px; border-bottom: 4px solid var(--gj-gold); }
+        .res-item span { font-size: 12px; color: #cbd5e1; font-weight: bold; text-transform: uppercase; }
+        .res-item b { font-size: 24px; color: #fff; }
 
-        .extra-res-box { background: rgba(255, 255, 255, 0.02); padding: 20px; border-radius: 14px; margin-top: 20px; border-left: 5px solid var(--gj-gold); text-align: left; }
-        .extra-res-box p { margin: 8px 0; font-size: 15px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px dashed rgba(255,255,255,0.1); padding-bottom: 6px; }
-        .extra-res-box b { color: var(--gj-gold); font-family: monospace; font-size: 16px; }
+        .extra-res-box { background: rgba(255, 255, 255, 0.02); padding: 15px; border-radius: 12px; margin-top: 15px; border-left: 4px solid var(--gj-blue); text-align: left; }
+        .extra-res-box p { margin: 5px 0; font-size: 15px; display: flex; justify-content: space-between; align-items: center; }
+        .extra-res-box b { color: var(--gj-gold); }
 
-        .util-btns { display: flex; gap: 12px; margin-top: 25px; flex-wrap: wrap; }
-        .u-btn { flex: 1; min-width: 140px; padding: 15px; border-radius: 12px; border: none; font-weight: 800; cursor: pointer; transition: 0.3s; color: white; font-size: 14px; text-align: center; text-transform: uppercase; }
+        .print-sheet-container { display: none; }
+        .util-btns { display: flex; gap: 10px; margin-top: 25px; }
+        .u-btn { flex: 1; padding: 15px; border-radius: 12px; border: none; font-weight: 800; cursor: pointer; transition: 0.3s; color: white; font-size: 14px; text-align: center; }
 
-        /* SEO PREMIUM STYLING */
+        /* ADVANCED SEO CARD ACCORDION DESIGN */
         .seo-section { 
-            background: #ffffff; 
-            padding: 40px; 
-            margin-top: 50px; 
-            line-height: 1.9; 
-            border-radius: 24px;
-            border: 1px solid #e2e8f0;
-            color: #334155;
+            background: transparent !important; 
+            padding: 20px 0; 
+            margin-top: 40px; 
+            line-height: 1.8; 
+            border: none !important;
+            color: #334155 !important;
             text-align: left;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.02);
         }
         .seo-section .seo-header-block {
             text-align: center; 
             border-bottom: 3px solid var(--gj-blue); 
-            padding-bottom: 25px; 
-            margin-bottom: 35px;
+            padding-bottom: 20px; 
+            margin-bottom: 30px;
+            background: transparent !important;
         }
         .seo-section h2 { 
-            color: var(--gj-blue); 
-            font-size: 30px;
-            margin-bottom: 15px;
-            border-left: 6px solid var(--gj-gold);
+            color: var(--gj-blue) !important; 
+            font-size: 26px !important;
+            margin-bottom: 10px !important;
+            border-left: 6px solid var(--gj-dark);
             padding-left: 15px;
-            margin-top: 45px;
+            margin-top: 40px;
             font-weight: 800;
         }
-        .seo-section h3 { color: var(--gj-dark); margin-top: 35px; font-size: 24px; font-weight: 700; border-bottom: 1px solid #e2e8f0; padding-bottom: 8px; }
-        .seo-section h4 { color: #0f172a; margin-top: 25px; font-size: 18px; font-weight: 700; }
-        .seo-section p { color: #334155; font-size: 16px; text-align: justify; margin-bottom: 20px; }
-        .seo-section ul, .seo-section ol { margin-bottom: 25px; padding-left: 25px; }
-        .seo-section li { margin-bottom: 10px; font-size: 16px; }
-        .example-box { background: #f8fafc; border: 2px left solid var(--gj-blue); padding: 20px; border-radius: 12px; margin: 25px 0; border-left: 5px solid var(--gj-blue); }
+        .seo-section h3 { color: var(--gj-dark) !important; margin-top: 35px; font-size: 20px; font-weight: 700; border-bottom: 1px solid #cbd5e1; padding-bottom: 5px; }
+        .seo-section p { color: #334155 !important; font-size: 15.5px; text-align: justify; margin-bottom: 15px; }
+        .seo-section ul, .seo-section ol { margin-bottom: 20px; padding-left: 25px; }
+        .seo-section li { margin-bottom: 8px; font-size: 15px; }
+        
+        /* FAQ STYLING GRID */
+        .faq-wrapper { margin-top: 30px; display: flex; flex-direction: column; gap: 12px; }
+        .faq-card { background: var(--white); border: 1px solid #e2e8f0; border-radius: 12px; padding: 16px; box-shadow: 0 2px 5px rgba(0,0,0,0.01); }
+        .faq-card h4 { margin: 0 0 6px 0; color: var(--gj-blue); font-size: 15px; font-weight: 800; }
+        .faq-card p { margin: 0; font-size: 14px; color: #475569; text-align: left; }
 
-        .seo-section table { width: 100%; border-collapse: collapse; margin: 30px 0; background: #ffffff; box-shadow: 0 4px 12px rgba(0,0,0,0.03); border-radius: 12px; overflow: hidden; }
-        .seo-section th, .seo-section td { padding: 16px; border: 1px solid #e2e8f0; text-align: left; }
-        .seo-section th { background: #e0f2f1; color: var(--gj-blue); font-weight: 800; text-transform: uppercase; font-size: 14px; }
+        .seo-section table { width: 100%; border-collapse: collapse; margin: 25px 0; background: #ffffff; box-shadow: 0 4px 6px rgba(0,0,0,0.02); border-radius: 8px; overflow: hidden; }
+        .seo-section th, .seo-section td { padding: 14px; border: 1px solid #e2e8f0; text-align: left; color: #334155 !important; font-size: 14px; }
+        .seo-section th { background: #e0f2f1; color: var(--gj-blue) !important; font-weight: bold; }
         .seo-section tr:nth-child(even) { background-color: #f8fafc; }
 
-        .faq-wrapper { margin-top: 40px; }
-        .faq-card { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 20px; margin-bottom: 15px; transition: 0.3s; }
-        .faq-card:hover { border-color: var(--gj-blue); background: #fff; box-shadow: 0 5px 15px rgba(0,95,83,0.05); }
-        .faq-card h4 { margin: 0 0 10px 0; color: var(--gj-blue); font-size: 17px; }
-        .faq-card p { margin: 0; font-size: 15px; color: #475569; text-align: left; }
+        .links-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px; margin: 25px 0 40px; width: 100%; box-sizing: border-box; }
+        .link-card { display: flex; align-items: center; justify-content: center; background: #ffffff; padding: 14px; border-radius: 12px; text-decoration: none; color: var(--gj-blue) !important; font-weight: 700; font-size: 13px; border: 1px solid #e2e8f0; transition: all 0.2s ease; box-sizing: border-box; text-align: center; }
+        .link-card:hover { border-color: var(--gj-blue); transform: translateY(-3px); box-shadow: 0 8px 15px rgba(0, 95, 83, 0.08); background: #e0f2f1; }
 
-        .links-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; margin: 35px 0; width: 100%; }
-        .link-card { display: flex; align-items: center; justify-content: center; background: #ffffff; padding: 18px 20px; border-radius: 16px; text-decoration: none; color: var(--gj-blue) !important; font-weight: 700; font-size: 15px; border: 1px solid #e2e8f0; transition: all 0.3s ease; box-shadow: 0 4px 6px rgba(0,0,0,0.02); text-align: center; }
-        .link-card:hover { border-color: var(--gj-blue); transform: translateY(-4px); box-shadow: 0 12px 20px rgba(0, 95, 83, 0.1); background: linear-gradient(135deg, #ffffff, #e0f2f1); }
-
-        .footer-cr { background: #0b1a17; color: #94a3b8; padding: 25px; border-radius: 16px; font-size: 12px; margin-top: 30px; border: 1px solid rgba(255,255,255,0.05); text-align: justify; }
+        .copyright-warning-box {
+            background: #fffbeb;
+            border: 1px solid #fef3c7;
+            border-left: 5px solid var(--accent-orange);
+            padding: 15px;
+            border-radius: 8px;
+            margin: 30px 0;
+            font-size: 13px;
+            color: #b45309;
+            text-align: left;
+        }
 
         @media (max-width: 600px) {
-            body { padding: 10px; }
-            .form-container-block, .seo-section { padding: 15px; border-radius: 16px; }
             .result-panel { border-radius: 15px; padding: 15px; }
             .res-grid { grid-template-columns: 1fr; gap: 10px; }
-            .seo-section h2 { font-size: 22px; }
-            .links-grid { grid-template-columns: 1fr; gap: 12px; }
-            .input-grid { grid-template-columns: 1fr; gap: 12px; }
+            .seo-section h2 { font-size: 20px !important; }
+            .links-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+            .govt-link-box { flex-direction: column; text-align: center; }
+            .govt-btn { width: 100%; text-align: center; }
         }
 
         /* PREMIUM PRINT UTILITY MATRIX */
@@ -320,17 +355,21 @@
             @page { margin: 15mm; size: A4 portrait; }
             body { background: #ffffff !important; color: #000000 !important; padding: 0; margin: 0; }
             body > *:not(.print-sheet-container) { display: none !important; }
-            .print-sheet-container { display: block !important; width: 100% !important; box-sizing: border-box; border: 5px double #005f53 !important; padding: 30px !important; background: #ffffff !important; }
-            .print-header-block { text-align: center; border-bottom: 2px solid #005f53 !important; padding-bottom: 12px; margin-bottom: 20px; }
-            .bkl-special { background: #f0fdf4 !important; border: 1px dashed #005f53 !important; color: #000000 !important; padding: 20px; border-radius: 15px; text-align: center; margin-bottom: 20px; }
+            .print-sheet-container { display: block !important; width: 100% !important; box-sizing: border-box; border: 5px double #0369a1 !important; padding: 30px !important; background: #ffffff !important; }
+            .print-header-block { text-align: center; border-bottom: 2px solid #0284c7 !important; padding-bottom: 12px; margin-bottom: 20px; }
+            .bkl-special { background: #e0f2fe !important; border: 1px dashed #0284c7 !important; color: #000000 !important; padding: 20px; border-radius: 15px; text-align: center; margin-bottom: 20px; }
             .res-grid { display: block !important; margin-top: 15px; }
             .res-item { background: transparent !important; border: none !important; border-bottom: 1px solid #cbd5e1 !important; padding: 12px 4px !important; display: flex !important; justify-content: space-between !important; flex-direction: row !important; }
             .res-item span { color: #1e293b !important; font-size: 13px !important; font-weight: 600; text-transform: uppercase; }
-            .res-item b { color: #005f53 !important; font-size: 15px !important; font-weight: bold; font-family: monospace; }
-            .print-verification-zone { display: flex !important; justify-content: space-between; align-items: flex-end; margin-top: 40px; }
-            .scanner-box { text-align: left; width: 120px; }
-            .scanner-image-wrap { width: 120px; height: 120px; border: 1px solid #cbd5e1; background: #ffffff; }
+            .res-item b { color: #0369a1 !important; font-size: 15px !important; font-weight: bold; font-family: monospace; }
+            .print-verification-zone { display: flex !important; justify-content: space-between; align-items: flex-end; margin-top: 40px; padding: 0 10px; }
+            .scanner-box { text-align: left; width: 160px; }
+            .scanner-image-wrap { width: 120px; height: 120px; border: 1.5px solid #cbd5e1; border-radius: 10px; overflow: hidden; background: #ffffff; }
+            .scanner-image-wrap img { width: 100%; height: 100%; object-fit: contain; }
             .signature-container { text-align: right; width: 220px; display: flex; flex-direction: column; align-items: flex-end; gap: 5px; }
+            .seal-image-wrap { width: 90px; height: 90px; }
+            .seal-image-wrap img { width: 100%; height: 100%; object-fit: contain; opacity: 0.85; }
+            .signature-box { font-size: 12px; font-weight: bold; color: #0f172a; text-transform: uppercase; }
             .print-footer-block { display: block !important; text-align: center; margin-top: 30px; border-top: 1px solid #cbd5e1 !important; padding-top: 20px; }
         }
     </style>
@@ -363,12 +402,20 @@
             </div>
 
             <button class="btn-calc" id="btnCalc" onclick="calculateKLArea()">Calculate Area</button>
+
+            <div class="govt-link-box">
+                <div class="govt-link-text">
+                    <h4 id="govTitle">Verify on Official Kerala Revenue Portal</h4>
+                    <p id="govDesc">Cross-verify your current survey sketch, FMB layout mapping matrices, and register data directly on the official state network.</p>
+                </div>
+                <a href="https://erekha.kerala.gov.in/" target="_blank" rel="noopener noreferrer" class="govt-btn" id="govBtnText">Open E-Rekha Govt Port ↗</a>
+            </div>
         </div>
 
         <div id="resultBox" class="result-panel">
-            <div class="bkl-special" style="background: rgba(255,255,255,0.05); padding: 20px; border-radius: 15px; text-align: center; margin-bottom: 20px; border: 1px dashed var(--gj-gold);">
-                <span id="fmtText" style="display:block; font-size: 14px; color: #cbd5e1; font-weight: bold; margin-bottom: 6px;">Kerala Standard Output Summary (സെന്റ്-മാർല-ആർസ്):</span>
-                <strong id="pb_main" style="font-size: 26px; color: var(--gj-gold);">0 Cent, 0 Marla, 0 Ares</strong>
+            <div class="bkl-special" style="background: rgba(255,255,255,0.05); padding: 20px; border-radius: 15px; text-align: center; margin-bottom: 20px; border: 1px dashed var(--gj-blue);">
+                <span id="fmtText" style="display:block; font-size: 14px; color: #94a3b8; font-weight: bold; margin-bottom: 6px;">Kerala Standard Output Summary (സെന്റ്-മാർല-ആർസ്):</span>
+                <strong id="pb_main" style="font-size: 24px; color: #81c784;">0 Cent, 0 Marla, 0 Ares</strong>
             </div>
 
             <div style="background: rgba(255, 255, 255, 0.04); margin: 10px auto; padding: 8px; border-radius: 8px; max-width: 100%; font-size: 12px; color: #cbd5e1; border: 1px solid rgba(255,255,255,0.1);">
@@ -399,180 +446,162 @@
 
     <div class="diag-box">
         <p style="font-weight: bold; margin-bottom: 10px; color: var(--gj-blue);" id="imgNote">Zameen kaise naapein, diagram dekhein:</p>
-        <img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 300' width='100%' height='100%'><rect width='100%' height='100%' fill='%23f8fafc'/><path d='M 50,230 L 120,50 L 330,80 L 350,210 Z' fill='none' stroke='%23005f53' stroke-width='3'/><line x1='120' y1='50' x2='350' y2='210' stroke='%23e5a93b' stroke-width='2' stroke-dasharray='5,5'/><text x='70' y='140' fill='%23072a24' font-weight='bold'>A</text><text x='225' y='50' fill='%23072a24' font-weight='bold'>B</text><text x='355' y='150' fill='%23072a24' font-weight='bold'>C</text><text x='200' y='240' fill='%23072a24' font-weight='bold'>D</text><text x='210' y='120' fill='%23e5a93b' font-weight='bold'>E (Diagonal)</text></svg>" alt="Kerala Irregular Land Diagram Shayan Smart Tools">
+        <img src="land-diagram.png" alt="Kerala Irregular Land Diagram Shayan Smart Tools">
         <p style="font-size: 13px; color: #555; margin-top:10px;" id="imgDesc">Measure Side A, B, C, D and the Diagonal (E).</p>
     </div>
 
     <article class="seo-section">
         <div class="seo-header-block">
-            <h2 id="introH2" style="border:none; padding:0; text-align:center; font-size:2.3rem !important;">Kerala Land Area Calculation: ക്രമരഹിത ഭൂമിയുടെ അളവും സമ്പൂർണ്ണ ഗണന ഗൈഡും</h2>
-            <p style="font-size: 17px; color: #555; text-align: center; margin: 5px 0 0 0;" id="seoSubTitle">Bhunaksha Kerala records framework aur dynamic triangulation metrics ke anusaar irregular maps quadrilateral scaling template.</p>
+            <h2 id="introH2" style="border:none; padding:0; text-align:center; font-size:2.1rem !important;">Kerala Land Area Calculation: ക്രമരഹിത ഭൂമിയുടെ അളവും സമ്പൂർണ്ണ ഗണന ഗൈഡും</h2>
+            <p style="font-size: 16px; color: #555; text-align: center; margin: 5px 0 0 0;" id="seoSubTitle">Bhunaksha Kerala records framework aur dynamic triangulation metrics ke anusaar irregular maps quadrilateral scaling template.</p>
         </div>
 
         <section>
-            <h3>1. Deep Overview of Irregular Land Dynamics in Kerala (Bhoomi Mapa Tedi-Medi)</h3>
-            <p>
-                Kerala's geographic layout is uniquely complex due to its diverse topography, encompassing long coastal shorelines, structural midlands, and high mountainous terrains of the Western Ghats. Unlike many planned urban settlements across India, historical agricultural plots, residential layouts, and commercial properties in Kerala (spreading across major hubs like Kochi, Thiruvananthapuram, Kozhikode, and Thrissur) do not conform to perfect rectangles or squares. Most properties are naturally bounded by winding rivers, ancient stone walls, or traditional agricultural bunds, creating highly irregular quadrilaterals or multi-sided polygons, often referred to in structural survey terminologies as "Tedi-Medi Zameen".
+            <h3 id="h3_1">1. Professional Overview of Irregular Land Forms in Kerala</h3>
+            <p id="p_1">
+                Kerala's geographic architecture features highly complex plots, winding river networks, and hillside agricultural steps that prevent conventional symmetrical layouts. Standard square or rectangular shapes are rare. Instead, standard field boundaries across cities like Kochi, Thiruvananthapuram, Kozhikode, and Palakkad exist primarily as distorted, irregular quadrilaterals. 
             </p>
-            <p>
-                When it comes to executing standard property buying, structural value estimation, local registration validation, or mapping via the official <strong>Bhunaksha Kerala Portal</strong>, traditional calculation systems drop their accuracy drastically. Traditional local practitioners frequently implement the unscientific "Average Method" (adding opposite sides and averaging them) which fundamentally violates laws of Euclidean geometry. Using the wrong algorithm results in artificial inflation or deflation of spatial mapping values, exposing buyers and landowners to legal penalties during registration mutations under the Kerala Survey and Boundaries Act.
-            </p>
-        </section>
-
-        <section>
-            <h3>2. Technical Core: Mathematical Logic of Triangulation via Diagonal Boundaries</h3>
-            <p>
-                To obtain an absolute mathematical guarantee of area metrics within an asymmetric quadrilateral layout, the entire system must be broken down into stable triangular fragments. A fixed four-sided shape with irregular dimensions is dynamically highly fluid; its angles can change completely without changing the length of its outer walls. Therefore, to lock the dimensional stability, it is imperative to extract at least one interior line running from one vertex to the opposite structural vertex. This structural crossline is universally designated as the <strong>Diagonal (വികർണ്ണം - E)</strong>.
-            </p>
-            <p>
-                Once the diagonal splits the plot layout into two distinct triangles, the system deploys the time-tested **Heron’s Formula** independently to both spaces. Let $a, b,$ and $e$ be the dimensions of the first triangle, and $c, d,$ and $e$ represent the boundaries of the secondary triangle. The system first computes the semi-perimeter $s$:
-            </p>
-            <p style="text-align: center;">
-                $$s_1 = \frac{a + b + e}{2}$$
-            </p>
-            <p>
-                Using this structural semi-perimeter value, the precise surface footprint of the first segmented space ($\text{Area}_1$) is extracted using:
-            </p>
-            <p style="text-align: center;">
-                $$\text{Area}_1 = \sqrt{s_1 \cdot (s_1 - a) \cdot (s_1 - b) \cdot (s_1 - e)}$$
-            </p>
-            <p>
-                The same sequence runs dynamically for the second triangle to generate $\text{Area}_2$. The global summation ($\text{Total Area} = \text{Area}_1 + \text{Area}_2$) renders the absolute net value in square feet. This dual triangulation setup is the exact algorithm running inside our processing architecture, ensuring 100% compliance with digital survey frameworks utilized by the state revenue department.
+            <p id="p_2">
+                Traditional computational methods, such as the widely criticized Average Method (adding opposing sides and averaging them), often fail dramatically in calculating real area. These errors occur because average-based estimations hide spatial distortions, creating invalid values that do not match the strict constraints of the official <strong>Bhunaksha Kerala Survey</strong> guidelines.
             </p>
         </section>
 
         <section>
-            <h3>3. Step-by-Step Manual on How to Use the Kerala Land Calculator Seamlessly</h3>
-            <p>
-                Operating the calculator requires minimal effort but demands correct physical alignment details. Follow these precise instructions for absolute mapping compliance:
-            </p>
+            <h3 id="h3_2">2. How to Use the Calculator: Step-by-Step Procedure</h3>
+            <p id="p_3">Follow these precise physical measurements steps to generate highly accurate spatial outputs via our platform interface:</p>
             <ol>
-                <li><strong>Execute Physical Border Inspection:</strong> Run a standard measuring chain or tape along the four primary boundaries of the land plot. Document these values carefully in feet. Label them systematically as Side A, Side B, Side C, and Side D.</li>
-                <li><strong>Extract the Imperative Diagonal Crossline:</strong> Locate two opposite corners across the plot that offer the clearest line of sight. Stretch your structural survey tape directly between those two internal coordinates. This length represents your Diagonal (E).</li>
-                <li><strong>Feed Metrics into the Interface:</strong> Open the Shayan Smart Tools interface. Fill in the numeric fields corresponding to Sides A, B, C, D, and Diagonal E. Ensure no auxiliary markers or alphabetical units are added inside the blocks.</li>
-                <li><strong>Trigger Digital Computational Engine:</strong> Press the high-visibility "Calculate Area" button. The client-side JavaScript engine handles thousands of triangular geometric validations in milliseconds and displays an interactive, deeply organized structural matrix panel below the form.</li>
+                <li id="li_1"><strong>Step One:</strong> Measure all four outer boundaries of your irregular property in linear feet using a standard surveyor wire or heavy-duty tape measure. Assign these to Side A, Side B, Side C, and Side D.</li>
+                <li id="li_2"><strong>Step Two:</strong> Determine the internal structural diagonal. Measure across the plot from one corner to the exact opposite corner (Corner A to Corner C, or B to D). Enter this crucial dimension into the Diagonal (E) input field.</li>
+                <li id="li_3"><strong>Step Three:</strong> Click the "Calculate Area" option. The underlying JavaScript core instantly runs a dual Heron's algorithm setup, providing a fast data projection broken down into standard local land units.</li>
             </ol>
         </section>
 
-        <section class="example-box">
-            <h4>Real-World Practical Calculation Example</h4>
-            <p>
-                Let us consider an irregular structural land layout located in Palakkad with the following field survey parameters measured accurately in feet:
-                <br>• Side A = 50 ft, Side B = 60 ft, Side C = 55 ft, Side D = 45 ft
-                <br>• Interior Diagonal (E) = 70 ft
+        <section>
+            <h3 id="h3_3">3. Mathematical Logic: Heron's Formula Triangulation Model</h3>
+            <p id="p_4">
+                Our calculator breaks down the irregular four-sided plot into two distinct triangles via the diagonal boundary line. This avoids skew errors completely. The script applies **Heron's Formula** to each individual triangle zone sequentially, using the semi-perimeter calculation:
             </p>
-            <p>
-                <strong>Mathematical Processing Phase 1 (Triangle 1 - Sides 50, 60, 70):</strong>
-                <br>Semi perimeter ($s_1$) = $(50 + 60 + 70) / 2 = 90\text{ ft}$.
-                <br>$\text{Area}_1 = \sqrt{90 \cdot (90-50) \cdot (90-60) \cdot (90-70)} = \sqrt{90 \cdot 40 \cdot 30 \cdot 20} = \sqrt{2,160,000} \approx 1469.69\text{ sq ft}$.
-            </p>
-            <p>
-                <strong>Mathematical Processing Phase 2 (Triangle 2 - Sides 55, 45, 70):</strong>
-                <br>Semi perimeter ($s_2$) = $(55 + 45 + 70) / 2 = 85\text{ ft}$.
-                <br>$\text{Area}_2 = \sqrt{85 \cdot (85-55) \cdot (85-45) \cdot (85-70)} = \sqrt{85 \cdot 30 \cdot 40 \cdot 15} = \sqrt{1,530,000} \approx 1236.93\text{ sq ft}$.
-            </p>
-            <p>
-                <strong>Summation & Kerala Land Unit Conversion:</strong>
-                <br>Total Combined Footprint = $1469.69 + 1236.93 = 2706.62\text{ sq ft}$.
-                <br>• <strong>Cents Matrix Conversion:</strong> $2706.62 / 435.6 = \mathbf{6.21\text{ Cents}}$.
-                <br>• <strong>Ares Conversion Scale:</strong> $2706.62 / 1076.39 = \mathbf{2.51\text{ Ares}}$.
+            <div style="text-align: center; background: #e0f2f1; padding: 15px; border-radius: 12px; margin: 15px 0; font-family: monospace; font-size: 16px; color: var(--gj-dark); font-weight: bold;">
+                s = (a + b + c) / 2 <br>
+                Area = √[s × (s - a) × (s - b) × (s - c)]
+            </div>
+            <p id="p_5">
+                Finally, the script sums both calculated areas to output the total square foot value. This value is then split using exact regulatory ratios into local units like **Cents, Marlas, and Ares**.
             </p>
         </section>
 
-        <h3>Kerala Land Revenue Conversion Matrix Standard Table</h3>
-        <p>
-            Official land registries in Kerala follow uniform conversion benchmarks across rural and urban property deeds. Use this master lookup matrix to understand how square measurements convert into regional layout variables:
-        </p>
+        <section>
+            <h3 id="h3_4">4. Practical Calculation Example Breakdown</h3>
+            <p id="p_6">
+                Consider a real-world irregular property plot measuring the following dimensions: 
+                <strong>Side A = 50 ft</strong>, <strong>Side B = 60 ft</strong>, <strong>Side C = 45 ft</strong>, and <strong>Side D = 55 ft</strong>. Let's assume an across-corner physical field reading gives an internal <strong>Diagonal Line E = 70 ft</strong>.
+            </p>
+            <p id="p_7">
+                Our algorithm processes this configuration as follows:
+                <br>• <strong>Triangle 1 (Sides 50, 60, 70):</strong> Semi-perimeter ($s_1$) = 90 ft. Calculated Area 1 = 1,469.69 sq ft.
+                <br>• <strong>Triangle 2 (Sides 45, 55, 70):</strong> Semi-perimeter ($s_2$) = 85 ft. Calculated Area 2 = 1,236.93 sq ft.
+                <br>• <strong>Combined Matrix Sum:</strong> 1,469.69 + 1,236.93 = 2,706.62 total square feet. 
+                <br>This maps out directly to exactly <strong>6.21 Cents</strong> or <strong>2.51 Ares</strong> of land.
+            </p>
+        </section>
+
+        <h3 id="h3_5">Kerala Land Revenue Conversion Matrix Standard Table</h3>
         <div style="overflow-x: auto;">
             <table>
                 <thead>
                     <tr>
-                        <th>Official Unit Name (കേരള റവന്യൂ അളവ്)</th>
-                        <th>Symmetric Conversion Breakdown</th>
-                        <th>Area in Square Feet (Sq Ft)</th>
-                        <th>Area in Square Meters (Sq M)</th>
+                        <th id="th_1">Official Unit Name (കേരള റവന്യൂ അളവ്)</th>
+                        <th id="th_2">Symmetric Conversion Breakdown</th>
+                        <th id="th_3">Area in Square Feet (Sq Ft)</th>
+                        <th id="th_4">Area in Square Meters (Sq M)</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr><td><b>1 Cent (സെന്റ്)</b></td><td>Standard basic revenue block element</td><td>435.6 Sq Ft</td><td>40.46 Sq M</td></tr>
-                    <tr><td><b>1 Marla (മാർല)</b></td><td>Traditional northern alignment subunit</td><td>272.25 Sq Ft</td><td>25.29 Sq M</td></tr>
-                    <tr><td><b>1 Are (ആർ)</b></td><td>Equal to 100 Square Meters layout space</td><td>1,076.39 Sq Ft</td><td>100 Sq M</td></tr>
-                    <tr><td><b>1 Acre (ഏക്കർ)</b></td><td>100 standard cents configuration mesh</td><td>43,560 Sq Ft</td><td>4,046.86 Sq M</td></tr>
-                    <tr><td><b>1 Hectare (ഹെക്ടർ)</b></td><td>Global structural survey benchmark footprint</td><td>1,07,639.10 Sq Ft</td><td>10,000 Sq M</td></tr>
+                    <tr><td><b>1 Cent (സെന്റ്)</b></td><td id="td_r1">Standard basic revenue block element</td><td>435.6 Sq Ft</td><td>40.46 Sq M</td></tr>
+                    <tr><td><b>1 Marla (മാർല)</b></td><td id="td_r2">Traditional northern alignment subunit</td><td>272.25 Sq Ft</td><td>25.29 Sq M</td></tr>
+                    <tr><td><b>1 Are (ആർ)</b></td><td id="td_r3">Equal to 100 Square Meters layout space</td><td>1,076.39 Sq Ft</td><td>100 Sq M</td></tr>
+                    <tr><td><b>1 Acre (ഏക്കർ)</b></td><td id="td_r4">100 standard cents configuration mesh</td><td>43,560 Sq Ft</td><td>4,046.86 Sq M</td></tr>
+                    <tr><td><b>1 Hectare (ഹെക്ടർ)</b></td><td id="td_r5">Global structural survey benchmark footprint</td><td>1,07,639.10 Sq Ft</td><td>10,000 Sq M</td></tr>
                 </tbody>
             </table>
         </div>
 
-        <h3 style="margin-top:50px;">4. Frequently Asked Questions (FAQ) - Kerala Land Survey Architecture</h3>
+        <h3 id="h3_6">Top Search Questions & Land Verification FAQs</h3>
         <div class="faq-wrapper">
             <div class="faq-card">
-                <h4>Q1. Kerala mein 1 Cent mein kitne Square Feet hote hain?</h4>
-                <p>Kerala revenue survey standards aur Bhoomi layout parameters ke mutabik 1 Cent exactly 435.6 Square Feet ke barabar hota hai.</p>
+                <h4 id="fq_q1">1. How many square feet are in 1 Cent of land in Kerala?</h4>
+                <p id="fq_a1">Exactly 435.6 square feet represents 1 land Cent according to structural survey records across Kerala.</p>
             </div>
             <div class="faq-card">
-                <h4>Q2. 1 Marla plot area footprint Kerala mein kya hota hai?</h4>
-                <p>Government statutory parameters ke anusar, Kerala me 1 Marla zameen exactly 272.25 Square Feet ground space hold karti hai.</p>
+                <h4 id="fq_q2">2. What is the relation between Ares and Cents in local survey maps?</h4>
+                <p id="fq_a2">1 Are is equivalent to 1,076.39 square feet, which makes 1 Are equal to 2.47 Cents in the Kerala state documentation ledger.</p>
             </div>
             <div class="faq-card">
-                <h4>Q3. Kerala mein 1 Acre mein kitne Cent (സെന്റ്) hote hain?</h4>
-                <p>Kerala land measurement metric framework ke anusaar 1 Acre zameen me poore 100 Cent hote hain.</p>
+                <h4 id="fq_q3">3. Why does the average side method give wrong land values?</h4>
+                <p id="fq_a3">The average method completely ignores geometric corner angles. For irregular boundaries, it overestimates total space, making the values invalid for legal land registration.</p>
             </div>
             <div class="faq-card">
-                <h4>Q4. 1 Are mein kitne Square Feet zameen hoti hai Kerala survey manual ke hisab se?</h4>
-                <p>Local geographic survey criteria ke mutabik Kerala ke areas me 1 Are general structural baseline par 1,076.39 Square Feet ke standard mesh mapping ke equivalent mana jata hai.</p>
+                <h4 id="fq_q4">4. Can I map out an irregular plot without measuring the diagonal?</h4>
+                <p id="fq_a4">No, 4 sides alone can form multiple shapes with varying areas. You must provide at least 1 cross-corner diagonal line to lock down the exact structural geometric area.</p>
             </div>
             <div class="faq-card">
-                <h4>Q5. Tedi-medi quadrilateral land ke liye Average Method kyu galat hai?</h4>
-                <p>Average method geometric skewness ko ignore karta hai. Jab aamne-saamne ki sides me zyada farq hota hai, to average method real dimension se kafi zyada area dikha deta hai, jo legally invalid hai. Sahi tareeqa sirf Heron's Triangulation hi hai.</p>
+                <h4 id="fq_q5">5. What standard units does the Bhunaksha Kerala portal use?</h4>
+                <p id="fq_a5">The official E-Rekha and Bhunaksha portals present digital map metrics using Hectares, Ares, and Square Meters.</p>
             </div>
             <div class="faq-card">
-                <h4>Q6. Revenue Records Kerala (ReSRE) me area kis digital unit me mention rehta hai?</h4>
-                <p>Bhunaksha ya E-Ror Kerala portal par land area conversion framework data generally Hectare, Ares, aur Square Meters formatted matrices me deeply optimized dhang se online download sheet me dikhaya jata hai.</p>
+                <h4 id="fq_q6">6. How many Cents are inside 1 standard Acre grid?</h4>
+                <p id="fq_a6">1 standard Acre contains exactly 100 Cents of revenue area profile alignment.</p>
             </div>
             <div class="faq-card">
-                <h4>Q7. 1 Cent aur Are me kya relation hota hai Kerala data metrics me?</h4>
-                <p>Mathematically, 1 Are (1,076.39 Sq Ft) divided by 1 Cent (435.6 Sq Ft) is equal to exactly 2.47 Cents. Yani ek are lagbhag dhai cent ke barabar hota hai.</p>
+                <h4 id="fq_q7">7. What is a Marla unit value in this land calculator engine?</h4>
+                <p id="fq_a7">1 Marla represents a standard plot area framework of 272.25 square feet inside the system algorithm configuration.</p>
             </div>
             <div class="faq-card">
-                <h4>Q8. Kya Kochi aur Thiruvananthapuram me local land structural metrics same hain?</h4>
-                <p>Haan, official revenue registries pure Kerala state me standard units (Cent, Ares, Hectare) use karti hain, halanki rural levels par bolchal me regional structural weights vary kar sakte hain par document values uniform rehti hain.</p>
+                <h4 id="fq_q8">8. Why does the input field show a mathematical triangulation error?</h4>
+                <p id="fq_a8">This happens if your diagonal length violates the triangle inequality rule (the sum of any two sides must be greater than the diagonal). Please double-check your physical boundaries.</p>
             </div>
             <div class="faq-card">
-                <h4>Q9. Irregular zameen me diagonal line (വികർണ്ണം) naapna kyu compulsory hai?</h4>
-                <p>Bina diagonal ke 4 sides wale kisi bhi rigid geometry ka space stability flex fix nahi ho sakta, kyunki bina diagonal ke plot ke angles change ho sakte hain jisse area badal jayega. Sateek area locks ke liye 1 cross-diagonal imperative data benchmark hai.</p>
+                <h4 id="fq_q9">9. How do I convert Hectares to Acres for property in Kochi?</h4>
+                <p id="fq_a9">1 Hectare equals 2.471 Acres. Multiply your Hectare record value by 2.4711 to get the standard Acre value.</p>
             </div>
             <div class="faq-card">
-                <h4>Q10. 1 Acre me kitne Square Feet structural ground area fixed hota hai?</h4>
-                <p>Universal validation framework aur Indian structural survey standards ke mutabik 1 Acre map complete matrix me 43,560 Square Feet surface layout space cover karta hai.</p>
+                <h4 id="fq_q10">10. Is 1 Cent identical to 1 Guntha?</h4>
+                <p id="fq_a10">No, 1 Cent equals 435.6 square feet, whereas 1 Guntha equals 1,089 square feet. Guntha is primarily used in states like Karnataka and Maharashtra, not Kerala.</p>
             </div>
             <div class="faq-card">
-                <h4>Q11. Is calculator ki generated reports ko print karke benchmark registry me use kar sakte hain?</h4>
-                <p>Ye system pure mathematical precision triangulation equations par operate hota hai jo private calculation aur estimation verify karne ke liye safe hai. Par registration mutations ke liye revenue department ke Village Officer survey chain blueprint validation ko official mana jata hai.</p>
+                <h4 id="fq_q11">11. Can these calculator logs be submitted directly to a Village Officer?</h4>
+                <p id="fq_a11">This engine serves as an accurate mathematical estimation tool. Legal land registration and mutation updates require a field survey by an authorized revenue official using an official chain system.</p>
             </div>
             <div class="faq-card">
-                <h4>Q12. Hectare ko Square Meter me badalne ka structural constant ratio kya hai?</h4>
-                <p>Standard geometric evaluation system metrics ke anusaar 1 Hectare (1 Ha) exactly 10,000 Square Meters continuous area hold karta hai.</p>
+                <h4 id="fq_q12">12. How many square meters make up one Hectare?</h4>
+                <p id="fq_a12">1 Hectare matches exactly 10,000 square meters of continuous geometric plane ground coverage.</p>
             </div>
             <div class="faq-card">
-                <h4>Q13. 1 Cent me Kerala mathematical engine ke hisab se kitne Marla hote hain?</h4>
-                <p>1 Cent (435.6 Sq Ft) divided by 1 Marla (272.25 Sq Ft) structural scaling parameters par evaluate karne par smoothly 1.6 Marla standard layout ratio generate karta hai.</p>
+                <h4 id="fq_q13">13. Does this web client save my coordinates or plot values?</h4>
+                <p id="fq_a13">No, this system executes instantly inside your browser using pure client-side JavaScript. Your data remains fully secure and private.</p>
             </div>
             <div class="faq-card">
-                <h4>Q14. Agar diagonal length enter karne par mathematical warning error aaye to kya karein?</h4>
-                <p>Agar triangle properties matrix ke standard code constraints (a + b > diagonal) break hote hain tabhi geometry error trigger hota hai. Iska matlab aapne khet naapte samay lambaai galat likhi hai. Kripya physical boundary dimensions firse check karein.</p>
+                <h4 id="fq_q14">14. What is the total square foot value of 1 Acre of land?</h4>
+                <p id="fq_a14">1 Acre corresponds to exactly 43,560 square feet of legal surface layout area.</p>
             </div>
             <div class="faq-card">
-                <h4>Q15. Shayan Smart Tools Kerala algorithm safe aur secured data configuration compliance par chalta hai?</h4>
-                <p>Haan, ye system client-side javascript calculation rendering block framework par powered hai, bina kisi background cookie integration ke instant loading system optimized responsive performance control design elements data standards follow karta hai.</p>
+                <h4 id="fq_q15">15. How many Marlas are there in a single Cent unit?</h4>
+                <p id="fq_a15">1 Cent divided by the 272.25 Marla constant scales out smoothly to 1.60 local Marlas.</p>
             </div>
         </div>
 
-        <h3 style="margin-top:40px;" id="dtTitle">5. Related Tools & Internal Links</h3>
+        <div class="copyright-warning-box">
+            <strong>⚠️ INTELLECTUAL PROPERTY & REGISTERED COPYRIGHT NOTICE:</strong><br>
+            The custom styling, automated JavaScript triangulation engine, and cross-compiled linguistic translation dictionary featured on this page are the exclusive intellectual property of <strong>Shayan Smart Tools (2026)</strong>. Automated data scraping, framing, or unauthorized replication of this code structure without written permission will trigger automated DMCA copyright takedown processes and legal actions under intellectual property laws.
+        </div>
+
+        <div class="sec-h" id="intLinksTitle">Related Tools & Internal Links</div>
         <div class="links-grid">
             <a href="index.html" class="link-card" id="dshHome">Dashboard Home</a>
             <a href="gujarat-irregular-land-calculator.html" class="link-card" id="dshAdd">📐 Gujarat Irregular Calc</a>
             <a href="punjab-irregular-land-calculator.html" class="link-card" id="dshPb">📐 Punjab Irregular Calc</a>
             <a href="rajasthan-irregular-land-calculator.html" class="link-card" id="dshRj">📐 Rajasthan Irregular Calc</a>
+            <a href="karnataka-irregular-land-calculator.html" class="link-card" id="dshKa">📐 Karnataka Irregular Calc</a>
         </div>
     </article>
 </div>
@@ -580,12 +609,13 @@
 <div class="print-sheet-container">
     <div class="print-header-block">
         <div style="display: flex; justify-content: center; align-items: center; gap: 10px; margin-bottom: 5px;">
-            <h2 style="font-size: 24px; color: #005f53; margin: 0; font-weight: 900; letter-spacing: 1px;">SHAYAN SMART TOOLS</h2>
+            <img src="favicon.png" alt="SST" style="width: 30px; height: 30px;">
+            <h2 style="font-size: 22px; color: #0369a1; margin: 0; font-weight: 900; letter-spacing: 1px;">SHAYAN SMART TOOLS</h2>
         </div>
-        <p style="font-size: 11px; color: #005f53; font-weight: bold; margin: 0 0 10px 0; letter-spacing: 0.5px; text-transform: uppercase;">KERALA REVENUE LAND AREA SUMMARY - 2026</p>
+        <p style="font-size: 11px; color: #0284c7; font-weight: bold; margin: 0 0 10px 0; letter-spacing: 0.5px; text-transform: uppercase;">KERALA REVENUE LAND AREA SUMMARY - 2026</p>
         
         <div style="background: #f8fafc; border: 1px solid #cbd5e1; padding: 10px; border-radius: 4px; display: grid; grid-template-columns: 1fr 1fr; font-size: 11px; text-align: left; gap: 5px; color: #334155;">
-            <div><strong>DOCUMENT REF:</strong> <span id="pDocRefPrint" style="color:#005f53; font-weight:bold;">SST-KL-0000</span></div>
+            <div><strong>DOCUMENT REF:</strong> <span id="pDocRefPrint" style="color:#0369a1; font-weight:bold;">SST-KL-0000</span></div>
             <div style="text-align: right;"><strong>DATE:</strong> <span id="pDocDatePrint">--/--/----</span></div>
             <div><strong>JURISDICTION:</strong> State of Kerala (കേരളം)</div>
             <div style="text-align: right;"><strong>STATUS:</strong> Digitally Secured Calculations</div>
@@ -593,8 +623,8 @@
     </div>
 
     <div class="bkl-special">
-        <span id="fmtTextPrint" style="display:block; font-size: 14px; color: #475569; font-weight: bold; margin-bottom: 5px;">Kerala Standard Format:</span>
-        <strong id="bklText" style="font-size: 24px; color: #005f53;">0 Cent, 0 Marla, 0 Ares</strong>
+        <span id="fmtTextPrint" style="display:block; font-size: 14px; color: #64748b; font-weight: bold; margin-bottom: 5px;">Kerala Standard Format:</span>
+        <strong id="bklText" style="font-size: 24px; color: #f59e0b;">0 Cent, 0 Marla, 0 Ares</strong>
     </div>
     
     <div class="res-grid">
@@ -610,16 +640,20 @@
 
     <div class="print-verification-zone">
         <div class="scanner-box">
-            <div style="background: #005f53; color: #ffffff; padding: 5px 2px; text-align: center; font-size: 8px; font-weight: 800; width: 120px; box-sizing: border-box;">
-                OFFICIAL REPORT
+            <div style="background: linear-gradient(135deg, #0284c7, #0f172a); color: #ffffff; padding: 5px 2px; text-align: center; font-size: 8px; font-weight: 800; letter-spacing: 0.5px; text-transform: uppercase; border-top-left-radius: 10px; border-top-right-radius: 10px; width: 120px; border: 1.5px solid #cbd5e1; border-bottom: none; box-sizing: border-box;">
+                Scan to Open Tool
             </div>
-            <div class="scanner-image-wrap" style="display: flex; align-items: center; justify-content: center; font-size: 9px; color: #94a3b8; font-weight: bold; text-align: center; border: 1px solid #cbd5e1;">
-                [ QR SECURE ]
+            <div class="scanner-image-wrap">
+                <img src="qrcode.png" alt="Verification QR Code">
+            </div>
+            <div style="background: #f8fafc; border: 1.5px solid #cbd5e1; border-top: none; padding: 4px; text-align: center; font-size: 8px; font-family: monospace; color: #475569; font-weight: bold; border-bottom-left-radius: 10px; border-bottom-right-radius: 10px; width: 120px; box-sizing: border-box;">
+                SHAYAN SMART TOOLS
             </div>
         </div>
         <div class="signature-container">
-            <div style="height: 50px;"></div>
-            <div style="border-top: 1px solid #000; width: 180px; margin-bottom: 5px;"></div>
+            <div class="seal-image-wrap">
+                <img src="seal.png" alt="Official SST Seal">
+            </div>
             <div class="signature-box">
                 Authorized Signatory
             </div>
@@ -627,15 +661,15 @@
     </div>
     
     <div class="print-footer-block">
-        <div style="margin: 0 auto; max-width: 90%; font-size: 11px; color: #475569; line-height: 1.6; text-align: center;">
-            <p style="margin: 0; font-weight: bold; color: #005f53; text-transform: uppercase; font-size: 12px;">🔒 SECURITY DISCLAIMER & VERIFICATION NOTICE</p>
-            <p style="margin: 6px 0 0 0;">This computation is an automated metrics summary sheet generated via standard Kerala survey rules. Cross-verify architectural coordinates with the official E-Rekha revenue portals before finalizing real estate execution models.</p>
+        <div style="margin: 0 auto; max-width: 85%; font-size: 11px; color: #475569; line-height: 1.6; text-align: center;">
+            <p style="margin: 0; font-weight: bold; color: #0369a1; text-transform: uppercase; font-size: 12px;">🔒 SECURITY DISCLAIMER & VERIFICATION NOTICE</p>
+            <p style="margin: 6px 0 0 0;">This computation is an automated generated metrics summary sheet, digitally verified via standard Kerala E-Rekha revenue mapping rules (1 Hectare = 2.471 Acre = 247.1 Cents). Cross-verify survey records with official mutation papers.</p>
+            <div style="display: inline-block; border: 1px dashed #0369a1; padding: 6px 20px; border-radius: 4px; margin-top: 15px; margin-bottom: 12px; background: #f8fafc; font-size: 10px; font-weight: bold; color: #0369a1; text-transform: uppercase;">
+                SHAYAN SMART TOOLS [SST SEAL] - OFFICIAL UNIT PLATFORM
+            </div>
+            <p style="margin: 5px 0 0 0; font-size: 12px; font-weight: bold; color: #0284c7;">🌐 SST OFFICIAL ACCESS: www.shayansmarttools.in</p>
         </div>
     </div>
-</div>
-
-<div class="footer-cr">
-    <strong>🔒 SECURITY PROPRIETARY WARNING & COPYRIGHT COMPLIANCE NOTICE:</strong> All processing algorithms, interface design patterns, geometric validation frameworks, and integrated translation matrices engineered within this application are the exclusive intellectual property of <strong>Shayan Smart Tools</strong>. Under the provisions of the Indian Copyright Act, 1957, and global digital asset preservation laws, any unauthorized code scraping, structure copying, framing techniques, or automated asset mining of these files without formal licensing is strictly prohibited. Violators will immediately face automated algorithmic dmca reporting, domain server blacklisting, and structural litigation actions under federal administrative blocks.
 </div>
 
 <script>
@@ -652,7 +686,7 @@
             shI: "Enter Irregular Plot Sides (ഭൂമിയുടെ അതിരുകളുടെ അളവ്)",
             seot: "Kerala Land Area Calculation: ക്രമരഹിത ഭൂമിയുടെ അളവും സമ്പൂർണ്ണ ഗണന ഗൈഡും",
             seos: "Bhunaksha Kerala records framework aur dynamic triangulation metrics ke anusaar irregular maps quadrilateral scaling template.",
-            dt: "Related Tools & Internal Links", dh: "Dashboard Home", d1: "📐 Gujarat Irregular Calc", d2: "📐 Punjab Irregular Calc", d3: "📐 Rajasthan Irregular Calc",
+            dt: "Related Tools & Internal Links", dh: "Dashboard Home", d1: "📐 Gujarat Irregular Calc", d2: "📐 Punjab Irregular Calc", d3: "📐 Rajasthan Irregular Calc", d4: "📐 Karnataka Irregular Calc",
             copyMsg: "Calculation Details Copied!",
             fmtText: "Kerala Standard Output Summary (സെന്റ്-മാർല-ആർസ്):",
             lblSource: "Initial Data Input Feed",
@@ -662,7 +696,14 @@
             lblResAcre: "Calculated Total Acre",
             lblResHectare: "Calculated Total Hectare",
             lblResGuntha: "Calculated Total Kerala Marla",
-            lblResBiswa: "Calculated Total Kerala Ares"
+            lblResBiswa: "Calculated Total Kerala Ares",
+            govT: "Verify on Official Kerala Revenue Portal",
+            govD: "Cross-verify your current survey sketch, FMB layout mapping matrices, and register data directly on the official state network.",
+            govB: "Open E-Rekha Govt Port ↗",
+            h3_1: "1. Professional Overview of Irregular Land Forms in Kerala",
+            h3_2: "2. How to Use the Calculator: Step-by-Step Procedure",
+            h3_3: "3. Mathematical Logic: Heron's Formula Triangulation Model",
+            h3_4: "4. Practical Calculation Example Breakdown"
         },
         ml: {
             t: "കേരള ക്രമരഹിത ഭൂമി കാൽക്കുലേറ്റർ",
@@ -675,7 +716,7 @@
             shI: "ഭൂമിയുടെ അതിരുകളുടെ അളവ് രേഖപ്പെടുത്തുക (Input Boundary Metrics)",
             seot: "കേരള ഭൂമി വിസ്തീർണ്ണ ത്രികോണ ഗണന ഗൈഡ്",
             seos: "ഭൂനക്ഷ കേരള റെക്കോർഡുകളും ലാൻഡ് അഡ്മിനിസ്ട്രേഷൻ സർവേയും ഹെറോൺസ് സൂത്രവാക്യപ്രകാരമുള്ള വിശകലനവും.",
-            dt: "അനുബന്ധ ഡിജിറ്റൽ ലിങ്കുകൾ", dh: "പ്രധാന ഡാഷ്‌ബോർഡ്", d1: "ഗുജറാത്ത് ഭൂമി കാൽക്കുലേറ്റർ", d2: "പഞ്ചാത്ത് ഭൂമി കാൽക്കുലേറ്റർ", d3: "രാജസ്ഥാൻ ഭൂമി കാൽക്കുലേറ്റർ",
+            dt: "അനുബന്ധ ഡിജിറ്റൽ ലിങ്കുകൾ", dh: "പ്രധാന ഡാഷ്‌ബോർഡ്", d1: "ഗുജറാത്ത് ഭൂമി കാൽക്കുലേറ്റർ", d2: "പഞ്ചാത്ത് ഭൂമി കാൽക്കുലേറ്റർ", d3: "രാജസ്ഥാൻ ഭൂമി കാൽക്കുലേറ്റർ", d4: "കർണാടക ഭൂമി കാൽക്കുലേറ്റർ",
             copyMsg: "ഭൂമി അളവ് വിവരങ്ങൾ വിജയകരമായി കോപ്പി ചെയ്തു!",
             fmtText: "കേരള സർക്കാർ അംഗീകൃത ഔട്ട്പുട്ട് ഫോർമാറ്റ് (സെന്റ്-മാർല-ആർസ്):",
             lblSource: "പ്രാരംഭ ഡാറ്റ ഇൻപുട്ട് ഫീഡ്",
@@ -685,7 +726,14 @@
             lblResAcre: "ആകെ ഏക്കർ മൂല്യം",
             lblResHectare: "ആകെ ഹെക്ടർ മൂല്യം",
             lblResGuntha: "ആകെ കേരള മാർല",
-            lblResBiswa: "ആകെ കേരള ആർസ്"
+            lblResBiswa: "ആകെ കേരള ആർസ്",
+            govT: "കേരള റവന്യൂ പോർട്ടലിൽ പരിശോധിക്കുക",
+            govD: "നിങ്ങളുടെ നിലവിലെ സർവേ സ്കെച്ച്, എഫ്എംബി ലേഔട്ട് മാപ്പിംഗ് മെട്രിക്സുകൾ, രജിസ്റ്റർ ഡാറ്റ എന്നിവ ഔദ്യോഗിക സംസ്ഥാന നെറ്റ്‌വർക്കിൽ നേരിട്ട് പരിശോധിക്കുക.",
+            govB: "ഇ-രേഖ ഗവൺമെന്റ് പോർട്ടൽ ↗",
+            h3_1: "1. കേരളത്തിലെ ക്രമരഹിതമായ ഭൂമിയുടെ പൊതുവിവരണം",
+            h3_2: "2. കാൽക്കുലേറ്റർ എങ്ങനെ ഉപയോഗിക്കാം: ഘട്ടം ഘട്ടമായുള്ള നടപടിക്രമം",
+            h3_3: "3. മാത്തമാറ്റിക്കൽ ലോജിക്: ഹെറോൺസ് ഫോർമുല ത്രികോണ മോഡൽ",
+            h3_4: "4. പ്രായോഗിക കണക്കുകൂട്ടൽ ഉദാഹരണ വിവരണം"
         }
     };
 
@@ -713,10 +761,20 @@
         document.getElementById('fmtText').innerText = trans[lang].fmtText;
         document.getElementById('fmtTextPrint').innerText = trans[lang].fmtText;
         
+        document.getElementById('govTitle').innerText = trans[lang].govT;
+        document.getElementById('govDesc').innerText = trans[lang].govD;
+        document.getElementById('govBtnText').innerText = trans[lang].govB;
+
+        document.getElementById('h3_1').innerText = trans[lang].h3_1;
+        document.getElementById('h3_2').innerText = trans[lang].h3_2;
+        document.getElementById('h3_3').innerText = trans[lang].h3_3;
+        document.getElementById('h3_4').innerText = trans[lang].h3_4;
+
         document.getElementById('dshHome').innerText = trans[lang].dh;
         document.getElementById('dshAdd').innerText = trans[lang].d1;
         document.getElementById('dshPb').innerText = trans[lang].d2;
         document.getElementById('dshRj').innerText = trans[lang].d3;
+        document.getElementById('dshKa').innerText = trans[lang].d4;
 
         document.getElementById('imgNote').innerText = trans[lang].iN;
         document.getElementById('imgDesc').innerText = trans[lang].iD;
@@ -832,10 +890,9 @@
         window.print();
     }
 
-    // Advanced Scraper Protections
     document.addEventListener('contextmenu', function(e) { e.preventDefault(); });
     document.onkeydown = function(e) {
-        if (e.ctrlKey && (e.keyCode === 67 || e.keyCode === 85 || e.keyCode === 73 || e.keyCode === 83)) {
+        if (e.ctrlKey && (e.keyCode === 67 || e.keyCode === 85 || e.keyCode === 73)) {
             alert("Copyright Warning: Structural scraping or duplication from Shayan Smart Tools is prohibited.");
             return false;
         }
