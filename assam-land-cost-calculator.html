@@ -117,7 +117,6 @@
         .registry-disclaimer strong { color: var(--as-gold); display: block; margin-bottom: 4px; }
 
         .res-grid { display: flex; flex-direction: column; gap: 14px; }
-        .res-grid { display: flex; flex-direction: column; gap: 14px; }
         .res-item { background: #1e293b; padding: 18px 20px; border-radius: 14px; display: flex; flex-direction: row; justify-content: space-between; align-items: center; border-left: 5px solid var(--as-gold); box-shadow: 0 4px 6px rgba(0,0,0,0.15); }
         .res-item.highlight-panel { border-left-color: #22c55e; background: rgba(34,197,94,0.08); }
         .res-item span { font-size: 14px; color: #94a3b8; font-weight: bold; text-align: left; }
@@ -643,11 +642,11 @@
                 </thead>
                 <tbody>
                     <tr><td>1</td><td><b>Kamrup Metropolitan (কামৰূপ মহানগৰ)</b></td><td>Capital / High Density Zone</td><td>₹3,000 - ₹12,000+ per Sq.Ft</td></tr>
-                    <tr><td>2</td><td><b>Dibrugarh (ডিব্ৰুগড়)</b></td><td>Industrial / Tea Estate Zone</td><td>₹800 - ₹4,500 per Sq.Ft</td></tr>
+                    <tr><td>2</td><td><b>Dibrugarh ( ডিব্ৰুগড়)</b></td><td>Industrial / Tea Estate Zone</td><td>₹800 - ₹4,500 per Sq.Ft</td></tr>
                     <tr><td>3</td><td><b>Cachar (কাছাৰ)</b></td><td>Commercial Valley Link</td><td>₹700 - ₹4,000 per Sq.Ft</td></tr>
                     <tr><td>4</td><td><b>Jorhat (যোৰহাট)</b></td><td>Cultural Residential Core</td><td>₹1,000 - ₹5,000 per Sq.Ft</td></tr>
                     <tr><td>5</td><td><b>Nagaon (নগাঁও)</b></td><td>Central Transit Plain Belt</td><td>₹600 - ₹3,500 per Sq.Ft</td></tr>
-                    <tr><td>6</td><td><b>B聲gaigaon (বঙাইগাঁও)</b></td><td>Refinery Industrial Rim</td><td>₹500 - ₹3,000 per Sq.Ft</td></tr>
+                    <tr><td>6</td><td><b>Bongaigaon (বঙাইগাঁও)</b></td><td>Refinery Industrial Rim</td><td>₹500 - ₹3,000 per Sq.Ft</td></tr>
                     <tr><td>7</td><td><b>Sonitpur (শোণিতপুৰ)</b></td><td>Institutional / Agri Plains Axis</td><td>₹600 - ₹4,000 per Sq.Ft</td></tr>
                 </tbody>
             </table>
@@ -797,16 +796,50 @@
             const a = ['', 'One ', 'Two ', 'Three ', 'Four ', 'Five ', 'Six ', 'Seven ', 'Eight ', 'Nine ', 'Ten ', 'Eleven ', 'Twelve ', 'Thirteen ', 'Fourteen ', 'Fifteen ', 'Sixteen ', 'Seventeen ', 'Eighteen ', 'Nineteen '];
             const b = ['', '', 'Twenty', 'Thirty', 'Forty', 'Fifty', 'Sixty', 'Seventy', 'Eighty', 'Ninety'];
 
-            if ((num = num.toString()).length > 9) return 'overflow';
-            let n = ('000000000' + num).substr(-9).match(/^(\d{2})(\d{2})(\d{2})(\d{1})(\d{2})$/);
-            if (!n) return ''; 
+            num = Math.floor(num);
+            if (num === 0) return 'Zero Rupees Only';
+            
             let str = '';
-            str += (Number(n[1]) != 0) ? (a[Number(n[1])] || b[n[1][0]] + ' ' + a[n[1][1]]) + 'Crore ' : '';
-            str += (Number(n[2]) != 0) ? (a[Number(n[2])] || b[n[2][0]] + ' ' + a[n[2][1]]) + 'Lakh ' : '';
-            str += (Number(n[3]) != 0) ? (a[Number(n[3])] || b[n[3][0]] + ' ' + a[n[3][1]]) + 'Thousand ' : '';
-            str += (Number(n[4]) != 0) ? a[Number(n[4])] + 'Hundred ' : '';
-            str += (Number(n[5]) != 0) ? ((str != '') ? 'and ' : '') + (a[Number(n[5])] || b[n[5][0]] + ' ' + a[n[5][1]]) : '';
-            return str ? str + 'Rupees Only' : 'Zero Rupees Only';
+            
+            // Handle Crores
+            let crores = Math.floor(num / 10000000);
+            num %= 10000000;
+            if (crores > 0) {
+                if (crores < 20) str += a[crores] + 'Crore ';
+                else str += b[Math.floor(crores / 10)] + ' ' + a[crores % 10] + 'Crore ';
+            }
+            
+            // Handle Lakhs
+            let lakhs = Math.floor(num / 100000);
+            num %= 100000;
+            if (lakhs > 0) {
+                if (lakhs < 20) str += a[lakhs] + 'Lakh ';
+                else str += b[Math.floor(lakhs / 10)] + ' ' + a[lakhs % 10] + 'Lakh ';
+            }
+            
+            // Handle Thousands
+            let thousands = Math.floor(num / 1000);
+            num %= 1000;
+            if (thousands > 0) {
+                if (thousands < 20) str += a[thousands] + 'Thousand ';
+                else str += b[Math.floor(thousands / 10)] + ' ' + a[thousands % 10] + 'Thousand ';
+            }
+            
+            // Handle Hundreds
+            let hundreds = Math.floor(num / 100);
+            num %= 100;
+            if (hundreds > 0) {
+                str += a[hundreds] + 'Hundred ';
+            }
+            
+            // Handle Remaining
+            if (num > 0) {
+                if (str !== '') str += 'and ';
+                if (num < 20) str += a[num];
+                else str += b[Math.floor(num / 10)] + ' ' + a[num % 10];
+            }
+            
+            return str ? str.trim() + ' Rupees Only' : 'Zero Rupees Only';
         }
 
         function calculateAssamLandCost() {
@@ -916,13 +949,8 @@
 
         function printCostReport() {
             const printRow = document.getElementById('print-input-row');
-            // Display the hidden user input data temporarily for the print layout process
             printRow.style.display = "flex"; 
-            
-            // Core engine calling system print
             window.print(); 
-            
-            // Re-hiding after output compilation is complete
             printRow.style.display = "none"; 
         }
 
