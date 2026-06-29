@@ -298,7 +298,7 @@
             }
             .scanner-box {
                 text-align: left;
-                width: 160px;
+                width: 120px;
             }
             .scanner-image-wrap {
                 width: 120px;
@@ -361,7 +361,20 @@
             .jh-standard-banner {
                 display: none !important;
             }
+            .print-logo-wrap {
+                display: block !important;
+                width: 50px;
+                height: 50px;
+                margin: 0 auto 10px auto;
+            }
+            .print-logo-wrap img {
+                width: 100%;
+                height: 100%;
+                object-fit: contain;
+            }
         }
+        
+        .print-logo-wrap { display: none; }
     </style>
 </head>
 <body>
@@ -446,6 +459,9 @@
         <div id="resPanel" class="res-panel">
             
             <div class="print-header-block">
+                <div class="print-logo-wrap">
+                    <img src="favico.png" alt="Favicon">
+                </div>
                 <div style="display: flex; justify-content: center; align-items: center; gap: 10px; margin-bottom: 5px;">
                     <h2 style="font-size: 22px; color: var(--or-dark); margin: 0; font-weight: 900; letter-spacing: 1px;">SHAYAN SMART TOOLS</h2>
                 </div>
@@ -509,13 +525,16 @@
                         Scan to Open Tool
                     </div>
                     <div class="scanner-image-wrap">
-                        <div style="padding: 30px 10px; text-align: center; font-size: 10px; color: #94a3b8;">QR Space</div>
+                        <img src="qrcode.png" alt="QR Code">
                     </div>
                     <div style="background: #f8fafc; border: 1.5px solid #cbd5e1; border-top: none; padding: 4px; text-align: center; font-size: 8px; font-family: monospace; color: #475569; font-weight: bold; border-bottom-left-radius: 10px; border-bottom-right-radius: 10px; width: 120px; box-sizing: border-box;">
                         SHAYAN SMART TOOLS
                     </div>
                 </div>
                 <div class="signature-container">
+                    <div class="seal-image-wrap">
+                        <img src="seal.png" alt="Official Seal">
+                    </div>
                     <div class="signature-box">
                         Authorized Signatory
                     </div>
@@ -829,8 +848,6 @@
             let decimal = 0;
 
             // Bihar standard dimensions baseline framework calculations (Patna Scale average)
-            // 1 Dhur = 68.0625 Sq.Ft, 1 Kattha = 20 Dhur = 1361.25 Sq.Ft, 1 Bigha = 20 Kattha = 27225 Sq.Ft
-            // 1 Decimal = 435.6 Sq.Ft, 1 Acre = 43560 Sq.Ft
             if(unit === 'kattha') {
                 sqft = area * 1361.25;
                 decimal = sqft / 435.6;
@@ -853,7 +870,6 @@
 
             const landCost = area * price;
             
-            // Bihar 2026 Stamp Duty rules: Male 6%, Female 5%, Joint 5.5%
             let stampDutyRate = 0.06; 
             if(ownership === 'female') {
                 stampDutyRate = 0.05;
@@ -862,18 +878,13 @@
             }
 
             const stampDuty = landCost * stampDutyRate;
-            
-            // Urban zones mapping infrastructure municipal cess (1% or 2% based on municipal layouts)
             const cessAmount = (region === 'urban') ? (landCost * 0.01) : 0;
-            
-            // Bihar flat registration fee layout scale (2%)
             let regFees = landCost * 0.02;
 
             const netBudget = landCost + stampDuty + cessAmount + regFees;
 
             document.getElementById('jhStandardOutput').innerText = decimal.toFixed(4) + " Decimal Allocation Matrix";
             
-            // Regional breakdown dynamic banner formatting
             let wholeBigha = Math.floor(sqft / 27225);
             let remSqftAfterBigha = sqft % 27225;
             let wholeKattha = Math.floor(remSqftAfterBigha / 1361.25);
