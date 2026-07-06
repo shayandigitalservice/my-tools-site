@@ -3,101 +3,144 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bihar Irregular Land Calculator | टेढ़ी-मेढ़ी जमीन का क्षेत्रफल कैलकुलेटर Free 2026 | Shayan Smart Tools</title>
+    <title>Bihar Irregular Land Calculator | बिहार टेढ़ी-मेढ़ी ज़मीन का क्षेत्रफल | Shayan Smart Tools</title>
     <link rel="canonical" href="https://shayansmarttools.in/bihar-irregular-land-calculator.html" />
 
-    <meta name="description" content="Bihar Irregular Land Area Calculator by Shayan Smart Tools. Calculate tedi-medi zameen using Heron's Formula. Accuracy in Bigha, Kattha, Dhur, and Dhurki.">
-    <meta name="keywords" content="Bihar Land Calculator, Bihar Main Tedi Medi Zameen Kaise Nape, टेढ़ी-मेढ़ी जमीन का कैलकुलेटर, Irregular Land Area Bihar, Bigha Kattha Dhur Calculator, Shayan Smart Tools Bihar, Heron's Formula Bihar, Dhurki Calculator, बिहार जमीन परिमापन, बिहार भूलेख कैलकुलेटर">
+    <meta name="description" content="Official Bihar Irregular Land Area Calculator by Shayan Smart Tools. Calculate complex land maps using Heron's Formula. High accuracy in Dhur, Katha, Bigha, Dismil, and Acres for Bhumi Jankari Portal.">
+    <meta name="keywords" content="Bihar Land Calculator, बिहार जमीन की नापी, Bihar irregular land calculator, Dhur Katha Bigha Calculator, Bhumi Jankari Triangulation, Shayan Smart Tools Bihar, Jamabandi Khata Calculator">
     <meta name="author" content="Muksidul islam">
     <meta name="robots" content="index, follow">
 
     <style>
         :root {
-            --bihar-red: #b71c1c;
-            --bihar-dark: #7f0000;
-            --bihar-corporate: #0f172a;
+            --bh-blue: #1e3a8a;
+            --bh-orange: #f97316;
+            --bh-corporate: #0f172a;
             --text-dark: #334155;
             --white: #ffffff;
             --bg: #f8fafc;
-            --bihar-gold: #ffb300;
         }
 
         body {
             font-family: 'Poppins', sans-serif;
             line-height: 1.6;
-            background-color: var(--bg);
-            margin: 0;
+            color: var(--text-dark);
+            max-width: 850px;
+            margin: 0 auto;
             padding: 20px;
-            color: #333;
+            background-color: var(--bg);
         }
 
-        .container { max-width: 850px; margin: 0 auto; }
+        .tool-wrapper {
+            padding: 10px 0;
+            text-align: center;
+        }
 
         header {
-            background: linear-gradient(135deg, var(--bihar-red), var(--bihar-corporate));
-            color: #fff; padding: 40px 20px; border-radius: 25px; text-align: center;
-            border-bottom: 6px solid var(--bihar-gold); margin-bottom: 30px;
+            background: linear-gradient(135deg, var(--bh-blue), var(--bh-corporate));
+            color: var(--bh-orange); padding: 40px 20px; border-radius: 25px; text-align: center;
+            border-bottom: 6px solid var(--bh-orange); margin-bottom: 30px;
         }
-        header h1 { color: white; margin: 0 0 10px 0; font-size: 26px; text-transform: uppercase; }
-        header p { color: #f1f5f9; margin: 0; font-size: 16px; }
-        
-        .lang-toggle { display: flex; justify-content: center; gap: 10px; margin-bottom: 25px; }
-        .lang-btn { padding: 10px 25px; border-radius: 50px; border: 2px solid var(--bihar-red); background: white; cursor: pointer; font-weight: 700; transition: 0.3s; color: var(--bihar-red); }
-        .lang-btn.active { background: var(--bihar-red); color: white; }
+        header h1 { color: #ffffff; margin: 0 0 10px 0; font-size: 26px; text-transform: uppercase; font-weight: 900; }
+        header p { color: #f1f5f9; margin: 0; font-size: 16px; font-weight: 500; }
 
-        .form-card { 
-            background: transparent !important; 
-            padding: 10px 0; 
-            border: none !important; 
-            box-shadow: none !important; 
+        /* Language Switcher */
+        .lang-toggle {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            margin-bottom: 30px;
+        }
+
+        .lang-btn {
+            padding: 10px 25px;
+            border: 2px solid var(--bh-blue);
+            background: white;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: 700;
+            color: var(--bh-blue);
+            transition: 0.3s;
+        }
+
+        .lang-btn.active {
+            background: var(--bh-blue);
+            color: var(--white);
+        }
+
+        .form-container-block {
+            background: transparent !important;
+            padding: 10px 0;
+            border: none !important;
+            box-shadow: none !important;
             margin-bottom: 20px;
         }
-        
-        .sec-h { font-size: 16px; font-weight: bold; color: var(--bihar-red); margin-bottom: 20px; border-bottom: 2px solid #cbd5e1; padding-bottom: 8px; text-transform: uppercase; letter-spacing: 0.5px; }
 
-        .diag-box {
-            text-align: center;
-            margin: 30px 0;
-            padding: 20px;
-            background: #fff5f5;
-            border-radius: 16px;
-            border: 2px dashed var(--bihar-red);
-        }
-        .diag-box img { max-width: 100%; height: auto; border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.02); }
+        .sec-h { font-size: 16px; font-weight: bold; color: var(--bh-blue); margin-bottom: 20px; border-bottom: 2px solid #cbd5e1; padding-bottom: 8px; text-transform: uppercase; letter-spacing: 0.5px; text-align: left; }
 
         .input-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            gap: 20px;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 15px;
         }
 
-        .field { display: flex; flex-direction: column; }
-        label { font-size: 12px; font-weight: 800; color: var(--bihar-red); margin-bottom: 8px; text-transform: uppercase; }
+        .field { display: flex; flex-direction: column; text-align: left; }
+        label { font-size: 12px; font-weight: 800; color: var(--bh-blue); margin-bottom: 8px; text-transform: uppercase; }
         input { width: 100%; padding: 15px; border: 1px solid #cbd5e1; border-radius: 12px; font-size: 16px; box-sizing: border-box; outline: none; transition: 0.3s; background: var(--white); text-align: center; }
-        input:focus { border-color: var(--bihar-red); background: #fff; box-shadow: 0 0 8px rgba(183, 28, 28, 0.1); }
+        input:focus { border-color: var(--bh-blue); background: #fff; box-shadow: 0 0 8px rgba(30, 58, 138, 0.1); }
 
         .btn-calc {
-            width: 100%; padding: 20px; background: var(--bihar-red); color: #fff; border: none; border-radius: 15px; font-size: 18px; font-weight: 800; cursor: pointer; transition: 0.3s; text-transform: uppercase; letter-spacing: 1px; margin-top: 25px;
+            width: 100%; padding: 20px; background: var(--bh-blue); color: #ffffff; border: none; border-radius: 15px; font-size: 18px; font-weight: 800; cursor: pointer; transition: 0.3s; text-transform: uppercase; letter-spacing: 1px; margin-top: 25px;
         }
-        .btn-calc:hover { transform: translateY(-3px); box-shadow: 0 10px 20px rgba(183, 28, 28, 0.2); }
+        .btn-calc:hover { transform: translateY(-3px); box-shadow: 0 10px 20px rgba(30, 58, 138, 0.2); background: var(--bh-corporate); }
+
+        .diag-box {
+            background: rgba(255, 255, 255, 0.6);
+            padding: 20px;
+            border-radius: 16px;
+            margin: 25px 0;
+            border: 1px dashed var(--bh-blue);
+            backdrop-filter: blur(5px);
+            text-align: center;
+        }
+        .diag-box img { max-width: 100%; height: auto; border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
+
+        /* HOW TO USE & EXAMPLE CARD */
+        .ui-guide-card {
+            background: #ffffff;
+            border-radius: 20px;
+            padding: 25px;
+            margin: 30px 0;
+            box-shadow: 0 10px 25px rgba(15, 23, 42, 0.05);
+            border-left: 6px solid var(--bh-blue);
+            text-align: left;
+        }
+        .ui-guide-card h3 { color: var(--bh-blue); margin-top: 0; font-size: 20px; font-weight: 800; border-bottom: 1px dashed #cbd5e1; padding-bottom: 10px; }
+        .ui-guide-step { display: flex; align-items: flex-start; gap: 12px; margin-bottom: 12px; }
+        .ui-step-num { background: var(--bh-blue); color: white; border-radius: 50%; width: 24px; height: 24px; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: bold; flex-shrink: 0; margin-top: 3px; }
+        .ui-example-box { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 15px; margin-top: 20px; }
+        .ui-example-box p { margin: 5px 0; font-size: 14px; }
 
         /* RESULTS UI */
         .result-panel {
-            background: #0f172a; color: white; padding: 25px; border-radius: 25px; margin-top: 30px; display: none; border: 2px solid var(--bihar-gold); position: relative;
+            background: #0f172a; color: white; padding: 25px; border-radius: 25px; margin-top: 30px; display: none; border: 2px solid var(--bh-orange); position: relative;
         }
-        .result-panel h3 { margin-top: 0; text-align: center; color: var(--bihar-gold); font-size: 1.4rem; margin-bottom: 20px; }
+        .result-panel h3 { margin-top: 0; text-align: center; color: var(--bh-orange); font-size: 1.4rem; margin-bottom: 20px; }
         
-        .res-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; }
-        .res-item { background: rgba(255,255,255,0.05); padding: 15px; border-radius: 12px; display: flex; flex-direction: column; align-items: flex-start; gap: 5px; border-left: 4px solid var(--bihar-gold); }
-        .res-item span { font-size: 12px; color: #94a3b8; font-weight: bold; }
-        .res-item b { font-size: 18px; color: #fff; word-break: break-all; }
+        .res-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin: 20px 0; }
+        .res-item { background: rgba(255,255,255,0.05); padding: 15px; border-radius: 12px; display: flex; flex-direction: column; align-items: center; gap: 5px; border-bottom: 4px solid var(--bh-orange); }
+        .res-item span { font-size: 12px; color: #cbd5e1; font-weight: bold; text-transform: uppercase; }
+        .res-item b { font-size: 24px; color: #fff; }
+
+        .extra-res-box { background: rgba(255, 255, 255, 0.02); padding: 15px; border-radius: 12px; margin-top: 15px; border-left: 4px solid var(--bh-blue); text-align: left; }
+        .extra-res-box p { margin: 5px 0; font-size: 15px; display: flex; justify-content: space-between; align-items: center; }
+        .extra-res-box b { color: var(--bh-orange); }
 
         .print-header-block, .print-footer-block { display: none; }
-
         .util-btns { display: flex; gap: 10px; margin-top: 25px; }
         .u-btn { flex: 1; padding: 15px; border-radius: 12px; border: none; font-weight: 800; cursor: pointer; transition: 0.3s; color: white; font-size: 14px; text-align: center; }
 
-        /* CLEAN FIXED SEO ARTICLE LAYER */
+        /* ARTICLE LAYER */
         .seo-section { 
             background: transparent !important; 
             padding: 20px 0; 
@@ -109,48 +152,70 @@
         }
         .seo-section .seo-header-block {
             text-align: center; 
-            border-bottom: 3px solid var(--bihar-red); 
+            border-bottom: 3px solid var(--bh-blue); 
             padding-bottom: 20px; 
             margin-bottom: 30px;
             background: transparent !important;
         }
         .seo-section h2 { 
-            color: var(--bihar-red) !important; 
+            color: var(--bh-blue) !important; 
             font-size: 28px !important;
             margin-bottom: 10px !important;
-            border-left: 6px solid var(--bihar-dark);
+            border-left: 6px solid #1e3a8a;
             padding-left: 15px;
             margin-top: 40px;
         }
+        .seo-section h3 { color: #1e3a8a !important; margin-top: 30px; font-size: 22px; }
         .seo-section p { color: #334155 !important; font-size: 16px; text-align: justify; }
-        
+        .content-image { width: 100%; max-height: 340px; object-fit: cover; border-radius: 16px; margin: 25px 0; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
+
         .seo-section table { width: 100%; border-collapse: collapse; margin: 25px 0; background: #ffffff; box-shadow: 0 4px 6px rgba(0,0,0,0.02); border-radius: 8px; overflow: hidden; }
         .seo-section th, .seo-section td { padding: 15px; border: 1px solid #e2e8f0; text-align: left; color: #334155 !important; }
-        .seo-section th { background: #ffebee; color: var(--bihar-red) !important; font-weight: bold; }
+        .seo-section th { background: #eff6ff; color: var(--bh-blue) !important; font-weight: bold; }
         .seo-section tr:nth-child(even) { background-color: #f8fafc; }
 
         .links-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; margin: 25px 0 40px; width: 100%; box-sizing: border-box; }
-        .link-card { display: flex; align-items: center; justify-content: center; background: #ffffff; padding: 18px 20px; border-radius: 16px; text-decoration: none; color: var(--bihar-corporate) !important; font-weight: 700; font-size: 15px; border: 1px solid #e2e8f0; transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1); box-sizing: border-box; text-align: center; }
-        .link-card:hover { border-color: var(--bihar-red); transform: translateY(-4px); box-shadow: 0 12px 20px rgba(183, 28, 28, 0.1); background: linear-gradient(135deg, #ffffff, #fff5f5); }
+        .link-card { display: flex; align-items: center; justify-content: center; background: #ffffff; padding: 18px 20px; border-radius: 16px; text-decoration: none; color: var(--bh-blue) !important; font-weight: 700; font-size: 15px; border: 1px solid #e2e8f0; transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1); box-sizing: border-box; text-align: center; }
+        .link-card:hover { border-color: var(--bh-blue); transform: translateY(-4px); box-shadow: 0 12px 20px rgba(30, 58, 138, 0.1); background: linear-gradient(135deg, #ffffff, #eff6ff); }
 
-        @media (max-width: 600px) { 
-            .res-grid { grid-template-columns: 1fr; } 
-            .res-item b { font-size: 16px; }
+        .faq-item { border-bottom: 1px solid #e2e8f0; padding: 15px 0; }
+        .faq-item h4 { margin: 0 0 8px 0; font-size: 16px; color: var(--bh-corporate); font-weight: bold; }
+        .faq-item p { margin: 0; font-size: 15px; color: #475569; }
+
+        /* Laggi Config Setup Selector */
+        .laggi-box {
+            background: #ffffff; border: 1px solid #cbd5e1; border-radius: 12px; padding: 15px; margin-bottom: 20px; text-align: left;
+        }
+        .laggi-box label { font-size: 12px; font-weight: 800; color: var(--bh-blue); }
+        .laggi-select { width: 100%; padding: 12px; border-radius: 8px; border: 1px solid #cbd5e1; font-size: 15px; outline: none; margin-top: 5px; font-weight: bold; background: white; color: var(--text-dark); }
+
+        @media (max-width: 600px) {
+            .result-panel { border-radius: 15px; padding: 15px; }
+            .res-grid { grid-template-columns: 1fr; gap: 10px; }
             .seo-section h2 { font-size: 22px !important; }
             .links-grid { grid-template-columns: 1fr; gap: 12px; }
             .link-card { padding: 15px 18px; }
+            .input-grid { grid-template-columns: 1fr; gap: 10px; }
         }
 
-        /* 🔥 PREMIUM FIX: ANTI-BLANK PRINT INFRASTRUCTURE 🔥 */
+        /* PRINT CONFIGURATION */
         @media print {
-            html, body { background: #ffffff !important; color: #000000 !important; margin: 0 !important; padding: 0 !important; }
+            @page {
+                size: A4 portrait;
+                margin: 12mm 10mm 12mm 10mm;
+            }
+            html, body { 
+                background: #ffffff !important; 
+                color: #000000 !important; 
+                margin: 0 !important; 
+                padding: 0 !important; 
+                -webkit-print-color-adjust: exact; 
+                print-color-adjust: exact;
+            }
             .container { max-width: 100% !important; width: 100% !important; padding: 0 !important; margin: 0 !important; }
             
-            /* Hidden non-print areas smoothly without causing parent layout crashes */
-            header, .lang-toggle, .form-card, .btn-calc, .diag-box, .util-btns, #resTitle, .seo-section, .back-btn { 
+            header, .lang-toggle, .form-container-block, .diag-box, .util-btns, #resHead, .seo-section, .back-btn, footer, .ui-guide-card, .laggi-box { 
                 display: none !important; 
-                opacity: 0 !important;
-                visibility: hidden !important;
                 height: 0 !important;
                 margin: 0 !important;
                 padding: 0 !important;
@@ -161,375 +226,532 @@
                 visibility: visible !important;
                 background: #ffffff !important; 
                 color: #000000 !important; 
-                padding: 25px !important; 
+                padding: 30px 24px !important; 
                 margin: 0 auto !important;
                 width: 100% !important;
                 box-sizing: border-box;
-                border: 3px double var(--bihar-red) !important; 
-                border-radius: 0px !important;
+                border: 2px solid var(--bh-blue) !important; 
+                border-radius: 12px !important;
                 box-shadow: none !important;
+                page-break-inside: avoid !important;
             }
             
             .print-header-block {
                 display: block !important;
                 text-align: center;
-                border-bottom: 2px solid var(--bihar-red) !important;
-                padding-bottom: 12px;
-                margin-bottom: 20px;
+                border-bottom: 2.5px solid var(--bh-blue) !important;
+                padding-bottom: 15px;
+                margin-bottom: 25px;
             }
-            .print-header-block img { display: inline-block !important; }
 
-            .res-grid { display: block !important; margin-top: 15px; }
+            .bkl-special {
+                padding: 20px !important;
+                margin-bottom: 25px !important;
+                border: 1px dashed var(--bh-blue) !important;
+                border-radius: 10px !important;
+                background: #eff6ff !important;
+            }
+            .bkl-special span { font-size: 14px !important; color: #475569 !important; }
+            .bkl-special strong { color: var(--bh-blue) !important; font-size: 26px !important; }
+
+            .res-grid { display: block !important; margin-top: 15px; margin-bottom: 15px; }
             .res-item { 
                 background: transparent !important; 
                 border: none !important;
-                border-bottom: 1px solid #e2e8f0 !important;
-                padding: 10px 4px !important;
+                border-bottom: 1px solid #cbd5e1 !important;
+                padding: 12px 6px !important; 
                 display: flex !important;
                 flex-direction: row !important;
                 justify-content: space-between !important;
                 align-items: center !important;
                 border-radius: 0px !important;
             }
-            .res-item span { color: #1e293b !important; font-size: 13px !important; font-weight: 600 !important; text-transform: uppercase; }
-            .res-item b { color: var(--bihar-dark) !important; font-size: 15px !important; font-weight: 700 !important; }
+            .res-item span { color: #1e293b !important; font-size: 14px !important; font-weight: 600; }
+            .res-item b { color: var(--bh-blue) !important; font-size: 18px !important; font-weight: 700; }
+
+            .extra-res-box {
+                background: #f8fafc !important;
+                border: none !important;
+                border-left: 4px solid var(--bh-blue) !important;
+                padding: 15px 20px !important;
+                margin-top: 25px !important;
+                border-radius: 0 8px 8px 0;
+            }
+            .extra-res-box p { margin: 10px 0 !important; font-size: 14px !important; color: #334155 !important; }
+            .extra-res-box b { color: #000000 !important; font-size: 15px !important; }
 
             .print-footer-block {
                 display: block !important;
                 text-align: center;
-                margin-top: 40px;
-                border-top: 1px solid #cbd5e1 !important;
-                padding-top: 20px;
+                margin-top: 45px !important;
+                border-top: 1.5px solid #cbd5e1 !important;
+                padding-top: 20px !important;
+                page-break-inside: avoid !important;
             }
+            .print-footer-block p { font-size: 11px !important; line-height: 1.6 !important; }
         }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <div class="form-card">
+    <div class="tool-wrapper">
         <header>
             <h1 id="mainTitle">Bihar Irregular Land Calculator</h1>
-            <p id="sTitle">बिहार की टेढ़ी-मेढ़ी जमीन की सटीक नापी (Heron's Formula Parsing Module)</p>
+            <p id="sTitle">Advanced boundary conversion tool for complex tedi-medi zameen maps matching regional parameters.</p>
         </header>
         
         <div class="lang-toggle">
             <button class="lang-btn active" id="enBtn" onclick="setLang('en')">English</button>
-            <button class="lang-btn" id="hiBtn" onclick="setLang('hi')">हिंदी</button>
+            <button class="lang-btn" id="pjBtn" onclick="setLang('hi')">हिन्दी</button>
         </div>
 
-        <div class="sec-h" id="hSecInputs">Plot Dimensions (भूखंड मापन विवरण)</div>
-        <div class="input-grid">
-            <div class="field"><label id="lblA">Side A (Feet)</label><input type="number" id="sideA" placeholder="0"></div>
-            <div class="field"><label id="lblB">Side B (Feet)</label><input type="number" id="sideB" placeholder="0"></div>
-            <div class="field"><label id="lblC">Side C (Feet)</label><input type="number" id="sideC" placeholder="0"></div>
-            <div class="field"><label id="lblD">Side D (Feet)</label><input type="number" id="sideD" placeholder="0"></div>
-            <div class="field" style="grid-column: 1/-1;">
-                <label id="lblDiag">Diagonal / विकर्ण (Feet)</label>
-                <input type="number" id="diagonal" placeholder="Enter Diagonal Length">
-            </div>
+        <div class="laggi-box">
+            <label id="lblLaggi">Select Laggi Size / लग्गी का हाथ (Bihar Standard Local Units Size)</label>
+            <select id="laggiValue" class="laggi-select">
+                <option value="4.0">4.0 Hath Laggi (Some areas of South Bihar)</option>
+                <option value="4.5">4.5 Hath Laggi</option>
+                <option value="5.0">5.0 Hath Laggi</option>
+                <option value="5.5" selected>5.5 Hath Laggi (Standard Default / पटना, गया, मगध क्षेत्र)</option>
+                <option value="6.0">6.0 Hath Laggi (Muzaffarpur, Vaishali, Saran)</option>
+                <option value="6.5">6.5 Hath Laggi (Darbhanga, Madhubani, Mithila region)</option>
+                <option value="7.0">7.0 Hath Laggi</option>
+                <option value="8.0">8.0 Hath Laggi (Purnia, Katihar, Kosi Region)</option>
+            </select>
         </div>
 
-        <button class="btn-calc" id="btnCalc" onclick="calculateBiharArea()">Calculate Area</button>
-    </div>
-
-    <div id="resultBox" class="result-panel">
-        
-        <div class="print-header-block">
-            <div style="display: flex; justify-content: center; align-items: center; gap: 10px; margin-bottom: 5px;">
-                <img src="favicon.png" alt="SST" style="width: 30px; height: 30px;">
-                <h2 style="font-size: 22px; color: #b71c1c; margin: 0; font-weight: 900; letter-spacing: 1px;">SHAYAN SMART TOOLS</h2>
-            </div>
-            <p style="font-size: 11px; color: var(--bihar-dark); font-weight: bold; margin: 0 0 10px 0; letter-spacing: 0.5px; text-transform: uppercase;">BIHAR BHULEKH OFFICIAL PLOT DIAGNOSTIC SUMMARY - 2026</p>
-            
-            <div style="background: #f8fafc; border: 1px solid #cbd5e1; padding: 10px; border-radius: 4px; display: grid; grid-template-columns: 1fr 1fr; font-size: 11px; text-align: left; gap: 5px; color: #334155;">
-                <div><strong>DOCUMENT REF:</strong> <span id="pDocRef" style="color:#b71c1c; font-weight:bold;">SST-BH-IRR-0000</span></div>
-                <div><strong>DATE:</strong> <span id="pDocDate" style="color:#b71c1c; font-weight:bold;">--/--/----</span></div>
-                <div><strong>JURISDICTION:</strong> State of Bihar (बिहार)</div>
-                <div style="text-align: right;"><strong>STATUS:</strong> Geometry Calculations Secured</div>
-            </div>
-        </div>
-
-        <h3 id="resTitle">Total Land Result (बिहार मान):</h3>
-        
-        <div class="res-grid">
-            <div class="res-item" id="print-input-row" style="display:none;"><span style="color:var(--bihar-red); font-weight: 800;">Initial Geometry Dimensions:</span> <b id="rInputVal" style="color:var(--bihar-red); font-weight: 800;">0</b></div>
-            <div class="res-item"><span id="uB">Bigha (बीघा)</span><b id="outB">0</b></div>
-            <div class="res-item"><span id="uK">Kattha (कट्ठा)</span><b id="outK">0</b></div>
-            <div class="res-item"><span id="uD">Dhur (धुर)</span><b id="outD">0</b></div>
-            <div class="res-item"><span id="uDk">Dhurki (धुरकी)</span><b id="outDk">0</b></div>
-            <div class="res-item"><span id="uSq">Square Feet (Sq.Ft)</span><b id="outSq">0</b></div>
-            <div class="res-item"><span id="uSqm">Square Meters (Sq.Mt)</span><b id="outSqm">0</b></div>
-        </div>
-
-        <div class="print-footer-block">
-            <div style="margin: 0 auto; max-width: 85%; font-size: 11px; color: #475569; line-height: 1.6; text-align: center;">
-                <p style="margin: 0; font-weight: bold; color: #b71c1c; text-transform: uppercase; font-size: 12px;">🔒 SECURITY DISCLAIMER & STATUTORY NOTICE</p>
-                <p style="margin: 6px 0 0 0;">This computing compilation sheet maps irregular quadrilaterals securely via triangle bisection multipliers (1 Bigha = 27,225 Sq.Ft, 1 Kattha = 1,361.25 Sq.Ft). For dynamic ownership assignment mutation registries, cross-check parameters with your local Amin or Bihar Bhulekh land registry office.</p>
-                
-                <div style="display: inline-block; border: 1px dashed #b71c1c; padding: 6px 20px; border-radius: 4px; margin-top: 15px; margin-bottom: 12px; background: #f8fafc; font-size: 10px; font-weight: bold; color: #b71c1c; text-transform: uppercase; letter-spacing: 0.5px;">
-                    SHAYAN SMART TOOLS [SST SEAL] - OFFICIAL BIHAR PARSING MODULE
+        <div class="form-container-block">
+            <div class="sec-h" id="hSecTitle">Enter Irregular Plot Sides (भूमि की बाहरी भुजाएँ)</div>
+            <div class="input-grid">
+                <div class="field"><label id="lblA">Side A (Feet)</label><input type="number" id="sideA" placeholder="0"></div>
+                <div class="field"><label id="lblB">Side B (Feet)</label><input type="number" id="sideB" placeholder="0"></div>
+                <div class="field"><label id="lblC">Side C (Feet)</label><input type="number" id="sideC" placeholder="0"></div>
+                <div class="field"><label id="lblD">Side D (Feet)</label><input type="number" id="sideD" placeholder="0"></div>
+                <div class="field" style="grid-column: 1/-1;">
+                    <label id="lblDiag">Diagonal / विकर्ण (Feet)</label>
+                    <input type="number" id="diagonal" placeholder="Enter Diagonal Length (E)">
                 </div>
-                <p style="margin: 5px 0 0 0; font-size: 12px; font-weight: bold; color: var(--bihar-red);">🌐 SST OFFICIAL ACCESS: www.shayansmarttools.in</p>
             </div>
+
+            <button class="btn-calc" id="btnCalc" onclick="calculateBiharArea()">Calculate Area</button>
         </div>
 
-        <div class="util-btns">
-            <button class="u-btn" onclick="copyData()" style="background:#475569;" id="btnCopy">📋 Copy Details</button>
-            <button class="u-btn" onclick="shareWA()" style="background:#22c55e;" id="btnWA">📲 WhatsApp</button>
-            <button class="u-btn" onclick="printLandReport()" style="background:#2b7cff;" id="btnPrint">🖨️ Print Report</button>
+        <div id="resultBox" class="result-panel">
+            
+            <div class="print-header-block">
+                <div style="display: flex; justify-content: center; align-items: center; gap: 10px; margin-bottom: 6px;">
+                    <h2 style="font-size: 22px; color: #1e3a8a; margin: 0; font-weight: 900; letter-spacing: 1px;">SHAYAN SMART TOOLS</h2>
+                </div>
+                <p style="font-size: 11px; color: #1e3a8a; font-weight: bold; margin: 0 0 12px 0; letter-spacing: 0.5px; text-transform: uppercase;">BIHAR REVENUE GEOMETRIC RESOLUTION AUDIT RECORD - 2026</p>
+                
+                <div style="background: #f8fafc; border: 1px solid #cbd5e1; padding: 10px; border-radius: 6px; display: grid; grid-template-columns: 1fr 1fr; font-size: 11px; text-align: left; gap: 6px; color: #334155;">
+                    <div><strong>DOCUMENT REF:</strong> <span id="pDocRef" style="color:#1e3a8a; font-weight:bold;">SST-BH-IRR-0000</span></div>
+                    <div style="text-align: right;"><strong>DATE:</strong> <span id="pDocDate" style="color:#1e3a8a; font-weight:bold;">--/--/----</span></div>
+                    <div><strong>JURISDICTION:</strong> State of Bihar (बिहार)</div>
+                    <div style="text-align: right;"><strong>STATUS:</strong> Geometric Land Area Securely Mapped</div>
+                </div>
+            </div>
+
+            <div class="bkl-special" style="background: rgba(255,255,255,0.05); padding: 20px; border-radius: 15px; text-align: center; margin-bottom: 20px; border: 1px dashed var(--bh-orange);">
+                <span id="fmtText" style="display:block; font-size: 14px; color: #94a3b8; font-weight: bold; margin-bottom: 6px;">Bihar Standard Output Summary (कट्ठा-धूर-बीघा):</span>
+                <strong id="pb_main" style="font-size: 24px; color: #f97316;">0 Bigha, 0 Katha, 0 Dhur</strong>
+            </div>
+
+            <div style="background: rgba(255, 255, 255, 0.04); margin: 10px auto; padding: 8px; border-radius: 8px; max-width: 100%; font-size: 12px; color: #cbd5e1; border: 1px solid rgba(255,255,255,0.1);">
+                <strong>Inputs Covered:</strong> <span id="rInputVal"></span>
+            </div>
+
+            <h3 id="resTitle" style="font-size: 1.3rem; margin-top: 20px; margin-bottom: 15px;">Total Land Result (भूमि क्षेत्रफल परिणाम):</h3>
+            <div class="res-grid">
+                <div class="res-item"><span id="uBigha">Bigha</span><b id="outBigha">0</b></div>
+                <div class="res-item"><span id="uKatha">Katha</span><b id="outKatha">0</b></div>
+                <div class="res-item"><span id="uDhur">Dhur</span><b id="outDhur">0</b></div>
+            </div>
+            
+            <div class="extra-res-box">
+                <p><span id="txtSqText">Total Square Feet Matrix:</span><b id="outSq">0</b></p>
+                <p><span id="txtSqmText">Total Square Meters Matrix:</span><b id="outSqm">0</b></p>
+                <p><span id="txtNetAcreText">Total Acres Representation:</span><b id="outNetAc">0</b></p>
+                <p><span id="txtDismilText">Total Dismil Conversion:</span><b id="outDismil">0</b></p>
+                <p><span id="txtSqKadiText">Total Square Kadi Matrix:</span><b id="outSqKadi">0</b></p>
+                <p><span id="txtHecText">Estimated Total Hectare (Ha):</span><b id="outHec">0</b></p>
+            </div>
+
+            <div class="print-footer-block">
+                <div style="margin: 0 auto; max-width: 100%; font-size: 11px; color: #475569; line-height: 1.6; text-align: center;">
+                    <p style="margin: 0; font-weight: bold; color: #1e3a8a; text-transform: uppercase; font-size: 12px;">🔒 SECURITY DISCLAIMER & STATUTORY TRIANGULATION AUDIT NOTICE</p>
+                    <p style="margin: 6px 0 0 0;">This calculation compilation sheet is structured strictly using Heron's geometric triangulation law and Bihar land administration regional parameters (1 Dismil = 435.6 Sq.Ft, 1 Acre = 100 Dismil, Dhur/Katha dynamically parsed via chosen local Laggi length specification). For official property boundary mutation or Bhumi Jankari digital records, cross-verify metrics with your local Amin / Circle Officer (CO).</p>
+                    
+                    <div style="display: inline-block; border: 1px dashed #1e3a8a; padding: 6px 20px; border-radius: 4px; margin-top: 12px; margin-bottom: 10px; background: #f8fafc; font-size: 10px; font-weight: bold; color: #1e3a8a; text-transform: uppercase; letter-spacing: 0.5px;">
+                        SHAYAN SMART TOOLS [SST SEAL] - MASTER PARSING BIHAR PLOT MATRIX
+                    </div>
+                    <p style="margin: 4px 0 0 0; font-size: 12px; font-weight: bold; color: #1e3a8a;">🌐 SST OFFICIAL ACCESS: www.shayansmarttools.in</p>
+                </div>
+            </div>
+
+            <div class="util-btns">
+                <button class="u-btn" onclick="copyResult()" style="background:#475569;" id="btnCopy">📋 Copy Details</button>
+                <button class="u-btn" onclick="shareWhatsApp()" style="background:#22c55e;" id="btnShare">📲 WhatsApp Share</button>
+                <button class="u-btn" onclick="printLandReport()" style="background:#2b7cff;" id="btnPrint">🖨️ Print Report</button>
+            </div>
         </div>
     </div>
 
     <div class="diag-box">
-        <p style="font-weight: bold; margin-bottom: 10px; color: #b71c1c;" id="imgNote">How to measure land, see diagram:</p>
+        <p style="font-weight: bold; margin-bottom: 10px; color: var(--bh-blue);" id="imgNote">Zameen kaise naapein, diagram dekhein:</p>
         <img src="land-diagram.png" alt="Bihar Irregular Land Diagram Shayan Smart Tools">
         <p style="font-size: 13px; color: #555; margin-top:10px;" id="imgDesc">Measure Side A, B, C, D and the Diagonal (E).</p>
     </div>
 
-    <div class="back-btn" style="text-align: center; margin-top: 10px; margin-bottom: 20px;">
-        <a href="index.html" style="color: var(--bihar-red); text-decoration: none; font-weight: bold;" id="lnkBack">⬅ Back to All Tools</a>
-    </div>
-
     <article class="seo-section">
         <div class="seo-header-block">
-            <h2 id="seoTitle" style="border:none; padding:0; text-align:center; font-size:2.3rem !important;">Bihar Land Area Addition: Tedi-Medi Zameen Kaise Naapein?</h2>
-            <p style="font-size: 17px; color: #555; text-align: center; margin: 5px 0 0 0;" id="seoSubTitle">Bihar revenue standards aur Bihar Bhulekh records ke anusaar irregular maps calculation matrix methods.</p>
+            <h2 id="introH2" style="border:none; padding:0; text-align:center; font-size:2.3rem !important;">Bihar Land Area Calculation: बिहार टेढ़ी-मेढ़ी ज़मीन का क्षेत्रफल शुद्धता गाइड</h2>
+            <p style="font-size: 17px; color: #555; text-align: center; margin: 5px 0 0 0;" id="seoSubTitle">Bhumi Jankari Bihar Land records framework aur dynamic triangulation metrics ke anusaar irregular maps quadrilateral scaling template.</p>
         </div>
-        
+        <img src="bihar1.webp" class="content-image" loading="lazy" alt="Shayan Smart Tools Bihar">
+
         <section>
             <p>
-                Bihar mein zameen ki napai karna koi asan kaam nahi hai, khas kar jab khet ya plot **Tedi-Medi (Irregular)** shape mein ho. Bihar ke kisan aur property dealers aksar average nikal kar zameen naapte hain, jisme dhur ya dhurki ka nuksan ho jata hai. Ek dhurki ki keemat bhi aaj ke zamane mein bohot hoti hai. Real estate transactions aur legal partition verification tasks mein calculation mesh errors kaafi heavy losses create karte hain.
+                Bihar (बिहार) राज्य में जमीन की नापी (Land Measurement) और डिजिटल जमाबंदी व्यवस्था को अत्यधिक उन्नत और पारदर्शी बना दिया गया है। पटना, मुजफ्फरपुर, भागलपुर, गया, दरभंगा हो या पूर्णिया और छपरा का क्षेत्र, **Bhumi Jankari Bihar Portal** पर सरकारी डेटाबेस आधुनिक एकीकृत प्रणाली के तहत संधारित होता है। परंतु व्यावहारिक रूप से ग्रामीण क्षेत्रों, भूखंडों की खरीद-बिक्री, और पारंपरिक पारिवारिक बटवारों के समय आज भी प्रादेशिक मानकों जैसे <b>धूर (Dhur), कट्ठा (Katha), बीघा (Bigha), और डिसमिल (Dismil)</b> का ही सर्वाधिक उपयोग किया जाता है। जब किसी खेत या प्लॉट का आकार चौकोर न होकर टेढ़ा-मेढ़ा (Irregular Quadrilateral) होता है, तो पारंपरिक अमीन द्वारा आमने-सामने की भुजाओं का औसत (Average) निकालने का पुराना तरीका पूरी तरह से गलत साबित होता है। इस गलत पैमाइश के कारण रजिस्ट्री खारिज होने और आपसी सीमा विवाद उत्पन्न होने की संभावना अत्यधिक बढ़ जाती है।
             </p>
             <p>
-                Shayan Smart Tools ka ye **Bihar Irregular Land Calculator** "Heron’s Formula" par kaam karta hai. Isme aapko zameen ke 4 sides aur ek tirchi line (**Diagonal**) naapni hoti hai. Ye tool automatic zameen ko do triangles mein baat kar ekdam sateek result deta hai, jo **Bihar Bhulekh** records ke liye 100% sahi hai. Is computing engine framework block me high-precision validation logic rests karta hai jo browser efficiency par processing loads smoothly handle kar leta hai.
+                इस गंभीर तकनीकी समस्या के सर्वमान्य और सटीक निवारण हेतु Shayan Smart Tools द्वारा इस विशिष्ट <b>Bihar Irregular Land Calculator</b> का निर्माण किया गया है। यह डिजिटल टूल विशुद्ध गणितीय त्रिकोणीयकरण सिद्धांत (Heron's Formula) पर काम करता है। आपको बस अपने विषमकोण भूखंड के मध्य भाग में एक **विकर्ण (Tirchhi Line/E)** की पैमाइश करके इसे दो स्पष्ट त्रिभुजों में विभाजित करना होता है। हमारा उन्नत एल्गोरिदम दोनों त्रिभुजाकार क्षेत्रों का सटीक क्षेत्रफल निकालकर उन्हें जोड़ देता है। बिहार राजस्व विभाग के अनुसार, यहाँ धूर और कट्ठा का मान स्थानीय 'लग्गी' (Laggi Length) पर निर्भर करता है, जिसे इस कैलकुलेटर में कस्टमाइज़ करने का विकल्प दिया गया है। सामान्यतः: <b>1 डिसमिल = 435.6 वर्ग फीट</b> और <b>1 एकड़ = 100 डिसमिल</b> निर्धारित रहता है।
             </p>
         </section>
 
-        <h2>How to Use: Step-by-Step Guide</h2>
-        <ol>
-            <li>Apne tedi zameen ke charo sides (Side A, B, C, D) ko feet mein naapein.</li>
-            <li>Zameen ke ek kone se dusre kone tak ek tirchi line (Diagonal) naapein (jaisa diagram mein dikhaya gaya hai).</li>
-            <li>In 5 values ko calculator mein bharein.</li>
-            <li>Tool aapko turant Bigha, Kattha, Dhur aur Dhurki mein result bata dega.</li>
-        </ol>
-
-        <h2>Bihar Land Measurement Standard Table Chart</h2>
+        <h3>Bihar Land Revenue Conversion Matrix Standard Table</h3>
         <div style="overflow-x: auto;">
             <table>
                 <thead>
                     <tr>
-                        <th>Unit Name</th>
-                        <th>Sub-unit Relation Breakdown</th>
-                        <th>Area in Sq Ft</th>
+                        <th>Official Unit Name</th>
+                        <th>Symmetric Conversion Breakdown</th>
+                        <th>Area in Square Feet (Sq Ft)</th>
+                        <th>Area in Square Kadi (Sq Kadi)</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr><td><b>1 Bigha</b></td><td>20 Kattha Standard Block</td><td>27,225 Sq Ft</td></tr>
-                    <tr><td><b>1 Kattha</b></td><td>20 Dhur Symmetric Grid Section</td><td>1,361.25 Sq Ft</td></tr>
-                    <tr><td><b>1 Dhur</b></td><td>20 Dhurki Traditional Base Segment</td><td>68.06 Sq Ft</td></tr>
+                    <tr><td><b>1 Dhur (धूर)</b></td><td>Dependent on local hand Laggi size ($Laggi^2 \times 5.0625$)</td><td>Dynamic values based on Laggi</td><td>Variable Units</td></tr>
+                    <tr><td><b>1 Katha (कट्ठा)</b></td><td>20 standard regional agricultural Dhur units</td><td>20 times of 1 Dhur value</td><td>Standard dynamic local scale</td></tr>
+                    <tr><td><b>1 Bigha (बीघा)</b></td><td>20 standard local land administration Katha units</td><td>20 times of 1 Katha value</td><td>Traditional baseline component</td></tr>
+                    <tr><td><b>1 Dismil (डिसमिल)</b></td><td>Official fixed metric component for registries</td><td>435.6 Sq Ft</td><td>1000 Square Kadi (वर्ग कड़ी)</td></tr>
+                    <tr><td><b>1 Acre (एकड़)</b></td><td>100 standard historical dynamic Dismil units</td><td>43,560 Sq Ft</td><td>1,00,000 Square Kadi</td></tr>
+                    <tr><td><b>1 Hectare (हेक्टेयर)</b></td><td>Official global state survey baseline measurement</td><td>1,07,639.10 Sq Ft</td><td>2,47,105 Square Kadi</td></tr>
                 </tbody>
             </table>
         </div>
 
-        <h2>Frequently Asked Questions (FAQs)</h2>
-        <div style="border-bottom: 1px solid #e2e8f0; padding-bottom: 15px; margin-bottom: 15px;">
-            <h4 style="margin-bottom: 8px; color:var(--bihar-red);">Q1. Bihar mein 1 Bigha mein kitna Kattha hota hai?</h4>
-            <p style="margin:0;">Ans: Bihar mein 1 Bigha standard scale system parameters ke mutabik 20 Kattha hota hai.</p>
-        </div>
-        <div style="border-bottom: 1px solid #e2e8f0; padding-bottom: 15px; margin-bottom: 15px;">
-            <h4 style="margin-bottom: 8px; color:var(--bihar-red);">Q2. Dhurki kya hoti hai?</h4>
-            <p style="margin:0;">Ans: Dhur se bhi choti unit ko Dhurki kehte hain. 20 Dhurki milkar 1 Dhur banti hai (Each dhurki size is equal to 3.40 Sq.Ft spatial block size).</p>
-        </div>
-        <div style="border-bottom: 1px solid #e2e8f0; padding-bottom: 15px; margin-bottom: 15px;">
-            <h4 style="margin-bottom: 8px; color:var(--bihar-red);">Q3. Kya bina diagonal ke area nikal sakta hai?</h4>
-            <p style="margin:0;">Ans: Nahi, tedi-medi zameen ke liye diagonal (tirchi line) bisection calculation ke liye naapna 100% zaruri hai.</p>
+        <div class="ui-guide-card">
+            <h3 id="guiTitle">How to Use & Land Measurement Example (उपयोग विधि एवं उदाहरण)</h3>
+            <div class="ui-guide-step">
+                <div class="ui-step-num">1</div>
+                <div><b>Select Laggi Hand Size:</b> Select the specific laggi length practiced in your specific Bihar district (Standard default is 5.5 hands). (अपने जिला/अंचल में प्रचलित लग्गी का हाथ चुनें।)</div>
+            </div>
+            <div class="ui-guide-step">
+                <div class="ui-step-num">2</div>
+                <div><b>Measure 4 Sides & Diagonal:</b> Measure boundaries in feet and enter Side A, B, C, D along with cross-corner Diagonal E. (भूखंड की चारों बाहरी भुजाओं के साथ-साथ एक कोने से दूसरे कोने का तिरछा विकर्ण फीट में मापें।)</div>
+            </div>
+            <div class="ui-guide-step">
+                <div class="ui-step-num">3</div>
+                <div><b>Calculate instantly:</b> Click "Calculate Area" to receive structural metric conversions in Dhur, Katha, Bigha, and Acre. ("Calculate Area" दबाते ही सटीक बिहार पैमाना परिणाम स्क्रीन पर प्रदर्शित हो जाएगा।)</div>
+            </div>
+            <div class="ui-example-box">
+                <strong style="color: var(--bh-blue); font-size: 15px; display: block; margin-bottom: 5px;">📍 Live Verification Example (गणना का व्यावहारिक उदाहरण):</strong>
+                <p>यदि बिहार में 5.5 हाथ की लग्गी के क्षेत्र में आपके भूखंड का माप: <b>Side A = 50 Ft</b>, <b>Side B = 60 Ft</b>, <b>Side C = 55 Ft</b>, <b>Side D = 45 Ft</b> और मध्य तिरछा विकर्ण <b>Diagonal (E) = 70 Ft</b> है, तो यह टूल हेरॉन के सूत्र द्वारा दोनों त्रिभुजों के जोड़ से कुल धूर, कट्ठा और बीघा की शुद्ध गणना त्रुटिरहित कर देगा।</p>
+            </div>
         </div>
 
-        <h2 id="lblDashTitle" style="border:none; padding:0; margin-bottom:15px;">Related Tools & Internal Dashboards</h2>
+        <h3>कैलकुलेटर का उपयोग कैसे करें? (Complete Operational Steps)</h3>
+        <p>इस हाई-प्रिसिजन सिस्टम पर अपनी वैल्यूज वैलिडेट करना बेहद आसान है, बस निम्नलिखित चरणों का पालन करें:</p>
+        <ol>
+            <li>सबसे पहले, ड्रॉपडाउन सूची से अपने क्षेत्र की स्थानीय **लग्गी की लंबाई (हाथ में)** चुनें, क्योंकि इसके बिना धूर और कट्ठा की शुद्धता संभव नहीं है।</li>
+            <li>फीते (मेजरिंग टेप) की सहायता से टेढ़े-मेढ़े जमीन की चारों दिशाओं की बाहरी सीमा नापें और उन्हें क्रमशः Side A, Side B, Side C, और Side D वाले बॉक्स में इनपुट करें।</li>
+            <li>भूखंड के किसी भी एक कोने से ठीक सामने वाले विपरीत कोने तक क्रॉस दूरी नापकर **Diagonal / विकर्ण (E)** वाले सेल में दर्ज करें।</li>
+            <li>डेटा की पुष्टि करने के पश्चात मुख्य <b>"Calculate Area"</b> बटन पर क्लिक करके प्रोसेसिंग आरंभ करें।</li>
+            <li>सिस्टम तुरंत कैलकुलेशन करके बिहार के पारंपरिक मानकों (बीघा-कट्ठा-धूर) के साथ-साथ स्क्वायर फीट, वर्ग मीटर और डिसमिल का विवरण प्रिंट-फ्रेंडली फॉर्मेट में प्रस्तुत कर देगा।</li>
+        </ol>
+
+        <img src="bihar2.webp" class="content-image" loading="lazy" alt="Shayan Smart Tools Bihar Operation">
+
+        <h2 id="lblDashTitle">15 Extended Frequently Asked Questions (FAQs) - बिहार भूमि की नापी</h2>
+        <div class="faq-item">
+            <h4>Q1. बिहार में 1 डिसमिल जमीन में कितने वर्ग फीट होते हैं?</h4>
+            <p>Ans: बिहार भूमि राजस्व एवं सुधार विभाग के अनुसार, 1 मानक डिसमिल में सटीक रूप से <b>435.6 वर्ग फीट</b> क्षेत्रफल होता है।</p>
+        </div>
+        <div class="faq-item">
+            <h4>Q2. बिहार में लग्गी (Laggi) का क्या महत्व है और यह कितना होता है?</h4>
+            <p>Ans: बिहार में धूर और कट्ठा का आकार लग्गी पर निर्भर करता है। विभिन्न जिलों में यह 4 हाथ से लेकर 8.5 हाथ तक होती है। मानक रूप से <b>5.5 हाथ की लग्गी</b> का सर्वाधिक चलन है।</p>
+        </div>
+        <div class="faq-item">
+            <h4>Q3. 1 कट्ठा में कितने धूर होते हैं?</h4>
+            <p>Ans: बिहार के सभी अंचलों में यह पैमाना स्थिर है कि पूरे <b>20 धूर</b> को मिलाकर 1 कट्ठा जमीन बनती है।</p>
+        </div>
+        <div class="faq-item">
+            <h4>Q4. 1 बीघा जमीन में कितने कट्ठा होते हैं?</h4>
+            <p>Ans: बिहार भूमि मापन पद्धति के अनुसार, <b>20 कट्ठा</b> क्षेत्रफल को मिलाकर 1 बीघा जमीन निर्धारित की जाती है।</p>
+        </div>
+        <div class="faq-item">
+            <h4>Q5. क्या आमने-सामने की भुजाओं का औसत निकालकर टेढ़ी जमीन नापना सुरक्षित है?</h4>
+            <p>Ans: बिल्कुल नहीं। औसत विधि (Average Method) विषमकोण चतुर्भुज में त्रुटिपूर्ण परिणाम देती है। हमेशा त्रिकोणीयकरण (Heron's Formula) और विकर्ण माप का उपयोग करें।</p>
+        </div>
+        <div class="faq-item">
+            <h4>Q6. 1 डिसमिल जमीन में कुल कितने वर्ग कड़ी (Square Kadi) होते हैं?</h4>
+            <p>Ans: जरीब मापन पद्धति के अनुसार, 1 डिसमिल भूमि में पूरे <b>1000 वर्ग कड़ी</b> होते हैं।</p>
+        </div>
+        <div class="faq-item">
+            <h4>Q7. बिहार भूमि जानकारी पोर्टल (Bhumi Jankari) पर मुख्य रिकॉर्ड किस यूनिट में होता है?</h4>
+            <p>Ans: डिजिटल खतियान और जमाबंदी पंजी में रकबा मुख्य रूप से <b>एकड़, डिसमिल या हेक्टेयर</b> में प्रविष्ट रहता है।</p>
+        </div>
+        <div class="faq-item">
+            <h4>Q8. 1 हेक्टेयर में कुल कितने एकड़ जमीन समाहित होती है?</h4>
+            <p>Ans: सरकारी विलेखों के अनुसार, 1 हेक्टेयर भूमि का मान <b>2.471 एकड़</b> (लगभग 2.5 एकड़) के बराबर माना जाता है।</p>
+        </div>
+        <div class="faq-item">
+            <h4>Q9. यदि गणना करते समय 'Geometric Warning' प्रदर्शित हो तो क्या करें?</h4>
+            <p>Ans: इसका अर्थ है कि आपके द्वारा दर्ज की गई चारों भुजाओं या विकर्ण की लंबाई ज्यामितीय रूप से असंभव है। कृपया अमीन के फीते की माप पुनः जांचें।</p>
+        </div>
+        <div class="faq-item">
+            <h4>Q10. क्या इस कैलकुलेटर की स्लिप को पीडीएफ (PDF) में डाउनलोड किया जा सकता है?</h4>
+            <p>Ans: हाँ, "Print Report" बटन पर क्लिक करके आप इसे एक सुव्यवस्थित A4 साइज PDF विलेख या प्रिंटआउट के रूप में सुरक्षित कर सकते हैं।</p>
+        </div>
+        <div class="faq-item">
+            <h4>Q11. बिहार में 1 धूर का मान स्क्वायर फीट में कैसे निकालते हैं?</h4>
+            <p>Ans: लग्गी की लंबाई को 1.5 से गुणा करके उसका वर्ग करने पर 1 धूर का वर्ग फीट निकलता है। जैसे 5.5 हाथ की लग्गी हेतु: $5.5 \times 1.5 = 8.25$, और $8.25 \times 8.25 = 68.0625\text{ वर्ग फीट}$।</p>
+        </div>
+        <div class="faq-item">
+            <h4>Q12. शहरों में प्लॉटिंग की पैमाइश हेतु कौन सा पैमाना प्रयुक्त होता है?</h4>
+            <p>Ans: पटना जैसे शहरी व आवासीय क्षेत्रों में भूमि मुख्य रूप से <b>वर्ग फीट (Sq Ft) या वर्ग गज (Square Yard)</b> में मापी एवं बेची जाती है।</p>
+        </div>
+        <div class="faq-item">
+            <h4>Q13. क्या भाषा बदलने से पूर्व में भरा गया इनपुट डेटा नष्ट हो जाता है?</h4>
+            <p>Ans: नहीं, Shayan Smart Tools का जावास्क्रिप्ट आर्किटेक्चर अत्यंत सुरक्षित है, जो भाषा परिवर्तन के दौरान भी इनपुट मानों को स्थिर रखता है।</p>
+        </div>
+        <div class="faq-item">
+            <h4>Q14. इस एडवांस्ड बिहार राजस्व गणना सॉफ्टवेयर एल्गोरिदम के निर्माता कौन हैं?</h4>
+            <p>Ans: इस रेस्पॉन्सिव सिंगल-पेज लैंड कैलकुलेटर इंजन को Shayan Smart Tools पर मुख्य डेवलपर <b>Muksidul Islam</b> द्वारा डिज़ाइन और ऑप्टिमाइज़ किया गया है।</p>
+        </div>
+        <div class="faq-item">
+            <h4>Q15. सरकारी नामांतरण (Mutation) और सीमांकन के लिए अंतिम रूप से कौन प्राधिकृत है?</h4>
+            <p>Ans: यह टूल विशुद्ध गणितीय गणना प्रदान करता है। आधिकारिक रजिस्ट्री, सरकारी सीमांकन या मापी विवाद हेतु हमेशा अपने क्षेत्र के राजस्व कर्मचारी, हल्का अमीन या अंचलाधिकारी (CO) से संपर्क करें।</p>
+        </div>
+        <img src="bihar3.webp" class="content-image" loading="lazy" alt="Shayan Smart Tools Bihar Analytics">
+
+        <h3>Related Tools & Internal Links</h3>
         <div class="links-grid">
-            <a href="index.html" class="link-card" id="dshHome">🏠 Main Dashboard</a>
-            <a href="bihar-land-calculator.html" class="link-card" id="dshCalc">🏡 Bihar Land Calculator</a>
-            <a href="bihar-land-area-addition.html" class="link-card" id="dshAdd">➕ Land Addition</a>
-            <a href="bihar-bigha-to-sqft.html" class="link-card" id="dshCost">📏 Bigha to Sq Ft</a>
+            <a href="index.html" class="link-card" id="dshHome">Dashboard Home</a>
+            <a href="bihar-land-area-addition.html" class="link-card" id="dshAdd">➕ Bihar Land Addition</a>
+            <a href="punjab-irregular-land-calculator.html" class="link-card" id="dshPb">📐 Punjab Irregular Calc</a>
+            <a href="rajasthan-irregular-land-calculator.html" class="link-card" id="dshRj">📐 Rajasthan Irregular Calc</a>
         </div>
-
-        <div style="margin-top: 40px; padding: 25px; border: 2px dashed #ffccd5; background-color: #ffffff; border-radius: 12px; font-size:13px;">
-            <p style="margin:0;">
-                <strong>Copyright Notice © 2026 Shayan Smart Tools. All Rights Reserved.</strong><br><br>
-                Is website ka logic framework, interface design elements layout, aur content descriptions Indian Copyright Act, 1957 protection guidelines ke anusaar secured rests hai. Managed by Muksidul Islam.
-            </p>
+            
+        <div style="margin-top: 40px; padding: 25px; border: 2px dashed #f97316; background: #ffffff; border-radius: 12px; font-size:13px;">
+            <p style="margin:0; text-align: center;"><b>Copyright Notice © 2026 Shayan Smart Tools. All Rights Reserved.</b><br><br>Is computational structural triangulation framework code blocks layout, CSS responsive components syntax assets flow, aur bilingual text logs documentation variables under Indian Copyright Act, 1957 protected standards chalta hai.</p>
         </div>
     </article>
 </div>
 
 <script>
-    document.addEventListener('contextmenu', e => e.preventDefault());
-    document.onkeydown = function(e) {
-        if (e.ctrlKey && (e.keyCode === 67 || e.keyCode === 85 || e.keyCode === 73)) {
-            alert("Copyright Warning: Copying content from Shayan Digital Service is prohibited.");
-            return false;
-        }
-    };
-
-    let currentLang = 'en';
-    const trans = {
+    var currentLang = 'en';
+    var trans = {
         en: {
             t: "Bihar Irregular Land Calculator",
-            st: "Accurate dynamic breakdown metrics using Heron's Formula equations parsing system.",
+            stitle: "Advanced boundary conversion tool for complex tedi-medi zameen maps matching regional parameters.",
             lA: "Side A (Feet)", lB: "Side B (Feet)", lC: "Side C (Feet)", lD: "Side D (Feet)",
             lDg: "Diagonal / Tirchi Line (Feet)", b: "Calculate Area",
-            rT: "Total Land Result (Bihar Standard):", uB: "Bigha (बीघा)", uK: "Kattha (कट्ठा)", uD: "Dhur (धुर)", uDk: "Dhurki (धुरकी)",
-            usq: "Square Feet (Sq.Ft)", usqm: "Square Meters (Sq.Mt)",
-            bc: "📋 Copy Details", bw: "📲 WhatsApp", bp: "🖨️ Print Report", bk: "⬅ Back to All Tools",
-            seot: "Bihar Land Area Calculator: Tedi-Medi Zameen Kaise Naapein? Guide 2026",
-            seos: "Bihar revenue standards aur Bihar Bhulekh records ke anusaar irregular maps calculation matrix methods.",
+            rT: "Total Land Result (भूमि क्षेत्रफल परिणाम):", uB: "Bigha", uK: "Katha", uD: "Dhur",
+            sq: "Total Square Feet Matrix: ", rsm: "Total Square Meters Matrix: ", netAc: "Total Acres Representation: ", rhec: "Estimated Total Hectare: ",
             iN: "How to measure land, see diagram:", iD: "Measure Side A, B, C, D and the Diagonal (E).",
-            dt: "Related Tools & Internal Dashboards", dh: "🏠 Main Dashboard", dc: "🏡 Bihar Land Calculator", da: "➕ Land Addition", dco: "📏 Bigha to Sq Ft",
-            shI: "Plot Dimensions"
+            shI: "Enter Irregular Plot Sides (भूमि की बाहरी भुजाएँ)",
+            seot: "Bihar Land Area Calculation: बिहार टेढ़ी-मेढ़ी ज़मीन का क्षेत्रफल शुद्धता गाइड",
+            seos: "Bhumi Jankari Bihar Land records framework aur dynamic triangulation metrics ke anusaar irregular maps quadrilateral scaling template.",
+            dt: "Related Tools & Internal Links", dh: "Dashboard Home", d1: "➕ Bihar Land Addition", d2: "📐 Punjab Irregular Calc", d3: "📐 Rajasthan Irregular Calc",
+            copyMsg: "Calculation Details Copied!",
+            fmtText: "Bihar Standard Output Summary (बीघा-कट्ठा-धूर):",
+            guiTitle: "How to Use & Land Measurement Example (उपयोग विधि एवं उदाहरण)",
+            lblLaggi: "Select Laggi Size / लग्गी का हाथ (Bihar Standard Local Units Size)"
         },
         hi: {
-            t: "बिहार जमीन परिमापन कैलकुलेटर",
-            st: "हेरन सूत्र समीकरण पार्सिंग सिस्टम उपयोग करके सही टेढ़ी-मेढ़ी जमीन का क्षेत्रफल विवरण।",
-            lA: "पहली भुजा (A) फीट", lB: "दूसरी भुजा (B) फीट", lC: "तीसरी भुजा (C) फीट", lD: "चौथी भुजा (D) फीट",
-            lDg: "तिरछी रेखा / विकर्ण (Diagonal)", b: "परिमप करें",
-            rT: "कुल जमीन का परिणाम विवरण:", uB: "बीघा", uK: "कट्ठा", uD: "धुर", uDk: "धुरकी",
-            usq: "वर्गफुट माप (Sq.Ft)", usqm: "वर्गमीटर माप (Sq.Mt)",
-            bc: "📋 विवरण कॉपी करें", bw: "📲 व्हाट्सएप शेयर", bp: "🖨️ रिपोर्ट प्रिंट करें", bk: "⬅ सभी उपकरणों की सूची",
-            seot: "बिहार जमीन परिमापन: टेढ़ी-मेढ़ी जमीन का क्षेत्रफल और सटीक गणितीय सूत्र गाइड 2026",
-            seos: "बिहार राजस्व विभाग और बिहार भूलेख रिकॉर्ड्स के अनुसार जटिल बहुभुज जमीनी भूखंडों का क्षेत्रफल निकालने का संपूर्ण मैनुअल।",
-            iN: "जमीन कैसे नापें, चित्र देखें:", iD: "चारों भुजाएं और बीच की तिरछी रेखा (E) को नापें।",
-            shI: "भूखंड मापन विवरण"
+            t: "बिहार विषमकोण भूमि कैलकुलेटर",
+            stitle: "जटिल और टेढ़े-मेढ़े नक्शों के सटीक क्षेत्रफल रूपांतरण और प्रादेशिक राजस्व रिकॉर्ड का डिजिटल टूल।",
+            lA: "पहली भुजा (Side A) फीट", lB: "दूसरे भुजा (Side B) फीट", lC: "तीसरी भुजा (Side C) फीट", lD: "चौथी भुजा (Side D) फीट",
+            lDg: "विकर्ण / तिरछी रेखा (Diagonal) फीट में", b: "क्षेत्रफल की गणना करें",
+            rT: "कुल भूमि मापन परिणाम (Bhumi Jankari Standard):", uB: "बीघा (Bigha)", uK: "कट्ठा (Katha)", uD: "धूर (Dhur)",
+            sq: "कुल वर्ग फीट क्षेत्रफल (Sq.Ft): ", rsm: "कुल वर्ग मीटर क्षेत्रफल (Sq.Mt): ", netAc: "कुल शुद्ध एकड़ मान रूपांतरण (Net Acre): ", rhec: "अनुमानित कुल हेक्टेयर मात्रा (Ha): ",
+            iN: "जमीन को कैसे नापें, चित्र देखें:", iD: "चारों बाहरी दिशाओं की लंबाई और एक मध्य विकर्ण रेखा (E) को सटीकता से दर्ज करें।",
+            shI: "विषमकोण भूखंड की माप दर्ज करें (Input Boundary Metrics)",
+            seot: "बिहार भूमि क्षेत्रफल त्रिकोणीय गणना इंटरफेस: बीघा, कट्ठा एवं धूर गाइड",
+            seos: "भूमि जानकारी बिहार रिकॉर्ड और राजस्व विभाग अंचल सर्वेक्षण हेरॉन फॉर्मूला के अनुसार सटीक भूमि विश्लेषण।",
+            dt: "संबंधित डिजिटल टूल एवं कड़ियां", dh: "मुख्य नियंत्रण डैशबोर्ड", d1: "बिहार भूमि जोड़ उपकरण", d2: "पंजाब ज़मीन कैलकुलेटर", d3: "राजस्थान ज़मीन कैलकुलेटर",
+            copyMsg: "भूमि गणना का विवरण सफलतापूर्वक कॉपी कर लिया गया है!",
+            fmtText: "बिहार मानक आउटपुट फॉर्मेट (बीघा-कट्ठा-धूर):",
+            guiTitle: "उपयोग करने का तरीका और भूमि माप का उदाहरण",
+            lblLaggi: "लग्गी का हाथ चुनें (बिहार क्षेत्रीय पैमाना माप साइज)"
         }
     };
 
-    function setLang(l) {
-        currentLang = l;
-        document.getElementById('enBtn').classList.toggle('active', l==='en');
-        document.getElementById('hiBtn').classList.toggle('active', l==='hi');
-        document.getElementById('mainTitle').innerText = trans[l].t;
-        document.getElementById('sTitle').innerText = trans[l].st;
-        document.getElementById('lblA').innerText = trans[l].lA;
-        document.getElementById('lblB').innerText = trans[l].lB;
-        document.getElementById('lblC').innerText = trans[l].lC;
-        document.getElementById('lblD').innerText = trans[l].lD;
-        document.getElementById('lblDiag').innerText = trans[l].lDg;
-        document.getElementById('btnCalc').innerText = trans[l].b;
-        document.getElementById('resTitle').innerText = trans[l].rT;
-        document.getElementById('uB').innerText = trans[l].uB;
-        document.getElementById('uK').innerText = trans[l].uK;
-        document.getElementById('uD').innerText = trans[l].uD;
-        document.getElementById('uDk').innerText = trans[l].uDk;
-        document.getElementById('uSq').innerText = trans[l].usq;
-        document.getElementById('uSqm').innerText = trans[l].usqm;
-        document.getElementById('btnCopy').innerText = trans[l].bc;
-        document.getElementById('btnWA').innerText = trans[l].bw;
-        document.getElementById('btnPrint').innerText = trans[l].bp;
-        document.getElementById('lnkBack').innerText = trans[l].bk;
+    function setLang(lang) {
+        currentLang = lang;
+        document.getElementById('enBtn').className = (lang === 'en' ? 'lang-btn active' : 'lang-btn');
+        document.getElementById('pjBtn').className = (lang === 'hi' ? 'lang-btn active' : 'lang-btn');
+        
+        document.getElementById('mainTitle').innerText = trans[lang].t;
+        document.getElementById('sTitle').innerText = trans[lang].stitle;
+        document.getElementById('lblA').innerText = trans[lang].lA;
+        document.getElementById('lblB').innerText = trans[lang].lB;
+        document.getElementById('lblC').innerText = trans[lang].lC;
+        document.getElementById('lblD').innerText = trans[lang].lD;
+        document.getElementById('lblDiag').innerText = trans[lang].lDg; 
+        document.getElementById('btnCalc').innerText = trans[lang].b;
+        document.getElementById('resTitle').innerText = trans[lang].rT;
+        document.getElementById('uBigha').innerText = trans[lang].uB;
+        document.getElementById('uKatha').innerText = trans[lang].uK;
+        document.getElementById('uDhur').innerText = trans[lang].uD;
+        
+        document.getElementById('hSecTitle').innerText = trans[lang].shI;
+        document.getElementById('introH2').innerText = trans[lang].seot;
+        document.getElementById('seoSubTitle').innerText = trans[lang].seos;
+        document.getElementById('fmtText').innerText = trans[lang].fmtText;
+        document.getElementById('guiTitle').innerText = trans[lang].guiTitle;
+        document.getElementById('lblLaggi').innerText = trans[lang].lblLaggi;
+        
+        document.getElementById('lblDashTitle').innerText = trans[lang].dt;
+        document.getElementById('dshHome').innerText = trans[lang].dh;
+        document.getElementById('dshAdd').innerText = trans[lang].d1;
+        document.getElementById('dshPb').innerText = trans[lang].d2;
+        document.getElementById('dshRj').innerText = trans[lang].d3;
 
-        document.getElementById('seoTitle').innerText = trans[l].seot;
-        document.getElementById('seoSubTitle').innerText = trans[l].seos;
-        document.getElementById('imgNote').innerText = trans[l].iN;
-        document.getElementById('imgDesc').innerText = trans[l].iD;
-        document.getElementById('hSecInputs').innerText = trans[l].shI;
+        document.getElementById('imgNote').innerText = trans[lang].iN;
+        document.getElementById('imgDesc').innerText = trans[lang].iD;
 
-        if (l === 'en') {
-            document.getElementById('lblDashTitle').innerText = trans[l].dt;
-            document.getElementById('dshHome').innerText = trans[l].dh;
-            document.getElementById('dshCalc').innerText = trans[l].dc;
-            document.getElementById('dshAdd').innerText = trans[l].da;
-            document.getElementById('dshCost').innerText = trans[l].dco;
-        } else {
-            document.getElementById('lblDashTitle').innerText = "प्रसङ्गिक डिजिटल उपकरण और डैशबोर्ड";
-            document.getElementById('dshHome').innerText = "🏠 मुख्य डैशबोर्ड";
-            document.getElementById('dshCalc').innerText = "🏡 बिहार भूमि कैलकुलेटर";
-            document.getElementById('dshAdd').innerText = "➕ भूमि जोड़ें";
-            document.getElementById('dshCost').innerText = "📏 बीघा से वर्गफुट";
-        }
-
-        if(document.getElementById('resultBox').style.display === 'block') {
-            calculateBiharArea();
-        }
+        document.getElementById('txtSqText').innerText = trans[lang].sq;
+        document.getElementById('txtSqmText').innerText = trans[lang].rsm;
+        document.getElementById('txtNetAcreText').innerText = trans[lang].netAc;
+        document.getElementById('txtHecText').innerText = trans[lang].rhec;
     }
 
     function calculateBiharArea() {
-        const a = parseFloat(document.getElementById('sideA').value);
-        const b = parseFloat(document.getElementById('sideB').value);
-        const c = parseFloat(document.getElementById('sideC').value);
-        const d = parseFloat(document.getElementById('sideD').value);
-        const diag = parseFloat(document.getElementById('diagonal').value);
-        const resPanel = document.getElementById('resultBox');
+        var a = parseFloat(document.getElementById('sideA').value) || 0;
+        var b = parseFloat(document.getElementById('sideB').value) || 0;
+        var c = parseFloat(document.getElementById('sideC').value) || 0;
+        var d = parseFloat(document.getElementById('sideD').value) || 0;
+        var diag = parseFloat(document.getElementById('diagonal').value) || 0;
+        var laggi = parseFloat(document.getElementById('laggiValue').value) || 5.5;
+        var resPanel = document.getElementById('resultBox');
 
-        if(!a || !b || !c || !d || !diag) { 
-            alert(currentLang === 'en' ? "Please fill all numerical measurement dimensions fields!" : "कृपया सभी मापन क्षेत्रों को भरें!"); 
+        if(a <= 0 || b <= 0 || c <= 0 || d <= 0 || diag <= 0) { 
+            alert(currentLang === 'en' ? "Please fill all input fields with valid positive boundary numerical measurements!" : "कृपया सभी इनपुट बॉक्स में मान्य सकारात्मक संख्यात्मक माप भरें!"); 
             return; 
         }
 
-        if ((a + b <= diag) || (a + diag <= b) || (b + diag <= a) || (c + d <= diag) || (c + diag <= d) || (d + diag <= c)) {
-            alert(currentLang === 'en' ? "Invalid geometry measurements! Diagonal logic cannot form triangles." : "गलत ज्यामिति माप! विकर्ण रेखा से त्रिभुज बनना संभव नहीं है।");
+        // Triangulation Validation Checks to block Heron math crash
+        if((a + b <= diag) || (a + diag <= b) || (b + diag <= a) || (c + d <= diag) || (c + diag <= d) || (d + diag <= c)) {
+            alert(currentLang === 'en' ? "Geometric Warning: This Diagonal length is mathematically impossible for the entered side lengths. Please re-measure the plot layout!" : "ज्यामितीय चेतावनी: दर्ज की गई भुजाओं की लंबाई के लिए यह विकर्ण लंबाई गणितीय रूप से असंभव है। कृपया प्लॉट माप दोबारा जांचें!");
             return;
         }
 
-        let s1 = (a + b + diag) / 2;
-        let area1 = Math.sqrt(s1 * (s1-a) * (s1-b) * (s1-diag));
-        let s2 = (c + d + diag) / 2;
-        let area2 = Math.sqrt(s2 * (s2-c) * (s2-d) * (s2-diag));
-        let totalSqFt = area1 + area2;
-        let totalSqMt = totalSqFt / 10.7639104;
+        var s1 = (a + b + diag) / 2;
+        var area1 = Math.sqrt(s1 * (s1 - a) * (s1 - b) * (s1 - diag));
+        
+        var s2 = (c + d + diag) / 2;
+        var area2 = Math.sqrt(s2 * (s2 - c) * (s2 - d) * (s2 - diag));
+        
+        var totalSqFt = area1 + area2;
+        var totalSqm = totalSqFt / 10.7639104;
+        var totalHec = totalSqFt / 107639.104;
+        var totalSqKadi = totalSqFt / 0.4356; // 1 Sq Kadi = 0.4356 Sq Ft
 
-        // Bihar Logic (1 Bigha=27225, 1 Kattha=1361.25, 1 Dhur=68.06, 1 Dhurki=3.40)
-        let rem = totalSqFt;
-        let bigha = Math.floor(rem / 27225);
-        rem %= 27225;
-        let kattha = Math.floor(rem / 1361.25);
-        rem %= 1361.25;
-        let dhur = Math.floor(rem / 68.06);
-        rem %= 68.06;
-        let dhurki = (rem / 3.40).toFixed(2);
+        // Bihar Land regional dynamics translation matrix based on Laggi Hand Size
+        // Formula: 1 Dhur in SqFt = (Laggi * 1.5)^2
+        var dhurSqFt = Math.pow((laggi * 1.5), 2);
+        var kathaSqFt = dhurSqFt * 20;
+        var bighaSqFt = kathaSqFt * 20;
 
-        document.getElementById('outB').innerText = bigha;
-        document.getElementById('outK').innerText = kattha;
-        document.getElementById('outD').innerText = dhur;
-        document.getElementById('outDk').innerText = dhurki;
-        document.getElementById('outSq').innerText = Math.round(totalSqFt).toLocaleString('en-IN');
-        document.getElementById('outSqm').innerText = Math.round(totalSqMt).toLocaleString('en-IN');
+        // Breakdown Logic
+        var remSqFt = totalSqFt;
+        var outBigha = Math.floor(remSqFt / bighaSqFt);
+        remSqFt %= bighaSqFt;
 
-        document.getElementById('rInputVal').innerText = `A:${a}, B:${b}, C:${c}, D:${d}, E:${diag}`;
+        var outKatha = Math.floor(remSqFt / kathaSqFt);
+        remSqFt %= kathaSqFt;
 
-        let options = { timeZone: 'Asia/Kolkata', day: 'numeric', month: 'long', year: 'numeric' };
-        let today = new Date().toLocaleDateString('en-IN', options);
+        var outDhur = (remSqFt / dhurSqFt).toFixed(2);
+
+        // Standard fixed components
+        var dismil = (totalSqFt / 435.6).toFixed(2);
+        var acres = (totalSqFt / 43560).toFixed(4);
+
+        document.getElementById('outBigha').innerText = outBigha;
+        document.getElementById('outKatha').innerText = outKatha;
+        document.getElementById('outDhur').innerText = outDhur;
+        document.getElementById('outSqFt').innerText = Math.round(totalSqFt).toLocaleString('en-IN');
+
+        document.getElementById('outSq').innerText = Math.round(totalSqFt).toLocaleString('en-IN') + " sq ft";
+        document.getElementById('outSqm').innerText = Math.round(totalSqm).toLocaleString('en-IN') + " sq m";
+        document.getElementById('outNetAc').innerText = acres + " acres";
+        document.getElementById('outDismil').innerText = dismil + " dismil";
+        document.getElementById('outSqKadi').innerText = Math.round(totalSqKadi).toLocaleString('en-IN') + " sq kadi";
+        document.getElementById('outHec').innerText = totalHec.toFixed(4);
+
+        if (currentLang === 'en') {
+            document.getElementById('pb_main').innerText = outBigha + " Bigha, " + outKatha + " Katha, " + outDhur + " Dhur";
+        } else {
+            document.getElementById('pb_main').innerText = outBigha + " बीघा, " + outKatha + " कट्ठा, " + outDhur + " धूर";
+        }
+
+        document.getElementById('rInputVal').innerText = "A:" + a + " B:" + b + " C:" + c + " D:" + d + " Diag:" + diag + " | Laggi:" + laggi + " Hath";
+
+        var options = { day: 'numeric', month: 'long', year: 'numeric' };
+        var today = new Date().toLocaleDateString('en-IN', options);
         document.getElementById('pDocDate').innerText = today + " (IST)";
         
-        let randID = Math.floor(1000000000 + Math.random() * 9000000000);
-        document.getElementById('pDocRef').innerText = `SST-BH-IRR-${randID}`;
+        var randID = Math.floor(1000000000 + Math.random() * 9000000000);
+        document.getElementById('pDocRef').innerText = "SST-BH-IRR-" + randID;
 
         resPanel.style.display = 'block';
         resPanel.scrollIntoView({behavior: 'smooth'});
     }
 
     function printLandReport() {
-        const resPanel = document.getElementById('resultBox');
+        var resPanel = document.getElementById('resultBox');
         if (resPanel.style.display !== "block") { 
-            alert("Calculate first before printing!"); 
+            alert("Calculate land dimensions matrix first before printing!"); 
             return; 
         }
-
-        const printRow = document.getElementById('print-input-row');
-        printRow.style.display = "flex";
         window.print();
-        printRow.style.display = "none";
     }
 
-    function copyData() {
-        let res = `Bihar Irregular Land Results:\nBigha: ${document.getElementById('outB').innerText}\nKattha: ${document.getElementById('outK').innerText}\nDhur: ${document.getElementById('outD').innerText}\nDhurki: ${document.getElementById('outDk').innerText}\nSq Ft: ${document.getElementById('outSq').innerText}\nCalculated via Shayan Smart Tools`;
-        navigator.clipboard.writeText(res);
-        alert("Details Copied!");
+    document.addEventListener('contextmenu', function(e) { e.preventDefault(); });
+    document.onkeydown = function(e) {
+        if (e.ctrlKey && (e.keyCode === 67 || e.keyCode === 85 || e.keyCode === 73)) {
+            alert("Copyright Warning: Structural scraping or duplication from Shayan Smart Tools is prohibited.");
+            return false;
+        }
+    };
+
+    function copyResult() {
+        var textCopy = "";
+        if(currentLang === 'en') {
+            textCopy = "Bihar Irregular Land Calculation Result:\nTotal Area: " + document.getElementById('pb_main').innerText + "\nTotal Sq Ft: " + document.getElementById('outSq').innerText + "\nCalculated via Shayan Smart Tools Triangulation Engine.";
+        } else {
+            textCopy = "बिहार टेढ़ी-मेढ़ी ज़मीन गणना परिणाम:\nकुल रकबा: " + document.getElementById('pb_main').innerText + "\nकुल वर्ग फीट: " + document.getElementById('outSq').innerText + "\nशायन स्मार्ट टूल्स द्वारा सफलतापूर्वक मूल्यांकित।";
+        }
+        navigator.clipboard.writeText(textCopy);
+        alert(trans[currentLang].copyMsg);
     }
 
-    function shareWA() {
-        let t = encodeURIComponent(`Bihar Irregular Land Result:\nBigha: ${document.getElementById('outB').innerText}\nKattha: ${document.getElementById('outK').innerText}\nDhur: ${document.getElementById('outD').innerText}\nTotal Area: ${document.getElementById('outSq').innerText} Sq.Ft\nCheck via Shayan Smart Tools`);
-        window.open("https://wa.me/?text=" + t);
+    function shareWhatsApp() {
+        var textShare = "";
+        if(currentLang === 'en') {
+            textShare = "Bihar Irregular Land Matrix: " + document.getElementById('pb_main').innerText + ". Verified via Shayan Smart Tools.";
+        } else {
+            textShare = "बिहार टेढ़ी-मेढ़ी ज़मीन का परिणाम: " + document.getElementById('pb_main').innerText + ". कुल वर्ग फीट: " + document.getElementById('outSq').innerText + ". श्यान स्मार्ट टूल्स द्वारा सत्यापित।";
+        }
+        window.open("https://wa.me/?text=" + encodeURIComponent(textShare), '_blank');
     }
 </script>
+
+<footer>
+    <p style="text-align: center; margin-top: 30px; font-size: 13px; color: #666;">© 2026 Shayan Smart Tools | Bihar Land Solutions Suite | Designed by Muksidul Islam</p>
+</footer>
 </body>
 </html>
