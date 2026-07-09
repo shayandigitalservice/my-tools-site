@@ -11,7 +11,6 @@
     <meta name="author" content="Muksidul Islam">
     <meta name="robots" content="index, follow">
 
-    <!-- Google FAQ Schema Generated for Shayan Smart Tools -->
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
@@ -235,7 +234,7 @@
         .seo-content th, .seo-content td { padding: 15px; border: 1px solid #e2e8f0; text-align: left; color: #334155 !important; }
         .seo-content th { background: #e0f2fe; color: var(--up-dark) !important; font-weight: bold; }
         .seo-content tr:nth-child(even) { background-color: #f8fafc; }
-.content-image { width: 100%; max-height: 340px; object-fit: cover; border-radius: 16px; margin: 25px 0; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
+        .content-image { width: 100%; max-height: 340px; object-fit: cover; border-radius: 16px; margin: 25px 0; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
 
         /* DASHBOARD LINKS */
         .sst-dashboard-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; margin: 40px 0; width: 100%; box-sizing: border-box; }
@@ -359,6 +358,8 @@
             <select id="unitType">
                 <option value="ft">Feet (ft)</option>
                 <option value="mt">Meter (m)</option>
+                <option value="pb">UP Pucca Bigha</option>
+                <option value="kb">UP Kacha Bigha</option>
             </select>
         </div>
     </div>
@@ -461,7 +462,7 @@
             <h2 id="seoTitle">Uttar Pradesh Land Area Calculator: Professional Bigha, Biswa & Hectare Converter 2026</h2>
             <p style="font-size: 17px; color: #555; text-align: center; margin: 0;" id="seoSubTitle">Bhulekh UP portal aur Uttar Pradesh revenue records department ke guidelines ke anusaar land naap-jokh ka manual setup.</p>
         </div>
-<img src="uttarpradesh1.webp" class="content-image" loading="lazy" alt="Shayan Smart Tools">
+        <img src="uttarpradesh1.webp" class="content-image" loading="lazy" alt="Shayan Smart Tools">
                 
         <section>
             <h2>Introduction to Uttar Pradesh Land Mapping System</h2>
@@ -500,7 +501,7 @@
                 </table>
             </div>
         </section>
-<img src="uttarpradesh2.webp" class="content-image" loading="lazy" alt="Shayan Smart Tools">
+        <img src="uttarpradesh2.webp" class="content-image" loading="lazy" alt="Shayan Smart Tools">
                 
         <section>
             <h2>Step-by-Step Practical Calculation Example</h2>
@@ -528,7 +529,7 @@
             <h2 id="hFaqHead">15 Important Frequently Asked Questions (FAQs) - Uttar Pradesh Land Calculator (Hinglish Matrix)</h2>
             <div id="faqList"></div>
         </section>
-<img src="uttarpradesh3.webp" class="content-image" loading="lazy" alt="Shayan Smart Tools">
+        <img src="uttarpradesh3.webp" class="content-image" loading="lazy" alt="Shayan Smart Tools">
                 
         <h2 style="border:none; padding:0; margin-bottom:15px;" id="lblDashTitle">Related Tools & Internal Dashboards</h2>
         <div class="sst-dashboard-grid">
@@ -748,21 +749,31 @@
             return;
         }
 
-        let sqft = 0;
-        if (unit === "ft") {
-            sqft = length * width;
-        } else {
-            sqft = (length * width) * 10.7639104;
-        }
-
-        let sqmt = sqft / 10.7639104;
-
         const PUCCA_BIGHA_SQFT = 27225;
         const KACHA_BIGHA_SQFT = 9075;
         const BISWA_SQFT = 1361.25;
         const BISWANSI_SQFT = 68.0625;
         const ACRE_SQFT = 43560;
         const DECIMIL_SQFT = 435.6;
+
+        let sqft = 0;
+        let inputUnitLabel = "";
+
+        if (unit === "ft") {
+            sqft = length * width;
+            inputUnitLabel = "ft";
+        } else if (unit === "mt") {
+            sqft = (length * width) * 10.7639104;
+            inputUnitLabel = "m";
+        } else if (unit === "pb") {
+            sqft = (length * width) * PUCCA_BIGHA_SQFT;
+            inputUnitLabel = "Pucca Bigha";
+        } else if (unit === "kb") {
+            sqft = (length * width) * KACHA_BIGHA_SQFT;
+            inputUnitLabel = "Kacha Bigha";
+        }
+
+        let sqmt = sqft / 10.7639104;
 
         let tempSqft = sqft;
         const pBigha = Math.floor(tempSqft / PUCCA_BIGHA_SQFT);
@@ -790,7 +801,7 @@
         let today = new Date().toLocaleDateString('en-IN', options);
         document.getElementById('pDocDate').innerText = today + " (IST)";
         
-        document.getElementById('rInputVal').innerText = length + " x " + width + " (" + unit + ")";
+        document.getElementById('rInputVal').innerText = length + " x " + width + " (" + inputUnitLabel + ")";
         
         let randID = Math.floor(1000000000 + Math.random() * 9000000000);
         const finalDocRef = "SST-UP-" + randID;
