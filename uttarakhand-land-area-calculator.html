@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Uttarakhand Land Area Calculator free 2026 | उत्तराखण्ड जमीन नाପ କାଲକୁଲେଟର | Nali, Muthi, Bigha Converter</title>
+    <title>Uttarakhand Land Area Calculator free 2026 | उत्तराखण्ड जमीन नाପ କାଲକୁଲେଟर | Nali, Muthi, Bigha Converter</title>
     <link rel="canonical" href="https://shayansmarttools.in/uttarakhand-land-area-calculator.html" />
 
     <meta name="description" content="Calculate land area in Uttarakhand using Length & Width. Accurate Nali, Muthi, Bigha, Acre, and Hectare converter by Shayan Smart Tools. Best tool for Bhulekh Uttarakhand land records.">
-    <meta name="keywords" content="Uttarakhand Land Area Calculator, उत्तराखण्ड जमीन माପ କାଲକୁଲେଟର, Uttarakhand Land Measurement Calculator, Bhulekh Uttarakhand unit converter, Uttarakhand Nali to Sq Ft, Muthi calculator Uttarakhand, Bigha to Nali Uttarakhand, Shayan Smart Tools">
+    <meta name="keywords" content="Uttarakhand Land Area Calculator, उत्तराखण्ड जमीन माପ କालकुलेटर, Uttarakhand Land Measurement Calculator, Bhulekh Uttarakhand unit converter, Uttarakhand Nali to Sq Ft, Muthi calculator Uttarakhand, Bigha to Nali Uttarakhand, Shayan Smart Tools">
     <meta name="author" content="Muksidul Islam">
     <meta name="robots" content="index, follow">
 <script type="application/ld+json">
@@ -737,7 +737,7 @@
         const unit = document.getElementById('unitType').value;
         const resPanel = document.getElementById('resPanel');
 
-        if (!length || length <= 0 || !width || width <= 0) {
+        if (isNaN(length) || length <= 0 || isNaN(width) || width <= 0) {
             alert(currentLang === 'en' ? "Please enter both valid length and width!" : "कृपया लंबाई और चौड़ाई दोनों सही दर्ज करें!");
             return;
         }
@@ -746,10 +746,10 @@
         if (unit === "ft") {
             sqft = length * width;
         } else {
-            sqft = (length * width) * 10.7639104;
+            sqft = (length * width) * 10.76391042;
         }
 
-        let sqmt = sqft / 10.7639104;
+        let sqmt = sqft / 10.76391042;
 
         const NALI_SQFT = 2160;
         const MUTHI_SQFT = 135;
@@ -757,11 +757,11 @@
         const BISWAS_SQFT = 340.2;
         const ACRE_SQFT = 43560;
 
-        let tempSqft = sqft;
-        const nali = Math.floor(tempSqft / NALI_SQFT);
-        let remSqftForMuthi = tempSqft % NALI_SQFT;
+        let totalSqftRounded = Math.round(sqft * 100) / 100;
+        const nali = Math.floor(totalSqftRounded / NALI_SQFT);
+        let remSqftForMuthi = totalSqftRounded % NALI_SQFT;
         
-        const muthi = (remSqftForMuthi / MUTHI_SQFT).toFixed(2);
+        const muthi = Math.min(16, parseFloat((remSqftForMuthi / MUTHI_SQFT).toFixed(2)));
 
         if (currentLang === 'en') {
             document.getElementById('bklText').innerText = nali + " Nali, " + muthi + " Muthi";
@@ -795,19 +795,24 @@
     function printLandReport() {
         const printRow = document.getElementById('print-input-row');
         printRow.style.display = "flex";
-        window.print();
-        printRow.style.display = "none";
+        setTimeout(() => {
+            window.print();
+            printRow.style.display = "none";
+        }, 50);
     }
 
     function copyData() {
         let res = "Uttarakhand Land Conversion Results:\nFormat: " + document.getElementById('bklText').innerText + "\nSq Ft: " + document.getElementById('resSqft').innerText + "\nNali: " + document.getElementById('resNali').innerText + "\nTool by Shayan Smart Tools";
-        navigator.clipboard.writeText(res);
-        alert(currentLang === 'en' ? "Results Copied!" : "सभी विवरण सफलतापूर्वक कॉपी हो चुके हैं!");
+        navigator.clipboard.writeText(res).then(() => {
+            alert(currentLang === 'en' ? "Results Copied!" : "सभी विवरण सफलतापूर्वक कॉपी हो चुके हैं!");
+        }).catch(err => {
+            alert("Copy failed: " + err);
+        });
     }
 
     function shareWA() {
         let t = encodeURIComponent("Uttarakhand Land Measurement Result:\n" + document.getElementById('bklText').innerText + "\nSq Ft: " + document.getElementById('resSqft').innerText + "\nCheck at Shayan Smart Tools");
-        window.open("https://wa.me/?text=" + t);
+        window.open("https://wa.me/?text=" + t, '_blank');
     }
 
     renderFAQs();
