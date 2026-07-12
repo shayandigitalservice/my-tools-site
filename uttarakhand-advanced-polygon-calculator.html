@@ -322,16 +322,16 @@
         <div class="triangle-card">
             <span class="triangle-header" id="t1Head">Triangle #1 (प्रथम त्रिकोण)</span>
             <div class="input-row">
-                <div class="input-group"><label class="lblA">Side A (Feet)</label><input type="number" class="side-a" placeholder="0"></div>
-                <div class="input-group"><label class="lblB">Side B (Feet)</label><input type="number" class="side-b" placeholder="0"></div>
-                <div class="input-group"><label class="lblC">Side C (Feet)</label><input type="number" class="side-c" placeholder="0"></div>
+                <div class="input-group"><label class="lblA">Side A (Feet)</label><input type="number" min="0" class="side-a" placeholder="0"></div>
+                <div class="input-group"><label class="lblB">Side B (Feet)</label><input type="number" min="0" class="side-b" placeholder="0"></div>
+                <div class="input-group"><label class="lblC">Side C (Feet)</label><input type="number" min="0" class="side-c" placeholder="0"></div>
             </div>
         </div>
     </div>
 
     <div class="controls">
         <button class="btn btn-add" id="btnAdd" onclick="addTriangle()">+ Add Triangle</button>
-        <button class="btn btn-calc" id="btnCalc" onclick="calculateTotalArea()">Calculate Total Area</button>
+        <button class="btn btn-calc" id="btnCalc" onclick="calculateTotalArea(false)">Calculate Total Area</button>
     </div>
 
     <div id="resPanel" class="res-panel">
@@ -405,7 +405,7 @@
             <h2>Uttarakhand Advanced Polygon Land Calculator: Complex Tedi-Medi Zameen ka Sateek Hisab</h2>
             <p style="font-size: 18px; color: #555; margin: 5px 0 0 0;">Irregular polygon land mapping for Uttarakhand. Calculate accurate conversions dynamically into Acre, Nali, and Mutthi.</p>
         </div>
-<img src="telangana1.webp" class="content-image" loading="lazy" alt=" Shayan Smart Tools">
+        <img src="uttarakhand-land-1.webp" class="content-image" loading="lazy" alt="Shayan Smart Tools Uttarakhand Land">
 
         <section>
             <h3>1. Introduction to Irregular Land Formations in Uttarakhand (Bhoomi Mapni Background)</h3>
@@ -472,7 +472,7 @@
                 </tbody>
             </table>
         </div>
-<img src="telangana2.webp" class="content-image" loading="lazy" alt=" Shayan Smart Tools">
+        <img src="uttarakhand-land-2.webp" class="content-image" loading="lazy" alt="Shayan Smart Tools Uttarakhand Land Units">
 
         <section>
             <h3>3. Landmark Identification Features: Bhulekh, ROR-Khatauni, and Khasra Number</h3>
@@ -552,7 +552,7 @@
                 <p><b>Q15. Calculator panel me 'Initial Data Grid Input' ka kya matlab hai?</b><br>Ans: Iska binary matlab hai ki aapne specific non-uniform fields system topology ko analyze karne ke liye runtime dashboard data grid arrays inside kitne triangle profiles records integrate kiye hain.</p>
             </div>
         </section>
-        <img src="telangana3.webp" class="content-image" loading="lazy" alt=" Shayan Smart Tools">
+        <img src="uttarakhand-land-3.webp" class="content-image" loading="lazy" alt="Shayan Smart Tools Dashboard View">
 
         <h3>Related Tools & Internal Dashboards</h3>
         <div class="sst-dashboard-grid">
@@ -585,14 +585,6 @@
 </div>
 
 <script>
-    document.addEventListener('contextmenu', e => e.preventDefault());
-    document.onkeydown = function(e) {
-        if (e.ctrlKey && (e.keyCode === 67 || e.keyCode === 85 || e.keyCode === 73)) {
-            alert("Copyright Warning: Copying content from Shayan Digital Service is prohibited.");
-            return false;
-        }
-    };
-
     let tCount = 1;
     let currentL = 'en';
 
@@ -610,8 +602,8 @@
             st: "भूमि को त्रिकोणों में विभाजित करके जटिल अनियमित आकारों की गणना करें।",
             add: "+ त्रिकोण जोड़ें", calc: "कुल क्षेत्रफल की गणना करें", res: "परिणाम (Result)",
             iN: "जटिल भूमि को कैसे मापें?",
-            iD: "अपनी भूमि को कई त्रिकोणों में विभाजित करें और ऊपर दिखाए अनुसार सभी भुजाओं को मापें।",
-            lA: "भुजा A (अंगुल/फुट)", lB: "भुजा B (अंगुल/फुट)", lC: "भुजा C (अंगुल/फुट)", hCard: "त्रिकोण संख्या #"
+            iD: "अपनी भूमि ko kai त्रिकोणों में विभाजित करें और ऊपर दिखाए अनुसार सभी भुजाओं को मापें।",
+            lA: "भुजा A (फुट)", lB: "भुजा B (फुट)", lC: "भुजा C (फुट)", hCard: "त्रिकोण संख्या #"
         }
     };
 
@@ -653,9 +645,9 @@
 
         div.innerHTML = `<span class="triangle-header">${headerText}</span>
             <div class="input-row">
-                <div class="input-group"><label class="lblA">${labelTextA}</label><input type="number" class="side-a" placeholder="0"></div>
-                <div class="input-group"><label class="lblB">${labelTextB}</label><input type="number" class="side-b" placeholder="0"></div>
-                <div class="input-group"><label class="lblC">${labelTextC}</label><input type="number" class="side-c" placeholder="0"></div>
+                <div class="input-group"><label class="lblA">${labelTextA}</label><input type="number" min="0" class="side-a" placeholder="0"></div>
+                <div class="input-group"><label class="lblB">${labelTextB}</label><input type="number" min="0" class="side-b" placeholder="0"></div>
+                <div class="input-group"><label class="lblC">${labelTextC}</label><input type="number" min="0" class="side-c" placeholder="0"></div>
             </div>`;
         area.appendChild(div);
     }
@@ -686,7 +678,7 @@
                     if(!isLangSwitch) {
                         alert(currentL === 'en' ? `Triangle #${i+1} inputs are geometrically invalid! Sum of two sides must be greater than third side.` : `त्रिकोण संख्या #${i+1} की नाप अमान्य है! दो भुजाओं का योग तीसरी से अधिक होना चाहिए।`);
                     }
-                    return;
+                    if(isLangSwitch) continue; else return;
                 }
             }
         }
@@ -698,7 +690,6 @@
             return; 
         }
 
-        // Calculations & UI assignment based on Uttarakhand Custom Standards (1 Nali = 2160 SqFt, 1 Mutthi = 135 SqFt)
         document.getElementById('outSq').innerText = Math.round(totalSqFt).toLocaleString('en-IN') + " sq ft";
         document.getElementById('outMt').innerText = (totalSqFt / 10.7639104).toLocaleString('en-IN', {maximumFractionDigits: 2}) + " sq m";
         document.getElementById('outHe').innerText = (totalSqFt / 107639.104).toFixed(4) + " Ha";
@@ -706,7 +697,6 @@
         let acreVal = (totalSqFt / 43560).toFixed(4);
         document.getElementById('outB').innerText = acreVal + " Acre";
 
-        // Uttarakhand Regional Conversion Core Model System Setup Logic
         let totalNaliRaw = totalSqFt / 2160;
         let nali = Math.floor(totalNaliRaw);
         let remainingNaliFract = totalNaliRaw - nali;
