@@ -251,13 +251,13 @@
 
         /* PREMIUM PRINT CONFIGURATION */
         @media print {
-            * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; color-adjust: exact !important; }
+            body.printing * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; color-adjust: exact !important; }
             @page { margin: 15mm 15mm; size: A4 portrait; }
-            body { background: #ffffff !important; color: #000000 !important; padding: 0; margin: 0; }
+            body.printing { background: #ffffff !important; color: #000000 !important; padding: 0; margin: 0; }
             
-            .main-wrapper > header, .lang-toggle, .triangle-card, .controls, .util-btns, #resHead, .seo-content, .back-btn, .image-container { display: none !important; }
+            body.printing .main-wrapper > header, body.printing .lang-toggle, body.printing .triangle-card, body.printing .controls, body.printing .util-btns, body.printing #resHead, body.printing .seo-content, body.printing .back-btn, body.printing .image-container { display: none !important; }
             
-            .res-panel { 
+            body.printing .res-panel { 
                 display: block !important; 
                 background: #ffffff !important; 
                 color: #000000 !important; 
@@ -271,32 +271,32 @@
                 page-break-inside: avoid;
             }
             
-            .print-header-block { display: block !important; text-align: center; border-bottom: 2px solid var(--hp-green) !important; padding-bottom: 18px; margin-bottom: 35px; }
-            .print-header-block img { display: inline-block !important; }
+            body.printing .print-header-block { display: block !important; text-align: center; border-bottom: 2px solid var(--hp-green) !important; padding-bottom: 18px; margin-bottom: 35px; }
+            body.printing .print-header-block img { display: inline-block !important; }
 
-            .result-grid { display: block !important; margin-top: 25px; }
-            .res-item { background: transparent !important; border: none !important; border-bottom: 1px solid #cbd5e1 !important; padding: 22px 6px !important; display: flex !important; flex-direction: row !important; justify-content: space-between !important; align-items: center !important; border-radius: 0px !important; }
-            .res-item span { color: #1e293b !important; font-size: 14px !important; font-weight: 600 !important; text-transform: uppercase; }
-            .res-item b { color: var(--dark-green) !important; font-size: 17px !important; font-weight: 700 !important; }
+            body.printing .result-grid { display: block !important; margin-top: 25px; }
+            body.printing .res-item { background: transparent !important; border: none !important; border-bottom: 1px solid #cbd5e1 !important; padding: 22px 6px !important; display: flex !important; flex-direction: row !important; justify-content: space-between !important; align-items: center !important; border-radius: 0px !important; }
+            body.printing .res-item span { color: #1e293b !important; font-size: 14px !important; font-weight: 600 !important; text-transform: uppercase; }
+            body.printing .res-item b { color: var(--dark-green) !important; font-size: 17px !important; font-weight: 700 !important; }
 
-            .print-footer-block { 
+            body.printing .print-footer-block { 
                 display: block !important; 
                 margin-top: 60px; 
                 border-top: 1px dashed #cbd5e1 !important; 
                 padding-top: 25px;
             }
-            .print-footer-container {
+            body.printing .print-footer-container {
                 display: table !important;
                 width: 100% !important;
             }
-            .print-footer-left {
+            body.printing .print-footer-left {
                 display: table-cell !important;
                 width: 60% !important;
                 vertical-align: top !important;
                 text-align: left !important;
                 padding-right: 20px;
             }
-            .print-footer-right {
+            body.printing .print-footer-right {
                 display: table-cell !important;
                 width: 40% !important;
                 vertical-align: top !important;
@@ -742,7 +742,9 @@
 
         const printRow = document.getElementById('print-input-row');
         printRow.style.display = "flex";
+        document.body.classList.add('printing');
         window.print();
+        document.body.classList.remove('printing');
         printRow.style.display = "none";
     }
 
