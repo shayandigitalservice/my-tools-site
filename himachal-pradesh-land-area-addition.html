@@ -324,7 +324,7 @@
         .sst-dash-btn:hover .sst-dash-icon { transform: scale(1.1) rotate(5deg); background: #0284c7; color: #fff; }
 
         @media (max-width: 600px) {
-            .input-grid { flex-direction: column; align-items: stretch; gap: 10px; max-width: 100%; }
+            .input-grid { grid-template-columns: 1fr; align-items: stretch; gap: 10px; max-width: 100%; }
             .res-grid { grid-template-columns: 1fr; }
             .btn-convert, .res-panel, .govt-portal-section { max-width: 100%; }
             .seo-article { padding: 10px 0; }
@@ -819,7 +819,7 @@
             summaryBody.appendChild(row);
         });
 
-        // Himachal Pradesh Carry Forward Logic (1 Bigha = 20 Biswa, 1 Biswa = 20 Biswansi)
+        // Exact HP Carry Forward Logic (1 Bigha = 20 Biswa, 1 Biswa = 20 Biswansi)
         if (tbis >= 20) {
             tbi += Math.floor(tbis / 20);
             tbis %= 20;
@@ -833,10 +833,9 @@
         document.getElementById('rbi').innerText = tbi + " Biswa";
         document.getElementById('rbis').innerText = tbis + " Biswansi";
         
-        // Land Conversions Matrix Mapping (Standard HP Hill Bigha = 8712 Sq Ft, Biswa = 435.6, Biswansi = 21.78)
-        let totalBiswansi = (tb * 400) + (tbi * 20) + tbis;
-        let totalSqft = totalBiswansi * 21.78; 
-        let totalSqm = totalSqft / 10.76391;
+        // Highly Precise Land Conversions (Standard HP Hill Bigha = 8712 Sq Ft, Biswa = 435.6 Sq Ft, Biswansi = 21.78 Sq Ft)
+        let totalSqft = (tb * 8712) + (tbi * 435.6) + (tbis * 21.78); 
+        let totalSqm = totalSqft * 0.09290304; // Standard scientific conversion factor
         let totalAcre = totalSqft / 43560;
 
         document.getElementById('racre').innerText = totalAcre.toLocaleString('en-IN', {maximumFractionDigits: 4}) + " Acre";
