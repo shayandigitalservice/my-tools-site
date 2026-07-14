@@ -348,11 +348,16 @@
             .sst-dash-btn { padding: 15px 18px; }
         }
 
+        /* PRINT ARCHITECTURE CLEANUP (Only displays the computed print sheet, completely stripping navigation links & dashboard cards) */
         @media print {
             html, body { height: auto; overflow: visible; background: #ffffff !important; padding: 0 !important; margin: 0 !important; }
             * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; color: #000000 !important; }
             @page { margin: 10mm 10mm; size: A4 portrait; }
-            .tool-wrapper, .btn-box, .portal-links-wrapper, .util-btns, .seo-article, .back-btn, .section-fieldset, .lang-switcher, .footer-copyright-box { display: none !important; }
+            
+            /* Strict exclusion of all unnecessary elements */
+            .tool-wrapper, .btn-box, .portal-links-wrapper, .util-btns, .seo-article, .back-btn, .section-fieldset, .lang-switcher, .footer-copyright-box, .sst-dashboard-grid, h3:not(#resHead) { 
+                display: none !important; 
+            }
             
             .res-panel { 
                 display: block !important; 
@@ -364,7 +369,7 @@
                 border-radius: 0px !important; 
                 box-shadow: none !important; 
             }
-            .res-panel h3 { color: #1e3a8a !important; border-bottom: 2px solid #1e3a8a !important; font-weight: bold; }
+            .res-panel h3 { color: #1e3a8a !important; border-bottom: 2px solid #1e3a8a !important; font-weight: bold; display: block !important; }
             .partner-result-card { background: transparent !important; border: 1px solid #cbd5e1 !important; border-left: 6px solid #1e3a8a !important; color: #000000 !important; margin-bottom: 15px; page-break-inside: avoid; }
             .partner-result-card h4 { color: #1e3a8a !important; }
             .p-res-box { background: transparent !important; border: 1px solid #cbd5e1 !important; }
@@ -395,15 +400,15 @@
         <span class="section-legend" id="lblTotalLandHeading">Total Land Area to Partition</span>
         <div class="grid-3" style="margin-top: 15px;">
             <div class="field">
-                <label id="lblInputBigha">Kanal (कनाल)</label>
+                <label id="lblInputKanal">Kanal (कनाल)</label>
                 <input type="number" id="totalKanal" placeholder="0" min="0" value="1">
             </div>
             <div class="field">
-                <label id="lblInputKatha">Marla (मरला)</label>
+                <label id="lblInputMarla">Marla (मरला)</label>
                 <input type="number" id="totalMarla" placeholder="0" min="0" value="0">
             </div>
             <div class="field">
-                <label id="lblInputLessa">Sarsai (सरसाई)</label>
+                <label id="lblInputSarsai">Sarsai (सरसाई)</label>
                 <input type="number" id="totalSarsai" placeholder="0" min="0" max="8.99" value="0">
             </div>
         </div>
@@ -471,9 +476,9 @@
         <table class="print-table">
             <thead>
                 <tr>
-                    <th id="thTotalBigha">Total Kanal</th>
-                    <th id="thTotalKatha">Total Marla</th>
-                    <th id="thTotalLessa">Total Sarsai</th>
+                    <th id="thTotalKanal">Total Kanal</th>
+                    <th id="thTotalMarla">Total Marla</th>
+                    <th id="thTotalSarsai">Total Sarsai</th>
                     <th id="thTotalSqft">Equivalent Sq. Feet</th>
                 </tr>
             </thead>
@@ -763,9 +768,9 @@
             btnPrint: "🖨️ Print Legal Sheet",
             backLnk: "⬅ Back to All Tools Dashboard",
             printInputsTitle: "Initial Property Pool Before Subdivision",
-            thTotalBigha: "Total Kanal",
-            thTotalKatha: "Total Marla",
-            thTotalLessa: "Total Sarsai",
+            thTotalKanal: "Total Kanal",
+            thTotalMarla: "Total Marla",
+            thTotalSarsai: "Total Sarsai",
             thTotalSqft: "Equivalent Sq. Feet",
             portalTitle: "Official Jammu & Kashmir Government Portals",
             authSig: "AUTHORIZED SIGNATURE"
@@ -782,9 +787,9 @@
             btnPrint: "🖨️ कानूनी प्रति प्रिंट करें",
             backLnk: "⬅ मुख्य डैशबोर्ड पर वापस जाएं",
             printInputsTitle: "विभाजन के पूर्व कुल क्षेत्रफल",
-            thTotalBigha: "कुल कनाल",
-            thTotalKatha: "कुल मरला",
-            thTotalLessa: "कुल सरसाई",
+            thTotalKanal: "कुल कनाल",
+            thTotalMarla: "कुल मरला",
+            thTotalSarsai: "कुल सरसाई",
             thTotalSqft: "समतुल्य वर्ग फुट",
             portalTitle: "जम्मू-कश्मीर सरकार के आधिकारिक वेब पोर्टल",
             authSig: "अधिकृत हस्ताक्षर"
@@ -817,9 +822,9 @@
         document.getElementById('lnkBack').innerText = textDictionary[lang].backLnk;
         
         document.getElementById('printInputsTitle').innerText = textDictionary[lang].printInputsTitle;
-        document.getElementById('thTotalBigha').innerText = textDictionary[lang].thTotalBigha;
-        document.getElementById('thTotalKatha').innerText = textDictionary[lang].thTotalKatha;
-        document.getElementById('thTotalLessa').innerText = textDictionary[lang].thTotalLessa;
+        document.getElementById('thTotalKanal').innerText = textDictionary[lang].thTotalKanal;
+        document.getElementById('thTotalMarla').innerText = textDictionary[lang].thTotalMarla;
+        document.getElementById('thTotalSarsai').innerText = textDictionary[lang].thTotalSarsai;
         document.getElementById('thTotalSqft').innerText = textDictionary[lang].thTotalSqft;
         document.getElementById('lblPortalTitle').innerText = textDictionary[lang].portalTitle;
         document.getElementById('lblAuthSigLeft').innerText = textDictionary[lang].authSig;
@@ -827,9 +832,9 @@
 
         // Sync inline field headers
         document.getElementById('lblTotalLandHeading').innerText = lang === 'en' ? "Total Land Area to Partition" : "विभाजित की जाने वाली कुल भूमि";
-        document.getElementById('lblInputBigha').innerText = lang === 'en' ? "Kanal (कनाल)" : "कनाल";
-        document.getElementById('lblInputKatha').innerText = lang === 'en' ? "Marla (मरला)" : "मरला";
-        document.getElementById('lblInputLessa').innerText = lang === 'en' ? "Sarsai (सरसाई)" : "सरसाई";
+        document.getElementById('lblInputKanal').innerText = lang === 'en' ? "Kanal (कनाल)" : "कनाल";
+        document.getElementById('lblInputMarla').innerText = lang === 'en' ? "Marla (मरला)" : "मरला";
+        document.getElementById('lblInputSarsai').innerText = lang === 'en' ? "Sarsai (सरसाई)" : "सरसाई";
         document.getElementById('lblPartitionBasis').innerText = lang === 'en' ? "Partition Allocation Mode" : "भूमि आवंटन की पद्धति";
         document.getElementById('lblShareholdersHeading').innerText = lang === 'en' ? "Partners / Shareholders Allocation Records" : "साझेदारों या हिस्सेदारों की सूची";
 
