@@ -52,7 +52,7 @@
       "name": "Q5. Tedi-medi quadrilateral land ke liye Average Method kyu galat hai?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Average method geometric skewness ko ignore karta hai. Jab aamne-saamne ki sides me zyada farq hota hai, to average method real dimension se kafi zyada area dikha deta hai, jo legally invalid hai. Sahi tareeqa sirf Heron's Triangulation hi hai."
+        "text": "Average method geometric skewness ko ignore karta hai. Jab aamne-saamne ki sides me zyada farq hota hai, to average method real dimension se kafi zyada area dikha dela hai, jo legally invalid hai. Sahi tareeqa sirf Heron's Triangulation hi hai."
       }
     },
     {
@@ -786,7 +786,6 @@
         document.getElementById('sTitle').innerText = trans[lang].stitle;
         document.getElementById('lblA').innerText = trans[lang].lA;
         document.getElementById('lblB').innerText = trans[lang].lB;
-        document.getElementById('cbd5e1');
         document.getElementById('lblC').innerText = trans[lang].lC;
         document.getElementById('lblD').innerText = trans[lang].lD;
         document.getElementById('lblDiag').innerText = trans[lang].lDg; 
@@ -880,23 +879,33 @@
 
         // J&K Conversion Rules:
         // 1 Kanal = 5445 Sq Ft, 1 Marla = 272.25 Sq Ft, 1 Sarsai = 30.25 Sq Ft
-        var kanal = (totalSqFt / 5445).toFixed(2);
-        var marla = (totalSqFt / 272.25).toFixed(2);
-        var sarsai = (totalSqFt / 30.25).toFixed(2);
+        var kanalAbs = (totalSqFt / 5445).toFixed(3);
+        var marlaAbs = (totalSqFt / 272.25).toFixed(3);
+        var sarsaiAbs = (totalSqFt / 30.25).toFixed(2);
         var netAcre = (totalSqFt / 43560).toFixed(4);
 
-        document.getElementById('outKanal').innerText = kanal;
-        document.getElementById('outMarla').innerText = marla;
-        document.getElementById('outSarsai').innerText = sarsai;
+        // J&K Traditional Mixed Formatting: (Kanal - Marla - Sarsai Split output)
+        var tempSqft = totalSqFt;
+        var kVal = Math.floor(tempSqft / 5445);
+        tempSqft -= kVal * 5445;
+        
+        var mVal = Math.floor(tempSqft / 272.25);
+        tempSqft -= mVal * 272.25;
+        
+        var sVal = (tempSqft / 30.25).toFixed(2);
+
+        document.getElementById('outKanal').innerText = kanalAbs;
+        document.getElementById('outMarla').innerText = marlaAbs;
+        document.getElementById('outSarsai').innerText = sarsaiAbs;
         document.getElementById('outSq').innerText = Math.round(totalSqFt).toLocaleString('en-IN') + " sq ft";
         document.getElementById('outSqm').innerText = Math.round(totalSqm).toLocaleString('en-IN') + " sq m";
         document.getElementById('outNetAc').innerText = netAcre + " acres";
         document.getElementById('outHec').innerText = totalHec.toFixed(4);
 
         if (currentLang === 'en') {
-            document.getElementById('pb_main').innerText = kanal + " Kanal, " + marla + " Marla, " + sarsai + " Sarsai";
+            document.getElementById('pb_main').innerText = kVal + " Kanal, " + mVal + " Marla, " + sVal + " Sarsai";
         } else {
-            document.getElementById('pb_main').innerText = kanal + " کنال، " + marla + " مرلہ، " + sarsai + " سرصئی";
+            document.getElementById('pb_main').innerText = kVal + " کنال، " + mVal + " مرلہ، " + sVal + " سرصئی";
         }
 
         var inputString = "A:" + a + " B:" + b + " C:" + c + " D:" + d + " Diag:" + diag;
@@ -905,11 +914,11 @@
         document.getElementById('rInputValPrint').innerText = inputString;
         document.getElementById('resSqft').innerText = Math.round(totalSqFt).toLocaleString('en-IN') + " Sq.Ft";
         document.getElementById('resSqmt').innerText = Math.round(totalSqm).toLocaleString('en-IN') + " Sq.Mt";
-        document.getElementById('resDecimal').innerText = kanal + " Kanals";
+        document.getElementById('resDecimal').innerText = kanalAbs + " Kanals";
         document.getElementById('resAcre').innerText = netAcre + " Acres";
         document.getElementById('resHectare').innerText = totalHec.toFixed(4) + " Ha";
-        document.getElementById('resGuntha').innerText = marla + " Marla";
-        document.getElementById('resBiswa').innerText = sarsai + " Sarsai";
+        document.getElementById('resGuntha').innerText = marlaAbs + " Marla";
+        document.getElementById('resBiswa').innerText = sarsaiAbs + " Sarsai";
 
         updatePrintSummaryText();
 
