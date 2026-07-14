@@ -121,7 +121,7 @@
     },
     {
       "@type": "Question",
-      "name": "J&K me real estate plot buying trading me shehron me kaunsi expressions variables prefer ki jaati hain?",
+      "name": "Jammu & Kashmir me real estate plot buying trading me shehron me kaunsi expressions variables prefer ki jaati hain?",
       "acceptedAnswer": {
         "@type": "Answer",
         "text": "Srinagar, Jammu, Anantnag aur Jammu Cantt jaise urban development zones property setups me registration paperwork transactions flat Square Feet, Marla aur Kanal matrix maps par chalte hain."
@@ -756,13 +756,20 @@
         const kanals = Math.floor(tempSqft / KANAL_SQFT);
         let remSqftForMarla = tempSqft % KANAL_SQFT;
         
-        const marlas = (remSqftForMarla / MARLA_SQFT).toFixed(2);
+        const marlas = Math.floor(remSqftForMarla / MARLA_SQFT);
+        let remSqftForSarsai = remSqftForMarla % MARLA_SQFT;
+        
+        const sarsai = Math.round(remSqftForSarsai / SARSAI_SQFT);
 
+        let formatString = "";
         if (currentLang === 'en') {
-            document.getElementById('bklText').innerText = kanals + " Kanal, " + marlas + " Marla";
+            formatString = kanals + " Kanal, " + marlas + " Marla";
+            if(sarsai > 0) formatString += ", " + sarsai + " Sarsai";
         } else {
-            document.getElementById('bklText').innerText = kanals + " کنال، " + marlas + " مرلہ";
+            formatString = kanals + " کنال، " + marlas + " مرلہ";
+            if(sarsai > 0) formatString += "، " + sarsai + " سرسائی";
         }
+        document.getElementById('bklText').innerText = formatString;
 
         document.getElementById('resSqft').innerText = Math.round(sqft).toLocaleString('en-IN') + " Sq Ft";
         document.getElementById('resSqmt').innerText = Math.round(sqmt).toLocaleString('en-IN') + " Sq M";
