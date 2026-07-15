@@ -724,19 +724,27 @@
 
         renderFAQs();
         if(document.getElementById('resPanel').style.display === "block") {
-            calculateLadakhLand();
+            calculateLadakhLand(true);
         }
     }
 
-    function calculateLadakhLand() {
-        const length = parseFloat(document.getElementById('length').value);
-        const width = parseFloat(document.getElementById('width').value);
+    function calculateLadakhLand(bypassValidation = false) {
+        const lengthVal = document.getElementById('length').value;
+        const widthVal = document.getElementById('width').value;
+        const length = parseFloat(lengthVal);
+        const width = parseFloat(widthVal);
         const unit = document.getElementById('unitType').value;
         const resPanel = document.getElementById('resPanel');
 
-        if (!length || length <= 0 || !width || width <= 0) {
-            alert(currentLang === 'en' ? "Please enter both valid length and width!" : "请输入有效的长度和宽度！");
-            return;
+        if (!bypassValidation) {
+            if (lengthVal === "" || widthVal === "" || isNaN(length) || isNaN(width) || length <= 0 || width <= 0) {
+                alert(currentLang === 'en' ? "Please enter both valid length and width!" : "请输入有效的长度和宽度！");
+                return;
+            }
+        } else {
+            if (isNaN(length) || isNaN(width) || length <= 0 || width <= 0) {
+                return;
+            }
         }
 
         let sqft = 0;
@@ -745,7 +753,6 @@
         } else if (unit === "mt") {
             sqft = (length * width) * 10.7639104;
         } else if (unit === "kr") {
-            // 1 Karam = 5.5 feet. Area in sqft = (Karam * 5.5) * (Karam * 5.5)
             sqft = (length * 5.5) * (width * 5.5);
         }
 
