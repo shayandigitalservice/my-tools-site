@@ -670,11 +670,12 @@
         let validTrianglesCount = 0;
 
         for(let i=0; i<aList.length; i++) {
-            let a = parseFloat(aList[i].value) || 0;
-            let b = parseFloat(bList[i].value) || 0;
-            let c = parseFloat(cList[i].value) || 0;
+            let a = parseFloat(aList[i].value);
+            let b = parseFloat(bList[i].value);
+            let c = parseFloat(cList[i].value);
 
-            if(a > 0 || b > 0 || c > 0) {
+            if(!isNaN(a) || !isNaN(b) || !isNaN(c)) {
+                a = a || 0; b = b || 0; c = c || 0;
                 if ((a + b > c) && (a + c > b) && (b + c > a)) {
                     let s = (a + b + c) / 2;
                     let area = Math.sqrt(s * (s - a) * (s - b) * (s - c));
@@ -698,7 +699,6 @@
             return; 
         }
 
-        // Calculations & UI assignment based on Arunachal Pradesh Standards (1 Acre = 3.025 Bigha, 1 Bigha = 14400 Sq Ft)
         document.getElementById('outSq').innerText = Math.round(totalSqFt).toLocaleString('en-IN') + " sq ft";
         document.getElementById('outMt').innerText = (totalSqFt / 10.7639104).toLocaleString('en-IN', {maximumFractionDigits: 2}) + " sq m";
         document.getElementById('outHe').innerText = (totalSqFt / 107639.104).toFixed(4) + " Ha";
@@ -728,7 +728,7 @@
 
     function printLandReport() {
         const aList = document.querySelectorAll('.side-a');
-        if(aList.length === 0 || parseFloat(aList[0].value) <= 0) { 
+        if(aList.length === 0 || parseFloat(aList[0].value) <= 0 || isNaN(parseFloat(aList[0].value))) { 
             alert("Calculate dimensions first before printing!"); 
             return; 
         }
