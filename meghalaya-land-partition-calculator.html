@@ -241,10 +241,10 @@
         #resultsList { display: flex; flex-direction: column; gap: 20px; }
         .partner-result-card { background: rgba(255,255,255,0.04); border-left: 6px solid var(--meg-gold); padding: 20px; border-radius: 14px; border-top: 1px solid rgba(255,255,255,0.05); }
         .partner-result-card h4 { margin: 0 0 10px 0; font-size: 18px; color: #4ade80; display: flex; justify-content: space-between; }
-        .p-res-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 10px; }
+        .p-res-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; margin-bottom: 10px; }
         .p-res-box { background: rgba(0,0,0,0.3); padding: 10px; border-radius: 8px; text-align: center; border: 1px solid rgba(255,255,255,0.05); }
         .p-res-box small { display: block; font-size: 11px; color: #94a3b8; text-transform: uppercase; margin-bottom: 3px; }
-        .p-res-box span { font-weight: 700; font-size: 16px; color: #fff; }
+        .p-res-box span { font-weight: 700; font-size: 15px; color: #fff; }
         .p-meta-info { font-size: 12px; color: #94a3b8; display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; border-top: 1px solid rgba(255,255,255,0.05); padding-top: 10px; margin-top: 5px; }
 
         /* Print Architecture System */
@@ -307,13 +307,15 @@
         .lang-section { display: none; }
         .lang-section.active-lang { display: block; }
 
+        .back-btn { text-align:center; margin-top: 20px; }
+
         @media (max-width: 600px) {
             header { padding: 30px 15px; border-radius: 15px; }
             header h1 { font-size: 24px; }
             header p { font-size: 14px; }
             .grid-3 { grid-template-columns: 1fr; gap: 12px; }
             .partner-row { grid-template-columns: 1fr; gap: 10px; }
-            .p-res-grid { grid-template-columns: repeat(3, 1fr); }
+            .p-res-grid { grid-template-columns: 1fr; }
             .btn { width: 100%; padding: 14px; font-size: 14px; }
             .u-btn { width: 100%; }
             .seo-article h2 { font-size: 24px !important; }
@@ -322,7 +324,8 @@
             .gov-portal-links { flex-direction: column; gap: 10px; }
             .gov-link-node { width: 100%; justify-content: center; }
         }
-/* STYLISH INTERNAL LINKS DASHBOARD GRID */
+
+        /* STYLISH INTERNAL LINKS DASHBOARD GRID */
         .sst-dashboard-grid {
             display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; margin: 40px 0; width: 100%; box-sizing: border-box;
         }
@@ -347,14 +350,22 @@
             .sst-dashboard-grid { grid-template-columns: 1fr; gap: 12px; }
             .sst-dash-btn { padding: 15px 18px; }
         }
-        /* Print Media Layout Engine */
+
+        /* Print Media Layout Engine - CLEAN SHEET AND REDACT EVERYTHING ELSE */
         @media print {
             html, body { height: auto; overflow: visible; background: #ffffff !important; padding: 0 !important; margin: 0 !important; }
             * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; color: #000000 !important; }
             @page { margin: 10mm 10mm; size: A4 portrait; }
-            .tool-wrapper, .btn-box, .portal-links-wrapper, .util-btns, .seo-article, .back-btn, .section-fieldset, .lang-switcher, .footer-copyright-box { display: none !important; }
             
-            .res-panel { 
+            /* Hiding everything completely except the result sheets */
+            body > *:not(#resPanel), 
+            .tool-wrapper, .btn-box, .portal-links-wrapper, .util-btns, 
+            .seo-article, .back-btn, .section-fieldset, .lang-switcher, 
+            .footer-copyright-box, .sst-dashboard-grid { 
+                display: none !important; 
+            }
+            
+            #resPanel { 
                 display: block !important; 
                 background: #ffffff !important; 
                 padding: 30px 20px !important; 
@@ -367,10 +378,10 @@
             .res-panel h3 { color: #006666 !important; border-bottom: 2px solid #006666 !important; font-weight: bold; }
             .partner-result-card { background: transparent !important; border: 1px solid #cbd5e1 !important; border-left: 6px solid #006666 !important; color: #000000 !important; margin-bottom: 15px; page-break-inside: avoid; }
             .partner-result-card h4 { color: #006666 !important; }
-            .p-res-box { background: transparent !important; border: 1px solid #cbd5e1 !important; }
-            .p-res-box span { color: #000000 !important; }
-            .p-res-box small { color: #475569 !important; }
-            .p-res-box span { color: #000000 !important; }
+            .p-res-grid { display: grid !important; grid-template-columns: repeat(5, 1fr) !important; gap: 5px !important; }
+            .p-res-box { background: transparent !important; border: 1px solid #cbd5e1 !important; padding: 5px !important; }
+            .p-res-box span { color: #000000 !important; font-size: 14px !important; }
+            .p-res-box small { color: #475569 !important; font-size: 9px !important; }
             .p-meta-info span { color: #475569 !important; }
             
             .print-only-section { display: block !important; }
@@ -522,7 +533,7 @@
     </div>
 </div>
 
-<div class="back-btn" style="text-align:center; margin-top: 20px;"><a href="index.html" id="lnkBack" style="color:var(--meg-teal); font-weight:bold; text-decoration:none;">⬅ Back to All Tools Dashboard</a></div>
+<div class="back-btn"><a href="index.html" id="lnkBack" style="color:var(--meg-teal); font-weight:bold; text-decoration:none;">⬅ Back to All Tools Dashboard</a></div>
 
 <article id="content-en" class="seo-article lang-section active-lang">
     <div class="seo-header-block">
@@ -646,7 +657,7 @@
             <li><b>कुल भूमि का विवरण दर्ज करें:</b> जिस जमीन का बंटवारा करना है, उसकी कुल माप <b>Acre</b>, <b>Bigha</b>, और <b>Square Feet</b> के खानों में भरें। यदि जमीन एकड़ में नहीं है, तो वहां शून्य (0) लिखकर बीघा या वर्ग फुट डालें।</li>
             <li><b>विभाजन का तरीका चुनें:</b> आप जमीन को प्रतिशत के आधार पर बांटना चाहते हैं (Percentage Mode) या अनुपात के आधार पर (Ratio Mode), इसका चयन ड्रॉप-डाउन मेनू से करें। उदाहरण के लिए, 2:1:1 के अनुपात में भी विभाजन संभव है।</li>
             <li><b>हिस्सेदारों के नाम और भाग दर्ज करें:</b> सभी हिस्सेदारों के नाम और उनका निर्धारित हिस्सा संख्या दर्ज करें। यदि हिस्सेदार दो से अधिक हैं, तो <b>"+ Add Shareholder"</b> बटन पर क्लिक कर नए कॉलम जोड़ें।</li>
-            <li><b>परिणाम प्राप्त करें:</b> संपूर्ण विवरण भरने के बाद <b>"Compute Partition Records"</b> बटन पर क्लिक करें। हमारा सिस्टम तुरंत कुल माप को स्क्वायर फीट में बदलते हुए प्रत्येक व्यक्ति का सटीक हिस्सा एकड़-बीघा-वर्गफुट में प्रदर्शित कर देगा।</li>
+            <li><b>परिणाम प्राप्त करें:</b> संपूर्ण विवरण भरने के बाद <b>"Compute Partition Records"</b> बटन पर क्लिक करें। हमारे सिस्टम तुरंत कुल माप को स्क्वायर फीट में बदलते हुए प्रत्येक व्यक्ति का सटीक हिस्सा एकड़-बीघा-वर्गफुट में प्रदर्शित कर देगा।</li>
         </ol>
     </section>
 
@@ -720,25 +731,27 @@
         <div class="faq-block"><p><b>प्रश्न 10. क्या इस कैलकुलेटर के परिणाम को न्यायालय की डिक्री माना जा सकता है?</b><br>उत्तर: नहीं, यह टूल केवल आपकी सुविधा और योजना बनाने के लिए है। आधिकारिक कानूनी बंटवारे के लिए परिषद या राजस्व अधिकारियों के हस्ताक्षर युक्त दस्तावेज ही मान्य होते हैं।</p></div>
     </div>
 </article>
+
 <h3>Related Tools & Internal Links</h3>
-        <div class="sst-dashboard-grid">
-            <a class="sst-dash-btn" href="index.html">
-                <div class="sst-dash-icon">🏠</div>
-                <span class="sst-dash-title">Dashboard Home</span>
-            </a>
-            <a class="sst-dash-btn" href="chhattisgarh-land-partition-calculator.html">
-                <div class="sst-dash-icon">🌾</div>
-                <span class="sst-dash-title">CG Land Partition Calc</span>
-            </a>
-            <a class="sst-dash-btn" href="gujarat-vigha-to-sqft-calculator.html">
-                <div class="sst-dash-icon">🔄</div>
-                <span class="sst-dash-title">GJ Vigha Converter</span>
-            </a>
-            <a class="sst-dash-btn" href="maharashtra-land-unit-converter.html">
-                <div class="sst-dash-icon">📐</div>
-                <span class="sst-dash-title">MH Unit Converter</span>
-            </a>
-        </div>
+<div class="sst-dashboard-grid">
+    <a class="sst-dash-btn" href="index.html">
+        <div class="sst-dash-icon">🏠</div>
+        <span class="sst-dash-title">Dashboard Home</span>
+    </a>
+    <a class="sst-dash-btn" href="chhattisgarh-land-partition-calculator.html">
+        <div class="sst-dash-icon">🌾</div>
+        <span class="sst-dash-title">CG Land Partition Calc</span>
+    </a>
+    <a class="sst-dash-btn" href="gujarat-vigha-to-sqft-calculator.html">
+        <div class="sst-dash-icon">🔄</div>
+        <span class="sst-dash-title">GJ Vigha Converter</span>
+    </a>
+    <a class="sst-dash-btn" href="maharashtra-land-unit-converter.html">
+        <div class="sst-dash-icon">📐</div>
+        <span class="sst-dash-title">MH Unit Converter</span>
+    </a>
+</div>
+
 <div class="footer-copyright-box">
     <div class="footer-law-accent">Statutory Software IP Security Core</div>
     <p><b>Copyright Protection Notice:</b> Shayan Smart Tools Processing Infrastructure, Meghalaya Localization Schemas, and Engine Core © 2026. All rights reserved.</p>
@@ -824,7 +837,6 @@
         document.getElementById('lblAuthSigLeft').innerText = textDictionary[lang].authSig;
         document.getElementById('lblAuthSigRight').innerText = textDictionary[lang].authSig;
 
-        // Sync inline field headers
         document.getElementById('lblTotalLandHeading').innerText = lang === 'en' ? "Total Land Area to Partition" : "विभाजित की जाने वाली कुल भूमि";
         document.getElementById('lblInputBigha').innerText = lang === 'en' ? "Acre (एकड़)" : "एकड़";
         document.getElementById('lblInputKatha').innerText = lang === 'en' ? "Bigha (बीघा)" : "बीघा";
@@ -832,7 +844,6 @@
         document.getElementById('lblPartitionBasis').innerText = lang === 'en' ? "Partition Allocation Mode" : "भूमि आवंटन की पद्धति";
         document.getElementById('lblShareholdersHeading').innerText = lang === 'en' ? "Partners / Shareholders Allocation Records" : "साझेदारों या हिस्सेदारों की सूची";
 
-        // Handle placeholder mutations safely
         document.querySelectorAll('.partner-row').forEach(row => {
             const nameInput = row.querySelector('.p-name');
             if(nameInput && nameInput.value.startsWith('Partner ')) {
@@ -875,7 +886,7 @@
         const bigha = parseFloat(document.getElementById('totalBigha').value) || 0;
         const sqftInput = parseFloat(document.getElementById('totalSqft').value) || 0;
 
-        // 1 Acre = 43,560 Sq Ft, 1 Bigha = 14,400 Sq Ft (Meghalaya Parameters)
+        // Base Equation Matrices
         const aggregatePoolSqft = (acre * 43560) + (bigha * 14400) + sqftInput;
 
         if(aggregatePoolSqft <= 0) {
@@ -918,7 +929,10 @@
 
         shareholderArray.forEach(partner => {
             let individualSqftAllocation = aggregatePoolSqft * (partner.targetValue / runningInputValueSum);
+            
+            // Core Unit conversions (Meghalaya Metrics)
             let individualHectareAllocation = individualSqftAllocation / 107639;
+            let individualSqMeterAllocation = individualSqftAllocation / 10.7639;
 
             let workingRemainder = individualSqftAllocation;
 
@@ -927,6 +941,9 @@
 
             let outBigha = Math.floor(workingRemainder / 14400);
             workingRemainder %= 14400;
+
+            let outKatha = Math.floor(workingRemainder / 2880);
+            workingRemainder %= 2880;
 
             let outSqft = workingRemainder.toFixed(2);
 
@@ -937,13 +954,15 @@
             card.innerHTML = `
                 <h4><span>👤 ${partner.partnerName}</span> <span style="font-size:13px; background:var(--meg-gold); color:#000; padding:2px 10px; border-radius:30px; font-weight:800;">${displayBadge}</span></h4>
                 <div class="p-res-grid">
+                    <div class="p-res-box"><small>Ha (हेक्टेयर)</small><span>${individualHectareAllocation.toFixed(4)}</span></div>
                     <div class="p-res-box"><small>Acre (एकड़)</small><span>${outAcre}</span></div>
                     <div class="p-res-box"><small>Bigha (बीघा)</small><span>${outBigha}</span></div>
-                    <div class="p-res-box"><small>Sq. Ft. (वर्ग फुट)</small><span>${outSqft}</span></div>
+                    <div class="p-res-box"><small>Katha (कट्ठा)</small><span>${outKatha}</span></div>
+                    <div class="p-res-box"><small>Sq. Ft. (वर्ग फुट)</small><span>${Math.round(outSqft)}</span></div>
                 </div>
                 <div class="p-meta-info">
-                    <div><span>Square Feet:</span> <b>${Math.round(individualSqftAllocation).toLocaleString('en-IN')} sq ft</b></div>
-                    <div style="text-align:right;"><span>Hectares:</span> <b>${individualHectareAllocation.toFixed(4)} Ha</b></div>
+                    <div><span>Square Metre:</span> <b>${Math.round(individualSqMeterAllocation).toLocaleString('en-IN')} m²</b></div>
+                    <div style="text-align:right;"><span>Total Sq. Feet:</span> <b>${Math.round(individualSqftAllocation).toLocaleString('en-IN')} sq ft</b></div>
                 </div>
             `;
             targetContainer.appendChild(card);
@@ -989,8 +1008,8 @@
         cards.forEach(card => {
             let name = card.querySelector('h4 span').innerText;
             let vals = card.querySelectorAll('.p-res-box span');
-            let sqft = card.querySelector('.p-meta-info b').innerText;
-            textOutput += name + " Allocation: " + vals[0].innerText + " Acre, " + vals[1].innerText + " Bigha, " + vals[2].innerText + " Sq. Ft. (" + sqft + ")\n";
+            let sqft = card.querySelectorAll('.p-meta-info b')[1].innerText;
+            textOutput += name + " Allocation: " + vals[0].innerText + " Ha, " + vals[1].innerText + " Acre, " + vals[2].innerText + " Bigha, " + vals[3].innerText + " Katha, " + vals[4].innerText + " Sq. Ft. (" + sqft + ")\n";
         });
         
         textOutput += "\nProcessed accurately via Shayan Smart Tools Engine Framework.";
@@ -999,7 +1018,7 @@
     }
 
     function dispatchWhatsAppShare() {
-        let summaryLine = "Meghalaya Property Partition Breakdown. Pool split accurately into individual Acre-Bigha-Sqft allocations via Shayan Smart Tools.";
+        let summaryLine = "Meghalaya Property Partition Breakdown. Pool split accurately into individual Multi-Unit allocations via Shayan Smart Tools.";
         window.open("https://wa.me/?text=" + encodeURIComponent(summaryLine));
     }
 
