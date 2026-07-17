@@ -397,7 +397,7 @@
             .bkl-special { background: #e4f2ee !important; border: 1px dashed #0f4c3a !important; color: #000000 !important; padding: 20px; border-radius: 15px; text-align: center; margin-bottom: 20px; }
             .res-grid { display: block !important; margin-top: 15px; }
             .res-item { background: transparent !important; border: none !important; border-bottom: 1px solid #cbd5e1 !important; padding: 12px 4px !important; display: flex !important; justify-content: space-between !important; flex-direction: row !important; }
-            .res-item span { color: #1e293b !important; font-size: 13px !important; font-weight: 600; text-transform: uppercase; }
+            .res-item span { color: #0f172a !important; font-size: 13px !important; font-weight: 600; text-transform: uppercase; }
             .res-item b { color: #0f4c3a !important; font-size: 15px !important; font-weight: bold; font-family: monospace; }
             .print-verification-zone { display: flex !important; justify-content: space-between; align-items: flex-end; margin-top: 40px; padding: 0 10px; }
             .scanner-box { text-align: left; width: 160px; }
@@ -515,6 +515,17 @@
         </section>
 
         <section>
+            <h3 id="h3_3">3. Mathematical Logic: Heron's Formula Triangulation Model</h3>
+            <p id="p_4">
+                The triangulation blueprint structure decomposes the irregular quadrilateral configuration into two separate component geometry blocks. By recording the structural dynamic pivot line E, we can calculate each spatial segment using the classical Heron equations system layout:
+            </p>
+            <p id="p_5" style="font-family: monospace; background: #e2e8f0; padding: 12px; border-radius: 8px; text-align: center; font-weight: bold;">
+                s = (Side X + Side Y + Side Z) / 2 <br>
+                Area = √[s × (s - Side X) × (s - Side Y) × (s - Side Z)]
+            </p>
+        </section>
+
+        <section>
             <h3 id="h3_4">4. Practical Calculation Example Breakdown</h3>
             <p id="p_6">
                 Consider an on-field irregular property segment located in Shillong featuring these outer matrix readouts: 
@@ -525,7 +536,7 @@
                 <br>• <strong>Triangle 1 (Sides 120, 150, 200):</strong> Semi-perimeter ($s_1$) = 235 ft. Calculated Area 1 = 8,966.17 sq ft.
                 <br>• <strong>Triangle 2 (Sides 110, 140, 200):</strong> Semi-perimeter ($s_2$) = 225 ft. Calculated Area 2 = 7,680.12 sq ft.
                 <br>• <strong>Combined Matrix Sum:</strong> 8,966.17 + 7,680.12 = 16,646.29 total square feet. 
-                <br>This maps out directly to exactly <strong>1.15 Bigha</strong>, <strong>23.11 Katha</strong>, or <strong>0.3821 Acres</strong> of verified land area.
+                <br>This maps out directly to exactly <strong>1 Bigha, 3 Katha, 86 Sq Ft</strong> of verified land area.
             </p>
         </section>
 
@@ -840,7 +851,7 @@
         var bigha = document.getElementById('outCent').innerText || "0";
         var katha = document.getElementById('outMarla').innerText || "0";
         var sqft = document.getElementById('outAres').innerText || "0";
-        if(bigha !== "0"){
+        if(bigha !== "0" || katha !== "0" || sqft !== "0"){
             document.getElementById('bklText').innerText = bigha + " Bigha, " + katha + " Katha, " + sqft + " Sq Ft";
         }
     }
@@ -873,21 +884,24 @@
         var totalSqm = totalSqFt / 10.7639104;
         var totalHec = totalSqFt / 107639.104;
 
-        // Meghalaya Alignment Standard: 1 Bigha = 14400 Sq Ft, 1 Katha = 720 Sq Ft
-        var bigha = (totalSqFt / 14400).toFixed(2);
-        var katha = (totalSqFt / 720).toFixed(2);
+        // Meghalaya Precise Unit Breakdown: 1 Bigha = 14400 Sq Ft, 1 Katha = 720 Sq Ft
+        var calculatedBigha = Math.floor(totalSqFt / 14400);
+        var remainingSqFtAfterBigha = totalSqFt % 14400;
+        var calculatedKatha = Math.floor(remainingSqFtAfterBigha / 720);
+        var finalRemainingSqFt = Math.round(remainingSqFtAfterBigha % 720);
+
         var sqftDisplay = Math.round(totalSqFt).toLocaleString('en-IN');
         var netAcre = (totalSqFt / 43560).toFixed(4);
 
-        document.getElementById('outCent').innerText = bigha;
-        document.getElementById('outMarla').innerText = katha;
-        document.getElementById('outAres').innerText = sqftDisplay;
+        document.getElementById('outCent').innerText = calculatedBigha;
+        document.getElementById('outMarla').innerText = calculatedKatha;
+        document.getElementById('outAres').innerText = finalRemainingSqFt;
         document.getElementById('outSq').innerText = sqftDisplay + " sq ft";
         document.getElementById('outSqm').innerText = Math.round(totalSqm).toLocaleString('en-IN') + " sq m";
         document.getElementById('outNetAc').innerText = netAcre + " acres";
         document.getElementById('outHec').innerText = totalHec.toFixed(4);
 
-        document.getElementById('pb_main').innerText = bigha + " Bigha, " + katha + " Katha, " + sqftDisplay + " Sq Ft";
+        document.getElementById('pb_main').innerText = calculatedBigha + " Bigha, " + calculatedKatha + " Katha, " + finalRemainingSqFt + " Sq Ft";
 
         var inputString = "A:" + a + " B:" + b + " C:" + c + " D:" + d + " Diag:" + diag;
         document.getElementById('rInputVal').innerText = inputString;
@@ -895,11 +909,11 @@
         document.getElementById('rInputValPrint').innerText = inputString;
         document.getElementById('resSqft').innerText = sqftDisplay + " Sq.Ft";
         document.getElementById('resSqmt').innerText = Math.round(totalSqm).toLocaleString('en-IN') + " Sq.Mt";
-        document.getElementById('resDecimal').innerText = bigha + " Bigha";
+        document.getElementById('resDecimal').innerText = calculatedBigha + " Bigha";
         document.getElementById('resAcre').innerText = netAcre + " Acres";
         document.getElementById('resHectare').innerText = totalHec.toFixed(4) + " Ha";
-        document.getElementById('resGuntha').innerText = katha + " Katha";
-        document.getElementById('resBiswa').innerText = sqftDisplay + " Sq Ft";
+        document.getElementById('resGuntha').innerText = calculatedKatha + " Katha";
+        document.getElementById('resBiswa').innerText = finalRemainingSqFt + " Sq Ft";
 
         updatePrintSummaryText();
 
