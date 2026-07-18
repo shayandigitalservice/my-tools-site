@@ -293,21 +293,7 @@
         .lang-section { display: none; }
         .lang-section.active-lang { display: block; }
 
-        @media (max-width: 600px) {
-            header { padding: 30px 15px; border-radius: 15px; }
-            header h1 { font-size: 24px; }
-            header p { font-size: 14px; }
-            .plot-container { padding: 20px 15px; }
-            .input-grid { grid-template-columns: 1fr; gap: 15px; } 
-            .result-grid { grid-template-columns: 1fr; gap: 12px; }
-            .res-panel { padding: 20px; border-radius: 15px; }
-            .btn { width: 100%; padding: 14px; font-size: 14px; }
-            .u-btn { width: 100%; }
-            .seo-article h2 { font-size: 24px !important; }
-            .seo-article h3 { font-size: 18px; }
-            .lang-btn { flex: 1; padding: 10px 15px; font-size: 15px; min-width: auto; }
-        }
-/* STYLISH INTERNAL LINKS DASHBOARD GRID */
+        /* STYLISH INTERNAL LINKS DASHBOARD GRID */
         .sst-dashboard-grid {
             display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; margin: 40px 0; width: 100%; box-sizing: border-box;
         }
@@ -324,20 +310,31 @@
         .sst-dash-btn:hover .sst-dash-icon { transform: scale(1.1) rotate(5deg); background: #005a9c; color: #fff; }
 
         @media (max-width: 600px) {
-            .input-grid { flex-direction: column; align-items: stretch; gap: 10px; max-width: 100%; }
-            .res-grid { grid-template-columns: 1fr; }
-            .btn-convert, .res-panel, .govt-portal-section { max-width: 100%; }
+            header { padding: 30px 15px; border-radius: 15px; }
+            header h1 { font-size: 24px; }
+            header p { font-size: 14px; }
+            .plot-container { padding: 20px 15px; }
+            .input-grid { grid-template-columns: 1fr; gap: 15px; } 
+            .result-grid { grid-template-columns: 1fr; gap: 12px; }
+            .res-panel { padding: 20px; border-radius: 15px; max-width: 100%; }
+            .btn { width: 100%; padding: 14px; font-size: 14px; }
+            .u-btn { width: 100%; }
             .seo-article { padding: 10px 0; }
             .seo-article h2 { font-size: 22px !important; }
+            .seo-article h3 { font-size: 18px; }
+            .lang-btn { flex: 1; padding: 10px 15px; font-size: 15px; min-width: auto; }
             .sst-dashboard-grid { grid-template-columns: 1fr; gap: 12px; }
             .sst-dash-btn { padding: 15px 18px; }
-            }
-        /* Print layouts */
+        }
+        
+        /* STABILIZED CLEAN PRINT MEDIA QUERIES - REMOVED INTERNAL LINKS AND WIDGET EXTRA ARTIFACTS */
         @media print {
             html, body { height: auto; overflow: visible; background: #ffffff !important; padding: 0 !important; margin: 0 !important; }
             * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; color: #000000 !important; }
             @page { margin: 10mm 10mm; size: A4 portrait; }
-            .tool-wrapper, .btn-box, .util-btns, #resHead, .seo-article, .back-btn, .plot-container, .lang-switcher, .footer-copyright-box { display: none !important; }
+            
+            /* Strict Hiding of Interactive UI elements, Links, Dashboard, Images, and Articles */
+            .tool-wrapper, .btn-box, .util-btns, #resHead, .seo-article, .back-btn, .lang-switcher, .footer-copyright-box, .sst-dashboard-grid, h3, .content-image { display: none !important; opacity: 0 !important; visibility: hidden !important; height: 0 !important; margin: 0 !important; padding: 0 !important; }
             
             .res-panel { 
                 display: block !important; 
@@ -345,7 +342,7 @@
                 padding: 30px 20px !important; 
                 margin: 0 !important; 
                 width: 100% !important; 
-                border: 5px double #005a9c !important; 
+                border: 3px solid #005a9c !important; 
                 border-radius: 0px !important; 
                 box-shadow: none !important; 
             }
@@ -357,8 +354,8 @@
             .res-item b { color: #005a9c !important; font-size: 16px !important; font-weight: 800 !important; }
             .print-footer-block { display: block !important; margin-top: 40px; border-top: 2px dashed #005a9c !important; padding-top: 20px; }
             .print-footer-container { display: table !important; width: 100% !important; }
-            .print-footer-left { display: table-cell !important; width: 65% !important; text-align: left !important; }
-            .print-footer-right { display: table-cell !important; width: 35% !important; text-align: right !important; }
+            .print-footer-left { display: table-cell !important; width: 65% !important; text-align: left !important; vertical-align: top !important; }
+            .print-footer-right { display: table-cell !important; width: 35% !important; text-align: right !important; vertical-align: top !important; }
         }
     </style>
 </head>
@@ -416,13 +413,13 @@
     </div>
 
     <div class="print-only-section">
-        <h4 style="color:#005a9c; margin: 15px 0 5px 0; font-size: 14px; text-transform: uppercase; border-bottom: 1px solid #cbd5e1; padding-bottom: 4px;" id="printInputsTitle">Entered Plot Dimensions (दर्ज किए गए प्लॉट विवरण)</h4>
+        <h4 style="color:#005a9c; margin: 15px 0 5px 0; font-size: 14px; text-transform: uppercase; border-bottom: 1px solid #cbd5e1; padding-bottom: 4px;" id="printInputsTitle">Entered Plot Dimensions</h4>
         <table class="print-table">
             <thead>
                 <tr>
-                    <th id="thPlotNo">Plot No / क्र.</th>
-                    <th id="thAcre">Acre / एकड़</th>
-                    <th id="thDecimal">Decimal / डिस्मिल</th>
+                    <th id="thPlotNo">Plot No</th>
+                    <th id="thAcre">Acre</th>
+                    <th id="thDecimal">Decimal</th>
                 </tr>
             </thead>
             <tbody id="print-plots-summary"></tbody>
@@ -471,12 +468,13 @@
         <h2>Nagaland Land Area Addition: Highly Accurate Acre-Decimal Sum Engine</h2>
         <p>Calculate, combine, and aggregate multiple agricultural or residential plots using official Nagaland land framework metrics with automatic base-100 carry forward logic.</p>
     </div>
-<img src="nagaland1.webp" class="content-image" loading="lazy" alt="Shayan Smart Tools">
+    <img src="nagaland1.webp" class="content-image" loading="lazy" alt="Shayan Smart Tools">
 
     <section>
         <h3>1. Powerful Introduction to Nagaland Land Measurement System</h3>
         <p>Managing agricultural, commercial, and residential properties in Nagaland requires deep alignment with state land records rules. While the official administration logs data digitally using <b>Acre and Decimal</b>, local transactions still widely apply traditional regional units like <b>Bigha and Katha</b> depending on the specific administrative division. Whether you are dealing with plots in the Kohima, Dimapur, Mokokchung, Tuensang, or Wokha divisions, discrepancies in mathematical interpretation can create large discrepancies in legal records.</p>
         <p>When you attempt to combine multiple property fragments from different land holdings, standard mobile calculators fall short because land math involves complex custom frameworks. Our smart <b>Nagaland Jaminichi Beriz Tool</b> resolves this mathematical complexity instantly, preventing rounding errors and providing a complete output breakdown into Acre, Decimal, Bigha, Katha, Square Feet, and Square Meters. This tool provides land surveyors (Amins), buyers, realtors, and legal professionals with clean data processing algorithms tailored specifically to Nagaland State Revenue Standards.</p>
+        <p>When you attempt to combine multiple property fragments from different land holdings, standard mobile calculators fall short because land math involves complex custom frameworks. Our smart Nagaland Jaminichi Beriz Tool resolves this mathematical complexity instantly, preventing rounding errors and providing a complete output breakdown into Acre, Decimal, Bigha, Katha, Square Feet, and Square Meters. This tool provides land surveyors (Amins), buyers, realtors, and legal professionals with clean data processing algorithms tailored specifically to Nagaland State Revenue Standards.</p>
     </section>
 
     <section>
@@ -491,7 +489,7 @@
     </section>
 
     <section>
-        <h3>3. Real-World Practical Example (Base-100 Carry制 Arithmetic)</h3>
+        <h3>3. Real-World Practical Example (Base-100 Carry Arithmetic)</h3>
         <p>Let's understand how our automated software engine handles standard revenue calculations on the backend. Suppose you have two distinct land parcels under a single ownership tract that need to be aggregated for a mutation deed:</p>
         <ul>
             <li><b>Property Fragment 1:</b> 1 Acre and 65 Decimal</li>
@@ -514,8 +512,6 @@
 
     <h3>5. Comprehensive Conversion Reference Matrix Table</h3>
     <table>
-        <img src="nagaland2.webp" class="content-image" loading="lazy" alt="Shayan Smart Tools">
-
         <thead>
             <tr>
                 <th>Land Unit Type</th>
@@ -531,6 +527,7 @@
             <tr><td><b>1 Katha (कट्ठा)</b></td><td>1/20th part of Bigha / 2 Decimal</td><td>871.2 Sq Ft</td><td>80.93 Sq M</td></tr>
         </tbody>
     </table>
+    <img src="nagaland2.webp" class="content-image" loading="lazy" alt="Shayan Smart Tools">
 
     <h3>6. 15 Frequently Asked Questions (Top Google Search Queries)</h3>
     <div id="faq-container-en">
@@ -551,6 +548,7 @@
         <div class="faq-block"><p><b>Q15. Can I use this report printout for official court registries?</b><br>Ans: This report serves as an explicit reference ledger for calculation verification. For official deeds or registries, cross-verify results with your local district authority.</p></div>
     </div>
 </article>
+
 <img src="nagaland3.webp" class="content-image" loading="lazy" alt="Shayan Smart Tools">
 
 <article id="content-hi" class="seo-article lang-section">
@@ -561,7 +559,7 @@
 
     <section>
         <h3>१. विस्तृत प्रस्तावना: नागालैंड भूमि मापन प्रणाली</h3>
-        <p>नागालैंड राज्य में कृषि, व्यावसायिक या आवासीय भूमि के प्रबंधन, खरीद-बिक्री और राजस्व कार्यों के लिए सटीक जमीन की पैमाइश का होना अनिवार्य है। नागालैंड के सरकारी रिकॉर्ड पर जमीन की मुख्य प्रविष्टि <b>एकड़ और डिस्मिल</b> में की जाती है, जबकि स्थानीय क्षेत्रों में <b>बिघा और कट्ठा</b> का प्रयोग व्यापक रूप से होता है। कोहिमा, दीमापुर, मोकोकचुंग, तुएनसांग और वोखा जैसे अलग-अलग क्षेत्रों में जमीन नापने के पारंपरिक पैमानों में थोड़ा अंतर देखने को मिलता है, जिससे आम जनता और जमीन खरीदारों में अक्सर भ्रम पैदा हो जाता है।</p>
+        <p>नागालैंड राज्य में कृषि, व्यावसायिक या आवासीय भूमि के प्रबंधन, खरीद-बिक्री and राजस्व कार्यों के लिए सटीक जमीन की पैमाइश का होना अनिवार्य है। नागालैंड के सरकारी रिकॉर्ड पर जमीन की मुख्य प्रविष्टि <b>एकड़ और डिस्मिल</b> में की जाती है, जबकि स्थानीय क्षेत्रों में <b>बिघा और कट्ठा</b> का प्रयोग व्यापक रूप से होता है। कोहिमा, दीमापुर, मोकोकचुंग, तुएनसांग और वोखा जैसे अलग-अलग क्षेत्रों में जमीन नापने के पारंपरिक पैमानों में थोड़ा अंतर देखने को मिलता है, जिससे आम जनता और जमीन खरीदारों में अक्सर भ्रम पैदा हो जाता है।</p>
         <p>जब आप अलग-अलग खाता, प्लॉट या भूमि के टुकड़ों को आपस में जोड़ते हैं, तो साधारण दशमलव कैलकुलेटर फेल हो जाते हैं क्योंकि भूमि मापन 100-डिस्मिल के विशेष ओव्हरफ्लो पर काम करता है। Shayan Smart Tools का यह विशेष कैलकुलेटर इसी समस्या को तुरंत हल करता है और परिणाम को एकड़, डिस्मिल, बिघा, और कट्ठा में प्रदर्शित करता है। यह टूल विशेष रूप से नागालैंड के सर्वेक्षकों, जिला प्रशासन, रजिस्ट्री वकीलों और आम नागरिकों के लिए डिज़ाइन किया गया है ताकि वे बिना किसी त्रुटि के सटीक गणना कर सकें।</p>
     </section>
 
@@ -627,7 +625,7 @@
         <div class="faq-block"><p><b>प्रश्न ७. 1 डिस्मिल में कितने वर्ग मीटर होते हैं नागालैंड में?</b><br>उत्तर: भूमि राजस्व नियमों के तहत 1 डिस्मिल लगभग 40.46 वर्ग मीटर के समतुल्य होता है।</p></div>
         <div class="faq-block"><p><b>प्रश्न ८. नागालैंड में 1 कट्ठा में कितने डिस्मिल होते हैं?</b><br>उत्तर: चूंकि 40 डिस्मिल का 1 बिघा होता है, इसलिए 1 कट्ठा का मान सटीक 2 डिस्मिल (871.2 वर्ग फुट) होता है।</p></div>
         <div class="faq-block"><p><b>प्रश्न ९. 1 एकड़ में कितने बिघा होते हैं नागालैंड में?</b><br>उत्तर: आधिकारिक राजस्व मानकों के अनुसार, 1 एकड़ में कुल 2.5 बिघा जमीन होती है।</p></div>
-        <div class="faq-block"><p><b>प्रश्न १०. नागालैंड में भूमि रिकॉर्ड को नियंत्रित करने वाला मुख्य कोड कौन सा है?</b><br>उत्तर: यहाँ भूमि व्यवस्था मुख्य रूप से नागालैंड भूमि राजस्व प्रावधानों और स्थानीय प्रथागत कानूनों द्वारा नियंत्रित होती है।</p></div>
+        <div class="faq-block"><p><b>प्रश्न १०. नागालैंड में भूमि रिकॉर्ड को नियंत्रित करने वाला मुख्य कोड कौन सा है?</b><br>उत्तर: यहाँ भूमि व्यवस्था मुख्य रूप से नागालैंड भूमि राजस्व प्रावधानों और स्थानीय जनजातीय प्रथागत कानूनों द्वारा नियंत्रित होती है।</p></div>
         <div class="faq-block"><p><b>प्रश्न ११. क्या मैं एकड़ डाले बिना केवल डिस्मिल जोड़ सकता हूँ?</b><br>उत्तर: हाँ, आप एकड़ वाले कॉलम को खाली छोड़ सकते हैं और केवल डिस्मिल डालकर "Calculate" दबा सकते हैं, सिस्टम सही ढंग से काम करेगा।</p></div>
         <div class="faq-block"><p><b>प्रश्न १२. भूमि संदर्भ में "नामांतरण" का क्या अर्थ है?</b><br>उत्तर: नामांतरण का अर्थ है राजस्व अभिलेखों में पुराने भूस्वामी का नाम हटाकर नए क्रेता का नाम दर्ज करना।</p></div>
         <div class="faq-block"><p><b>प्रश्न १३. यह कैलकुलेटर वर्ग फुट की गणना कैसे करता है?</b><br>उत्तर: यह टूल सबसे पहले सभी एकड़ और डिस्मिल को कुल डिस्मिल में बदलता है और फिर उसे 435.6 से गुणा करता है।</p></div>
@@ -635,25 +633,27 @@
         <div class="faq-block"><p><b>प्रश्न १५. क्या इस कैलकुलेटर की प्रिंट रिपोर्ट अदालती कार्यों के लिए मान्य है?</b><br>उत्तर: यह टूल केवल आपकी गणितीय शुद्धता और संदर्भ (Reference) के लिए है। किसी भी कानूनी विवाद या सरकारी काम के लिए अपने संबंधित जिला कार्यालय से ही सत्यापन करवाएं।</p></div>
     </div>
 </article>
+
 <h3>Related Tools & Internal Links</h3>
-        <div class="sst-dashboard-grid">
-            <a class="sst-dash-btn" href="index.html">
-                <div class="sst-dash-icon">🏠</div>
-                <span class="sst-dash-title">Dashboard Home</span>
-            </a>
-            <a class="sst-dash-btn" href="odisha-land-area-calculator.html">
-                <div class="sst-dash-icon">🏡</div>
-                <span class="sst-dash-title">OR Land Area Calc</span>
-            </a>
-            <a class="sst-dash-btn" href="gujarat-vigha-to-sqft-calculator.html">
-                <div class="sst-dash-icon">🔄</div>
-                <span class="sst-dash-title">GJ Vigha Converter</span>
-            </a>
-            <a class="sst-dash-btn" href="maharashtra-land-unit-converter.html">
-                <div class="sst-dash-icon">📐</div>
-                <span class="sst-dash-title">MH Unit Converter</span>
-            </a>
-        </div>
+<div class="sst-dashboard-grid">
+    <a class="sst-dash-btn" href="index.html">
+        <div class="sst-dash-icon">🏠</div>
+        <span class="sst-dash-title">Dashboard Home</span>
+    </a>
+    <a class="sst-dash-btn" href="odisha-land-area-calculator.html">
+        <div class="sst-dash-icon">🏡</div>
+        <span class="sst-dash-title">OR Land Area Calc</span>
+    </a>
+    <a class="sst-dash-btn" href="gujarat-vigha-to-sqft-calculator.html">
+        <div class="sst-dash-icon">🔄</div>
+        <span class="sst-dash-title">GJ Vigha Converter</span>
+    </a>
+    <a class="sst-dash-btn" href="maharashtra-land-unit-converter.html">
+        <div class="sst-dash-icon">📐</div>
+        <span class="sst-dash-title">MH Unit Converter</span>
+    </a>
+</div>
+
 <div class="footer-copyright-box">
     <div class="footer-law-accent">Statutory Cyber Law Protection Vault</div>
     <p><b>Copyright Protection Notice:</b> Shayan Smart Tools Core Processing Engines, Localization Scripts, and Structural Web Algorithms © 2026. All rights reserved.</p>
@@ -792,8 +792,8 @@
         const dInputs = document.querySelectorAll('.d-val');
 
         aInputs.forEach((item, index) => {
-            let aVal = Number(item.value) || 0;
-            let dVal = Number(dInputs[index].value) || 0;
+            let aVal = Math.max(0, Number(item.value) || 0);
+            let dVal = Math.max(0, Number(dInputs[index].value) || 0);
             
             ta += aVal;
             td += dVal;
@@ -804,7 +804,6 @@
             summaryBody.appendChild(row);
         });
 
-        // Nagaland Carry Forward Logic (1 Acre = 100 Decimals)
         if (td >= 100) {
             ta += Math.floor(td / 100);
             td %= 100;
@@ -813,18 +812,24 @@
         document.getElementById('ra').innerText = ta + " Acre";
         document.getElementById('rd').innerText = td.toFixed(2) + " Decimal";
         
-        // Land Conversions Matrix Mapping
         let totalDecimal = (ta * 100) + td;
-        let totalSqft = totalDecimal * 435.6; // 1 Decimal = 435.6 Sq Ft
+        let totalSqft = totalDecimal * 435.6; 
         let totalSqm = totalSqft / 10.76391;
 
-        // Bigha - Katha Conversion (Nagaland Rule: 1 Bigha = 40 Decimals, 1 Bigha = 20 Katha)
+        // Nagaland Mapping Chain Rule Setup
         let calcBigha = Math.floor(totalDecimal / 40);
         let remDecimalAfterBigha = totalDecimal % 40;
-        let calcKatha = Math.floor(remDecimalAfterBigha / 2); // 1 Katha = 2 Decimals in land matrix
+        let calcKatha = Math.floor(remDecimalAfterBigha / 2);
+        let finalRemDecimal = remDecimalAfterBigha % 2;
 
-        document.getElementById('rbigha').innerText = calcBigha + " Bigha";
-        document.getElementById('rkatha').innerText = calcKatha + " Katha";
+        let bighaStr = calcBigha + " Bigha";
+        let kathaStr = calcKatha + " Katha";
+        if(finalRemDecimal > 0) {
+            kathaStr += ` & ${finalRemDecimal.toFixed(1)} Decimal`;
+        }
+
+        document.getElementById('rbigha').innerText = bighaStr;
+        document.getElementById('rkatha').innerText = kathaStr;
 
         document.getElementById('rsq').innerText = Math.round(totalSqft).toLocaleString('en-IN') + " sq ft";
         document.getElementById('rsqm').innerText = totalSqm.toLocaleString('en-IN', {maximumFractionDigits: 2}) + " sq m";
