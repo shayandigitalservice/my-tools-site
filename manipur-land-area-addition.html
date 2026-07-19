@@ -331,7 +331,7 @@
             html, body { height: auto; overflow: visible; background: #ffffff !important; padding: 0 !important; margin: 0 !important; }
             * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; color: #000000 !important; }
             @page { margin: 10mm 10mm; size: A4 portrait; }
-            .tool-wrapper, .btn-box, .util-btns, #resHead, .seo-article, .back-btn, .plot-container, .lang-switcher, .footer-copyright-box { display: none !important; }
+            .tool-wrapper, .btn-box, .util-btns, #resHead, .seo-article, .back-btn, .plot-container, .lang-switcher, .footer-copyright-box, .sst-dashboard-grid, h3:has(+ .sst-dashboard-grid) { display: none !important; }
             
             .res-panel { 
                 display: block !important; 
@@ -815,10 +815,10 @@
         // Pari - Lourak Conversion (Manipur Rule: 1 Pari = 2.5 Acre = 250 Decimals, 1 Lourak = 10 Decimals)
         let calcPari = Math.floor(totalDecimal / 250);
         let remDecimalAfterPari = totalDecimal % 250;
-        let calcLourak = Math.floor(remDecimalAfterPari / 10); 
+        let calcLourak = remDecimalAfterPari / 10; 
 
         document.getElementById('rbigha').innerText = calcPari + " Pari";
-        document.getElementById('rkatha').innerText = calcLourak + " Lourak";
+        document.getElementById('rkatha').innerText = (Number.isInteger(calcLourak) ? calcLourak : calcLourak.toFixed(2)) + " Lourak";
 
         document.getElementById('rsq').innerText = Math.round(totalSqft).toLocaleString('en-IN') + " sq ft";
         document.getElementById('rsqm').innerText = totalSqm.toLocaleString('en-IN', {maximumFractionDigits: 2}) + " sq m";
