@@ -5,6 +5,11 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Shayan POS - Professional Billing & Stock</title>
 <link rel="manifest" href="manifest.json">
+<!-- Roboto Font Import -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap" rel="stylesheet">
+
 <script>
   if ('serviceWorker' in navigator) {
     window.addEventListener('load', () => {
@@ -25,10 +30,11 @@
     --blue-btn: #2563eb;
     --danger: #ef4444;
     --warning: #f59e0b;
+    --success: #10b981;
 }
 
 body { 
-    font-family: 'Inter', Arial, sans-serif; 
+    font-family: 'Roboto', Arial, sans-serif; 
     background: var(--bg); 
     margin: 0; 
     color: var(--text); 
@@ -37,11 +43,12 @@ body {
 
 h1 { 
     text-align: center; 
-    background: linear-gradient(to right, #6366f1, #a855f7); 
-    -webkit-background-clip: text; 
-    -webkit-text-fill-color: transparent; 
+    font-family: 'Roboto', sans-serif;
+    font-weight: 900;
+    color: #0f172a;
     margin-top: 10px;
     margin-bottom: 15px;
+    letter-spacing: -0.5px;
 }
 
 input, select { 
@@ -53,6 +60,7 @@ input, select {
     font-size: 14px; 
     box-sizing: border-box; 
     outline: none; 
+    font-family: 'Roboto', sans-serif;
 }
 
 .btn-blue { 
@@ -67,6 +75,7 @@ input, select {
     cursor: pointer; 
     margin: 4px 0; 
     transition: 0.2s; 
+    font-family: 'Roboto', sans-serif;
 }
 
 .btn-blue:hover { opacity: 0.9; }
@@ -81,10 +90,10 @@ input, select {
     box-shadow: 0 10px 30px rgba(0,0,0,0.05);
 }
 
-.billing-ui-container h2 { text-align: center; margin-bottom: 10px; font-size: 20px; }
+.billing-ui-container h2 { text-align: center; margin-bottom: 10px; font-size: 20px; font-weight: 700; }
 table { width: 100%; margin-top: 10px; border-collapse: collapse; }
 th, td { border: 1px solid #ddd; padding: 8px; font-size: 13px; text-align: center; }
-th { background: #f1f5f9; }
+th { background: #f1f5f9; font-weight: 700; }
 .totalRow td { font-weight: bold; }
 .bill { margin-top: 20px; overflow-wrap: break-word; word-wrap: break-word; border: 1px dashed #ccc; padding: 10px; }
 .invoice { float: right; }
@@ -108,6 +117,7 @@ th { background: #f1f5f9; }
     justify-content: space-between;
     align-items: center;
     margin-bottom: 10px;
+    font-family: 'Roboto', sans-serif;
 }
 .shop-details-box {
     display: none;
@@ -118,17 +128,29 @@ th { background: #f1f5f9; }
     margin-bottom: 10px;
 }
 
-/* Current Total Box Style */
+/* Grand Total Prominent Box Style */
 .current-total-box {
-    background: #f0f4ff;
-    border: 1px solid #6366f1;
+    background: #1e293b;
+    border: 2px solid #0f172a;
     border-radius: 12px;
-    padding: 12px;
-    margin: 10px 0;
+    padding: 15px;
+    margin: 12px 0;
     text-align: center;
-    font-size: 16px;
-    font-weight: bold;
-    color: #0f172a;
+    color: #ffffff;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.current-total-box .sub-info {
+    font-size: 14px;
+    color: #94a3b8;
+    margin-bottom: 4px;
+}
+
+.current-total-box .grand-total-title {
+    font-size: 22px;
+    font-weight: 900;
+    color: #38bdf8;
+    letter-spacing: 0.5px;
 }
 
 /* Discount & GST Inputs Grid */
@@ -156,16 +178,26 @@ th { background: #f1f5f9; }
 .sale-card span { display: block; font-size: 11px; color: #64748b; font-weight: bold; }
 .sale-card b { font-size: 13px; color: #0f172a; }
 
+/* Backup Section Box */
+.backup-box {
+    background: #f0fdf4;
+    border: 1px solid #bbf7d0;
+    padding: 12px;
+    border-radius: 10px;
+    margin-top: 20px;
+}
+
 @media screen and (max-width:600px){
   table th, table td { padding: 5px; font-size: 11px; }
   .invoice { float: none; text-align: right; }
   .tax-discount-grid { grid-template-columns: 1fr; }
+  .current-total-box .grand-total-title { font-size: 18px; }
 }
 </style>
 </head>
 <body>
 
-<h1>Shayan Smart Billing</h1>
+<h1>Shayan Billings</h1>
 
 <div id="main-billing" class="billing-ui-container">
     <h2>🧾 Bill Generator</h2>
@@ -224,8 +256,10 @@ th { background: #f1f5f9; }
         </select>
     </div>
 
+    <!-- Dark Bold Prominent Grand Total Display -->
     <div class="current-total-box">
-        Subtotal: ₹<span id="liveSubTotal">0</span> | GST: ₹<span id="liveGstTotal">0</span> | Total: ₹<span id="liveCurrentTotal">0</span>
+        <div class="sub-info">Subtotal: ₹<span id="liveSubTotal">0.00</span> | GST: ₹<span id="liveGstTotal">0.00</span></div>
+        <div class="grand-total-title">GRAND TOTAL: ₹<span id="liveCurrentTotal">0.00</span></div>
     </div>
 
     <input id="amtPaid" type="number" placeholder="Enter Amount Paid by Customer">
@@ -245,7 +279,7 @@ th { background: #f1f5f9; }
 
     <div id="bill" class="bill"></div>
     
-    <button id="downloadHistoryBtn" class="btn-blue" style="margin-top: 15px;">Download History</button>
+    <button id="downloadHistoryBtn" class="btn-blue" style="margin-top: 15px;">Download Sales History (Excel)</button>
     
     <div class="sale-summary">
         <div class="sale-card"><span>Today</span><b id="saleToday">₹0</b></div>
@@ -262,11 +296,30 @@ th { background: #f1f5f9; }
 
     <div class="table-wrapper">
         <table id="stockTable">
-            <tr><th>Product</th><th>Available Qty</th><th>Last Updated</th></tr>
+            <thead>
+                <tr>
+                    <th>Product</th>
+                    <th>Available Qty</th>
+                    <th>Last Updated</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody id="stockTableBody"></tbody>
         </table>
     </div>
 
     <button id="downloadStockBtn" class="btn-blue">Download Stock Excel</button>
+
+    <!-- Cloud Data Loss Protection / Backup Restore UI -->
+    <div class="backup-box">
+        <h3 style="margin-top:0; margin-bottom:8px; font-size:16px; color:#15803d;">💾 Data Backup & Restore</h3>
+        <p style="font-size:12px; color:#166534; margin-bottom:10px;">Mobile ghum hone ya kharab hone se bachne ke liye regular backup download karke rakhein.</p>
+        <div style="display:grid; grid-template-columns: 1fr 1fr; gap:8px;">
+            <button id="exportBackupBtn" class="btn-blue" style="background:#16a34a;">Export Backup</button>
+            <button id="importBackupBtn" class="btn-blue" style="background:#0d9488;" onclick="document.getElementById('importFileInput').click()">Import Backup</button>
+        </div>
+        <input type="file" id="importFileInput" accept=".json" style="display:none" onchange="importDataBackup(event)">
+    </div>
 </div>
 
 <script>
@@ -321,26 +374,30 @@ function initBillingSystem() {
     const stockProductInput = document.getElementById("stockProduct");
     const stockQtyInput = document.getElementById("stockQty");
     const addStockBtn = document.getElementById("addStockBtn");
-    const stockTable = document.getElementById("stockTable");
 
-    function renderStock(){
-        stockTable.innerHTML = `<tr><th>Product</th><th>Available Qty</th><th>Last Updated</th></tr>`;
+    window.renderStock = function(){
+        const tbody = document.getElementById("stockTableBody");
+        tbody.innerHTML = "";
         for(let p in stock){
             let updates = stockHistory.filter(h => h.product === p);
             let lastUpdate = updates[updates.length - 1]?.date || "";
             let color = stock[p] <= 5 ? "red" : "green";
-            let row = stockTable.insertRow();
-            row.insertCell(0).innerHTML = p + (stock[p] <= 5 ? " ⚠ Low Stock" : "");
-            row.insertCell(1).innerHTML = `<span style="color:${color}">${stock[p]}</span>`;
+            let row = tbody.insertRow();
+            row.insertCell(0).innerHTML = p + (stock[p] <= 5 ? " <span style='color:red;font-weight:bold;'>⚠ Low</span>" : "");
+            row.insertCell(1).innerHTML = `<b style="color:${color}">${stock[p]}</b>`;
             row.insertCell(2).innerText = lastUpdate ? new Date(lastUpdate).toLocaleString() : "-";
+            row.insertCell(3).innerHTML = `
+                <button class="btn-action btn-edit" onclick="editStockItem('${p}')">✏️</button>
+                <button class="btn-action btn-del" onclick="deleteStockItem('${p}')">🗑</button>
+            `;
         }
-    }
+    };
     renderStock();
 
     addStockBtn.addEventListener("click", function(){
         let p = stockProductInput.value.trim();
         let q = +stockQtyInput.value;
-        if(!p || !q){ alert("Fill all fields"); return; }
+        if(!p || isNaN(q)){ alert("Fill valid product name & quantity"); return; }
         stock[p] = (stock[p] || 0) + q;
         stockHistory.push({product:p, qtyAdded:q, type:"Added", date:new Date().toISOString()});
         localStorage.setItem("stock", JSON.stringify(stock));
@@ -522,7 +579,7 @@ function initBillingSystem() {
         if(mode == "A4"){ width = 800; height = 1100; }
         let win = window.open('', '', `width=${width},height=${height}`);
         win.document.write(`<html><head><title>Print Bill</title><style>
-        body{font-family:monospace;padding:10px;text-align:center;} table{width:100%;border-collapse:collapse;} td,th{border:1px solid #000;padding:5px;text-align:center;} .totalRow td{font-weight:bold;} .invoice{float:right;} .clear{clear:both;} .qr-container{margin-top:10px;} .qr-container img{width:120px;}
+        body{font-family:'Roboto',sans-serif;padding:10px;text-align:center;} table{width:100%;border-collapse:collapse;} td,th{border:1px solid #000;padding:5px;text-align:center;} .totalRow td{font-weight:bold;} .invoice{float:right;} .clear{clear:both;} .qr-container{margin-top:10px;} .qr-container img{width:120px;}
         </style></head><body>${content}</body></html>`);
         win.document.close(); 
         win.print();
@@ -564,6 +621,28 @@ function initBillingSystem() {
         document.getElementById("saleMonthly").innerText = "₹" + mTotal.toFixed(2);
     }
     updateSaleSummary();
+
+    // Export JSON Data Backup
+    document.getElementById("exportBackupBtn").addEventListener("click", function(){
+        let backupData = {
+            shop: localStorage.getItem("shop") || "",
+            address: localStorage.getItem("address") || "",
+            phone: localStorage.getItem("phone") || "",
+            gstin: localStorage.getItem("gstin") || "",
+            upiId: localStorage.getItem("upiId") || "",
+            invoiceCounter: localStorage.getItem("invoiceCounter") || "1",
+            stock: JSON.parse(localStorage.getItem("stock")) || {},
+            stockHistory: JSON.parse(localStorage.getItem("stockHistory")) || [],
+            saleHistory: JSON.parse(localStorage.getItem("saleHistory")) || []
+        };
+        let dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(backupData, null, 2));
+        let downloadAnchor = document.createElement('a');
+        downloadAnchor.setAttribute("href", dataStr);
+        downloadAnchor.setAttribute("download", `Shayan_POS_Backup_${new Date().toISOString().slice(0,10)}.json`);
+        document.body.appendChild(downloadAnchor);
+        downloadAnchor.click();
+        downloadAnchor.remove();
+    });
 }
 
 // Render Cart Table with Edit & Delete Action
@@ -594,19 +673,7 @@ function deleteItem(index) {
     
     items.splice(index, 1);
     renderCartTable();
-    
-    let stockTable = document.getElementById("stockTable");
-    let stockHistory = JSON.parse(localStorage.getItem("stockHistory")) || [];
-    stockTable.innerHTML = `<tr><th>Product</th><th>Available Qty</th><th>Last Updated</th></tr>`;
-    for(let p in stock){
-        let updates = stockHistory.filter(h => h.product === p);
-        let lastUpdate = updates[updates.length - 1]?.date || "";
-        let color = stock[p] <= 5 ? "red" : "green";
-        let row = stockTable.insertRow();
-        row.insertCell(0).innerHTML = p + (stock[p] <= 5 ? " ⚠ Low Stock" : "");
-        row.insertCell(1).innerHTML = `<span style="color:${color}">${stock[p]}</span>`;
-        row.insertCell(2).innerText = lastUpdate ? new Date(lastUpdate).toLocaleString() : "-";
-    }
+    window.renderStock();
 }
 
 // Edit item in cart
@@ -620,6 +687,29 @@ function editItem(index) {
     let btn = document.getElementById("addItemBtn");
     btn.innerText = "Update Item";
     btn.style.background = "var(--warning)";
+}
+
+// Stock Actions: Edit & Delete
+function editStockItem(productName) {
+    let stock = JSON.parse(localStorage.getItem("stock")) || {};
+    let currentQty = stock[productName] || 0;
+    let newQty = prompt(`Enter new quantity for "${productName}":`, currentQty);
+    if(newQty !== null && !isNaN(newQty)) {
+        stock[productName] = parseInt(newQty);
+        localStorage.setItem("stock", JSON.stringify(stock));
+        window.renderStock();
+        alert("Stock updated!");
+    }
+}
+
+function deleteStockItem(productName) {
+    if(confirm(`Are you sure you want to delete "${productName}" from stock?`)){
+        let stock = JSON.parse(localStorage.getItem("stock")) || {};
+        delete stock[productName];
+        localStorage.setItem("stock", JSON.stringify(stock));
+        window.renderStock();
+        alert("Product deleted from stock.");
+    }
 }
 
 // Calculate Live Discount, GST, and Grand Total
@@ -642,6 +732,35 @@ function calculateGrandTotal() {
     document.getElementById("liveGstTotal").innerText = totalGst.toFixed(2);
     document.getElementById("liveCurrentTotal").innerText = grandTotal.toFixed(2);
     return grandTotal;
+}
+
+// Import JSON Data Backup
+function importDataBackup(event) {
+    const fileReader = new FileReader();
+    fileReader.onload = function(e) {
+        try {
+            const data = JSON.parse(e.target.result);
+            if(confirm("Yeh backup import karne par purana data replace ho jayega. Continue karein?")) {
+                if(data.shop) localStorage.setItem("shop", data.shop);
+                if(data.address) localStorage.setItem("address", data.address);
+                if(data.phone) localStorage.setItem("phone", data.phone);
+                if(data.gstin) localStorage.setItem("gstin", data.gstin);
+                if(data.upiId) localStorage.setItem("upiId", data.upiId);
+                if(data.invoiceCounter) localStorage.setItem("invoiceCounter", data.invoiceCounter);
+                if(data.stock) localStorage.setItem("stock", JSON.stringify(data.stock));
+                if(data.stockHistory) localStorage.setItem("stockHistory", JSON.stringify(data.stockHistory));
+                if(data.saleHistory) localStorage.setItem("saleHistory", JSON.stringify(data.saleHistory));
+                
+                alert("Backup Successfully Restored!");
+                location.reload();
+            }
+        } catch(err) {
+            alert("Invalid Backup File!");
+        }
+    };
+    if(event.target.files[0]) {
+        fileReader.readAsText(event.target.files[0]);
+    }
 }
 </script>
 </body>
