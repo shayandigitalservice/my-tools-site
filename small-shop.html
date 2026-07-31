@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Shayan POS - Professional Billing & Stock</title>
+<title>Shayan Smart Billing - Professional POS & Stock</title>
 <link rel="manifest" href="manifest.json">
 <!-- Roboto Font Import -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -49,6 +49,35 @@ h1 {
     margin-top: 10px;
     margin-bottom: 15px;
     letter-spacing: -0.5px;
+}
+
+/* --- PWA INSTALL BANNER --- */
+#pwaInstallBanner {
+    display: none;
+    background: linear-gradient(135deg, #2563eb, #1d4ed8);
+    color: white;
+    padding: 12px 16px;
+    border-radius: 12px;
+    margin-bottom: 15px;
+    box-shadow: 0 4px 12px rgba(37, 99, 235, 0.2);
+    align-items: center;
+    justify-content: space-between;
+}
+
+#pwaInstallBanner span {
+    font-weight: 700;
+    font-size: 14px;
+}
+
+#pwaInstallBtn {
+    background: #ffffff;
+    color: #2563eb;
+    border: none;
+    padding: 8px 14px;
+    border-radius: 6px;
+    font-weight: bold;
+    cursor: pointer;
+    font-size: 13px;
 }
 
 input, select { 
@@ -187,6 +216,15 @@ th { background: #f1f5f9; font-weight: 700; }
     margin-top: 20px;
 }
 
+/* Reprint Section Style */
+.reprint-box {
+    background: #fffbebfb;
+    border: 1px solid #fde68a;
+    padding: 12px;
+    border-radius: 10px;
+    margin-top: 20px;
+}
+
 @media screen and (max-width:600px){
   table th, table td { padding: 5px; font-size: 11px; }
   .invoice { float: none; text-align: right; }
@@ -197,9 +235,16 @@ th { background: #f1f5f9; font-weight: 700; }
 </head>
 <body>
 
-<h1>Shayan Billings</h1>
+<h1>Shayan Smart Billing</h1>
 
 <div id="main-billing" class="billing-ui-container">
+    
+    <!-- PWA Installation Banner -->
+    <div id="pwaInstallBanner">
+        <span>📲 Install Shayan Smart Billing App</span>
+        <button id="pwaInstallBtn">Install Now</button>
+    </div>
+
     <h2>🧾 Bill Generator</h2>
 
     <!-- Collapsible Shop Details -->
@@ -279,6 +324,25 @@ th { background: #f1f5f9; font-weight: 700; }
 
     <div id="bill" class="bill"></div>
     
+    <!-- REPRINT & OLD BILL SEARCH SECTION -->
+    <div class="reprint-box">
+        <h3 style="margin-top:0; margin-bottom:8px; font-size:16px; color:#d97706;">🔍 Search & Reprint Old Bill</h3>
+        <input id="searchInvoiceInput" placeholder="Enter Customer Name or Invoice No..." oninput="filterHistoryBills()">
+        <div class="table-wrapper">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Inv #</th>
+                        <th>Customer</th>
+                        <th>Amount</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody id="historyTableBody"></tbody>
+            </table>
+        </div>
+    </div>
+
     <button id="downloadHistoryBtn" class="btn-blue" style="margin-top: 15px;">Download Sales History (Excel)</button>
     
     <div class="sale-summary">
@@ -325,6 +389,28 @@ th { background: #f1f5f9; font-weight: 700; }
 <script>
 let items = [];
 let editingIndex = -1;
+let deferredPrompt = null;
+
+// PWA Install Prompt Listener
+window.addEventListener('beforeinstallprompt', (e) => {
+    e.preventDefault();
+    deferredPrompt = e;
+    const banner = document.getElementById("pwaInstallBanner");
+    if(banner) banner.style.display = "flex";
+});
+
+document.getElementById("pwaInstallBtn")?.addEventListener("click", () => {
+    if (deferredPrompt) {
+        deferredPrompt.prompt();
+        deferredPrompt.userChoice.then((choiceResult) => {
+            if (choiceResult.outcome === 'accepted') {
+                console.log('User accepted the install prompt');
+            }
+            deferredPrompt = null;
+            document.getElementById("pwaInstallBanner").style.display = "none";
+        });
+    }
+});
 
 function toggleShopDetails() {
     const box = document.getElementById("shopDetailsBox");
@@ -340,6 +426,7 @@ function toggleShopDetails() {
 
 document.addEventListener("DOMContentLoaded", function(){
     initBillingSystem();
+    filterHistoryBills();
 });
 
 function initBillingSystem() {
@@ -524,46 +611,36 @@ function initBillingSystem() {
         let invoiceNo = getInvoiceNumber();
         let dateISO = new Date().toISOString();
         let paymentMode = document.getElementById("payment").value;
-        let upiId = upiInput.value.trim();
-        let gstinVal = gstinInput.value.trim();
 
-        let html = `<div class="invoice">Invoice No: ${invoiceNo}</div><div class="clear"></div>
-        <b>${shopInput.value}</b><br>${addressInput.value}<br>Phone: ${phoneInput.value}<br>`;
-        if(gstinVal) html += `GSTIN: ${gstinVal}<br>`;
-        html += `Date: ${new Date(dateISO).toLocaleString()}<br>
-        Customer: ${document.getElementById("customer").value || 'Walk-in Customer'}<br>
-        Payment Mode: ${paymentMode}<hr>
-        <div style="overflow-x:auto;"><table>
-        <tr><th>No</th><th>Item</th><th>Qty</th><th>Price</th><th>Total</th></tr>`;
-        
-        items.forEach((i, index) => {
-            html += `<tr><td>${index + 1}</td><td>${i.p}</td><td>${i.q}</td><td>${i.pr}</td><td>${i.t}</td></tr>`;
-        });
-        
-        html += `<tr class="totalRow"><td colspan="4">Subtotal</td><td>₹${subtotal.toFixed(2)}</td></tr>`;
-        if(discountVal > 0) {
-            html += `<tr class="totalRow" style="color:red;"><td colspan="4">Discount</td><td>-₹${discountVal.toFixed(2)}</td></tr>`;
-        }
-        if(gstRate > 0) {
-            html += `<tr class="totalRow"><td colspan="4">CGST (${(gstRate/2)}%)</td><td>₹${cgst.toFixed(2)}</td></tr>`;
-            html += `<tr class="totalRow"><td colspan="4">SGST (${(gstRate/2)}%)</td><td>₹${sgst.toFixed(2)}</td></tr>`;
-        }
-        html += `<tr class="totalRow"><td colspan="4">Grand Total</td><td>₹${grandTotal.toFixed(2)}</td></tr>`;
-        html += `<tr class="totalRow" style="color:green;"><td colspan="4">Paid Amount</td><td>₹${paid.toFixed(2)}</td></tr>`;
-        html += `<tr class="totalRow" style="color:red;"><td colspan="4">Unpaid Balance</td><td>₹${unpaid.toFixed(2)}</td></tr></table></div>`;
-        
-        if(upiId !== "" && paid > 0){
-            let qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=140x140&data=${encodeURIComponent('upi://pay?pa='+upiId+'&pn='+shopInput.value+'&am='+paid+'&cu=INR')}`;
-            html += `<div class="qr-container"><p>Scan to Pay: ₹${paid.toFixed(2)}</p><img src="${qrUrl}" alt="UPI QR Code"></div>`;
-        }
+        let invoiceData = {
+            invoiceNo,
+            shopName: shopInput.value,
+            address: addressInput.value,
+            phone: phoneInput.value,
+            gstin: gstinInput.value.trim(),
+            upiId: upiInput.value.trim(),
+            customer: document.getElementById("customer").value || 'Walk-in Customer',
+            paymentMode,
+            date: dateISO,
+            items: [...items],
+            subtotal,
+            discountVal,
+            gstRate,
+            cgst,
+            sgst,
+            grandTotal,
+            paid,
+            unpaid
+        };
 
-        document.getElementById("bill").innerHTML = html;
+        renderInvoiceBillHTML(invoiceData);
 
         let saleHistory = JSON.parse(localStorage.getItem("saleHistory")) || [];
-        saleHistory.push({ invoiceNo, total: grandTotal, paid, unpaid, date: dateISO, customer: document.getElementById("customer").value || 'Walk-in', items: [...items] });
+        saleHistory.push(invoiceData);
         localStorage.setItem("saleHistory", JSON.stringify(saleHistory));
 
         updateSaleSummary();
+        filterHistoryBills();
         items = [];
         renderCartTable();
         document.getElementById("amtPaid").value = "";
@@ -595,7 +672,7 @@ function initBillingSystem() {
         if(saleHistory.length === 0) return alert("No history found");
         let html = `<table border="1"><tr><th>Date</th><th>Invoice</th><th>Customer</th><th>Total</th><th>Paid</th><th>Unpaid</th></tr>`;
         saleHistory.forEach(s => {
-            html += `<tr><td>${new Date(s.date).toLocaleDateString()}</td><td>${s.invoiceNo}</td><td>${s.customer}</td><td>${s.total}</td><td>${s.paid}</td><td>${s.unpaid}</td></tr>`;
+            html += `<tr><td>${new Date(s.date).toLocaleDateString()}</td><td>${s.invoiceNo}</td><td>${s.customer}</td><td>${s.grandTotal || s.total}</td><td>${s.paid}</td><td>${s.unpaid}</td></tr>`;
         });
         html += `</table>`;
         let blob = new Blob([html], {type: "application/vnd.ms-excel"});
@@ -611,10 +688,11 @@ function initBillingSystem() {
         let tTotal = 0, wTotal = 0, mTotal = 0;
         history.forEach(s => {
             let sDate = new Date(s.date);
-            if(sDate.toDateString() === today.toDateString()) tTotal += s.total;
+            let tot = s.grandTotal || s.total || 0;
+            if(sDate.toDateString() === today.toDateString()) tTotal += tot;
             let diffDays = Math.ceil(Math.abs(today - sDate) / (1000 * 60 * 60 * 24));
-            if(diffDays <= 7) wTotal += s.total;
-            if(sDate.getMonth() === today.getMonth() && sDate.getFullYear() === today.getFullYear()) mTotal += s.total;
+            if(diffDays <= 7) wTotal += tot;
+            if(sDate.getMonth() === today.getMonth() && sDate.getFullYear() === today.getFullYear()) mTotal += tot;
         });
         document.getElementById("saleToday").innerText = "₹" + tTotal.toFixed(2);
         document.getElementById("saleWeekly").innerText = "₹" + wTotal.toFixed(2);
@@ -638,11 +716,79 @@ function initBillingSystem() {
         let dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(backupData, null, 2));
         let downloadAnchor = document.createElement('a');
         downloadAnchor.setAttribute("href", dataStr);
-        downloadAnchor.setAttribute("download", `Shayan_POS_Backup_${new Date().toISOString().slice(0,10)}.json`);
+        downloadAnchor.setAttribute("download", `Shayan_Smart_Billing_Backup_${new Date().toISOString().slice(0,10)}.json`);
         document.body.appendChild(downloadAnchor);
         downloadAnchor.click();
         downloadAnchor.remove();
     });
+}
+
+// Render Bill Output HTML Function
+function renderInvoiceBillHTML(data) {
+    let html = `<div class="invoice">Invoice No: ${data.invoiceNo}</div><div class="clear"></div>
+    <b>${data.shopName || localStorage.getItem("shop")}</b><br>${data.address || localStorage.getItem("address")}<br>Phone: ${data.phone || localStorage.getItem("phone")}<br>`;
+    if(data.gstin) html += `GSTIN: ${data.gstin}<br>`;
+    html += `Date: ${new Date(data.date).toLocaleString()}<br>
+    Customer: ${data.customer}<br>
+    Payment Mode: ${data.paymentMode}<hr>
+    <div style="overflow-x:auto;"><table>
+    <tr><th>No</th><th>Item</th><th>Qty</th><th>Price</th><th>Total</th></tr>`;
+    
+    data.items.forEach((i, index) => {
+        html += `<tr><td>${index + 1}</td><td>${i.p}</td><td>${i.q}</td><td>${i.pr}</td><td>${i.t}</td></tr>`;
+    });
+    
+    html += `<tr class="totalRow"><td colspan="4">Subtotal</td><td>₹${Number(data.subtotal).toFixed(2)}</td></tr>`;
+    if(data.discountVal > 0) {
+        html += `<tr class="totalRow" style="color:red;"><td colspan="4">Discount</td><td>-₹${Number(data.discountVal).toFixed(2)}</td></tr>`;
+    }
+    if(data.gstRate > 0) {
+        html += `<tr class="totalRow"><td colspan="4">CGST (${(data.gstRate/2)}%)</td><td>₹${Number(data.cgst).toFixed(2)}</td></tr>`;
+        html += `<tr class="totalRow"><td colspan="4">SGST (${(data.gstRate/2)}%)</td><td>₹${Number(data.sgst).toFixed(2)}</td></tr>`;
+    }
+    html += `<tr class="totalRow"><td colspan="4">Grand Total</td><td>₹${Number(data.grandTotal || data.total).toFixed(2)}</td></tr>`;
+    html += `<tr class="totalRow" style="color:green;"><td colspan="4">Paid Amount</td><td>₹${Number(data.paid).toFixed(2)}</td></tr>`;
+    html += `<tr class="totalRow" style="color:red;"><td colspan="4">Unpaid Balance</td><td>₹${Number(data.unpaid).toFixed(2)}</td></tr></table></div>`;
+    
+    if(data.upiId && data.paid > 0){
+        let qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=140x140&data=${encodeURIComponent('upi://pay?pa='+data.upiId+'&pn='+(data.shopName||'')+'&am='+data.paid+'&cu=INR')}`;
+        html += `<div class="qr-container"><p>Scan to Pay: ₹${Number(data.paid).toFixed(2)}</p><img src="${qrUrl}" alt="UPI QR Code"></div>`;
+    }
+
+    document.getElementById("bill").innerHTML = html;
+}
+
+// Search and Reprint Old Bills Function
+function filterHistoryBills() {
+    let history = JSON.parse(localStorage.getItem("saleHistory")) || [];
+    let query = (document.getElementById("searchInvoiceInput")?.value || "").toLowerCase();
+    let tbody = document.getElementById("historyTableBody");
+    if(!tbody) return;
+    tbody.innerHTML = "";
+
+    let filtered = history.filter(h => 
+        (h.invoiceNo && h.invoiceNo.toString().includes(query)) ||
+        (h.customer && h.customer.toLowerCase().includes(query))
+    );
+
+    filtered.reverse().slice(0, 10).forEach(h => {
+        let row = tbody.insertRow();
+        row.insertCell(0).innerText = "#" + h.invoiceNo;
+        row.insertCell(1).innerText = h.customer || 'Walk-in';
+        row.insertCell(2).innerText = "₹" + (h.grandTotal || h.total || 0).toFixed(2);
+        row.insertCell(3).innerHTML = `<button class="btn-action btn-blue" style="padding:2px 8px;" onclick="reprintBill(${h.invoiceNo})">🖨️ View/Print</button>`;
+    });
+}
+
+function reprintBill(invoiceNo) {
+    let history = JSON.parse(localStorage.getItem("saleHistory")) || [];
+    let found = history.find(h => h.invoiceNo == invoiceNo);
+    if(found) {
+        renderInvoiceBillHTML(found);
+        window.scrollTo({ top: document.getElementById("bill").offsetTop - 50, behavior: 'smooth' });
+    } else {
+        alert("Invoice not found!");
+    }
 }
 
 // Render Cart Table with Edit & Delete Action
