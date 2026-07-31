@@ -23,6 +23,8 @@
     --glass: rgba(255, 255, 255, 0.95);
     --text: #0f172a;
     --blue-btn: #2563eb;
+    --danger: #ef4444;
+    --warning: #f59e0b;
 }
 
 body { 
@@ -38,32 +40,32 @@ h1 {
     background: linear-gradient(to right, #6366f1, #a855f7); 
     -webkit-background-clip: text; 
     -webkit-text-fill-color: transparent; 
-    margin-top: 15px;
-    margin-bottom: 20px;
+    margin-top: 10px;
+    margin-bottom: 15px;
 }
 
 input, select { 
     width: 100%; 
-    padding: 12px; 
-    margin: 6px 0; 
+    padding: 10px; 
+    margin: 5px 0; 
     border-radius: 8px; 
     border: 1px solid #ccc; 
-    font-size: 15px; 
+    font-size: 14px; 
     box-sizing: border-box; 
     outline: none; 
 }
 
 .btn-blue { 
     width: 100%; 
-    padding: 12px; 
+    padding: 10px; 
     border-radius: 6px; 
     border: none; 
     background: var(--blue-btn); 
     color: white; 
-    font-size: 15px; 
+    font-size: 14px; 
     font-weight: 500; 
     cursor: pointer; 
-    margin: 5px 0; 
+    margin: 4px 0; 
     transition: 0.2s; 
 }
 
@@ -79,29 +81,74 @@ input, select {
     box-shadow: 0 10px 30px rgba(0,0,0,0.05);
 }
 
-.billing-ui-container h2 { text-align: center; margin-bottom: 15px; font-size: 22px; }
+.billing-ui-container h2 { text-align: center; margin-bottom: 10px; font-size: 20px; }
 table { width: 100%; margin-top: 10px; border-collapse: collapse; }
-th, td { border: 1px solid #666; padding: 8px; font-size: 14px; text-align: center; }
+th, td { border: 1px solid #ddd; padding: 8px; font-size: 13px; text-align: center; }
+th { background: #f1f5f9; }
 .totalRow td { font-weight: bold; }
 .bill { margin-top: 20px; overflow-wrap: break-word; word-wrap: break-word; border: 1px dashed #ccc; padding: 10px; }
 .invoice { float: right; }
 .clear { clear: both; }
 .qr-container { text-align: center; margin-top: 15px; padding: 10px; border: 1px dashed #ccc; }
-.qr-container img { width: 150px; height: 150px; }
+.qr-container img { width: 140px; height: 140px; }
 .table-wrapper { overflow-x: auto; width: 100%; margin-bottom: 10px; }
+
+/* Collapsible Shop Details Box */
+.shop-toggle-btn {
+    background: #f1f5f9;
+    color: #475569;
+    border: 1px solid #cbd5e1;
+    font-weight: bold;
+    padding: 8px 12px;
+    border-radius: 8px;
+    cursor: pointer;
+    width: 100%;
+    text-align: left;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+.shop-details-box {
+    display: none;
+    background: #f8fafc;
+    padding: 12px;
+    border-radius: 8px;
+    border: 1px solid #e2e8f0;
+    margin-bottom: 10px;
+}
 
 /* Current Total Box Style */
 .current-total-box {
     background: #f0f4ff;
     border: 1px solid #6366f1;
     border-radius: 12px;
-    padding: 15px;
-    margin: 15px 0;
+    padding: 12px;
+    margin: 10px 0;
     text-align: center;
-    font-size: 20px;
+    font-size: 16px;
     font-weight: bold;
     color: #0f172a;
 }
+
+/* Discount & GST Inputs Grid */
+.tax-discount-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 6px;
+}
+
+/* Action Buttons inside Table */
+.btn-action {
+    border: none;
+    padding: 4px 8px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 12px;
+    color: white;
+}
+.btn-del { background: var(--danger); }
+.btn-edit { background: var(--warning); }
 
 /* Sale Summary Cards */
 .sale-summary { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-top: 15px; margin-bottom: 15px; }
@@ -110,8 +157,9 @@ th, td { border: 1px solid #666; padding: 8px; font-size: 14px; text-align: cent
 .sale-card b { font-size: 13px; color: #0f172a; }
 
 @media screen and (max-width:600px){
-  table th, table td { padding: 6px; font-size: 12px; }
+  table th, table td { padding: 5px; font-size: 11px; }
   .invoice { float: none; text-align: right; }
+  .tax-discount-grid { grid-template-columns: 1fr; }
 }
 </style>
 </head>
@@ -122,33 +170,62 @@ th, td { border: 1px solid #666; padding: 8px; font-size: 14px; text-align: cent
 <div id="main-billing" class="billing-ui-container">
     <h2>🧾 Bill Generator</h2>
 
-    <input id="shop" placeholder="Shop Name">
-    <input id="address" placeholder="Address">
-    <input id="phone" placeholder="Phone">
-    <input id="upiId" placeholder="Enter Your UPI ID (e.g. name@upi)">
-    <button id="saveShopBtn" class="btn-blue">Save Shop Details</button>
+    <!-- Collapsible Shop Details -->
+    <button type="button" class="shop-toggle-btn" onclick="toggleShopDetails()">
+        <span>⚙️ Shop Details, GSTIN & UPI Setup</span>
+        <span id="shopToggleIcon">▼</span>
+    </button>
+    <div id="shopDetailsBox" class="shop-details-box">
+        <input id="shop" placeholder="Shop Name">
+        <input id="address" placeholder="Address">
+        <input id="phone" placeholder="Phone">
+        <input id="gstin" placeholder="GSTIN Number (Optional)">
+        <input id="upiId" placeholder="Enter Your UPI ID (e.g. name@upi)">
+        <button id="saveShopBtn" class="btn-blue" style="margin-top: 5px;">Save Shop Details</button>
+    </div>
 
-    <hr style="margin: 20px 0; border: 0; border-top: 1px solid #eee;">
-
+    <!-- Main Billing Form -->
     <input id="customer" placeholder="Customer Name">
     <input id="productSearch" placeholder="Search Product">
     <select id="productDropdown"></select>
 
-    <input id="qty" type="number" placeholder="Qty">
-    <input id="price" type="number" placeholder="Price">
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
+        <input id="qty" type="number" placeholder="Qty">
+        <input id="price" type="number" placeholder="Price">
+    </div>
     <button id="addItemBtn" class="btn-blue">Add Item</button>
 
     <div class="table-wrapper">
         <table id="table">
             <thead>
-                <tr><th>No</th><th>Product</th><th>Qty</th><th>Price</th><th>Total</th></tr>
+                <tr>
+                    <th>No</th>
+                    <th>Product</th>
+                    <th>Qty</th>
+                    <th>Price</th>
+                    <th>Total</th>
+                    <th>Action</th>
+                </tr>
             </thead>
             <tbody id="tableBody"></tbody>
         </table>
     </div>
 
+    <!-- Discount & GST Section -->
+    <div class="tax-discount-grid">
+        <input id="discFlat" type="number" placeholder="Discount (₹)" oninput="calculateGrandTotal()">
+        <input id="discPercent" type="number" placeholder="Discount (%)" oninput="calculateGrandTotal()">
+        <select id="gstRate" onchange="calculateGrandTotal()">
+            <option value="0">GST 0%</option>
+            <option value="5">GST 5% (CGST 2.5% + SGST 2.5%)</option>
+            <option value="12">GST 12% (CGST 6% + SGST 6%)</option>
+            <option value="18">GST 18% (CGST 9% + SGST 9%)</option>
+            <option value="28">GST 28% (CGST 14% + SGST 14%)</option>
+        </select>
+    </div>
+
     <div class="current-total-box">
-        Current Total: ₹<span id="liveCurrentTotal">0</span>
+        Subtotal: ₹<span id="liveSubTotal">0</span> | GST: ₹<span id="liveGstTotal">0</span> | Total: ₹<span id="liveCurrentTotal">0</span>
     </div>
 
     <input id="amtPaid" type="number" placeholder="Enter Amount Paid by Customer">
@@ -193,15 +270,26 @@ th, td { border: 1px solid #666; padding: 8px; font-size: 14px; text-align: cent
 </div>
 
 <script>
+let items = [];
+let editingIndex = -1;
+
+function toggleShopDetails() {
+    const box = document.getElementById("shopDetailsBox");
+    const icon = document.getElementById("shopToggleIcon");
+    if (box.style.display === "block") {
+        box.style.display = "none";
+        icon.innerText = "▼";
+    } else {
+        box.style.display = "block";
+        icon.innerText = "▲";
+    }
+}
+
 document.addEventListener("DOMContentLoaded", function(){
     initBillingSystem();
 });
 
-// --- BILLING SYSTEM CORE ---
 function initBillingSystem() {
-    let items = [];
-    let total = 0;
-    let liveTotal = 0; // Tracking live total for the UI box
     let invoiceCounter = parseInt(localStorage.getItem("invoiceCounter")) || 1;
     let stock = JSON.parse(localStorage.getItem("stock")) || {};
     let stockHistory = JSON.parse(localStorage.getItem("stockHistory")) || [];
@@ -209,22 +297,25 @@ function initBillingSystem() {
     const shopInput = document.getElementById("shop");
     const addressInput = document.getElementById("address");
     const phoneInput = document.getElementById("phone");
+    const gstinInput = document.getElementById("gstin");
     const upiInput = document.getElementById("upiId");
     const saveShopBtn = document.getElementById("saveShopBtn");
-    const liveTotalDisplay = document.getElementById("liveCurrentTotal");
 
     // Load saved shop details
     shopInput.value = localStorage.getItem("shop") || "";
     addressInput.value = localStorage.getItem("address") || "";
     phoneInput.value = localStorage.getItem("phone") || "";
+    gstinInput.value = localStorage.getItem("gstin") || "";
     upiInput.value = localStorage.getItem("upiId") || "";
 
     saveShopBtn.addEventListener("click", function(){
         localStorage.setItem("shop", shopInput.value);
         localStorage.setItem("address", addressInput.value);
         localStorage.setItem("phone", phoneInput.value);
+        localStorage.setItem("gstin", gstinInput.value);
         localStorage.setItem("upiId", upiInput.value);
         alert("Shop details saved!");
+        toggleShopDetails();
     });
 
     const stockProductInput = document.getElementById("stockProduct");
@@ -300,7 +391,6 @@ function initBillingSystem() {
     const qtyInput = document.getElementById("qty");
     const priceInput = document.getElementById("price");
     const addItemBtn = document.getElementById("addItemBtn");
-    const tableBody = document.getElementById("tableBody");
 
     addItemBtn.addEventListener("click", function(){
         let p = productDropdown.value.trim();
@@ -308,7 +398,17 @@ function initBillingSystem() {
         let pr = +priceInput.value;
         if(!p || !q || !pr){ alert("Fill all fields"); return; }
         if(stock[p] === undefined){ alert("Product not in stock"); return; }
-        if(q > stock[p]){ alert(`Stock not sufficient for ${p}. Available: ${stock[p]}`); return; }
+
+        if(editingIndex > -1) {
+            let oldItem = items[editingIndex];
+            stock[oldItem.p] += oldItem.q;
+        }
+
+        if(q > stock[p]){ 
+            alert(`Stock not sufficient for ${p}. Available: ${stock[p]}`); 
+            if(editingIndex > -1) stock[items[editingIndex].p] -= items[editingIndex].q;
+            return; 
+        }
 
         stock[p] -= q;
         stockHistory.push({product:p, qtyAdded:-q, type:"Sold", date:new Date().toISOString()});
@@ -317,19 +417,17 @@ function initBillingSystem() {
         renderStock();
 
         let t = q * pr;
-        items.push({p, q, pr, t});
-        
-        // Update live total display
-        liveTotal += t;
-        liveTotalDisplay.innerText = liveTotal;
 
-        let row = tableBody.insertRow();
-        row.insertCell(0).innerText = items.length;
-        row.insertCell(1).innerText = p;
-        row.insertCell(2).innerText = q;
-        row.insertCell(3).innerText = pr;
-        row.insertCell(4).innerText = t;
-        
+        if(editingIndex > -1) {
+            items[editingIndex] = {p, q, pr, t};
+            editingIndex = -1;
+            addItemBtn.innerText = "Add Item";
+            addItemBtn.style.background = "var(--blue-btn)";
+        } else {
+            items.push({p, q, pr, t});
+        }
+
+        renderCartTable();
         productSearch.value = ""; 
         qtyInput.value = ""; 
         priceInput.value = "";
@@ -344,22 +442,38 @@ function initBillingSystem() {
 
     document.getElementById("generateBillBtn").addEventListener("click", function(){
         if(items.length === 0){ alert("Add items first"); return; }
-        let bill = document.getElementById("bill");
-        total = 0; 
-        items.forEach(i => total += i.t);
         
-        let paid = parseFloat(document.getElementById("amtPaid").value) || total;
-        let unpaid = total - paid;
+        let subtotal = 0;
+        items.forEach(i => subtotal += i.t);
+        
+        let flatDisc = parseFloat(document.getElementById("discFlat").value) || 0;
+        let percentDisc = parseFloat(document.getElementById("discPercent").value) || 0;
+        let discountVal = flatDisc + (subtotal * (percentDisc / 100));
+        let taxableAmount = subtotal - discountVal;
+        if(taxableAmount < 0) taxableAmount = 0;
+
+        let gstRate = parseFloat(document.getElementById("gstRate").value) || 0;
+        let totalGst = taxableAmount * (gstRate / 100);
+        let cgst = totalGst / 2;
+        let sgst = totalGst / 2;
+        let grandTotal = taxableAmount + totalGst;
+
+        let paid = parseFloat(document.getElementById("amtPaid").value);
+        if(isNaN(paid)) paid = grandTotal;
+
+        let unpaid = grandTotal - paid;
         if(unpaid < 0) unpaid = 0;
 
         let invoiceNo = getInvoiceNumber();
         let dateISO = new Date().toISOString();
         let paymentMode = document.getElementById("payment").value;
         let upiId = upiInput.value.trim();
+        let gstinVal = gstinInput.value.trim();
 
         let html = `<div class="invoice">Invoice No: ${invoiceNo}</div><div class="clear"></div>
-        <b>${shopInput.value}</b><br>${addressInput.value}<br>Phone: ${phoneInput.value}<br>
-        Date: ${new Date(dateISO).toLocaleString()}<br>
+        <b>${shopInput.value}</b><br>${addressInput.value}<br>Phone: ${phoneInput.value}<br>`;
+        if(gstinVal) html += `GSTIN: ${gstinVal}<br>`;
+        html += `Date: ${new Date(dateISO).toLocaleString()}<br>
         Customer: ${document.getElementById("customer").value || 'Walk-in Customer'}<br>
         Payment Mode: ${paymentMode}<hr>
         <div style="overflow-x:auto;"><table>
@@ -369,29 +483,35 @@ function initBillingSystem() {
             html += `<tr><td>${index + 1}</td><td>${i.p}</td><td>${i.q}</td><td>${i.pr}</td><td>${i.t}</td></tr>`;
         });
         
-        html += `<tr class="totalRow"><td colspan="4">Grand Total</td><td>₹${total}</td></tr>`;
-        html += `<tr class="totalRow" style="color:green;"><td colspan="4">Paid Amount</td><td>₹${paid}</td></tr>`;
-        html += `<tr class="totalRow" style="color:red;"><td colspan="4">Unpaid Balance</td><td>₹${unpaid}</td></tr></table></div>`;
+        html += `<tr class="totalRow"><td colspan="4">Subtotal</td><td>₹${subtotal.toFixed(2)}</td></tr>`;
+        if(discountVal > 0) {
+            html += `<tr class="totalRow" style="color:red;"><td colspan="4">Discount</td><td>-₹${discountVal.toFixed(2)}</td></tr>`;
+        }
+        if(gstRate > 0) {
+            html += `<tr class="totalRow"><td colspan="4">CGST (${(gstRate/2)}%)</td><td>₹${cgst.toFixed(2)}</td></tr>`;
+            html += `<tr class="totalRow"><td colspan="4">SGST (${(gstRate/2)}%)</td><td>₹${sgst.toFixed(2)}</td></tr>`;
+        }
+        html += `<tr class="totalRow"><td colspan="4">Grand Total</td><td>₹${grandTotal.toFixed(2)}</td></tr>`;
+        html += `<tr class="totalRow" style="color:green;"><td colspan="4">Paid Amount</td><td>₹${paid.toFixed(2)}</td></tr>`;
+        html += `<tr class="totalRow" style="color:red;"><td colspan="4">Unpaid Balance</td><td>₹${unpaid.toFixed(2)}</td></tr></table></div>`;
         
         if(upiId !== "" && paid > 0){
-            let qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${encodeURIComponent('upi://pay?pa='+upiId+'&pn='+shopInput.value+'&am='+paid+'&cu=INR')}`;
-            html += `<div class="qr-container"><p>Scan to Pay: ₹${paid}</p><img src="${qrUrl}" alt="UPI QR Code"></div>`;
+            let qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=140x140&data=${encodeURIComponent('upi://pay?pa='+upiId+'&pn='+shopInput.value+'&am='+paid+'&cu=INR')}`;
+            html += `<div class="qr-container"><p>Scan to Pay: ₹${paid.toFixed(2)}</p><img src="${qrUrl}" alt="UPI QR Code"></div>`;
         }
 
-        bill.innerHTML = html;
+        document.getElementById("bill").innerHTML = html;
 
         let saleHistory = JSON.parse(localStorage.getItem("saleHistory")) || [];
-        saleHistory.push({ invoiceNo, total, paid, unpaid, date: dateISO, customer: document.getElementById("customer").value || 'Walk-in', items: [...items] });
+        saleHistory.push({ invoiceNo, total: grandTotal, paid, unpaid, date: dateISO, customer: document.getElementById("customer").value || 'Walk-in', items: [...items] });
         localStorage.setItem("saleHistory", JSON.stringify(saleHistory));
 
         updateSaleSummary();
         items = [];
-        tableBody.innerHTML = "";
+        renderCartTable();
         document.getElementById("amtPaid").value = "";
-        
-        // Reset Live Total after generating bill
-        liveTotal = 0;
-        liveTotalDisplay.innerText = "0";
+        document.getElementById("discFlat").value = "";
+        document.getElementById("discPercent").value = "";
     });
 
     document.getElementById("printBillBtn").addEventListener("click", function(){
@@ -439,11 +559,89 @@ function initBillingSystem() {
             if(diffDays <= 7) wTotal += s.total;
             if(sDate.getMonth() === today.getMonth() && sDate.getFullYear() === today.getFullYear()) mTotal += s.total;
         });
-        document.getElementById("saleToday").innerText = "₹" + tTotal;
-        document.getElementById("saleWeekly").innerText = "₹" + wTotal;
-        document.getElementById("saleMonthly").innerText = "₹" + mTotal;
+        document.getElementById("saleToday").innerText = "₹" + tTotal.toFixed(2);
+        document.getElementById("saleWeekly").innerText = "₹" + wTotal.toFixed(2);
+        document.getElementById("saleMonthly").innerText = "₹" + mTotal.toFixed(2);
     }
     updateSaleSummary();
+}
+
+// Render Cart Table with Edit & Delete Action
+function renderCartTable() {
+    const tableBody = document.getElementById("tableBody");
+    tableBody.innerHTML = "";
+    items.forEach((item, index) => {
+        let row = tableBody.insertRow();
+        row.insertCell(0).innerText = index + 1;
+        row.insertCell(1).innerText = item.p;
+        row.insertCell(2).innerText = item.q;
+        row.insertCell(3).innerText = item.pr;
+        row.insertCell(4).innerText = item.t;
+        row.insertCell(5).innerHTML = `
+            <button class="btn-action btn-edit" onclick="editItem(${index})">✏️</button>
+            <button class="btn-action btn-del" onclick="deleteItem(${index})">🗑</button>
+        `;
+    });
+    calculateGrandTotal();
+}
+
+// Delete item from cart & restore stock
+function deleteItem(index) {
+    let stock = JSON.parse(localStorage.getItem("stock")) || {};
+    let item = items[index];
+    stock[item.p] = (stock[item.p] || 0) + item.q;
+    localStorage.setItem("stock", JSON.stringify(stock));
+    
+    items.splice(index, 1);
+    renderCartTable();
+    
+    let stockTable = document.getElementById("stockTable");
+    let stockHistory = JSON.parse(localStorage.getItem("stockHistory")) || [];
+    stockTable.innerHTML = `<tr><th>Product</th><th>Available Qty</th><th>Last Updated</th></tr>`;
+    for(let p in stock){
+        let updates = stockHistory.filter(h => h.product === p);
+        let lastUpdate = updates[updates.length - 1]?.date || "";
+        let color = stock[p] <= 5 ? "red" : "green";
+        let row = stockTable.insertRow();
+        row.insertCell(0).innerHTML = p + (stock[p] <= 5 ? " ⚠ Low Stock" : "");
+        row.insertCell(1).innerHTML = `<span style="color:${color}">${stock[p]}</span>`;
+        row.insertCell(2).innerText = lastUpdate ? new Date(lastUpdate).toLocaleString() : "-";
+    }
+}
+
+// Edit item in cart
+function editItem(index) {
+    let item = items[index];
+    document.getElementById("productDropdown").value = item.p;
+    document.getElementById("qty").value = item.q;
+    document.getElementById("price").value = item.pr;
+    editingIndex = index;
+    
+    let btn = document.getElementById("addItemBtn");
+    btn.innerText = "Update Item";
+    btn.style.background = "var(--warning)";
+}
+
+// Calculate Live Discount, GST, and Grand Total
+function calculateGrandTotal() {
+    let subtotal = 0;
+    items.forEach(i => subtotal += i.t);
+    
+    let flatDisc = parseFloat(document.getElementById("discFlat").value) || 0;
+    let percentDisc = parseFloat(document.getElementById("discPercent").value) || 0;
+    let totalDiscount = flatDisc + (subtotal * (percentDisc / 100));
+    
+    let taxableAmount = subtotal - totalDiscount;
+    if(taxableAmount < 0) taxableAmount = 0;
+
+    let gstRate = parseFloat(document.getElementById("gstRate").value) || 0;
+    let totalGst = taxableAmount * (gstRate / 100);
+    let grandTotal = taxableAmount + totalGst;
+
+    document.getElementById("liveSubTotal").innerText = subtotal.toFixed(2);
+    document.getElementById("liveGstTotal").innerText = totalGst.toFixed(2);
+    document.getElementById("liveCurrentTotal").innerText = grandTotal.toFixed(2);
+    return grandTotal;
 }
 </script>
 </body>
