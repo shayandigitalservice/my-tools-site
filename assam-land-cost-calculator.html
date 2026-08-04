@@ -839,7 +839,7 @@
             `,
             hi: `
                 <div class="seo-header-block">
-                    <h2>অসম ভূমি পঞ্জীয়ন আৰু মূল্যাংকন কেলকুলেটৰ: پیشەদাৰী মূল্যায়ন সঁজুলি</h2>
+                    <h2>অসম ভূমি পঞ্জীয়ন আৰু মূল্যাংকন কেলকুলেটৰ: পেশাদাৰী মূল্যায়ন সঁজুলি</h2>
                     <p style="font-size: 18px; color: #555; margin: 5px 0 0 0;">অসমৰ ছাৰ্কোল ৰেট, ষ্টাম্প ডিউটি আৰু ধৰিত্ৰী ৰাজহ ৰেকৰ্ডৰ সঠিক মূল্যায়নৰ বাবে এটি সম্পূৰ্ণ সঁজুলি।</p>
                 </div>
                 <img src="assam1.webp" class="content-image" loading="lazy" alt="Shayan Smart Tools Assam">
@@ -854,7 +854,7 @@
 
                 <section>
                     <h2>অসমত ষ্টাম্প ডিউটি আৰু পঞ্জীয়ন মাচুলৰ হাৰ ২০২৬</h2>
-                    <p>অসম চৰকাৰৰ শেহতীয়া নিয়মাৱলী অনুসৰি মাটি আৰু সম্পত্তি পঞ্জীয়নৰ বাবে নিৰ্ধাৰিত কৰ হাৰসমূহ:</p>
+                    <p>অসম চৰকাৰৰ শেহতীয়া नियমাৱলী অনুসৰি মাটি আৰু সম্পত্তি পঞ্জীয়নৰ বাবে নিৰ্ধাৰিত কৰ হাৰসমূহ:</p>
                     <div style="overflow-x: auto;">
                         <table>
                             <thead>
@@ -1096,7 +1096,7 @@
                 legReg: "পঞ্জীয়ন মাচুল",
                 optUrban: "নগৰীয়া অঞ্চল / GMDA Zone (১% অতিৰিক্ত চাৰচাৰ্জ)",
                 optRural: "গ্ৰাম্য অঞ্চল (মানক ভিত্তি)",
-                optMale: "পুৰুষ / ব্যক্তিগত (ষ্টাম্প ৫%)",
+                optMale: "পুৰুষ / কোনটা (ষ্টাম্প ৫%)",
                 optFemale: "মহিলা (ষ্টাম্প ৩%)",
                 optJoint: "যুটীয়া মালিকীস্বত্ব (ষ্টাম্প ৪%)",
                 lblResSqft: "মুঠ বৰ্গফুট (Sq.Ft):",
@@ -1189,134 +1189,183 @@
             document.getElementById('lblPrintDiscBody').innerText = dict[lang].lblPrintDiscBody;
             document.getElementById('chartCenterText').innerHTML = dict[lang].chartCenterText;
 
-            // Dynamically load complete SEO Article
+            // Load language dynamic article
             document.getElementById('seoContainer').innerHTML = seoArticles[lang];
 
-            if(document.getElementById('resPanel').style.display === "block") {
+            if (document.getElementById('resPanel').style.display === 'block') {
                 calculateAssamLandCost();
             }
         }
 
-        function numToWords(num) {
-            if (currentLang === 'hi') {
-                const a = ['', 'এক ', 'দুই ', 'তিনি ', 'চাৰি ', 'পাঁচ ', 'ছয় ', 'সাত ', 'আঠ ', 'ন '];
-                const b = ['', 'দহ', 'বিছ', 'ত্ৰিশ', 'চল্লিছ', 'পঞ্চাশ', 'ষাঠি', 'সত্তৰ', 'অশী', 'নব্বৈ'];
-                if (num === 0) return 'শূন্য টকা';
-                return num.toLocaleString('en-IN') + ' টকা মাত্ৰ';
-            } else {
-                const a = ['', 'One ', 'Two ', 'Three ', 'Four ', 'Five ', 'Six ', 'Seven ', 'Eight ', 'Nine ', 'Ten ', 'Eleven ', 'Twelve ', 'Thirteen ', 'Fourteen ', 'Fifteen ', 'Sixteen ', 'Seventeen ', 'Eighteen ', 'Nineteen '];
-                const b = ['', '', 'Twenty', 'Thirty', 'Forty', 'Fifty', 'Sixty', 'Seventy', 'Eighty', 'Ninety'];
-
-                if ((num = num.toString()).length > 9) return 'overflow';
-                let n = ('000000000' + num).substr(-9).match(/^(\d{2})(\d{2})(\d{2})(\d{1})(\d{2})$/);
-                if (!n) return ''; 
-                let str = '';
-                str += (Number(n[1]) != 0) ? (a[Number(n[1])] || b[n[1][0]] + ' ' + a[n[1][1]]) + 'Crore ' : '';
-                str += (Number(n[2]) != 0) ? (a[Number(n[2])] || b[n[2][0]] + ' ' + a[n[2][1]]) + 'Lakh ' : '';
-                str += (Number(n[3]) != 0) ? (a[Number(n[3])] || b[n[3][0]] + ' ' + a[n[3][1]]) + 'Thousand ' : '';
-                str += (Number(n[4]) != 0) ? a[Number(n[4])] + 'Hundred ' : '';
-                str += (Number(n[5]) != 0) ? ((str != '') ? 'and ' : '') + (a[Number(n[5])] || b[n[5][0]] + ' ' + a[n[5][1]]) : '';
-                return str ? str + 'Rupees Only' : 'Zero Rupees Only';
-            }
-        }
+        // Standard Conversion Constants for Assam Dharitree Matrix:
+        // 1 Bigha = 14,400 Sq.Ft
+        // 1 Katha = 2,880 Sq.Ft (5 Katha = 1 Bigha)
+        // 1 Lessa = 144 Sq.Ft (20 Lessa = 1 Katha, 100 Lessa = 1 Bigha)
+        // 1 Acre = 43,560 Sq.Ft (~3.025 Bighas)
+        const SQFT_PER_BIGHA = 14400;
+        const SQFT_PER_KATHA = 2880;
+        const SQFT_PER_LESSA = 144;
+        const SQFT_PER_ACRE = 43560;
 
         function calculateAssamLandCost() {
-            const area = parseFloat(document.getElementById('landArea').value);
+            const areaVal = parseFloat(document.getElementById('landArea').value);
             const unit = document.getElementById('areaUnitSelect').value;
-            const price = parseFloat(document.getElementById('unitPrice').value);
-            const ownership = document.getElementById('ownershipSelect').value;
+            const priceVal = parseFloat(document.getElementById('unitPrice').value);
             const region = document.getElementById('regionSelect').value;
-            const khasra = document.getElementById('khasraInput').value.trim();
-            const resPanel = document.getElementById('resPanel');
+            const ownership = document.getElementById('ownershipSelect').value;
 
-            if (isNaN(area) || area <= 0 || isNaN(price) || price <= 0) {
-                alert(currentLang === 'en' ? "Please enter valid land area and unit price attributes!" : "অনুগ্ৰহ কৰি সঠিক ভূমি কালি আৰু প্ৰতি এককৰ মূল্য প্ৰৱেশ কৰক!");
+            if (isNaN(areaVal) || areaVal <= 0 || isNaN(priceVal) || priceVal <= 0) {
+                alert(currentLang === 'en' ? "Please enter valid positive values for Land Area and Price Per Unit." : "অনুগ্ৰহ কৰি ভূমিৰ কালি আৰু প্ৰতি এককৰ মূল্যৰ বাবে সঠিক ধনাত্মক সংখ্যা ভৰাওক।");
                 return;
             }
 
-            let sqft = 0;
-            let bigha = 0;
+            let totalSqft = 0;
 
-            // Assam Standard Ratios: 1 Bigha = 5 Katha = 100 Lessa = 14400 Sq.Ft
-            if(unit === 'bigha') {
-                bigha = area;
-                sqft = area * 14400;
-            } else if(unit === 'katha') {
-                sqft = area * 2880;
-                bigha = sqft / 14400;
-            } else if(unit === 'lessa') {
-                sqft = area * 144;
-                bigha = sqft / 14400;
-            } else if(unit === 'acre') {
-                sqft = area * 43560;
-                bigha = sqft / 14400;
-            } else if(unit === 'sqft') {
-                sqft = area;
-                bigha = area / 14400;
-            }
+            if (unit === 'bigha') totalSqft = areaVal * SQFT_PER_BIGHA;
+            else if (unit === 'katha') totalSqft = areaVal * SQFT_PER_KATHA;
+            else if (unit === 'lessa') totalSqft = areaVal * SQFT_PER_LESSA;
+            else if (unit === 'acre') totalSqft = areaVal * SQFT_PER_ACRE;
+            else if (unit === 'sqft') totalSqft = areaVal;
 
-            const landCost = area * price;
-            
-            let stampDutyRate = 0.05; 
-            if(ownership === 'female') {
-                stampDutyRate = 0.03;
-            } else if(ownership === 'joint') {
-                stampDutyRate = 0.04;
-            }
+            const totalBigha = totalSqft / SQFT_PER_BIGHA;
 
-            const stampDuty = landCost * stampDutyRate;
-            const cessAmount = (region === 'urban') ? (landCost * 0.01) : 0;
-            const regFees = landCost * 0.01; // Standard 1% Assam Registration Fee
+            // Land Market Cost Calculation based on unit rate input
+            let landCost = 0;
+            if (unit === 'bigha') landCost = areaVal * priceVal;
+            else if (unit === 'katha') landCost = areaVal * priceVal;
+            else if (unit === 'lessa') landCost = areaVal * priceVal;
+            else if (unit === 'acre') landCost = areaVal * priceVal;
+            else if (unit === 'sqft') landCost = areaVal * priceVal;
 
-            const netBudget = landCost + stampDuty + cessAmount + regFees;
+            // Stamp Duty Rate Slabs
+            let stampRate = 0.05; // Male baseline = 5%
+            if (ownership === 'female') stampRate = 0.03; // Female rebate = 3%
+            else if (ownership === 'joint') stampRate = 0.04; // Joint = 4%
 
-            const unitBighaLabel = (currentLang === 'en') ? "Bigha Allocation Matrix" : "বিঘা আৱণ্টন মেট্ৰিস্ক";
-            document.getElementById('jhStandardOutput').innerText = bigha.toFixed(4) + " " + unitBighaLabel;
-            
-            // Format Bigha, Katha, Lessa breakdown layout
-            let wholeBigha = Math.floor(bigha);
-            let remSqft = sqft - (wholeBigha * 14400);
-            let wholeKatha = Math.floor(remSqft / 2880);
-            let remLessa = Math.round((remSqft - (wholeKatha * 2880)) / 144);
-            
-            if(currentLang === 'en') {
-                document.getElementById('bklText').innerText = `${wholeBigha} Bigha, ${wholeKatha} Katha, ${remLessa} Lessa`;
-            } else {
-                document.getElementById('bklText').innerText = `${wholeBigha} বিঘা, ${wholeKatha} কথা, ${remLessa} লেচা`;
-            }
+            const stampDuty = landCost * stampRate;
 
-            document.getElementById('outTotalSqft').innerText = Math.round(sqft).toLocaleString('en-IN') + (currentLang === 'en' ? " sq ft" : " বৰ্গফুট");
-            document.getElementById('outTotalDecimal').innerText = bigha.toFixed(4) + (currentLang === 'en' ? " Bigha" : " বিঘা");
+            // Regional Surcharge / Infrastructure Cess (1% for Urban / GMDA zone)
+            let cessRate = (region === 'urban') ? 0.01 : 0;
+            const cess = landCost * cessRate;
+
+            // Registration Charges (1% Standard Section 78)
+            const regFees = landCost * 0.01;
+
+            // Total Acquisition Budget
+            const netBudget = landCost + stampDuty + cess + regFees;
+
+            // Break down Total Sq.Ft into traditional Bigha - Katha - Lessa format
+            let remainingSqft = totalSqft;
+            const bighaPart = Math.floor(remainingSqft / SQFT_PER_BIGHA);
+            remainingSqft %= SQFT_PER_BIGHA;
+
+            const kathaPart = Math.floor(remainingSqft / SQFT_PER_KATHA);
+            remainingSqft %= SQFT_PER_KATHA;
+
+            const lessaPart = (remainingSqft / SQFT_PER_LESSA).toFixed(2);
+
+            // Populate Interface DOM Elements
+            document.getElementById('outTotalSqft').innerText = totalSqft.toLocaleString('en-IN', { maximumFractionDigits: 2 }) + " sq ft";
+            document.getElementById('outTotalDecimal').innerText = totalBigha.toFixed(4) + " Bigha";
             document.getElementById('outLandCost').innerText = "₹" + Math.round(landCost).toLocaleString('en-IN');
-            document.getElementById('outStampDuty').innerText = "₹" + Math.round(stampDuty).toLocaleString('en-IN') + " (" + (stampDutyRate*100).toFixed(1) + "%)";
-            
-            const cessLabel = (region === 'urban') ? (currentLang === 'en' ? " (1% Urban Surcharge)" : " (১% নগৰীয়া চাৰচাৰ্জ)") : " (0%)";
-            document.getElementById('outCess').innerText = "₹" + Math.round(cessAmount).toLocaleString('en-IN') + cessLabel;
-            document.getElementById('outRegFees').innerText = "₹" + Math.round(regFees).toLocaleString('en-IN') + " (1%)";
+            document.getElementById('outStampDuty').innerText = "₹" + Math.round(stampDuty).toLocaleString('en-IN');
+            document.getElementById('outCess').innerText = "₹" + Math.round(cess).toLocaleString('en-IN');
+            document.getElementById('outRegFees').innerText = "₹" + Math.round(regFees).toLocaleString('en-IN');
             document.getElementById('outNetBudget').innerText = "₹" + Math.round(netBudget).toLocaleString('en-IN');
 
-            const roundedNet = Math.round(netBudget);
-            document.getElementById('outBudgetInWords').innerText = numToWords(roundedNet);
+            document.getElementById('jhStandardOutput').innerText = totalBigha.toFixed(4) + " Bigha Allocation";
+            document.getElementById('bklText').innerText = `${bighaPart} Bigha, ${kathaPart} Katha, ${lessaPart} Lessa`;
+            document.getElementById('outBudgetInWords').innerText = numberToWordsIN(Math.round(netBudget));
 
-            const costPct = (landCost / netBudget) * 100;
-            const taxPct = ((stampDuty + cessAmount) / netBudget) * 100;
-            const regPct = (regFees / netBudget) * 100;
-
-            const chartGrad = `conic-gradient(var(--as-crimson) 0% ${costPct}%, var(--as-gold) ${costPct}% ${costPct + taxPct}%, #3b82f6 ${costPct + taxPct}% 100%)`;
-            document.getElementById('visualDonut').style.background = chartGrad;
-
-            let options = { day: 'numeric', month: 'long', year: 'numeric' };
-            let today = new Date().toLocaleDateString('en-IN', options);
-            document.getElementById('pDocDate').innerText = today + " (IST)";
+            // Populate Metadata for Print Matrix
+            const now = new Date();
+            const dateStr = now.toLocaleDateString('en-IN', { day: '2-digit', month: '2-digit', year: 'numeric' });
+            const randomRef = "SST-AS-" + Math.floor(1000 + Math.random() * 9000);
             
-            let displayUnitLabel = unit.toUpperCase();
-            document.getElementById('rInputVal').innerText = `${area} ${displayUnitLabel} @ ₹${price}/Unit [${region.toUpperCase()} - ${ownership.toUpperCase()}] ${khasra ? '(Patta/Dag: '+khasra+')' : ''}`;
-            
-            let randID = Math.floor(1000 + Math.random() * 9000);
-            document.getElementById('pDocRef').innerText = `SST-AS-${randID}`;
+            document.getElementById('pDocRef').innerText = randomRef;
+            document.getElementById('pDocDate').innerText = dateStr;
+            document.getElementById('rInputVal').innerText = `${areaVal} ${unit.toUpperCase()} @ ₹${priceVal.toLocaleString('en-IN')}`;
 
-            resPanel.style.display = "block";
-            resPanel.scrollIntoView({ behavior: 'smooth' });
+            // Update Dynamic Donut Chart Visual
+            const costPct = ((landCost / netBudget) * 100).toFixed(1);
+            const stampPct = (((stampDuty + cess) / netBudget) * 100).toFixed(1);
+            const regPct = ((regFees / netBudget) * 100).toFixed(1);
+
+            document.getElementById('visualDonut').style.background = `conic-gradient(var(--as-crimson) 0% ${costPct}%, var(--as-gold) ${costPct}% ${parseFloat(costPct) + parseFloat(stampPct)}%, #3b82f6 ${parseFloat(costPct) + parseFloat(stampPct)}% 100%)`;
+
+            document.getElementById('resPanel').style.display = 'block';
+            document.getElementById('resPanel').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function numberToWordsIN(num) {
+            if (num === 0) return "Zero Rupees Only";
+            const a = ['', 'One ', 'Two ', 'Three ', 'Four ', 'Five ', 'Six ', 'Seven ', 'Eight ', 'Nine ', 'Ten ', 'Eleven ', 'Twelve ', 'Thirteen ', 'Fourteen ', 'Fifteen ', 'Sixteen ', 'Seventeen ', 'Eighteen ', 'Nineteen '];
+            const b = ['', '', 'Twenty', 'Thirty', 'Forty', 'Fifty', 'Sixty', 'Seventy', 'Eighty', 'Ninety'];
+
+            function inWords(n) {
+                if ((n = n.toString()).length > 9) return 'overflow';
+                let n_arr = ('000000000' + n).substr(-9).match(/^(\d{2})(\d{2})(\d{2})(\d{1})(\d{2})$/);
+                if (!n_arr) return '';
+                let str = '';
+                str += (n_arr[1] != 0) ? (a[Number(n_arr[1])] || b[n_arr[1][0]] + ' ' + a[n_arr[1][1]]) + 'Crore ' : '';
+                str += (n_arr[2] != 0) ? (a[Number(n_arr[2])] || b[n_arr[2][0]] + ' ' + a[n_arr[2][1]]) + 'Lakh ' : '';
+                str += (n_arr[3] != 0) ? (a[Number(n_arr[3])] || b[n_arr[3][0]] + ' ' + a[n_arr[3][1]]) + 'Thousand ' : '';
+                str += (n_arr[4] != 0) ? (a[Number(n_arr[4])] || b[n_arr[4][0]] + ' ' + a[n_arr[4][1]]) + 'Hundred ' : '';
+                str += (n_arr[5] != 0) ? ((str != '') ? 'and ' : '') + (a[Number(n_arr[5])] || b[n_arr[5][0]] + ' ' + a[n_arr[5][1]]) : '';
+                return str.trim();
+            }
+
+            return inWords(num) + " Rupees Only";
+        }
+
+        function copyCostData() {
+            const sqft = document.getElementById('outTotalSqft').innerText;
+            const bigha = document.getElementById('outTotalDecimal').innerText;
+            const landVal = document.getElementById('outLandCost').innerText;
+            const stampVal = document.getElementById('outStampDuty').innerText;
+            const cessVal = document.getElementById('outCess').innerText;
+            const regVal = document.getElementById('outRegFees').innerText;
+            const totalBudget = document.getElementById('outNetBudget').innerText;
+            const bkl = document.getElementById('bklText').innerText;
+
+            const text = `🏡 *Assam Land Cost & Registry Summary (2026)*\n` +
+                         `-----------------------------------\n` +
+                         `📐 Total Area: ${sqft} (${bigha})\n` +
+                         `📌 Local Format: ${bkl}\n` +
+                         `💰 Pure Land Cost: ${landVal}\n` +
+                         `📜 Stamp Duty: ${stampVal}\n` +
+                         `🏛️ Local Cess/Surcharge: ${cessVal}\n` +
+                         `📑 Registration Fee (1%): ${regVal}\n` +
+                         `-----------------------------------\n` +
+                         `🏷️ *Total Estimated Budget: ${totalBudget}*\n\n` +
+                         `Calculated via Shayan Smart Tools:\nhttps://shayansmarttools.in/assam-land-cost-calculator.html`;
+
+            navigator.clipboard.writeText(text).then(() => {
+                alert(currentLang === 'en' ? "Calculation breakdown copied to clipboard!" : "গাণিতিক সবিশেষ ক্লিপবৰ্ডলৈ কপি কৰা হৈছে!");
+            });
+        }
+
+        function shareCostWA() {
+            const sqft = document.getElementById('outTotalSqft').innerText;
+            const totalBudget = document.getElementById('outNetBudget').innerText;
+            const bkl = document.getElementById('bklText').innerText;
+
+            const text = encodeURIComponent(
+                `🏡 *Assam Land Cost & Registration Budget*\n` +
+                `📐 Area: ${sqft} (${bkl})\n` +
+                `🏷️ Total Budget: ${totalBudget}\n\n` +
+                `Calculate your land budget in Assam dynamically:\nhttps://shayansmarttools.in/assam-land-cost-calculator.html`
+            );
+
+            window.open(`https://api.whatsapp.com/send?text=${text}`, '_blank');
+        }
+
+        function printCostReport() {
+            document.getElementById('print-input-row').style.display = 'flex';
+            window.print();
+            setTimeout(() => {
+                document.getElementById('print-input-row').style.display = 'none';
+            }, 1000);
         }
 
         function resetCostCalculator() {
@@ -1326,53 +1375,13 @@
             document.getElementById('areaUnitSelect').selectedIndex = 0;
             document.getElementById('regionSelect').selectedIndex = 0;
             document.getElementById('ownershipSelect').selectedIndex = 0;
-            
-            const resPanel = document.getElementById('resPanel');
-            resPanel.style.display = "none";
+            document.getElementById('resPanel').style.display = 'none';
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
-        function printCostReport() {
-            const printRow = document.getElementById('print-input-row');
-            printRow.style.display = "flex";
-            window.print();
-            printRow.style.display = "none";
-        }
-
-        function copyCostData() {
-            let copyText = `--- ASSAM LAND REGISTRY BUDGET STATEMENT ---\n`;
-            copyText += `Statement Ref ID: ${document.getElementById('pDocRef').innerText}\n`;
-            copyText += `Dharitree Allocation: ${document.getElementById('jhStandardOutput').innerText}\n`;
-            copyText += `Format: ${document.getElementById('bklText').innerText}\n`;
-            copyText += `Pure Land Cost Base: ${document.getElementById('outLandCost').innerText}\n`;
-            copyText += `Stamp Duty Amount: ${document.getElementById('outStampDuty').innerText}\n`;
-            copyText += `Cess/Surcharge Amount: ${document.getElementById('outCess').innerText}\n`;
-            copyText += `Registration Fees: ${document.getElementById('outRegFees').innerText}\n`;
-            copyText += `Net Capital Acquisition Budget: ${document.getElementById('outNetBudget').innerText}\n`;
-            copyText += `Words Format: ${document.getElementById('outBudgetInWords').innerText}\n`;
-            copyText += `Calculated via Shayan Smart Tools`;
-            navigator.clipboard.writeText(copyText);
-            alert(currentLang === 'en' ? "All Conversion Result Statement Copied Successfully!" : "সকলো ফলাফল সফলতাৰে কপি কৰা হ’ল!");
-        }
-
-        function shareCostWA() {
-            let text = `*ASSAM LAND REGISTRY BUDGET STATEMENT*\n`;
-            text += `Ref: ${document.getElementById('pDocRef').innerText}\n\n`;
-            text += `• Allocation: ${document.getElementById('jhStandardOutput').innerText}\n`;
-            text += `• Format: ${document.getElementById('bklText').innerText}\n`;
-            text += `• Pure Land Cost: ${document.getElementById('outLandCost').innerText}\n`;
-            text += `• Stamp Duty: ${document.getElementById('outStampDuty').innerText}\n`;
-            text += `• Cess/Surcharge: ${document.getElementById('outCess').innerText}\n`;
-            text += `• Reg Fees: ${document.getElementById('outRegFees').innerText}\n`;
-            text += `• *Total Acquisition Budget:* ${document.getElementById('outNetBudget').innerText}\n`;
-            text += `• *In Words:* ${document.getElementById('outBudgetInWords').innerText}\n\n`;
-            text += `Computed via *Shayan Smart Tools*`;
-            window.open("https://wa.me/?text=" + encodeURIComponent(text));
-        }
-
-        // Initialize default language content on page load
+        // Initialize default view
         window.onload = function() {
-            document.getElementById('seoContainer').innerHTML = seoArticles['en'];
+            setLang('en');
         };
     </script>
 </body>
