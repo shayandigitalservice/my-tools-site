@@ -234,137 +234,11 @@
     z-index: 9999;
 }
 
-
-/* --- Independence Day Greeting Modal --- */
-.id-modal-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    background: rgba(0, 0, 0, 0.75);
-    backdrop-filter: blur(8px);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 10000;
-    opacity: 0;
-    visibility: hidden;
-    transition: all 0.4s ease-in-out;
-}
-
-.id-modal-overlay.active {
-    opacity: 1;
-    visibility: visible;
-}
-
-.id-modal-card {
-    background: #ffffff;
-    border-radius: 20px;
-    width: 90%;
-    max-width: 480px;
-    padding: 30px;
-    text-align: center;
-    position: relative;
-    transform: scale(0.7);
-    transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
-    border: 4px solid transparent;
-    background-clip: padding-box;
-}
-
-.id-modal-overlay.active .id-modal-card {
-    transform: scale(1);
-}
-
-.id-modal-card::before {
-    content: '';
-    position: absolute;
-    top: -4px; right: -4px; bottom: -4px; left: -4px;
-    background: linear-gradient(135deg, #FF9933, #FFFFFF, #138808);
-    border-radius: 24px;
-    z-index: -1;
-}
-
-.id-modal-close {
-    position: absolute;
-    top: 12px;
-    right: 15px;
-    background: none;
-    border: none;
-    font-size: 1.5rem;
-    cursor: pointer;
-    color: #666;
-}
-
-.id-flag-badge {
-    width: 70px;
-    height: 70px;
-    margin: 0 auto 15px auto;
-    background: linear-gradient(180deg, #FF9933 33.3%, #FFFFFF 33.3%, #FFFFFF 66.6%, #138808 66.6%);
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.15);
-}
-
-.id-mini-chakra {
-    width: 22px;
-    height: 22px;
-    border: 2px solid #000080;
-    border-radius: 50%;
-    animation: rotateChakra 8s linear infinite;
-}
-
-.id-modal-card h3 {
-    color: #111;
-    font-size: 1.6rem;
-    margin-bottom: 10px;
-}
-
-.id-modal-card p {
-    color: #555;
-    font-size: 0.95rem;
-    line-height: 1.5;
-    margin-bottom: 20px;
-}
-
-.id-btn-celebrate {
-    background: linear-gradient(90deg, #FF9933, #138808);
-    color: #ffffff;
-    border: none;
-    padding: 12px 28px;
-    font-size: 1rem;
-    font-weight: 700;
-    border-radius: 30px;
-    cursor: pointer;
-    box-shadow: 0 4px 15px rgba(255, 153, 51, 0.4);
-    transition: transform 0.2s ease;
-}
-
-.id-btn-celebrate:hover {
-    transform: translateY(-2px);
-}
-
-
     </style>
 </head>
 <body>
-
-
-<!-- Modal Popup (Place right before </body>) -->
-<div class="id-modal-overlay" id="independenceModal">
-    <div class="id-modal-card">
-        <button class="id-modal-close" id="closeModal">&times;</button>
-        <div class="id-flag-badge">
-            <div class="id-mini-chakra"></div>
-        </div>
-        <h3>Happy Independence Day!</h3>
-        <p>Shayan Smart Tools wishes you a proud Independence Day! Explore our state-wise land measurement calculators built for precision.</p>
-        <button class="id-btn-celebrate" id="celebrateBtn">Jai Hind! 🇮🇳</button>
-    </div>
-</div>
+<!-- Floating Animation Canvas -->
+<canvas id="independence-canvas"></canvas>
 
 <header>
     <a href="index.html" class="logo">
@@ -1270,30 +1144,6 @@ function animateIndependence() {
 }
 
 animateIndependence();
-    // Modal Display & Dismissal Logic
-document.addEventListener('DOMContentLoaded', () => {
-    const modal = document.getElementById('independenceModal');
-    const closeModal = document.getElementById('closeModal');
-    const celebrateBtn = document.getElementById('celebrateBtn');
-
-    // Show modal automatically after 1 second
-    setTimeout(() => {
-        modal.classList.add('active');
-    }, 1000);
-
-    // Close handlers
-    const hideModal = () => {
-        modal.classList.remove('active');
-    };
-
-    closeModal.addEventListener('click', hideModal);
-    celebrateBtn.addEventListener('click', hideModal);
-
-    modal.addEventListener('click', (e) => {
-        if (e.target === modal) hideModal();
-    });
-});
-
 </script>
 </body>
-    </html>
+                </html>
