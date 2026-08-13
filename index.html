@@ -233,12 +233,221 @@
     pointer-events: none;
     z-index: 9999;
 }
+        /* --- Independence Day Animated Banner --- */
+.independence-banner-wrapper {
+    background: linear-gradient(135deg, #FF9933 0%, #FFFFFF 50%, #138808 100%);
+    padding: 3px;
+    border-radius: 16px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+    margin: 20px auto;
+    max-width: 1200px;
+}
+
+.independence-banner {
+    background: rgba(18, 18, 18, 0.85);
+    backdrop-filter: blur(10px);
+    border-radius: 14px;
+    padding: 20px 30px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: relative;
+    overflow: hidden;
+}
+
+.banner-text-content h2 {
+    font-size: 1.8rem;
+    font-weight: 800;
+    margin: 0;
+    background: linear-gradient(90deg, #FF9933, #FFFFFF, #138808);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: shimmer 4s infinite linear;
+    background-size: 200% 100%;
+}
+
+.banner-text-content p {
+    color: #e0e0e0;
+    margin: 5px 0 0 0;
+    font-size: 0.95rem;
+}
+
+.banner-chakra {
+    width: 60px;
+    height: 60px;
+    border: 3px solid #000080;
+    border-radius: 50%;
+    position: relative;
+    animation: rotateChakra 12s linear infinite;
+    flex-shrink: 0;
+}
+
+.banner-chakra::before, .banner-chakra::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: #000080;
+    transform: translateY(-50%);
+}
+
+.banner-chakra::after {
+    transform: translateY(-50%) rotate(90deg);
+}
+
+@keyframes rotateChakra {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+@keyframes shimmer {
+    0% { background-position: -200% 0; }
+    100% { background-position: 200% 0; }
+}
+
+/* --- Independence Day Greeting Modal --- */
+.id-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.75);
+    backdrop-filter: blur(8px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10000;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.4s ease-in-out;
+}
+
+.id-modal-overlay.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.id-modal-card {
+    background: #ffffff;
+    border-radius: 20px;
+    width: 90%;
+    max-width: 480px;
+    padding: 30px;
+    text-align: center;
+    position: relative;
+    transform: scale(0.7);
+    transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+    border: 4px solid transparent;
+    background-clip: padding-box;
+}
+
+.id-modal-overlay.active .id-modal-card {
+    transform: scale(1);
+}
+
+.id-modal-card::before {
+    content: '';
+    position: absolute;
+    top: -4px; right: -4px; bottom: -4px; left: -4px;
+    background: linear-gradient(135deg, #FF9933, #FFFFFF, #138808);
+    border-radius: 24px;
+    z-index: -1;
+}
+
+.id-modal-close {
+    position: absolute;
+    top: 12px;
+    right: 15px;
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: #666;
+}
+
+.id-flag-badge {
+    width: 70px;
+    height: 70px;
+    margin: 0 auto 15px auto;
+    background: linear-gradient(180deg, #FF9933 33.3%, #FFFFFF 33.3%, #FFFFFF 66.6%, #138808 66.6%);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+}
+
+.id-mini-chakra {
+    width: 22px;
+    height: 22px;
+    border: 2px solid #000080;
+    border-radius: 50%;
+    animation: rotateChakra 8s linear infinite;
+}
+
+.id-modal-card h3 {
+    color: #111;
+    font-size: 1.6rem;
+    margin-bottom: 10px;
+}
+
+.id-modal-card p {
+    color: #555;
+    font-size: 0.95rem;
+    line-height: 1.5;
+    margin-bottom: 20px;
+}
+
+.id-btn-celebrate {
+    background: linear-gradient(90deg, #FF9933, #138808);
+    color: #ffffff;
+    border: none;
+    padding: 12px 28px;
+    font-size: 1rem;
+    font-weight: 700;
+    border-radius: 30px;
+    cursor: pointer;
+    box-shadow: 0 4px 15px rgba(255, 153, 51, 0.4);
+    transition: transform 0.2s ease;
+}
+
+.id-btn-celebrate:hover {
+    transform: translateY(-2px);
+}
+
 
     </style>
 </head>
 <body>
 <!-- Floating Animation Canvas -->
 <canvas id="independence-canvas"></canvas>
+<!-- Banner Section (Place inside .container) -->
+<div class="independence-banner-wrapper">
+    <div class="independence-banner">
+        <div class="banner-text-content">
+            <h2>Happy Independence Day! 🇮🇳</h2>
+            <p>Celebrating freedom, precision, and empowerment across every corner of India.</p>
+        </div>
+        <div class="banner-chakra"></div>
+    </div>
+</div>
+
+<!-- Modal Popup (Place right before </body>) -->
+<div class="id-modal-overlay" id="independenceModal">
+    <div class="id-modal-card">
+        <button class="id-modal-close" id="closeModal">&times;</button>
+        <div class="id-flag-badge">
+            <div class="id-mini-chakra"></div>
+        </div>
+        <h3>Happy Independence Day!</h3>
+        <p>Shayan Smart Tools wishes you a proud Independence Day! Explore our state-wise land measurement calculators built for precision.</p>
+        <button class="id-btn-celebrate" id="celebrateBtn">Jai Hind! 🇮🇳</button>
+    </div>
+</div>
 
 <header>
     <a href="index.html" class="logo">
@@ -1144,6 +1353,30 @@ function animateIndependence() {
 }
 
 animateIndependence();
+    // Modal Display & Dismissal Logic
+document.addEventListener('DOMContentLoaded', () => {
+    const modal = document.getElementById('independenceModal');
+    const closeModal = document.getElementById('closeModal');
+    const celebrateBtn = document.getElementById('celebrateBtn');
+
+    // Show modal automatically after 1 second
+    setTimeout(() => {
+        modal.classList.add('active');
+    }, 1000);
+
+    // Close handlers
+    const hideModal = () => {
+        modal.classList.remove('active');
+    };
+
+    closeModal.addEventListener('click', hideModal);
+    celebrateBtn.addEventListener('click', hideModal);
+
+    modal.addEventListener('click', (e) => {
+        if (e.target === modal) hideModal();
+    });
+});
+
 </script>
 </body>
     </html>
