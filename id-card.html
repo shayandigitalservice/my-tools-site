@@ -3,26 +3,29 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Free School ID Card Generator Online | Professional Student Identity Card Maker</title>
+<title>Free School ID Card Generator Online | Instant Bulk Student ID Maker</title>
 
 <!-- Primary Meta Tags -->
-<meta name="description" content="Create professional school ID cards online instantly for free. Custom template colors, logo upload, student photo, principal signature, live preview, high-res download, and 100% privacy protection. Ideal for schools, colleges, and institutes.">
-<meta name="keywords" content="School ID Card Generator, Free Student ID Card Maker, Online ID Card Creator, Printable PVC ID Card Tool, Digital School Identity Card, Student Photo ID Maker, Custom School ID Generator">
+<meta name="description" content="Create single or bulk (100+) school ID cards online instantly for free. Custom template colors, logo upload, student photo, principal signature, live preview, CSV upload, high-res ZIP download, and 100% privacy protection. Ideal for schools, colleges, and institutes.">
+<meta name="keywords" content="School ID Card Generator, Free Student ID Card Maker, Bulk ID Card Creator, Printable PVC ID Card Tool, Digital School Identity Card, Student Photo ID Maker, Custom School ID Generator, CSV Bulk ID Maker">
 <meta name="author" content="School ID Card Generator">
 <meta name="robots" content="index, follow">
 
 <!-- Open Graph / Facebook -->
 <meta property="og:type" content="website">
-<meta property="og:title" content="Free School ID Card Generator Online - Instant PVC Student ID Maker">
-<meta property="og:description" content="Design, preview, and download custom student ID cards instantly. Add photos, logos, signatures, and switch colors easily. 100% browser-based & secure.">
+<meta property="og:title" content="Free School ID Card Generator Online - Instant Bulk PVC Student ID Maker">
+<meta property="og:description" content="Design, preview, and download custom single or bulk student ID cards instantly. Add photos, logos, signatures, CSV files, and switch colors easily. 100% browser-based & secure.">
 
 <!-- Twitter Card -->
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Free School ID Card Generator Online">
-<meta name="twitter:description" content="Instant student identity card generator tool with real-time preview and free image downloads.">
+<meta name="twitter:description" content="Instant single & bulk student identity card generator tool with real-time preview and free ZIP/PNG image downloads.">
 
 <!-- External Libraries -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.2/papaparse.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
 
 <!-- Structured Data / JSON-LD Schema (WebPage + FAQ) -->
 <script type="application/ld+json">
@@ -39,7 +42,7 @@
         "price": "0",
         "priceCurrency": "USD"
       },
-      "description": "An online browser-based web application to generate, preview, and download printable student ID cards instantly."
+      "description": "An online browser-based web application to generate, preview, and download single or bulk printable student ID cards instantly."
     },
     {
       "@type": "FAQPage",
@@ -50,6 +53,14 @@
           "acceptedAnswer": {
             "@type": "Answer",
             "text": "Yes, our School ID Card Generator is 100% free with no hidden charges, sign-ups, or subscriptions required."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How can I generate 100+ student ID cards at once?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Upload a CSV file containing student records (Name, Father Name, Class, Roll, Phone). The tool processes each entry and downloads a single compressed ZIP file containing all generated PNG cards."
           }
         },
         {
@@ -89,7 +100,7 @@
           "name": "What image file format is downloaded?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "The ID card downloads automatically as a high-definition PNG image file."
+            "text": "Single cards download as high-definition PNG files, while bulk exports are bundled into a ZIP file."
           }
         },
         {
@@ -121,7 +132,7 @@
           "name": "Is there a limit to how many cards I can create?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "There are no limits. You can generate unlimited student ID cards sequentially."
+            "text": "There are no limits. You can generate unlimited student ID cards sequentially or via CSV bulk processing."
           }
         },
         {
@@ -154,14 +165,6 @@
           "acceptedAnswer": {
             "@type": "Answer",
             "text": "Client-side execution guarantees that personal child details and sensitive biometric images never cross public internet servers, protecting privacy."
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "Can I crop photos within the tool?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "The tool uses automated object-fit scaling to neatly fit standard portrait images into the designated photo area."
           }
         }
       ]
@@ -293,15 +296,17 @@ input[type="file"] {
   display: flex;
   gap: 12px;
   margin-top: 20px;
+  flex-wrap: wrap;
 }
 
 button.action-btn {
   flex: 1;
+  min-width: 140px;
   padding: 12px;
   border: none;
   border-radius: 10px;
   font-weight: 700;
-  font-size: 1rem;
+  font-size: 0.95rem;
   cursor: pointer;
   transition: background 0.2s ease, transform 0.1s ease;
   display: inline-flex;
@@ -310,20 +315,25 @@ button.action-btn {
   gap: 8px;
 }
 
-.btn-preview {
-  background: #2563eb;
-  color: white;
-}
+.btn-preview { background: #2563eb; color: white; }
 .btn-preview:hover { background: #1d4ed8; }
 
-.btn-download {
-  background: #16a34a;
-  color: white;
-}
+.btn-download { background: #16a34a; color: white; }
 .btn-download:hover { background: #15803d; }
+
+.btn-bulk { background: #9333ea; color: white; }
+.btn-bulk:hover { background: #7e22ce; }
 
 button.action-btn:active {
   transform: scale(0.98);
+}
+
+.progress-msg {
+  margin-top: 10px;
+  font-weight: 700;
+  color: #2563eb;
+  font-size: 0.9rem;
+  text-align: center;
 }
 
 /* PREVIEW SECTION */
@@ -625,7 +635,7 @@ footer {
 
   <header>
     <h1 class="main-title">School ID Card Generator</h1>
-    <p class="sub-title">Design, Customize, and Download Printable Student Identity Cards Instantly</p>
+    <p class="sub-title">Design Single or Bulk (100+) Printable Student Identity Cards Instantly</p>
   </header>
 
   <!-- WORKSPACE -->
@@ -646,7 +656,7 @@ footer {
         </div>
       </div>
 
-      <div class="form-group-title">2. Student Details</div>
+      <div class="form-group-title">2. Student Details (Single Card)</div>
       <div class="input-grid two-col">
         <div>
           <label for="name">Student Name</label>
@@ -674,7 +684,7 @@ footer {
         </div>
       </div>
 
-      <div class="form-group-title">3. Card Customization</div>
+      <div class="form-group-title">3. Customization & Theme</div>
       <div class="input-grid two-col">
         <div>
           <label for="session">Academic Session</label>
@@ -713,10 +723,21 @@ footer {
         </div>
       </div>
 
+      <div class="form-group-title">5. Bulk Generation (CSV File Upload)</div>
+      <div class="input-grid">
+        <div>
+          <label for="csvUpload">Upload CSV Data File (100+ Students)</label>
+          <input type="file" id="csvUpload" accept=".csv">
+        </div>
+      </div>
+
       <div class="btn-group">
         <button class="action-btn btn-preview" onclick="updatePreview()">Refresh Preview</button>
-        <button class="action-btn btn-download" onclick="downloadCard()">Download Card</button>
+        <button class="action-btn btn-download" onclick="downloadSingleCard()">Download Single</button>
+        <button class="action-btn btn-bulk" onclick="generateBulkCards()">Download Bulk (ZIP)</button>
       </div>
+
+      <div id="progressText" class="progress-msg"></div>
 
     </div>
 
@@ -769,7 +790,7 @@ footer {
 
   </div>
 
-  <!-- ================= Comprehensive SEO Content Section (2500+ Words) ================= -->
+  <!-- Comprehensive SEO Content Section -->
   <article class="seo-section">
 
     <h1>Comprehensive Guide to Online School ID Card Generation and Management</h1>
@@ -796,7 +817,7 @@ footer {
 
     <h2>Step-by-Step Tutorial: How to Generate Student ID Cards</h2>
     <p>
-      Designing a customized, professional student identity card requires no graphic design experience. The following breakdown guides you through creating a card in under two minutes:
+      Designing a customized, professional student identity card requires no graphic design experience. The following breakdown guides you through creating single or bulk cards in minutes:
     </p>
 
     <h3>Step 1: Input Educational Institution Credentials</h3>
@@ -824,9 +845,9 @@ footer {
       <li><strong>Principal Signature:</strong> Upload an authorized digital signature (preferably a transparent PNG) to grant official institutional authenticity.</li>
     </ul>
 
-    <h3>Step 5: Preview and Download for Printing</h3>
+    <h3>Step 5: Bulk Generation via CSV File Upload</h3>
     <p>
-      Verify all printed fields in the live preview section on the right-hand panel (or below on mobile devices). Click the green <strong>Download Card</strong> button. The browser compiles the DOM elements into a 2x scaled, high-density PNG graphic file and prompts an immediate file download directly to your device storage.
+      To generate cards for 100+ students simultaneously, create a standard CSV file in Microsoft Excel containing columns labeled <code>Name</code>, <code>Father</code>, <code>Class</code>, <code>Section</code>, <code>Roll</code>, and <code>Phone</code>. Upload the file into the CSV input slot and click <strong>Download Bulk (ZIP)</strong>. The system iterates through every entry, generates individual high-definition PNG images, and compresses them into a single downloadable ZIP archive.
     </p>
 
     <h2>Advanced Technical Architecture and Client-Side Privacy Protection</h2>
@@ -837,14 +858,15 @@ footer {
       Our tool addresses this by using a <strong>100% Client-Side Browser Architecture</strong>. When you input names, upload photos, or attach signatures, data does not leave your local browser memory. 
     </p>
 
-    <h3>How HTML5 FileReader and html2canvas Work Under the Hood</h3>
+    <h3>How HTML5 FileReader, PapaParse, JSZip, and html2canvas Work Under the Hood</h3>
     <p>
       The technical core relies on native web APIs and optimized JavaScript canvas rendering:
     </p>
     <ul>
-      <li><strong>FileReader API Execution:</strong> When an image file is selected via the input interface, the HTML5 <code>FileReader</code> object converts the local binary image data into a Base64-encoded Data URL string. This string is injected directly into the HTML <code>&lt;img&gt;</code> element's <code>src</code> attribute in local DOM memory without submitting a multi-part HTTP POST request to an external server.</li>
-      <li><strong>HTML5 Canvas Rendering Engine:</strong> The <code>html2canvas</code> library parses the visible DOM tree of the <code>#card</code> container element. It reads layout properties, computed CSS colors, positioning coordinates, and image overlays, constructing an identical 2D canvas image.</li>
-      <li><strong>Scale Factor Optimization:</strong> To prevent blurriness when printing, the rendering engine utilizes a resolution scale multiplier (<code>scale: 2</code>). This doubles the pixel density relative to CSS display pixels, producing crisp typography and sharp graphics suitable for PVC ID printers.</li>
+      <li><strong>FileReader API Execution:</strong> Converts local binary image data into Base64-encoded Data URLs inside DOM memory without sending HTTP POST requests.</li>
+      <li><strong>PapaParse CSV Parser:</strong> Parses structured CSV data client-side, enabling dynamic element population without database connectivity.</li>
+      <li><strong>JSZip & FileSaver Integration:</strong> Asynchronously compresses multiple canvas outputs into a single client-side generated ZIP archive.</li>
+      <li><strong>Scale Factor Optimization:</strong> Utilizes a resolution scale multiplier (<code>scale: 2</code>) to double pixel density for crisp printing on thermal PVC card printers.</li>
     </ul>
 
     <h2>Key Technical Features Overview</h2>
@@ -864,24 +886,19 @@ footer {
             <td style="padding:10px 14px; border:1px solid #cbd5e1;">Guarantees full privacy compliance; student records are never stored on external databases.</td>
           </tr>
           <tr style="background:#f8fafc;">
+            <td style="padding:10px 14px; border:1px solid #cbd5e1; font-weight:600;">Bulk Processing</td>
+            <td style="padding:10px 14px; border:1px solid #cbd5e1;">CSV Data Import & JSZip Compression</td>
+            <td style="padding:10px 14px; border:1px solid #cbd5e1;">Allows instant generation of 100+ cards in a single downloadable ZIP file.</td>
+          </tr>
+          <tr>
             <td style="padding:10px 14px; border:1px solid #cbd5e1; font-weight:600;">Image Output</td>
             <td style="padding:10px 14px; border:1px solid #cbd5e1;">High-DPI PNG generation utilizing canvas scaling (Scale Factor x2)</td>
             <td style="padding:10px 14px; border:1px solid #cbd5e1;">Yields crisp, print-ready graphics compatible with standard thermal PVC card printers.</td>
           </tr>
-          <tr>
+          <tr style="background:#f8fafc;">
             <td style="padding:10px 14px; border:1px solid #cbd5e1; font-weight:600;">Layout Standard</td>
             <td style="padding:10px 14px; border:1px solid #cbd5e1;">CR80 standard aspect ratio alignment (420px by 260px CSS ratio)</td>
             <td style="padding:10px 14px; border:1px solid #cbd5e1;">Fits standard plastic badge holders, lanyards, and wallet sleeves seamlessly.</td>
-          </tr>
-          <tr style="background:#f8fafc;">
-            <td style="padding:10px 14px; border:1px solid #cbd5e1; font-weight:600;">Real-Time UX</td>
-            <td style="padding:10px 14px; border:1px solid #cbd5e1;">Event-driven input listeners for instant preview rendering</td>
-            <td style="padding:10px 14px; border:1px solid #cbd5e1;">Allows administrative staff to identify and correct typographical errors instantly.</td>
-          </tr>
-          <tr>
-            <td style="padding:10px 14px; border:1px solid #cbd5e1; font-weight:600;">Watermark Engine</td>
-            <td style="padding:10px 14px; border:1px solid #cbd5e1;">Automated low-opacity central logo placement</td>
-            <td style="padding:10px 14px; border:1px solid #cbd5e1;">Adds visual security against unauthorized card copying or counterfeiting.</td>
           </tr>
         </tbody>
       </table>
@@ -889,7 +906,7 @@ footer {
 
     <h2>Best Practices for Printing and Laminating ID Cards</h2>
     <p>
-      Achieving professional physical badges relies on proper printing and finishing processes. Follow these technical guidelines:
+      Achieving professional physical badges relies on proper printing and finishing processes:
     </p>
 
     <h3>1. Paper and Substrate Selection</h3>
@@ -902,17 +919,10 @@ footer {
       If your institution uses dedicated PVC card printers (such as Fargo, Zebra, Evolis, or Datacard), import the downloaded high-resolution PNG file into your printer driver software. Set print dimensions to CR80 (85.60 mm x 53.98 mm / 3.375" x 2.125") and ensure "fit to print boundary" is selected without artificial margins.
     </p>
 
-    <h3>3. Lamination and Protection</h3>
+    <h3>3. Thermal Lamination Pouch Method</h3>
     <p>
-      If printing on paper cardstock, encase the trimmed badge in a thermal lamination pouch (125 to 250 microns thick). Thermal lamination provides moisture resistance, UV protection, and structural rigidity, extending card durability throughout the academic year. Punch slot holes above the top banner for lanyard attachments after lamination to keep internal paper layers sealed against moisture.
+      If printing on paper cardstock, encase the trimmed badge in a thermal lamination pouch (125 to 250 microns thick). Thermal lamination provides moisture resistance and structural rigidity.
     </p>
-
-    <h2>Troubleshooting & Optimization Tips</h2>
-    <ul>
-      <li><strong>If Images Appear Stretched:</strong> Prepare passport photos in a standard 4:5 vertical portrait aspect ratio prior to uploading.</li>
-      <li><strong>If Logo Overlaps School Name:</strong> Use transparent PNG files with minimal surrounding white space for crisp integration into header bars.</li>
-      <li><strong>If Download Fails in Mobile Apps:</strong> Embedded browsers inside social media apps may restrict local file downloads. Tap the menu icon and select "Open in Browser" (Chrome, Safari, or Firefox) to ensure full file system access.</li>
-    </ul>
 
     <!-- FAQ SECTION -->
     <h2>Frequently Asked Questions (15 Comprehensive FAQs)</h2>
@@ -923,73 +933,73 @@ footer {
     </div>
 
     <div class="faq-card">
-      <h4>2. Are student photographs or personal data uploaded to cloud servers?</h4>
-      <p>No. Data processing occurs locally inside your web browser engine. Personal information, photos, and signatures are never saved, tracked, or transmitted to any remote server.</p>
+      <h4>2. How do I generate 100+ student ID cards in one click?</h4>
+      <p>Upload a CSV file with student data. Click "Download Bulk (ZIP)". The system renders each ID card and packages them into a single downloadable ZIP folder.</p>
     </div>
 
     <div class="faq-card">
-      <h4>3. Can I print the generated image on a plastic PVC card printer?</h4>
-      <p>Yes. The tool renders high-resolution PNG images formatted according to standard card proportions, making them compatible with thermal PVC plastic card printers.</p>
+      <h4>3. Are student photographs or personal data uploaded to cloud servers?</h4>
+      <p>No. Data processing occurs locally inside your web browser engine. Personal information, photos, and signatures are never saved or transmitted.</p>
     </div>
 
     <div class="faq-card">
-      <h4>4. What should I do if the principal signature has a white background?</h4>
-      <p>For best visual results, upload a transparent PNG image of the signature. You can use free online background removal tools before uploading the signature file.</p>
+      <h4>4. Can I print the generated image on a plastic PVC card printer?</h4>
+      <p>Yes. The tool renders high-resolution PNG images formatted according to standard CR80 proportions, compatible with thermal PVC printers.</p>
     </div>
 
     <div class="faq-card">
-      <h4>5. How does the automated watermark feature function?</h4>
-      <p>When you select a school logo file, the script automatically duplicates the image into a central background container with a 6% opacity layer, adding an anti-counterfeiting watermark effect.</p>
+      <h4>5. What should I do if the principal signature has a white background?</h4>
+      <p>For best results, upload a transparent PNG image of the signature.</p>
     </div>
 
     <div class="faq-card">
-      <h4>6. Can I generate identity cards for staff members and teachers?</h4>
-      <p>Yes. Simply type "STAFF CARD" or "TEACHER IDENTITY CARD" into the class and detail input fields to customize credentials for faculty members.</p>
+      <h4>6. How does the automated watermark feature function?</h4>
+      <p>When you select a school logo file, the script automatically creates a low-opacity central background watermark layer.</p>
     </div>
 
     <div class="faq-card">
-      <h4>7. What image file formats are supported for logos and photos?</h4>
-      <p>The file uploader supports all standard web image formats, including PNG, JPEG, WEBP, GIF, and SVG formats.</p>
+      <h4>7. Can I generate identity cards for staff members and teachers?</h4>
+      <p>Yes. Type "STAFF CARD" or "TEACHER IDENTITY CARD" into the class and detail input fields.</p>
     </div>
 
     <div class="faq-card">
-      <h4>8. Does this tool require account creation or registration?</h4>
-      <p>No registration, email login, or account creation is required. The generator is fully operational immediately upon loading the web page.</p>
+      <h4>8. What image file formats are supported for logos and photos?</h4>
+      <p>Supports standard web image formats: PNG, JPEG, WEBP, GIF, and SVG.</p>
     </div>
 
     <div class="faq-card">
-      <h4>9. Why does the preview update automatically when typing?</h4>
-      <p>Real-time event listeners monitor every keyboard entry and file selection, updating the layout instantly without requiring manual page reloads.</p>
+      <h4>9. Does this tool require account creation or registration?</h4>
+      <p>No registration or account creation is required.</p>
     </div>
 
     <div class="faq-card">
-      <h4>10. How can I adjust the dimensions for non-standard card holders?</h4>
-      <p>The generator outputs a standardized CR80 proportion. For custom badge sizes, scale the downloaded image within your printer driver's layout settings.</p>
+      <h4>10. Why does the preview update automatically when typing?</h4>
+      <p>Real-time event listeners monitor keyboard input and file selection to refresh DOM elements instantly.</p>
     </div>
 
     <div class="faq-card">
       <h4>11. Can I use this web app offline without an active internet connection?</h4>
-      <p>Once the web page and its external script libraries (such as html2canvas) are fully loaded into your browser cache, the application functions offline without internet access.</p>
+      <p>Once loaded into your browser cache, the application functions offline without internet access.</p>
     </div>
 
     <div class="faq-card">
       <h4>12. Why are two logos displayed in the top header bar?</h4>
-      <p>Dual corner logo placement mirrors classic academic identity badges, balancing the layout on both sides of the institution's name and address banner.</p>
+      <p>Dual corner logo placement mirrors classic academic identity badges for a balanced layout.</p>
     </div>
 
     <div class="faq-card">
       <h4>13. What resolution scale is used for generated card images?</h4>
-      <p>The download function utilizes a 2x device scale multiplier, rendering cards at twice the screen pixel density to ensure sharp text and image reproduction during printing.</p>
+      <p>The download engine utilizes a 2x device scale multiplier for high DPI clarity.</p>
     </div>
 
     <div class="faq-card">
-      <h4>14. Can I customize the field labels (e.g., change "Father Name" to "Guardian Name")?</h4>
-      <p>The default template uses standard academic field labels. You can enter guardian details directly into the father name input field to populate the output display.</p>
+      <h4>14. Can I customize field labels in the bulk download?</h4>
+      <p>Yes, ensure your CSV headers match the required fields: Name, Father, Class, Section, Roll, and Phone.</p>
     </div>
 
     <div class="faq-card">
       <h4>15. Is there a daily limit on how many identity cards can be downloaded?</h4>
-      <p>There are no download restrictions or daily caps. You can generate and download unlimited student identity cards continuously.</p>
+      <p>There are no download restrictions or daily caps.</p>
     </div>
 
     <!-- COPYRIGHT & LEGAL DISCLAIMER -->
@@ -999,22 +1009,9 @@ footer {
         <strong>Copyright © 2026 School ID Card Generator. All Rights Reserved.</strong>
       </p>
       <p style="margin-top:8px; font-size:0.9rem;">
-        This web utility and its underlying code structure are provided for legitimate educational and institutional identity management purposes. Users retain full ownership and intellectual property rights over all uploaded logos, images, signatures, and personal text inputs. The user assumes sole responsibility for ensuring that uploaded logos and emblems do not infringe upon registered trademarks or institutional copyrights. 
-      </p>
-      <p style="margin-top:8px; font-size:0.9rem;">
-        Unauthorized duplication of official government identification badges, law enforcement credentials, or fraudulent misrepresentation of academic titles using this software is strictly prohibited. The software is provided "as-is" without express or implied warranties regarding printer hardware compatibility.
+        This web utility and its underlying code structure are provided for legitimate educational and institutional identity management purposes. Users retain full ownership over all uploaded logos, images, signatures, and personal text inputs. Fraudulent misrepresentation or unauthorized duplication of official badges is strictly prohibited.
       </p>
     </div>
-
-    <h2>Related Educational Documentation Utilities</h2>
-    <p>
-      Enhance your institution's administrative workflow with our companion documentation utilities:
-    </p>
-    <ul>
-      <li><a href="#" style="color:#2563eb; text-decoration:none; font-weight:600;">Automated Student Marksheet Generator</a> – Compile academic transcripts and term reports effortlessly.</li>
-      <li><a href="#" style="color:#2563eb; text-decoration:none; font-weight:600;">Institutional Fee Receipt Maker</a> – Issue itemized financial receipts and tuition payment invoices.</li>
-      <li><a href="#" style="color:#2563eb; text-decoration:none; font-weight:600;">Academic Certificate Creator</a> – Design printable graduation, sports, and merit certificates online.</li>
-    </ul>
 
   </article>
 
@@ -1089,11 +1086,10 @@ function loadGraphic(inputElement, targetImgIds, callback) {
   }
 }
 
-// RELIABLE CANVAS IMAGE DOWNLOAD FUNCTION
-function downloadCard() {
+// SINGLE CARD DOWNLOAD FUNCTION
+function downloadSingleCard() {
   let cardElement = document.getElementById("card");
   
-  // High quality canvas capture
   html2canvas(cardElement, {
     scale: 2,
     useCORS: true,
@@ -1101,8 +1097,6 @@ function downloadCard() {
     backgroundColor: "#ffffff"
   }).then(function(canvas) {
     let imgData = canvas.toDataURL("image/png");
-    
-    // Programmatic file save link execution
     let downloadLink = document.createElement("a");
     let studentName = document.getElementById("name").value.trim() || "Student";
     let fileName = "ID_Card_" + studentName.replace(/[^a-zA-Z0-9]/g, "_") + ".png";
@@ -1115,6 +1109,65 @@ function downloadCard() {
   }).catch(function(error) {
     alert("Error generating card image. Please try again.");
     console.error("html2canvas error:", error);
+  });
+}
+
+// BULK GENERATION FUNCTION (100+ CARDS TO ZIP)
+async function generateBulkCards() {
+  const fileInput = document.getElementById('csvUpload');
+  const progressText = document.getElementById('progressText');
+
+  if (!fileInput.files[0]) {
+    alert("Please select a valid CSV file first!");
+    return;
+  }
+
+  Papa.parse(fileInput.files[0], {
+    header: true,
+    skipEmptyLines: true,
+    complete: async function(results) {
+      const students = results.data;
+      if (students.length === 0) {
+        alert("The uploaded CSV file contains no data!");
+        return;
+      }
+
+      const zip = new JSZip();
+      const cardElement = document.getElementById("card");
+
+      progressText.innerText = `Processing: 0 / ${students.length}...`;
+
+      for (let i = 0; i < students.length; i++) {
+        const student = students[i];
+
+        // Update card fields dynamically
+        document.getElementById("namePreview").innerText = student.Name || "";
+        document.getElementById("fatherPreview").innerText = student.Father || "";
+        document.getElementById("classPreview").innerText = student.Class || "";
+        document.getElementById("sectionPreview").innerText = student.Section || "";
+        document.getElementById("rollPreview").innerText = student.Roll || "";
+        document.getElementById("phonePreview").innerText = student.Phone || "";
+
+        // Wait brief delay for DOM rendering
+        await new Promise(resolve => setTimeout(resolve, 80));
+
+        // Render canvas
+        const canvas = await html2canvas(cardElement, { scale: 2, useCORS: true, backgroundColor: "#ffffff" });
+        const imgData = canvas.toDataURL("image/png").split(',')[1];
+
+        // Add file to ZIP
+        const fileName = `${student.Roll || (i + 1)}_${(student.Name || 'Student').replace(/[^a-zA-Z0-9]/g, "_")}.png`;
+        zip.file(fileName, imgData, { base64: true });
+
+        progressText.innerText = `Processing: ${i + 1} / ${students.length}...`;
+      }
+
+      progressText.innerText = "Creating ZIP package...";
+      zip.generateAsync({ type: "blob" }).then(function(content) {
+        saveAs(content, "All_Student_ID_Cards.zip");
+        progressText.innerText = "Bulk Download Complete!";
+      });
+    }
   });
 }
 </script>
