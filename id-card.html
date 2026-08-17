@@ -3,85 +3,105 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Dual-Sided Bulk School ID Card Generator & A4 Printer</title>
+<title>Dual-Sided Bulk School ID Card Generator & A4 Printer | Enterprise ID Studio Pro</title>
+
+<!-- Advanced SEO & Open Graph Meta Tags -->
+<meta name="description" content="Free Online Dual-Sided Bulk School ID Card Generator and A4 Sheet Printing Tool. Generate 300DPI student ID cards, barcodes, QR codes, and batch export ZIP instantly.">
+<meta name="keywords" content="School ID Card Generator, Bulk Student ID Maker, Dual Sided ID Card Printer, A4 PVC ID Card Layout, CSV ID Card Automator, Barcode ID Generator, QR Code Student Badge, High Resolution ID Printing, Free Plastic Card Creator">
+<meta name="robots" content="index, follow">
+<meta name="author" content="Enterprise ID Studio Pro">
+<meta property="og:title" content="Dual-Sided Bulk School ID Card Generator & A4 Printer">
+<meta property="og:description" content="Design, automate, and batch print dual-sided student ID cards with barcodes, QR codes, and custom colors.">
+<meta property="og:type" content="website">
 
 <!-- External Libraries -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.2/papaparse.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
-
-<!-- QR Code & Barcode Libraries -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jsbarcode/3.11.5/JsBarcode.all.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 
 <style>
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-body { font-family: 'Inter', 'Segoe UI', system-ui, sans-serif; background: #f8fafc; color: #000000; padding: 15px; }
+:root {
+  --bg-main: #0f172a;
+  --panel-bg: #1e293b;
+  --panel-border: #334155;
+  --accent-blue: #3b82f6;
+  --accent-purple: #8b5cf6;
+  --accent-green: #10b981;
+  --accent-red: #ef4444;
+  --text-main: #f8fafc;
+  --text-muted: #94a3b8;
+  --input-bg: #0f172a;
+}
 
-/* NAVBAR */
-.header-nav { display: flex; align-items: center; justify-content: space-between; max-width: 1400px; margin: 0 auto 20px auto; padding: 12px 20px; background: #ffffff; border-radius: 12px; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
-.header-nav h1 { font-size: 1.25rem; font-weight: 800; color: #1e3a8a; }
-.badge { background: #e0e7ff; color: #3730a3; font-size: 0.75rem; padding: 4px 10px; border-radius: 20px; font-weight: 700; }
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Inter', 'Segoe UI', system-ui, sans-serif; background: var(--bg-main); color: var(--text-main); padding: 20px; line-height: 1.6; }
+
+/* UI MAX NAVBAR */
+.header-nav { display: flex; align-items: center; justify-content: space-between; max-width: 1400px; margin: 0 auto 25px auto; padding: 16px 24px; background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%); border: 1px solid var(--panel-border); border-radius: 16px; box-shadow: 0 10px 25px -5px rgba(0,0,0,0.5); }
+.header-nav h1 { font-size: 1.5rem; font-weight: 800; background: linear-gradient(90deg, #60a5fa, #c084fc); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+.badge { background: linear-gradient(135deg, #4f46e5, #7c3aed); color: #fff; font-size: 0.75rem; padding: 6px 14px; border-radius: 20px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; }
 
 /* APP LAYOUT */
-.app-container { max-width: 1400px; margin: 0 auto; display: grid; grid-template-columns: 1fr; gap: 20px; }
+.app-container { max-width: 1400px; margin: 0 auto; display: grid; grid-template-columns: 1fr; gap: 24px; }
 @media (min-width: 1024px) { .app-container { grid-template-columns: 1fr 1fr; } }
 
 /* PANELS */
-.panel { background: #ffffff; padding: 24px; border-radius: 16px; border: 1px solid #e2e8f0; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.02); }
+.panel { background: var(--panel-bg); padding: 28px; border-radius: 20px; border: 1px solid var(--panel-border); box-shadow: 0 10px 30px rgba(0,0,0,0.3); }
 .sticky-preview { position: sticky; top: 20px; }
 
 /* TAB NAVIGATION */
-.tab-header { display: flex; border-bottom: 2px solid #f1f5f9; gap: 8px; margin-bottom: 20px; overflow-x: auto; }
-.tab-btn { padding: 10px 14px; background: none; border: none; font-size: 0.85rem; font-weight: 600; color: #64748b; cursor: pointer; border-bottom: 2px solid transparent; margin-bottom: -2px; white-space: nowrap; transition: all 0.2s; }
-.tab-btn.active { color: #2563eb; border-color: #2563eb; }
+.tab-header { display: flex; border-bottom: 2px solid var(--panel-border); gap: 10px; margin-bottom: 24px; overflow-x: auto; padding-bottom: 8px; }
+.tab-btn { padding: 10px 18px; background: #0f172a; border: 1px solid var(--panel-border); border-radius: 8px; font-size: 0.85rem; font-weight: 700; color: var(--text-muted); cursor: pointer; transition: all 0.3s; white-space: nowrap; }
+.tab-btn.active { color: #fff; background: linear-gradient(135deg, #2563eb, #7c3aed); border-color: transparent; box-shadow: 0 4px 12px rgba(37,99,235,0.4); }
 
 /* TAB CONTENT */
 .tab-content { display: none; }
 .tab-content.active { display: block; }
 
 /* INPUT STYLES */
-.input-grid { display: grid; gap: 12px; }
+.input-grid { display: grid; gap: 14px; }
 .two-col { grid-template-columns: 1fr 1fr; }
-label { font-size: 0.8rem; font-weight: 700; color: #000000; display: block; margin-bottom: 4px; }
-input, select, textarea { width: 100%; padding: 10px 12px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 0.875rem; background: #f8fafc; transition: all 0.2s; color: #000; font-weight: 600; }
-textarea { resize: vertical; height: 60px; font-family: inherit; }
-input:focus, select:focus, textarea:focus { outline: none; border-color: #2563eb; background: #ffffff; box-shadow: 0 0 0 3px rgba(37,99,235,0.1); }
+label { font-size: 0.8rem; font-weight: 700; color: #cbd5e1; display: block; margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.5px; }
+input, select, textarea { width: 100%; padding: 12px 14px; border: 1px solid var(--panel-border); border-radius: 10px; font-size: 0.875rem; background: var(--input-bg); transition: all 0.2s; color: #fff; font-weight: 600; }
+textarea { resize: vertical; height: 75px; font-family: inherit; }
+input:focus, select:focus, textarea:focus { outline: none; border-color: var(--accent-blue); box-shadow: 0 0 0 3px rgba(59,130,246,0.25); }
 
-/* FILE INPUT CUSTOMIZATION */
-.file-box { border: 2px dashed #cbd5e1; padding: 12px; border-radius: 8px; text-align: center; background: #f8fafc; cursor: pointer; }
+/* FILE INPUT */
+.file-box { border: 2px dashed #475569; padding: 16px; border-radius: 10px; text-align: center; background: #0f172a; cursor: pointer; transition: border-color 0.3s; }
+.file-box:hover { border-color: var(--accent-blue); }
 .file-box input { display: none; }
-.file-box-label { font-size: 0.8rem; font-weight: 700; color: #2563eb; cursor: pointer; }
+.file-box-label { font-size: 0.85rem; font-weight: 700; color: #60a5fa; cursor: pointer; }
 
-/* CHECKBOX TOGGLE */
-.toggle-wrapper { display: flex; align-items: center; gap: 10px; margin-top: 15px; background: #f1f5f9; padding: 10px; border-radius: 8px; }
+/* TOGGLE */
+.toggle-wrapper { display: flex; align-items: center; gap: 12px; margin-top: 20px; background: #0f172a; padding: 12px 16px; border-radius: 10px; border: 1px solid var(--panel-border); }
 .toggle-wrapper input { width: auto; cursor: pointer; }
 
-/* ACTION BUTTONS */
-.btn-group { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 20px; }
-button.btn-action { flex: 1; min-width: 140px; padding: 12px; border: none; border-radius: 8px; font-weight: 800; font-size: 0.85rem; cursor: pointer; transition: transform 0.1s, opacity 0.2s; display: flex; align-items: center; justify-content: center; gap: 8px; }
-button.btn-action:active { transform: scale(0.98); }
-button.btn-action:disabled { opacity: 0.6; cursor: not-allowed; }
-.btn-download { background: #16a34a; color: white; }
-.btn-bulk { background: #7c3aed; color: white; }
-.btn-print { background: #2563eb; color: white; }
+/* BUTTONS */
+.btn-group { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 24px; }
+button.btn-action { flex: 1; min-width: 140px; padding: 14px; border: none; border-radius: 10px; font-weight: 800; font-size: 0.85rem; cursor: pointer; transition: all 0.2s; text-transform: uppercase; letter-spacing: 0.5px; }
+button.btn-action:hover { transform: translateY(-2px); filter: brightness(1.1); }
+button.btn-action:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+.btn-download { background: linear-gradient(135deg, #059669, #10b981); color: white; }
+.btn-bulk { background: linear-gradient(135deg, #7d2ae8, #a855f7); color: white; }
+.btn-print { background: linear-gradient(135deg, #2563eb, #3b82f6); color: white; }
 
-/* CARD PREVIEW CONTAINERS */
+/* CARD PREVIEW CONTAINER */
 .cards-container { display: flex; flex-direction: column; gap: 20px; align-items: center; }
-.card-wrapper { display: flex; flex-direction: column; align-items: center; background: #f1f5f9; border-radius: 12px; padding: 15px; width: 100%; }
-.card-label { font-size: 0.75rem; font-weight: 800; text-transform: uppercase; color: #000000; margin-bottom: 8px; }
+.card-wrapper { display: flex; flex-direction: column; align-items: center; background: #0f172a; border-radius: 14px; padding: 16px; width: 100%; border: 1px solid var(--panel-border); }
+.card-label { font-size: 0.8rem; font-weight: 800; text-transform: uppercase; color: #94a3b8; margin-bottom: 10px; letter-spacing: 1px; }
 
-/* ID CARD DIMENSIONS */
-.id-card { width: 420px; height: 260px; border-radius: 12px; position: relative; background: #fff; box-shadow: 0 10px 25px -5px rgba(0,0,0,0.1); overflow: hidden; transition: transform 0.3s; flex-shrink: 0; }
+/* ID CARD BASE DIMENSIONS */
+.id-card { width: 420px; height: 260px; border-radius: 12px; position: relative; background: #fff; color: #000; box-shadow: 0 15px 35px rgba(0,0,0,0.5); overflow: hidden; transition: transform 0.3s; flex-shrink: 0; }
 
-/* CARD ELEMENTS - COMMON & DARK TEXT ENHANCEMENTS */
+/* CARD INTERNAL DESIGN */
 .topbar { background: #1e40af; color: white; padding: 6px; text-align: center; position: relative; z-index: 2; min-height: 52px; }
 .school-name { font-size: 14px; font-weight: 800; text-transform: uppercase; color: #ffffff; letter-spacing: 0.5px; }
-.school-address { font-size: 9.5px; opacity: 1; font-weight: 600; color: #ffffff; }
+.school-address { font-size: 9.5px; font-weight: 600; color: #ffffff; }
 .bottombar { position: absolute; bottom: 0; width: 100%; background: #1e40af; color: white; padding: 3px 0; font-size: 10px; font-weight: 700; text-align: center; z-index: 2; }
 
-/* FRONT CARD SPECIFIC */
 .watermark { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); opacity: 0.05; z-index: 1; }
 .watermark img { width: 180px; height: 180px; display: none; }
 .corner-logo { position: absolute; top: 6px; width: 40px; height: 40px; display: none; background: #fff; border-radius: 50%; padding: 2px; }
@@ -91,7 +111,6 @@ button.btn-action:disabled { opacity: 0.6; cursor: not-allowed; }
 .photo img { width: 100%; height: 100%; object-fit: cover; display: none; }
 .photo-placeholder { font-size: 10px; color: #000000; font-weight: 700; text-align: center; }
 
-/* DARK ENHANCED DETAILS */
 .details { position: absolute; left: 125px; top: 80px; font-size: 11.5px; z-index: 2; line-height: 1.5; color: #000000; font-weight: 800; }
 .details strong { color: #000000; display: inline-block; width: 70px; font-weight: 900; }
 .details span { color: #000000; font-weight: 800; }
@@ -99,7 +118,6 @@ button.btn-action:disabled { opacity: 0.6; cursor: not-allowed; }
 .signature { position: absolute; right: 16px; bottom: 25px; text-align: center; font-size: 8.5px; font-weight: 800; color: #000000; z-index: 2; }
 .signature img { width: 70px; height: 22px; object-fit: contain; display: none; margin: 0 auto; }
 
-/* BACK CARD SPECIFIC */
 .back-content { padding: 10px 16px; font-size: 10.5px; line-height: 1.35; color: #000000; }
 .back-details { margin-bottom: 6px; background: #ffffff; padding: 6px 8px; border-radius: 6px; border: 1.5px solid #000000; color: #000000; font-weight: 800; }
 .back-details strong { color: #000000; display: inline-block; width: 100px; font-weight: 900; }
@@ -108,12 +126,21 @@ button.btn-action:disabled { opacity: 0.6; cursor: not-allowed; }
 .rules-title { font-weight: 900; color: #000000; margin-bottom: 2px; text-transform: uppercase; font-size: 9.5px; }
 .rules-list { font-size: 8.5px; padding-left: 14px; color: #000000; font-weight: 700; }
 
-/* BARCODE & QR CONTAINER */
 .code-box { position: absolute; bottom: 20px; left: 16px; right: 16px; display: flex; justify-content: center; align-items: center; background: #ffffff; padding: 4px; border-radius: 6px; border: 1px solid #000000; height: 42px; }
 #barcodeCanvas { max-width: 220px; height: 35px; }
 #qrcodeCanvas img, #qrcodeCanvas canvas { width: 36px !important; height: 36px !important; }
 
-.progress-msg { margin-top: 12px; font-size: 0.85rem; font-weight: 800; color: #2563eb; text-align: center; min-height: 20px; }
+.progress-msg { margin-top: 14px; font-size: 0.9rem; font-weight: 800; color: #60a5fa; text-align: center; min-height: 20px; }
+
+/* DOCUMENTATION & FAQ SECTION */
+.seo-section { max-width: 1400px; margin: 40px auto 0 auto; background: var(--panel-bg); border-radius: 20px; border: 1px solid var(--panel-border); padding: 35px; color: #cbd5e1; }
+.seo-section h2 { color: #fff; font-size: 1.5rem; margin-top: 25px; margin-bottom: 12px; border-bottom: 1px solid var(--panel-border); padding-bottom: 8px; }
+.seo-section p { margin-bottom: 15px; font-size: 0.95rem; }
+.seo-section ul, .seo-section ol { margin-left: 20px; margin-bottom: 20px; }
+.seo-section li { margin-bottom: 8px; }
+.faq-item { background: #0f172a; border-radius: 10px; border: 1px solid var(--panel-border); padding: 18px; margin-bottom: 12px; }
+.faq-question { font-weight: 800; color: #60a5fa; margin-bottom: 6px; font-size: 1rem; }
+.legal-warning { background: rgba(239, 68, 68, 0.1); border: 1px solid var(--accent-red); border-radius: 12px; padding: 20px; margin-top: 30px; color: #fca5a5; }
 
 #a4PrintContainer { display: none; }
 
@@ -130,8 +157,8 @@ button.btn-action:disabled { opacity: 0.6; cursor: not-allowed; }
 <body>
 
 <div class="header-nav">
-  <h1>ID Card Studio Pro</h1>
-  <span class="badge">Dual-Side + Barcode/QR + A4 Sheet Print</span>
+  <h1>Enterprise ID Studio Pro</h1>
+  <span class="badge">UI Max Edition + Auto-BOM Clean</span>
 </div>
 
 <div class="app-container">
@@ -141,7 +168,7 @@ button.btn-action:disabled { opacity: 0.6; cursor: not-allowed; }
     <div class="tab-header">
       <button class="tab-btn active" onclick="switchTab(event, 'tab-school')">1. School Info</button>
       <button class="tab-btn" onclick="switchTab(event, 'tab-student')">2. Student Details</button>
-      <button class="tab-btn" onclick="switchTab(event, 'tab-branding')">3. Branding & Code</button>
+      <button class="tab-btn" onclick="switchTab(event, 'tab-branding')">3. Branding & Colors</button>
       <button class="tab-btn" onclick="switchTab(event, 'tab-bulk')">4. Bulk CSV</button>
     </div>
 
@@ -165,42 +192,47 @@ button.btn-action:disabled { opacity: 0.6; cursor: not-allowed; }
         <div><label>Blood Group</label><input type="text" id="blood" value="O+"></div>
         <div><label>Emergency Contact</label><input type="text" id="emergency" value="+1 555-999-8822"></div>
       </div>
-      <div style="margin-top:12px;">
+      <div style="margin-top:14px;">
         <label>Student Photo (Single Upload)</label>
         <div class="file-box" onclick="document.getElementById('singlePhotoUpload').click()">
           <span class="file-box-label" id="singlePhotoLabel">Upload Student Photo</span>
           <input type="file" id="singlePhotoUpload" accept="image/*">
         </div>
       </div>
-      <div style="margin-top:12px;">
+      <div style="margin-top:14px;">
         <label>Residential Address (For Back Side)</label>
         <textarea id="resAddress">42 Wallaby Way, Suite 100, Brooklyn, NY 11201</textarea>
       </div>
     </div>
 
-    <!-- TAB 3: BRANDING & CODES -->
+    <!-- TAB 3: BRANDING & COLORS -->
     <div id="tab-branding" class="tab-content">
       <div class="input-grid two-col">
         <div><label>Academic Session</label><input type="text" id="session" value="2026-2027"></div>
         <div>
-          <label>Theme Color</label>
+          <label>Theme Color Scheme</label>
           <select id="colorSelect">
-            <option value="#1e40af">Classic Blue</option>
+            <option value="#1e40af">Classic Royal Blue</option>
             <option value="#b91c1c">Crimson Red</option>
             <option value="#047857">Forest Green</option>
-            <option value="#4c1d95">Deep Purple</option>
-            <option value="#000000">Solid Black</option>
+            <option value="#4c1d95">Deep Imperial Purple</option>
+            <option value="#000000">Solid Jet Black</option>
+            <option value="#c2410c">Sunset Amber Orange</option>
+            <option value="#0e7490">Deep Cyan Ocean</option>
+            <option value="#831843">Rose Burgundy</option>
+            <option value="#312e81">Midnight Indigo</option>
+            <option value="#3f6212">Olive Dark Gold</option>
           </select>
         </div>
         <div>
           <label>Back Code Type</label>
           <select id="codeTypeSelect">
-            <option value="barcode">Scannable Barcode</option>
+            <option value="barcode">Scannable Barcode (CODE128)</option>
             <option value="qrcode">Scannable QR Code</option>
           </select>
         </div>
       </div>
-      <div class="input-grid" style="margin-top:12px;">
+      <div class="input-grid" style="margin-top:14px;">
         <div>
           <label>Terms / Instructions (Back Side)</label>
           <textarea id="rulesInput">1. Always wear this card while inside the school premises.
@@ -233,12 +265,11 @@ button.btn-action:disabled { opacity: 0.6; cursor: not-allowed; }
           <label>Step A: Upload CSV File</label>
           <div class="file-box" onclick="document.getElementById('csvUpload').click()">
             <span class="file-box-label" id="csvLabel">Select CSV File</span>
-            <!-- Restricted accept attributes removed so mobile browser won't disable files -->
             <input type="file" id="csvUpload">
           </div>
         </div>
         <div>
-          <label>Step B: Upload Photos Folder (Name photos as Roll Number e.g. 101.jpg)</label>
+          <label>Step B: Upload Photos Folder (Name photos as Roll Number e.g. 1024.jpg)</label>
           <div class="file-box" onclick="document.getElementById('bulkPhotos').click()">
             <span class="file-box-label" id="photosLabel">Select Photos Folder</span>
             <input type="file" id="bulkPhotos" webkitdirectory directory multiple accept="image/*">
@@ -250,7 +281,7 @@ button.btn-action:disabled { opacity: 0.6; cursor: not-allowed; }
     <!-- PRINTING OPTIONS -->
     <div class="toggle-wrapper">
       <input type="checkbox" id="mirrorPrint">
-      <label for="mirrorPrint" style="margin:0; cursor:pointer; font-weight:800;">Enable Mirror Print (For Dragon / Inkjet PVC Sheet)</label>
+      <label for="mirrorPrint" style="margin:0; cursor:pointer; font-weight:800; color:#fff;">Enable Mirror Print (For Dragon / Inkjet PVC Sheet)</label>
     </div>
 
     <!-- ACTIONS -->
@@ -265,7 +296,7 @@ button.btn-action:disabled { opacity: 0.6; cursor: not-allowed; }
 
   <!-- RIGHT STICKY PREVIEW PANEL -->
   <div class="panel sticky-preview">
-    <div style="font-weight:900; text-align:center; margin-bottom:12px; color:#000000; font-size:1.05rem;">Live Dual-Side Card Preview</div>
+    <div style="font-weight:900; text-align:center; margin-bottom:14px; color:#fff; font-size:1.1rem; letter-spacing:0.5px;">Live Dual-Side Card Preview</div>
     
     <div class="cards-container">
       
@@ -336,6 +367,108 @@ button.btn-action:disabled { opacity: 0.6; cursor: not-allowed; }
     </div>
   </div>
 
+</div>
+
+<!-- COMPREHENSIVE SEO DOCUMENTATION & FAQs -->
+<div class="seo-section">
+  <h2 style="margin-top:0;">Complete User Manual & Automation Guide</h2>
+  <p>Welcome to Enterprise ID Studio Pro—the most comprehensive online dual-sided school ID card generator and automated batch printing engine. Designed for educational institutions, printing presses, and administrative departments, this platform enables seamless generation of high-resolution student badges, faculty identity passes, and temporary access permits with zero server latency.</p>
+
+  <h2>Step-by-Step Execution Protocol</h2>
+  <ol>
+    <li><strong>Step 1: Define Educational Institution Metadata (Tab 1):</strong> Enter the official institution name and campus location. This data automatically syncs with the front topbar banner and back footer reference.</li>
+    <li><strong>Step 2: Customize Student Profile or Batch Structure (Tab 2):</strong> For single card generation, input student name, father's name, class grade, section code, unique roll number, primary contact number, emergency phone line, blood group, and residential address. Upload a single passport photo.</li>
+    <li><strong>Step 3: Institutional Branding & Security Codes (Tab 3):</strong> Select from 10 high-contrast color schemes calibrated for standard thermal dye-sublimation ID printers. Upload high-res PNG/JPG logos and principal signature overlays. Select between CODE128 Barcodes or Dynamic QR Codes.</li>
+    <li><strong>Step 4: Automated Bulk Processing via CSV & Photo Folder (Tab 4):</strong> Upload a CSV spreadsheet containing records with headers (e.g., <code>Roll</code>, <code>Name</code>, <code>Father</code>, <code>Class</code>, <code>Section</code>, <code>Phone</code>, <code>Blood</code>, <code>Emergency</code>, <code>Address</code>). Upload a directory of photo files where filename matches the Roll Number (e.g., <code>1024.jpg</code>). Click <strong>Download ZIP</strong> for instant 300DPI PNG output files.</li>
+    <li><strong>Step 5: Grid Printing & Thermal Sheet Support:</strong> Click <strong>Print A4 Grid</strong> to auto-fit 8 dual-sided cards onto standard 210mm x 297mm A4 sheets. Enable <strong>Mirror Print</strong> if printing on reverse Inkjet Dragon / PVC sheets.</li>
+  </ol>
+
+  <h2>Technical Specifications & Printing Standards</h2>
+  <p>All cards rendered within this tool adhere strictly to standard ISO/IEC 7810 ID-1 plastic card sizing guidelines (85.60 mm x 53.98 mm / 3.375" x 2.125"). Output rendering engines capture cards at 4x canvas scaling to deliver crisp 300 DPI image assets appropriate for professional card printers (Evolis, Zebra, Fargo, Magicard) or offset printing workflows.</p>
+
+  <h2>15 Frequently Asked Questions (FAQs)</h2>
+  
+  <div class="faq-item">
+    <div class="faq-question">1. Why does my CSV file fail to read student roll numbers properly?</div>
+    <div>This usually occurs due to hidden UTF-8 BOM characters generated by Microsoft Excel. Our integrated parser automatically strips BOM characters (<code>\ufeff</code>) to ensure clean data binding.</div>
+  </div>
+
+  <div class="faq-item">
+    <div class="faq-question">2. How should photo files be named for bulk auto-matching?</div>
+    <div>Name each photo file to match the student's Roll Number exactly (e.g., Roll number <code>1024</code> should have photo name <code>1024.jpg</code> or <code>1024.png</code>).</div>
+  </div>
+
+  <div class="faq-item">
+    <div class="faq-question">3. What is Mirror Print and when should I enable it?</div>
+    <div>Mirror Print flips preview images horizontally. Enable this option when printing on transparent PVC film or Dragon sheet paper designed for thermal lamination presses.</div>
+  </div>
+
+  <div class="faq-item">
+    <div class="faq-question">4. Are uploaded student records stored on any server?</div>
+    <div>No. Enterprise ID Studio Pro runs entirely inside your client web browser (Client-Side JS). No data, photos, or CSV records are transmitted to external servers.</div>
+  </div>
+
+  <div class="faq-item">
+    <div class="faq-question">5. Can I export high-resolution individual PNG images in bulk?</div>
+    <div>Yes, clicking 'Download ZIP' processes all records in the CSV file and compresses both front and back card images into a structured 300DPI ZIP file.</div>
+  </div>
+
+  <div class="faq-item">
+    <div class="faq-question">6. How many ID cards fit on a single A4 print sheet?</div>
+    <div>The built-in print grid formats exactly 8 ID card faces (4 dual-sided pairs) per A4 sheet with proper margin spacing for manual or machine cutting.</div>
+  </div>
+
+  <div class="faq-item">
+    <div class="faq-question">7. Which barcode encoding format is used?</div>
+    <div>We utilize standard CODE128 barcode encoding, readable by all standard laser and CCD barcode scanners.</div>
+  </div>
+
+  <div class="faq-item">
+    <div class="faq-question">8. What information is embedded in the QR Code?</div>
+    <div>The generated QR code encapsulates critical verification fields including Roll ID, Student Name, and Emergency Contact details for instant verification.</div>
+  </div>
+
+  <div class="faq-item">
+    <div class="faq-question">9. What image formats are supported for logos and signatures?</div>
+    <div>You can upload PNG, JPG, WEBP, or SVG graphics. Transparent PNG files are recommended for cleaner logo and signature overlays.</div>
+  </div>
+
+  <div class="faq-item">
+    <div class="faq-question">10. Can I use mobile browsers to generate bulk ID cards?</div>
+    <div>Yes. Mobile file-type restrictions have been removed from file pickers, enabling full functionality across iOS Safari and Android Chrome.</div>
+  </div>
+
+  <div class="faq-item">
+    <div class="faq-question">11. Why are text details on the ID card truncated or overlapping?</div>
+    <div>Ensure fields like addresses or custom rules are concise. Card dimensions follow standard CR80 physical sizes, so excessive text length should be managed via smaller font adjustments.</div>
+  </div>
+
+  <div class="faq-item">
+    <div class="faq-question">12. Is internet access required to generate ID cards?</div>
+    <div>An internet connection is required initially to load external helper libraries via CDN. Once loaded, card generation functions locally.</div>
+  </div>
+
+  <div class="faq-item">
+    <div class="faq-question">13. Does this tool support employee badges or visitor passes?</div>
+    <div>Yes, simply replace student field labels with employee information in the CSV file.</div>
+  </div>
+
+  <div class="faq-item">
+    <div class="faq-question">14. What thermal card printers are compatible with these downloads?</div>
+    <div>Generated PNGs can be imported directly into standard thermal card printing software including Zebra Card Studio, Fargo Asure ID, and Evolis Premium Suite.</div>
+  </div>
+
+  <div class="faq-item">
+    <div class="faq-question">15. Is there a limit on how many CSV rows can be processed in bulk?</div>
+    <div>There is no software restriction. Performance depends on system RAM and browser memory processing capability.</div>
+  </div>
+
+  <!-- COPYRIGHT INFRINGEMENT & LEGAL NOTICE -->
+  <div class="legal-warning">
+    <h3 style="margin-bottom: 8px; color: #ef4444; font-size: 1.1rem; font-weight: 800;">Legal Warning & Copyright Infringement Notice</h3>
+    <p><strong>Unauthorized Reproduction Prohibited:</strong> Enterprise ID Studio Pro is intended exclusively for authorized educational administrative staff and legitimate print vendors. Generating fraudulent identity cards, replicating official government seals, or imitating security credentials without express written permission constitutes identity fraud and copyright infringement under applicable national and international legislation.</p>
+    <p>Users accept full legal responsibility for all graphic elements, trademarks, logos, and personal data processed through this platform.</p>
+  </div>
 </div>
 
 <!-- HIDDEN A4 PRINT CONTAINER -->
@@ -500,7 +633,6 @@ async function downloadSingleCard() {
   aBack.click();
 }
 
-// Parse CSV and remove BOM
 function parseCSVFile(file) {
   return new Promise((resolve, reject) => {
     Papa.parse(file, {
