@@ -233,11 +233,12 @@ button.btn-action:disabled { opacity: 0.6; cursor: not-allowed; }
           <label>Step A: Upload CSV File</label>
           <div class="file-box" onclick="document.getElementById('csvUpload').click()">
             <span class="file-box-label" id="csvLabel">Select CSV File</span>
-            <input type="file" id="csvUpload" accept=".csv">
+            <!-- Restricted accept attributes removed so mobile browser won't disable files -->
+            <input type="file" id="csvUpload">
           </div>
         </div>
         <div>
-          <label>Step B: Upload Photos Folder (Name photos as Roll Number e.g. 1024.jpg)</label>
+          <label>Step B: Upload Photos Folder (Name photos as Roll Number e.g. 101.jpg)</label>
           <div class="file-box" onclick="document.getElementById('bulkPhotos').click()">
             <span class="file-box-label" id="photosLabel">Select Photos Folder</span>
             <input type="file" id="bulkPhotos" webkitdirectory directory multiple accept="image/*">
@@ -499,6 +500,25 @@ async function downloadSingleCard() {
   aBack.click();
 }
 
+// Parse CSV and remove BOM
+function parseCSVFile(file) {
+  return new Promise((resolve, reject) => {
+    Papa.parse(file, {
+      header: true,
+      skipEmptyLines: true,
+      transformHeader: function(h) {
+        return h.replace(/^\ufeff/, '').trim();
+      },
+      complete: function(results) {
+        resolve(results.data);
+      },
+      error: function(err) {
+        reject(err);
+      }
+    });
+  });
+}
+
 async function generateBulkCards() {
   const csvFile = document.getElementById('csvUpload').files[0];
   const photoFiles = document.getElementById('bulkPhotos').files;
@@ -510,33 +530,34 @@ async function generateBulkCards() {
   btnBulk.disabled = true;
   progressText.innerText = "Reading CSV Data...";
 
-  Papa.parse(csvFile, {
-    header: true, skipEmptyLines: true,
-    complete: async function(results) {
-      const students = results.data;
-      const zip = new JSZip();
+  try {
+    const students = await parseCSVFile(csvFile);
+    const zip = new JSZip();
 
-      for (let i = 0; i < students.length; i++) {
-        await populateCardWithStudent(students[i], photoFiles);
-        await new Promise(r => setTimeout(r, 100));
+    for (let i = 0; i < students.length; i++) {
+      await populateCardWithStudent(students[i], photoFiles);
+      await new Promise(r => setTimeout(r, 100));
 
-        const canvasFront = await html2canvas(document.getElementById("card-front"), { scale: 4, useCORS: true });
-        zip.file(`${getStudentVal(students[i], ['Roll', 'roll', 'Roll No', 'RollNo']) || i+1}_Front.png`, canvasFront.toDataURL("image/png").split(',')[1], { base64: true });
+      const canvasFront = await html2canvas(document.getElementById("card-front"), { scale: 4, useCORS: true });
+      zip.file(`${getStudentVal(students[i], ['Roll', 'roll', 'Roll No', 'RollNo']) || i+1}_Front.png`, canvasFront.toDataURL("image/png").split(',')[1], { base64: true });
 
-        const canvasBack = await html2canvas(document.getElementById("card-back"), { scale: 4, useCORS: true });
-        zip.file(`${getStudentVal(students[i], ['Roll', 'roll', 'Roll No', 'RollNo']) || i+1}_Back.png`, canvasBack.toDataURL("image/png").split(',')[1], { base64: true });
+      const canvasBack = await html2canvas(document.getElementById("card-back"), { scale: 4, useCORS: true });
+      zip.file(`${getStudentVal(students[i], ['Roll', 'roll', 'Roll No', 'RollNo']) || i+1}_Back.png`, canvasBack.toDataURL("image/png").split(',')[1], { base64: true });
 
-        progressText.innerText = `Generating Dual Cards: ${i + 1} / ${students.length}...`;
-      }
-
-      progressText.innerText = "Compressing into ZIP file...";
-      zip.generateAsync({ type: "blob" }).then(content => {
-        saveAs(content, "Student_ID_Cards_300DPI.zip");
-        progressText.innerText = "Download Ready!";
-        btnBulk.disabled = false;
-      });
+      progressText.innerText = `Generating Dual Cards: ${i + 1} / ${students.length}...`;
     }
-  });
+
+    progressText.innerText = "Compressing into ZIP file...";
+    zip.generateAsync({ type: "blob" }).then(content => {
+      saveAs(content, "Student_ID_Cards_300DPI.zip");
+      progressText.innerText = "Download Ready!";
+      btnBulk.disabled = false;
+    });
+  } catch (e) {
+    alert("Error processing CSV File: " + e.message);
+    btnBulk.disabled = false;
+    progressText.innerText = "";
+  }
 }
 
 async function printA4Grid() {
@@ -550,25 +571,22 @@ async function printA4Grid() {
 
   if (csvFile) {
     progressText.innerText = "Preparing A4 Grid for Bulk Data...";
-    await new Promise((resolve) => {
-      Papa.parse(csvFile, {
-        header: true, skipEmptyLines: true,
-        complete: async function(results) {
-          const students = results.data;
-          for (let student of students) {
-            await populateCardWithStudent(student, photoFiles);
-            await new Promise(r => setTimeout(r, 80));
+    try {
+      const students = await parseCSVFile(csvFile);
+      for (let student of students) {
+        await populateCardWithStudent(student, photoFiles);
+        await new Promise(r => setTimeout(r, 80));
 
-            const canvasF = await html2canvas(document.getElementById("card-front"), { scale: 2 });
-            cardsToPrint.push(canvasF.toDataURL());
+        const canvasF = await html2canvas(document.getElementById("card-front"), { scale: 2 });
+        cardsToPrint.push(canvasF.toDataURL());
 
-            const canvasB = await html2canvas(document.getElementById("card-back"), { scale: 2 });
-            cardsToPrint.push(canvasB.toDataURL());
-          }
-          resolve();
-        }
-      });
-    });
+        const canvasB = await html2canvas(document.getElementById("card-back"), { scale: 2 });
+        cardsToPrint.push(canvasB.toDataURL());
+      }
+    } catch(e) {
+      alert("Error reading CSV file!");
+      return;
+    }
   } else {
     progressText.innerText = "Preparing A4 Grid for Current Preview Card...";
     const canvasF = await html2canvas(document.getElementById("card-front"), { scale: 2 });
@@ -598,11 +616,10 @@ async function printA4Grid() {
   }, 500);
 }
 
-// Helper to handle casing mismatches in CSV headers
 function getStudentVal(student, keys) {
   for (let key of keys) {
     if (student[key] !== undefined) return student[key];
-    let foundKey = Object.keys(student).find(k => k.trim().toLowerCase() === key.toLowerCase());
+    let foundKey = Object.keys(student).find(k => k.replace(/^\ufeff/, '').trim().toLowerCase() === key.toLowerCase());
     if (foundKey) return student[foundKey];
   }
   return "";
