@@ -40,8 +40,13 @@
   --text-muted: #64748b;
   --input-bg: #f1f5f9;
   --card-font: 'Inter', sans-serif;
+  --card-font-style: normal;
+  --card-font-weight: 800;
   --card-font-size: 11.5px;
   --header-bg: #1e40af;
+  --header-align: center;
+  --wm-opacity: 0.05;
+  --wm-size: 180px;
 }
 
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -118,7 +123,7 @@ button.btn-action:disabled { opacity: 0.5; cursor: not-allowed; transform: none;
 
 /* ID CARD BASE DIMENSIONS (RESPONSIVE SCALING PRESERVED) */
 .id-card-scaler { width: 100%; max-width: 420px; display: flex; justify-content: center; }
-.id-card { width: 420px; height: 260px; border-radius: 12px; position: relative; background: #fff; color: #000; box-shadow: 0 10px 25px rgba(0,0,0,0.12); overflow: hidden; transition: transform 0.3s; flex-shrink: 0; font-family: var(--card-font); }
+.id-card { width: 420px; height: 260px; border-radius: 12px; position: relative; background: #fff; color: #000; box-shadow: 0 10px 25px rgba(0,0,0,0.12); overflow: hidden; transition: transform 0.3s; flex-shrink: 0; font-family: var(--card-font); font-style: var(--card-font-style); font-weight: var(--card-font-weight); }
 
 /* Mobile Scaling for Card Preview */
 @media (max-width: 460px) {
@@ -126,31 +131,31 @@ button.btn-action:disabled { opacity: 0.5; cursor: not-allowed; transform: none;
 }
 
 /* CARD INTERNAL DESIGN */
-.topbar { background: var(--header-bg); color: white; padding: 6px; text-align: center; position: relative; z-index: 2; min-height: 52px; }
-.school-name { font-size: 14px; font-weight: 800; text-transform: uppercase; color: #ffffff; letter-spacing: 0.5px; }
+.topbar { background: var(--header-bg); color: white; padding: 6px; text-align: var(--header-align); position: relative; z-index: 2; min-height: 52px; display: flex; flex-direction: column; justify-content: center; }
+.school-name { font-size: 14px; font-weight: inherit; text-transform: uppercase; color: #ffffff; letter-spacing: 0.5px; }
 .school-address { font-size: 9.5px; font-weight: 600; color: #ffffff; }
 .bottombar { position: absolute; bottom: 0; width: 100%; background: var(--header-bg); color: white; padding: 3px 0; font-size: 10px; font-weight: 700; text-align: center; z-index: 2; }
 
-.watermark { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); opacity: 0.05; z-index: 1; }
-.watermark img { width: 180px; height: 180px; display: none; }
-.corner-logo { position: absolute; top: 6px; width: 40px; height: 40px; display: none; background: #fff; border-radius: 50%; padding: 2px; }
+.watermark { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); opacity: var(--wm-opacity); z-index: 1; pointer-events: none; }
+.watermark img { width: var(--wm-size); height: var(--wm-size); object-fit: contain; display: none; }
+.corner-logo { position: absolute; top: 6px; width: 40px; height: 40px; display: none; background: #fff; border-radius: 50%; padding: 2px; object-fit: contain; }
 .left-logo { left: 8px; } .right-logo { right: 8px; }
 .card-body-title { text-align: center; font-weight: 900; font-size: 12px; letter-spacing: 1px; margin-top: 6px; color: #000000; }
 .photo { position: absolute; left: 16px; top: 82px; width: 95px; height: 115px; border: 2px solid #000000; border-radius: 6px; overflow: hidden; background: #f8fafc; display: flex; align-items: center; justify-content: center; z-index: 2; }
 .photo img { width: 100%; height: 100%; object-fit: cover; display: none; }
 .photo-placeholder { font-size: 10px; color: #000000; font-weight: 700; text-align: center; }
 
-.details { position: absolute; left: 125px; top: 80px; font-size: var(--card-font-size); z-index: 2; line-height: 1.5; color: #000000; font-weight: 800; }
+.details { position: absolute; left: 125px; top: 80px; font-size: var(--card-font-size); z-index: 2; line-height: 1.5; color: #000000; font-weight: inherit; }
 .details strong { color: #000000; display: inline-block; width: 70px; font-weight: 900; }
-.details span { color: #000000; font-weight: 800; }
+.details span { color: #000000; font-weight: inherit; }
 
 .signature { position: absolute; right: 16px; bottom: 25px; text-align: center; font-size: 8.5px; font-weight: 800; color: #000000; z-index: 2; }
 .signature img { width: 70px; height: 22px; object-fit: contain; display: none; margin: 0 auto; }
 
 .back-content { padding: 10px 16px; font-size: var(--card-font-size); line-height: 1.35; color: #000000; }
-.back-details { margin-bottom: 6px; background: #ffffff; padding: 6px 8px; border-radius: 6px; border: 1.5px solid #000000; color: #000000; font-weight: 800; }
+.back-details { margin-bottom: 6px; background: #ffffff; padding: 6px 8px; border-radius: 6px; border: 1.5px solid #000000; color: #000000; font-weight: inherit; }
 .back-details strong { color: #000000; display: inline-block; width: 100px; font-weight: 900; }
-.back-details span { color: #000000; font-weight: 800; }
+.back-details span { color: #000000; font-weight: inherit; }
 
 .rules-title { font-weight: 900; color: #000000; margin-bottom: 2px; text-transform: uppercase; font-size: 9.5px; }
 .rules-list { font-size: 8.5px; padding-left: 14px; color: #000000; font-weight: 700; }
@@ -224,7 +229,7 @@ button.btn-action:disabled { opacity: 0.5; cursor: not-allowed; transform: none;
 
 <div class="header-nav">
   <h1>Enterprise ID Studio Pro</h1>
-  <span class="badge">Light Dashboard + 50 Fonts & 30 Gradients</span>
+  <span class="badge">Light Dashboard + Advanced Customization</span>
 </div>
 
 <div class="app-container">
@@ -276,9 +281,9 @@ button.btn-action:disabled { opacity: 0.5; cursor: not-allowed; transform: none;
       <div class="input-grid two-col">
         <div><label>Academic Session</label><input type="text" id="session" value="2026-2027"></div>
         <div>
-          <label>Theme Color Scheme (Solid & Gradients)</label>
+          <label>Theme Color Scheme (50 Solid & Gradients)</label>
           <select id="colorSelect">
-            <!-- Solid Colors -->
+            <!-- Solid Colors (1-15) -->
             <option value="#1e40af">Classic Royal Blue</option>
             <option value="#b91c1c">Crimson Red</option>
             <option value="#047857">Forest Green</option>
@@ -289,7 +294,13 @@ button.btn-action:disabled { opacity: 0.5; cursor: not-allowed; transform: none;
             <option value="#831843">Rose Burgundy</option>
             <option value="#312e81">Midnight Indigo</option>
             <option value="#3f6212">Olive Dark Gold</option>
-            <!-- Gradient Colors -->
+            <option value="#475569">Slate Dark Grey</option>
+            <option value="#0f766e">Teal Solid</option>
+            <option value="#be185d">Pink Rose</option>
+            <option value="#1d4ed8">Bright Blue</option>
+            <option value="#6d28d9">Violet Solid</option>
+            
+            <!-- Guardian / Gradient Colors (16-50) -->
             <option value="linear-gradient(135deg, #2563eb, #7c3aed)">Electric Blue to Purple</option>
             <option value="linear-gradient(135deg, #059669, #3b82f6)">Emerald to Ocean Blue</option>
             <option value="linear-gradient(135deg, #dc2626, #f59e0b)">Fire Red to Amber</option>
@@ -310,6 +321,21 @@ button.btn-action:disabled { opacity: 0.5; cursor: not-allowed; transform: none;
             <option value="linear-gradient(135deg, #e11d48, #9f1239)">Ruby Rose Gradient</option>
             <option value="linear-gradient(135deg, #713f12, #451a03)">Bronze Gold Gradient</option>
             <option value="linear-gradient(135deg, #312e81, #1e1b4b)">Night Sky Gradient</option>
+            <option value="linear-gradient(135deg, #ff7e5f, #feb47b)">Sunset Warm Gradient</option>
+            <option value="linear-gradient(135deg, #00c6ff, #0072ff)">Bright Cyan to Blue</option>
+            <option value="linear-gradient(135deg, #f12711, #f5af19)">Fiery Sunset Gradient</option>
+            <option value="linear-gradient(135deg, #11998e, #38ef7d)">Mint Fresh Gradient</option>
+            <option value="linear-gradient(135deg, #fc466b, #3f5efb)">Neon Cyber Gradient</option>
+            <option value="linear-gradient(135deg, #ee0979, #ff6a00)">Hot Pink to Orange</option>
+            <option value="linear-gradient(135deg, #4568dc, #b06ab3)">Royal Purple Fade</option>
+            <option value="linear-gradient(135deg, #0ba360, #3cba92)">Emerald Shimmer</option>
+            <option value="linear-gradient(135deg, #f2994a, #f2c94c)">Golden Sunshine</option>
+            <option value="linear-gradient(135deg, #eb3349, #f45c43)">Crimson Fire</option>
+            <option value="linear-gradient(135deg, #56ab2f, #a8e063)">Spring Leaf</option>
+            <option value="linear-gradient(135deg, #654ea3, #eaafc8)">Pastel Twilight</option>
+            <option value="linear-gradient(135deg, #ff416c, #ff4b2b)">Red Sunset</option>
+            <option value="linear-gradient(135deg, #833ab4, #fd1d1d, #fcb045)">Instagram Warm Glow</option>
+            <option value="linear-gradient(135deg, #2b5876, #4e4376)">Deep Blue Purple</option>
           </select>
         </div>
         <div>
@@ -368,17 +394,59 @@ button.btn-action:disabled { opacity: 0.5; cursor: not-allowed; transform: none;
           </select>
         </div>
         <div>
+          <label>Font Style & Weight</label>
+          <select id="fontStyleSelect">
+            <option value="normal|800">Normal (Bold)</option>
+            <option value="normal|400">Normal (Regular)</option>
+            <option value="normal|900">Normal (Heavy / Black)</option>
+            <option value="italic|800">Italic (Bold)</option>
+            <option value="italic|400">Italic (Regular)</option>
+            <option value="italic|900">Italic (Heavy)</option>
+          </select>
+        </div>
+        <div>
           <label>Font Size (1px - 100px): <span id="fontSizeVal">11.5</span>px</label>
           <input type="range" id="fontSizeRange" min="1" max="100" value="11.5" step="0.5">
+        </div>
+        <div>
+          <label>Header Text Alignment</label>
+          <select id="headerAlignSelect">
+            <option value="center">Center</option>
+            <option value="left">Left</option>
+            <option value="right">Right</option>
+          </select>
+        </div>
+        <div>
+          <label>Logo Placement Position</label>
+          <select id="logoPlacementSelect">
+            <option value="both">Both Left & Right Corners</option>
+            <option value="left">Left Corner Only</option>
+            <option value="right">Right Corner Only</option>
+            <option value="none">Hide Corner Logos</option>
+          </select>
         </div>
         <div>
           <label>Back Code Type</label>
           <select id="codeTypeSelect">
             <option value="barcode">Scannable Barcode (CODE128)</option>
             <option value="qrcode">Scannable QR Code</option>
+            <option value="none">No Code / Disabled</option>
           </select>
         </div>
       </div>
+
+      <!-- Watermark Controls -->
+      <div class="input-grid two-col" style="margin-top:14px; background:#f8fafc; padding:12px; border-radius:10px; border:1px solid var(--panel-border);">
+        <div>
+          <label>Watermark Opacity: <span id="wmOpacityVal">0.05</span></label>
+          <input type="range" id="wmOpacityRange" min="0" max="0.5" value="0.05" step="0.01">
+        </div>
+        <div>
+          <label>Watermark Size: <span id="wmSizeVal">180</span>px</label>
+          <input type="range" id="wmSizeRange" min="50" max="350" value="180" step="5">
+        </div>
+      </div>
+
       <div class="input-grid" style="margin-top:14px;">
         <div>
           <label>Terms / Instructions (Back Side)</label>
@@ -388,7 +456,7 @@ button.btn-action:disabled { opacity: 0.5; cursor: not-allowed; transform: none;
         </div>
         <div class="two-col">
           <div>
-            <label>School Logo</label>
+            <label>School Logo (For Watermark & Corner Badges)</label>
             <div class="file-box" onclick="document.getElementById('logoUpload').click()">
               <span class="file-box-label" id="logoLabel">Upload Logo</span>
               <input type="file" id="logoUpload" accept="image/*">
@@ -505,9 +573,10 @@ button.btn-action:disabled { opacity: 0.5; cursor: not-allowed; transform: none;
               </ul>
             </div>
 
-            <div class="code-box">
+            <div class="code-box" id="codeBoxContainer">
               <canvas id="barcodeCanvas"></canvas>
               <div id="qrcodeCanvas" style="display:none;"></div>
+              <div id="noCodeMsg" style="display:none; font-size:10px; font-weight:800; color:#64748b;">CODE DISABLED</div>
             </div>
 
             <div class="bottombar"><span id="schoolBottomPreview">GREENWOOD HIGH SCHOOL</span></div>
@@ -529,7 +598,7 @@ button.btn-action:disabled { opacity: 0.5; cursor: not-allowed; transform: none;
   <ol>
     <li><strong>Step 1: Define Educational Institution Metadata (Tab 1):</strong> Enter the official institution name and campus location. This data automatically syncs with the front topbar banner and back footer reference.</li>
     <li><strong>Step 2: Customize Student Profile or Batch Structure (Tab 2):</strong> For single card generation, input student name, father's name, class grade, section code, unique roll number, primary contact number, emergency phone line, blood group, and residential address. Upload a single passport photo.</li>
-    <li><strong>Step 3: Institutional Branding, 50 Fonts & Gradient Colors (Tab 3):</strong> Select from solid colors and 30 gradient color schemes, choose from 50 professional font styles, and fine-tune font size from 1px to 100px. Upload high-res PNG/JPG logos and principal signature overlays. Select between CODE128 Barcodes or Dynamic QR Codes.</li>
+    <li><strong>Step 3: Institutional Branding & Customizations (Tab 3):</strong> Choose from 50 color options & gradients, 50 font styles with italic/bold/regular toggles, fine-tune watermark opacity and size, adjust corner logo placement (both, left, right, none), and select optional barcode or QR code configurations.</li>
     <li><strong>Step 4: Automated Bulk Processing via CSV & Photo Folder (Tab 4):</strong> Upload a CSV spreadsheet containing records with headers (e.g., <code>Roll</code>, <code>Name</code>, <code>Father</code>, <code>Class</code>, <code>Section</code>, <code>Phone</code>, <code>Blood</code>, <code>Emergency</code>, <code>Address</code>). Upload a directory of photo files where filename matches the Roll Number (e.g., <code>1024.jpg</code>). Click <strong>Download ZIP</strong> for instant 300DPI PNG output files.</li>
     <li><strong>Step 5: Grid Printing & Thermal Sheet Support:</strong> Click <strong>Print A4 Grid</strong> to auto-fit 8 dual-sided cards onto standard 210mm x 297mm A4 sheets. Enable <strong>Mirror Print</strong> if printing on reverse Inkjet Dragon / PVC sheets.</li>
   </ol>
@@ -639,8 +708,21 @@ document.addEventListener("DOMContentLoaded", function() {
     updatePreview();
   });
 
+  document.getElementById('wmOpacityRange').addEventListener('input', function() {
+    document.getElementById('wmOpacityVal').innerText = this.value;
+    updatePreview();
+  });
+
+  document.getElementById('wmSizeRange').addEventListener('input', function() {
+    document.getElementById('wmSizeVal').innerText = this.value;
+    updatePreview();
+  });
+
   document.getElementById('fontSelect').addEventListener('change', updatePreview);
+  document.getElementById('fontStyleSelect').addEventListener('change', updatePreview);
   document.getElementById('colorSelect').addEventListener('change', updatePreview);
+  document.getElementById('headerAlignSelect').addEventListener('change', updatePreview);
+  document.getElementById('logoPlacementSelect').addEventListener('change', updatePreview);
 
   document.getElementById('singlePhotoUpload').addEventListener('change', function() {
     if(this.files[0]) {
@@ -657,12 +739,12 @@ document.addEventListener("DOMContentLoaded", function() {
 
   document.getElementById('logoUpload').addEventListener('change', function() {
     if(this.files[0]) document.getElementById('logoLabel').innerText = this.files[0].name;
-    loadGraphic(this, ['watermarkLogo', 'leftLogo', 'rightLogo']);
+    loadGraphic(this);
   });
   
   document.getElementById('signUpload').addEventListener('change', function() {
     if(this.files[0]) document.getElementById('signLabel').innerText = this.files[0].name;
-    loadGraphic(this, ['signPreview']);
+    loadSignGraphic(this);
   });
 
   document.getElementById('csvUpload').addEventListener('change', function() {
@@ -728,11 +810,46 @@ function updatePreview() {
     }
   });
 
-  // Apply Font Family & Font Size dynamically
+  // Apply Font Family, Style, Weight, and Size
   const selectedFont = document.getElementById("fontSelect").value;
+  const fontStyleVal = document.getElementById("fontStyleSelect").value.split('|');
+  const fontStyle = fontStyleVal[0];
+  const fontWeight = fontStyleVal[1];
   const fontSize = document.getElementById("fontSizeRange").value + "px";
+
   document.documentElement.style.setProperty('--card-font', selectedFont);
+  document.documentElement.style.setProperty('--card-font-style', fontStyle);
+  document.documentElement.style.setProperty('--card-font-weight', fontWeight);
   document.documentElement.style.setProperty('--card-font-size', fontSize);
+
+  // Apply Header Alignment
+  const headerAlign = document.getElementById("headerAlignSelect").value;
+  document.documentElement.style.setProperty('--header-align', headerAlign);
+
+  // Apply Watermark Opacity & Size
+  const wmOpacity = document.getElementById("wmOpacityRange").value;
+  const wmSize = document.getElementById("wmSizeRange").value + "px";
+  document.documentElement.style.setProperty('--wm-opacity', wmOpacity);
+  document.documentElement.style.setProperty('--wm-size', wmSize);
+
+  // Apply Logo Placement
+  const logoPlacement = document.getElementById("logoPlacementSelect").value;
+  const leftLogo = document.getElementById("leftLogo");
+  const rightLogo = document.getElementById("rightLogo");
+  
+  if (logoPlacement === "both") {
+    if(leftLogo.getAttribute("src")) leftLogo.style.display = "block";
+    if(rightLogo.getAttribute("src")) rightLogo.style.display = "block";
+  } else if (logoPlacement === "left") {
+    if(leftLogo.getAttribute("src")) leftLogo.style.display = "block";
+    rightLogo.style.display = "none";
+  } else if (logoPlacement === "right") {
+    leftLogo.style.display = "none";
+    if(rightLogo.getAttribute("src")) rightLogo.style.display = "block";
+  } else {
+    leftLogo.style.display = "none";
+    rightLogo.style.display = "none";
+  }
 
   // Apply Theme Color / Gradient
   let selectedColor = document.getElementById("colorSelect").value;
@@ -747,10 +864,14 @@ function updateCodes() {
   const codeType = document.getElementById("codeTypeSelect").value;
   const barcodeCanvas = document.getElementById("barcodeCanvas");
   const qrcodeCanvas = document.getElementById("qrcodeCanvas");
+  const noCodeMsg = document.getElementById("noCodeMsg");
+  const codeBoxContainer = document.getElementById("codeBoxContainer");
 
   if (codeType === "barcode") {
+    codeBoxContainer.style.display = "flex";
     barcodeCanvas.style.display = "block";
     qrcodeCanvas.style.display = "none";
+    noCodeMsg.style.display = "none";
     try {
       JsBarcode("#barcodeCanvas", roll, {
         format: "CODE128",
@@ -760,25 +881,44 @@ function updateCodes() {
         displayValue: true
       });
     } catch(e) {}
-  } else {
+  } else if (codeType === "qrcode") {
+    codeBoxContainer.style.display = "flex";
     barcodeCanvas.style.display = "none";
     qrcodeCanvas.style.display = "flex";
+    noCodeMsg.style.display = "none";
     
     let qrData = `ID:${roll} | Name:${document.getElementById("name").value} | Emergency:${document.getElementById("emergency").value}`;
     qrCodeObj.clear();
     qrCodeObj.makeCode(qrData);
+  } else {
+    codeBoxContainer.style.display = "none";
   }
 }
 
-function loadGraphic(inputElement, targetImgIds) {
+function loadGraphic(inputElement) {
   let file = inputElement.files[0];
   if (file) {
     let reader = new FileReader();
     reader.onload = function(e) {
-      targetImgIds.forEach(id => {
-        let img = document.getElementById(id);
-        if (img) { img.src = e.target.result; img.style.display = "block"; }
-      });
+      document.getElementById('watermarkLogo').src = e.target.result;
+      document.getElementById('watermarkLogo').style.display = "block";
+      
+      document.getElementById('leftLogo').src = e.target.result;
+      document.getElementById('rightLogo').src = e.target.result;
+      updatePreview();
+    };
+    reader.readAsDataURL(file);
+  }
+}
+
+function loadSignGraphic(inputElement) {
+  let file = inputElement.files[0];
+  if (file) {
+    let reader = new FileReader();
+    reader.onload = function(e) {
+      let img = document.getElementById('signPreview');
+      img.src = e.target.result;
+      img.style.display = "block";
     };
     reader.readAsDataURL(file);
   }
