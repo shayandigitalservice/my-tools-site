@@ -3,16 +3,11 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Dual-Sided Bulk School ID Card Generator & A4 Printer | Enterprise ID Studio Pro</title>
+<title>Enterprise ID Studio Pro - Advanced Edition</title>
 
 <!-- Advanced SEO & Open Graph Meta Tags -->
-<meta name="description" content="Free Online Dual-Sided Bulk School ID Card Generator and A4 Sheet Printing Tool. Generate 300DPI student ID cards, barcodes, QR codes, and batch export ZIP instantly.">
-<meta name="keywords" content="School ID Card Generator, Bulk Student ID Maker, Dual Sided ID Card Printer, A4 PVC ID Card Layout, CSV ID Card Automator, Barcode ID Generator, QR Code Student Badge, High Resolution ID Printing, Free Plastic Card Creator">
+<meta name="description" content="Free Online Dual-Sided Bulk School ID Card Generator with Layout Switcher, Custom Fields, CSV Preview, Crop Marks, and PDF Export.">
 <meta name="robots" content="index, follow">
-<meta name="author" content="Enterprise ID Studio Pro">
-<meta property="og:title" content="Dual-Sided Bulk School ID Card Generator & A4 Printer">
-<meta property="og:description" content="Design, automate, and batch print dual-sided student ID cards with barcodes, QR codes, and custom colors.">
-<meta property="og:type" content="website">
 
 <!-- External Libraries -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
@@ -21,6 +16,8 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jsbarcode/3.11.5/JsBarcode.all.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&family=Poppins:wght@400;600;700;800&family=Roboto:wght@400;500;700;900&family=Montserrat:wght@400;600;800&display=swap" rel="stylesheet">
 
 <style>
 :root {
@@ -34,28 +31,23 @@
   --text-main: #0f172a;
   --text-muted: #64748b;
   --input-bg: #f1f5f9;
+  --font-family: 'Inter', sans-serif;
 }
 
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-body { font-family: 'Inter', 'Segoe UI', system-ui, sans-serif; background: var(--bg-main); color: var(--text-main); padding: 10px; line-height: 1.5; overflow-x: hidden; }
+body { font-family: var(--font-family); background: var(--bg-main); color: var(--text-main); padding: 10px; line-height: 1.5; overflow-x: hidden; }
 
-@media (min-width: 768px) {
-  body { padding: 20px; }
-}
+@media (min-width: 768px) { body { padding: 20px; } }
 
-/* UI MAX NAVBAR */
+/* NAVBAR */
 .header-nav { display: flex; flex-direction: column; gap: 8px; align-items: flex-start; max-width: 1400px; margin: 0 auto 16px auto; padding: 14px 18px; background: #ffffff; border: 1px solid var(--panel-border); border-radius: 14px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
-@media (min-width: 640px) {
-  .header-nav { flex-direction: row; align-items: center; justify-content: space-between; }
-}
+@media (min-width: 640px) { .header-nav { flex-direction: row; align-items: center; justify-content: space-between; } }
 .header-nav h1 { font-size: 1.25rem; font-weight: 800; background: linear-gradient(90deg, #2563eb, #7c3aed); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
 .badge { background: linear-gradient(135deg, #2563eb, #4f46e5); color: #fff; font-size: 0.7rem; padding: 5px 12px; border-radius: 20px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; }
 
-/* APP LAYOUT - FULL RESPONSIVE GRID */
+/* APP LAYOUT */
 .app-container { max-width: 1400px; margin: 0 auto; display: grid; grid-template-columns: 1fr; gap: 16px; width: 100%; }
-@media (min-width: 1024px) { 
-  .app-container { grid-template-columns: 1.1fr 0.9fr; align-items: start; } 
-}
+@media (min-width: 1024px) { .app-container { grid-template-columns: 1.1fr 0.9fr; align-items: start; } }
 
 /* PANELS */
 .panel { background: var(--panel-bg); padding: 16px; border-radius: 16px; border: 1px solid var(--panel-border); box-shadow: 0 4px 20px rgba(0,0,0,0.04); width: 100%; min-width: 0; }
@@ -63,176 +55,146 @@ body { font-family: 'Inter', 'Segoe UI', system-ui, sans-serif; background: var(
 .sticky-preview { position: relative; width: 100%; }
 @media (min-width: 1024px) { .sticky-preview { position: sticky; top: 20px; } }
 
-/* TAB NAVIGATION */
-.tab-header { display: flex; border-bottom: 2px solid var(--panel-border); gap: 6px; margin-bottom: 16px; overflow-x: auto; padding-bottom: 8px; -webkit-overflow-scrolling: touch; scrollbar-width: none; }
+/* TABS */
+.tab-header { display: flex; border-bottom: 2px solid var(--panel-border); gap: 6px; margin-bottom: 16px; overflow-x: auto; padding-bottom: 8px; scrollbar-width: none; }
 .tab-header::-webkit-scrollbar { display: none; }
 .tab-btn { padding: 8px 12px; background: #f1f5f9; border: 1px solid var(--panel-border); border-radius: 8px; font-size: 0.75rem; font-weight: 700; color: var(--text-muted); cursor: pointer; transition: all 0.3s; white-space: nowrap; flex-shrink: 0; }
 .tab-btn.active { color: #fff; background: linear-gradient(135deg, #2563eb, #7c3aed); border-color: transparent; box-shadow: 0 4px 12px rgba(37,99,235,0.3); }
 
-/* TAB CONTENT */
 .tab-content { display: none; }
 .tab-content.active { display: block; }
 
-/* INPUT STYLES */
+/* INPUTS */
 .input-grid { display: grid; gap: 12px; width: 100%; }
 .two-col { grid-template-columns: 1fr; }
 @media (min-width: 640px) { .two-col { grid-template-columns: 1fr 1fr; } }
 
 label { font-size: 0.75rem; font-weight: 700; color: #475569; display: block; margin-bottom: 4px; text-transform: uppercase; letter-spacing: 0.5px; }
 input, select, textarea { width: 100%; max-width: 100%; padding: 10px 12px; border: 1px solid var(--panel-border); border-radius: 8px; font-size: 0.85rem; background: var(--input-bg); transition: all 0.2s; color: var(--text-main); font-weight: 600; }
-textarea { resize: vertical; height: 70px; font-family: inherit; }
+textarea { resize: vertical; height: 65px; font-family: inherit; }
 input:focus, select:focus, textarea:focus { outline: none; border-color: var(--accent-blue); background: #ffffff; box-shadow: 0 0 0 3px rgba(37,99,235,0.15); }
 
-/* FILE INPUT */
-.file-box { border: 2px dashed #cbd5e1; padding: 14px; border-radius: 8px; text-align: center; background: #f8fafc; cursor: pointer; transition: border-color 0.3s, background 0.3s; width: 100%; }
+.file-box { border: 2px dashed #cbd5e1; padding: 12px; border-radius: 8px; text-align: center; background: #f8fafc; cursor: pointer; transition: border-color 0.3s; width: 100%; }
 .file-box:hover { border-color: var(--accent-blue); background: #f1f5f9; }
 .file-box input { display: none; }
 .file-box-label { font-size: 0.8rem; font-weight: 700; color: var(--accent-blue); cursor: pointer; word-break: break-all; display: block; }
 
-/* TOGGLE */
-.toggle-wrapper { display: flex; align-items: center; gap: 10px; margin-top: 16px; background: #f8fafc; padding: 10px 14px; border-radius: 8px; border: 1px solid var(--panel-border); width: 100%; }
-.toggle-wrapper input { width: auto; cursor: pointer; }
+/* DYNAMIC CUSTOM FIELDS */
+.custom-field-row { display: flex; gap: 8px; margin-bottom: 8px; align-items: center; }
+.btn-remove-field { background: var(--accent-red); color: white; border: none; padding: 10px 12px; border-radius: 8px; cursor: pointer; font-weight: 800; font-size: 0.8rem; }
+.btn-add-field { background: var(--accent-green); color: white; border: none; padding: 8px 12px; border-radius: 8px; cursor: pointer; font-weight: 700; font-size: 0.75rem; margin-top: 6px; }
+
+/* MODAL FOR CSV PREVIEW & MISSING PHOTOS */
+.modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); display: none; justify-content: center; align-items: center; z-index: 1000; padding: 15px; }
+.modal-card { background: #ffffff; border-radius: 16px; width: 100%; max-width: 750px; max-height: 85vh; overflow-y: auto; padding: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); }
+.modal-header { font-size: 1.1rem; font-weight: 800; margin-bottom: 12px; color: var(--text-main); display: flex; justify-content: space-between; align-items: center; }
+.table-preview { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 0.8rem; }
+.table-preview th, .table-preview td { border: 1px solid var(--panel-border); padding: 8px; text-align: left; }
+.table-preview th { background: #f1f5f9; font-weight: 800; }
+.missing-badge { background: #fef2f2; color: var(--accent-red); padding: 4px 8px; border-radius: 4px; font-weight: 700; font-size: 0.75rem; border: 1px solid #fecdd3; display: inline-block; margin-bottom: 4px; }
 
 /* BUTTONS */
-.btn-group { display: flex; flex-direction: column; gap: 8px; margin-top: 18px; width: 100%; }
+.btn-group { display: flex; flex-direction: column; gap: 8px; margin-top: 16px; width: 100%; }
 @media (min-width: 640px) { .btn-group { flex-direction: row; flex-wrap: wrap; } }
 
-button.btn-action { flex: 1; width: 100%; padding: 12px; border: none; border-radius: 8px; font-weight: 800; font-size: 0.8rem; cursor: pointer; transition: all 0.2s; text-transform: uppercase; letter-spacing: 0.5px; text-align: center; }
-@media (min-width: 640px) { button.btn-action { width: auto; min-width: 120px; } }
-
+button.btn-action { flex: 1; width: 100%; padding: 11px; border: none; border-radius: 8px; font-weight: 800; font-size: 0.78rem; cursor: pointer; transition: all 0.2s; text-transform: uppercase; letter-spacing: 0.5px; text-align: center; }
+@media (min-width: 640px) { button.btn-action { width: auto; min-width: 105px; } }
 button.btn-action:hover { transform: translateY(-2px); filter: brightness(1.05); }
 button.btn-action:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
-.btn-download { background: linear-gradient(135deg, #059669, #10b981); color: white; box-shadow: 0 4px 12px rgba(16,185,129,0.25); }
-.btn-bulk { background: linear-gradient(135deg, #7c3aed, #a855f7); color: white; box-shadow: 0 4px 12px rgba(124,58,237,0.25); }
-.btn-print { background: linear-gradient(135deg, #2563eb, #3b82f6); color: white; box-shadow: 0 4px 12px rgba(37,99,235,0.25); }
 
-/* CARD PREVIEW CONTAINER & FLUID SCALING */
-.cards-container { display: flex; flex-direction: column; gap: 16px; align-items: center; width: 100%; padding-bottom: 5px; }
+.btn-download { background: linear-gradient(135deg, #059669, #10b981); color: white; }
+.btn-bulk { background: linear-gradient(135deg, #7c3aed, #a855f7); color: white; }
+.btn-print { background: linear-gradient(135deg, #2563eb, #3b82f6); color: white; }
+.btn-pdf { background: linear-gradient(135deg, #d97706, #f59e0b); color: white; }
+
+/* TOGGLES */
+.toggle-wrapper { display: flex; align-items: center; gap: 10px; margin-top: 12px; background: #f8fafc; padding: 10px 14px; border-radius: 8px; border: 1px solid var(--panel-border); width: 100%; }
+.toggle-wrapper input { width: auto; cursor: pointer; }
+
+/* CARD PREVIEW & SCALING */
+.cards-container { display: flex; flex-direction: column; gap: 16px; align-items: center; width: 100%; }
 .card-wrapper { display: flex; flex-direction: column; align-items: center; background: #f8fafc; border-radius: 12px; padding: 12px; width: 100%; border: 1px solid var(--panel-border); overflow: hidden; }
 .card-label { font-size: 0.75rem; font-weight: 800; text-transform: uppercase; color: #64748b; margin-bottom: 8px; letter-spacing: 1px; }
 
-/* SCALER FIX FOR MOBILE OVERFLOW */
-.id-card-scaler { 
-  width: 100%; 
-  max-width: 420px; 
-  height: 260px;
-  display: flex; 
-  justify-content: center; 
-  align-items: flex-start;
-  position: relative;
-}
-
-@media (max-width: 440px) {
-  .id-card-scaler {
-    height: 195px; /* Scales container height proportionally for 0.75 scale */
-  }
-}
+.id-card-scaler { width: 100%; max-width: 420px; height: 260px; display: flex; justify-content: center; align-items: flex-start; position: relative; }
+@media (max-width: 440px) { .id-card-scaler { height: 195px; } }
 
 .id-card { 
-  width: 420px; 
-  height: 260px; 
-  border-radius: 12px; 
-  position: absolute; 
-  top: 0;
-  left: 50%;
-  transform-origin: top left;
-  transform: translateX(-50%);
-  background: #fff; 
-  color: #000; 
-  box-shadow: 0 10px 25px rgba(0,0,0,0.12); 
-  overflow: hidden; 
-  transition: transform 0.3s; 
-  flex-shrink: 0; 
+  width: 420px; height: 260px; border-radius: 12px; position: absolute; top: 0; left: 50%;
+  transform-origin: top left; transform: translateX(-50%);
+  background: #fff; color: #000; box-shadow: 0 10px 25px rgba(0,0,0,0.12); overflow: hidden; transition: transform 0.3s; flex-shrink: 0; 
 }
+@media (max-width: 440px) { .id-card { transform: translateX(-50%) scale(0.71); } }
+@media (min-width: 441px) and (max-width: 480px) { .id-card { transform: translateX(-50%) scale(0.82); } }
 
-/* Perfect Mobile Responsive Scaling via CSS Transform */
-@media (max-width: 440px) {
-  .id-card { 
-    transform: translateX(-50%) scale(0.71); 
-  }
-}
+/* CARD DESIGNS / LAYOUT STYLES */
+/* LAYOUT 1: CLASSIC */
+.layout-classic .topbar { background: #1e40af; color: white; padding: 6px; text-align: center; position: relative; z-index: 2; min-height: 52px; }
+.layout-classic .photo { position: absolute; left: 16px; top: 82px; width: 95px; height: 115px; border: 2px solid #000; border-radius: 6px; overflow: hidden; background: #f8fafc; display: flex; align-items: center; justify-content: center; z-index: 2; }
+.layout-classic .details { position: absolute; left: 125px; top: 78px; font-size: 11px; z-index: 2; line-height: 1.45; font-weight: 800; width: 280px; }
 
-@media (min-width: 441px) and (max-width: 480px) {
-  .id-card { 
-    transform: translateX(-50%) scale(0.82); 
-  }
-}
+/* LAYOUT 2: MODERN VERTICAL / MODERN BANNER */
+.layout-modern .topbar { background: #7c3aed; color: white; padding: 10px; text-align: left; padding-left: 60px; position: relative; z-index: 2; min-height: 60px; }
+.layout-modern .corner-logo.left-logo { display: block !important; left: 10px; top: 10px; width: 40px; height: 40px; }
+.layout-modern .photo { position: absolute; right: 16px; top: 72px; width: 90px; height: 110px; border: 2px solid #7c3aed; border-radius: 50%; overflow: hidden; background: #f8fafc; display: flex; align-items: center; justify-content: center; z-index: 2; }
+.layout-modern .details { position: absolute; left: 16px; top: 72px; font-size: 11px; z-index: 2; line-height: 1.45; font-weight: 800; width: 260px; }
 
-/* CARD INTERNAL DESIGN */
-.topbar { background: #1e40af; color: white; padding: 6px; text-align: center; position: relative; z-index: 2; min-height: 52px; }
-.school-name { font-size: 14px; font-weight: 800; text-transform: uppercase; color: #ffffff; letter-spacing: 0.5px; }
-.school-address { font-size: 9.5px; font-weight: 600; color: #ffffff; }
+/* LAYOUT 3: MINIMALIST CLEAN */
+.layout-minimal .topbar { background: #0f172a; color: white; padding: 8px; text-align: center; z-index: 2; min-height: 48px; }
+.layout-minimal .photo { position: absolute; left: 16px; top: 75px; width: 95px; height: 115px; border: 1px solid #0f172a; border-radius: 2px; overflow: hidden; background: #fff; display: flex; align-items: center; justify-content: center; z-index: 2; }
+.layout-minimal .details { position: absolute; left: 125px; top: 72px; font-size: 11px; z-index: 2; line-height: 1.45; font-weight: 800; width: 280px; }
+
+.school-name { font-size: 13px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px; }
+.school-address { font-size: 9px; font-weight: 600; }
 .bottombar { position: absolute; bottom: 0; width: 100%; background: #1e40af; color: white; padding: 3px 0; font-size: 10px; font-weight: 700; text-align: center; z-index: 2; }
 
 .watermark { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); opacity: 0.05; z-index: 1; pointer-events: none; }
 .watermark img { width: 180px; height: 180px; display: none; }
 .corner-logo { position: absolute; top: 6px; width: 40px; height: 40px; display: none; background: #fff; border-radius: 50%; padding: 2px; }
 .left-logo { left: 8px; } .right-logo { right: 8px; }
-.card-body-title { text-align: center; font-weight: 900; font-size: 12px; letter-spacing: 1px; margin-top: 6px; color: #000000; }
-.photo { position: absolute; left: 16px; top: 82px; width: 95px; height: 115px; border: 2px solid #000000; border-radius: 6px; overflow: hidden; background: #f8fafc; display: flex; align-items: center; justify-content: center; z-index: 2; }
+.card-body-title { text-align: center; font-weight: 900; font-size: 11px; letter-spacing: 1px; margin-top: 4px; }
 .photo img { width: 100%; height: 100%; object-fit: cover; display: none; }
-.photo-placeholder { font-size: 10px; color: #000000; font-weight: 700; text-align: center; }
+.photo-placeholder { font-size: 10px; font-weight: 700; text-align: center; }
 
-.details { position: absolute; left: 125px; top: 80px; font-size: 11.5px; z-index: 2; line-height: 1.5; color: #000000; font-weight: 800; width: 280px; }
-.details strong { color: #000000; display: inline-block; width: 70px; font-weight: 900; }
-.details span { color: #000000; font-weight: 800; }
+.details strong { display: inline-block; width: 75px; font-weight: 900; }
+.signature { position: absolute; right: 16px; bottom: 22px; text-align: center; font-size: 8.5px; font-weight: 800; z-index: 2; }
+.signature img { width: 70px; height: 20px; object-fit: contain; display: none; margin: 0 auto; }
 
-.signature { position: absolute; right: 16px; bottom: 25px; text-align: center; font-size: 8.5px; font-weight: 800; color: #000000; z-index: 2; }
-.signature img { width: 70px; height: 22px; object-fit: contain; display: none; margin: 0 auto; }
+.back-content { padding: 10px 16px; font-size: 10px; line-height: 1.35; }
+.back-details { margin-bottom: 6px; background: #ffffff; padding: 6px 8px; border-radius: 6px; border: 1.5px solid #000; font-weight: 800; }
+.back-details strong { display: inline-block; width: 100px; font-weight: 900; }
+.rules-title { font-weight: 900; margin-bottom: 2px; text-transform: uppercase; font-size: 9px; }
+.rules-list { font-size: 8px; padding-left: 14px; font-weight: 700; }
 
-.back-content { padding: 10px 16px; font-size: 10.5px; line-height: 1.35; color: #000000; }
-.back-details { margin-bottom: 6px; background: #ffffff; padding: 6px 8px; border-radius: 6px; border: 1.5px solid #000000; color: #000000; font-weight: 800; }
-.back-details strong { color: #000000; display: inline-block; width: 100px; font-weight: 900; }
-.back-details span { color: #000000; font-weight: 800; }
+.code-box { position: absolute; bottom: 20px; left: 16px; right: 16px; display: flex; justify-content: center; align-items: center; background: #fff; padding: 4px; border-radius: 6px; border: 1px solid #000; height: 40px; }
+#barcodeCanvas { max-width: 220px; height: 32px; }
+#qrcodeCanvas img, #qrcodeCanvas canvas { width: 34px !important; height: 34px !important; }
 
-.rules-title { font-weight: 900; color: #000000; margin-bottom: 2px; text-transform: uppercase; font-size: 9.5px; }
-.rules-list { font-size: 8.5px; padding-left: 14px; color: #000000; font-weight: 700; }
+.progress-msg { margin-top: 10px; font-size: 0.85rem; font-weight: 800; color: var(--accent-blue); text-align: center; min-height: 20px; }
 
-.code-box { position: absolute; bottom: 20px; left: 16px; right: 16px; display: flex; justify-content: center; align-items: center; background: #ffffff; padding: 4px; border-radius: 6px; border: 1px solid #000000; height: 42px; }
-#barcodeCanvas { max-width: 220px; height: 35px; }
-#qrcodeCanvas img, #qrcodeCanvas canvas { width: 36px !important; height: 36px !important; }
-
-.progress-msg { margin-top: 12px; font-size: 0.85rem; font-weight: 800; color: var(--accent-blue); text-align: center; min-height: 20px; word-break: break-all; }
-
-/* SEO & FAQ SECTION */
-.seo-section { 
-  width: 100%;
-  max-width: 1400px; 
-  margin: 24px auto 0 auto; 
-  background: #ffffff; 
-  border-radius: 16px; 
-  border: 1px solid var(--panel-border); 
-  padding: 16px; 
-  color: #334155; 
-  box-shadow: 0 4px 20px rgba(0,0,0,0.03); 
-}
-
+/* SEO SECTION */
+.seo-section { width: 100%; max-width: 1400px; margin: 24px auto 0 auto; background: #ffffff; border-radius: 16px; border: 1px solid var(--panel-border); padding: 16px; color: #334155; }
 @media (min-width: 768px) { .seo-section { padding: 30px; } }
-
 .seo-section h2 { color: #0f172a; font-size: 1.25rem; margin-top: 20px; margin-bottom: 10px; border-left: 4px solid var(--accent-blue); padding-left: 10px; font-weight: 800; }
 .seo-section p { margin-bottom: 12px; font-size: 0.9rem; }
-.seo-section ul, .seo-section ol { margin-left: 18px; margin-bottom: 16px; font-size: 0.9rem; }
-.seo-section li { margin-bottom: 6px; }
-
-/* FAQ CARDS */
-.faq-grid { display: flex; flex-direction: column; gap: 12px; margin-top: 16px; width: 100%; }
-@media (min-width: 768px) { .faq-grid { display: grid; grid-template-columns: 1fr 1fr; } }
-
-.faq-item { background: linear-gradient(135deg, #f8fafc 0%, #eff6ff 100%); border-radius: 10px; border: 1px solid #dbeafe; padding: 16px; width: 100%; }
-.faq-question { font-weight: 800; color: #1e40af; margin-bottom: 6px; font-size: 0.9rem; display: flex; align-items: center; gap: 8px; }
-.faq-question::before { content: 'Q'; background: #2563eb; color: #fff; font-size: 0.7rem; padding: 2px 6px; border-radius: 4px; font-weight: 900; }
-.faq-answer { font-size: 0.85rem; color: #475569; font-weight: 600; }
-
-.legal-warning { background: linear-gradient(135deg, #fef2f2 0%, #ffe4e6 100%); border: 1px solid #fecdd3; border-radius: 12px; padding: 16px; margin-top: 24px; color: #991b1b; font-size: 0.9rem; }
 
 #a4PrintContainer { display: none; }
 
+/* PRINT STYLES WITH CROP MARKS */
 @media print {
   body * { visibility: hidden; }
   #a4PrintContainer, #a4PrintContainer * { visibility: visible; }
   #a4PrintContainer { display: block !important; position: absolute; left: 0; top: 0; width: 100%; background: white; }
-  .a4-page { width: 210mm; height: 297mm; padding: 10mm; margin: 0 auto 10mm auto; box-sizing: border-box; display: grid; grid-template-columns: repeat(2, 1fr); grid-template-rows: repeat(4, 1fr); gap: 8mm 6mm; page-break-after: always; align-items: center; justify-items: center; }
-  .print-card-item { width: 85.6mm !important; height: 53.98mm !important; border-radius: 4mm !important; border: 1px solid #000000; box-shadow: none !important; overflow: hidden; }
+  .a4-page { width: 210mm; height: 297mm; padding: 12mm; margin: 0 auto; box-sizing: border-box; display: grid; grid-template-columns: repeat(2, 1fr); grid-template-rows: repeat(4, 1fr); gap: 10mm 8mm; page-break-after: always; align-items: center; justify-items: center; }
+  .print-card-item { width: 85.6mm !important; height: 53.98mm !important; border-radius: 2mm !important; border: 1px dashed #64748b; box-shadow: none !important; overflow: hidden; position: relative; }
+  
+  /* CROP MARKS */
+  .has-crop-marks .print-card-item::before {
+    content: ''; position: absolute; top: -3mm; left: -3mm; width: 3mm; height: 3mm; border-top: 1px solid #000; border-left: 1px solid #000;
+  }
+  .has-crop-marks .print-card-item::after {
+    content: ''; position: absolute; bottom: -3mm; right: -3mm; width: 3mm; height: 3mm; border-bottom: 1px solid #000; border-right: 1px solid #000;
+  }
 }
 </style>
 </head>
@@ -241,7 +203,7 @@ button.btn-action:disabled { opacity: 0.5; cursor: not-allowed; transform: none;
 
 <div class="header-nav">
   <h1>Enterprise ID Studio Pro</h1>
-  <span class="badge">Mobile & Desktop Optimized</span>
+  <span class="badge">Pro Edition + Layout Switcher & Crop Marks</span>
 </div>
 
 <div class="app-container">
@@ -251,7 +213,7 @@ button.btn-action:disabled { opacity: 0.5; cursor: not-allowed; transform: none;
     <div class="tab-header">
       <button class="tab-btn active" onclick="switchTab(event, 'tab-school')">1. School</button>
       <button class="tab-btn" onclick="switchTab(event, 'tab-student')">2. Student</button>
-      <button class="tab-btn" onclick="switchTab(event, 'tab-branding')">3. Branding</button>
+      <button class="tab-btn" onclick="switchTab(event, 'tab-branding')">3. Style & Layout</button>
       <button class="tab-btn" onclick="switchTab(event, 'tab-bulk')">4. Bulk CSV</button>
     </div>
 
@@ -275,6 +237,14 @@ button.btn-action:disabled { opacity: 0.5; cursor: not-allowed; transform: none;
         <div><label>Blood Group</label><input type="text" id="blood" value="O+"></div>
         <div><label>Emergency Contact</label><input type="text" id="emergency" value="+1 555-999-8822"></div>
       </div>
+
+      <!-- CUSTOM FIELD BUILDER -->
+      <div style="margin-top:12px;">
+        <label>Custom Dynamic Fields (e.g., Aadhar, Bus Route)</label>
+        <div id="customFieldsContainer"></div>
+        <button type="button" class="btn-add-field" onclick="addCustomFieldInput()">+ Add Custom Field</button>
+      </div>
+
       <div style="margin-top:12px;">
         <label>Student Photo (Single Upload)</label>
         <div class="file-box" onclick="document.getElementById('singlePhotoUpload').click()">
@@ -288,10 +258,18 @@ button.btn-action:disabled { opacity: 0.5; cursor: not-allowed; transform: none;
       </div>
     </div>
 
-    <!-- TAB 3: BRANDING & COLORS -->
+    <!-- TAB 3: BRANDING & LAYOUT -->
     <div id="tab-branding" class="tab-content">
       <div class="input-grid two-col">
         <div><label>Academic Session</label><input type="text" id="session" value="2026-2027"></div>
+        <div>
+          <label>ID Card Layout Template</label>
+          <select id="layoutSelect">
+            <option value="layout-classic">Classic Blue Header</option>
+            <option value="layout-modern">Modern Curve / Badge</option>
+            <option value="layout-minimal">Minimalist Clean Dark</option>
+          </select>
+        </div>
         <div>
           <label>Theme Color Scheme</label>
           <select id="colorSelect">
@@ -301,10 +279,23 @@ button.btn-action:disabled { opacity: 0.5; cursor: not-allowed; transform: none;
             <option value="#4c1d95">Deep Imperial Purple</option>
             <option value="#000000">Solid Jet Black</option>
             <option value="#c2410c">Sunset Amber Orange</option>
-            <option value="#0e7490">Deep Cyan Ocean</option>
-            <option value="#831843">Rose Burgundy</option>
-            <option value="#312e81">Midnight Indigo</option>
-            <option value="#3f6212">Olive Dark Gold</option>
+          </select>
+        </div>
+        <div>
+          <label>Font Family</label>
+          <select id="fontSelect">
+            <option value="'Inter', sans-serif">Inter (Modern)</option>
+            <option value="'Poppins', sans-serif">Poppins (Clean)</option>
+            <option value="'Roboto', sans-serif">Roboto (Standard)</option>
+            <option value="'Montserrat', sans-serif">Montserrat (Bold)</option>
+          </select>
+        </div>
+        <div>
+          <label>Card Font Size Scale</label>
+          <select id="fontSizeSelect">
+            <option value="11px">Normal (11px)</option>
+            <option value="10px">Compact (10px)</option>
+            <option value="12px">Large (12px)</option>
           </select>
         </div>
         <div>
@@ -341,7 +332,7 @@ button.btn-action:disabled { opacity: 0.5; cursor: not-allowed; transform: none;
       </div>
     </div>
 
-    <!-- TAB 4: BULK CSV -->
+    <!-- TAB 4: BULK CSV & PREVIEW -->
     <div id="tab-bulk" class="tab-content">
       <div class="input-grid">
         <div>
@@ -358,20 +349,27 @@ button.btn-action:disabled { opacity: 0.5; cursor: not-allowed; transform: none;
             <input type="file" id="bulkPhotos" webkitdirectory directory multiple accept="image/*">
           </div>
         </div>
+        <button type="button" class="btn-action btn-bulk" style="margin-top:10px;" onclick="openCsvPreviewModal()">🔍 Preview CSV Data & Check Missing Photos</button>
       </div>
     </div>
 
-    <!-- PRINTING OPTIONS -->
+    <!-- PRINT & EXPORT OPTIONS -->
     <div class="toggle-wrapper">
       <input type="checkbox" id="mirrorPrint">
-      <label for="mirrorPrint" style="margin:0; cursor:pointer; font-weight:800; color:#0f172a; font-size:0.8rem;">Enable Mirror Print (For Dragon / Inkjet PVC Sheet)</label>
+      <label for="mirrorPrint" style="margin:0; cursor:pointer; font-weight:800; color:#0f172a; font-size:0.8rem;">Enable Mirror Print (For Inkjet PVC / Dragon Sheet)</label>
+    </div>
+
+    <div class="toggle-wrapper">
+      <input type="checkbox" id="cropMarksPrint" checked>
+      <label for="cropMarksPrint" style="margin:0; cursor:pointer; font-weight:800; color:#0f172a; font-size:0.8rem;">Include Cutting Crop Marks on A4 Print</label>
     </div>
 
     <!-- ACTIONS -->
     <div class="btn-group">
-      <button class="btn-action btn-download" id="btnSingle" onclick="downloadSingleCard()">Download Single</button>
+      <button class="btn-action btn-download" onclick="downloadSingleCard()">Download Single</button>
+      <button class="btn-action btn-pdf" onclick="downloadSinglePDF()">Download PDF</button>
       <button class="btn-action btn-bulk" id="btnBulk" onclick="generateBulkCards()">Download ZIP</button>
-      <button class="btn-action btn-print" id="btnPrintA4" onclick="printA4Grid()">Print A4 Grid</button>
+      <button class="btn-action btn-print" onclick="printA4Grid()">Print A4 Grid</button>
     </div>
 
     <div id="progressText" class="progress-msg"></div>
@@ -379,7 +377,7 @@ button.btn-action:disabled { opacity: 0.5; cursor: not-allowed; transform: none;
 
   <!-- RIGHT STICKY PREVIEW PANEL -->
   <div class="panel sticky-preview">
-    <div style="font-weight:900; text-align:center; margin-bottom:12px; color:#0f172a; font-size:1rem; letter-spacing:0.5px;">Live Dual-Side Card Preview</div>
+    <div style="font-weight:900; text-align:center; margin-bottom:12px; color:#0f172a; font-size:1rem;">Live Dual-Side Card Preview</div>
     
     <div class="cards-container">
       
@@ -387,7 +385,7 @@ button.btn-action:disabled { opacity: 0.5; cursor: not-allowed; transform: none;
       <div class="card-wrapper">
         <div class="card-label">Front Side</div>
         <div class="id-card-scaler">
-          <div id="card-front" class="id-card">
+          <div id="card-front" class="id-card layout-classic">
             <div class="watermark"><img id="watermarkLogo"></div>
             <div class="topbar">
               <img id="leftLogo" class="corner-logo left-logo">
@@ -400,7 +398,7 @@ button.btn-action:disabled { opacity: 0.5; cursor: not-allowed; transform: none;
               <span id="photoPlaceholder" class="photo-placeholder">Photo</span>
               <img id="photoPreview">
             </div>
-            <div class="details">
+            <div class="details" id="cardDetailsBody">
               <p><strong>Name :</strong> <span id="namePreview">Alexander Smith</span></p>
               <p><strong>Father :</strong> <span id="fatherPreview">Robert Smith</span></p>
               <p><strong>Class :</strong> <span id="classPreview">Class 10</span></p>
@@ -421,7 +419,7 @@ button.btn-action:disabled { opacity: 0.5; cursor: not-allowed; transform: none;
       <div class="card-wrapper">
         <div class="card-label">Back Side</div>
         <div class="id-card-scaler">
-          <div id="card-back" class="id-card">
+          <div id="card-back" class="id-card layout-classic">
             <div class="topbar" style="min-height: 28px; padding: 4px;">
               <div style="font-size: 10px; font-weight:800;">IMPORTANT INFORMATION</div>
             </div>
@@ -456,59 +454,42 @@ button.btn-action:disabled { opacity: 0.5; cursor: not-allowed; transform: none;
 
 </div>
 
-<!-- COMPREHENSIVE SEO DOCUMENTATION & FAQS -->
-<div class="seo-section">
-  <h2 style="margin-top:0;">Complete User Manual & Automation Guide</h2>
-  <p>Welcome to Enterprise ID Studio Pro—the most comprehensive online dual-sided school ID card generator and automated batch printing engine. Fully optimized for seamless performance across mobile phones, tablets, and desktop workstations.</p>
-
-  <h2>Step-by-Step Execution Protocol</h2>
-  <ol>
-    <li><strong>Step 1: Define Institution Metadata (Tab 1):</strong> Enter the school name and campus location to populate card headers.</li>
-    <li><strong>Step 2: Customize Student Profile (Tab 2):</strong> Input student credentials manually or utilize the bulk CSV upload workflow.</li>
-    <li><strong>Step 3: Branding & Security (Tab 3):</strong> Select theme colors, upload logos, signatures, and choose between Barcodes or QR Codes.</li>
-    <li><strong>Step 4: Bulk CSV Generation (Tab 4):</strong> Upload a CSV spreadsheet and a folder of student photos named by roll number (e.g., <code>1024.jpg</code>) for instant batch ZIP exporting.</li>
-    <li><strong>Step 5: Grid Printing:</strong> Click <strong>Print A4 Grid</strong> to layout cards perfectly onto standard A4 print sheets.</li>
-  </ol>
-
-  <h2>Frequently Asked Questions (FAQs)</h2>
-  
-  <div class="faq-grid">
-    <div class="faq-item">
-      <div class="faq-question">How are photos matched in bulk mode?</div>
-      <div class="faq-answer">Ensure student photo filenames match their respective Roll Numbers in your CSV dataset (e.g., Roll <code>1024</code> matches photo file <code>1024.jpg</code>).</div>
+<!-- CSV PREVIEW & MISSING PHOTO MODAL -->
+<div id="csvModal" class="modal-overlay">
+  <div class="modal-card">
+    <div class="modal-header">
+      <span>CSV Data & Missing Photo Diagnostics</span>
+      <button onclick="closeCsvModal()" style="background:none; border:none; font-size:1.2rem; cursor:pointer;">✕</button>
     </div>
-
-    <div class="faq-item">
-      <div class="faq-question">Is this tool mobile friendly?</div>
-      <div class="faq-answer">Yes! The user interface and live card previews automatically scale to fit mobile phone screens without breaking layout structures.</div>
+    <div id="modalBodyContent">
+      <p>Please upload a CSV file and photo folder first in Tab 4.</p>
     </div>
-
-    <div class="faq-item">
-      <div class="faq-question">Are my uploaded files secure?</div>
-      <div class="faq-answer">All processing occurs locally inside your web browser. No student data or photos are uploaded to any external server.</div>
+    <div style="text-align:right; margin-top:15px;">
+      <button class="btn-action btn-bulk" onclick="closeCsvModal()" style="width:auto;">Close</button>
     </div>
-
-    <div class="faq-item">
-      <div class="faq-question">What card printers are supported?</div>
-      <div class="faq-answer">The downloaded 300DPI PNG files are fully compatible with thermal card printers from Zebra, Evolis, Fargo, and standard desktop inkjet PVC printing trays.</div>
-    </div>
-  </div>
-
-  <div class="legal-warning">
-    <h3 style="margin-bottom: 6px; color: #dc2626; font-size: 1rem; font-weight: 800;">Legal Warning & Copyright Notice</h3>
-    <p>Enterprise ID Studio Pro is intended exclusively for authorized educational staff and verified printing institutions. Unauthorized creation of fraudulent credentials or misuse of institutional trademarks is strictly prohibited.</p>
   </div>
 </div>
 
-<!-- HIDDEN A4 PRINT CONTAINER -->
+<!-- SEO SECTION -->
+<div class="seo-section">
+  <h2 style="margin-top:0;">Advanced Enterprise ID Studio Pro Features</h2>
+  <p>This upgraded release includes Layout Templates, Custom Dynamic Fields, CSV Diagnostic Preview tables, Missing Photo Reporters, Crop Marks for A4 sheet cutters, and direct PDF generation capabilities.</p>
+</div>
+
 <div id="a4PrintContainer"></div>
 
 <script>
 let qrCodeObj = null;
+let customFieldsCount = 0;
+let parsedCsvData = null;
 
 document.addEventListener("DOMContentLoaded", function() {
   const inputs = document.querySelectorAll('input[type="text"], select, textarea');
   inputs.forEach(input => input.addEventListener('input', updatePreview));
+
+  document.getElementById('layoutSelect').addEventListener('change', updateLayout);
+  document.getElementById('fontSelect').addEventListener('change', updateFont);
+  document.getElementById('fontSizeSelect').addEventListener('change', updateFontSize);
 
   document.getElementById('singlePhotoUpload').addEventListener('change', function() {
     if(this.files[0]) {
@@ -533,8 +514,11 @@ document.addEventListener("DOMContentLoaded", function() {
     loadGraphic(this, ['signPreview']);
   });
 
-  document.getElementById('csvUpload').addEventListener('change', function() {
-    if(this.files[0]) document.getElementById('csvLabel').innerText = this.files[0].name;
+  document.getElementById('csvUpload').addEventListener('change', async function() {
+    if(this.files[0]) {
+      document.getElementById('csvLabel').innerText = this.files[0].name;
+      parsedCsvData = await parseCSVFile(this.files[0]);
+    }
   });
 
   document.getElementById('bulkPhotos').addEventListener('change', function() {
@@ -549,10 +533,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
   document.getElementById('codeTypeSelect').addEventListener('change', updateCodes);
 
-  qrCodeObj = new QRCode(document.getElementById("qrcodeCanvas"), {
-    width: 36,
-    height: 36
-  });
+  qrCodeObj = new QRCode(document.getElementById("qrcodeCanvas"), { width: 34, height: 34 });
 
   updatePreview();
 });
@@ -562,6 +543,45 @@ function switchTab(evt, tabId) {
   document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
   evt.currentTarget.classList.add('active');
   document.getElementById(tabId).classList.add('active');
+}
+
+function updateLayout() {
+  const layout = document.getElementById('layoutSelect').value;
+  ['card-front', 'card-back'].forEach(id => {
+    let el = document.getElementById(id);
+    el.className = `id-card ${layout}`;
+  });
+}
+
+function updateFont() {
+  const font = document.getElementById('fontSelect').value;
+  document.documentElement.style.setProperty('--font-family', font);
+}
+
+function updateFontSize() {
+  const size = document.getElementById('fontSizeSelect').value;
+  document.querySelectorAll('.details').forEach(el => el.style.fontSize = size);
+}
+
+function addCustomFieldInput() {
+  customFieldsCount++;
+  const container = document.getElementById('customFieldsContainer');
+  let div = document.createElement('div');
+  div.className = 'custom-field-row';
+  div.id = `customFieldRow_${customFieldsCount}`;
+  div.innerHTML = `
+    <input type="text" placeholder="Field Label (e.g. Bus Route)" id="cf_key_${customFieldsCount}" oninput="updatePreview()">
+    <input type="text" placeholder="Field Value (e.g. Route 4)" id="cf_val_${customFieldsCount}" oninput="updatePreview()">
+    <button type="button" class="btn-remove-field" onclick="removeCustomField(${customFieldsCount})">X</button>
+  `;
+  container.appendChild(div);
+  updatePreview();
+}
+
+function removeCustomField(id) {
+  let row = document.getElementById(`customFieldRow_${id}`);
+  if(row) row.remove();
+  updatePreview();
 }
 
 function updatePreview() {
@@ -584,6 +604,27 @@ function updatePreview() {
   document.getElementById("resAddressPreview").innerText = document.getElementById("resAddress").value || "";
   
   document.getElementById("sessionPreview").innerText = "SESSION " + (document.getElementById("session").value || "2026-2027");
+
+  // Render Dynamic Custom Fields
+  let detailsContainer = document.getElementById("cardDetailsBody");
+  // Keep base fields
+  let baseHTML = `
+    <p><strong>Name :</strong> <span id="namePreview">${document.getElementById("name").value}</span></p>
+    <p><strong>Father :</strong> <span id="fatherPreview">${document.getElementById("father").value}</span></p>
+    <p><strong>Class :</strong> <span id="classPreview">${document.getElementById("class").value}</span></p>
+    <p><strong>Section :</strong> <span id="sectionPreview">${document.getElementById("section").value}</span></p>
+    <p><strong>Roll No :</strong> <span id="rollPreview">${roll}</span></p>
+    <p><strong>Phone :</strong> <span id="phonePreview">${document.getElementById("phone").value}</span></p>
+  `;
+  
+  for(let i=1; i<=customFieldsCount; i++) {
+    let kInput = document.getElementById(`cf_key_${i}`);
+    let vInput = document.getElementById(`cf_val_${i}`);
+    if(kInput && vInput && kInput.value.trim()) {
+      baseHTML += `<p><strong>${kInput.value} :</strong> <span>${vInput.value}</span></p>`;
+    }
+  }
+  detailsContainer.innerHTML = baseHTML;
 
   const rulesText = document.getElementById("rulesInput").value;
   const rulesList = document.getElementById("rulesPreview");
@@ -612,18 +653,11 @@ function updateCodes() {
     barcodeCanvas.style.display = "block";
     qrcodeCanvas.style.display = "none";
     try {
-      JsBarcode("#barcodeCanvas", roll, {
-        format: "CODE128",
-        height: 25,
-        fontSize: 10,
-        margin: 2,
-        displayValue: true
-      });
+      JsBarcode("#barcodeCanvas", roll, { format: "CODE128", height: 25, fontSize: 10, margin: 2, displayValue: true });
     } catch(e) {}
   } else {
     barcodeCanvas.style.display = "none";
     qrcodeCanvas.style.display = "flex";
-    
     let qrData = `ID:${roll} | Name:${document.getElementById("name").value} | Emergency:${document.getElementById("emergency").value}`;
     qrCodeObj.clear();
     qrCodeObj.makeCode(qrData);
@@ -644,9 +678,57 @@ function loadGraphic(inputElement, targetImgIds) {
   }
 }
 
+async function openCsvPreviewModal() {
+  const modal = document.getElementById('csvModal');
+  const modalBody = document.getElementById('modalBodyContent');
+  const photoFiles = document.getElementById('bulkPhotos').files;
+
+  if(!parsedCsvData || parsedCsvData.length === 0) {
+    modalBody.innerHTML = `<p style="color:var(--accent-red); font-weight:800;">Please upload a valid CSV file in Tab 4 first!</p>`;
+    modal.style.display = "flex";
+    return;
+  }
+
+  let html = `<p>Total Records Found: <b>${parsedCsvData.length}</b></p>`;
+  html += `<table class="table-preview"><tr><th>Roll No</th><th>Name</th><th>Class</th><th>Photo Match Status</th></tr>`;
+
+  parsedCsvData.forEach((row, idx) => {
+    let roll = getStudentVal(row, ['Roll', 'roll', 'Roll No', 'RollNo']) || `Row_${idx+1}`;
+    let name = getStudentVal(row, ['Name', 'name', 'Student Name']) || 'N/A';
+    let cls = getStudentVal(row, ['Class', 'class']) || 'N/A';
+    
+    let matched = false;
+    if(photoFiles && photoFiles.length > 0) {
+      matched = Array.from(photoFiles).some(f => f.name.split('.')[0].trim() === String(roll).trim());
+    }
+
+    let statusHTML = matched ? `<span style="color:var(--accent-green); font-weight:700;">✓ Photo Found</span>` : `<span class="missing-badge">⚠️ Photo Missing</span>`;
+
+    html += `<tr><td>${roll}</td><td>${name}</td><td>${cls}</td><td>${statusHTML}</td></tr>`;
+  });
+
+  html += `</table>`;
+  modalBody.innerHTML = html;
+  modal.style.display = "flex";
+}
+
+function closeCsvModal() {
+  document.getElementById('csvModal').style.display = "none";
+}
+
+function parseCSVFile(file) {
+  return new Promise((resolve, reject) => {
+    Papa.parse(file, {
+      header: true, skipEmptyLines: true,
+      transformHeader: h => h.replace(/^\ufeff/, '').trim(),
+      complete: results => resolve(results.data),
+      error: err => reject(err)
+    });
+  });
+}
+
 async function downloadSingleCard() {
   const roll = document.getElementById("roll").value || "ID";
-  
   const frontCanvas = await html2canvas(document.getElementById("card-front"), { scale: 4, useCORS: true });
   let aFront = document.createElement("a");
   aFront.href = frontCanvas.toDataURL("image/png");
@@ -654,7 +736,6 @@ async function downloadSingleCard() {
   aFront.click();
 
   await new Promise(r => setTimeout(r, 300));
-
   const backCanvas = await html2canvas(document.getElementById("card-back"), { scale: 4, useCORS: true });
   let aBack = document.createElement("a");
   aBack.href = backCanvas.toDataURL("image/png");
@@ -662,22 +743,18 @@ async function downloadSingleCard() {
   aBack.click();
 }
 
-function parseCSVFile(file) {
-  return new Promise((resolve, reject) => {
-    Papa.parse(file, {
-      header: true,
-      skipEmptyLines: true,
-      transformHeader: function(h) {
-        return h.replace(/^\ufeff/, '').trim();
-      },
-      complete: function(results) {
-        resolve(results.data);
-      },
-      error: function(err) {
-        reject(err);
-      }
-    });
-  });
+async function downloadSinglePDF() {
+  const { jsPDF } = window.jspdf;
+  const doc = new jsPDF({ orientation: "landscape", unit: "mm", format: [85.6, 54] });
+
+  const canvasF = await html2canvas(document.getElementById("card-front"), { scale: 3, useCORS: true });
+  doc.addImage(canvasF.toDataURL("image/png"), 'PNG', 0, 0, 85.6, 54);
+  
+  doc.addPage([85.6, 54], "landscape");
+  const canvasB = await html2canvas(document.getElementById("card-back"), { scale: 3, useCORS: true });
+  doc.addImage(canvasB.toDataURL("image/png"), 'PNG', 0, 0, 85.6, 54);
+
+  doc.save(`Student_ID_Card.pdf`);
 }
 
 async function generateBulkCards() {
@@ -697,7 +774,7 @@ async function generateBulkCards() {
 
     for (let i = 0; i < students.length; i++) {
       await populateCardWithStudent(students[i], photoFiles);
-      await new Promise(r => setTimeout(r, 100));
+      await new Promise(r => setTimeout(r, 80));
 
       const canvasFront = await html2canvas(document.getElementById("card-front"), { scale: 4, useCORS: true });
       zip.file(`${getStudentVal(students[i], ['Roll', 'roll', 'Roll No', 'RollNo']) || i+1}_Front.png`, canvasFront.toDataURL("image/png").split(',')[1], { base64: true });
@@ -708,14 +785,14 @@ async function generateBulkCards() {
       progressText.innerText = `Generating Cards: ${i + 1} / ${students.length}...`;
     }
 
-    progressText.innerText = "Compressing into ZIP file...";
+    progressText.innerText = "Compressing ZIP file...";
     zip.generateAsync({ type: "blob" }).then(content => {
       saveAs(content, "Student_ID_Cards_300DPI.zip");
       progressText.innerText = "Download Ready!";
       btnBulk.disabled = false;
     });
   } catch (e) {
-    alert("Error processing CSV File: " + e.message);
+    alert("Error: " + e.message);
     btnBulk.disabled = false;
     progressText.innerText = "";
   }
@@ -726,8 +803,10 @@ async function printA4Grid() {
   const photoFiles = document.getElementById('bulkPhotos').files;
   const progressText = document.getElementById('progressText');
   const printContainer = document.getElementById('a4PrintContainer');
+  const includeCropMarks = document.getElementById('cropMarksPrint').checked;
   
   printContainer.innerHTML = "";
+  printContainer.className = includeCropMarks ? "has-crop-marks" : "";
   let cardsToPrint = [];
 
   if (csvFile) {
@@ -736,11 +815,10 @@ async function printA4Grid() {
       const students = await parseCSVFile(csvFile);
       for (let student of students) {
         await populateCardWithStudent(student, photoFiles);
-        await new Promise(r => setTimeout(r, 80));
+        await new Promise(r => setTimeout(r, 60));
 
         const canvasF = await html2canvas(document.getElementById("card-front"), { scale: 2 });
         cardsToPrint.push(canvasF.toDataURL());
-
         const canvasB = await html2canvas(document.getElementById("card-back"), { scale: 2 });
         cardsToPrint.push(canvasB.toDataURL());
       }
@@ -749,10 +827,9 @@ async function printA4Grid() {
       return;
     }
   } else {
-    progressText.innerText = "Preparing A4 Grid for Current Preview Card...";
+    progressText.innerText = "Preparing A4 Grid for Current Preview...";
     const canvasF = await html2canvas(document.getElementById("card-front"), { scale: 2 });
     cardsToPrint.push(canvasF.toDataURL());
-
     const canvasB = await html2canvas(document.getElementById("card-back"), { scale: 2 });
     cardsToPrint.push(canvasB.toDataURL());
   }
@@ -770,7 +847,7 @@ async function printA4Grid() {
     currentPage.appendChild(img);
   });
 
-  progressText.innerText = "Opening Print Window...";
+  progressText.innerText = "Opening Print Dialog...";
   setTimeout(() => {
     window.print();
     progressText.innerText = "";
