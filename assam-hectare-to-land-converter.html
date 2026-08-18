@@ -3,144 +3,126 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Shayan Smart Tools | India's No.1 Land Calculator</title>
+    <title>Shayan Smart Tools App</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        :root {
-            --primary: #007bff;
-            --bg-body: #f8f9fe;
-            --text-dark: #1e293b;
-            --text-gray: #64748b;
-        }
+        :root { --blue: #0056b3; --light-blue: #eef6ff; --text: #1e293b; }
+        body { margin: 0; padding: 0; font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; background-color: #f8faff; padding-bottom: 80px; }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
-        body { background-color: var(--bg-body); color: var(--text-dark); }
-
-        /* Hero Section */
-        .hero {
-            background: linear-gradient(135deg, #0056b3, #00aaff);
-            color: white;
-            padding: 40px 20px;
-            text-align: center;
-            border-bottom-left-radius: 30px;
-            border-bottom-right-radius: 30px;
-        }
-        .logo-box { display: flex; align-items: center; justify-content: center; gap: 10px; margin-bottom: 20px; font-weight: bold; font-size: 1.2rem; }
-        .logo-box img { width: 40px; height: 40px; background: white; padding: 5px; border-radius: 10px; }
-        .hero h1 { font-size: 1.8rem; margin-bottom: 10px; }
-        .hero p { font-size: 0.9rem; opacity: 0.9; margin-bottom: 20px; }
+        /* Header Gradient */
+        .hero { background: linear-gradient(180deg, #0056b3 0%, #0099ff 100%); color: white; padding: 30px 20px; border-bottom-left-radius: 40px; border-bottom-right-radius: 40px; }
+        .logo-box { display: flex; align-items: center; gap: 10px; font-weight: 800; font-size: 1.1rem; margin-bottom: 20px; }
+        .logo-box img { width: 35px; height: 35px; background: white; padding: 5px; border-radius: 8px; }
+        .hero h1 { font-size: 1.6rem; line-height: 1.2; margin-bottom: 10px; }
+        .hero p { font-size: 0.85rem; opacity: 0.9; margin-bottom: 20px; }
+        .search-bar { background: white; color: #666; padding: 15px 20px; border-radius: 50px; display: flex; align-items: center; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
         
-        .search-container { background: white; padding: 15px 20px; border-radius: 50px; display: flex; align-items: center; max-width: 500px; margin: 0 auto; box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
-        .search-container input { border: none; outline: none; width: 100%; font-size: 1rem; color: #333; }
+        /* Middle Button */
+        .all-states-btn { margin: 25px 20px; background: white; border: none; padding: 18px 20px; border-radius: 50px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 4px 15px rgba(0,0,0,0.08); width: calc(100% - 40px); font-weight: 700; color: #333; }
+        .icon-blue { color: var(--blue); }
 
-        /* Main Content */
-        .container { padding: 20px; max-width: 600px; margin: 0 auto; }
+        /* Features Title */
+        .features-label { text-align: center; font-size: 0.9rem; font-weight: 800; color: #64748b; margin-bottom: 20px; }
 
-        /* Action Buttons */
-        .full-btn {
-            background: white; border: 1px solid #e2e8f0; padding: 15px; border-radius: 15px;
-            display: flex; justify-content: space-between; align-items: center;
-            margin-bottom: 20px; font-weight: bold; box-shadow: 0 2px 5px rgba(0,0,0,0.02);
-        }
-        .full-btn i { color: var(--primary); font-size: 1.2rem; }
+        /* Grid Layout */
+        .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; padding: 0 20px; }
+        .card { background: white; border-radius: 20px; padding: 20px 15px; text-align: center; box-shadow: 0 5px 15px rgba(0,0,0,0.05); border: 1px solid #f0f0f0; display: flex; flex-direction: column; justify-content: space-between; }
+        .card-icon { width: 55px; height: 55px; background: var(--light-blue); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 15px; }
+        .card h3 { font-size: 0.85rem; font-weight: 700; color: #1e293b; margin-bottom: 8px; height: 35px; }
+        .card p { font-size: 0.7rem; color: #64748b; margin-bottom: 15px; line-height: 1.4; }
+        .next-btn { width: 35px; height: 35px; background: var(--blue); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto; cursor: pointer; }
 
-        .section-header { font-size: 1.1rem; font-weight: 800; margin: 20px 0; text-align: center; color: var(--text-dark); }
-
-        /* Grid */
-        .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; }
-        .card {
-            background: white; padding: 15px 10px; border-radius: 15px; text-align: center;
-            border: 1px solid #edf2f7; transition: 0.3s; box-shadow: 0 4px 6px rgba(0,0,0,0.03);
-        }
-        .card:hover { transform: translateY(-5px); border-color: var(--primary); }
-        .card-icon { 
-            width: 50px; height: 50px; background: #eef6ff; border-radius: 50%;
-            display: flex; align-items: center; justify-content: center; margin: 0 auto 10px;
-        }
-        .card-icon i { font-size: 1.5rem; color: var(--primary); }
-        .card-title { font-size: 0.85rem; font-weight: 600; color: #334155; line-height: 1.2; }
-
-        /* Footer Nav */
-        .footer-nav {
-            position: fixed; bottom: 0; width: 100%; max-width: 600px; background: white;
-            display: flex; justify-content: space-around; padding: 15px; border-top: 1px solid #e2e8f0;
-        }
-        .nav-item { text-align: center; color: var(--text-gray); text-decoration: none; font-size: 0.75rem; }
-        .nav-item i { display: block; font-size: 1.2rem; margin-bottom: 4px; }
-        .nav-item.active { color: var(--primary); }
-
+        /* Bottom Nav */
+        .bottom-nav { position: fixed; bottom: 0; left: 0; width: 100%; background: white; display: flex; justify-content: space-around; padding: 15px 0; border-top: 1px solid #e2e8f0; }
+        .nav-link { text-align: center; color: #94a3b8; font-size: 0.7rem; font-weight: 600; text-decoration: none; }
+        .nav-link.active { color: var(--blue); }
+        .nav-link i { display: block; font-size: 1.3rem; margin-bottom: 4px; }
     </style>
 </head>
 <body>
 
-<section class="hero">
-    <div class="logo-box"><img src="favicon.png" alt="Logo"> SHAYAN SMART TOOLS</div>
-    <h1>India's Land Calculator & Micro-Utility Portal</h1>
-    <p>High-accuracy algorithmic estimations for Bigha, Kattha, Biswa, and Acre plot measurements.</p>
-    <div class="search-container">
-        <i class="fa-solid fa-magnifying-glass" style="color: #999; margin-right: 10px;"></i>
-        <input type="text" placeholder="Search tools (Assam, UP, Tamilnadu...)">
-    </div>
-</section>
+    <section class="hero">
+        <div class="logo-box"><img src="favicon.png" alt="logo"> SHAYAN SMART TOOLS</div>
+        <h1>India's Land Calculator & Micro-Utility Portal</h1>
+        <p>High-accuracy algorithmic estimations for Bigha, Kattha, Biswa, and Acre plot measurements.</p>
+        <div class="search-bar"><i class="fa-solid fa-magnifying-glass" style="margin-right: 10px;"></i> Search tools (Assam, UP, Tamilnadu K)</div>
+    </section>
 
-<div class="container">
-    
-    <a href="#" class="full-btn">
-        <span><i class="fa-solid fa-map-location-dot"></i> LAND TOOLS IN ALL INDIA STATES</span>
-        <i class="fa-solid fa-chevron-right"></i>
-    </a>
+    <button class="all-states-btn">
+        <span style="display: flex; align-items: center; gap: 10px;"><i class="fa-solid fa-map-location-dot icon-blue"></i> LAND TOOLS IN ALL INDIA STATES</span>
+        <i class="fa-solid fa-chevron-right icon-blue"></i>
+    </button>
 
-    <div class="section-header">— OUR FEATURES —</div>
+    <div class="features-label">— OUR FEATURES —</div>
 
     <div class="grid">
         <!-- Card 1 -->
-        <a href="assam-land-calculator.html" class="card">
-            <div class="card-icon"><i class="fa-solid fa-location-dot"></i></div>
-            <div class="card-title">Assam Land Area Calculator</div>
-        </a>
+        <div class="card">
+            <div>
+                <div class="card-icon"><i class="fa-solid fa-location-dot icon-blue"></i></div>
+                <h3>Assam Land Area Calculator</h3>
+                <p>Calculate land area in Bigha, Kattha, Biswa & Acre</p>
+            </div>
+            <div class="next-btn"><i class="fa-solid fa-chevron-right"></i></div>
+        </div>
+
         <!-- Card 2 -->
-        <a href="assam-land-unit-converter.html" class="card">
-            <div class="card-icon"><i class="fa-solid fa-arrows-rotate"></i></div>
-            <div class="card-title">Assam Land Unit Converter</div>
-        </a>
+        <div class="card">
+            <div>
+                <div class="card-icon"><i class="fa-solid fa-arrows-rotate icon-blue"></i></div>
+                <h3>Assam Land Unit Converter</h3>
+                <p>Convert between Bigha, Kattha, Biswa & Acre</p>
+            </div>
+            <div class="next-btn"><i class="fa-solid fa-chevron-right"></i></div>
+        </div>
+
         <!-- Card 3 -->
-        <a href="assam-land-area-addition.html" class="card">
-            <div class="card-icon"><i class="fa-solid fa-plus"></i></div>
-            <div class="card-title">Assam Land Area Addition</div>
-        </a>
+        <div class="card">
+            <div>
+                <div class="card-icon"><i class="fa-solid fa-plus icon-blue"></i></div>
+                <h3>Assam Land Area Addition</h3>
+                <p>Add multiple land areas together easily</p>
+            </div>
+            <div class="next-btn"><i class="fa-solid fa-chevron-right"></i></div>
+        </div>
+
         <!-- Card 4 -->
-        <a href="assam-land-partition-calculator.html" class="card">
-            <div class="card-icon"><i class="fa-solid fa-scale-balanced"></i></div>
-            <div class="card-title">Assam Land Partition Calculator</div>
-        </a>
+        <div class="card">
+            <div>
+                <div class="card-icon"><i class="fa-solid fa-scale-balanced icon-blue"></i></div>
+                <h3>Assam Land Partition Calculator</h3>
+                <p>Calculate partitioned land area with accuracy</p>
+            </div>
+            <div class="next-btn"><i class="fa-solid fa-chevron-right"></i></div>
+        </div>
+
         <!-- Card 5 -->
-        <a href="assam-irregular-land-calculator.html" class="card">
-            <div class="card-icon"><i class="fa-solid fa-draw-polygon"></i></div>
-            <div class="card-title">Assam Irregular Land Calculator</div>
-        </a>
+        <div class="card">
+            <div>
+                <div class="card-icon"><i class="fa-solid fa-draw-polygon icon-blue"></i></div>
+                <h3>Assam Irregular Land Calculator</h3>
+                <p>Calculate area of irregular shaped land</p>
+            </div>
+            <div class="next-btn"><i class="fa-solid fa-chevron-right"></i></div>
+        </div>
+
         <!-- Card 6 -->
-        <a href="assam-advanced-polygon-calculator.html" class="card">
-            <div class="card-icon"><i class="fa-solid fa-ruler-combined"></i></div>
-            <div class="card-title">Assam Advanced Polygon Calculator</div>
-        </a>
+        <div class="card">
+            <div>
+                <div class="card-icon"><i class="fa-solid fa-shapes icon-blue"></i></div>
+                <h3>Assam Advanced Polygon Land Calculator</h3>
+                <p>Advanced polygon based land area calculation</p>
+            </div>
+            <div class="next-btn"><i class="fa-solid fa-chevron-right"></i></div>
+        </div>
     </div>
 
-    <a href="#" class="full-btn" style="margin-top: 25px;">
-        <span><i class="fa-solid fa-map"></i> LAND TOOLS IN ASSAM</span>
-        <i class="fa-solid fa-chevron-right"></i>
-    </a>
-
-    <!-- Add space for fixed footer -->
-    <div style="height: 80px;"></div>
-</div>
-
-<!-- Fixed Navigation -->
-<nav class="footer-nav">
-    <a href="index.html" class="nav-item active"><i class="fa-solid fa-house"></i> Home</a>
-    <a href="#" class="nav-item"><i class="fa-solid fa-star"></i> Favorite Tools</a>
-    <a href="#" class="nav-item"><i class="fa-solid fa-clock-rotate-left"></i> History</a>
-    <a href="#" class="nav-item"><i class="fa-solid fa-gear"></i> Settings</a>
-</nav>
+    <div class="bottom-nav">
+        <a href="#" class="nav-link active"><i class="fa-solid fa-house"></i>Home</a>
+        <a href="#" class="nav-link"><i class="fa-solid fa-star"></i>Favorite Tools</a>
+        <a href="#" class="nav-link"><i class="fa-solid fa-clock-rotate-left"></i>History</a>
+        <a href="#" class="nav-link"><i class="fa-solid fa-gear"></i>Settings</a>
+    </div>
 
 </body>
 </html>
