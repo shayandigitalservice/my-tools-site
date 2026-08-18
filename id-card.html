@@ -3,11 +3,21 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Enterprise ID Studio Pro - Advanced Edition</title>
+<title>Dual-Sided Bulk School ID Card Generator & A4 Printer | Enterprise ID Studio Pro</title>
 
 <!-- Advanced SEO & Open Graph Meta Tags -->
-<meta name="description" content="Free Online Dual-Sided Bulk School ID Card Generator with Layout Switcher, Custom Fields, CSV Preview, Crop Marks, and PDF Export.">
+<meta name="description" content="Free Online Dual-Sided Bulk School ID Card Generator and A4 Sheet Printing Tool. Generate 300DPI student ID cards, barcodes, QR codes, and batch export ZIP instantly.">
+<meta name="keywords" content="School ID Card Generator, Bulk Student ID Maker, Dual Sided ID Card Printer, A4 PVC ID Card Layout, CSV ID Card Automator, Barcode ID Generator, QR Code Student Badge, High Resolution ID Printing, Free Plastic Card Creator">
 <meta name="robots" content="index, follow">
+<meta name="author" content="Enterprise ID Studio Pro">
+<meta property="og:title" content="Dual-Sided Bulk School ID Card Generator & A4 Printer">
+<meta property="og:description" content="Design, automate, and batch print dual-sided student ID cards with barcodes, QR codes, and custom colors.">
+<meta property="og:type" content="website">
+
+<!-- Google Fonts Import for 50 Font Styles -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=ABeeZee&family=Alatsi&family=Aleo&family=Amatic+SC&family=Andada+Pro&family=Anton&family=Architects+Daughter&family=Asap&family=Assistant&family=Barlow&family=Baskervville&family=Cairo&family=Cardo&family=Comfortaa&family=Cookie&family=Cormorant+Garamond&family=Courgette&family=Dancing+Script&family=Dosis&family=Exo+2&family=Fira+Sans&family=Great+Vibes&family=Heebo&family=Inconsolata&family=Inter&family=Josefin+Sans&family=Kanit&family=Lato&family=Lobster&family=Lora&family=Merriweather&family=Montserrat&family=Mulish&family=Nunito&family=Orbitron&family=Outfit&family=Playfair+Display&family=Poppins&family=Quicksand&family=Righteous&family=Roboto&family=Rubik&family=Sacramento&family=Shadows+Into+Light&family=Space+Grotesk&family=Titillium+Web&family=Ubuntu&family=Varela+Round&family=Work+Sans&family=Yanone+Kaffeesatz&display=swap" rel="stylesheet">
 
 <!-- External Libraries -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
@@ -16,8 +26,6 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jsbarcode/3.11.5/JsBarcode.all.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&family=Poppins:wght@400;600;700;800&family=Roboto:wght@400;500;700;900&family=Montserrat:wght@400;600;800&family=Open+Sans:wght@400;600;700&family=Lato:wght@400;700&family=Raleway:wght@400;600;800&family=Ubuntu:wght@400;700&family=Oswald:wght@400;600&family=Merriweather:wght@400;700&family=Playfair+Display:wght@400;700&family=Nunito:wght@400;700&display=swap" rel="stylesheet">
 
 <style>
 :root {
@@ -31,180 +39,183 @@
   --text-main: #0f172a;
   --text-muted: #64748b;
   --input-bg: #f1f5f9;
-  --font-family: 'Inter', sans-serif;
+  --card-font: 'Inter', sans-serif;
+  --card-font-size: 11.5px;
+  --header-bg: #1e40af;
 }
 
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-body { font-family: var(--font-family); background: var(--bg-main); color: var(--text-main); padding: 10px; line-height: 1.5; overflow-x: hidden; }
+body { font-family: 'Inter', 'Segoe UI', system-ui, sans-serif; background: var(--bg-main); color: var(--text-main); padding: 12px; line-height: 1.6; }
 
-@media (min-width: 768px) { body { padding: 20px; } }
+@media (min-width: 768px) {
+  body { padding: 20px; }
+}
 
-/* NAVBAR */
-.header-nav { display: flex; flex-direction: column; gap: 8px; align-items: flex-start; max-width: 1400px; margin: 0 auto 16px auto; padding: 14px 18px; background: #ffffff; border: 1px solid var(--panel-border); border-radius: 14px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
-@media (min-width: 640px) { .header-nav { flex-direction: row; align-items: center; justify-content: space-between; } }
-.header-nav h1 { font-size: 1.25rem; font-weight: 800; background: linear-gradient(90deg, #2563eb, #7c3aed); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-.badge { background: linear-gradient(135deg, #2563eb, #4f46e5); color: #fff; font-size: 0.7rem; padding: 5px 12px; border-radius: 20px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; }
+/* UI MAX NAVBAR */
+.header-nav { display: flex; flex-direction: column; gap: 10px; align-items: flex-start; max-width: 1400px; margin: 0 auto 20px auto; padding: 16px 20px; background: #ffffff; border: 1px solid var(--panel-border); border-radius: 16px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
+@media (min-width: 640px) {
+  .header-nav { flex-direction: row; align-items: center; justify-content: space-between; }
+}
+.header-nav h1 { font-size: 1.35rem; font-weight: 800; background: linear-gradient(90deg, #2563eb, #7c3aed); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+.badge { background: linear-gradient(135deg, #2563eb, #4f46e5); color: #fff; font-size: 0.75rem; padding: 6px 14px; border-radius: 20px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; }
 
 /* APP LAYOUT */
-.app-container { max-width: 1400px; margin: 0 auto; display: grid; grid-template-columns: 1fr; gap: 16px; width: 100%; }
-@media (min-width: 1024px) { .app-container { grid-template-columns: 1.1fr 0.9fr; align-items: start; } }
+.app-container { max-width: 1400px; margin: 0 auto; display: grid; grid-template-columns: 1fr; gap: 20px; width: 100%; }
+@media (min-width: 1024px) { .app-container { grid-template-columns: 1fr 1fr; } }
 
 /* PANELS */
-.panel { background: var(--panel-bg); padding: 16px; border-radius: 16px; border: 1px solid var(--panel-border); box-shadow: 0 4px 20px rgba(0,0,0,0.04); width: 100%; min-width: 0; }
-@media (min-width: 768px) { .panel { padding: 24px; } }
-.sticky-preview { position: relative; width: 100%; }
+.panel { background: var(--panel-bg); padding: 20px; border-radius: 20px; border: 1px solid var(--panel-border); box-shadow: 0 4px 20px rgba(0,0,0,0.04); width: 100%; }
+@media (min-width: 768px) { .panel { padding: 28px; } }
+.sticky-preview { position: relative; }
 @media (min-width: 1024px) { .sticky-preview { position: sticky; top: 20px; } }
 
-/* TABS */
-.tab-header { display: flex; border-bottom: 2px solid var(--panel-border); gap: 6px; margin-bottom: 16px; overflow-x: auto; padding-bottom: 8px; scrollbar-width: none; }
-.tab-header::-webkit-scrollbar { display: none; }
-.tab-btn { padding: 8px 12px; background: #f1f5f9; border: 1px solid var(--panel-border); border-radius: 8px; font-size: 0.75rem; font-weight: 700; color: var(--text-muted); cursor: pointer; transition: all 0.3s; white-space: nowrap; flex-shrink: 0; }
+/* TAB NAVIGATION */
+.tab-header { display: flex; border-bottom: 2px solid var(--panel-border); gap: 8px; margin-bottom: 20px; overflow-x: auto; padding-bottom: 8px; -webkit-overflow-scrolling: touch; }
+.tab-btn { padding: 10px 14px; background: #f1f5f9; border: 1px solid var(--panel-border); border-radius: 8px; font-size: 0.8rem; font-weight: 700; color: var(--text-muted); cursor: pointer; transition: all 0.3s; white-space: nowrap; flex-shrink: 0; }
 .tab-btn.active { color: #fff; background: linear-gradient(135deg, #2563eb, #7c3aed); border-color: transparent; box-shadow: 0 4px 12px rgba(37,99,235,0.3); }
 
+/* TAB CONTENT */
 .tab-content { display: none; }
 .tab-content.active { display: block; }
 
-/* INPUTS */
-.input-grid { display: grid; gap: 12px; width: 100%; }
+/* INPUT STYLES */
+.input-grid { display: grid; gap: 14px; }
 .two-col { grid-template-columns: 1fr; }
 @media (min-width: 640px) { .two-col { grid-template-columns: 1fr 1fr; } }
 
-label { font-size: 0.75rem; font-weight: 700; color: #475569; display: block; margin-bottom: 4px; text-transform: uppercase; letter-spacing: 0.5px; }
-input, select, textarea { width: 100%; max-width: 100%; padding: 10px 12px; border: 1px solid var(--panel-border); border-radius: 8px; font-size: 0.85rem; background: var(--input-bg); transition: all 0.2s; color: var(--text-main); font-weight: 600; }
-textarea { resize: vertical; height: 65px; font-family: inherit; }
+label { font-size: 0.78rem; font-weight: 700; color: #475569; display: block; margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.5px; }
+input, select, textarea { width: 100%; padding: 12px 14px; border: 1px solid var(--panel-border); border-radius: 10px; font-size: 0.875rem; background: var(--input-bg); transition: all 0.2s; color: var(--text-main); font-weight: 600; }
+textarea { resize: vertical; height: 75px; font-family: inherit; }
 input:focus, select:focus, textarea:focus { outline: none; border-color: var(--accent-blue); background: #ffffff; box-shadow: 0 0 0 3px rgba(37,99,235,0.15); }
 
-.file-box { border: 2px dashed #cbd5e1; padding: 12px; border-radius: 8px; text-align: center; background: #f8fafc; cursor: pointer; transition: border-color 0.3s; width: 100%; }
+/* FILE INPUT */
+.file-box { border: 2px dashed #cbd5e1; padding: 16px; border-radius: 10px; text-align: center; background: #f8fafc; cursor: pointer; transition: border-color 0.3s, background 0.3s; }
 .file-box:hover { border-color: var(--accent-blue); background: #f1f5f9; }
 .file-box input { display: none; }
-.file-box-label { font-size: 0.8rem; font-weight: 700; color: var(--accent-blue); cursor: pointer; word-break: break-all; display: block; }
+.file-box-label { font-size: 0.85rem; font-weight: 700; color: var(--accent-blue); cursor: pointer; word-break: break-word; }
 
-/* DYNAMIC CUSTOM FIELDS */
-.custom-field-row { display: flex; gap: 8px; margin-bottom: 8px; align-items: center; }
-.btn-remove-field { background: var(--accent-red); color: white; border: none; padding: 10px 12px; border-radius: 8px; cursor: pointer; font-weight: 800; font-size: 0.8rem; }
-.btn-add-field { background: var(--accent-green); color: white; border: none; padding: 8px 12px; border-radius: 8px; cursor: pointer; font-weight: 700; font-size: 0.75rem; margin-top: 6px; }
-
-/* MODAL FOR CSV PREVIEW & MISSING PHOTOS */
-.modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); display: none; justify-content: center; align-items: center; z-index: 1000; padding: 15px; }
-.modal-card { background: #ffffff; border-radius: 16px; width: 100%; max-width: 750px; max-height: 85vh; overflow-y: auto; padding: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); }
-.modal-header { font-size: 1.1rem; font-weight: 800; margin-bottom: 12px; color: var(--text-main); display: flex; justify-content: space-between; align-items: center; }
-.table-preview { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 0.8rem; }
-.table-preview th, .table-preview td { border: 1px solid var(--panel-border); padding: 8px; text-align: left; }
-.table-preview th { background: #f1f5f9; font-weight: 800; }
-.missing-badge { background: #fef2f2; color: var(--accent-red); padding: 4px 8px; border-radius: 4px; font-weight: 700; font-size: 0.75rem; border: 1px solid #fecdd3; display: inline-block; margin-bottom: 4px; }
-
-/* BUTTONS */
-.btn-group { display: flex; flex-direction: column; gap: 8px; margin-top: 16px; width: 100%; }
-@media (min-width: 640px) { .btn-group { flex-direction: row; flex-wrap: wrap; } }
-
-button.btn-action { flex: 1; width: 100%; padding: 11px; border: none; border-radius: 8px; font-weight: 800; font-size: 0.78rem; cursor: pointer; transition: all 0.2s; text-transform: uppercase; letter-spacing: 0.5px; text-align: center; }
-@media (min-width: 640px) { button.btn-action { width: auto; min-width: 105px; } }
-button.btn-action:hover { transform: translateY(-2px); filter: brightness(1.05); }
-button.btn-action:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
-
-.btn-download { background: linear-gradient(135deg, #059669, #10b981); color: white; }
-.btn-bulk { background: linear-gradient(135deg, #7c3aed, #a855f7); color: white; }
-.btn-print { background: linear-gradient(135deg, #2563eb, #3b82f6); color: white; }
-.btn-pdf { background: linear-gradient(135deg, #d97706, #f59e0b); color: white; }
-
-/* TOGGLES */
-.toggle-wrapper { display: flex; align-items: center; gap: 10px; margin-top: 12px; background: #f8fafc; padding: 10px 14px; border-radius: 8px; border: 1px solid var(--panel-border); width: 100%; }
+/* TOGGLE */
+.toggle-wrapper { display: flex; align-items: center; gap: 12px; margin-top: 20px; background: #f8fafc; padding: 12px 16px; border-radius: 10px; border: 1px solid var(--panel-border); }
 .toggle-wrapper input { width: auto; cursor: pointer; }
 
-/* CARD PREVIEW & SCALING */
-.cards-container { display: flex; flex-direction: column; gap: 16px; align-items: center; width: 100%; }
-.card-wrapper { display: flex; flex-direction: column; align-items: center; background: #f8fafc; border-radius: 12px; padding: 12px; width: 100%; border: 1px solid var(--panel-border); overflow: hidden; }
-.card-label { font-size: 0.75rem; font-weight: 800; text-transform: uppercase; color: #64748b; margin-bottom: 8px; letter-spacing: 1px; }
+/* BUTTONS */
+.btn-group { display: flex; flex-direction: column; gap: 10px; margin-top: 24px; }
+@media (min-width: 640px) { .btn-group { flex-direction: row; flex-wrap: wrap; } }
 
-.id-card-scaler { width: 100%; max-width: 420px; height: 260px; display: flex; justify-content: center; align-items: flex-start; position: relative; }
-@media (max-width: 440px) { .id-card-scaler { height: 195px; } }
+button.btn-action { flex: 1; width: 100%; padding: 14px; border: none; border-radius: 10px; font-weight: 800; font-size: 0.85rem; cursor: pointer; transition: all 0.2s; text-transform: uppercase; letter-spacing: 0.5px; }
+@media (min-width: 640px) { button.btn-action { width: auto; min-width: 140px; } }
 
-.id-card { 
-  width: 420px; height: 260px; border-radius: 12px; position: absolute; top: 0; left: 50%;
-  transform-origin: top left; transform: translateX(-50%);
-  background: #fff; color: #000; box-shadow: 0 10px 25px rgba(0,0,0,0.12); overflow: hidden; transition: transform 0.3s; flex-shrink: 0; 
+button.btn-action:hover { transform: translateY(-2px); filter: brightness(1.05); }
+button.btn-action:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+.btn-download { background: linear-gradient(135deg, #059669, #10b981); color: white; box-shadow: 0 4px 12px rgba(16,185,129,0.25); }
+.btn-bulk { background: linear-gradient(135deg, #7c3aed, #a855f7); color: white; box-shadow: 0 4px 12px rgba(124,58,237,0.25); }
+.btn-print { background: linear-gradient(135deg, #2563eb, #3b82f6); color: white; box-shadow: 0 4px 12px rgba(37,99,235,0.25); }
+
+/* CARD PREVIEW CONTAINER */
+.cards-container { display: flex; flex-direction: column; gap: 20px; align-items: center; width: 100%; overflow-x: auto; padding-bottom: 10px; }
+.card-wrapper { display: flex; flex-direction: column; align-items: center; background: #f8fafc; border-radius: 14px; padding: 16px; width: 100%; max-width: 460px; border: 1px solid var(--panel-border); }
+.card-label { font-size: 0.8rem; font-weight: 800; text-transform: uppercase; color: #64748b; margin-bottom: 10px; letter-spacing: 1px; }
+
+/* ID CARD BASE DIMENSIONS (RESPONSIVE SCALING PRESERVED) */
+.id-card-scaler { width: 100%; max-width: 420px; display: flex; justify-content: center; }
+.id-card { width: 420px; height: 260px; border-radius: 12px; position: relative; background: #fff; color: #000; box-shadow: 0 10px 25px rgba(0,0,0,0.12); overflow: hidden; transition: transform 0.3s; flex-shrink: 0; font-family: var(--card-font); }
+
+/* Mobile Scaling for Card Preview */
+@media (max-width: 460px) {
+  .id-card { transform-origin: top center; transform: scale(0.75); margin-bottom: -65px; }
 }
-@media (max-width: 440px) { .id-card { transform: translateX(-50%) scale(0.71); } }
-@media (min-width: 441px) and (max-width: 480px) { .id-card { transform: translateX(-50%) scale(0.82); } }
 
-/* CARD DESIGNS / LAYOUT STYLES (5 TEMPLATES) */
-/* LAYOUT 1: CLASSIC BLUE HEADER (DEFAULT) */
-.layout-classic .topbar { background: #1e40af; color: white; padding: 6px; text-align: center; position: relative; z-index: 2; min-height: 52px; }
-.layout-classic .photo { position: absolute; left: 16px; top: 82px; width: 95px; height: 115px; border: 2px solid #000; border-radius: 6px; overflow: hidden; background: #f8fafc; display: flex; align-items: center; justify-content: center; z-index: 2; }
-.layout-classic .details { position: absolute; left: 125px; top: 78px; font-size: 11px; z-index: 2; line-height: 1.45; font-weight: 800; width: 280px; }
+/* CARD INTERNAL DESIGN */
+.topbar { background: var(--header-bg); color: white; padding: 6px; text-align: center; position: relative; z-index: 2; min-height: 52px; }
+.school-name { font-size: 14px; font-weight: 800; text-transform: uppercase; color: #ffffff; letter-spacing: 0.5px; }
+.school-address { font-size: 9.5px; font-weight: 600; color: #ffffff; }
+.bottombar { position: absolute; bottom: 0; width: 100%; background: var(--header-bg); color: white; padding: 3px 0; font-size: 10px; font-weight: 700; text-align: center; z-index: 2; }
 
-/* LAYOUT 2: MODERN VERTICAL / MODERN BANNER */
-.layout-modern .topbar { background: #7c3aed; color: white; padding: 10px; text-align: left; padding-left: 60px; position: relative; z-index: 2; min-height: 60px; }
-.layout-modern .corner-logo.left-logo { display: block !important; left: 10px; top: 10px; width: 40px; height: 40px; }
-.layout-modern .photo { position: absolute; right: 16px; top: 72px; width: 90px; height: 110px; border: 2px solid #7c3aed; border-radius: 50%; overflow: hidden; background: #f8fafc; display: flex; align-items: center; justify-content: center; z-index: 2; }
-.layout-modern .details { position: absolute; left: 16px; top: 72px; font-size: 11px; z-index: 2; line-height: 1.45; font-weight: 800; width: 260px; }
-
-/* LAYOUT 3: MINIMALIST CLEAN */
-.layout-minimal .topbar { background: #0f172a; color: white; padding: 8px; text-align: center; z-index: 2; min-height: 48px; }
-.layout-minimal .photo { position: absolute; left: 16px; top: 75px; width: 95px; height: 115px; border: 1px solid #0f172a; border-radius: 2px; overflow: hidden; background: #fff; display: flex; align-items: center; justify-content: center; z-index: 2; }
-.layout-minimal .details { position: absolute; left: 125px; top: 72px; font-size: 11px; z-index: 2; line-height: 1.45; font-weight: 800; width: 280px; }
-
-/* LAYOUT 4: ELEGANT CORPORATE / STRIPED */
-.layout-corporate .topbar { background: linear-gradient(135deg, #0f766e, #115e59); color: white; padding: 8px; text-align: left; padding-left: 16px; z-index: 2; min-height: 52px; border-bottom: 4px solid #f59e0b; }
-.layout-corporate .photo { position: absolute; right: 16px; top: 70px; width: 95px; height: 115px; border: 3px solid #f59e0b; border-radius: 8px; overflow: hidden; background: #fff; display: flex; align-items: center; justify-content: center; z-index: 2; }
-.layout-corporate .details { position: absolute; left: 16px; top: 70px; font-size: 11px; z-index: 2; line-height: 1.45; font-weight: 800; width: 270px; }
-
-/* LAYOUT 5: BOLD FRAME / SPLIT */
-.layout-split .topbar { background: #b91c1c; color: white; padding: 8px; text-align: center; z-index: 2; min-height: 50px; clip-path: polygon(0 0, 100% 0, 100% 85%, 0 100%); }
-.layout-split .photo { position: absolute; left: 20px; top: 72px; width: 90px; height: 110px; border: 2px dashed #b91c1c; border-radius: 12px; overflow: hidden; background: #fff; display: flex; align-items: center; justify-content: center; z-index: 2; }
-.layout-split .details { position: absolute; left: 125px; top: 70px; font-size: 11px; z-index: 2; line-height: 1.45; font-weight: 800; width: 280px; }
-
-.school-name { font-size: 13px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px; }
-.school-address { font-size: 9px; font-weight: 600; }
-.bottombar { position: absolute; bottom: 0; width: 100%; background: #1e40af; color: white; padding: 3px 0; font-size: 10px; font-weight: 700; text-align: center; z-index: 2; }
-
-.watermark { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); opacity: 0.05; z-index: 1; pointer-events: none; }
+.watermark { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); opacity: 0.05; z-index: 1; }
 .watermark img { width: 180px; height: 180px; display: none; }
 .corner-logo { position: absolute; top: 6px; width: 40px; height: 40px; display: none; background: #fff; border-radius: 50%; padding: 2px; }
 .left-logo { left: 8px; } .right-logo { right: 8px; }
-.card-body-title { text-align: center; font-weight: 900; font-size: 11px; letter-spacing: 1px; margin-top: 4px; }
+.card-body-title { text-align: center; font-weight: 900; font-size: 12px; letter-spacing: 1px; margin-top: 6px; color: #000000; }
+.photo { position: absolute; left: 16px; top: 82px; width: 95px; height: 115px; border: 2px solid #000000; border-radius: 6px; overflow: hidden; background: #f8fafc; display: flex; align-items: center; justify-content: center; z-index: 2; }
 .photo img { width: 100%; height: 100%; object-fit: cover; display: none; }
-.photo-placeholder { font-size: 10px; font-weight: 700; text-align: center; }
+.photo-placeholder { font-size: 10px; color: #000000; font-weight: 700; text-align: center; }
 
-.details strong { display: inline-block; width: 75px; font-weight: 900; }
-.signature { position: absolute; right: 16px; bottom: 22px; text-align: center; font-size: 8.5px; font-weight: 800; z-index: 2; }
-.signature img { width: 70px; height: 20px; object-fit: contain; display: none; margin: 0 auto; }
+.details { position: absolute; left: 125px; top: 80px; font-size: var(--card-font-size); z-index: 2; line-height: 1.5; color: #000000; font-weight: 800; }
+.details strong { color: #000000; display: inline-block; width: 70px; font-weight: 900; }
+.details span { color: #000000; font-weight: 800; }
 
-.back-content { padding: 10px 16px; font-size: 10px; line-height: 1.35; }
-.back-details { margin-bottom: 6px; background: #ffffff; padding: 6px 8px; border-radius: 6px; border: 1.5px solid #000; font-weight: 800; }
-.back-details strong { display: inline-block; width: 100px; font-weight: 900; }
-.rules-title { font-weight: 900; margin-bottom: 2px; text-transform: uppercase; font-size: 9px; }
-.rules-list { font-size: 8px; padding-left: 14px; font-weight: 700; }
+.signature { position: absolute; right: 16px; bottom: 25px; text-align: center; font-size: 8.5px; font-weight: 800; color: #000000; z-index: 2; }
+.signature img { width: 70px; height: 22px; object-fit: contain; display: none; margin: 0 auto; }
 
-.code-box { position: absolute; bottom: 20px; left: 16px; right: 16px; display: flex; justify-content: center; align-items: center; background: #fff; padding: 4px; border-radius: 6px; border: 1px solid #000; height: 40px; }
-#barcodeCanvas { max-width: 220px; height: 32px; }
-#qrcodeCanvas img, #qrcodeCanvas canvas { width: 34px !important; height: 34px !important; }
+.back-content { padding: 10px 16px; font-size: var(--card-font-size); line-height: 1.35; color: #000000; }
+.back-details { margin-bottom: 6px; background: #ffffff; padding: 6px 8px; border-radius: 6px; border: 1.5px solid #000000; color: #000000; font-weight: 800; }
+.back-details strong { color: #000000; display: inline-block; width: 100px; font-weight: 900; }
+.back-details span { color: #000000; font-weight: 800; }
 
-.progress-msg { margin-top: 10px; font-size: 0.85rem; font-weight: 800; color: var(--accent-blue); text-align: center; min-height: 20px; }
+.rules-title { font-weight: 900; color: #000000; margin-bottom: 2px; text-transform: uppercase; font-size: 9.5px; }
+.rules-list { font-size: 8.5px; padding-left: 14px; color: #000000; font-weight: 700; }
 
-/* SEO SECTION */
-.seo-section { width: 100%; max-width: 1400px; margin: 24px auto 0 auto; background: #ffffff; border-radius: 16px; border: 1px solid var(--panel-border); padding: 16px; color: #334155; }
-@media (min-width: 768px) { .seo-section { padding: 30px; } }
-.seo-section h2 { color: #0f172a; font-size: 1.25rem; margin-top: 20px; margin-bottom: 10px; border-left: 4px solid var(--accent-blue); padding-left: 10px; font-weight: 800; }
-.seo-section p { margin-bottom: 12px; font-size: 0.9rem; }
+.code-box { position: absolute; bottom: 20px; left: 16px; right: 16px; display: flex; justify-content: center; align-items: center; background: #ffffff; padding: 4px; border-radius: 6px; border: 1px solid #000000; height: 42px; }
+#barcodeCanvas { max-width: 220px; height: 35px; }
+#qrcodeCanvas img, #qrcodeCanvas canvas { width: 36px !important; height: 36px !important; }
+
+.progress-msg { margin-top: 14px; font-size: 0.9rem; font-weight: 800; color: var(--accent-blue); text-align: center; min-height: 20px; }
+
+/* FIXED SEO & FAQ SECTION */
+.seo-section { 
+  width: 100%;
+  max-width: 1400px; 
+  margin: 30px auto 0 auto; 
+  background: #ffffff; 
+  border-radius: 20px; 
+  border: 1px solid var(--panel-border); 
+  padding: 20px; 
+  color: #334155; 
+  box-shadow: 0 4px 20px rgba(0,0,0,0.03); 
+  box-sizing: border-box;
+}
+
+@media (min-width: 768px) { 
+  .seo-section { padding: 35px; } 
+}
+
+.seo-section h2 { color: #0f172a; font-size: 1.4rem; margin-top: 25px; margin-bottom: 12px; border-left: 4px solid var(--accent-blue); padding-left: 10px; font-weight: 800; }
+.seo-section p { margin-bottom: 15px; font-size: 0.95rem; }
+.seo-section ul, .seo-section ol { margin-left: 20px; margin-bottom: 20px; }
+.seo-section li { margin-bottom: 8px; }
+
+/* FAQ CARDS STYLING */
+.faq-grid { 
+  display: flex;
+  flex-direction: column;
+  gap: 14px; 
+  margin-top: 20px; 
+  width: 100%;
+}
+
+@media (min-width: 768px) { 
+  .faq-grid { 
+    display: grid;
+    grid-template-columns: 1fr 1fr; 
+  } 
+}
+
+.faq-item { background: linear-gradient(135deg, #f8fafc 0%, #eff6ff 100%); border-radius: 12px; border: 1px solid #dbeafe; padding: 18px; transition: transform 0.2s, box-shadow 0.2s; width: 100%; }
+.faq-item:hover { transform: translateY(-3px); box-shadow: 0 8px 20px rgba(37,99,235,0.1); }
+.faq-question { font-weight: 800; color: #1e40af; margin-bottom: 8px; font-size: 0.95rem; display: flex; align-items: center; gap: 8px; }
+.faq-question::before { content: 'Q'; background: #2563eb; color: #fff; font-size: 0.7rem; padding: 2px 7px; border-radius: 6px; font-weight: 900; }
+.faq-answer { font-size: 0.88rem; color: #475569; font-weight: 600; }
+
+.legal-warning { background: linear-gradient(135deg, #fef2f2 0%, #ffe4e6 100%); border: 1px solid #fecdd3; border-radius: 14px; padding: 20px; margin-top: 30px; color: #991b1b; }
 
 #a4PrintContainer { display: none; }
 
-/* PRINT STYLES WITH CROP MARKS */
 @media print {
   body * { visibility: hidden; }
   #a4PrintContainer, #a4PrintContainer * { visibility: visible; }
   #a4PrintContainer { display: block !important; position: absolute; left: 0; top: 0; width: 100%; background: white; }
-  .a4-page { width: 210mm; height: 297mm; padding: 12mm; margin: 0 auto; box-sizing: border-box; display: grid; grid-template-columns: repeat(2, 1fr); grid-template-rows: repeat(4, 1fr); gap: 10mm 8mm; page-break-after: always; align-items: center; justify-items: center; }
-  .print-card-item { width: 85.6mm !important; height: 53.98mm !important; border-radius: 2mm !important; border: 1px dashed #64748b; box-shadow: none !important; overflow: hidden; position: relative; }
-  
-  /* CROP MARKS */
-  .has-crop-marks .print-card-item::before {
-    content: ''; position: absolute; top: -3mm; left: -3mm; width: 3mm; height: 3mm; border-top: 1px solid #000; border-left: 1px solid #000;
-  }
-  .has-crop-marks .print-card-item::after {
-    content: ''; position: absolute; bottom: -3mm; right: -3mm; width: 3mm; height: 3mm; border-bottom: 1px solid #000; border-right: 1px solid #000;
-  }
+  .a4-page { width: 210mm; height: 297mm; padding: 10mm; margin: 0 auto 10mm auto; box-sizing: border-box; display: grid; grid-template-columns: repeat(2, 1fr); grid-template-rows: repeat(4, 1fr); gap: 8mm 6mm; page-break-after: always; align-items: center; justify-items: center; }
+  .print-card-item { width: 85.6mm !important; height: 53.98mm !important; border-radius: 4mm !important; border: 1px solid #000000; box-shadow: none !important; overflow: hidden; }
 }
 </style>
 </head>
@@ -213,7 +224,7 @@ button.btn-action:disabled { opacity: 0.5; cursor: not-allowed; transform: none;
 
 <div class="header-nav">
   <h1>Enterprise ID Studio Pro</h1>
-  <span class="badge">Pro Edition + 12 Fonts & 5 Layout Templates</span>
+  <span class="badge">Light Dashboard + 50 Fonts & 30 Gradients</span>
 </div>
 
 <div class="app-container">
@@ -221,9 +232,9 @@ button.btn-action:disabled { opacity: 0.5; cursor: not-allowed; transform: none;
   <!-- LEFT EDITOR PANEL -->
   <div class="panel">
     <div class="tab-header">
-      <button class="tab-btn active" onclick="switchTab(event, 'tab-school')">1. School</button>
-      <button class="tab-btn" onclick="switchTab(event, 'tab-student')">2. Student</button>
-      <button class="tab-btn" onclick="switchTab(event, 'tab-branding')">3. Style & Layout</button>
+      <button class="tab-btn active" onclick="switchTab(event, 'tab-school')">1. School Info</button>
+      <button class="tab-btn" onclick="switchTab(event, 'tab-student')">2. Student Details</button>
+      <button class="tab-btn" onclick="switchTab(event, 'tab-branding')">3. Branding & Colors</button>
       <button class="tab-btn" onclick="switchTab(event, 'tab-bulk')">4. Bulk CSV</button>
     </div>
 
@@ -247,84 +258,118 @@ button.btn-action:disabled { opacity: 0.5; cursor: not-allowed; transform: none;
         <div><label>Blood Group</label><input type="text" id="blood" value="O+"></div>
         <div><label>Emergency Contact</label><input type="text" id="emergency" value="+1 555-999-8822"></div>
       </div>
-
-      <!-- CUSTOM FIELD BUILDER -->
-      <div style="margin-top:12px;">
-        <label>Custom Dynamic Fields (e.g., Aadhar, Bus Route)</label>
-        <div id="customFieldsContainer"></div>
-        <button type="button" class="btn-add-field" onclick="addCustomFieldInput()">+ Add Custom Field</button>
-      </div>
-
-      <div style="margin-top:12px;">
+      <div style="margin-top:14px;">
         <label>Student Photo (Single Upload)</label>
         <div class="file-box" onclick="document.getElementById('singlePhotoUpload').click()">
           <span class="file-box-label" id="singlePhotoLabel">Upload Student Photo</span>
           <input type="file" id="singlePhotoUpload" accept="image/*">
         </div>
       </div>
-      <div style="margin-top:12px;">
+      <div style="margin-top:14px;">
         <label>Residential Address (For Back Side)</label>
         <textarea id="resAddress">42 Wallaby Way, Suite 100, Brooklyn, NY 11201</textarea>
       </div>
     </div>
 
-    <!-- TAB 3: BRANDING & LAYOUT -->
+    <!-- TAB 3: BRANDING & COLORS -->
     <div id="tab-branding" class="tab-content">
       <div class="input-grid two-col">
         <div><label>Academic Session</label><input type="text" id="session" value="2026-2027"></div>
         <div>
-          <label>ID Card Layout Template (5 Styles)</label>
-          <select id="layoutSelect">
-            <option value="layout-classic">1. Classic Blue Header (Default)</option>
-            <option value="layout-modern">2. Modern Curve / Badge</option>
-            <option value="layout-minimal">3. Minimalist Clean Dark</option>
-            <option value="layout-corporate">4. Elegant Corporate / Striped</option>
-            <option value="layout-split">5. Bold Frame / Split</option>
-          </select>
-        </div>
-        <div>
-          <label>Theme Color Scheme</label>
+          <label>Theme Color Scheme (Solid & Gradients)</label>
           <select id="colorSelect">
+            <!-- Solid Colors -->
             <option value="#1e40af">Classic Royal Blue</option>
             <option value="#b91c1c">Crimson Red</option>
             <option value="#047857">Forest Green</option>
             <option value="#4c1d95">Deep Imperial Purple</option>
             <option value="#000000">Solid Jet Black</option>
             <option value="#c2410c">Sunset Amber Orange</option>
+            <option value="#0e7490">Deep Cyan Ocean</option>
+            <option value="#831843">Rose Burgundy</option>
+            <option value="#312e81">Midnight Indigo</option>
+            <option value="#3f6212">Olive Dark Gold</option>
+            <!-- Gradient Colors -->
+            <option value="linear-gradient(135deg, #2563eb, #7c3aed)">Electric Blue to Purple</option>
+            <option value="linear-gradient(135deg, #059669, #3b82f6)">Emerald to Ocean Blue</option>
+            <option value="linear-gradient(135deg, #dc2626, #f59e0b)">Fire Red to Amber</option>
+            <option value="linear-gradient(135deg, #7c3aed, #db2777)">Neon Purple to Pink</option>
+            <option value="linear-gradient(135deg, #0f172a, #334155)">Dark Slate Gradient</option>
+            <option value="linear-gradient(135deg, #3b82f6, #06b6d4)">Sky Blue to Cyan</option>
+            <option value="linear-gradient(135deg, #84cc16, #10b981)">Lime to Emerald</option>
+            <option value="linear-gradient(135deg, #f97316, #e11d48)">Orange to Rose</option>
+            <option value="linear-gradient(135deg, #6366f1, #a855f7)">Indigo to Violet</option>
+            <option value="linear-gradient(135deg, #14b8a6, #0284c7)">Teal to Sky Blue</option>
+            <option value="linear-gradient(135deg, #475569, #1e293b)">Cool Grey Gradient</option>
+            <option value="linear-gradient(135deg, #9333ea, #c084fc)">Vibrant Lavender</option>
+            <option value="linear-gradient(135deg, #047857, #065f46)">Deep Forest Gradient</option>
+            <option value="linear-gradient(135deg, #b91c1c, #7f1d1d)">Dark Crimson Gradient</option>
+            <option value="linear-gradient(135deg, #ea580c, #c2410c)">Burnt Orange Gradient</option>
+            <option value="linear-gradient(135deg, #0284c7, #0369a1)">Ocean Blue Gradient</option>
+            <option value="linear-gradient(135deg, #10b981, #047857)">Mint Green Gradient</option>
+            <option value="linear-gradient(135deg, #e11d48, #9f1239)">Ruby Rose Gradient</option>
+            <option value="linear-gradient(135deg, #713f12, #451a03)">Bronze Gold Gradient</option>
+            <option value="linear-gradient(135deg, #312e81, #1e1b4b)">Night Sky Gradient</option>
           </select>
         </div>
         <div>
-          <label>Font Family (12 Options)</label>
+          <label>Card Font Family (50 Styles)</label>
           <select id="fontSelect">
-            <option value="'Inter', sans-serif">1. Inter (Modern)</option>
-            <option value="'Poppins', sans-serif">2. Poppins (Clean)</option>
-            <option value="'Roboto', sans-serif">3. Roboto (Standard)</option>
-            <option value="'Montserrat', sans-serif">4. Montserrat (Bold)</option>
-            <option value="'Open Sans', sans-serif">5. Open Sans (Friendly)</option>
-            <option value="'Lato', sans-serif">6. Lato (Elegant)</option>
-            <option value="'Raleway', sans-serif">7. Raleway (Stylish)</option>
-            <option value="'Ubuntu', sans-serif">8. Ubuntu (Tech)</option>
-            <option value="'Oswald', sans-serif">9. Oswald (Condensed)</option>
-            <option value="'Merriweather', serif">10. Merriweather (Serif)</option>
-            <option value="'Playfair Display', serif">11. Playfair Display (Luxury)</option>
-            <option value="'Nunito', sans-serif">12. Nunito (Rounded)</option>
+            <option value="'Inter', sans-serif">Inter</option>
+            <option value="'ABeeZee', sans-serif">ABeeZee</option>
+            <option value="'Alatsi', sans-serif">Alatsi</option>
+            <option value="'Aleo', serif">Aleo</option>
+            <option value="'Amatic SC', cursive">Amatic SC</option>
+            <option value="'Andada Pro', serif">Andada Pro</option>
+            <option value="'Anton', sans-serif">Anton</option>
+            <option value="'Architects Daughter', cursive">Architects Daughter</option>
+            <option value="'Asap', sans-serif">Asap</option>
+            <option value="'Assistant', sans-serif">Assistant</option>
+            <option value="'Barlow', sans-serif">Barlow</option>
+            <option value="'Baskervville', serif">Baskervville</option>
+            <option value="'Cairo', sans-serif">Cairo</option>
+            <option value="'Cardo', serif">Cardo</option>
+            <option value="'Comfortaa', cursive">Comfortaa</option>
+            <option value="'Cookie', cursive">Cookie</option>
+            <option value="'Cormorant Garamond', serif">Cormorant Garamond</option>
+            <option value="'Courgette', cursive">Courgette</option>
+            <option value="'Dancing Script', cursive">Dancing Script</option>
+            <option value="'Dosis', sans-serif">Dosis</option>
+            <option value="'Exo 2', sans-serif">Exo 2</option>
+            <option value="'Fira Sans', sans-serif">Fira Sans</option>
+            <option value="'Great Vibes', cursive">Great Vibes</option>
+            <option value="'Heebo', sans-serif">Heebo</option>
+            <option value="'Inconsolata', monospace">Inconsolata</option>
+            <option value="'Josefin Sans', sans-serif">Josefin Sans</option>
+            <option value="'Kanit', sans-serif">Kanit</option>
+            <option value="'Lato', sans-serif">Lato</option>
+            <option value="'Lobster', cursive">Lobster</option>
+            <option value="'Lora', serif">Lora</option>
+            <option value="'Merriweather', serif">Merriweather</option>
+            <option value="'Montserrat', sans-serif">Montserrat</option>
+            <option value="'Mulish', sans-serif">Mulish</option>
+            <option value="'Nunito', sans-serif">Nunito</option>
+            <option value="'Orbitron', sans-serif">Orbitron</option>
+            <option value="'Outfit', sans-serif">Outfit</option>
+            <option value="'Playfair Display', serif">Playfair Display</option>
+            <option value="'Poppins', sans-serif">Poppins</option>
+            <option value="'Quicksand', sans-serif">Quicksand</option>
+            <option value="'Righteous', cursive">Righteous</option>
+            <option value="'Roboto', sans-serif">Roboto</option>
+            <option value="'Rubik', sans-serif">Rubik</option>
+            <option value="'Sacramento', cursive">Sacramento</option>
+            <option value="'Shadows Into Light', cursive">Shadows Into Light</option>
+            <option value="'Space Grotesk', sans-serif">Space Grotesk</option>
+            <option value="'Titillium Web', sans-serif">Titillium Web</option>
+            <option value="'Ubuntu', sans-serif">Ubuntu</option>
+            <option value="'Varela Round', sans-serif">Varela Round</option>
+            <option value="'Work Sans', sans-serif">Work Sans</option>
+            <option value="'Yanone Kaffeesatz', sans-serif">Yanone Kaffeesatz</option>
           </select>
         </div>
         <div>
-          <label>Font Size (Presets + Custom)</label>
-          <select id="fontSizePreset" onchange="handleFontSizePreset(this.value)">
-            <option value="8px">8px (Extra Small)</option>
-            <option value="9px">9px (Small)</option>
-            <option value="10px">10px (Compact)</option>
-            <option value="11px" selected>11px (Normal)</option>
-            <option value="12px">12px (Large)</option>
-            <option value="13px">13px (Extra Large)</option>
-            <option value="custom">Custom Size...</option>
-          </select>
-        </div>
-        <div id="customSizeWrapper" style="display:none;">
-          <label>Enter Custom Font Size (e.g. 10.5px)</label>
-          <input type="text" id="customFontSizeInput" value="11px" oninput="applyCustomFontSize()">
+          <label>Font Size (1px - 100px): <span id="fontSizeVal">11.5</span>px</label>
+          <input type="range" id="fontSizeRange" min="1" max="100" value="11.5" step="0.5">
         </div>
         <div>
           <label>Back Code Type</label>
@@ -334,11 +379,11 @@ button.btn-action:disabled { opacity: 0.5; cursor: not-allowed; transform: none;
           </select>
         </div>
       </div>
-      <div class="input-grid" style="margin-top:12px;">
+      <div class="input-grid" style="margin-top:14px;">
         <div>
           <label>Terms / Instructions (Back Side)</label>
-          <textarea id="rulesInput">1. Always wear this card while inside school premises.
-2. If found, return to administration.
+          <textarea id="rulesInput">1. Always wear this card while inside the school premises.
+2. If found, please return to school administration.
 3. Card is non-transferable.</textarea>
         </div>
         <div class="two-col">
@@ -360,44 +405,37 @@ button.btn-action:disabled { opacity: 0.5; cursor: not-allowed; transform: none;
       </div>
     </div>
 
-    <!-- TAB 4: BULK CSV & PREVIEW -->
+    <!-- TAB 4: BULK CSV -->
     <div id="tab-bulk" class="tab-content">
       <div class="input-grid">
         <div>
           <label>Step A: Upload CSV File</label>
           <div class="file-box" onclick="document.getElementById('csvUpload').click()">
             <span class="file-box-label" id="csvLabel">Select CSV File</span>
-            <input type="file" id="csvUpload" accept=".csv">
+            <input type="file" id="csvUpload">
           </div>
         </div>
         <div>
-          <label>Step B: Upload Photos Folder (Name photos as Roll No e.g. 1024.jpg)</label>
+          <label>Step B: Upload Photos Folder (Name photos as Roll Number e.g. 1024.jpg)</label>
           <div class="file-box" onclick="document.getElementById('bulkPhotos').click()">
             <span class="file-box-label" id="photosLabel">Select Photos Folder</span>
             <input type="file" id="bulkPhotos" webkitdirectory directory multiple accept="image/*">
           </div>
         </div>
-        <button type="button" class="btn-action btn-bulk" style="margin-top:10px;" onclick="openCsvPreviewModal()">🔍 Preview CSV Data & Check Missing Photos</button>
       </div>
     </div>
 
-    <!-- PRINT & EXPORT OPTIONS -->
+    <!-- PRINTING OPTIONS -->
     <div class="toggle-wrapper">
       <input type="checkbox" id="mirrorPrint">
-      <label for="mirrorPrint" style="margin:0; cursor:pointer; font-weight:800; color:#0f172a; font-size:0.8rem;">Enable Mirror Print (For Inkjet PVC / Dragon Sheet)</label>
-    </div>
-
-    <div class="toggle-wrapper">
-      <input type="checkbox" id="cropMarksPrint" checked>
-      <label for="cropMarksPrint" style="margin:0; cursor:pointer; font-weight:800; color:#0f172a; font-size:0.8rem;">Include Cutting Crop Marks on A4 Print</label>
+      <label for="mirrorPrint" style="margin:0; cursor:pointer; font-weight:800; color:#0f172a;">Enable Mirror Print (For Dragon / Inkjet PVC Sheet)</label>
     </div>
 
     <!-- ACTIONS -->
     <div class="btn-group">
-      <button class="btn-action btn-download" onclick="downloadSingleCard()">Download Single</button>
-      <button class="btn-action btn-pdf" onclick="downloadSinglePDF()">Download PDF</button>
+      <button class="btn-action btn-download" id="btnSingle" onclick="downloadSingleCard()">Download Single</button>
       <button class="btn-action btn-bulk" id="btnBulk" onclick="generateBulkCards()">Download ZIP</button>
-      <button class="btn-action btn-print" onclick="printA4Grid()">Print A4 Grid</button>
+      <button class="btn-action btn-print" id="btnPrintA4" onclick="printA4Grid()">Print A4 Grid</button>
     </div>
 
     <div id="progressText" class="progress-msg"></div>
@@ -405,7 +443,7 @@ button.btn-action:disabled { opacity: 0.5; cursor: not-allowed; transform: none;
 
   <!-- RIGHT STICKY PREVIEW PANEL -->
   <div class="panel sticky-preview">
-    <div style="font-weight:900; text-align:center; margin-bottom:12px; color:#0f172a; font-size:1rem;">Live Dual-Side Card Preview</div>
+    <div style="font-weight:900; text-align:center; margin-bottom:14px; color:#0f172a; font-size:1.1rem; letter-spacing:0.5px;">Live Dual-Side Card Preview</div>
     
     <div class="cards-container">
       
@@ -413,7 +451,7 @@ button.btn-action:disabled { opacity: 0.5; cursor: not-allowed; transform: none;
       <div class="card-wrapper">
         <div class="card-label">Front Side</div>
         <div class="id-card-scaler">
-          <div id="card-front" class="id-card layout-classic">
+          <div id="card-front" class="id-card">
             <div class="watermark"><img id="watermarkLogo"></div>
             <div class="topbar">
               <img id="leftLogo" class="corner-logo left-logo">
@@ -426,7 +464,7 @@ button.btn-action:disabled { opacity: 0.5; cursor: not-allowed; transform: none;
               <span id="photoPlaceholder" class="photo-placeholder">Photo</span>
               <img id="photoPreview">
             </div>
-            <div class="details" id="cardDetailsBody">
+            <div class="details">
               <p><strong>Name :</strong> <span id="namePreview">Alexander Smith</span></p>
               <p><strong>Father :</strong> <span id="fatherPreview">Robert Smith</span></p>
               <p><strong>Class :</strong> <span id="classPreview">Class 10</span></p>
@@ -447,7 +485,7 @@ button.btn-action:disabled { opacity: 0.5; cursor: not-allowed; transform: none;
       <div class="card-wrapper">
         <div class="card-label">Back Side</div>
         <div class="id-card-scaler">
-          <div id="card-back" class="id-card layout-classic">
+          <div id="card-back" class="id-card">
             <div class="topbar" style="min-height: 28px; padding: 4px;">
               <div style="font-size: 10px; font-weight:800;">IMPORTANT INFORMATION</div>
             </div>
@@ -461,8 +499,8 @@ button.btn-action:disabled { opacity: 0.5; cursor: not-allowed; transform: none;
 
               <div class="rules-title">Terms & Conditions:</div>
               <ul id="rulesPreview" class="rules-list">
-                <li>Always wear this card while inside school premises.</li>
-                <li>If found, return to administration.</li>
+                <li>Always wear this card while inside the school premises.</li>
+                <li>If found, please return to school administration.</li>
                 <li>Card is non-transferable.</li>
               </ul>
             </div>
@@ -482,42 +520,127 @@ button.btn-action:disabled { opacity: 0.5; cursor: not-allowed; transform: none;
 
 </div>
 
-<!-- CSV PREVIEW & MISSING PHOTO MODAL -->
-<div id="csvModal" class="modal-overlay">
-  <div class="modal-card">
-    <div class="modal-header">
-      <span>CSV Data & Missing Photo Diagnostics</span>
-      <button onclick="closeCsvModal()" style="background:none; border:none; font-size:1.2rem; cursor:pointer;">✕</button>
+<!-- COMPREHENSIVE SEO DOCUMENTATION & FAQs -->
+<div class="seo-section">
+  <h2 style="margin-top:0;">Complete User Manual & Automation Guide</h2>
+  <p>Welcome to Enterprise ID Studio Pro—the most comprehensive online dual-sided school ID card generator and automated batch printing engine. Designed for educational institutions, printing presses, and administrative departments, this platform enables seamless generation of high-resolution student badges, faculty identity passes, and temporary access permits with zero server latency.</p>
+
+  <h2>Step-by-Step Execution Protocol</h2>
+  <ol>
+    <li><strong>Step 1: Define Educational Institution Metadata (Tab 1):</strong> Enter the official institution name and campus location. This data automatically syncs with the front topbar banner and back footer reference.</li>
+    <li><strong>Step 2: Customize Student Profile or Batch Structure (Tab 2):</strong> For single card generation, input student name, father's name, class grade, section code, unique roll number, primary contact number, emergency phone line, blood group, and residential address. Upload a single passport photo.</li>
+    <li><strong>Step 3: Institutional Branding, 50 Fonts & Gradient Colors (Tab 3):</strong> Select from solid colors and 30 gradient color schemes, choose from 50 professional font styles, and fine-tune font size from 1px to 100px. Upload high-res PNG/JPG logos and principal signature overlays. Select between CODE128 Barcodes or Dynamic QR Codes.</li>
+    <li><strong>Step 4: Automated Bulk Processing via CSV & Photo Folder (Tab 4):</strong> Upload a CSV spreadsheet containing records with headers (e.g., <code>Roll</code>, <code>Name</code>, <code>Father</code>, <code>Class</code>, <code>Section</code>, <code>Phone</code>, <code>Blood</code>, <code>Emergency</code>, <code>Address</code>). Upload a directory of photo files where filename matches the Roll Number (e.g., <code>1024.jpg</code>). Click <strong>Download ZIP</strong> for instant 300DPI PNG output files.</li>
+    <li><strong>Step 5: Grid Printing & Thermal Sheet Support:</strong> Click <strong>Print A4 Grid</strong> to auto-fit 8 dual-sided cards onto standard 210mm x 297mm A4 sheets. Enable <strong>Mirror Print</strong> if printing on reverse Inkjet Dragon / PVC sheets.</li>
+  </ol>
+
+  <h2>Technical Specifications & Printing Standards</h2>
+  <p>All cards rendered within this tool adhere strictly to standard ISO/IEC 7810 ID-1 plastic card sizing guidelines (85.60 mm x 53.98 mm / 3.375" x 2.125"). Output rendering engines capture cards at 4x canvas scaling to deliver crisp 300 DPI image assets appropriate for professional card printers (Evolis, Zebra, Fargo, Magicard) or offset printing workflows.</p>
+
+  <h2>15 Frequently Asked Questions (FAQs)</h2>
+  
+  <div class="faq-grid">
+    <div class="faq-item">
+      <div class="faq-question">Why does my CSV file fail to read student roll numbers properly?</div>
+      <div class="faq-answer">This usually occurs due to hidden UTF-8 BOM characters generated by Microsoft Excel. Our integrated parser automatically strips BOM characters (<code>\ufeff</code>) to ensure clean data binding.</div>
     </div>
-    <div id="modalBodyContent">
-      <p>Please upload a CSV file and photo folder first in Tab 4.</p>
+
+    <div class="faq-item">
+      <div class="faq-question">How should photo files be named for bulk auto-matching?</div>
+      <div class="faq-answer">Name each photo file to match the student's Roll Number exactly (e.g., Roll number <code>1024</code> should have photo name <code>1024.jpg</code> or <code>1024.png</code>).</div>
     </div>
-    <div style="text-align:right; margin-top:15px;">
-      <button class="btn-action btn-bulk" onclick="closeCsvModal()" style="width:auto;">Close</button>
+
+    <div class="faq-item">
+      <div class="faq-question">What is Mirror Print and when should I enable it?</div>
+      <div class="faq-answer">Mirror Print flips preview images horizontally. Enable this option when printing on transparent PVC film or Dragon sheet paper designed for thermal lamination presses.</div>
     </div>
+
+    <div class="faq-item">
+      <div class="faq-question">Are uploaded student records stored on any server?</div>
+      <div class="faq-answer">No. Enterprise ID Studio Pro runs entirely inside your client web browser (Client-Side JS). No data, photos, or CSV records are transmitted to external servers.</div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-question">Can I export high-resolution individual PNG images in bulk?</div>
+      <div class="faq-answer">Yes, clicking 'Download ZIP' processes all records in the CSV file and compresses both front and back card images into a structured 300DPI ZIP file.</div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-question">How many ID cards fit on a single A4 print sheet?</div>
+      <div class="faq-answer">The built-in print grid formats exactly 8 ID card faces (4 dual-sided pairs) per A4 sheet with proper margin spacing for manual or machine cutting.</div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-question">Which barcode encoding format is used?</div>
+      <div class="faq-answer">We utilize standard CODE128 barcode encoding, readable by all standard laser and CCD barcode scanners.</div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-question">What information is embedded in the QR Code?</div>
+      <div class="faq-answer">The generated QR code encapsulates critical verification fields including Roll ID, Student Name, and Emergency Contact details for instant verification.</div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-question">What image formats are supported for logos and signatures?</div>
+      <div class="faq-answer">You can upload PNG, JPG, WEBP, or SVG graphics. Transparent PNG files are recommended for cleaner logo and signature overlays.</div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-question">Can I use mobile browsers to generate bulk ID cards?</div>
+      <div class="faq-answer">Yes. Mobile file-type restrictions have been removed from file pickers, enabling full functionality across iOS Safari and Android Chrome.</div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-question">Why are text details on the ID card truncated or overlapping?</div>
+      <div class="faq-answer">Ensure fields like addresses or custom rules are concise. Card dimensions follow standard CR80 physical sizes, so excessive text length should be managed via smaller font adjustments.</div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-question">Is internet access required to generate ID cards?</div>
+      <div class="faq-answer">An internet connection is required initially to load external helper libraries via CDN. Once loaded, card generation functions locally.</div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-question">Does this tool support employee badges or visitor passes?</div>
+      <div class="faq-answer">Yes, simply replace student field labels with employee information in the CSV file.</div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-question">What thermal card printers are compatible with these downloads?</div>
+      <div class="faq-answer">Generated PNGs can be imported directly into standard thermal card printing software including Zebra Card Studio, Fargo Asure ID, and Evolis Premium Suite.</div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-question">Is there a limit on how many CSV rows can be processed in bulk?</div>
+      <div class="faq-answer">There is no software restriction. Performance depends on system RAM and browser memory processing capability.</div>
+    </div>
+  </div>
+
+  <!-- COPYRIGHT INFRINGEMENT & LEGAL NOTICE -->
+  <div class="legal-warning">
+    <h3 style="margin-bottom: 8px; color: #dc2626; font-size: 1.1rem; font-weight: 800;">Legal Warning & Copyright Infringement Notice</h3>
+    <p><strong>Unauthorized Reproduction Prohibited:</strong> Enterprise ID Studio Pro is intended exclusively for authorized educational administrative staff and legitimate print vendors. Generating fraudulent identity cards, replicating official government seals, or imitating security credentials without express written permission constitutes identity fraud and copyright infringement under applicable national and international legislation.</p>
+    <p>Users accept full legal responsibility for all graphic elements, trademarks, logos, and personal data processed through this platform.</p>
   </div>
 </div>
 
-<!-- SEO SECTION -->
-<div class="seo-section">
-  <h2 style="margin-top:0;">Advanced Enterprise ID Studio Pro Features</h2>
-  <p>This upgraded release includes 12 professional font families, 5 distinct ID layout templates, custom font sizing, CSV diagnostic preview tables, missing photo reporters, crop marks for A4 sheet cutters, and direct PDF generation capabilities.</p>
-</div>
-
+<!-- HIDDEN A4 PRINT CONTAINER -->
 <div id="a4PrintContainer"></div>
 
 <script>
 let qrCodeObj = null;
-let customFieldsCount = 0;
-let parsedCsvData = null;
 
 document.addEventListener("DOMContentLoaded", function() {
   const inputs = document.querySelectorAll('input[type="text"], select, textarea');
   inputs.forEach(input => input.addEventListener('input', updatePreview));
 
-  document.getElementById('layoutSelect').addEventListener('change', updateLayout);
-  document.getElementById('fontSelect').addEventListener('change', updateFont);
-  document.getElementById('codeTypeSelect').addEventListener('change', updateCodes);
+  document.getElementById('fontSizeRange').addEventListener('input', function() {
+    document.getElementById('fontSizeVal').innerText = this.value;
+    updatePreview();
+  });
+
+  document.getElementById('fontSelect').addEventListener('change', updatePreview);
+  document.getElementById('colorSelect').addEventListener('change', updatePreview);
 
   document.getElementById('singlePhotoUpload').addEventListener('change', function() {
     if(this.files[0]) {
@@ -542,11 +665,8 @@ document.addEventListener("DOMContentLoaded", function() {
     loadGraphic(this, ['signPreview']);
   });
 
-  document.getElementById('csvUpload').addEventListener('change', async function() {
-    if(this.files[0]) {
-      document.getElementById('csvLabel').innerText = this.files[0].name;
-      parsedCsvData = await parseCSVFile(this.files[0]);
-    }
+  document.getElementById('csvUpload').addEventListener('change', function() {
+    if(this.files[0]) document.getElementById('csvLabel').innerText = this.files[0].name;
   });
 
   document.getElementById('bulkPhotos').addEventListener('change', function() {
@@ -554,12 +674,17 @@ document.addEventListener("DOMContentLoaded", function() {
   });
 
   document.getElementById('mirrorPrint').addEventListener('change', function() {
-    const mirrorVal = this.checked ? "scaleX(-1)" : "none";
-    document.getElementById('card-front').style.transform = `translateX(-50%) ${mirrorVal}`;
-    document.getElementById('card-back').style.transform = `translateX(-50%) ${mirrorVal}`;
+    const transformVal = this.checked ? "scaleX(-1)" : "none";
+    document.getElementById('card-front').style.transform = transformVal;
+    document.getElementById('card-back').style.transform = transformVal;
   });
 
-  qrCodeObj = new QRCode(document.getElementById("qrcodeCanvas"), { width: 34, height: 34 });
+  document.getElementById('codeTypeSelect').addEventListener('change', updateCodes);
+
+  qrCodeObj = new QRCode(document.getElementById("qrcodeCanvas"), {
+    width: 36,
+    height: 36
+  });
 
   updatePreview();
 });
@@ -569,57 +694,6 @@ function switchTab(evt, tabId) {
   document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
   evt.currentTarget.classList.add('active');
   document.getElementById(tabId).classList.add('active');
-}
-
-function updateLayout() {
-  const layout = document.getElementById('layoutSelect').value;
-  ['card-front', 'card-back'].forEach(id => {
-    let el = document.getElementById(id);
-    // Keep layout class while preserving base id-card
-    el.className = `id-card ${layout}`;
-  });
-}
-
-function updateFont() {
-  const font = document.getElementById('fontSelect').value;
-  document.documentElement.style.setProperty('--font-family', font);
-}
-
-function handleFontSizePreset(val) {
-  const customWrapper = document.getElementById('customSizeWrapper');
-  if (val === 'custom') {
-    customWrapper.style.display = 'block';
-    applyCustomFontSize();
-  } else {
-    customWrapper.style.display = 'none';
-    document.querySelectorAll('.details').forEach(el => el.style.fontSize = val);
-  }
-}
-
-function applyCustomFontSize() {
-  const customVal = document.getElementById('customFontSizeInput').value || '11px';
-  document.querySelectorAll('.details').forEach(el => el.style.fontSize = customVal);
-}
-
-function addCustomFieldInput() {
-  customFieldsCount++;
-  const container = document.getElementById('customFieldsContainer');
-  let div = document.createElement('div');
-  div.className = 'custom-field-row';
-  div.id = `customFieldRow_${customFieldsCount}`;
-  div.innerHTML = `
-    <input type="text" placeholder="Field Label (e.g. Bus Route)" id="cf_key_${customFieldsCount}" oninput="updatePreview()">
-    <input type="text" placeholder="Field Value (e.g. Route 4)" id="cf_val_${customFieldsCount}" oninput="updatePreview()">
-    <button type="button" class="btn-remove-field" onclick="removeCustomField(${customFieldsCount})">X</button>
-  `;
-  container.appendChild(div);
-  updatePreview();
-}
-
-function removeCustomField(id) {
-  let row = document.getElementById(`customFieldRow_${id}`);
-  if(row) row.remove();
-  updatePreview();
 }
 
 function updatePreview() {
@@ -643,26 +717,6 @@ function updatePreview() {
   
   document.getElementById("sessionPreview").innerText = "SESSION " + (document.getElementById("session").value || "2026-2027");
 
-  // Render Dynamic Custom Fields
-  let detailsContainer = document.getElementById("cardDetailsBody");
-  let baseHTML = `
-    <p><strong>Name :</strong> <span id="namePreview">${document.getElementById("name").value}</span></p>
-    <p><strong>Father :</strong> <span id="fatherPreview">${document.getElementById("father").value}</span></p>
-    <p><strong>Class :</strong> <span id="classPreview">${document.getElementById("class").value}</span></p>
-    <p><strong>Section :</strong> <span id="sectionPreview">${document.getElementById("section").value}</span></p>
-    <p><strong>Roll No :</strong> <span id="rollPreview">${roll}</span></p>
-    <p><strong>Phone :</strong> <span id="phonePreview">${document.getElementById("phone").value}</span></p>
-  `;
-  
-  for(let i=1; i<=customFieldsCount; i++) {
-    let kInput = document.getElementById(`cf_key_${i}`);
-    let vInput = document.getElementById(`cf_val_${i}`);
-    if(kInput && vInput && kInput.value.trim()) {
-      baseHTML += `<p><strong>${kInput.value} :</strong> <span>${vInput.value}</span></p>`;
-    }
-  }
-  detailsContainer.innerHTML = baseHTML;
-
   const rulesText = document.getElementById("rulesInput").value;
   const rulesList = document.getElementById("rulesPreview");
   rulesList.innerHTML = "";
@@ -674,7 +728,15 @@ function updatePreview() {
     }
   });
 
+  // Apply Font Family & Font Size dynamically
+  const selectedFont = document.getElementById("fontSelect").value;
+  const fontSize = document.getElementById("fontSizeRange").value + "px";
+  document.documentElement.style.setProperty('--card-font', selectedFont);
+  document.documentElement.style.setProperty('--card-font-size', fontSize);
+
+  // Apply Theme Color / Gradient
   let selectedColor = document.getElementById("colorSelect").value;
+  document.documentElement.style.setProperty('--header-bg', selectedColor);
   document.querySelectorAll(".topbar, .bottombar").forEach(el => el.style.background = selectedColor);
 
   updateCodes();
@@ -690,11 +752,18 @@ function updateCodes() {
     barcodeCanvas.style.display = "block";
     qrcodeCanvas.style.display = "none";
     try {
-      JsBarcode("#barcodeCanvas", roll, { format: "CODE128", height: 25, fontSize: 10, margin: 2, displayValue: true });
+      JsBarcode("#barcodeCanvas", roll, {
+        format: "CODE128",
+        height: 25,
+        fontSize: 10,
+        margin: 2,
+        displayValue: true
+      });
     } catch(e) {}
   } else {
     barcodeCanvas.style.display = "none";
     qrcodeCanvas.style.display = "flex";
+    
     let qrData = `ID:${roll} | Name:${document.getElementById("name").value} | Emergency:${document.getElementById("emergency").value}`;
     qrCodeObj.clear();
     qrCodeObj.makeCode(qrData);
@@ -715,57 +784,9 @@ function loadGraphic(inputElement, targetImgIds) {
   }
 }
 
-async function openCsvPreviewModal() {
-  const modal = document.getElementById('csvModal');
-  const modalBody = document.getElementById('modalBodyContent');
-  const photoFiles = document.getElementById('bulkPhotos').files;
-
-  if(!parsedCsvData || parsedCsvData.length === 0) {
-    modalBody.innerHTML = `<p style="color:var(--accent-red); font-weight:800;">Please upload a valid CSV file in Tab 4 first!</p>`;
-    modal.style.display = "flex";
-    return;
-  }
-
-  let html = `<p>Total Records Found: <b>${parsedCsvData.length}</b></p>`;
-  html += `<table class="table-preview"><tr><th>Roll No</th><th>Name</th><th>Class</th><th>Photo Match Status</th></tr>`;
-
-  parsedCsvData.forEach((row, idx) => {
-    let roll = getStudentVal(row, ['Roll', 'roll', 'Roll No', 'RollNo']) || `Row_${idx+1}`;
-    let name = getStudentVal(row, ['Name', 'name', 'Student Name']) || 'N/A';
-    let cls = getStudentVal(row, ['Class', 'class']) || 'N/A';
-    
-    let matched = false;
-    if(photoFiles && photoFiles.length > 0) {
-      matched = Array.from(photoFiles).some(f => f.name.split('.')[0].trim() === String(roll).trim());
-    }
-
-    let statusHTML = matched ? `<span style="color:var(--accent-green); font-weight:700;">✓ Photo Found</span>` : `<span class="missing-badge">⚠️ Photo Missing</span>`;
-
-    html += `<tr><td>${roll}</td><td>${name}</td><td>${cls}</td><td>${statusHTML}</td></tr>`;
-  });
-
-  html += `</table>`;
-  modalBody.innerHTML = html;
-  modal.style.display = "flex";
-}
-
-function closeCsvModal() {
-  document.getElementById('csvModal').style.display = "none";
-}
-
-function parseCSVFile(file) {
-  return new Promise((resolve, reject) => {
-    Papa.parse(file, {
-      header: true, skipEmptyLines: true,
-      transformHeader: h => h.replace(/^\ufeff/, '').trim(),
-      complete: results => resolve(results.data),
-      error: err => reject(err)
-    });
-  });
-}
-
 async function downloadSingleCard() {
   const roll = document.getElementById("roll").value || "ID";
+  
   const frontCanvas = await html2canvas(document.getElementById("card-front"), { scale: 4, useCORS: true });
   let aFront = document.createElement("a");
   aFront.href = frontCanvas.toDataURL("image/png");
@@ -773,6 +794,7 @@ async function downloadSingleCard() {
   aFront.click();
 
   await new Promise(r => setTimeout(r, 300));
+
   const backCanvas = await html2canvas(document.getElementById("card-back"), { scale: 4, useCORS: true });
   let aBack = document.createElement("a");
   aBack.href = backCanvas.toDataURL("image/png");
@@ -780,18 +802,22 @@ async function downloadSingleCard() {
   aBack.click();
 }
 
-async function downloadSinglePDF() {
-  const { jsPDF } = window.jspdf;
-  const doc = new jsPDF({ orientation: "landscape", unit: "mm", format: [85.6, 54] });
-
-  const canvasF = await html2canvas(document.getElementById("card-front"), { scale: 3, useCORS: true });
-  doc.addImage(canvasF.toDataURL("image/png"), 'PNG', 0, 0, 85.6, 54);
-  
-  doc.addPage([85.6, 54], "landscape");
-  const canvasB = await html2canvas(document.getElementById("card-back"), { scale: 3, useCORS: true });
-  doc.addImage(canvasB.toDataURL("image/png"), 'PNG', 0, 0, 85.6, 54);
-
-  doc.save(`Student_ID_Card.pdf`);
+function parseCSVFile(file) {
+  return new Promise((resolve, reject) => {
+    Papa.parse(file, {
+      header: true,
+      skipEmptyLines: true,
+      transformHeader: function(h) {
+        return h.replace(/^\ufeff/, '').trim();
+      },
+      complete: function(results) {
+        resolve(results.data);
+      },
+      error: function(err) {
+        reject(err);
+      }
+    });
+  });
 }
 
 async function generateBulkCards() {
@@ -811,7 +837,7 @@ async function generateBulkCards() {
 
     for (let i = 0; i < students.length; i++) {
       await populateCardWithStudent(students[i], photoFiles);
-      await new Promise(r => setTimeout(r, 80));
+      await new Promise(r => setTimeout(r, 100));
 
       const canvasFront = await html2canvas(document.getElementById("card-front"), { scale: 4, useCORS: true });
       zip.file(`${getStudentVal(students[i], ['Roll', 'roll', 'Roll No', 'RollNo']) || i+1}_Front.png`, canvasFront.toDataURL("image/png").split(',')[1], { base64: true });
@@ -819,17 +845,17 @@ async function generateBulkCards() {
       const canvasBack = await html2canvas(document.getElementById("card-back"), { scale: 4, useCORS: true });
       zip.file(`${getStudentVal(students[i], ['Roll', 'roll', 'Roll No', 'RollNo']) || i+1}_Back.png`, canvasBack.toDataURL("image/png").split(',')[1], { base64: true });
 
-      progressText.innerText = `Generating Cards: ${i + 1} / ${students.length}...`;
+      progressText.innerText = `Generating Dual Cards: ${i + 1} / ${students.length}...`;
     }
 
-    progressText.innerText = "Compressing ZIP file...";
+    progressText.innerText = "Compressing into ZIP file...";
     zip.generateAsync({ type: "blob" }).then(content => {
       saveAs(content, "Student_ID_Cards_300DPI.zip");
       progressText.innerText = "Download Ready!";
       btnBulk.disabled = false;
     });
   } catch (e) {
-    alert("Error: " + e.message);
+    alert("Error processing CSV File: " + e.message);
     btnBulk.disabled = false;
     progressText.innerText = "";
   }
@@ -840,10 +866,8 @@ async function printA4Grid() {
   const photoFiles = document.getElementById('bulkPhotos').files;
   const progressText = document.getElementById('progressText');
   const printContainer = document.getElementById('a4PrintContainer');
-  const includeCropMarks = document.getElementById('cropMarksPrint').checked;
   
   printContainer.innerHTML = "";
-  printContainer.className = includeCropMarks ? "has-crop-marks" : "";
   let cardsToPrint = [];
 
   if (csvFile) {
@@ -852,10 +876,11 @@ async function printA4Grid() {
       const students = await parseCSVFile(csvFile);
       for (let student of students) {
         await populateCardWithStudent(student, photoFiles);
-        await new Promise(r => setTimeout(r, 60));
+        await new Promise(r => setTimeout(r, 80));
 
         const canvasF = await html2canvas(document.getElementById("card-front"), { scale: 2 });
         cardsToPrint.push(canvasF.toDataURL());
+
         const canvasB = await html2canvas(document.getElementById("card-back"), { scale: 2 });
         cardsToPrint.push(canvasB.toDataURL());
       }
@@ -864,9 +889,10 @@ async function printA4Grid() {
       return;
     }
   } else {
-    progressText.innerText = "Preparing A4 Grid for Current Preview...";
+    progressText.innerText = "Preparing A4 Grid for Current Preview Card...";
     const canvasF = await html2canvas(document.getElementById("card-front"), { scale: 2 });
     cardsToPrint.push(canvasF.toDataURL());
+
     const canvasB = await html2canvas(document.getElementById("card-back"), { scale: 2 });
     cardsToPrint.push(canvasB.toDataURL());
   }
@@ -884,7 +910,7 @@ async function printA4Grid() {
     currentPage.appendChild(img);
   });
 
-  progressText.innerText = "Opening Print Dialog...";
+  progressText.innerText = "Opening Print Window...";
   setTimeout(() => {
     window.print();
     progressText.innerText = "";
