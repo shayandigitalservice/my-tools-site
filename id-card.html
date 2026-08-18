@@ -37,33 +37,36 @@
 }
 
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-body { font-family: 'Inter', 'Segoe UI', system-ui, sans-serif; background: var(--bg-main); color: var(--text-main); padding: 12px; line-height: 1.6; }
+body { font-family: 'Inter', 'Segoe UI', system-ui, sans-serif; background: var(--bg-main); color: var(--text-main); padding: 10px; line-height: 1.5; overflow-x: hidden; }
 
 @media (min-width: 768px) {
   body { padding: 20px; }
 }
 
 /* UI MAX NAVBAR */
-.header-nav { display: flex; flex-direction: column; gap: 10px; align-items: flex-start; max-width: 1400px; margin: 0 auto 20px auto; padding: 16px 20px; background: #ffffff; border: 1px solid var(--panel-border); border-radius: 16px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
+.header-nav { display: flex; flex-direction: column; gap: 8px; align-items: flex-start; max-width: 1400px; margin: 0 auto 16px auto; padding: 14px 18px; background: #ffffff; border: 1px solid var(--panel-border); border-radius: 14px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
 @media (min-width: 640px) {
   .header-nav { flex-direction: row; align-items: center; justify-content: space-between; }
 }
-.header-nav h1 { font-size: 1.35rem; font-weight: 800; background: linear-gradient(90deg, #2563eb, #7c3aed); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-.badge { background: linear-gradient(135deg, #2563eb, #4f46e5); color: #fff; font-size: 0.75rem; padding: 6px 14px; border-radius: 20px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; }
+.header-nav h1 { font-size: 1.25rem; font-weight: 800; background: linear-gradient(90deg, #2563eb, #7c3aed); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+.badge { background: linear-gradient(135deg, #2563eb, #4f46e5); color: #fff; font-size: 0.7rem; padding: 5px 12px; border-radius: 20px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; }
 
-/* APP LAYOUT */
-.app-container { max-width: 1400px; margin: 0 auto; display: grid; grid-template-columns: 1fr; gap: 20px; width: 100%; }
-@media (min-width: 1024px) { .app-container { grid-template-columns: 1fr 1fr; } }
+/* APP LAYOUT - FULL RESPONSIVE GRID */
+.app-container { max-width: 1400px; margin: 0 auto; display: grid; grid-template-columns: 1fr; gap: 16px; width: 100%; }
+@media (min-width: 1024px) { 
+  .app-container { grid-template-columns: 1.1fr 0.9fr; align-items: start; } 
+}
 
 /* PANELS */
-.panel { background: var(--panel-bg); padding: 20px; border-radius: 20px; border: 1px solid var(--panel-border); box-shadow: 0 4px 20px rgba(0,0,0,0.04); width: 100%; }
-@media (min-width: 768px) { .panel { padding: 28px; } }
-.sticky-preview { position: relative; }
+.panel { background: var(--panel-bg); padding: 16px; border-radius: 16px; border: 1px solid var(--panel-border); box-shadow: 0 4px 20px rgba(0,0,0,0.04); width: 100%; min-width: 0; }
+@media (min-width: 768px) { .panel { padding: 24px; } }
+.sticky-preview { position: relative; width: 100%; }
 @media (min-width: 1024px) { .sticky-preview { position: sticky; top: 20px; } }
 
 /* TAB NAVIGATION */
-.tab-header { display: flex; border-bottom: 2px solid var(--panel-border); gap: 8px; margin-bottom: 20px; overflow-x: auto; padding-bottom: 8px; -webkit-overflow-scrolling: touch; }
-.tab-btn { padding: 10px 14px; background: #f1f5f9; border: 1px solid var(--panel-border); border-radius: 8px; font-size: 0.8rem; font-weight: 700; color: var(--text-muted); cursor: pointer; transition: all 0.3s; white-space: nowrap; flex-shrink: 0; }
+.tab-header { display: flex; border-bottom: 2px solid var(--panel-border); gap: 6px; margin-bottom: 16px; overflow-x: auto; padding-bottom: 8px; -webkit-overflow-scrolling: touch; scrollbar-width: none; }
+.tab-header::-webkit-scrollbar { display: none; }
+.tab-btn { padding: 8px 12px; background: #f1f5f9; border: 1px solid var(--panel-border); border-radius: 8px; font-size: 0.75rem; font-weight: 700; color: var(--text-muted); cursor: pointer; transition: all 0.3s; white-space: nowrap; flex-shrink: 0; }
 .tab-btn.active { color: #fff; background: linear-gradient(135deg, #2563eb, #7c3aed); border-color: transparent; box-shadow: 0 4px 12px rgba(37,99,235,0.3); }
 
 /* TAB CONTENT */
@@ -71,31 +74,31 @@ body { font-family: 'Inter', 'Segoe UI', system-ui, sans-serif; background: var(
 .tab-content.active { display: block; }
 
 /* INPUT STYLES */
-.input-grid { display: grid; gap: 14px; }
+.input-grid { display: grid; gap: 12px; width: 100%; }
 .two-col { grid-template-columns: 1fr; }
 @media (min-width: 640px) { .two-col { grid-template-columns: 1fr 1fr; } }
 
-label { font-size: 0.78rem; font-weight: 700; color: #475569; display: block; margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.5px; }
-input, select, textarea { width: 100%; padding: 12px 14px; border: 1px solid var(--panel-border); border-radius: 10px; font-size: 0.875rem; background: var(--input-bg); transition: all 0.2s; color: var(--text-main); font-weight: 600; }
-textarea { resize: vertical; height: 75px; font-family: inherit; }
+label { font-size: 0.75rem; font-weight: 700; color: #475569; display: block; margin-bottom: 4px; text-transform: uppercase; letter-spacing: 0.5px; }
+input, select, textarea { width: 100%; max-width: 100%; padding: 10px 12px; border: 1px solid var(--panel-border); border-radius: 8px; font-size: 0.85rem; background: var(--input-bg); transition: all 0.2s; color: var(--text-main); font-weight: 600; }
+textarea { resize: vertical; height: 70px; font-family: inherit; }
 input:focus, select:focus, textarea:focus { outline: none; border-color: var(--accent-blue); background: #ffffff; box-shadow: 0 0 0 3px rgba(37,99,235,0.15); }
 
 /* FILE INPUT */
-.file-box { border: 2px dashed #cbd5e1; padding: 16px; border-radius: 10px; text-align: center; background: #f8fafc; cursor: pointer; transition: border-color 0.3s, background 0.3s; }
+.file-box { border: 2px dashed #cbd5e1; padding: 14px; border-radius: 8px; text-align: center; background: #f8fafc; cursor: pointer; transition: border-color 0.3s, background 0.3s; width: 100%; }
 .file-box:hover { border-color: var(--accent-blue); background: #f1f5f9; }
 .file-box input { display: none; }
-.file-box-label { font-size: 0.85rem; font-weight: 700; color: var(--accent-blue); cursor: pointer; word-break: break-word; }
+.file-box-label { font-size: 0.8rem; font-weight: 700; color: var(--accent-blue); cursor: pointer; word-break: break-all; display: block; }
 
 /* TOGGLE */
-.toggle-wrapper { display: flex; align-items: center; gap: 12px; margin-top: 20px; background: #f8fafc; padding: 12px 16px; border-radius: 10px; border: 1px solid var(--panel-border); }
+.toggle-wrapper { display: flex; align-items: center; gap: 10px; margin-top: 16px; background: #f8fafc; padding: 10px 14px; border-radius: 8px; border: 1px solid var(--panel-border); width: 100%; }
 .toggle-wrapper input { width: auto; cursor: pointer; }
 
 /* BUTTONS */
-.btn-group { display: flex; flex-direction: column; gap: 10px; margin-top: 24px; }
+.btn-group { display: flex; flex-direction: column; gap: 8px; margin-top: 18px; width: 100%; }
 @media (min-width: 640px) { .btn-group { flex-direction: row; flex-wrap: wrap; } }
 
-button.btn-action { flex: 1; width: 100%; padding: 14px; border: none; border-radius: 10px; font-weight: 800; font-size: 0.85rem; cursor: pointer; transition: all 0.2s; text-transform: uppercase; letter-spacing: 0.5px; }
-@media (min-width: 640px) { button.btn-action { width: auto; min-width: 140px; } }
+button.btn-action { flex: 1; width: 100%; padding: 12px; border: none; border-radius: 8px; font-weight: 800; font-size: 0.8rem; cursor: pointer; transition: all 0.2s; text-transform: uppercase; letter-spacing: 0.5px; text-align: center; }
+@media (min-width: 640px) { button.btn-action { width: auto; min-width: 120px; } }
 
 button.btn-action:hover { transform: translateY(-2px); filter: brightness(1.05); }
 button.btn-action:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
@@ -103,18 +106,56 @@ button.btn-action:disabled { opacity: 0.5; cursor: not-allowed; transform: none;
 .btn-bulk { background: linear-gradient(135deg, #7c3aed, #a855f7); color: white; box-shadow: 0 4px 12px rgba(124,58,237,0.25); }
 .btn-print { background: linear-gradient(135deg, #2563eb, #3b82f6); color: white; box-shadow: 0 4px 12px rgba(37,99,235,0.25); }
 
-/* CARD PREVIEW CONTAINER */
-.cards-container { display: flex; flex-direction: column; gap: 20px; align-items: center; width: 100%; overflow-x: auto; padding-bottom: 10px; }
-.card-wrapper { display: flex; flex-direction: column; align-items: center; background: #f8fafc; border-radius: 14px; padding: 16px; width: 100%; max-width: 460px; border: 1px solid var(--panel-border); }
-.card-label { font-size: 0.8rem; font-weight: 800; text-transform: uppercase; color: #64748b; margin-bottom: 10px; letter-spacing: 1px; }
+/* CARD PREVIEW CONTAINER & FLUID SCALING */
+.cards-container { display: flex; flex-direction: column; gap: 16px; align-items: center; width: 100%; padding-bottom: 5px; }
+.card-wrapper { display: flex; flex-direction: column; align-items: center; background: #f8fafc; border-radius: 12px; padding: 12px; width: 100%; border: 1px solid var(--panel-border); overflow: hidden; }
+.card-label { font-size: 0.75rem; font-weight: 800; text-transform: uppercase; color: #64748b; margin-bottom: 8px; letter-spacing: 1px; }
 
-/* ID CARD BASE DIMENSIONS (RESPONSIVE SCALING PRESERVED) */
-.id-card-scaler { width: 100%; max-width: 420px; display: flex; justify-content: center; }
-.id-card { width: 420px; height: 260px; border-radius: 12px; position: relative; background: #fff; color: #000; box-shadow: 0 10px 25px rgba(0,0,0,0.12); overflow: hidden; transition: transform 0.3s; flex-shrink: 0; }
+/* SCALER FIX FOR MOBILE OVERFLOW */
+.id-card-scaler { 
+  width: 100%; 
+  max-width: 420px; 
+  height: 260px;
+  display: flex; 
+  justify-content: center; 
+  align-items: flex-start;
+  position: relative;
+}
 
-/* Mobile Scaling for Card Preview */
-@media (max-width: 460px) {
-  .id-card { transform-origin: top center; transform: scale(0.75); margin-bottom: -65px; }
+@media (max-width: 440px) {
+  .id-card-scaler {
+    height: 195px; /* Scales container height proportionally for 0.75 scale */
+  }
+}
+
+.id-card { 
+  width: 420px; 
+  height: 260px; 
+  border-radius: 12px; 
+  position: absolute; 
+  top: 0;
+  left: 50%;
+  transform-origin: top left;
+  transform: translateX(-50%);
+  background: #fff; 
+  color: #000; 
+  box-shadow: 0 10px 25px rgba(0,0,0,0.12); 
+  overflow: hidden; 
+  transition: transform 0.3s; 
+  flex-shrink: 0; 
+}
+
+/* Perfect Mobile Responsive Scaling via CSS Transform */
+@media (max-width: 440px) {
+  .id-card { 
+    transform: translateX(-50%) scale(0.71); 
+  }
+}
+
+@media (min-width: 441px) and (max-width: 480px) {
+  .id-card { 
+    transform: translateX(-50%) scale(0.82); 
+  }
 }
 
 /* CARD INTERNAL DESIGN */
@@ -123,7 +164,7 @@ button.btn-action:disabled { opacity: 0.5; cursor: not-allowed; transform: none;
 .school-address { font-size: 9.5px; font-weight: 600; color: #ffffff; }
 .bottombar { position: absolute; bottom: 0; width: 100%; background: #1e40af; color: white; padding: 3px 0; font-size: 10px; font-weight: 700; text-align: center; z-index: 2; }
 
-.watermark { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); opacity: 0.05; z-index: 1; }
+.watermark { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); opacity: 0.05; z-index: 1; pointer-events: none; }
 .watermark img { width: 180px; height: 180px; display: none; }
 .corner-logo { position: absolute; top: 6px; width: 40px; height: 40px; display: none; background: #fff; border-radius: 50%; padding: 2px; }
 .left-logo { left: 8px; } .right-logo { right: 8px; }
@@ -132,7 +173,7 @@ button.btn-action:disabled { opacity: 0.5; cursor: not-allowed; transform: none;
 .photo img { width: 100%; height: 100%; object-fit: cover; display: none; }
 .photo-placeholder { font-size: 10px; color: #000000; font-weight: 700; text-align: center; }
 
-.details { position: absolute; left: 125px; top: 80px; font-size: 11.5px; z-index: 2; line-height: 1.5; color: #000000; font-weight: 800; }
+.details { position: absolute; left: 125px; top: 80px; font-size: 11.5px; z-index: 2; line-height: 1.5; color: #000000; font-weight: 800; width: 280px; }
 .details strong { color: #000000; display: inline-block; width: 70px; font-weight: 900; }
 .details span { color: #000000; font-weight: 800; }
 
@@ -151,54 +192,38 @@ button.btn-action:disabled { opacity: 0.5; cursor: not-allowed; transform: none;
 #barcodeCanvas { max-width: 220px; height: 35px; }
 #qrcodeCanvas img, #qrcodeCanvas canvas { width: 36px !important; height: 36px !important; }
 
-.progress-msg { margin-top: 14px; font-size: 0.9rem; font-weight: 800; color: var(--accent-blue); text-align: center; min-height: 20px; }
+.progress-msg { margin-top: 12px; font-size: 0.85rem; font-weight: 800; color: var(--accent-blue); text-align: center; min-height: 20px; word-break: break-all; }
 
-/* FIXED SEO & FAQ SECTION */
+/* SEO & FAQ SECTION */
 .seo-section { 
   width: 100%;
   max-width: 1400px; 
-  margin: 30px auto 0 auto; 
+  margin: 24px auto 0 auto; 
   background: #ffffff; 
-  border-radius: 20px; 
+  border-radius: 16px; 
   border: 1px solid var(--panel-border); 
-  padding: 20px; 
+  padding: 16px; 
   color: #334155; 
   box-shadow: 0 4px 20px rgba(0,0,0,0.03); 
-  box-sizing: border-box;
 }
 
-@media (min-width: 768px) { 
-  .seo-section { padding: 35px; } 
-}
+@media (min-width: 768px) { .seo-section { padding: 30px; } }
 
-.seo-section h2 { color: #0f172a; font-size: 1.4rem; margin-top: 25px; margin-bottom: 12px; border-left: 4px solid var(--accent-blue); padding-left: 10px; font-weight: 800; }
-.seo-section p { margin-bottom: 15px; font-size: 0.95rem; }
-.seo-section ul, .seo-section ol { margin-left: 20px; margin-bottom: 20px; }
-.seo-section li { margin-bottom: 8px; }
+.seo-section h2 { color: #0f172a; font-size: 1.25rem; margin-top: 20px; margin-bottom: 10px; border-left: 4px solid var(--accent-blue); padding-left: 10px; font-weight: 800; }
+.seo-section p { margin-bottom: 12px; font-size: 0.9rem; }
+.seo-section ul, .seo-section ol { margin-left: 18px; margin-bottom: 16px; font-size: 0.9rem; }
+.seo-section li { margin-bottom: 6px; }
 
-/* FAQ CARDS STYLING */
-.faq-grid { 
-  display: flex;
-  flex-direction: column;
-  gap: 14px; 
-  margin-top: 20px; 
-  width: 100%;
-}
+/* FAQ CARDS */
+.faq-grid { display: flex; flex-direction: column; gap: 12px; margin-top: 16px; width: 100%; }
+@media (min-width: 768px) { .faq-grid { display: grid; grid-template-columns: 1fr 1fr; } }
 
-@media (min-width: 768px) { 
-  .faq-grid { 
-    display: grid;
-    grid-template-columns: 1fr 1fr; 
-  } 
-}
+.faq-item { background: linear-gradient(135deg, #f8fafc 0%, #eff6ff 100%); border-radius: 10px; border: 1px solid #dbeafe; padding: 16px; width: 100%; }
+.faq-question { font-weight: 800; color: #1e40af; margin-bottom: 6px; font-size: 0.9rem; display: flex; align-items: center; gap: 8px; }
+.faq-question::before { content: 'Q'; background: #2563eb; color: #fff; font-size: 0.7rem; padding: 2px 6px; border-radius: 4px; font-weight: 900; }
+.faq-answer { font-size: 0.85rem; color: #475569; font-weight: 600; }
 
-.faq-item { background: linear-gradient(135deg, #f8fafc 0%, #eff6ff 100%); border-radius: 12px; border: 1px solid #dbeafe; padding: 18px; transition: transform 0.2s, box-shadow 0.2s; width: 100%; }
-.faq-item:hover { transform: translateY(-3px); box-shadow: 0 8px 20px rgba(37,99,235,0.1); }
-.faq-question { font-weight: 800; color: #1e40af; margin-bottom: 8px; font-size: 0.95rem; display: flex; align-items: center; gap: 8px; }
-.faq-question::before { content: 'Q'; background: #2563eb; color: #fff; font-size: 0.7rem; padding: 2px 7px; border-radius: 6px; font-weight: 900; }
-.faq-answer { font-size: 0.88rem; color: #475569; font-weight: 600; }
-
-.legal-warning { background: linear-gradient(135deg, #fef2f2 0%, #ffe4e6 100%); border: 1px solid #fecdd3; border-radius: 14px; padding: 20px; margin-top: 30px; color: #991b1b; }
+.legal-warning { background: linear-gradient(135deg, #fef2f2 0%, #ffe4e6 100%); border: 1px solid #fecdd3; border-radius: 12px; padding: 16px; margin-top: 24px; color: #991b1b; font-size: 0.9rem; }
 
 #a4PrintContainer { display: none; }
 
@@ -216,7 +241,7 @@ button.btn-action:disabled { opacity: 0.5; cursor: not-allowed; transform: none;
 
 <div class="header-nav">
   <h1>Enterprise ID Studio Pro</h1>
-  <span class="badge">Light Dashboard + Responsive Max</span>
+  <span class="badge">Mobile & Desktop Optimized</span>
 </div>
 
 <div class="app-container">
@@ -224,9 +249,9 @@ button.btn-action:disabled { opacity: 0.5; cursor: not-allowed; transform: none;
   <!-- LEFT EDITOR PANEL -->
   <div class="panel">
     <div class="tab-header">
-      <button class="tab-btn active" onclick="switchTab(event, 'tab-school')">1. School Info</button>
-      <button class="tab-btn" onclick="switchTab(event, 'tab-student')">2. Student Details</button>
-      <button class="tab-btn" onclick="switchTab(event, 'tab-branding')">3. Branding & Colors</button>
+      <button class="tab-btn active" onclick="switchTab(event, 'tab-school')">1. School</button>
+      <button class="tab-btn" onclick="switchTab(event, 'tab-student')">2. Student</button>
+      <button class="tab-btn" onclick="switchTab(event, 'tab-branding')">3. Branding</button>
       <button class="tab-btn" onclick="switchTab(event, 'tab-bulk')">4. Bulk CSV</button>
     </div>
 
@@ -250,14 +275,14 @@ button.btn-action:disabled { opacity: 0.5; cursor: not-allowed; transform: none;
         <div><label>Blood Group</label><input type="text" id="blood" value="O+"></div>
         <div><label>Emergency Contact</label><input type="text" id="emergency" value="+1 555-999-8822"></div>
       </div>
-      <div style="margin-top:14px;">
+      <div style="margin-top:12px;">
         <label>Student Photo (Single Upload)</label>
         <div class="file-box" onclick="document.getElementById('singlePhotoUpload').click()">
           <span class="file-box-label" id="singlePhotoLabel">Upload Student Photo</span>
           <input type="file" id="singlePhotoUpload" accept="image/*">
         </div>
       </div>
-      <div style="margin-top:14px;">
+      <div style="margin-top:12px;">
         <label>Residential Address (For Back Side)</label>
         <textarea id="resAddress">42 Wallaby Way, Suite 100, Brooklyn, NY 11201</textarea>
       </div>
@@ -290,11 +315,11 @@ button.btn-action:disabled { opacity: 0.5; cursor: not-allowed; transform: none;
           </select>
         </div>
       </div>
-      <div class="input-grid" style="margin-top:14px;">
+      <div class="input-grid" style="margin-top:12px;">
         <div>
           <label>Terms / Instructions (Back Side)</label>
-          <textarea id="rulesInput">1. Always wear this card while inside the school premises.
-2. If found, please return to school administration.
+          <textarea id="rulesInput">1. Always wear this card while inside school premises.
+2. If found, return to administration.
 3. Card is non-transferable.</textarea>
         </div>
         <div class="two-col">
@@ -323,11 +348,11 @@ button.btn-action:disabled { opacity: 0.5; cursor: not-allowed; transform: none;
           <label>Step A: Upload CSV File</label>
           <div class="file-box" onclick="document.getElementById('csvUpload').click()">
             <span class="file-box-label" id="csvLabel">Select CSV File</span>
-            <input type="file" id="csvUpload">
+            <input type="file" id="csvUpload" accept=".csv">
           </div>
         </div>
         <div>
-          <label>Step B: Upload Photos Folder (Name photos as Roll Number e.g. 1024.jpg)</label>
+          <label>Step B: Upload Photos Folder (Name photos as Roll No e.g. 1024.jpg)</label>
           <div class="file-box" onclick="document.getElementById('bulkPhotos').click()">
             <span class="file-box-label" id="photosLabel">Select Photos Folder</span>
             <input type="file" id="bulkPhotos" webkitdirectory directory multiple accept="image/*">
@@ -339,7 +364,7 @@ button.btn-action:disabled { opacity: 0.5; cursor: not-allowed; transform: none;
     <!-- PRINTING OPTIONS -->
     <div class="toggle-wrapper">
       <input type="checkbox" id="mirrorPrint">
-      <label for="mirrorPrint" style="margin:0; cursor:pointer; font-weight:800; color:#0f172a;">Enable Mirror Print (For Dragon / Inkjet PVC Sheet)</label>
+      <label for="mirrorPrint" style="margin:0; cursor:pointer; font-weight:800; color:#0f172a; font-size:0.8rem;">Enable Mirror Print (For Dragon / Inkjet PVC Sheet)</label>
     </div>
 
     <!-- ACTIONS -->
@@ -354,7 +379,7 @@ button.btn-action:disabled { opacity: 0.5; cursor: not-allowed; transform: none;
 
   <!-- RIGHT STICKY PREVIEW PANEL -->
   <div class="panel sticky-preview">
-    <div style="font-weight:900; text-align:center; margin-bottom:14px; color:#0f172a; font-size:1.1rem; letter-spacing:0.5px;">Live Dual-Side Card Preview</div>
+    <div style="font-weight:900; text-align:center; margin-bottom:12px; color:#0f172a; font-size:1rem; letter-spacing:0.5px;">Live Dual-Side Card Preview</div>
     
     <div class="cards-container">
       
@@ -410,8 +435,8 @@ button.btn-action:disabled { opacity: 0.5; cursor: not-allowed; transform: none;
 
               <div class="rules-title">Terms & Conditions:</div>
               <ul id="rulesPreview" class="rules-list">
-                <li>Always wear this card while inside the school premises.</li>
-                <li>If found, please return to school administration.</li>
+                <li>Always wear this card while inside school premises.</li>
+                <li>If found, return to administration.</li>
                 <li>Card is non-transferable.</li>
               </ul>
             </div>
@@ -431,107 +456,47 @@ button.btn-action:disabled { opacity: 0.5; cursor: not-allowed; transform: none;
 
 </div>
 
-<!-- COMPREHENSIVE SEO DOCUMENTATION & FAQs -->
+<!-- COMPREHENSIVE SEO DOCUMENTATION & FAQS -->
 <div class="seo-section">
   <h2 style="margin-top:0;">Complete User Manual & Automation Guide</h2>
-  <p>Welcome to Enterprise ID Studio Pro—the most comprehensive online dual-sided school ID card generator and automated batch printing engine. Designed for educational institutions, printing presses, and administrative departments, this platform enables seamless generation of high-resolution student badges, faculty identity passes, and temporary access permits with zero server latency.</p>
+  <p>Welcome to Enterprise ID Studio Pro—the most comprehensive online dual-sided school ID card generator and automated batch printing engine. Fully optimized for seamless performance across mobile phones, tablets, and desktop workstations.</p>
 
   <h2>Step-by-Step Execution Protocol</h2>
   <ol>
-    <li><strong>Step 1: Define Educational Institution Metadata (Tab 1):</strong> Enter the official institution name and campus location. This data automatically syncs with the front topbar banner and back footer reference.</li>
-    <li><strong>Step 2: Customize Student Profile or Batch Structure (Tab 2):</strong> For single card generation, input student name, father's name, class grade, section code, unique roll number, primary contact number, emergency phone line, blood group, and residential address. Upload a single passport photo.</li>
-    <li><strong>Step 3: Institutional Branding & Security Codes (Tab 3):</strong> Select from 10 high-contrast color schemes calibrated for standard thermal dye-sublimation ID printers. Upload high-res PNG/JPG logos and principal signature overlays. Select between CODE128 Barcodes or Dynamic QR Codes.</li>
-    <li><strong>Step 4: Automated Bulk Processing via CSV & Photo Folder (Tab 4):</strong> Upload a CSV spreadsheet containing records with headers (e.g., <code>Roll</code>, <code>Name</code>, <code>Father</code>, <code>Class</code>, <code>Section</code>, <code>Phone</code>, <code>Blood</code>, <code>Emergency</code>, <code>Address</code>). Upload a directory of photo files where filename matches the Roll Number (e.g., <code>1024.jpg</code>). Click <strong>Download ZIP</strong> for instant 300DPI PNG output files.</li>
-    <li><strong>Step 5: Grid Printing & Thermal Sheet Support:</strong> Click <strong>Print A4 Grid</strong> to auto-fit 8 dual-sided cards onto standard 210mm x 297mm A4 sheets. Enable <strong>Mirror Print</strong> if printing on reverse Inkjet Dragon / PVC sheets.</li>
+    <li><strong>Step 1: Define Institution Metadata (Tab 1):</strong> Enter the school name and campus location to populate card headers.</li>
+    <li><strong>Step 2: Customize Student Profile (Tab 2):</strong> Input student credentials manually or utilize the bulk CSV upload workflow.</li>
+    <li><strong>Step 3: Branding & Security (Tab 3):</strong> Select theme colors, upload logos, signatures, and choose between Barcodes or QR Codes.</li>
+    <li><strong>Step 4: Bulk CSV Generation (Tab 4):</strong> Upload a CSV spreadsheet and a folder of student photos named by roll number (e.g., <code>1024.jpg</code>) for instant batch ZIP exporting.</li>
+    <li><strong>Step 5: Grid Printing:</strong> Click <strong>Print A4 Grid</strong> to layout cards perfectly onto standard A4 print sheets.</li>
   </ol>
 
-  <h2>Technical Specifications & Printing Standards</h2>
-  <p>All cards rendered within this tool adhere strictly to standard ISO/IEC 7810 ID-1 plastic card sizing guidelines (85.60 mm x 53.98 mm / 3.375" x 2.125"). Output rendering engines capture cards at 4x canvas scaling to deliver crisp 300 DPI image assets appropriate for professional card printers (Evolis, Zebra, Fargo, Magicard) or offset printing workflows.</p>
-
-  <h2>15 Frequently Asked Questions (FAQs)</h2>
+  <h2>Frequently Asked Questions (FAQs)</h2>
   
   <div class="faq-grid">
     <div class="faq-item">
-      <div class="faq-question">Why does my CSV file fail to read student roll numbers properly?</div>
-      <div class="faq-answer">This usually occurs due to hidden UTF-8 BOM characters generated by Microsoft Excel. Our integrated parser automatically strips BOM characters (<code>\ufeff</code>) to ensure clean data binding.</div>
+      <div class="faq-question">How are photos matched in bulk mode?</div>
+      <div class="faq-answer">Ensure student photo filenames match their respective Roll Numbers in your CSV dataset (e.g., Roll <code>1024</code> matches photo file <code>1024.jpg</code>).</div>
     </div>
 
     <div class="faq-item">
-      <div class="faq-question">How should photo files be named for bulk auto-matching?</div>
-      <div class="faq-answer">Name each photo file to match the student's Roll Number exactly (e.g., Roll number <code>1024</code> should have photo name <code>1024.jpg</code> or <code>1024.png</code>).</div>
+      <div class="faq-question">Is this tool mobile friendly?</div>
+      <div class="faq-answer">Yes! The user interface and live card previews automatically scale to fit mobile phone screens without breaking layout structures.</div>
     </div>
 
     <div class="faq-item">
-      <div class="faq-question">What is Mirror Print and when should I enable it?</div>
-      <div class="faq-answer">Mirror Print flips preview images horizontally. Enable this option when printing on transparent PVC film or Dragon sheet paper designed for thermal lamination presses.</div>
+      <div class="faq-question">Are my uploaded files secure?</div>
+      <div class="faq-answer">All processing occurs locally inside your web browser. No student data or photos are uploaded to any external server.</div>
     </div>
 
     <div class="faq-item">
-      <div class="faq-question">Are uploaded student records stored on any server?</div>
-      <div class="faq-answer">No. Enterprise ID Studio Pro runs entirely inside your client web browser (Client-Side JS). No data, photos, or CSV records are transmitted to external servers.</div>
-    </div>
-
-    <div class="faq-item">
-      <div class="faq-question">Can I export high-resolution individual PNG images in bulk?</div>
-      <div class="faq-answer">Yes, clicking 'Download ZIP' processes all records in the CSV file and compresses both front and back card images into a structured 300DPI ZIP file.</div>
-    </div>
-
-    <div class="faq-item">
-      <div class="faq-question">How many ID cards fit on a single A4 print sheet?</div>
-      <div class="faq-answer">The built-in print grid formats exactly 8 ID card faces (4 dual-sided pairs) per A4 sheet with proper margin spacing for manual or machine cutting.</div>
-    </div>
-
-    <div class="faq-item">
-      <div class="faq-question">Which barcode encoding format is used?</div>
-      <div class="faq-answer">We utilize standard CODE128 barcode encoding, readable by all standard laser and CCD barcode scanners.</div>
-    </div>
-
-    <div class="faq-item">
-      <div class="faq-question">What information is embedded in the QR Code?</div>
-      <div class="faq-answer">The generated QR code encapsulates critical verification fields including Roll ID, Student Name, and Emergency Contact details for instant verification.</div>
-    </div>
-
-    <div class="faq-item">
-      <div class="faq-question">What image formats are supported for logos and signatures?</div>
-      <div class="faq-answer">You can upload PNG, JPG, WEBP, or SVG graphics. Transparent PNG files are recommended for cleaner logo and signature overlays.</div>
-    </div>
-
-    <div class="faq-item">
-      <div class="faq-question">Can I use mobile browsers to generate bulk ID cards?</div>
-      <div class="faq-answer">Yes. Mobile file-type restrictions have been removed from file pickers, enabling full functionality across iOS Safari and Android Chrome.</div>
-    </div>
-
-    <div class="faq-item">
-      <div class="faq-question">Why are text details on the ID card truncated or overlapping?</div>
-      <div class="faq-answer">Ensure fields like addresses or custom rules are concise. Card dimensions follow standard CR80 physical sizes, so excessive text length should be managed via smaller font adjustments.</div>
-    </div>
-
-    <div class="faq-item">
-      <div class="faq-question">Is internet access required to generate ID cards?</div>
-      <div class="faq-answer">An internet connection is required initially to load external helper libraries via CDN. Once loaded, card generation functions locally.</div>
-    </div>
-
-    <div class="faq-item">
-      <div class="faq-question">Does this tool support employee badges or visitor passes?</div>
-      <div class="faq-answer">Yes, simply replace student field labels with employee information in the CSV file.</div>
-    </div>
-
-    <div class="faq-item">
-      <div class="faq-question">What thermal card printers are compatible with these downloads?</div>
-      <div class="faq-answer">Generated PNGs can be imported directly into standard thermal card printing software including Zebra Card Studio, Fargo Asure ID, and Evolis Premium Suite.</div>
-    </div>
-
-    <div class="faq-item">
-      <div class="faq-question">Is there a limit on how many CSV rows can be processed in bulk?</div>
-      <div class="faq-answer">There is no software restriction. Performance depends on system RAM and browser memory processing capability.</div>
+      <div class="faq-question">What card printers are supported?</div>
+      <div class="faq-answer">The downloaded 300DPI PNG files are fully compatible with thermal card printers from Zebra, Evolis, Fargo, and standard desktop inkjet PVC printing trays.</div>
     </div>
   </div>
 
-  <!-- COPYRIGHT INFRINGEMENT & LEGAL NOTICE -->
   <div class="legal-warning">
-    <h3 style="margin-bottom: 8px; color: #dc2626; font-size: 1.1rem; font-weight: 800;">Legal Warning & Copyright Infringement Notice</h3>
-    <p><strong>Unauthorized Reproduction Prohibited:</strong> Enterprise ID Studio Pro is intended exclusively for authorized educational administrative staff and legitimate print vendors. Generating fraudulent identity cards, replicating official government seals, or imitating security credentials without express written permission constitutes identity fraud and copyright infringement under applicable national and international legislation.</p>
-    <p>Users accept full legal responsibility for all graphic elements, trademarks, logos, and personal data processed through this platform.</p>
+    <h3 style="margin-bottom: 6px; color: #dc2626; font-size: 1rem; font-weight: 800;">Legal Warning & Copyright Notice</h3>
+    <p>Enterprise ID Studio Pro is intended exclusively for authorized educational staff and verified printing institutions. Unauthorized creation of fraudulent credentials or misuse of institutional trademarks is strictly prohibited.</p>
   </div>
 </div>
 
@@ -577,9 +542,9 @@ document.addEventListener("DOMContentLoaded", function() {
   });
 
   document.getElementById('mirrorPrint').addEventListener('change', function() {
-    const transformVal = this.checked ? "scaleX(-1)" : "none";
-    document.getElementById('card-front').style.transform = transformVal;
-    document.getElementById('card-back').style.transform = transformVal;
+    const mirrorVal = this.checked ? "scaleX(-1)" : "none";
+    document.getElementById('card-front').style.transform = `translateX(-50%) ${mirrorVal}`;
+    document.getElementById('card-back').style.transform = `translateX(-50%) ${mirrorVal}`;
   });
 
   document.getElementById('codeTypeSelect').addEventListener('change', updateCodes);
@@ -740,7 +705,7 @@ async function generateBulkCards() {
       const canvasBack = await html2canvas(document.getElementById("card-back"), { scale: 4, useCORS: true });
       zip.file(`${getStudentVal(students[i], ['Roll', 'roll', 'Roll No', 'RollNo']) || i+1}_Back.png`, canvasBack.toDataURL("image/png").split(',')[1], { base64: true });
 
-      progressText.innerText = `Generating Dual Cards: ${i + 1} / ${students.length}...`;
+      progressText.innerText = `Generating Cards: ${i + 1} / ${students.length}...`;
     }
 
     progressText.innerText = "Compressing into ZIP file...";
