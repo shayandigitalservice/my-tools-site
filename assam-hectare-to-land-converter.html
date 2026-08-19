@@ -1386,13 +1386,12 @@ input:checked + .slider:before {
         sortToolsBySavedState();
     });
 
-    // Dynamic Sorting: Selected State ke tools ko top par pin karna
+    // Dynamic Sorting: Selected State ke tools ko top par pin karna (Fixed & Robust)
     function sortToolsBySavedState() {
         const userState = localStorage.getItem('shayan_user_state');
         if (!userState) return;
 
-        // Har ek grid container ke andar ke cards ko sort karein
-        const gridContainers = document.querySelectorAll('.grid');
+        const gridContainers = document.querySelectorAll('.container .grid');
         gridContainers.forEach(container => {
             const cards = Array.from(container.querySelectorAll('.btn'));
             
@@ -1695,7 +1694,7 @@ input:checked + .slider:before {
         window.location.href = url;
     }
 
-    // 7. Settings Actions & Preferences Functions
+    // 7. Settings Actions & Preferences Functions (Fixed Bindings)
     function toggleSettingsModal() {
         const settingsTabBtn = document.querySelectorAll('.nav-bar-item')[3];
         if(settingsTabBtn) {
@@ -1703,76 +1702,22 @@ input:checked + .slider:before {
         }
     }
 
-    // State Save aur Turant Pin/Sort karne ka direct function
-function saveUserState(stateVal) {
-    localStorage.setItem('shayan_user_state', stateVal);
-    
-    // Turant home screen ke tools ko re-order kar dein
-    const userState = stateVal;
-    if (userState) {
-        const gridContainers = document.querySelectorAll('.container .grid');
-        gridContainers.forEach(container => {
-            const cards = Array.from(container.querySelectorAll('.btn'));
-            cards.sort((a, b) => {
-                const aText = a.innerText.toLowerCase();
-                const bText = b.innerText.toLowerCase();
-                const stateKey = userState.toLowerCase();
-                const aMatches = aText.includes(stateKey);
-                const bMatches = bText.includes(stateKey);
-                return (aMatches === bMatches) ? 0 : aMatches ? -1 : 1;
-            });
-            cards.forEach(card => container.appendChild(card));
-        });
+    function saveUserState(stateVal) {
+        localStorage.setItem('shayan_user_state', stateVal);
+        sortToolsBySavedState();
+        alert('State preference saved: ' + (stateVal || 'None') + '. Matching tools pinned to top!');
     }
 
-    alert('State preference saved: ' + (stateVal || 'None') + '. Tools pinned to top!');
-}
-
-// Dark Mode Toggle Direct Function
-function toggleThemeMode(checkbox) {
-    if (checkbox.checked) {
-        localStorage.setItem('shayan_theme', 'dark');
-        document.body.classList.add('dark-mode');
-    } else {
-        localStorage.setItem('shayan_theme', 'light');
-        document.body.classList.remove('dark-mode');
+    function toggleThemeMode(checkbox) {
+        if(checkbox.checked) {
+            localStorage.setItem('shayan_theme', 'dark');
+            document.body.classList.add('dark-mode');
+        } else {
+            localStorage.setItem('shayan_theme', 'light');
+            document.body.classList.remove('dark-mode');
+        }
     }
-}
 
-// Page load par theme aur state apply karne ke liye
-document.addEventListener('DOMContentLoaded', () => {
-    // 1. Theme check
-    if (localStorage.getItem('shayan_theme') === 'dark') {
-        document.body.classList.add('dark-mode');
-    }
-    // 2. State sorting check
-    const userState = localStorage.getItem('shayan_user_state');
-    if (userState) {
-        setTimeout(() => { sortToolsBySavedState(); }, 200);
-    }
-});
-
-function sortToolsBySavedState() {
-    const userState = localStorage.getItem('shayan_user_state');
-    if (!userState) return;
-
-    const gridContainers = document.querySelectorAll('.container .grid');
-    gridContainers.forEach(container => {
-        const cards = Array.from(container.querySelectorAll('.btn'));
-        cards.sort((a, b) => {
-            const aText = a.innerText.toLowerCase();
-            const bText = b.innerText.toLowerCase();
-            const stateKey = userState.toLowerCase();
-            const aMatches = aText.includes(stateKey);
-            const bMatches = bText.includes(stateKey);
-            return (aMatches === bMatches) ? 0 : aMatches ? -1 : 1;
-        });
-        cards.forEach(card => container.appendChild(card));
-    });
-}
-
-
-    
     function clearLocalStorageData() {
         if(confirm('Are you sure you want to wipe all local portal data?')) {
             localStorage.removeItem('shayan_favorites');
