@@ -1039,7 +1039,59 @@ body {
         }, 1200);
     }, 3000); 
 
-    // Updated Tab Switching Logic with proper scroll positioning
+    // 1. Har ek tool card par star insert karne ka common function
+function initializeToolStars() {
+    const allToolCards = document.querySelectorAll('.grid .btn');
+    
+    allToolCards.forEach(card => {
+        const toolUrl = card.getAttribute('href');
+        if (!toolUrl) return;
+
+        // Agar star button pehle se nahi hai, tabhi add karein
+        if (!card.querySelector('.tool-star-btn')) {
+            const starBtn = document.createElement('button');
+            starBtn.className = 'tool-star-btn';
+            starBtn.innerHTML = '<i class="fa-solid fa-star"></i>';
+            
+            // Check karein ki ye tool pehle se favorite hai ya nahi
+            let favorites = JSON.parse(localStorage.getItem('shayan_favorites')) || [];
+            if (favorites.includes(toolUrl)) {
+                starBtn.classList.add('active');
+            }
+
+            // Star click event
+            starBtn.onclick = (e) => {
+                e.preventDefault(); 
+                e.stopPropagation();
+                toggleFavoriteTool(toolUrl, starBtn);
+            };
+
+            card.appendChild(starBtn);
+        }
+    });
+}
+
+// 2. Page load hote hi stars initialize karein
+document.addEventListener('DOMContentLoaded', () => {
+    initializeToolStars();
+});
+
+// 3. Add/Remove tool from LocalStorage Favorites
+function toggleFavoriteTool(url, buttonElement) {
+    let favorites = JSON.parse(localStorage.getItem('shayan_favorites')) || [];
+    
+    if (favorites.includes(url)) {
+        favorites = favorites.filter(item => item !== url);
+        buttonElement.classList.remove('active');
+    } else {
+        favorites.push(url);
+        buttonElement.classList.add('active');
+    }
+    
+    localStorage.setItem('shayan_favorites', JSON.stringify(favorites));
+}
+
+// 4. Tab Switching Logic (Home / Favorites)
 function switchNavTab(element, tabName) {
     document.querySelectorAll('.nav-bar-item').forEach(item => item.classList.remove('active'));
     element.classList.add('active');
@@ -1049,31 +1101,32 @@ function switchNavTab(element, tabName) {
     const featuresHeading = document.querySelector('.our-features-center');
     const seoEngine = document.querySelector('.fluid-seo-engine');
 
-    // Remove existing dynamic favorites container if present
+    // Purana dynamic view agar hai toh hata dein
     let favContainerView = document.getElementById('dynamic-favorites-view');
     if (favContainerView) favContainerView.remove();
 
     if(tabName === 'home') {
-        // Show normal homepage views
+        // Home sections wapas dikhayein
         if(heroSection) heroSection.style.display = 'flex';
         if(featuresHeading) featuresHeading.style.display = 'inline-block';
         if(mainContainer) mainContainer.style.display = 'block';
         if(seoEngine) seoEngine.style.display = 'block';
+        
+        // Home aane par stars dobara ensure karein
+        initializeToolStars();
         window.scrollTo({ top: 0, behavior: 'smooth' });
 
     } else if(tabName === 'favorites') {
-        // Hide normal homepage sections to show ONLY favorite tools
+        // Home sections hide karein
         if(heroSection) heroSection.style.display = 'none';
         if(featuresHeading) featuresHeading.style.display = 'none';
         if(mainContainer) mainContainer.style.display = 'none';
         if(seoEngine) seoEngine.style.display = 'none';
 
-        // Create Favorite Tools View Area
+        // Favorite Tools View Area banayein
         favContainerView = document.createElement('div');
         favContainerView.id = 'dynamic-favorites-view';
         favContainerView.className = 'favorites-view-container';
-        
-        // Top margin add ki hai taaki header ke sath overlap na ho
         favContainerView.style.marginTop = '90px'; 
 
         let headingBox = document.createElement('div');
@@ -1093,7 +1146,7 @@ function switchNavTab(element, tabName) {
             favContainerView.appendChild(emptyMsg);
         } else {
             favorites.forEach(favUrl => {
-                const originalCard = document.querySelector(`.grid .btn[href="${favUrl}"]`);
+                const originalCard = document.querySelector(`.container .grid .btn[href="${favUrl}"]`);
                 if (originalCard) {
                     const clonedCard = originalCard.cloneNode(true);
                     
@@ -1104,7 +1157,7 @@ function switchNavTab(element, tabName) {
                             e.preventDefault();
                             e.stopPropagation();
                             toggleFavoriteTool(favUrl, clonedStar);
-                            switchNavTab(element, 'favorites');
+                            switchNavTab(element, 'favorites'); // Refresh view
                         };
                     }
                     gridBox.appendChild(clonedCard);
@@ -1117,7 +1170,6 @@ function switchNavTab(element, tabName) {
         window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 }
-
 
 </script>
 
