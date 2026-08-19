@@ -1368,16 +1368,18 @@ input:checked + .slider:before {
         });
     }
 
-    // 2. Page load hote hi Theme, State Sorting aur Stars initialize karein
+    // 2. Page load hote hi Theme aur State Sorting initialize karein
     document.addEventListener('DOMContentLoaded', () => {
         initializeToolStars();
         
-        // Apply saved theme on load
+        // Apply saved theme instantly on load
         if (localStorage.getItem('shayan_theme') === 'dark') {
             document.body.classList.add('dark-mode');
+        } else {
+            document.body.classList.remove('dark-mode');
         }
 
-        // Apply state sorting on load if selected
+        // Apply state sorting on load
         sortToolsBySavedState();
     });
 
@@ -1386,6 +1388,7 @@ input:checked + .slider:before {
         const userState = localStorage.getItem('shayan_user_state');
         if (!userState) return;
 
+        // Har ek grid container ke andar ke cards ko sort karein
         const gridContainers = document.querySelectorAll('.grid');
         gridContainers.forEach(container => {
             const cards = Array.from(container.querySelectorAll('.btn'));
@@ -1634,7 +1637,7 @@ input:checked + .slider:before {
                     </div>
                 </div>
 
-                <!-- 3. Quick Feedback Card (Updated Email) -->
+                <!-- 3. Quick Feedback Card -->
                 <div class="setting-card">
                     <div class="setting-card-title"><i class="fa-solid fa-headset"></i> Support & Community Feedback</div>
                     <div class="setting-row" style="border-bottom:none;">
@@ -1650,7 +1653,7 @@ input:checked + .slider:before {
                     </div>
                 </div>
 
-                <!-- 4. Data Management Card (Clear All Data) -->
+                <!-- 4. Data Management Card -->
                 <div class="setting-card" style="border-color: #fecdca;">
                     <div class="setting-card-title" style="color: #d92d20;"><i class="fa-solid fa-triangle-exclamation" style="color:#d92d20;"></i> Data Storage Management</div>
                     <div class="setting-row" style="border-bottom:none;">
@@ -1675,7 +1678,7 @@ input:checked + .slider:before {
 
     // 5. Clear Detailed History function
     function clearDetailedHistory() {
-        if(confirm('Are yousure you want to clear all calculation history?')) {
+        if(confirm('Are you sure you want to clear all calculation history?')) {
             localStorage.removeItem('shayan_detailed_history');
             const historyTab = document.querySelectorAll('.nav-bar-item')[2];
             if(historyTab) switchNavTab(historyTab, 'history');
@@ -1699,9 +1702,8 @@ input:checked + .slider:before {
 
     function saveUserState(stateVal) {
         localStorage.setItem('shayan_user_state', stateVal);
-        alert('State preference saved: ' + (stateVal || 'None'));
         sortToolsBySavedState();
-        location.reload();
+        alert('State preference saved: ' + (stateVal || 'None') + '. Matching tools pinned to top!');
     }
 
     function toggleThemeMode(checkbox) {
