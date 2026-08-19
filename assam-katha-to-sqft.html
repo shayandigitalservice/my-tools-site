@@ -871,7 +871,21 @@
             let t = encodeURIComponent(`Assam Land Conversion Result:\nInput: ${document.getElementById('kathaInput').value} Katha\nSq Ft: ${document.getElementById('resSqft').innerText}\nCheck details via Shayan Smart Tools`);
             window.open("https://wa.me/?text=" + t);
         }
-    </script>
+    // Page load hote hi check karein ki kya history se re-calculate ke liye data aaya hai
+window.addEventListener('DOMContentLoaded', () => {
+    const savedInput = localStorage.getItem('shayan_recalc_input');
+    if (savedInput) {
+        const inputField = document.getElementById('kathaInput');
+        if (inputField) {
+            inputField.value = savedInput;
+            // Automatic calculate bhi kar sakte hain ya sirf value fill kar sakte hain
+            calculateAssamSqft(); 
+        }
+        // Ek baar use hone ke baad clear kar dein taaki fresh open par problem na ho
+        localStorage.removeItem('shayan_recalc_input');
+    }
+});
+
 
     </script>
 </body>
