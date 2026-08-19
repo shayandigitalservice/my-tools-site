@@ -537,6 +537,50 @@ body {
     font-size: 13.5px;
     cursor: pointer;
 }
+/* Tool Card Corner Star Button */
+.btn {
+    position: relative; /* zaroori hai absolute star positioning ke liye */
+}
+.tool-star-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: #f0fbff;
+    border: 1px solid rgba(69, 202, 253, 0.3);
+    color: #98a2b3;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 13px;
+    z-index: 10;
+    transition: all 0.2s ease;
+}
+.tool-star-btn:hover {
+    transform: scale(1.1);
+}
+.tool-star-btn.active {
+    color: #f59e0b; /* Golden star color */
+    background: #fef3c7;
+    border-color: #f59e0b;
+}
+
+/* Favorite View Mode Container */
+.favorites-view-container {
+    max-width: 900px;
+    margin: 30px auto;
+    padding: 0 20px;
+    min-height: 400px;
+}
+.favorites-empty-msg {
+    text-align: center;
+    color: #667085;
+    font-size: 16px;
+    margin-top: 50px;
+}
 
     </style>
 </head>
@@ -994,54 +1038,133 @@ body {
             document.querySelectorAll('.slide.exit').forEach(el => el.classList.remove('exit'));
         }, 1200);
     }, 3000); 
-    // Tab Switching and Active Class Handler
+// 1. Har ek tool card ko ek unique identifier (uska href link) dete hain aur corner par Star insert karte hain
+document.addEventListener('DOMContentLoaded', () => {
+    const allToolCards = document.querySelectorAll('.grid .btn');
+    
+    allToolCards.forEach(card => {
+        const toolUrl = card.getAttribute('href');
+        if (!toolUrl) return;
+
+        // Check if star button already exists to avoid duplication
+        if (!card.querySelector('.tool-star-btn')) {
+            const starBtn = document.createElement('button');
+            starBtn.className = 'tool-star-btn';
+            starBtn.innerHTML = '<i class="fa-solid fa-star"></i>';
+            
+            // Check initial favorite state from localStorage
+            let favorites = JSON.parse(localStorage.getItem('shayan_favorites')) || [];
+            if (favorites.includes(toolUrl)) {
+                starBtn.classList.add('active');
+            }
+
+            // Star click event
+            starBtn.onclick = (e) => {
+                e.preventDefault(); // Prevent opening the tool link
+                e.stopPropagation();
+                toggleFavoriteTool(toolUrl, starBtn);
+            };
+
+            card.appendChild(starBtn);
+        }
+    });
+});
+
+// 2. Add/Remove tool from LocalStorage Favorites
+function toggleFavoriteTool(url, buttonElement) {
+    let favorites = JSON.parse(localStorage.getItem('shayan_favorites')) || [];
+    
+    if (favorites.includes(url)) {
+        // Remove from favorites
+        favorites = favorites.filter(item => item !== url);
+        buttonElement.classList.remove('active');
+    } else {
+        // Add to favorites
+        favorites.push(url);
+        buttonElement.classList.add('active');
+    }
+    
+    localStorage.setItem('shayan_favorites', JSON.stringify(favorites));
+}
+
+// 3. Updated Tab Switching Logic for Favorites View
 function switchNavTab(element, tabName) {
     document.querySelectorAll('.nav-bar-item').forEach(item => item.classList.remove('active'));
     element.classList.add('active');
 
+    const mainContainer = document.querySelector('.container');
+    const heroSection = document.getElementById('hero-slider');
+    const featuresHeading = document.querySelector('.our-features-center');
+    const seoEngine = document.querySelector('.fluid-seo-engine');
+
+    // Remove existing dynamic favorites container if present
+    let favContainerView = document.getElementById('dynamic-favorites-view');
+    if (favContainerView) favContainerView.remove();
+
     if(tabName === 'home') {
+        // Show normal homepage views
+        if(heroSection) heroSection.style.display = 'flex';
+        if(featuresHeading) featuresHeading.style.display = 'inline-block';
+        if(mainContainer) mainContainer.style.display = 'block';
+        if(seoEngine) seoEngine.style.display = 'block';
         window.scrollTo({ top: 0, behavior: 'smooth' });
+
     } else if(tabName === 'favorites') {
-        alert("Favorite tools feature: Clicked tools will appear here (Saved in LocalStorage).");
-    } else if(tabName === 'history') {
-        alert("History feature: Your recently visited tools will appear here.");
+        // Hide normal homepage sections to show ONLY favorite tools
+        if(heroSection) heroSection.style.display = 'none';
+        if(featuresHeading) featuresHeading.style.display = 'none';
+        if(mainContainer) mainContainer.style.display = 'none';
+        if(seoEngine) seoEngine.style.display = 'none';
+
+        // Create Favorite Tools View Area
+        favContainerView = document.createElement('div');
+        favContainerView.id = 'dynamic-favorites-view';
+        favContainerView.className = 'favorites-view-container';
+
+        let headingBox = document.createElement('div');
+        headingBox.className = 'premium-heading-box';
+        headingBox.innerHTML = `<div class="premium-heading"><i class="fa-solid fa-star" style="color:#f59e0b;"></i> Your Favorite Tools</div>`;
+        favContainerView.appendChild(headingBox);
+
+        let gridBox = document.createElement('div');
+        gridBox.className = 'grid';
+
+        let favorites = JSON.parse(localStorage.getItem('shayan_favorites')) || [];
+
+        if (favorites.length === 0) {
+            let emptyMsg = document.createElement('p');
+            emptyMsg.className = 'favorites-empty-msg';
+            emptyMsg.innerHTML = '<i class="fa-regular fa-face-smile" style="font-size: 24px; display: block; margin-bottom: 10px;"></i>No favorite tools added yet! Click the star icon on any tool card to save it here.';
+            favContainerView.appendChild(emptyMsg);
+        } else {
+            // Find matching tool cards from the document and clone them into the favorite view
+            favorites.forEach(favUrl => {
+                const originalCard = document.querySelector(`.grid .btn[href="${favUrl}"]`);
+                if (originalCard) {
+                    const clonedCard = originalCard.cloneNode(true);
+                    
+                    // Re-attach star functionality on the cloned card
+                    const clonedStar = clonedCard.querySelector('.tool-star-btn');
+                    if(clonedStar) {
+                        clonedStar.classList.add('active');
+                        clonedStar.onclick = (e) => {
+                            e.preventDefault();
+                            e.stopPropagation();
+                            toggleFavoriteTool(favUrl, clonedStar);
+                            // Refresh view instantly
+                            switchNavTab(element, 'favorites');
+                        };
+                    }
+                    gridBox.appendChild(clonedCard);
+                }
+            });
+            favContainerView.appendChild(gridBox);
+        }
+
+        document.body.insertBefore(favContainerView, document.querySelector('footer'));
+        window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 }
-
-// Toggle Settings Modal Visibility
-function toggleSettingsModal() {
-    const modal = document.getElementById('settings-modal-popup');
-    modal.style.display = (modal.style.display === 'flex') ? 'none' : 'flex';
-}
-
-// Save User State Choice in LocalStorage
-function saveUserState(stateVal) {
-    if(stateVal) {
-        localStorage.setItem('shayan_user_state', stateVal);
-        alert('State preference saved: ' + stateVal + '. Tools will sort accordingly!');
-        location.reload(); // Refresh to apply sorting filter
-    }
-}
-
-// Clear Saved History and Favorites
-function clearLocalStorageData() {
-    if(confirm('Are you sure you want to clear saved history and favorites?')) {
-        localStorage.removeItem('shayan_favorites');
-        localStorage.removeItem('shayan_history');
-        localStorage.removeItem('shayan_user_state');
-        alert('All local navigation data cleared successfully.');
-        location.reload();
-    }
-}
-
-// On page load, auto-select saved state if present
-window.addEventListener('DOMContentLoaded', () => {
-    const savedState = localStorage.getItem('shayan_user_state');
-    if(savedState) {
-        const selector = document.getElementById('userStateSelector');
-        if(selector) selector.value = savedState;
-    }
-});
 
 </script>
 
