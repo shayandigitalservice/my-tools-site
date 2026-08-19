@@ -1267,7 +1267,7 @@ function switchNavTab(element, tabName) {
             clearBtnWrapper.innerHTML = `<button class="btn-clear-history" onclick="clearDetailedHistory()"><i class="fa-solid fa-trash-can"></i> Clear History</button>`;
             historyContainerView.appendChild(clearBtnWrapper);
 
-            historyList.forEach(item => {
+                        historyList.forEach(item => {
                 let card = document.createElement('div');
                 card.className = 'detailed-history-card';
                 card.innerHTML = `
@@ -1280,16 +1280,25 @@ function switchNavTab(element, tabName) {
                         <div class="dh-data-box" style="background: #f0fbff; border-color: rgba(69,202,253,0.3);">Output: <span style="color:#0284c7;">${item.result}</span></div>
                     </div>
                     <div class="dh-actions">
-                        <a href="${item.url}" class="btn-recalculate"><i class="fa-solid fa-rotate-right"></i> Re-Calculate / Modify</a>
+                        <button class="btn-recalculate" onclick="recalculateTool('${item.url}', '${item.rawInput || item.inputs}')">
+                            <i class="fa-solid fa-rotate-right"></i> Re-Calculate / Modify
+                        </button>
                     </div>
                 `;
                 historyContainerView.appendChild(card);
             });
+
         }
 
         document.body.insertBefore(historyContainerView, document.querySelector('footer'));
         window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
+    
+}
+function recalculateTool(url, inputValue) {
+    // Input value se sirf number nikal lein (jaise "5 Katha" se "5")
+    let cleanVal = inputValue.replace(/[^0-9.]/g, '');
+    localStorage.setItem('shayan_recalc_input', cleanVal);
+    window.location.href = url;
 }
 
 
