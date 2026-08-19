@@ -1237,7 +1237,6 @@ function switchNavTab(element, tabName) {
 
         document.body.insertBefore(favContainerView, document.querySelector('footer'));
         window.scrollTo({ top: 0, behavior: 'smooth' });
-
     } else if(tabName === 'history') {
         if(heroSection) heroSection.style.display = 'none';
         if(featuresHeading) featuresHeading.style.display = 'none';
@@ -1250,50 +1249,61 @@ function switchNavTab(element, tabName) {
         historyContainerView.style.marginTop = '90px';
 
         let headingBox = document.createElement('div');
-        headingBox.className = 'premium-heading-box'; // <-- Fix: yahan pehle comma (,) tha, ab dot (.) hai
+        headingBox.className = 'premium-heading-box';
         headingBox.innerHTML = `<div class="premium-heading"><i class="fa-solid fa-clock-rotate-left" style="color:#0284c7;"></i> Calculation History</div>`;
         historyContainerView.appendChild(headingBox);
 
-        let historyList = JSON.parse(localStorage.getItem('shayan_detailed_history')) || [];
+        // Safe rendering with Error Handling (Crash rokne ke liye)
+        try {
+            let historyList = JSON.parse(localStorage.getItem('shayan_detailed_history')) || [];
 
-        if (historyList.length === 0) {
-            let emptyMsg = document.createElement('p');
-            emptyMsg.className = 'history-empty-msg';
-            emptyMsg.innerHTML = '<i class="fa-regular fa-folder-open" style="font-size: 28px; display: block; margin-bottom: 10px;"></i>No calculation history found! Use any calculator to save logs here.';
-            historyContainerView.appendChild(emptyMsg);
-        } else {
-            let clearBtnWrapper = document.createElement('div');
-            clearBtnWrapper.style.textAlign = 'right';
-            clearBtnWrapper.innerHTML = `<button class="btn-clear-history" onclick="clearDetailedHistory()"><i class="fa-solid fa-trash-can"></i> Clear History</button>`;
-            historyContainerView.appendChild(clearBtnWrapper);
+            if (!Array.isArray(historyList) || historyList.length === 0) {
+                let emptyMsg = document.createElement('p');
+                emptyMsg.className = 'history-empty-msg';
+                emptyMsg.innerHTML = '<i class="fa-regular fa-folder-open" style="font-size: 28px; display: block; margin-bottom: 10px;"></i>No calculation history found! Use any calculator to save logs here.';
+                historyContainerView.appendChild(emptyMsg);
+            } else {
+                let clearBtnWrapper = document.createElement('div');
+                clearBtnWrapper.style.textAlign = 'right';
+                clearBtnWrapper.innerHTML = `<button class="btn-clear-history" onclick="clearDetailedHistory()"><i class="fa-solid fa-trash-can"></i> Clear History</button>`;
+                historyContainerView.appendChild(clearBtnWrapper);
 
-                        historyList.forEach(item => {
-                let card = document.createElement('div');
-                card.className = 'detailed-history-card';
-                card.innerHTML = `
-                    <div class="dh-header">
-                        <span class="dh-title"><i class="fa-solid fa-calculator" style="color:#45cafd; margin-right:6px;"></i>${item.name}</span>
-                        <span class="dh-time">${item.time}</span>
-                    </div>
-                    <div class="dh-body">
-                        <div class="dh-data-box">Input: <span>${item.inputs}</span></div>
-                        <div class="dh-data-box" style="background: #f0fbff; border-color: rgba(69,202,253,0.3);">Output: <span style="color:#0284c7;">${item.result}</span></div>
-                    </div>
-                    <div class="dh-actions">
-                        <button class="btn-recalculate" onclick="recalculateTool('${item.url}', '${item.rawInput || item.inputs}')">
-                            <i class="fa-solid fa-rotate-right"></i> Re-Calculate / Modify
-                        </button>
-                    </div>
-                `;
-                historyContainerView.appendChild(card);
-            });
-
+                historyList.forEach(item => {
+                    let card = document.createElement('div');
+                    card.className = 'detailed-history-card';
+                    card.innerHTML = `
+                        <div class="dh-header">
+                            <span class="dh-title"><i class="fa-solid fa-calculator" style="color:#45cafd; margin-right:6px;"></i>${item.name || 'Tool'}</span>
+                            <span class="dh-time">${item.time || 'Recent'}</span>
+                        </div>
+                        <div class="dh-body">
+                            <div class="dh-data-box">Input: <span>${item.inputs || '--'}</span></div>
+                            <div class="dh-data-box" style="background: #f0fbff; border-color: rgba(69,202,253,0.3);">Output: <span style="color:#0284c7;">${item.result || '--'}</span></div>
+                        </div>
+                        <div class="dh-actions">
+                            <button class="btn-recalculate" onclick="recalculateTool('${item.url || 'index.html'}', '${item.inputs || ''}')">
+                                <i class="fa-solid fa-rotate-right"></i> Re-Calculate / Modify
+                            </button>
+                        </div>
+                    `;
+                    historyContainerView.appendChild(card);
+                });
+            }
+        } catch (err) {
+            console.error("History load error:", err);
+            // Agar purana data kharab hai toh localStorage clear kar dega taaki app crash na ho
+            localStorage.removeItem('shayan_detailed_history');
+            let errorMsg = document.createElement('p');
+            errorMsg.className = 'history-empty-msg';
+            errorMsg.innerHTML = 'History data was corrupted and has been reset. Please use a calculator again.';
+            historyContainerView.appendChild(errorMsg);
         }
 
         document.body.insertBefore(historyContainerView, document.querySelector('footer'));
         window.scrollTo({ top: 0, behavior: 'smooth' });
-    
-}
+    }
+
+
 function recalculateTool(url, inputValue) {
     // Input value se sirf number nikal lein (jaise "5 Katha" se "5")
     let cleanVal = inputValue.replace(/[^0-9.]/g, '');
