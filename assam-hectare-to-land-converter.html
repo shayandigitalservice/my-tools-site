@@ -1063,255 +1063,269 @@ body {
     // View More Tools Toggle Logic
     const moreBtn = document.getElementById('moreToolsBtn');
     const hiddenSection = document.getElementById('hidden-tools');
-    moreBtn.onclick = () => {
-        if(hiddenSection.style.display === "block") {
-            hiddenSection.style.display = "none";
-            moreBtn.innerText = "View All 50+ Tools ↓";
-        } else {
-            hiddenSection.style.display = "block";
-            moreBtn.innerText = "Show Less Tools ↑";
-        }
-    };
+    if(moreBtn && hiddenSection) {
+        moreBtn.onclick = () => {
+            if(hiddenSection.style.display === "block") {
+                hiddenSection.style.display = "none";
+                moreBtn.innerText = "View All 50+ Tools ↓";
+            } else {
+                hiddenSection.style.display = "block";
+                moreBtn.innerText = "Show Less Tools ↑";
+                initializeToolStars();
+            }
+        };
+    }
 
     // Mobile Navigation Drawer Toggle
     const menuBtn = document.getElementById('mobile-menu');
     const navList = document.getElementById('nav-list');
-    menuBtn.onclick = () => {
-        navList.classList.toggle('active');
-        menuBtn.querySelector('i').classList.toggle('fa-bars');
-        menuBtn.querySelector('i').classList.toggle('fa-xmark');
-    };
+    if(menuBtn && navList) {
+        menuBtn.onclick = () => {
+            navList.classList.toggle('active');
+            menuBtn.querySelector('i').classList.toggle('fa-bars');
+            menuBtn.querySelector('i').classList.toggle('fa-xmark');
+        };
+    }
 
     // Real-Time High Performance Local Filter Search Engine
     const toolSearch = document.getElementById('toolSearch');
-    const allCards = document.querySelectorAll('.btn');
-    toolSearch.addEventListener('keyup', () => {
-        let val = toolSearch.value.toLowerCase();
-        if(val.length > 0) hiddenSection.style.display = "block";
-        allCards.forEach(c => {
-            c.style.display = c.innerText.toLowerCase().includes(val) ? "flex" : "none";
+    if(toolSearch) {
+        toolSearch.addEventListener('keyup', () => {
+            let val = toolSearch.value.toLowerCase();
+            if(val.length > 0 && hiddenSection) hiddenSection.style.display = "block";
+            const allCards = document.querySelectorAll('.grid .btn');
+            allCards.forEach(c => {
+                c.style.display = c.innerText.toLowerCase().includes(val) ? "flex" : "none";
+            });
         });
-    });
+    }
 
     // Hero Slider
     setInterval(() => {
         const slides = document.querySelectorAll('.slide');
-        let current = [...slides].findIndex(s => s.classList.contains('active'));
-        
-        slides[current].classList.remove('active');
-        slides[current].classList.add('exit');
-        
-        let next = (current + 1) % slides.length;
-        slides[next].classList.remove('exit');
-        slides[next].classList.add('active');
-        
-        setTimeout(() => {
-            document.querySelectorAll('.slide.exit').forEach(el => el.classList.remove('exit'));
-        }, 1200);
+        if(slides.length > 0) {
+            let current = [...slides].findIndex(s => s.classList.contains('active'));
+            if(current !== -1) {
+                slides[current].classList.remove('active');
+                slides[current].classList.add('exit');
+                
+                let next = (current + 1) % slides.length;
+                slides[next].classList.remove('exit');
+                slides[next].classList.add('active');
+                
+                setTimeout(() => {
+                    document.querySelectorAll('.slide.exit').forEach(el => el.classList.remove('exit'));
+                }, 1200);
+            }
+        }
     }, 3000); 
 
     // 1. Har ek tool card par star insert karne ka common function
-function initializeToolStars() {
-    const allToolCards = document.querySelectorAll('.grid .btn');
-    
-    allToolCards.forEach(card => {
-        const toolUrl = card.getAttribute('href');
-        if (!toolUrl) return;
-
-        // Agar star button pehle se nahi hai, tabhi add karein
-        if (!card.querySelector('.tool-star-btn')) {
-            const starBtn = document.createElement('button');
-            starBtn.className = 'tool-star-btn';
-            starBtn.innerHTML = '<i class="fa-solid fa-star"></i>';
-            
-            // Check karein ki ye tool pehle se favorite hai ya nahi
-            let favorites = JSON.parse(localStorage.getItem('shayan_favorites')) || [];
-            if (favorites.includes(toolUrl)) {
-                starBtn.classList.add('active');
-            }
-
-            // Star click event
-            starBtn.onclick = (e) => {
-                e.preventDefault(); 
-                e.stopPropagation();
-                toggleFavoriteTool(toolUrl, starBtn);
-            };
-
-            card.appendChild(starBtn);
-        }
-    });
-}
-
-// 2. Page load hote hi stars initialize karein
-document.addEventListener('DOMContentLoaded', () => {
-    initializeToolStars();
-});
-
-// 3. Add/Remove tool from LocalStorage Favorites
-function toggleFavoriteTool(url, buttonElement) {
-    let favorites = JSON.parse(localStorage.getItem('shayan_favorites')) || [];
-    
-    if (favorites.includes(url)) {
-        favorites = favorites.filter(item => item !== url);
-        buttonElement.classList.remove('active');
-    } else {
-        favorites.push(url);
-        buttonElement.classList.add('active');
-    }
-    
-    localStorage.setItem('shayan_favorites', JSON.stringify(favorites));
-}
-
-// 3. Tab Switching Logic (Home, Favorites, & History)
-function switchNavTab(element, tabName) {
-    document.querySelectorAll('.nav-bar-item').forEach(item => item.classList.remove('active'));
-    element.classList.add('active');
-
-    const mainContainer = document.querySelector('.container');
-    const heroSection = document.getElementById('hero-slider');
-    const featuresHeading = document.querySelector('.our-features-center');
-    const seoEngine = document.querySelector('.fluid-seo-engine');
-
-    // Purane dynamic views remove karein
-    let favContainerView = document.getElementById('dynamic-favorites-view');
-    if (favContainerView) favContainerView.remove();
-    
-    let historyContainerView = document.getElementById('dynamic-history-view');
-    if (historyContainerView) historyContainerView.remove();
-
-    if(tabName === 'home') {
-        if(heroSection) heroSection.style.display = 'flex';
-        if(featuresHeading) featuresHeading.style.display = 'inline-block';
-        if(mainContainer) mainContainer.style.display = 'block';
-        if(seoEngine) seoEngine.style.display = 'block';
+    function initializeToolStars() {
+        const allToolCards = document.querySelectorAll('.grid .btn');
         
-        initializeToolStars();
-        window.scrollTo({ top: 0, behavior: 'smooth' });
+        allToolCards.forEach(card => {
+            const toolUrl = card.getAttribute('href');
+            if (!toolUrl) return;
 
-    } else if(tabName === 'favorites') {
-        if(heroSection) heroSection.style.display = 'none';
-        if(featuresHeading) featuresHeading.style.display = 'none';
-        if(mainContainer) mainContainer.style.display = 'none';
-        if(seoEngine) seoEngine.style.display = 'none';
-
-        favContainerView = document.createElement('div');
-        favContainerView.id = 'dynamic-favorites-view';
-        favContainerView.className = 'favorites-view-container';
-        favContainerView.style.marginTop = '90px'; 
-
-        let headingBox = document.createElement('div');
-        headingBox.className = 'premium-heading-box';
-        headingBox.innerHTML = `<div class="premium-heading"><i class="fa-solid fa-star" style="color:#f59e0b;"></i> Your Favorite Tools</div>`;
-        favContainerView.appendChild(headingBox);
-
-        let gridBox = document.createElement('div');
-        gridBox.className = 'grid';
-
-        let favorites = JSON.parse(localStorage.getItem('shayan_favorites')) || [];
-
-        if (favorites.length === 0) {
-            let emptyMsg = document.createElement('p');
-            emptyMsg.className = 'favorites-empty-msg';
-            emptyMsg.innerHTML = '<i class="fa-regular fa-face-smile" style="font-size: 24px; display: block; margin-bottom: 10px;"></i>No favorite tools added yet! Click the star icon on any tool card.';
-            favContainerView.appendChild(emptyMsg);
-        } else {
-            favorites.forEach(favUrl => {
-                const originalCard = document.querySelector(`.container .grid .btn[href="${favUrl}"]`);
-                if (originalCard) {
-                    const clonedCard = originalCard.cloneNode(true);
-                    const clonedStar = clonedCard.querySelector('.tool-star-btn');
-                    if(clonedStar) {
-                        clonedStar.classList.add('active');
-                        clonedStar.onclick = (e) => {
-                            e.preventDefault();
-                            e.stopPropagation();
-                            toggleFavoriteTool(favUrl, clonedStar);
-                            switchNavTab(element, 'favorites');
-                        };
-                    }
-                    gridBox.appendChild(clonedCard);
+            if (!card.querySelector('.tool-star-btn')) {
+                const starBtn = document.createElement('button');
+                starBtn.className = 'tool-star-btn';
+                starBtn.innerHTML = '<i class="fa-solid fa-star"></i>';
+                
+                let favorites = JSON.parse(localStorage.getItem('shayan_favorites')) || [];
+                if (favorites.includes(toolUrl)) {
+                    starBtn.classList.add('active');
                 }
-            });
-            favContainerView.appendChild(gridBox);
-        }
 
-        document.body.insertBefore(favContainerView, document.querySelector('footer'));
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-    } else if(tabName === 'history') {
-        if(heroSection) heroSection.style.display = 'none';
-        if(featuresHeading) featuresHeading.style.display = 'none';
-        if(mainContainer) mainContainer.style.display = 'none';
-        if(seoEngine) seoEngine.style.display = 'none';
+                starBtn.onclick = (e) => {
+                    e.preventDefault(); 
+                    e.stopPropagation();
+                    toggleFavoriteTool(toolUrl, starBtn);
+                };
 
-        historyContainerView = document.createElement('div');
-        historyContainerView.id = 'dynamic-history-view';
-        historyContainerView.className = 'history-view-container';
-        historyContainerView.style.marginTop = '90px';
-
-        let headingBox = document.createElement('div');
-        headingBox.className = 'premium-heading-box';
-        headingBox.innerHTML = `<div class="premium-heading"><i class="fa-solid fa-clock-rotate-left" style="color:#0284c7;"></i> Calculation History</div>`;
-        historyContainerView.appendChild(headingBox);
-
-        // Safe rendering with Error Handling (Crash rokne ke liye)
-        try {
-            let historyList = JSON.parse(localStorage.getItem('shayan_detailed_history')) || [];
-
-            if (!Array.isArray(historyList) || historyList.length === 0) {
-                let emptyMsg = document.createElement('p');
-                emptyMsg.className = 'history-empty-msg';
-                emptyMsg.innerHTML = '<i class="fa-regular fa-folder-open" style="font-size: 28px; display: block; margin-bottom: 10px;"></i>No calculation history found! Use any calculator to save logs here.';
-                historyContainerView.appendChild(emptyMsg);
-            } else {
-                let clearBtnWrapper = document.createElement('div');
-                clearBtnWrapper.style.textAlign = 'right';
-                clearBtnWrapper.innerHTML = `<button class="btn-clear-history" onclick="clearDetailedHistory()"><i class="fa-solid fa-trash-can"></i> Clear History</button>`;
-                historyContainerView.appendChild(clearBtnWrapper);
-
-                historyList.forEach(item => {
-                    let card = document.createElement('div');
-                    card.className = 'detailed-history-card';
-                    card.innerHTML = `
-                        <div class="dh-header">
-                            <span class="dh-title"><i class="fa-solid fa-calculator" style="color:#45cafd; margin-right:6px;"></i>${item.name || 'Tool'}</span>
-                            <span class="dh-time">${item.time || 'Recent'}</span>
-                        </div>
-                        <div class="dh-body">
-                            <div class="dh-data-box">Input: <span>${item.inputs || '--'}</span></div>
-                            <div class="dh-data-box" style="background: #f0fbff; border-color: rgba(69,202,253,0.3);">Output: <span style="color:#0284c7;">${item.result || '--'}</span></div>
-                        </div>
-                        <div class="dh-actions">
-                            <button class="btn-recalculate" onclick="recalculateTool('${item.url || 'index.html'}', '${item.inputs || ''}')">
-                                <i class="fa-solid fa-rotate-right"></i> Re-Calculate / Modify
-                            </button>
-                        </div>
-                    `;
-                    historyContainerView.appendChild(card);
-                });
+                card.appendChild(starBtn);
             }
-        } catch (err) {
-            console.error("History load error:", err);
-            // Agar purana data kharab hai toh localStorage clear kar dega taaki app crash na ho
-            localStorage.removeItem('shayan_detailed_history');
-            let errorMsg = document.createElement('p');
-            errorMsg.className = 'history-empty-msg';
-            errorMsg.innerHTML = 'History data was corrupted and has been reset. Please use a calculator again.';
-            historyContainerView.appendChild(errorMsg);
-        }
-
-        document.body.insertBefore(historyContainerView, document.querySelector('footer'));
-        window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
     }
 
+    // 2. Page load hote hi stars initialize karein
+    document.addEventListener('DOMContentLoaded', () => {
+        initializeToolStars();
+    });
 
-function recalculateTool(url, inputValue) {
-    // Input value se sirf number nikal lein (jaise "5 Katha" se "5")
-    let cleanVal = inputValue.replace(/[^0-9.]/g, '');
-    localStorage.setItem('shayan_recalc_input', cleanVal);
-    window.location.href = url;
-}
+    // 3. Add/Remove tool from LocalStorage Favorites
+    function toggleFavoriteTool(url, buttonElement) {
+        let favorites = JSON.parse(localStorage.getItem('shayan_favorites')) || [];
+        
+        if (favorites.includes(url)) {
+            favorites = favorites.filter(item => item !== url);
+            buttonElement.classList.remove('active');
+        } else {
+            favorites.push(url);
+            buttonElement.classList.add('active');
+        }
+        
+        localStorage.setItem('shayan_favorites', JSON.stringify(favorites));
+    }
 
+    // 4. Tab Switching Logic (Home, Favorites, & History)
+    function switchNavTab(element, tabName) {
+        document.querySelectorAll('.nav-bar-item').forEach(item => item.classList.remove('active'));
+        element.classList.add('active');
 
+        const mainContainer = document.querySelector('.container');
+        const heroSection = document.getElementById('hero-slider');
+        const featuresHeading = document.querySelector('.our-features-center');
+        const seoEngine = document.querySelector('.fluid-seo-engine');
+
+        // Purane dynamic views remove karein
+        let favContainerView = document.getElementById('dynamic-favorites-view');
+        if (favContainerView) favContainerView.remove();
+        
+        let historyContainerView = document.getElementById('dynamic-history-view');
+        if (historyContainerView) historyContainerView.remove();
+
+        if(tabName === 'home') {
+            if(heroSection) heroSection.style.display = 'flex';
+            if(featuresHeading) featuresHeading.style.display = 'inline-block';
+            if(mainContainer) mainContainer.style.display = 'block';
+            if(seoEngine) seoEngine.style.display = 'block';
+            
+            initializeToolStars();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+
+        } else if(tabName === 'favorites') {
+            if(heroSection) heroSection.style.display = 'none';
+            if(featuresHeading) featuresHeading.style.display = 'none';
+            if(mainContainer) mainContainer.style.display = 'none';
+            if(seoEngine) seoEngine.style.display = 'none';
+
+            favContainerView = document.createElement('div');
+            favContainerView.id = 'dynamic-favorites-view';
+            favContainerView.className = 'favorites-view-container';
+            favContainerView.style.marginTop = '90px'; 
+
+            let headingBox = document.createElement('div');
+            headingBox.className = 'premium-heading-box';
+            headingBox.innerHTML = `<div class="premium-heading"><i class="fa-solid fa-star" style="color:#f59e0b;"></i> Your Favorite Tools</div>`;
+            favContainerView.appendChild(headingBox);
+
+            let gridBox = document.createElement('div');
+            gridBox.className = 'grid';
+
+            let favorites = JSON.parse(localStorage.getItem('shayan_favorites')) || [];
+
+            if (favorites.length === 0) {
+                let emptyMsg = document.createElement('p');
+                emptyMsg.className = 'favorites-empty-msg';
+                emptyMsg.innerHTML = '<i class="fa-regular fa-face-smile" style="font-size: 24px; display: block; margin-bottom: 10px;"></i>No favorite tools added yet! Click the star icon on any tool card.';
+                favContainerView.appendChild(emptyMsg);
+            } else {
+                favorites.forEach(favUrl => {
+                    const originalCard = document.querySelector(`.container .grid .btn[href="${favUrl}"]`);
+                    if (originalCard) {
+                        const clonedCard = originalCard.cloneNode(true);
+                        const clonedStar = clonedCard.querySelector('.tool-star-btn');
+                        if(clonedStar) {
+                            clonedStar.classList.add('active');
+                            clonedStar.onclick = (e) => {
+                                e.preventDefault();
+                                e.stopPropagation();
+                                toggleFavoriteTool(favUrl, clonedStar);
+                                switchNavTab(element, 'favorites');
+                            };
+                        }
+                        gridBox.appendChild(clonedCard);
+                    }
+                });
+                favContainerView.appendChild(gridBox);
+            }
+
+            document.body.insertBefore(favContainerView, document.querySelector('footer'));
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+
+        } else if(tabName === 'history') {
+            if(heroSection) heroSection.style.display = 'none';
+            if(featuresHeading) featuresHeading.style.display = 'none';
+            if(mainContainer) mainContainer.style.display = 'none';
+            if(seoEngine) seoEngine.style.display = 'none';
+
+            historyContainerView = document.createElement('div');
+            historyContainerView.id = 'dynamic-history-view';
+            historyContainerView.className = 'history-view-container';
+            historyContainerView.style.marginTop = '90px';
+
+            let headingBox = document.createElement('div');
+            headingBox.className = 'premium-heading-box';
+            headingBox.innerHTML = `<div class="premium-heading"><i class="fa-solid fa-clock-rotate-left" style="color:#0284c7;"></i> Calculation History</div>`;
+            historyContainerView.appendChild(headingBox);
+
+            // Safe rendering with Error Handling
+            try {
+                let historyList = JSON.parse(localStorage.getItem('shayan_detailed_history')) || [];
+
+                if (!Array.isArray(historyList) || historyList.length === 0) {
+                    let emptyMsg = document.createElement('p');
+                    emptyMsg.className = 'history-empty-msg';
+                    emptyMsg.innerHTML = '<i class="fa-regular fa-folder-open" style="font-size: 28px; display: block; margin-bottom: 10px;"></i>No calculation history found! Use any calculator to save logs here.';
+                    historyContainerView.appendChild(emptyMsg);
+                } else {
+                    let clearBtnWrapper = document.createElement('div');
+                    clearBtnWrapper.style.textAlign = 'right';
+                    clearBtnWrapper.innerHTML = `<button class="btn-clear-history" onclick="clearDetailedHistory()"><i class="fa-solid fa-trash-can"></i> Clear History</button>`;
+                    historyContainerView.appendChild(clearBtnWrapper);
+
+                    historyList.forEach(item => {
+                        let card = document.createElement('div');
+                        card.className = 'detailed-history-card';
+                        card.innerHTML = `
+                            <div class="dh-header">
+                                <span class="dh-title"><i class="fa-solid fa-calculator" style="color:#45cafd; margin-right:6px;"></i>${item.name || 'Tool'}</span>
+                                <span class="dh-time">${item.time || 'Recent'}</span>
+                            </div>
+                            <div class="dh-body">
+                                <div class="dh-data-box">Input: <span>${item.inputs || '--'}</span></div>
+                                <div class="dh-data-box" style="background: #f0fbff; border-color: rgba(69,202,253,0.3);">Output: <span style="color:#0284c7;">${item.result || '--'}</span></div>
+                            </div>
+                            <div class="dh-actions">
+                                <button class="btn-recalculate" onclick="recalculateTool('${item.url || 'index.html'}', '${item.inputs || ''}')">
+                                    <i class="fa-solid fa-rotate-right"></i> Re-Calculate / Modify
+                                </button>
+                            </div>
+                        `;
+                        historyContainerView.appendChild(card);
+                    });
+                }
+            } catch (err) {
+                console.error("History load error:", err);
+                localStorage.removeItem('shayan_detailed_history');
+                let errorMsg = document.createElement('p');
+                errorMsg.className = 'history-empty-msg';
+                errorMsg.innerHTML = 'History data was corrupted and has been reset. Please use a calculator again.';
+                historyContainerView.appendChild(errorMsg);
+            }
+
+            document.body.insertBefore(historyContainerView, document.querySelector('footer'));
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+    }
+
+    // 5. Clear Detailed History function
+    function clearDetailedHistory() {
+        if(confirm('Are you sure you want to clear all calculation history?')) {
+            localStorage.removeItem('shayan_detailed_history');
+            const historyTab = document.querySelector('.nav-bar-item:nth-child(3)');
+            if(historyTab) switchNavTab(historyTab, 'history');
+        }
+    }
+
+    // 6. Recalculate helper function
+    function recalculateTool(url, inputValue) {
+        let cleanVal = inputValue.replace(/[^0-9.]/g, '');
+        localStorage.setItem('shayan_recalc_input', cleanVal);
+        window.location.href = url;
+    }
 </script>
 
 </body>
