@@ -1368,10 +1368,42 @@ input:checked + .slider:before {
         });
     }
 
-    // 2. Page load hote hi stars initialize karein
+    // 2. Page load hote hi Theme, State Sorting aur Stars initialize karein
     document.addEventListener('DOMContentLoaded', () => {
         initializeToolStars();
+        
+        // Apply saved theme on load
+        if (localStorage.getItem('shayan_theme') === 'dark') {
+            document.body.classList.add('dark-mode');
+        }
+
+        // Apply state sorting on load if selected
+        sortToolsBySavedState();
     });
+
+    // Dynamic Sorting: Selected State ke tools ko top par pin karna
+    function sortToolsBySavedState() {
+        const userState = localStorage.getItem('shayan_user_state');
+        if (!userState) return;
+
+        const gridContainers = document.querySelectorAll('.grid');
+        gridContainers.forEach(container => {
+            const cards = Array.from(container.querySelectorAll('.btn'));
+            
+            cards.sort((a, b) => {
+                const aText = a.innerText.toLowerCase();
+                const bText = b.innerText.toLowerCase();
+                const stateKey = userState.toLowerCase();
+
+                const aMatches = aText.includes(stateKey);
+                const bMatches = bText.includes(stateKey);
+
+                return (aMatches === bMatches) ? 0 : aMatches ? -1 : 1;
+            });
+
+            cards.forEach(card => container.appendChild(card));
+        });
+    }
 
     // 3. Add/Remove tool from LocalStorage Favorites
     function toggleFavoriteTool(url, buttonElement) {
@@ -1415,6 +1447,7 @@ input:checked + .slider:before {
             if(seoEngine) seoEngine.style.display = 'block';
             
             initializeToolStars();
+            sortToolsBySavedState();
             window.scrollTo({ top: 0, behavior: 'smooth' });
 
         } else if(tabName === 'favorites') {
@@ -1601,17 +1634,17 @@ input:checked + .slider:before {
                     </div>
                 </div>
 
-                <!-- 3. Quick Feedback Card -->
+                <!-- 3. Quick Feedback Card (Updated Email) -->
                 <div class="setting-card">
                     <div class="setting-card-title"><i class="fa-solid fa-headset"></i> Support & Community Feedback</div>
                     <div class="setting-row" style="border-bottom:none;">
                         <div class="setting-info">
                             <h5>Have a suggestion or found an issue?</h5>
-                            <p>Connect instantly with our developer team via WhatsApp.</p>
+                            <p>Send your feedback directly via email.</p>
                         </div>
                         <div>
-                            <a href="https://wa.me/?text=Hi%20Shayan%20Smart%20Tools%20Team,%20I%20have%20feedback regarding:" target="_blank" class="setting-action-btn">
-                                <i class="fa-brands fa-whatsapp" style="font-size: 15px;"></i> Send Feedback
+                            <a href="mailto:shayandigitalservice99@gmail.com?subject=Feedback%20for%20Shayan%20Smart%20Tools" class="setting-action-btn">
+                                <i class="fa-solid fa-envelope" style="font-size: 14px;"></i> Send Feedback
                             </a>
                         </div>
                     </div>
@@ -1642,9 +1675,9 @@ input:checked + .slider:before {
 
     // 5. Clear Detailed History function
     function clearDetailedHistory() {
-        if(confirm('Are you sure you want to clear all calculation history?')) {
+        if(confirm('Are yousure you want to clear all calculation history?')) {
             localStorage.removeItem('shayan_detailed_history');
-            const historyTab = document.querySelectorAll('.nav-bar-item')[2]; // 3rd item is History
+            const historyTab = document.querySelectorAll('.nav-bar-item')[2];
             if(historyTab) switchNavTab(historyTab, 'history');
         }
     }
@@ -1658,27 +1691,26 @@ input:checked + .slider:before {
 
     // 7. Settings Actions & Preferences Functions
     function toggleSettingsModal() {
-        const settingsTabBtn = document.querySelectorAll('.nav-bar-item')[3]; // 4th item is Settings
+        const settingsTabBtn = document.querySelectorAll('.nav-bar-item')[3];
         if(settingsTabBtn) {
             switchNavTab(settingsTabBtn, 'settings');
         }
     }
 
     function saveUserState(stateVal) {
-        if(stateVal) {
-            localStorage.setItem('shayan_user_state', stateVal);
-            alert('State preference saved: ' + stateVal);
-            location.reload();
-        }
+        localStorage.setItem('shayan_user_state', stateVal);
+        alert('State preference saved: ' + (stateVal || 'None'));
+        sortToolsBySavedState();
+        location.reload();
     }
 
     function toggleThemeMode(checkbox) {
         if(checkbox.checked) {
             localStorage.setItem('shayan_theme', 'dark');
-            alert('Dark mode preference saved.');
+            document.body.classList.add('dark-mode');
         } else {
             localStorage.setItem('shayan_theme', 'light');
-            alert('Light mode enabled.');
+            document.body.classList.remove('dark-mode');
         }
     }
 
