@@ -763,7 +763,10 @@
         </div>
     </article>
 
-    <script>
+        
+
+
+            <script>
         document.addEventListener('contextmenu', e => e.preventDefault());
         document.onkeydown = function(e) {
             if (e.ctrlKey && (e.keyCode === 67 || e.keyCode === 85 || e.keyCode === 73)) {
@@ -790,7 +793,7 @@
             if(document.getElementById('resPanel').style.display === 'block') calculateAssamSqft();
         }
 
-                function calculateAssamSqft() {
+        function calculateAssamSqft() {
             const katha = parseFloat(document.getElementById('kathaInput').value);
             const resPanel = document.getElementById('resPanel');
 
@@ -824,8 +827,7 @@
             resPanel.style.display = "block";
             resPanel.scrollIntoView({behavior: 'smooth'});
 
-            // ---> YAHAN HAI MAIN HISTORY SAVE LOGIC <---
-            // Jaise hi user calculate karega, ye localStorage mein save ho jayega
+            // History Save Logic
             if (typeof saveCalculationHistory === 'function') {
                 saveCalculationHistory(
                     "Assam Katha to Sq Ft", 
@@ -834,7 +836,6 @@
                     `${sqft.toLocaleString('en-IN', {maximumFractionDigits: 2})} Sq Ft (${bigha} Bigha)`
                 );
             } else {
-                // Agar function index page se linked nahi hai toh direct localStorage mein save kar lein
                 let history = JSON.parse(localStorage.getItem('shayan_detailed_history')) || [];
                 const now = new Date();
                 const timeStr = now.toLocaleDateString('en-US', { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' });
@@ -848,8 +849,7 @@
                 if(history.length > 20) history.pop();
                 localStorage.setItem('shayan_detailed_history', JSON.stringify(history));
             }
-        
-
+        } // <--- Ye closing brace miss ho gaya tha
 
         function printLandReport() {
             const katha = document.getElementById('kathaInput').value;
@@ -871,6 +871,8 @@
             let t = encodeURIComponent(`Assam Land Conversion Result:\nInput: ${document.getElementById('kathaInput').value} Katha\nSq Ft: ${document.getElementById('resSqft').innerText}\nCheck details via Shayan Smart Tools`);
             window.open("https://wa.me/?text=" + t);
         }
+    </script>
+
     </script>
 </body>
 </html>
