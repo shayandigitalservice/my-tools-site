@@ -31,6 +31,36 @@
     </script>
 
     <style>
+        /* Dark Mode Global Overrides */
+body.dark-mode {
+    background-color: #0b0f19 !important;
+    color: #f8fafc !important;
+}
+body.dark-mode .main-card, 
+body.dark-mode .setting-card, 
+body.dark-mode .btn,
+body.dark-mode .detailed-history-card,
+body.dark-mode .settings-card-box {
+    background-color: #151d30 !important;
+    border-color: #1f2a44 !important;
+    color: #f8fafc !important;
+}
+body.dark-mode .btn-title, 
+body.dark-mode h2, 
+body.dark-mode h3, 
+body.dark-mode h4, 
+body.dark-mode h5,
+body.dark-mode .setting-info h5 {
+    color: #f8fafc !important;
+}
+body.dark-mode .setting-info p {
+    color: #94a3b8 !important;
+}
+body.dark-mode .stat-box {
+    background-color: #101828 !important;
+    border-color: #1f2a44 !important;
+}
+
         /* Global Reset */
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: Arial, Helvetica, sans-serif; }
         body { background-color: #fcfcfc; color: #101828; line-height: 1.6; }
@@ -1673,22 +1703,76 @@ input:checked + .slider:before {
         }
     }
 
-    function saveUserState(stateVal) {
-        localStorage.setItem('shayan_user_state', stateVal);
-        sortToolsBySavedState();
-        alert('State preference saved: ' + (stateVal || 'None') + '. Matching tools pinned to top!');
+    // State Save aur Turant Pin/Sort karne ka direct function
+function saveUserState(stateVal) {
+    localStorage.setItem('shayan_user_state', stateVal);
+    
+    // Turant home screen ke tools ko re-order kar dein
+    const userState = stateVal;
+    if (userState) {
+        const gridContainers = document.querySelectorAll('.container .grid');
+        gridContainers.forEach(container => {
+            const cards = Array.from(container.querySelectorAll('.btn'));
+            cards.sort((a, b) => {
+                const aText = a.innerText.toLowerCase();
+                const bText = b.innerText.toLowerCase();
+                const stateKey = userState.toLowerCase();
+                const aMatches = aText.includes(stateKey);
+                const bMatches = bText.includes(stateKey);
+                return (aMatches === bMatches) ? 0 : aMatches ? -1 : 1;
+            });
+            cards.forEach(card => container.appendChild(card));
+        });
     }
 
-    function toggleThemeMode(checkbox) {
-        if(checkbox.checked) {
-            localStorage.setItem('shayan_theme', 'dark');
-            document.body.classList.add('dark-mode');
-        } else {
-            localStorage.setItem('shayan_theme', 'light');
-            document.body.classList.remove('dark-mode');
-        }
-    }
+    alert('State preference saved: ' + (stateVal || 'None') + '. Tools pinned to top!');
+}
 
+// Dark Mode Toggle Direct Function
+function toggleThemeMode(checkbox) {
+    if (checkbox.checked) {
+        localStorage.setItem('shayan_theme', 'dark');
+        document.body.classList.add('dark-mode');
+    } else {
+        localStorage.setItem('shayan_theme', 'light');
+        document.body.classList.remove('dark-mode');
+    }
+}
+
+// Page load par theme aur state apply karne ke liye
+document.addEventListener('DOMContentLoaded', () => {
+    // 1. Theme check
+    if (localStorage.getItem('shayan_theme') === 'dark') {
+        document.body.classList.add('dark-mode');
+    }
+    // 2. State sorting check
+    const userState = localStorage.getItem('shayan_user_state');
+    if (userState) {
+        setTimeout(() => { sortToolsBySavedState(); }, 200);
+    }
+});
+
+function sortToolsBySavedState() {
+    const userState = localStorage.getItem('shayan_user_state');
+    if (!userState) return;
+
+    const gridContainers = document.querySelectorAll('.container .grid');
+    gridContainers.forEach(container => {
+        const cards = Array.from(container.querySelectorAll('.btn'));
+        cards.sort((a, b) => {
+            const aText = a.innerText.toLowerCase();
+            const bText = b.innerText.toLowerCase();
+            const stateKey = userState.toLowerCase();
+            const aMatches = aText.includes(stateKey);
+            const bMatches = bText.includes(stateKey);
+            return (aMatches === bMatches) ? 0 : aMatches ? -1 : 1;
+        });
+        cards.forEach(card => container.appendChild(card));
+    });
+}
+
+
+    
     function clearLocalStorageData() {
         if(confirm('Are you sure you want to wipe all local portal data?')) {
             localStorage.removeItem('shayan_favorites');
