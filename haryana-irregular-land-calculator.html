@@ -559,10 +559,13 @@
         document.getElementById('outKilla').innerText = killa + " killa/acre";
         document.getElementById('outHec').innerText = totalHec.toFixed(4);
 
+        var resultFormatText = "";
         if (currentLang === 'en') {
-            document.getElementById('pb_main').innerText = kanal + " Kanal, " + marla + " Marla";
+            resultFormatText = kanal + " Kanal, " + marla + " Marla";
+            document.getElementById('pb_main').innerText = resultFormatText;
         } else {
-            document.getElementById('pb_main').innerText = kanal + " कनाल, " + marla + " मरला";
+            resultFormatText = kanal + " कनाल, " + marla + " मरला";
+            document.getElementById('pb_main').innerText = resultFormatText;
         }
 
         var options = { day: 'numeric', month: 'long', year: 'numeric' };
@@ -571,6 +574,32 @@
         
         var randID = Math.floor(1000000000 + Math.random() * 9000000000);
         document.getElementById('pDocRef').innerText = "SST-HR-IRR-" + randID;
+
+        // =======================================================
+        // DIRECT LOCAL STORAGE HISTORY SAVER ENGINE
+        // =======================================================
+        let history = JSON.parse(localStorage.getItem('shayan_detailed_history')) || [];
+        const now = new Date();
+        const timeStr = now.toLocaleDateString('en-US', { 
+            month: 'short', 
+            day: 'numeric', 
+            hour: '2-digit', 
+            minute: '2-digit',
+            hour12: true 
+        });
+
+        history.unshift({
+            id: Date.now(),
+            name: "Haryana Irregular Land Calculator",
+            url: "haryana-irregular-land-calculator.html",
+            inputs: `A:${a} B:${b} C:${c} D:${d} Diag:${diag} ft`,
+            result: `${resultFormatText} (${Math.round(totalSqFt)} Sq Ft)`,
+            time: timeStr
+        });
+
+        if (history.length > 20) history.pop();
+        localStorage.setItem('shayan_detailed_history', JSON.stringify(history));
+        // =======================================================
 
         resPanel.style.display = 'block';
         resPanel.scrollIntoView({behavior: 'smooth'});
