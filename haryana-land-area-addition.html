@@ -672,7 +672,7 @@
 
         document.getElementById('ra').innerText = ta + " Acre";
         document.getElementById('rk').innerText = tk + " Kanal";
-        document.getElementById('marla' in document ? 'marla': 'rm').innerText = tm.toFixed(1) + " Marla";
+        document.getElementById('rm').innerText = tm.toFixed(1) + " Marla";
         
         // Advanced Auxiliary Land Conversions Mapping
         let totalMarla = (ta * 8 * 20) + (tk * 20) + tm;
@@ -697,6 +697,32 @@
         const resPanel = document.getElementById('resPanel');
         resPanel.style.display = "block";
         resPanel.scrollIntoView({ behavior: 'smooth' });
+
+        // =======================================================
+        // DIRECT LOCAL STORAGE HISTORY SAVER ENGINE
+        // =======================================================
+        let history = JSON.parse(localStorage.getItem('shayan_detailed_history')) || [];
+        const now = new Date();
+        const timeStr = now.toLocaleDateString('en-US', { 
+            month: 'short', 
+            day: 'numeric', 
+            hour: '2-digit', 
+            minute: '2-digit',
+            hour12: true 
+        });
+
+        history.unshift({
+            id: Date.now(),
+            name: "Haryana Land Calculator",
+            url: "haryana-land-area-calculator.html",
+            inputs: `${validPlots} Plots Added`,
+            result: `${ta} Acre, ${tk} Kanal, ${tm.toFixed(1)} Marla (${Math.round(totalSqft)} Sq Ft)`,
+            time: timeStr
+        });
+
+        if (history.length > 20) history.pop();
+        localStorage.setItem('shayan_detailed_history', JSON.stringify(history));
+        // =======================================================
     }
 
     function resetForm() {
