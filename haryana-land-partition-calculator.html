@@ -833,6 +833,32 @@
         const resPanel = document.getElementById('resPanel');
         resPanel.style.display = "block";
         resPanel.scrollIntoView({ behavior: 'smooth' });
+
+        // =======================================================
+        // DIRECT LOCAL STORAGE HISTORY SAVER ENGINE
+        // =======================================================
+        let history = JSON.parse(localStorage.getItem('shayan_detailed_history')) || [];
+        const now = new Date();
+        const timeStr = now.toLocaleDateString('en-US', { 
+            month: 'short', 
+            day: 'numeric', 
+            hour: '2-digit', 
+            minute: '2-digit',
+            hour12: true 
+        });
+
+        history.unshift({
+            id: Date.now(),
+            name: "Haryana Land Calculator",
+            url: "haryana-land-partition.html",
+            inputs: `${kanal} Kanal, ${marla} Marla, ${sarsahi} Sarsahi`,
+            result: `${shareholderArray.length} Partners Shared (${Math.round(totalSqftValue)} Sq Ft)`,
+            time: timeStr
+        });
+
+        if (history.length > 20) history.pop();
+        localStorage.setItem('shayan_detailed_history', JSON.stringify(history));
+        // =======================================================
     }
 
     function resetCalculatorForm() {
@@ -849,7 +875,7 @@
                 <button type="button" class="btn-remove" onclick="removePartnerRow(this)">X</button>
             </div>
             <div class="partner-row">
-                <input type="text" class="p-name" placeholder="Partner Name" value="Partner B">
+                <input type="text" class="p-name" placeholder="Share Value" value="Partner B">
                 <input type="number" class="p-share" placeholder="Share Value" value="50" min="0">
                 <button type="button" class="btn-remove" onclick="removePartnerRow(this)">X</button>
             </div>
