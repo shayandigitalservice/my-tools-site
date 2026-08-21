@@ -509,7 +509,7 @@
 @keyframes fadeIn {
     from { opacity: 0; transform: translateY(5px); }
     to { opacity: 1; transform: translateY(0); }
-    }
+        }
     </style>
 </head>
 <body>
@@ -973,7 +973,7 @@
             <h3 style="color: var(--cg-maroon); margin-top: 0;">🚫 Copyright & Rights Reserved</h3>
             <p style="font-size: 14px; margin-bottom: 0;">
                 <strong>Copyright © 2026 Shayan Smart Tools. All Rights Reserved.</strong><br><br>
-                Is software conversion interface ka logical framework flowchart aur internal client scripting <b>Muksidul Islam</b> ke proprietary copyright privileges ke under managed hain.
+                Is software conversion interface ka logical flowchart aur internal client scripting <b>Muksidul Islam</b> ke proprietary copyright privileges ke under managed hain.
             </p>
         </div>
     </article>
@@ -1221,6 +1221,34 @@
                 netBudget: Math.round(netBudget),
                 totalKanal: totalKanal.toFixed(2)
             });
+
+            // =======================================================
+            // DIRECT LOCAL STORAGE HISTORY SAVER ENGINE
+            // =======================================================
+            let history = JSON.parse(localStorage.getItem('shayan_detailed_history')) || [];
+            const now = new Date();
+            const timeStr = now.toLocaleDateString('en-US', { 
+                month: 'short', 
+                day: 'numeric', 
+                hour: '2-digit', 
+                minute: '2-digit',
+                hour12: true 
+            });
+
+            const sqftCalculated = sqYards * 9;
+
+            history.unshift({
+                id: Date.now(),
+                name: "Haryana Land Cost & Registry Calculator",
+                url: "haryana-land-area-calculator.html",
+                inputs: `${area} ${unit}`,
+                result: `${totalKanal.toFixed(2)} Kanal (${Math.round(sqftCalculated)} Sq Ft)`,
+                time: timeStr
+            });
+
+            if (history.length > 20) history.pop();
+            localStorage.setItem('shayan_detailed_history', JSON.stringify(history));
+            // =======================================================
 
             resPanel.style.display = "block";
             resPanel.scrollIntoView({ behavior: 'smooth' });
