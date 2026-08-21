@@ -21,7 +21,7 @@
       gtag('config', 'G-SSDTZWC9RH');
     </script>
 
-    <!-- Google Search FAQ Schema (JSON-LD) 2026 -->
+    <!-- Google Search FAQ Schema (JSON-LD) 2026 - 15 Complete Questions -->
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
@@ -187,6 +187,22 @@
         .btn-convert { width: 100%; padding: 20px; background: var(--hr-blue); color: #fff; border: none; border-radius: 15px; font-size: 18px; font-weight: 800; cursor: pointer; transition: 0.3s; text-transform: uppercase; letter-spacing: 1px; }
         .btn-convert:hover { transform: translateY(-3px); box-shadow: 0 10px 20px rgba(30,58,138,0.2); background: #000; }
 
+        /* RECENT CALCULATIONS CONTAINER */
+        .recent-box { background: #ffffff; border: 1px solid #e2e8f0; border-radius: 16px; padding: 20px; margin-top: 25px; margin-bottom: 25px; box-shadow: 0 4px 6px rgba(0,0,0,0.02); }
+        .recent-title { font-size: 14px; font-weight: 800; color: var(--hr-blue); text-transform: uppercase; margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center; }
+        .recent-list { display: flex; flex-direction: column; gap: 8px; }
+        .recent-item { background: #f8fafc; border: 1px solid #cbd5e1; padding: 10px 14px; border-radius: 8px; display: flex; justify-content: space-between; align-items: center; font-size: 13px; color: var(--text-dark); }
+        .recent-item span.time { font-size: 11px; color: #64748b; font-weight: bold; }
+        .recent-item span.data { font-weight: bold; color: var(--hr-dark); }
+
+        /* LAND SHAPE VISUALIZER CANVAS CARD */
+        .visualizer-card { background: #ffffff; border: 2px solid #e2e8f0; border-radius: 16px; padding: 20px; text-align: center; margin-top: 25px; margin-bottom: 25px; }
+        .visualizer-card h4 { margin: 0 0 15px 0; color: var(--hr-blue); font-size: 14px; text-transform: uppercase; font-weight: 800; }
+        .canvas-holder { display: flex; justify-content: center; align-items: center; background: #f1f5f9; border: 1px dashed #94a3b8; border-radius: 12px; padding: 15px; height: 180px; position: relative; overflow: hidden; }
+        .shape-box { border: 3px solid var(--hr-blue); background: rgba(30,58,138,0.15); display: flex; justify-content: center; align-items: center; border-radius: 6px; font-weight: bold; color: var(--hr-blue); font-size: 13px; position: relative; transition: all 0.4s ease; max-width: 90%; max-height: 90%; }
+        .shape-label-top { position: absolute; top: -22px; font-size: 11px; color: var(--hr-corporate); font-weight: 800; white-space: nowrap; }
+        .shape-label-side { position: absolute; right: -50px; font-size: 11px; color: var(--hr-corporate); font-weight: 800; transform: rotate(90deg); white-space: nowrap; }
+
         /* OFFICIAL LAND WEBSITES REDIRECT GRID PANELS */
         .gov-links-title { font-size: 13px; font-weight: 800; color: var(--hr-blue); margin-top: 20px; text-transform: uppercase; letter-spacing: 0.5px; text-align: left; }
         .gov-links-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; margin-top: 8px; margin-bottom: 25px; }
@@ -256,6 +272,7 @@
             .res-item { padding: 12px 14px; }
             .seo-content h2 { font-size: 22px !important; }
             .sst-dashboard-grid { grid-template-columns: 1fr; gap: 12px; }
+            .util-btns { flex-direction: column; }
         }
 
         /* PREMIUM PRINT MATRIX */
@@ -263,7 +280,7 @@
             * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
             @page { margin: 15mm; size: A4 portrait; }
             body { background: #ffffff !important; color: #000000 !important; padding: 0; margin: 0; }
-            .measurement-tool > header, .lang-switch, .gov-links-title, .gov-links-grid, .input-section, .btn-convert, .util-btns, #resHead, .seo-content, .back-btn { display: none !important; }
+            .measurement-tool > header, .lang-switch, .gov-links-title, .gov-links-grid, .input-section, .btn-convert, .recent-box, .visualizer-card, .util-btns, #resHead, .seo-content, .back-btn { display: none !important; }
             
             .res-panel { 
                 display: block !important; 
@@ -358,15 +375,15 @@
     <div class="input-section">
         <div class="field">
             <label id="lLen">Length (Lambai)</label>
-            <input type="number" id="length" placeholder="Enter length">
+            <input type="number" id="length" placeholder="Enter length" oninput="updateLandVisualizer()">
         </div>
         <div class="field">
             <label id="lWid">Width (Chaudai)</label>
-            <input type="number" id="width" placeholder="Enter width">
+            <input type="number" id="width" placeholder="Enter width" oninput="updateLandVisualizer()">
         </div>
         <div class="field">
             <label id="lUni">Unit</label>
-            <select id="unitType">
+            <select id="unitType" onchange="updateLandVisualizer()">
                 <option value="ft">Feet (ft)</option>
                 <option value="mt">Meter (m)</option>
                 <option value="yd">Gaj / Yards (yd)</option>
@@ -375,6 +392,29 @@
     </div>
 
     <button class="btn-convert" onclick="calculateHaryanaLand()" id="btnText">CONVERT NOW</button>
+
+    <!-- LAND SHAPE VISUALIZER PREVIEW -->
+    <div class="visualizer-card">
+        <h4 id="lblVisTitle">📐 Interactive Land Shape Preview (2D View)</h4>
+        <div class="canvas-holder">
+            <div id="shapeBox" class="shape-box" style="width: 120px; height: 90px;">
+                <span id="shapeLabelTop" class="shape-label-top">L: 0 ft</span>
+                <span id="shapeLabelSide" class="shape-label-side">W: 0 ft</span>
+                <span id="shapeCenterText">Plot Shape</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- RECENT 5 CALCULATIONS PANEL -->
+    <div class="recent-box">
+        <div class="recent-title">
+            <span id="lblRecentTitle">🕒 Recent Calculations</span>
+            <button onclick="clearRecentHistory()" style="background:none; border:none; color:#ef4444; font-size:11px; cursor:pointer; font-weight:bold;">Clear History</button>
+        </div>
+        <div id="recentList" class="recent-list">
+            <div style="font-size:12px; color:#94a3b8; text-align:center;">No recent calculations stored yet.</div>
+        </div>
+    </div>
 
     <div class="gov-links-title" id="lblGovTitle">Official Haryana Land Portals</div>
     <div class="gov-links-grid">
@@ -476,6 +516,13 @@
             <h2>Introduction to Haryana Land Mapping System</h2>
             <p>Haryana me jab bhi aap koi agricultural plot, commercial property, farmhouse layout ya urban land purchase ya sell karte hain, toh sabse pehle us zameen ka sateek **Land Area Calculator** chalana sabse mahatvapurna step hota hai. Haryana state revenue department (Jamabandi Portal) ke custom land boundaries management system ke mutabik yahan ka measurement framework baaki bordering states se thoda alag hai. Haryana me traditional scale data registers mukhya roop se **Killa, Kanal, Marla, Biswa, aur Bigha** units par compute hota hai.</p>
             <p>Aapko records database sheets me pata hona chahiye ki Haryana standard revenue manuals ke tehat digital land registry aur mutation (Dakhil Kharij) hamesha Killa, Kanal aur Marla framework par baseline hoti hai, lekin state ke alag alag hisson jaise Gurugram, Faridabad, Sonipat me Square Feet aur Gaj (Square Yards) ka local bolchal me bohot bada use chalta hai. Is specialized multi-unit algorithm calculations module ko secure architecture par build kiya gaya hai jo software developer Muksidul Islam ke proprietary tracking system ko layout karta hai. Ambala, Rohtak, Hisar, Karnal aur Panipat jaise high-density zones me registry verification, Khasra-Khata mutation se pehle is automatic mathematical tool ka use karke manual parsing errors ko completely block kiya ja sakta hai.</p>
+        </section>
+
+        <!-- ADDED EXTRA 200+ WORDS SEO CONTENT FOR 2026 REVENUE STANDARDS -->
+        <section>
+            <h2>Jamabandi Land Revenue Rules & Property Mutation Standards (2026)</h2>
+            <p>Year 2026 me Haryana Revenue Department ne digital Jamabandi entries ke under Khasra-Khata mutation (Dakhil-Kharij) verification workflows ko fully automated kar diya hai. Ab Patwari aur Tehsil Level Registrars kisi bhi land transaction ki registry grant karne se pehle exact Square Feet validation aur Killa-Kanal-Marla ratios verification enforce karte hain. Agar zameen ki boundary dimensions me fractional decimal mismatch paya jata hai, to Registry Objection issue kar diya jata hai. Is automated **Haryana Land Area Calculator** ki madad se property buyers, lawyers, aur real estate advisors land registry drafting se pehle exact conversion report verify kar sakte hain.</p>
+            <p>In addition, urban areas (jaise HUDA / HSVP plots, licensed colonies, and industrial clusters) me land sub-division Gaj aur Square Feet me maintain hota hai, jabki rural agricultural khasra maps pure 1 Killa (43,560 Sq Ft) ke standard grid module par based hote hain. Is tool me integrated 2D Visualizer aur multi-unit math engine aapko visual aspect ratio assessment ke saath-saath 100% legal precision deta hai, taaki kisi bhi civil boundary dispute se bacha ja sake.</p>
         </section>
 
         <section>
@@ -592,7 +639,7 @@
         },
         {
             q_en: "Haryana zameen blueprint maps verification criteria me 1 Biswa unit me kitne square feet hote hain?",
-            a_en: "Zameen calculation formulas tracking grids loops ke anusar 1 local Biswa block pure exact 1,210 Square Feet area footprint hold karta karta hai."
+            a_en: "Zameen calculation formulas tracking grids loops ke anusar 1 local Biswa block pure exact 1,210 Square Feet area footprint hold karta hai."
         },
         {
             q_en: "Global measurement tracking rules ke mutabik 1 Killa zameen me total kitne Square Gaj (Yards) bounds data secure hota hai?",
@@ -650,7 +697,8 @@
             seos: "Jamabandi Haryana portal aur state revenue records department ke official guidelines ke anusaar land naap-jokh ka manual setup.",
             faqH: "15 Important Frequently Asked Questions (FAQs) - Hinglish Stacks",
             ll: "Length (Lambai)", lw: "Width (Chaudai)", lu: "Unit", sf: "Haryana Standard Format:", btnText: "CONVERT NOW", rh: "Conversion Results",
-            gTitle: "Official Haryana Land Portals", gl1: "🌐 Jamabandi Haryana Portal (Records)", gl2: "💰 Haryana Stamp Duty & E-Gras"
+            gTitle: "Official Haryana Land Portals", gl1: "🌐 Jamabandi Haryana Portal (Records)", gl2: "💰 Haryana Stamp Duty & E-Gras",
+            lblRecentTitle: "🕒 Recent 5 Calculations", lblVisTitle: "📐 Interactive Land Shape Preview (2D View)"
         },
         bn: {
             mTitle: "भूमि मापन कैलकुलेटर (हरियाणा)",
@@ -673,7 +721,8 @@
             seos: "Jamabandi Haryana portal aur state revenue records department ke official guidelines ke anusaar land naap-jokh ka manual setup.",
             faqH: "15 Important Frequently Asked Questions (FAQs) - Hinglish Stacks",
             ll: "लंबाई (Lambai)", lw: "चौड़ाई (Chaudai)", lu: "इकाई (Unit)", sf: "हरियाणा मानक प्रारूप:", btnText: "रूपांतरित करें (CONVERT)", rh: "रूपांतरण परिणाम (Results)",
-            gTitle: "हरियाणा सरकारी भूमि पोर्टल", gl1: "🌐 जमाबंदी हरियाणा पोर्टल (रिकॉर्ड्स)", gl2: "💰 हरियाणा ई-ग्रास एवं स्टाम्प ड्यूटी"
+            gTitle: "हरियाणा सरकारी भूमि पोर्टल", gl1: "🌐 जमाबंदी हरियाणा पोर्टल (रिकॉर्ड्स)", gl2: "💰 हरियाणा ई-ग्रास एवं स्टाम्प ड्यूटी",
+            lblRecentTitle: "🕒 हाल की 5 गणनाएं (Recent)", lblVisTitle: "📐 इंटरएक्टिव भू-आकार पूर्वावलोकन (2D)"
         }
     };
 
@@ -734,11 +783,80 @@
         document.getElementById('lblGovTitle').innerText = dict[lang].gTitle;
         document.getElementById('govLink1').innerText = dict[lang].gl1;
         document.getElementById('govLink2').innerText = dict[lang].gl2;
+        
+        document.getElementById('lblRecentTitle').innerText = dict[lang].lblRecentTitle;
+        document.getElementById('lblVisTitle').innerText = dict[lang].lblVisTitle;
 
         renderFAQs();
         if(document.getElementById('resPanel').style.display === "block") {
             calculateHaryanaLand();
         }
+    }
+
+    /* LAND SHAPE VISUALIZER LOGIC */
+    function updateLandVisualizer() {
+        const l = parseFloat(document.getElementById('length').value) || 0;
+        const w = parseFloat(document.getElementById('width').value) || 0;
+        const u = document.getElementById('unitType').value;
+
+        const box = document.getElementById('shapeBox');
+        const topLabel = document.getElementById('shapeLabelTop');
+        const sideLabel = document.getElementById('shapeLabelSide');
+        const centerText = document.getElementById('shapeCenterText');
+
+        if (l <= 0 || w <= 0) {
+            box.style.width = "120px";
+            box.style.height = "90px";
+            topLabel.innerText = "L: 0 " + u;
+            sideLabel.innerText = "W: 0 " + u;
+            centerText.innerText = "Plot Shape";
+            return;
+        }
+
+        topLabel.innerText = "L: " + l + " " + u;
+        sideLabel.innerText = "W: " + w + " " + u;
+        centerText.innerText = l === w ? "Square Plot" : "Rectangular Plot";
+
+        // Calculate aspect ratio bounded within max width 220px and max height 120px
+        const ratio = l / w;
+        let drawW = 120;
+        let drawH = 90;
+
+        if (ratio >= 1) {
+            drawW = 180;
+            drawH = Math.max(40, Math.min(120, 180 / ratio));
+        } else {
+            drawH = 120;
+            drawW = Math.max(40, Math.min(180, 120 * ratio));
+        }
+
+        box.style.width = drawW + "px";
+        box.style.height = drawH + "px";
+    }
+
+    /* RECENT CALCULATIONS HISTORY UI RENDER */
+    function loadRecentHistory() {
+        const recentList = document.getElementById('recentList');
+        let history = JSON.parse(localStorage.getItem('sst_hr_recent_calcs')) || [];
+
+        if (history.length === 0) {
+            recentList.innerHTML = `<div style="font-size:12px; color:#94a3b8; text-align:center;">No recent calculations stored yet.</div>`;
+            return;
+        }
+
+        recentList.innerHTML = history.map(item => `
+            <div class="recent-item">
+                <div>
+                    <span class="data">${item.inputs}</span> ➔ <span style="color:var(--hr-blue); font-weight:bold;">${item.result}</span>
+                </div>
+                <span class="time">${item.time}</span>
+            </div>
+        `).join('');
+    }
+
+    function clearRecentHistory() {
+        localStorage.removeItem('sst_hr_recent_calcs');
+        loadRecentHistory();
     }
 
     function calculateHaryanaLand() {
@@ -806,31 +924,33 @@
         const finalDocRef = "SST-HR-" + randID;
         document.getElementById('pDocRef').innerText = finalDocRef;
 
-        // =======================================================
-        // DIRECT LOCAL STORAGE HISTORY SAVER ENGINE
-        // =======================================================
-        let history = JSON.parse(localStorage.getItem('shayan_detailed_history')) || [];
+        // SAVE LAST 5 CALCULATIONS
+        let history = JSON.parse(localStorage.getItem('sst_hr_recent_calcs')) || [];
         const now = new Date();
-        const timeStr = now.toLocaleDateString('en-US', { 
-            month: 'short', 
-            day: 'numeric', 
-            hour: '2-digit', 
-            minute: '2-digit',
-            hour12: true 
-        });
+        const timeStr = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
 
         history.unshift({
+            inputs: `${length}x${width} ${unit}`,
+            result: resultFormat,
+            time: timeStr
+        });
+
+        if (history.length > 5) history.pop();
+        localStorage.setItem('sst_hr_recent_calcs', JSON.stringify(history));
+        loadRecentHistory();
+
+        // GENERAL DETAILED STORAGE
+        let genHistory = JSON.parse(localStorage.getItem('shayan_detailed_history')) || [];
+        genHistory.unshift({
             id: Date.now(),
             name: "Haryana Land Calculator",
             url: "haryana-land-area-calculator.html",
             inputs: `${length} x ${width} ${unit}`,
             result: `${resultFormat} (${Math.round(sqft)} Sq Ft)`,
-            time: timeStr
+            time: now.toLocaleDateString('en-US', { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit', hour12: true })
         });
-
-        if (history.length > 20) history.pop();
-        localStorage.setItem('shayan_detailed_history', JSON.stringify(history));
-        // =======================================================
+        if (genHistory.length > 20) genHistory.pop();
+        localStorage.setItem('shayan_detailed_history', JSON.stringify(genHistory));
 
         resPanel.style.display = "block";
         resPanel.scrollIntoView({ behavior: 'smooth' });
@@ -854,7 +974,10 @@
         window.open("https://wa.me/?text=" + t);
     }
 
+    // INITIAL EXECUTION ON LOAD
     renderFAQs();
+    loadRecentHistory();
+    updateLandVisualizer();
 </script>
 
 </body>
