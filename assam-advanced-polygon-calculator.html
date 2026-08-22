@@ -1,26 +1,159 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="as">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Assam Advanced Polygon Land Calculator free 2026 | বহুভুজ মাটিৰ জোখ-মাপ কেলকুলেটৰ | Shayan Smart Tools</title>
     <link rel="canonical" href="https://shayansmarttools.in/assam-advanced-polygon-calculator.html" />
 
-    <meta name="description" content="Calculate irregular polygon land area in Assam using the Multi-Triangle method. Instant conversion into Bigha, Katha, Lessa, Hectare, and Acre accurately based on revenue standards. Free by Shayan Smart Tools.">
+    <meta name="description" content="বহুভুজ আৰু অনিয়মিত মাটিৰ জোখ-মাপ অসম ৰাজহ বিভাগৰ ধৰিত্ৰী নিয়ম অনুসৰি বিঘা, কাঠা, লেচা, একৰ আৰু হেক্টৰত গণনা কৰক। Multi-Triangle method land area calculator by Shayan Smart Tools.">
     <meta name="keywords" content="Assam Advanced Polygon Land Calculator, বহুভুজ মাটিৰ জোখ-মাপ কেলকুলেটৰ, Irregular Land Area Calculator Assam, অসমৰ মাটিৰ জোখ-মাপ, Bigha Katha Lessa Calculator, Heron's Formula Multi-Plot Assam, Dharitree Area Calculator, Shayan Smart Tools Assam">
     <meta name="author" content="Muksidul islam">
     <meta name="robots" content="index, follow">
 
+    <!-- MathJax for LaTeX Rendering -->
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
     <!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-SSDTZWC9RH"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-SSDTZWC9RH"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
 
-  gtag('config', 'G-SSDTZWC9RH');
-</script>
+      gtag('config', 'G-SSDTZWC9RH');
+    </script>
 
+    <!-- FAQ Structural Data Schema (Assamese) -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "বহুভুজ বা অনিয়মিত মাটিৰ কালি কেনেকৈ উলিওৱা হয়?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "অনিয়মিত মাটিক কেইবাটাও ত্ৰিভুজত ভাগ কৰি হ্যেৰনৰ সূত্ৰ (Heron's Formula) ব্যৱহাৰ কৰি প্ৰতিটো ত্ৰিভুজৰ কালি যোগ কৰি মুঠ কালি উলিওৱা হয়।"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "অসমত ১ বিঘা মাটিত কিমান বৰ্গফুট থাকে?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "অসম চৰকাৰৰ ৰাজহ নিয়ম অনুসৰি ১ বিঘা মাটিত ১৪,৪০০ বৰ্গফুট (Sq. Ft.) থাকে।"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "অসমৰ ভূমি মাপত ১ বিঘা কিমান কাঠা আৰু লেচাৰ সমান?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "১ বিঘা = ৫ কাঠা = ১০০ লেচা।"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "১ কাঠা মাটিত কিমান বৰ্গফুট আৰু লেচা থাকে?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "১ কাঠা মাটিত ২,৮৮০ বৰ্গফুট আৰু ২০ লেচা থাকে।"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "১ লেচা মাটিৰ জোখ কিমান?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "১ লেচা মাটিৰ কালি হ'ল ১৪৪ বৰ্গফুট (১২ ফুট × ১২ ফুট)।"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "১ একৰ মাটিত অসমৰ কিমান বিঘা মাটি হয়?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "১ একৰ মাটিত অসমৰ মানদণ্ড অনুসৰি ৩.০২৫ বিঘা (৪৩,৫৬০ বৰ্গফুট) মাটি থাকে।"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "১ হেক্টৰ মাটিত অসমৰ জোখ অনুসৰি কিমান বিঘা থাকে?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "১ হেক্টৰ মাটিত প্ৰায় ৭.৪৭ বিঘা (১,০৭,৬৩৯ বৰ্গফুট) মাটি থাকে।"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "হ্যেৰনৰ সূত্ৰ (Heron's Formula) টো কি?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "ত্ৰিভুজৰ কালি = √[s(s - a)(s - b)(s - c)], য’ত s = (a + b + c) / 2।"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "মাটিৰ দাগ নম্বৰ আৰু পাট্টা নম্বৰ কি?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "দাগ নম্বৰ হৈছে মাটিৰ নিৰ্দিষ্ট মেপ সংকেত নম্বৰ আৰু পাট্টা নম্বৰ হৈছে মাটিৰ গৰাকীৰ অধিকাৰৰ ৰাজহ নথিপত্ৰৰ নম্বৰ।"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "ধৰিত্ৰী (Dharitree Portal) কি?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "ধৰিত্ৰী হৈছে অসম চৰকাৰৰ ৰাজহ আৰু দুৰ্যোগ ব্যৱস্থাপনা বিভাগৰ ডিজিটেল ভূমি অভিলেখ পৰ্টেল।"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "বেঁকা বা টেৰা-বেকা মাটিৰ শুদ্ধ জোখ কেনেকৈ ল’ব পাৰি?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "মাটিডোখৰৰ বিপৰীত কোণসমূহ সংযোগ কৰি ত্ৰিভুজত বিভক্ত কৰক আৰু ফিতাৰে বাহুসমূহ জুখি এই কেলকুলেটৰত সুমুৱাওক।"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "ফুটৰ বাহিৰে গজ বা মিটাৰত জোখ ল’লে কেনেকৈ গণনা কৰিব?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "প্ৰথমে গজ বা মিটাৰৰ জোখসমূহ ফুটলৈ ৰূপান্তৰ কৰি কেলকুলেটৰত ইনপুট দিব লাগে।"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "এই কেলকুলেটৰটো মোবাইলত ব্যৱহাৰ কৰিব পাৰিনে?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "হয়, এই কেলকুলেটৰটো সকলো মোবাইল আৰু কম্পিউটাৰ ব্ৰাউজাৰত দ্ৰুতভাৱে কাম কৰে।"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "জমা বন্দী আৰু চিঠা ৰেকৰ্ডৰ পাৰ্থক্য কি?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "জমা বন্দীত মালিকানাৰ তথ্য থাকে আৰু চিঠাত মাটিৰ প্ৰকাৰ (বসতি, ৰূপিত আদি) আৰু শ্ৰেণীবিভাজন থাকে।"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "এই কেলকুলেটৰটো কোনে প্ৰস্তুত কৰিছে?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "এই কেলকুলেটৰটো Shayan Smart Tools ৰ অধীনত মুকছিদুল ইছলাম (Muksidul Islam) ৰ দ্বাৰা তৈয়াৰ আৰু ডিজাইন কৰা হৈছে।"
+          }
+        }
+      ]
+    }
+    </script>
 
     <style>
         :root {
@@ -71,11 +204,37 @@
         input { padding: 15px; border: 1px solid #cbd5e1; border-radius: 12px; text-align: center; font-size: 16px; background: var(--white); outline: none; transition: 0.3s; }
         input:focus { border-color: var(--assam-green); box-shadow: 0 0 8px rgba(27,94,32,0.1); }
 
-        .controls { display: flex; gap: 15px; margin: 25px 0; }
-        .btn { flex: 1; padding: 18px; border: none; border-radius: 12px; font-weight: 800; cursor: pointer; font-size: 16px; transition: 0.3s; text-transform: uppercase; letter-spacing: 0.5px; }
+        .controls { display: flex; gap: 15px; margin: 25px 0; flex-wrap: wrap; }
+        .btn { flex: 1; min-width: 140px; padding: 18px; border: none; border-radius: 12px; font-weight: 800; cursor: pointer; font-size: 15px; transition: 0.3s; text-transform: uppercase; letter-spacing: 0.5px; text-align: center; }
         .btn-add { background: #5d4037; color: white; }
         .btn-calc { background: var(--assam-green); color: white; }
+        .btn-reset { background: #c62828; color: white; }
         .btn:hover { transform: translateY(-2px); box-shadow: 0 8px 15px rgba(0,0,0,0.1); }
+
+        /* Stylish Interactive Visualizer Box */
+        .visualizer-card {
+            background: #ffffff;
+            padding: 20px;
+            border-radius: 20px;
+            margin: 25px 0;
+            border: 2px dashed var(--assam-green);
+            text-align: center;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+        }
+        .visualizer-card h4 {
+            margin: 0 0 10px 0;
+            color: var(--assam-green);
+            font-size: 18px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        #visualizerCanvas {
+            max-width: 100%;
+            background: #f1f8e9;
+            border-radius: 12px;
+            border: 1px solid #c8e6c9;
+            margin-top: 10px;
+        }
 
         /* RESULTS UI - Vertical Panel Layout */
         .res-panel { background: #0f172a; color: white; padding: 25px; border-radius: 25px; margin-top: 30px; display: none; border: 2px solid var(--assam-green); position: relative; text-align: left; }
@@ -85,16 +244,49 @@
         .res-item span { font-size: 12px; color: #94a3b8; font-weight: bold; }
         .res-item b { font-size: 18px; color: #81c784; word-break: break-all; }
 
+        /* History Widget Design */
+        .history-card {
+            background: #ffffff;
+            padding: 22px;
+            border-radius: 20px;
+            margin: 30px 0;
+            border: 1px solid #e2e8f0;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.03);
+        }
+        .history-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid #f1f8e9;
+            padding-bottom: 12px;
+            margin-bottom: 15px;
+        }
+        .history-header h4 { margin: 0; color: var(--assam-green); font-size: 17px; }
+        .btn-clear-his { background: #ef4444; color: white; border: none; padding: 6px 14px; border-radius: 8px; cursor: pointer; font-weight: bold; font-size: 12px; transition: 0.2s; }
+        .btn-clear-his:hover { background: #dc2626; }
+        .history-list { list-style: none; padding: 0; margin: 0; }
+        .history-item {
+            padding: 12px;
+            border-bottom: 1px dashed #e2e8f0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 13px;
+        }
+        .history-item:last-child { border-bottom: none; }
+        .history-item .his-val { font-weight: bold; color: var(--assam-green); }
+        .history-item .his-time { color: #94a3b8; font-size: 11px; }
+
         .print-header-block, .print-footer-block { display: none; }
 
-        .util-btns { display: flex; gap: 12px; margin-top: 25px; }
-        .u-btn { flex: 1; padding: 15px; border: none; border-radius: 12px; font-weight: 800; cursor: pointer; color: white; font-size: 14px; text-align: center; transition: 0.3s; }
+        .util-btns { display: flex; gap: 12px; margin-top: 25px; flex-wrap: wrap; }
+        .u-btn { flex: 1; min-width: 120px; padding: 15px; border: none; border-radius: 12px; font-weight: 800; cursor: pointer; color: white; font-size: 14px; text-align: center; transition: 0.3s; }
 
         /* Example Image Section Layout Clear Background Merged */
         .image-container { text-align: center; margin: 40px 0; padding: 25px; background: #ffffff; border-radius: 20px; border: 1px dashed var(--assam-green); }
         .image-container img { max-width: 100%; height: auto; border-radius: 12px; }
 
-        /* 🔥 CLEAN STANDALONE SEO LAYER - NO CARD HOUSING BASE LAYOUT */
+        /* CLEAN STANDALONE SEO LAYER */
         .seo-content { 
             background: transparent !important; 
             padding: 20px 0; 
@@ -104,7 +296,7 @@
             color: #334155 !important;
             text-align: left;
         }
-        .seo-content h2 { color: var(--assam-green) !important; font-size: 28px !important; margin-bottom: 10px !important; border-left: 6px solid #81c784; padding-left: 15px; margin-top: 40px; }
+        .seo-content h2 { color: var(--assam-green) !important; font-size: 26px !important; margin-bottom: 10px !important; border-left: 6px solid #81c784; padding-left: 15px; margin-top: 40px; }
         .seo-content h3 { color: var(--assam-green) !important; margin-top: 30px; }
         .seo-content p { color: #334155 !important; font-size: 16px; text-align: justify; }
         
@@ -112,13 +304,23 @@
         .seo-content th, .seo-content td { border: 1px solid #e2e8f0; padding: 15px; text-align: left; color: #334155 !important; }
         .seo-content th { background-color: #f1f8e9; color: var(--assam-green) !important; }
 
-        /* 🔥 STYLISH INTERNAL LINKS DASHBOARD GRID */
+        /* STYLISH INTERNAL LINKS DASHBOARD GRID */
         .sst-dashboard-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; margin: 40px 0; width: 100%; box-sizing: border-box; }
         .sst-dash-btn { display: flex; align-items: center; gap: 15px; background: #ffffff; padding: 18px 20px; border-radius: 16px; text-decoration: none; color: var(--assam-green) !important; font-weight: 700; font-size: 15px; border: 1px solid #e2e8f0; transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1); box-sizing: border-box; }
         .sst-dash-icon { display: flex; align-items: center; justify-content: center; width: 42px; height: 42px; background: #fffbf7; border-radius: 12px; font-size: 20px; border: 1px solid #c8e6c9; transition: transform 0.3s ease; }
         .sst-dash-title { flex: 1; line-height: 1.3; text-align: left; }
         .sst-dash-btn:hover { border-color: var(--assam-green); transform: translateY(-4px); box-shadow: 0 12px 20px rgba(27, 94, 32, 0.1); background: linear-gradient(135deg, #ffffff, #f1f8e9); }
         .sst-dash-btn:hover .sst-dash-icon { transform: scale(1.1) rotate(5deg); background: var(--assam-green); color: #fff; }
+
+        .faq-item {
+            margin-bottom: 15px;
+            border-bottom: 1px solid #e2e8f0;
+            padding-bottom: 12px;
+        }
+        .faq-item b {
+            color: var(--assam-green);
+            font-size: 16px;
+        }
 
         @media (max-width: 600px) {
             .input-row { grid-template-columns: 1fr; gap: 10px; }
@@ -128,15 +330,17 @@
             .seo-content h2 { font-size: 22px !important; }
             .sst-dashboard-grid { grid-template-columns: 1fr; gap: 12px; }
             .sst-dash-btn { padding: 15px 18px; }
+            .controls { flex-direction: column; }
+            .btn { width: 100%; }
         }
 
-        /* 🔥 PREMIUM GOVERNMENT STYLE PRINT CONFIGURATION 🔥 */
+        /* PREMIUM GOVERNMENT STYLE PRINT CONFIGURATION */
         @media print {
             * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; color-adjust: exact !important; }
             @page { margin: 15mm; size: A4 portrait; }
             body { background: #ffffff !important; color: #000000 !important; padding: 0; margin: 0; }
             
-            .main-wrapper > header, .lang-toggle, .triangle-card, .controls, .util-btns, #resHead, .seo-content, .back-btn, .image-container { display: none !important; }
+            .main-wrapper > header, .lang-toggle, .triangle-card, .controls, .util-btns, #resHead, .seo-content, .back-btn, .image-container, .visualizer-card, .history-card { display: none !important; }
             
             .res-panel { display: block !important; background: #ffffff !important; color: #000000 !important; padding: 25px !important; margin: 0 !important; width: 100% !important; box-sizing: border-box; border: 3px double var(--assam-green) !important; border-radius: 0px !important; position: relative; }
             
@@ -150,6 +354,200 @@
 
             .print-footer-block { display: block !important; text-align: center; margin-top: 40px; border-top: 1px solid #cbd5e1 !important; padding-top: 20px; }
         }
+        .shayan-review-wrapper {
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    border-top: 2px solid #dee2e6;
+    padding: 40px 15px;
+    margin-top: 40px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    text-align: center;
+}
+
+.review-card {
+    max-width: 500px;
+    margin: 0 auto 30px auto;
+    background: #ffffff;
+    padding: 25px;
+    border-radius: 16px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+    transition: transform 0.3s ease;
+}
+
+.review-card:hover {
+    transform: translateY(-3px);
+}
+
+.review-card h3 {
+    font-size: 20px;
+    color: #2b2d42;
+    margin-bottom: 8px;
+    font-weight: 700;
+}
+
+.review-subtitle {
+    font-size: 13px;
+    color: #6c757d;
+    margin-bottom: 20px;
+}
+
+/* Star Styles */
+.star-rating {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    margin-bottom: 10px;
+}
+
+.star {
+    font-size: 32px;
+    color: #d1d5db;
+    cursor: pointer;
+    transition: color 0.2s ease, transform 0.2s ease;
+}
+
+.star:hover,
+.star.active {
+    color: #ffc107;
+    transform: scale(1.15);
+}
+
+.rating-text {
+    font-size: 13px;
+    color: #495057;
+    font-weight: 600;
+    margin-bottom: 15px;
+    min-height: 20px;
+}
+
+/* Form Styles */
+.feedback-form-box {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    animation: fadeIn 0.4s ease-in-out;
+}
+
+.review-input, .review-textarea {
+    width: 100%;
+    padding: 10px 14px;
+    border: 1px solid #ced4da;
+    border-radius: 8px;
+    font-size: 14px;
+    outline: none;
+    transition: border-color 0.2s;
+    box-sizing: border-box;
+}
+
+.review-input:focus, .review-textarea:focus {
+    border-color: #4f46e5;
+    box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+}
+
+.review-submit-btn, .review-another-btn {
+    background: linear-gradient(135deg, #4f46e5 0%, #4338ca 100%);
+    color: white;
+    border: none;
+    padding: 12px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: opacity 0.2s, transform 0.2s;
+}
+
+.review-submit-btn:hover, .review-another-btn:hover {
+    opacity: 0.95;
+    transform: translateY(-1px);
+}
+
+.review-another-btn {
+    margin-top: 10px;
+    background: #4b5563;
+    width: 100%;
+}
+
+.review-success {
+    background: #ecfdf5;
+    color: #065f46;
+    padding: 15px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    border: 1px solid #a7f3d0;
+    animation: fadeIn 0.4s ease-in-out;
+}
+
+/* Recent Reviews Box */
+.recent-reviews-container {
+    max-width: 500px;
+    margin: 0 auto;
+    text-align: left;
+}
+
+.recent-reviews-container h4 {
+    font-size: 16px;
+    color: #374151;
+    margin-bottom: 12px;
+    font-weight: 600;
+}
+
+.reviews-scroll-box {
+    max-height: 320px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding-right: 5px;
+}
+
+/* Individual Review Bubble */
+.review-item {
+    background: #ffffff;
+    padding: 12px 16px;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.03);
+    border-left: 4px solid #4f46e5;
+    animation: fadeIn 0.3s ease-in-out;
+}
+
+.review-item-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 4px;
+}
+
+.review-author {
+    font-weight: 600;
+    font-size: 13px;
+    color: #1f2937;
+}
+
+.review-stars-mini {
+    color: #ffc107;
+    font-size: 12px;
+}
+
+.review-comment-text {
+    font-size: 13px;
+    color: #4b5563;
+    margin: 0;
+    word-break: break-word;
+}
+
+.no-reviews-text {
+    text-align: center;
+    color: #9ca3af;
+    font-size: 13px;
+    padding: 15px;
+    background: #ffffff;
+    border-radius: 10px;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(5px); }
+    to { opacity: 1; transform: translateY(0); }
+                                 }
     </style>
 </head>
 <body>
@@ -169,9 +567,9 @@
         <div class="triangle-card">
             <span class="triangle-header" id="t1Head">Triangle #1 (প্ৰথম ত্ৰিভুজ)</span>
             <div class="input-row">
-                <div class="input-group"><label class="lblA">Side A (Feet)</label><input type="number" class="side-a" placeholder="0"></div>
-                <div class="input-group"><label class="lblB">Side B (Feet)</label><input type="number" class="side-b" placeholder="0"></div>
-                <div class="input-group"><label class="lblC">Side C (Feet)</label><input type="number" class="side-c" placeholder="0"></div>
+                <div class="input-group"><label class="lblA">Side A (Feet)</label><input type="number" class="side-a" placeholder="0" oninput="drawPreview()"></div>
+                <div class="input-group"><label class="lblB">Side B (Feet)</label><input type="number" class="side-b" placeholder="0" oninput="drawPreview()"></div>
+                <div class="input-group"><label class="lblC">Side C (Feet)</label><input type="number" class="side-c" placeholder="0" oninput="drawPreview()"></div>
             </div>
         </div>
     </div>
@@ -179,6 +577,13 @@
     <div class="controls">
         <button class="btn btn-add" id="btnAdd" onclick="addTriangle()">+ Add Triangle</button>
         <button class="btn btn-calc" id="btnCalc" onclick="calculateTotalArea()">Calculate Total Area</button>
+        <button class="btn btn-reset" id="btnReset" onclick="resetForm()">🔄 Reset</button>
+    </div>
+
+    <!-- Stylish Interactive Land Shape Visualizer -->
+    <div class="visualizer-card">
+        <h4 id="visTitle">📐 Land Shape Visualizer / Preview (মাটিৰ মানচিত্ৰ পূৰ্বদৰ্শন)</h4>
+        <canvas id="visualizerCanvas" width="500" height="280"></canvas>
     </div>
 
     <div id="resPanel" class="res-panel">
@@ -232,6 +637,17 @@
         </div>
     </div>
 
+    <!-- 5 Recent Calculations History Component -->
+    <div class="history-card">
+        <div class="history-header">
+            <h4 id="hisTitle">📜 Recent Calculations History (শেহতীয়া হিচাপৰ ইতিহাস)</h4>
+            <button class="btn-clear-his" onclick="clearHistory()">🗑️ Clear All History</button>
+        </div>
+        <ul id="historyList" class="history-list">
+            <li style="color:#94a3b8; text-align:center; padding:10px;">কোনো শেহতীয়া ইতিহাস পোৱা নগ'ল (No history available)</li>
+        </ul>
+    </div>
+
     <div class="back-btn" style="text-align: center; margin-top: 20px;">
         <a href="index.html" style="color: var(--assam-green); font-weight: bold; text-decoration: none;">⬅ Back to All Tools</a>
     </div>
@@ -242,26 +658,27 @@
         <p id="imgDesc" style="font-size: 13px; color: #555; margin-top:10px;">Divide your land into multiple triangles and measure all sides as shown above.</p>
     </div>
 
+    <!-- SEO CONTENT IN ASSAMESE LANGUAGE WITH 300+ ADDITIONAL WORDS & EXPANDED METRICS -->
     <article class="seo-content">
         <div class="seo-header-block">
-            <h2>Assam Advanced Polygon Land Calculator: Complex Tedi-Medi Zameen ka Sateek Hisab</h2>
-            <p style="font-size: 18px; color: #555; margin: 5px 0 0 0;">Irregular polygon land mapping for Assam. Calculate accurate conversions dynamically into Bigha, Katha, and Lessa.</p>
+            <h2>অসমৰ উন্নত বহুভুজ ভূমি কেলকুলেটৰ: অনিয়মিত আৰু টেৰা-বেকা মাটিৰ শুদ্ধ জোখ-মাপ (২০২৬)</h2>
+            <p style="font-size: 18px; color: #555; margin: 5px 0 0 0;">অসম ৰাজহ বিভাগৰ নিৰ্দেশনা অনুসৰি বহুভুজ বা বহু-কোণী মাটিৰ কালি বিঘা, কাঠা, লেচা, একৰ আৰু হেক্টৰত নিখুঁতভাৱে উলিওৱাৰ আধুনিক ডিজিটেল ব্যৱস্থা।</p>
         </div>
 
         <section>
-            <h3>1. Introduction to Irregular Land Formations in Assam (Mati-r Jokh-Map Background)</h3>
+            <h3>১. অসমৰ অনিয়মিত আৰু টেৰা-বেকা মাটিৰ জ্যামিতিক পটভূমি (Land Measurement System in Assam)</h3>
             <p>
-                Assam mein zameen ki boundaries aur geographical plots ka landscape kafi dynamic aur pechida hai. Brahmaputra river belts ki natural movement, localized hill locks, hilly slopes (pahar) aur sadiyon purane village dynamic path structures ke karan, yahan ki 90% se zyada agriculture field holdings aur residential properties perfectly symmetrical rectangle ya square space me nahi hoti hain. Jab kisi land plot asset me 4 se zyada irregular corners (konne) hote hain, toh use mathematical language me hum <b>Polygon (বহুভুজ)</b> ka naam dete hain. Aisi tedi-medi zameen par normal length $\times$ width scaling rules apply karne par standard area values hamesha wrong aate hain, jisse property mutation processing me legal anomalies open up ho jati hain. 
+                অসমৰ ভৌগোলিক পৰিৱেশ, ব্ৰহ্মপুত্ৰ আৰু সুৰমা উপত্যকাৰ নদী প্ৰণালী, পাহাৰীয়া টিলা, নদীৰ গৰাখহনীয়া আৰু পৰম্পৰাগত গাঁওসমূহৰ ভূমি সীমাৰ বাবে অসমৰ প্ৰায় ৯০% তকৈও অধিক কৃষিভূমি আৰু বসতি মাটিৰ আকাৰ আয়তাকাৰ (Rectangle) বা বৰ্গাকাৰ (Square) নহয়। বহুতো মাটিৰ ৪ টাতকৈও অধিক দিশ বা অসমান কোণ থাকে, যাক জ্যামিতিক ভাষাত <b>বহুভুজ (Polygon)</b> বুলি কোৱা হয়। এনে অনিয়মিত আৰু টেৰা-বেকা মাটিৰ দীঘ আৰু প্ৰস্থ সাধাৰণভাৱে পূৰণ কৰিলে মাটিৰ সঠিক কালি পোৱা নাযায়, যাৰ ফলত নামজাৰি (Mutation), মাটি ক্ৰয়-বিক্ৰয় বা সীমা নিৰ্ধাৰণত বিভ্ৰান্তি আৰু আইনী সমস্যাৰ সৃষ্টি হয়।
             </p>
             <p>
-                Assam Board of Revenue (Dharitree portal guidelines) ke anusar, registration metrics validation ke waqt land parameters ka sateek assessment hona behad mandatory hai. Is issue ko scientifically resolve karne ke liye engineering structures me <b>Multi-Triangle Polygon Geometric Mapping</b> system use kiya jata hai. Shayan Smart Tools ne isi multi-triangulation rule ko code framework par mapping karke is advance **Assam Advanced Polygon Land Calculator** portal build kiya hai taaki amari kisan bhai bina kisi layout error ke zero validation lag ke sath single second calculations execute kar sakein.
+                অসম চৰকাৰৰ ৰাজহ আৰু দুৰ্যোগ ব্যৱস্থাপনা বিভাগ তথা ধৰিত্ৰী পৰ্টেল (Dharitree Portal Assam) ৰ মানদণ্ড অনুসৰি মাটিৰ প্ৰতিটো অংশৰ সঠিক তথ্য সংৰক্ষণ কৰাটো বাধ্যতামূলক। এই সমস্যা সমাধানৰ বাবে আটাইতকৈ বিজ্ঞানসন্মত আৰু নিখুঁত পদ্ধতি হ’ল <b>বহু-ত্ৰিভুজ পদ্ধতি (Multi-Triangulation Method)</b>। Shayan Smart Tools ৰ এই অগ্ৰণী কেলকুলেটৰৰ জৰিয়তে আপুনি যিকোনো জটিল বহুভুজ আকৃতিৰ মাটিক সৰু সৰু ত্ৰিভুজত ভাগ কৰি একেবাৰে সঠিক জোখ পাব পাৰে।
             </p>
         </section>
 
         <section>
-            <h3>2. Geometric Methodology: The Power of Multi-Triangle Method and Heron's Formula</h3>
+            <h3>২. বহু-ত্ৰিভুজ পদ্ধতি আৰু হ্যেৰনৰ সূত্ৰ (Heron's Formula & Multi-Triangulation)</h3>
             <p>
-                Irregular polygon plots ka sateek framework map evaluate karne ka sabse ancient aur globally certified system hai bada asset patch ko chhote independent right/irregular triangles me convert kar dena. Jab aap apni tedi zameen ke dastawez ya ground map coordinates par diagonals lines draw karte hain, toh complex data boundaries discrete triangles blocks me slice down ho jati hain. Geometric patterns me jab kisi triangle ki teeno sides data variables (Side A, Side B, Side C) completely secure mil jayein, toh geometry ka sabse powerfull calculation standard <b>Heron’s Formula</b> apply kiya jata hai:
+                অনিয়মিত মাটিৰ কালি সঠিকভাবে জুখিবলৈ মাটিডোখৰৰ এটা কোণৰ পৰা আন এটা কোণলৈ কাল্পনিক ৰেখা (Diagonals) টানি মাটিখিনিক কেইবাটাও ত্ৰিভুজত বিভক্ত কৰা হয়। প্ৰতিটো ত্ৰিভুজৰ তিনিটা বাহু (Side A, Side B, Side C) ফিতাৰে ফুটত জুখি লৈ জ্যামিতিৰ বিখ্যাত <b>হ্যেৰনৰ সূত্ৰ (Heron's Formula)</b> প্ৰয়োগ কৰা হয়:
             </p>
             <p style="text-align: center; font-size: 18px; font-weight: bold; color: var(--assam-green);">
                 $$s = \frac{a + b + c}{2}$$
@@ -270,116 +687,137 @@
                 $$\text{Area} = \sqrt{s(s - a)(s - b)(s - c)}$$
             </p>
             <p>
-                Hamara system back-end script loop par har ek individual triangle ka sateek area parameter trace down karke unhe dynamically secure accumulate (sum up) karta hai. Finall output value derive hone par use standard parameters conversion factor rules ke anusar Assam revenue standards (<b>Bigha, Katha, Lessa</b>) me flat badal deta hai. Niche diya gaya master chart dynamic mapping constants specifications ko strictly project karta hai:
+                আমাৰ এই কেলকুলেটৰে প্ৰতিটো ত্ৰিভুজৰ কালি পৃথকভাৱে গণনা কৰি স্বয়ংক্ৰিয়ভাৱে একেলগ কৰে আৰু অসমৰ ৰাজহ জোখ-মাপৰ মানদণ্ড (<b>বিঘা, কাঠা, লেচা</b>) লৈ ৰূপান্তৰ কৰে। তলৰ তালিকাত অসমৰ ভূমি জোখ-মাপৰ পৰম্পৰাগত আৰু চৰকাৰী মানদণ্ডসমূহ দৰ্শোৱা হ’ল:
             </p>
         </section>
 
-        <h3>Assam Land Unit Table (অসমৰ ভূমি মাপৰ তালিকা)</h3>
+        <h3>অসমৰ ভূমি মাপৰ তালিকা (Assam Revenue Land Metrics Master Chart)</h3>
         <div style="overflow-x: auto;">
             <table>
                 <thead>
                     <tr>
-                        <th>Unit Name (নাম)</th>
-                        <th>Sub-unit Structural Relation</th>
-                        <th>Area in Square Feet (ফুট)</th>
-                        <th>Area in Square Meters (মিটাৰ)</th>
+                        <th>এককৰ নাম (Unit)</th>
+                        <th>সংগঠিত সম্পৰ্ক (Structural Relation)</th>
+                        <th>বৰ্গফুটত কালি (Sq Ft)</th>
+                        <th>বৰ্গমিটাৰত কালি (Sq Meters)</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
-                        <td><b>1 Bigha (বিঘা)</b></td>
-                        <td>5 Katha / 100 Lessa Holdings</td>
-                        <td>14,400 Sq Ft</td>
-                        <td>1,337.80 Sq M</td>
+                        <td><b>১ বিঘা (Bigha)</b></td>
+                        <td>৫ কাঠা / ১০০ লেচা</td>
+                        <td>১৪,৪০০ Sq Ft</td>
+                        <td>১,৩৩৭.৮০ Sq M</td>
                     </tr>
                     <tr>
-                        <td><b>1 Katha (কাঠা)</b></td>
-                        <td>20 Lessa standard units</td>
-                        <td>2,880 Sq Ft</td>
-                        <td>267.56 Sq M</td>
+                        <td><b>১ কাঠা (Katha)</b></td>
+                        <td>২০ লেচা (Lessa)</td>
+                        <td>২,৮৮০ Sq Ft</td>
+                        <td>২৬৭.৫৬ Sq M</td>
                     </tr>
                     <tr>
-                        <td><b>1 Lessa (লেচা)</b></td>
-                        <td>Smallest Base Unit ($12\text{ft} \times 12\text{ft}$)</td>
-                        <td>144 Sq Ft</td>
-                        <td>13.37 Sq M</td>
+                        <td><b>১ লেচা (Lessa)</b></td>
+                        <td>সৰ্বনিম্ন একক ($১২\text{ft} \times ১২\text{ft}$)</td>
+                        <td>১৪৪ Sq Ft</td>
+                        <td>১৩.৩৭ Sq M</td>
                     </tr>
                     <tr>
-                        <td><b>1 Acre (একৰ)</b></td>
-                        <td>3.025 standard Assam Bighas</td>
-                        <td>43,560 Sq Ft</td>
-                        <td>4,046.85 Sq M</td>
+                        <td><b>১ একৰ (Acre)</b></td>
+                        <td>৩.০২৫ বিঘা (Assam Bighas)</td>
+                        <td>৪৩,৫৬০ Sq Ft</td>
+                        <td>৪,০৪৬.৮৫ Sq M</td>
                     </tr>
                     <tr>
-                        <td><b>1 Hectare (হেক্টৰ)</b></td>
-                        <td>7.470 standard Assam Bighas</td>
-                        <td>1,07,639 Sq Ft</td>
-                        <td>10,000 Sq M</td>
+                        <td><b>১ হেক্টৰ (Hectare)</b></td>
+                        <td>৭.৪৭০ বিঘা (Assam Bighas)</td>
+                        <td>১,০৭,৬৩৯ Sq Ft</td>
+                        <td>১০,০০০ Sq M</td>
                     </tr>
                 </tbody>
             </table>
         </div>
 
         <section>
-            <h3>3. Landmark Identification Features: Jamabandi, Dag Number, and Dharitree</h3>
+            <h3>৩. অসম ভূমি নথিপত্ৰৰ গুৰুত্বপূৰ্ণ সংকেতসমূহ (Jamabandi, Dag Number & Chitha)</h3>
             <p>
-                Zameen ka polygon spatial framework areas calculate karne ke sath-sath, har ek user ko revenue documents analytics inside me track hone wale dynamic indexing tags ki verification parameters path clear hona mandatory hai:
+                মাটিৰ বহুভুজ মাপ উলিওৱাৰ উপৰিও প্ৰতিজন ভূমি গৰাকীয়ে ৰাজহ নথিপত্ৰৰ এই সংকেতসমূহ জনা আৱশ্যক:
             </p>
             <p>
-                <b>A. Patta / Jamabandi Number (জমাবন্দী):</b> Yeh asset structure title framework ledger copy hota hai. Is identification reference sheet se track kiya jata hai ki standard circle records inside me property allocations kis continuous legal name par verified state me working me chal raha hai.
+                <b>A. পাট্টা / জমা বন্দী (Jamabandi):</b> ই হৈছে মাটিৰ স্বত্ব আৰু গৰাকীৰ নাম উল্লেখ থকা চৰকাৰী মুখ্য নথিপত্ৰ।
             </p>
             <p>
-                <b>B. Dag Number (দাগ নম্বৰ):</b> Yeh tracking core mapping scale number hota hai. Assam mapping systems me state land advisory panel survey lines par har unique patch block ko ek specified layout map coordinates numeric system continuous key deta hai jise Dag number bolte hain. Is key ke bina geographic positioning assignment execute nahi ho sakti.
+                <b>B. দাগ নম্বৰ (Dag Number):</b> চৰকাৰী মেপত নিৰ্দ্বিDirectory প্ৰতিডোখৰ মাটিৰ সুকীয়া পৰিচয় নম্বৰ।
             </p>
             <p>
-                <b>C. Chitha Ledger Ledger Records:</b> Patwari records inside running ye document classification metrics hold karta hai jo land characteristics properties (Basti, Rupit, Faringati land classes) verify karne ke liye use hota hai.
+                <b>C. চিঠা ৰেকৰ্ড (Chitha Register):</b> লট মণ্ডলৰ ওচৰত থকা নথিপত্ৰ য’ত মাটিৰ শ্ৰেণী (বসতি, ৰূপিত, ফাৰিংগাটী আদি) উল্লেখ থাকে।
             </p>
         </section>
 
         <section>
-            <h3>4. Operational Grid Manual: Add and Compute Multiple Triangles Cards</h3>
-            <p>
-                Hamne is processing interface core framework module par structural responsive client logic indexing setup kiya hai taaki zero lag script iteration system load instantly working framework pick kar sake. Iska dynamic navigation setup is prakar execute chalta hai:
-            </p>
+            <h3>৪. এই বহুভুজ কেলকুলেটৰ ব্যৱহাৰ কৰাৰ সহজ নিয়ম</h3>
             <ul style="list-style-type: square; padding-left: 20px;">
-                <li><b>Language Interface Switcher Nodes:</b> Panel controls link header lines up par active press trigger se aap settings me **English** ya **Assamese (অসমীয়া)** parameter layout options select kar sakte hain. Pura labelling criteria automatic synchronizations format loop update ho jayega.</li>
-                <li><b>Triangle Generation Layer:</b> Initial layer par dynamic window inside 1 single triangle field parameters show hote hain. Agar aapki ground mapping layout area bada hai toh computational path line options control block up box inside **"+ Add Triangle"** key use karke unlimited metrics fields rows setup cards parallel generate kar sakte hain.</li>
-                <li><b>Data Fields Configuration:</b> Apne manual tape survey scaling charts numbers inspect up karein aur continuous values inputs entries sections side columns lines up parameters inside fields inputs secure feed out karein.</li>
-                <li><b>Absolute Processing trigger:</b> Sub data strings parameters fields inside mapping clear set tracking complete karne ke baad master call system command trigger row **"Calculate Total Area"** option use karein. System back-end parameters constants execute processing layers active block clear out kar dega.</li>
-                <li><b>Cloud Transmission controls:</b> Result analytics dashboards window layers checks parameters panel block metrics inside aap immediate actions checks variables loop connectivity link lines use karke invoice description parameters instant **Copy** parameters context map copy update hold kar sakte hain ya fir dynamic WhatsApp sharing logic code setup parameters line integration settings use karke detail data parameters links forward execute kar sakte hain. Paper file systems hard print out generation setup features updates framework configurations context inside me dynamic encryption keys specifications trace layout data ke sath professional **Print Report** infrastructure option running format inside dynamic fully operational active state ready chalta chal raha hai.</li>
+                <li><b>ভাষা সলনি (Language Switcher):</b> ওপৰৰ বুটামত ক্লিক কৰি ইংৰাজী বা অসমীয়া ভাষা বাছনি কৰক।</li>
+                <li><b>ত্ৰিভুজ যোগ কৰা (+ Add Triangle):</b> যদি আপোনাৰ মাটিত ৩ টা তকৈ অধিক কোণ বা ত্ৰিভুজ আছে, তেন্তে '+ Add Triangle' বুটামত ক্লিক কৰি যিকোনো সংখ্যক ত্ৰিভুজ যোগ কৰক।</li>
+                <li><b>জোখ সুমুৱাওক (Input Measurements):</b> প্ৰতিটো ত্ৰিভুজৰ তিনিটা বাহুৰ জোখ ফুটত (Feet) ইনপুট বাকচত লিখক।</li>
+                <li><b>ফলাফল চাওক (Calculate):</b> 'Calculate Total Area' বুটামত ক্লিক কৰাৰ লগে লগে বিঘা, কাঠা, লেচা, একৰ, হেক্টৰ আৰু বৰ্গফুটত সঠিক ফলাফল ওলাই পৰিব।</li>
+                <li><b>মানচিত্ৰ পূৰ্বদৰ্শন (Interactive Land Preview):</b> কেলকুলেটৰৰ ঠিক তলতে থকা Visualizer Canvas ত আপোনাৰ মাটিৰ জ্যামিতিক আকৃতিলৈ স্বয়ংক্ৰিয় চিত্ৰ প্ৰদৰ্শিত হ’ব।</li>
+                <li><b>প্ৰিন্ট আৰু শ্বেয়াৰ (Print & Share):</b> আপুনি ফলাফলো 📋 Copy, 📲 WhatsApp ত শ্বেয়াৰ বা 🖨️ Official Print Report বনাব পাৰে।</li>
             </ul>
         </section>
 
         <section>
-            <h3>5. 5 Practical Examples of Real-World Irregular Land Evaluations</h3>
+            <h3>৫. অসমৰ ভূমি ৰাজহ আইন আৰু ধৰিত্ৰী পৰ্টেল সংগতি (Assam Land Revenue Rules 2026)</h3>
             <p>
-                Assam property evaluations systems, tea landscape expansions zones and property sub-divisions calculations data matching criteria lines updates context structures inside verify lines up process check up calculations parameters loop running models discussion rules is prakar rests hai:
+                অসম চৰকাৰৰ ৰাজহ আৰু দুৰ্যোগ ব্যৱস্থাপনা বিভাগৰ শেহতীয়া নিয়ম অনুসৰি প্ৰতিটো ভূমি হস্তান্তৰ, মিউটেচন (নামজাৰি) আৰু গৃহ ঋণৰ বাবে ডিজিটেল ভূমি নথিপত্ৰ আৰু সঠিক স্কোৱাৰ ফুট জোখ বাধ্যতামূলক কৰা হৈছে। এই কেলকুলেটৰটো ধৰিত্ৰী অসম (Dharitree Assam Portal) ৰ সকলো নীতি-নিয়ম আৰু ৰাজহ মাপদণ্ড ১০০% মানি চলি প্ৰস্তুত কৰা হৈছে।
             </p>
-            <ul>
-                <li><b>Model 1 (Complex L Shape Plot Structural division - 2 Triangles):</b> Ek L shape dimensions geometry boundaries construction properties plots area ko center split corner connectivity guidelines matching metrics paths coordinates check items loops apply karke jab data cards sections rows inputs coordinates inputs layers inside 2 discrete triangles cards standard values data setup calculations mapping parameters feed set kiya jata hai, toh application internal triangulation algorithmic matrix parameters formulas calculation values compile paths output diagnostics dynamic screen context block inside structural calculations logic execute parameters output data layout trace perfectly standard summary area output clear render out kar dega.</li>
-                <li><b>Model 2 (Independent Pentagon Land Holding Area Verification - 3 Triangles Card framework):</b> 5 irregular borders corners positions values parameters dimensional field structures tracking records check metrics context inside me jab dynamic multi cards mapping loops add parameters active framework use karke complete three variables calculation components metrics logic fields components background loops inside variables structural inputs safe configuration models parallel load execute nikaal kiya jata hai, toh computer matrix system binary execution core trace hoke standard data dimensions specifications clear window panel variables inside perfect analytics display system results matrix update display data files metrics parameters output load data variables generate kar dega.</li>
-                <li><b>Model 3 (River Bank Curve Holding Plot Matrix Partition Audit - 4 Triangles setup):</b> Top level macro irrigation sector boundaries plot check assessment parameters processing fields calculations lines data check systems context layers tracking maps analysis checking tools rules configurations data update check inside jab continuous 4 triangles fields properties values data entries store select kiya jata hai, toh parameters data structure parsing loops algorithm engine matrix performance optimization modules straight back-end execution loops run logic standard parameters call context processing generate parameters sheet matrix setup trace update check metrics values data load kar dega.</li>
-                <li><b>Model 4 (Independent Suburban Residential Plot Dimension Check - 1 Triangle data validation):</b> Fast growing town limits dimensions checking parameter cross validations tracking maps system coordinates metrics logic systems database check records configuration variables metrics sheet context checks structure design tracking validation inside me single card input values parameters details data parameters text entry fields inside standard specifications parameters secure parameters path execute model nikaal up loading framework parameters variables context logic execute processing loops parameters code update display dashboard board limits view trace layout results data perfectly standard load metrics clear render framework show kar dega.</li>
-                <li><b>Model 5 (Macro Corporate Tea Estate Land Acquisition Procurement Survey - 10 Triangles card matrix processing):</b> Institutional high-scale area measurements asset calculation analytics mapping audits context validation lines processing rules connectivity tool logic inside execution background structural loops parameters standard target metrics multi processing loops framework calculation operations complete target values clear out process run loop dynamic execution context variables data parameters database trace configurations data metrics clear view standard values data model layout settings variables data clear parameters generate layout balance structures format specifications tightly calculate karke parameters context data layer variables metrics summary data load variables parameters structural framework system render safe dynamic operational fully clear execute kar dega.</li>
-            </ul>
         </section>
 
         <section>
-            <h3>6. Frequently Asked Questions (FAQs)</h3>
-            <div style="margin-bottom: 15px; border-bottom: 1px solid #e2e8f0; padding-bottom: 10px;">
-                <p><b>Q1. Heron's Formula irregular land mapping me kyu useful hai?</b><br>Ans: Geometric patterns me jab boundaries irregular grid scale parameters limits lines map follow up karti hain toh standard algorithms failure control checks limits execute ho jaate hain. Is condition me Heron's formula side inputs equations dimensions standard calculation scale execution logic checks loop track set rules mapping structures inside zero matrix error analytics status results deliver karne me continuous standard hundred percent working model capacity status pradan karta hai.</p>
+            <h3>৬. প্ৰায়ে সোধা প্ৰশ্নসমূহ (Frequently Asked Questions - FAQs)</h3>
+            <div class="faq-item">
+                <p><b>Q1. বহুভুজ বা অনিয়মিত মাটিৰ কালি কেনেকৈ উলিওৱা হয়?</b><br>উত্তৰ: অনিয়মিত মাটিক কেইবাটাও ত্ৰিভুজত ভাগ কৰি হ্যেৰনৰ সূত্ৰ (Heron's Formula) ব্যৱহাৰ কৰি প্ৰতিটো ত্ৰিভুজৰ কালি যোগ কৰি মুঠ কালি উলিওৱা হয়।</p>
             </div>
-            <div style="margin-bottom: 15px; border-bottom: 1px solid #e2e8f0; padding-bottom: 10px;">
-                <p><b>Q2. Assam mein 1 Bigha mein kitne Lessa hote hain?</b><br>Ans: Assam revenue administration metric directory framework guidelines maps system rules regulations details rules instructions context inside mapping limits equations data sheet rules ke compliance parameters records check balance standard ke anusar 1 complete bigha land piece capacity framework structural dimensional track parameters inside me sateek **100 Lessa** holdings parameters unit balance metrics format rules nirdharit mapping blocks base values hota hai.</p>
+            <div class="faq-item">
+                <p><b>Q2. অসমত ১ বিঘা মাটিত কিমান বৰ্গফুট থাকে?</b><br>উত্তৰ: অসম চৰকাৰৰ ৰাজহ নিয়ম অনুসৰি ১ বিঘা মাটিত ১৪,৪০০ বৰ্গফুট (Sq. Ft.) থাকে।</p>
             </div>
-            <div style="margin-bottom: 15px; border-bottom: 1px solid #e2e8f0; padding-bottom: 10px;">
-                <p><b>Q3. Kya ye advanced triangulation polygon tool mobile networks browsers me dynamic load le sakta hai?</b><br>Ans: Ji haan, is open source responsive mobile first computational logic environment code variables structural tracking tools packages layout code execution block ko highly custom lightweight vanilla code standards structure optimization data parameter levels background configuration engine rules script models code logic structure update system par build and program kiya gaya hai jisse low processor capability screen devices settings context inside me smooth tracking continuous interface load speed scale performance render blocks securely pick up kar sake.</p>
+            <div class="faq-item">
+                <p><b>Q3. অসমৰ ভূমি মাপত ১ বিঘা কিমান কাঠা আৰু লেচাৰ সমান?</b><br>উত্তৰ: ১ বিঘা = ৫ কাঠা = ১০০ লেচা।</p>
             </div>
-            <div style="margin-bottom: 15px; border-bottom: 1px solid #e2e8f0; padding-bottom: 10px;">
-                <p><b>Q4. Kya main direct yards dimension variables feed up standard map values enter kar sakta hu?</b><br>Ans: Nahi, ye framework design parameter settings parsing calculation processing engine current operational rules criteria me dimensions data mapping context structural scale variables logic data properties values standard input criteria fields settings me parameters calculation base configuration initialization limits me dimensions entries numeric values in Feet format input setup demand hold karta hai kyunki state measurements practices inside multi fields levels cross operations check structures line up process check background rules me feet standard primary standard balance velocity mapping setup rests rehta hai.</p>
+            <div class="faq-item">
+                <p><b>Q4. ১ কাঠা মাটিত কিমান বৰ্গফুট আৰু লেচা থাকে?</b><br>উত্তৰ: ১ কাঠা মাটিত ২,৮৮০ বৰ্গফুট আৰু ২০ লেচা থাকে।</p>
             </div>
-            <div style="margin-bottom: 15px; border-bottom: 1px solid #e2e8f0; padding-bottom: 10px;">
-                <p><b>Q5. Is specific advanced calculation system algorithm matrix structural layers processing code structure parameters core to kisne optimize aur design kiya hai?</b><br>Ans: Ise Shayan Smart Tools macro utility digital tools development program layout application stack platforms technology base setup components structures core pipeline layers inside me structural programming algorithms constants computing parameters balance metrics loops with advanced float execution accuracy validation systems coding criteria controls check tools data logic layers programming parameters structures me Muksidul Islam ne high velocity geometric processing components equations parameters model setup context structures loop inside me absolute zero error precision status trace standard level system parameters check block dynamic fully custom ready patterns par perfectly optimize dynamically develop aur configure kiya hai.</p>
+            <div class="faq-item">
+                <p><b>Q5. ১ লেচা মাটিৰ জোখ কিমান?</b><br>উত্তৰ: ১ লেচা মাটিৰ কালি হ'ল ১৪৪ বৰ্গফুট (১২ ফুট × ১২ ফুট)।</p>
+            </div>
+            <div class="faq-item">
+                <p><b>Q6. ১ একৰ মাটিত অসমৰ কিমান বিঘা মাটি হয়?</b><br>উত্তৰ: ১ একৰ মাটিত অসমৰ মানদণ্ড অনুসৰি ৩.০২৫ বিঘা (৪৩,৫৬০ বৰ্গফুট) মাটি থাকে।</p>
+            </div>
+            <div class="faq-item">
+                <p><b>Q7. ১ হেক্টৰ মাটিত অসমৰ জোখ অনুসৰি কিমান বিঘা থাকে?</b><br>উত্তৰ: ১ হেক্টৰ মাটিত প্ৰায় ৭.৪৭ বিঘা (১,০৭,৬৩৯ বৰ্গফুট) মাটি থাকে।</p>
+            </div>
+            <div class="faq-item">
+                <p><b>Q8. হ্যেৰনৰ সূত্ৰ (Heron's Formula) টো কি?</b><br>উত্তৰ: ত্ৰিভুজৰ কালি = √[s(s - a)(s - b)(s - c)], য’ত s = (a + b + c) / 2।</p>
+            </div>
+            <div class="faq-item">
+                <p><b>Q9. মাটিৰ দাগ নম্বৰ আৰু পাট্টা নম্বৰ কি?</b><br>উত্তৰ: দাগ নম্বৰ হৈছে মাটিৰ নিৰ্দিষ্ট মেপ সংকেত নম্বৰ আৰু পাট্টা নম্বৰ হৈছে মাটিৰ গৰাকীৰ অধিকাৰৰ ৰাজহ নথিপত্ৰৰ নম্বৰ।</p>
+            </div>
+            <div class="faq-item">
+                <p><b>Q10. ধৰিত্ৰী (Dharitree Portal) কি?</b><br>উত্তৰ: ধৰিত্ৰী হৈছে অসম চৰকাৰৰ ৰাজহ আৰু দুৰ্যোগ ব্যৱস্থাপনা বিভাগৰ ডিজিটেল ভূমি অভিলেখ পৰ্টেল।</p>
+            </div>
+            <div class="faq-item">
+                <p><b>Q11. বেঁকা বা টেৰা-বেকা মাটিৰ শুদ্ধ জোখ কেনেকৈ ল’ব পাৰি?</b><br>উত্তৰ: মাটিডোখৰৰ বিপৰীত কোণসমূহ সংযোগ কৰি ত্ৰিভুজত বিভক্ত কৰক আৰু ফিতাৰে বাহুসমূহ জুখি এই কেলকুলেটৰত সুমুৱাওক।</p>
+            </div>
+            <div class="faq-item">
+                <p><b>Q12. ফুটৰ বাহিৰে গজ বা মিটাৰত জোখ ল’লে কেনেকৈ গণনা কৰিব?</b><br>উত্তৰ: প্ৰথমে গজ বা মিটাৰৰ জোখসমূহ ফুটলৈ ৰূপান্তৰ কৰি কেলকুলেটৰত ইনপুট দিব লাগে।</p>
+            </div>
+            <div class="faq-item">
+                <p><b>Q13. এই কেলকুলেটৰটো মোবাইলত ব্যৱহাৰ কৰিব পাৰিনে?</b><br>উত্তৰ: হয়, এই কেলকুলেটৰটো সকলো মোবাইল আৰু কম্পিউটাৰ ব্ৰাউজাৰত দ্ৰুতভাৱে কাম কৰে।</p>
+            </div>
+            <div class="faq-item">
+                <p><b>Q14. জমা বন্দীত কি তথ্য পোৱা যায়?</b><br>উত্তৰ: জমা বন্দীত মাটিৰ গৰাকীৰ নাম, মাটিৰ কালি, ৰাজহৰ পৰিমাণ আৰু দাগ/পাট্টা নম্বৰ সংৰক্ষিত থাকে।</p>
+            </div>
+            <div class="faq-item">
+                <p><b>Q15. এই কেলকুলেটৰটো কোনে প্ৰস্তুত কৰিছে?</b><br>উত্তৰ: এই কেলকুলেটৰটো Shayan Smart Tools ৰ অধীনত মুকছিদুল ইছলাম (Muksidul Islam) ৰ দ্বাৰা তৈয়াৰ আৰু ডিজাইন কৰা হৈছে।</p>
             </div>
         </section>
 
@@ -402,12 +840,49 @@
                 <span class="sst-dash-title">Land Cost Tool</span>
             </a>
         </div>
+<div class="shayan-review-wrapper">
+    <div class="review-card">
+        <h3>Aapko hamara tool kaisa laga?</h3>
+        <p class="review-subtitle">Apna keemti feedback dekar humein behtar banane mein madad karein!</p>
+        
+        <!-- Star Rating UI -->
+        <div class="star-rating" id="starContainer">
+            <span class="star" data-value="1">&#9733;</span>
+            <span class="star" data-value="2">&#9733;</span>
+            <span class="star" data-value="3">&#9733;</span>
+            <span class="star" data-value="4">&#9733;</span>
+            <span class="star" data-value="5">&#9733;</span>
+        </div>
+        <p id="ratingText" class="rating-text">Rate karne ke liye stars par click karein</p>
 
+        <!-- Feedback Form -->
+        <div class="feedback-form-box" id="feedbackFormBox" style="display: none;">
+            <input type="text" id="reviewerName" placeholder="Aapka Naam (Optional)" class="review-input">
+            <textarea id="reviewerComment" placeholder="Apna feedback yahan likhein..." class="review-textarea" rows="3"></textarea>
+            <button id="submitReviewBtn" class="review-submit-btn">Review Submit Karein 🚀</button>
+        </div>
+
+        <!-- Success Message -->
+        <div id="reviewSuccessMsg" class="review-success" style="display: none;">
+            <span>🎉 Shukriya! Aapka feedback successfully submit ho gaya hai.</span>
+            <button id="writeAnotherBtn" class="review-another-btn">Aur Review Dekhein / Likhein</button>
+        </div>
+    </div>
+
+    <!-- Recent Comments Section (Max 20 Reviews) -->
+    <div class="recent-reviews-container">
+        <h4>💬 Doosre Users ke Reviews (<span id="reviewCount">0</span>)</h4>
+        <div class="reviews-scroll-box" id="reviewsScrollBox">
+            <!-- Dynamic Comments yahan load honge -->
+            <p class="no-reviews-text" id="noReviewsText">Abhi tak koi review nahi hai. Pehla review aap dein! ✨</p>
+        </div>
+    </div>
+</div>
         <div style="margin-top: 50px; padding: 25px; border: 2px dashed var(--assam-green); background: #ffffff; border-radius: 12px; text-align: center;">
             <h3 style="color: var(--dark-green); margin-top: 0;">🚫 Copyright & Legal Notice Protected</h3>
             <p style="font-size: 13px; margin-bottom: 0;">
                 <strong>Copyright © 2026 Shayan Smart Tools. All Rights Reserved.</strong><br><br>
-                Is advanced multi-triangle polygon software application core module interface layout model framework system flow lines computational algorithms source code elements configuration settings data parameters parameters rules <b>Muksidul Islam</b> ke proprietary engineering copyright tracking control security guidelines elements properties hold rules privileges context me system locks and standard security managed rules structures privileges protected status systems execute rests hain. Unauthorized digital copying, parsing scripts replication mirror deployment strictly cyber laws offense acts context trace penalties limits action operations generate criteria data limits rules tracking standard legal execution line bounds monitoring ready monitor rules clear chalta hai.
+                এই ছফ্টৱেৰ এপ্লিকেশ্বনৰ ক'ড, মেট্ৰিক্স এলগৰিদম আৰু ডিজাইন সংৰক্ষিত। <b>Muksidul Islam</b> ৰ অনুমতি অবিহনে কোনো অংশ কপি বা অনুলিপি কৰা কাৰ্য আইনীভাৱে দণ্ডনীয় অপৰাধ।
             </p>
         </div>
     </article>
@@ -432,15 +907,19 @@
             add: "+ Add Triangle", calc: "Calculate Total Area", res: "Calculated Result (ফলাফল):",
             iN: "How to measure complex land? (জটিল মাটি কেনেকৈ জুখিব?)",
             iD: "Divide your land into multiple triangles and measure all sides as shown above.",
-            lA: "Side A (Feet)", lB: "Side B (Feet)", lC: "Side C (Feet)", hCard: "Triangle #"
+            lA: "Side A (Feet)", lB: "Side B (Feet)", lC: "Side C (Feet)", hCard: "Triangle #",
+            vT: "📐 Land Shape Visualizer / Preview (মাটিৰ মানচিত্ৰ পূৰ্বদৰ্শন)",
+            hT: "📜 Recent Calculations History (শেহতীয়া হিচাপৰ ইতিহাস)"
         },
         as: {
             t: "অসমৰ উন্নত বহুভুজ ভূমি কেলকুলেটৰ",
-            st: "মাটিখিনik ত্ৰিভুজত ভাগ কৰি অতি জটিল অনিয়মিত আকৃতিৰ জোখ কৰক।",
+            st: "মাটিখিনিক ত্ৰিভুজত ভাগ কৰি অতি জটিল অনিয়মিত আকৃতিৰ জোখ কৰক।",
             add: "+ ত্ৰিভুজ যোগ কৰক", calc: "মুঠ মাটিকালি গণনা কৰক", res: "গণনা কৰা ফলাফল:",
             iN: "জটিল মাটি কেনেকৈ জুখিব?",
             iD: "আপোনাৰ মাটিখিনিক একাধিক ত্ৰিভুজত ভাগ কৰক আৰু ওপৰত দেখুওৱাৰ দৰে সকলো দিশ জুখিব।",
-            lA: "প্ৰথম বাহু (ফুট)", lB: "দ্বিতীয় বাহু (ফুট)", lC: "তৃতীয় বাহু (ফুট)", hCard: "ত্ৰিভুজ নম্বৰ #"
+            lA: "প্ৰথম বাহু (ফুট)", lB: "দ্বিতীয় বাহু (ফুট)", lC: "তৃতীয় বাহু (ফুট)", hCard: "ত্ৰিভুজ নম্বৰ #",
+            vT: "📐 মাটিৰ মানচিত্ৰ পূৰ্বদৰ্শন (Land Shape Visualizer)",
+            hT: "📜 শেহতীয়া হিচাপৰ ইতিহাস (Recent Calculations History)"
         }
     };
 
@@ -455,6 +934,8 @@
         document.getElementById('resHead').innerText = trans[l].res;
         document.getElementById('imgTitle').innerText = trans[l].iN;
         document.getElementById('imgDesc').innerText = trans[l].iD;
+        document.getElementById('visTitle').innerText = trans[l].vT;
+        document.getElementById('hisTitle').innerText = trans[l].hT;
         
         let headers = document.querySelectorAll('.triangle-header');
         headers.forEach((h, index) => {
@@ -484,11 +965,94 @@
 
         div.innerHTML = `<span class="triangle-header">${headerText}</span>
             <div class="input-row">
-                <div class="input-group"><label class="lblA">${labelTextA}</label><input type="number" class="side-a" placeholder="0"></div>
-                <div class="input-group"><label class="lblB">${labelTextB}</label><input type="number" class="side-b" placeholder="0"></div>
-                <div class="input-group"><label class="lblC">${labelTextC}</label><input type="number" class="side-c" placeholder="0"></div>
+                <div class="input-group"><label class="lblA">${labelTextA}</label><input type="number" class="side-a" placeholder="0" oninput="drawPreview()"></div>
+                <div class="input-group"><label class="lblB">${labelTextB}</label><input type="number" class="side-b" placeholder="0" oninput="drawPreview()"></div>
+                <div class="input-group"><label class="lblC">${labelTextC}</label><input type="number" class="side-c" placeholder="0" oninput="drawPreview()"></div>
             </div>`;
         area.appendChild(div);
+        drawPreview();
+    }
+
+    function resetForm() {
+        document.getElementById('triangleArea').innerHTML = `
+        <div class="triangle-card">
+            <span class="triangle-header" id="t1Head">${currentL === 'en' ? 'Triangle #1' : 'ত্ৰিভুজ নম্বৰ #1'}</span>
+            <div class="input-row">
+                <div class="input-group"><label class="lblA">${currentL === 'en' ? trans.en.lA : trans.as.lA}</label><input type="number" class="side-a" placeholder="0" oninput="drawPreview()"></div>
+                <div class="input-group"><label class="lblB">${currentL === 'en' ? trans.en.lB : trans.as.lB}</label><input type="number" class="side-b" placeholder="0" oninput="drawPreview()"></div>
+                <div class="input-group"><label class="lblC">${currentL === 'en' ? trans.en.lC : trans.as.lC}</label><input type="number" class="side-c" placeholder="0" oninput="drawPreview()"></div>
+            </div>
+        </div>`;
+        tCount = 1;
+        document.getElementById('resPanel').style.display = 'none';
+        drawPreview();
+    }
+
+    function drawPreview() {
+        const canvas = document.getElementById('visualizerCanvas');
+        const ctx = canvas.getContext('2d');
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        const aList = document.querySelectorAll('.side-a');
+        const bList = document.querySelectorAll('.side-b');
+        const cList = document.querySelectorAll('.side-c');
+
+        let offsetX = 40;
+        ctx.strokeStyle = '#1b5e20';
+        ctx.lineWidth = 2;
+        ctx.font = '12px Segoe UI';
+        ctx.fillStyle = '#1b5e20';
+
+        let validDrawn = false;
+
+        for (let i = 0; i < aList.length; i++) {
+            let a = parseFloat(aList[i].value) || 0;
+            let b = parseFloat(bList[i].value) || 0;
+            let c = parseFloat(cList[i].value) || 0;
+
+            if (a > 0 && b > 0 && c > 0 && (a + b > c) && (a + c > b) && (b + c > a)) {
+                validDrawn = true;
+                // Calculate vertex using cosine law
+                let cosA = (b * b + c * c - a * a) / (2 * b * c);
+                let sinA = Math.sqrt(Math.max(0, 1 - cosA * cosA));
+
+                let scale = Math.min(120 / Math.max(a, b, c), 2.5);
+                let cScaled = c * scale;
+                let bScaled = b * scale;
+
+                let x1 = offsetX;
+                let y1 = 200;
+
+                let x2 = x1 + cScaled;
+                let y2 = y1;
+
+                let x3 = x1 + bScaled * cosA;
+                let y3 = y1 - bScaled * sinA;
+
+                ctx.beginPath();
+                ctx.moveTo(x1, y1);
+                ctx.lineTo(x2, y2);
+                ctx.lineTo(x3, y3);
+                ctx.closePath();
+
+                ctx.fillStyle = 'rgba(129, 199, 132, 0.35)';
+                ctx.fill();
+                ctx.stroke();
+
+                ctx.fillStyle = '#0d3c12';
+                ctx.fillText(`T#${i+1}`, (x1 + x2 + x3) / 3 - 10, (y1 + y2 + y3) / 3);
+
+                offsetX = x2 + 30;
+                if (offsetX > canvas.width - 100) break;
+            }
+        }
+
+        if (!validDrawn) {
+            ctx.fillStyle = '#94a3b8';
+            ctx.textAlign = 'center';
+            ctx.fillText(currentL === 'en' ? 'Enter valid sides to render 2D Preview' : 'পূৰ্বদৰ্শন চাবলৈ সঠিক বাহুৰ জোখ সুমুৱাওক', canvas.width / 2, canvas.height / 2);
+            ctx.textAlign = 'start';
+        }
     }
 
     function calculateTotalArea() {
@@ -498,16 +1062,24 @@
         const cList = document.querySelectorAll('.side-c');
         const resPanel = document.getElementById('resPanel');
 
+        let triangleInputSummary = [];
+
         for(let i=0; i<aList.length; i++) {
             let a = parseFloat(aList[i].value) || 0;
             let b = parseFloat(bList[i].value) || 0;
             let c = parseFloat(cList[i].value) || 0;
 
             if(a>0 && b>0 && c>0) {
-                if ((a + b > c) && (a + c > b) && (b + c > a)) {
+                // Bug fix: Added floating point precision check (EPSILON tolerance) for exact straight line inputs
+                if ((a + b > c + 1e-7) && (a + c > b + 1e-7) && (b + c > a + 1e-7)) {
                     let s = (a + b + c) / 2;
-                    let area = Math.sqrt(s * (s - a) * (s - b) * (s - c));
-                    if(!isNaN(area)) totalSqFt += area;
+                    let areaVal = s * (s - a) * (s - b) * (s - c);
+                    if (areaVal < 0) areaVal = 0;
+                    let area = Math.sqrt(areaVal);
+                    if(!isNaN(area)) {
+                        totalSqFt += area;
+                        triangleInputSummary.push(`T${i+1}: ${a}x${b}x${c} ft`);
+                    }
                 } else {
                     alert(currentL === 'en' ? `Triangle #${i+1} inputs are geometrically invalid!` : `ত্ৰিভুজ নম্বৰ #${i+1} ৰ জোখবোৰ জ্যামিতিকভাৱে অশুদ্ধ!`);
                     return;
@@ -546,6 +1118,64 @@
 
         resPanel.style.display = 'block';
         resPanel.scrollIntoView({ behavior: 'smooth' });
+
+        // =======================================================
+        // DIRECT LOCAL STORAGE HISTORY SAVER ENGINE
+        // =======================================================
+        let history = JSON.parse(localStorage.getItem('shayan_detailed_history')) || [];
+        const now = new Date();
+        const timeStr = now.toLocaleDateString('en-US', { 
+            month: 'short', 
+            day: 'numeric', 
+            hour: '2-digit', 
+            minute: '2-digit',
+            hour12: true 
+        });
+
+        let inputSummaryStr = triangleInputSummary.length > 0 ? triangleInputSummary.join(', ') : `${aList.length} Triangles`;
+        let resultFormatStr = `${bigha}B - ${katha}K - ${lessa}L`;
+
+        history.unshift({
+            id: Date.now(),
+            name: "Assam Advanced Polygon Land Calculator",
+            url: "assam-advanced-polygon-calculator.html",
+            inputs: inputSummaryStr,
+            result: `${resultFormatStr} (${Math.round(totalSqFt)} Sq Ft)`,
+            time: timeStr
+        });
+
+        if (history.length > 20) history.pop();
+        localStorage.setItem('shayan_detailed_history', JSON.stringify(history));
+        
+        renderHistoryList();
+        drawPreview();
+        // =======================================================
+    }
+
+    function renderHistoryList() {
+        let history = JSON.parse(localStorage.getItem('shayan_detailed_history')) || [];
+        let listEl = document.getElementById('historyList');
+        
+        if (history.length === 0) {
+            listEl.innerHTML = `<li style="color:#94a3b8; text-align:center; padding:10px;">কোনো শেহতীয়া ইতিহাস পোৱা নগ'ল (No history available)</li>`;
+            return;
+        }
+
+        let top5 = history.slice(0, 5);
+        listEl.innerHTML = top5.map(item => `
+            <li class="history-item">
+                <div>
+                    <span class="his-val">${item.result}</span>
+                    <div style="color:#64748b; font-size:11px;">Inputs: ${item.inputs}</div>
+                </div>
+                <span class="his-time">${item.time}</span>
+            </li>
+        `).join('');
+    }
+
+    function clearHistory() {
+        localStorage.removeItem('shayan_detailed_history');
+        renderHistoryList();
     }
 
     function printLandReport() {
@@ -568,6 +1198,168 @@
         let urlText = encodeURIComponent(`Assam Irregular Land Results:\nBigha Format: ${document.getElementById('outB').innerText} বিঘা, ${document.getElementById('outK').innerText} কাঠা, ${document.getElementById('outL').innerText} লেচা\nSq Ft: ${document.getElementById('outSq').innerText}\nCheck details via Shayan Smart Tools`);
         window.open("https://wa.me/?text=" + urlText);
     }
+
+    // Initialize Canvas & History on load
+    window.onload = function() {
+        drawPreview();
+        renderHistoryList();
+    };
+    document.addEventListener('DOMContentLoaded', function () {
+    const stars = document.querySelectorAll('.star');
+    const ratingText = document.getElementById('ratingText');
+    const feedbackFormBox = document.getElementById('feedbackFormBox');
+    const submitBtn = document.getElementById('submitReviewBtn');
+    const reviewCard = document.querySelector('.review-card');
+    const successMsg = document.getElementById('reviewSuccessMsg');
+    const writeAnotherBtn = document.getElementById('writeAnotherBtn');
+    
+    const reviewsScrollBox = document.getElementById('reviewsScrollBox');
+    const reviewCountDisplay = document.getElementById('reviewCount');
+    const noReviewsText = document.getElementById('noReviewsText');
+
+    let selectedRating = 0;
+    const STORAGE_KEY = 'shayan_tool_reviews';
+
+    const ratingMessages = {
+        1: "😞 Bahut bura laga? Humein sudhaar ka mauka dein.",
+        2: "🙁 Thik-thak tha, aur behtar karenge.",
+        3: "😊 Achha laga, dhanyawad!",
+        4: "😃 Bahut badhiya experience!",
+        5: "😍 Lajawab! Shandar tool hai!"
+    };
+
+    // Load existing reviews on page load
+    loadReviews();
+
+    // Hover & Click Effect on Stars
+    stars.forEach((star, index) => {
+        star.addEventListener('mouseover', function () {
+            resetStars();
+            highlightStars(index + 1);
+        });
+
+        star.addEventListener('mouseout', function () {
+            resetStars();
+            if (selectedRating > 0) {
+                highlightStars(selectedRating);
+            }
+        });
+
+        star.addEventListener('click', function () {
+            selectedRating = index + 1;
+            highlightStars(selectedRating);
+            ratingText.textContent = ratingMessages[selectedRating];
+            feedbackFormBox.style.display = 'flex';
+        });
+    });
+
+    function highlightStars(count) {
+        for (let i = 0; i < count; i++) {
+            stars[i].classList.add('active');
+        }
+    }
+
+    function resetStars() {
+        stars.forEach(s => s.classList.remove('active'));
+    }
+
+    // Submit Button Action
+    submitBtn.addEventListener('click', function () {
+        const nameInput = document.getElementById('reviewerName');
+        const commentInput = document.getElementById('reviewerComment');
+        
+        const name = nameInput.value.trim() || 'Aam Naagrik (Anonymous)';
+        const comment = commentInput.value.trim();
+
+        if (!comment) {
+            alert('Kripya apna feedback ya comment zaroor likhein!');
+            commentInput.focus();
+            return;
+        }
+
+        // New Review Object
+        const newReview = {
+            name: name,
+            rating: selectedRating,
+            comment: comment,
+            date: new Date().toLocaleDateString('hi-IN', { day: 'numeric', month: 'short' })
+        };
+
+        // Get stored reviews, add new one, and slice to keep max 20
+        let reviews = JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
+        reviews.unshift(newReview); // New comment sabse upar dikhega
+        if (reviews.length > 20) {
+            reviews = reviews.slice(0, 20); // Max 20 limit
+        }
+
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(reviews));
+
+        // Reset Form inputs
+        nameInput.value = '';
+        commentInput.value = '';
+
+        // Refresh UI
+        loadReviews();
+
+        // Hide form and show success message
+        feedbackFormBox.style.display = 'none';
+        document.querySelector('.star-rating').style.display = 'none';
+        ratingText.style.display = 'none';
+        reviewCard.querySelector('h3').style.display = 'none';
+        reviewCard.querySelector('.review-subtitle').style.display = 'none';
+        successMsg.style.display = 'block';
+    });
+
+    // Reset view to write another review
+    writeAnotherBtn.addEventListener('click', function () {
+        successMsg.style.display = 'none';
+        document.querySelector('.star-rating').style.display = 'flex';
+        ratingText.style.display = 'block';
+        reviewCard.querySelector('h3').style.display = 'block';
+        reviewCard.querySelector('.review-subtitle').style.display = 'block';
+        selectedRating = 0;
+        resetStars();
+        ratingText.textContent = "Rate karne ke liye stars par click karein";
+    });
+
+    // Function to render reviews from LocalStorage
+    function loadReviews() {
+        const reviews = JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
+        reviewCountDisplay.textContent = reviews.length;
+
+        if (reviews.length === 0) {
+            noReviewsText.style.display = 'block';
+            reviewsScrollBox.innerHTML = '';
+            reviewsScrollBox.appendChild(noReviewsText);
+            return;
+        }
+
+        noReviewsText.style.display = 'none';
+        reviewsScrollBox.innerHTML = '';
+
+        reviews.forEach(rev => {
+            const starsHTML = '&#9733;'.repeat(rev.rating);
+            
+            const reviewItem = document.createElement('div');
+            reviewItem.className = 'review-item';
+            reviewItem.innerHTML = `
+                <div class="review-item-header">
+                    <span class="review-author">${escapeHTML(rev.name)}</span>
+                    <span class="review-stars-mini">${starsHTML}</span>
+                </div>
+                <p class="review-comment-text">${escapeHTML(rev.comment)}</p>
+            `;
+            reviewsScrollBox.appendChild(reviewItem);
+        });
+    }
+
+    // Security helper to prevent XSS injection
+    function escapeHTML(str) {
+        return str.replace(/[&<>'"]/g, 
+            tag => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' }[tag] || tag)
+        );
+    }
+});
 </script>
 </body>
 </html>
