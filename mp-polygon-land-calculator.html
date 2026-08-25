@@ -1,0 +1,979 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Madhya Pradesh Advanced Polygon Land Calculator 2026 | मध्य प्रदेश बहुकोणीय भूमि मापन कैलकुलेटर | Shayan Smart Tools</title>
+    <link rel="canonical" href="https://shayansmarttools.in/mp-polygon-land-calculator.html" />
+    <link rel="icon" type="image/png" href="favicon.png" />
+
+    <meta name="description" content="Calculate irregular polygon land area in Madhya Pradesh using Multi-Triangle method. Instant conversion into Bigha, Bissa, Dhur, Acre, Hectare, and Sq Feet accurately based on MP Land Revenue standards 2026. Free by Shayan Smart Tools.">
+    <meta name="keywords" content="Madhya Pradesh Advanced Polygon Land Calculator, मध्य प्रदेश बहुकोणीय भूमि मापन कैलकुलेटर, Irregular Land Area Calculator MP, MP Bhulekh Bhu Naksha Land Measurement, MP me Zameen ki Mapni, Pakka Bigha Kachha Bigha Calculator, Heron's Formula Multi-Plot MP, Shayan Smart Tools Madhya Pradesh, MP Revenue Department land measurement">
+    <meta name="author" content="Muksidul islam">
+    <meta name="robots" content="index, follow">
+    
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-SSDTZWC9RH"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-SSDTZWC9RH');
+    </script>
+
+    <!-- Schema.org JSON-LD (Updated with Top 15 Search Questions 2026) -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "MP me 1 Pakka Bigha me kitne Square Feet hote hain?",
+          "acceptedAnswer": { "@type": "Answer", "text": "MP Revenue rules 2026 ke mutabik 1 Pakka Bigha me exact 27,225 Sq.Ft. (55×55 yards) hote hain." }
+        },
+        {
+          "@type": "Question",
+          "name": "MP me 1 Bigha me kitne Bissa (Biswa) hote hain?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Madhya Pradesh me 1 Pakka ya Kachha Bigha me exact 20 Bissa (Biswa) hote hain." }
+        },
+        {
+          "@type": "Question",
+          "name": "1 Bissa me kitne Dhur (Biswansi) hote hain?",
+          "acceptedAnswer": { "@type": "Answer", "text": "1 Bissa me exact 20 Dhur (jise Biswansi bhi kehte hain) hote hain." }
+        },
+        {
+          "@type": "Question",
+          "name": "Madhya Pradesh me 1 Hectare me kitne Bigha hote hain?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Standard MP Pakka Bigha matrix ke mutabik 1 Hectare (1,07,639 Sq.Ft) me lagbhag 3.95 Pakka Bigha hote hain." }
+        },
+        {
+          "@type": "Question",
+          "name": "1 Acre me kitne Pakka Bigha hote hain MP me?",
+          "acceptedAnswer": { "@type": "Answer", "text": "MP me 1 Acre (43,560 Sq.Ft) me exact 1.6 Pakka Bigha hote hain." }
+        },
+        {
+          "@type": "Question",
+          "name": "MP me Kachha Bigha ki value kitni hoti hai?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Regional Kachha Bigha belt me 1 Kachha Bigha 13,612.5 Sq.Ft (Pakka Bigha ka aadha) hota hai." }
+        },
+        {
+          "@type": "Question",
+          "name": "Malwa aur Nimar kshetra me 1 Bigha me kitne Sq Ft hote hain?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Malwa aur Nimar kshetra me local standard ke anusaar 1 Bigha lagbhag 12,100 Sq.Ft ka mana jata hai." }
+        },
+        {
+          "@type": "Question",
+          "name": "Aade-tirche polygon khet ka kshetrafal kaise nikale?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Khet ko multi-triangles me baant kar Heron's formula (s = (a+b+c)/2) dwara har triangle ka area jod kar nikala jata hai." }
+        },
+        {
+          "@type": "Question",
+          "name": "MP Bhulekh par zameen ki napni kisme hoti hai?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Official MP Bhulekh khasra-khatoni portal par area Hectare me darj hota hai." }
+        },
+        {
+          "@type": "Question",
+          "name": "1 Square Meter me kitne Square Feet hote hain?",
+          "acceptedAnswer": { "@type": "Answer", "text": "1 Square Meter me 10.7639 Square Feet hote hain." }
+        },
+        {
+          "@type": "Question",
+          "name": "Khasra Mutation aur Registry me Bigha ki ganna kaise hoti hai?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Registry me area Hectare ya Sq. Meter me hota hai jise MP Revenue conversion table se Bigha-Bissa me badla jata hai." }
+        },
+        {
+          "@type": "Question",
+          "name": "Multi-Triangle method me Side length kaise maapein?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Fita (Measuring Tape) ya Zarib Chain se khet ke har trikon ki teeno bhujaon (Side A, B, C) ko feet me maapein." }
+        },
+        {
+          "@type": "Question",
+          "name": "1 Dhur (Biswansi) me kitne Sq Ft hote hain?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Standard MP Pakka Bigha framework me 1 Dhur exact 68.06 Sq.Ft ka hota hai." }
+        },
+        {
+          "@type": "Question",
+          "name": "क्या यह बहुकोणीय कैलकुलेटर 100% सटीक कानूनी परिणाम देता है?",
+          "acceptedAnswer": { "@type": "Answer", "text": "हाँ, यह Heron's Pure Geometric Formula और MP Revenue Code 2026 के गणितीय नियमों पर कार्य करता है।" }
+        },
+        {
+          "@type": "Question",
+          "name": "MP me zameen ka batwara Patwari kis niyam se karte hain?",
+          "acceptedAnswer": { "@type": "Answer", "text": "MP Land Revenue Code ke anusaar Triangulation Grid Mapping dwara Khasra map par simankan aur batwara kiya jata hai." }
+        }
+      ]
+    }
+    </script>
+
+    <style>
+        :root {
+            --mp-blue: #0284c7;
+            --dark-slate: #0f172a;
+            --accent-gold: #d97706;
+            --white: #ffffff;
+            --bg: #f0f9ff;
+            --border-color: #bae6fd;
+            --danger-red: #ef4444;
+            --success-green: #22c55e;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            background-color: var(--bg);
+            margin: 0;
+            padding: 20px;
+            color: #334155;
+        }
+
+        .main-wrapper { max-width: 900px; margin: 0 auto; }
+
+        header {
+            background: linear-gradient(135deg, var(--mp-blue), var(--dark-slate));
+            color: #fff; padding: 40px 20px; border-radius: 25px; text-align: center;
+            border-bottom: 6px solid #0369a1; margin-bottom: 30px;
+        }
+        header h1 { color: white; margin: 0 0 10px 0; font-size: 28px; text-transform: uppercase; }
+        header p { color: #e0f2fe; margin: 0; font-size: 16px; }
+
+        .lang-toggle { display: flex; justify-content: center; gap: 10px; margin-bottom: 25px; }
+        .lang-btn { background: white; border: 2px solid var(--mp-blue); padding: 10px 25px; cursor: pointer; border-radius: 25px; font-weight: bold; transition: 0.3s; color: var(--mp-blue); font-size: 14px; }
+        .lang-btn.active { background: var(--mp-blue); color: white; }
+
+        .config-card {
+            background: #e0f2fe;
+            padding: 15px 20px;
+            border-radius: 16px;
+            margin-bottom: 20px;
+            border: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 15px;
+        }
+        .config-label { font-weight: bold; color: var(--mp-blue); font-size: 14px; }
+        .config-select { padding: 10px; border-radius: 8px; border: 1px solid #cbd5e1; font-size: 14px; font-weight: bold; color: var(--dark-slate); background: white; outline: none; }
+
+        .triangle-card {
+            background: var(--white);
+            padding: 20px;
+            border-radius: 16px;
+            margin-bottom: 20px;
+            border: 1px solid #e2e8f0;
+            border-left: 6px solid var(--mp-blue);
+            position: relative;
+        }
+        .triangle-header { font-weight: 800; color: var(--mp-blue); margin-bottom: 15px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #e2e8f0; padding-bottom: 5px; text-transform: uppercase; font-size: 13px; }
+
+        .input-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; }
+        .input-group { display: flex; flex-direction: column; }
+        label { font-size: 12px; font-weight: bold; margin-bottom: 5px; color: var(--mp-blue); text-transform: uppercase; }
+        input { padding: 15px; border: 1px solid #cbd5e1; border-radius: 12px; text-align: center; font-size: 16px; background: var(--white); outline: none; transition: 0.3s; }
+        input:focus { border-color: var(--mp-blue); box-shadow: 0 0 8px rgba(2,132,199,0.1); }
+
+        .controls { display: flex; flex-direction: column; gap: 12px; margin: 25px 0; }
+        .btn-row { display: flex; gap: 15px; }
+        .btn { flex: 1; padding: 18px; border: none; border-radius: 12px; font-weight: 800; cursor: pointer; font-size: 16px; transition: 0.3s; text-transform: uppercase; letter-spacing: 0.5px; text-align: center; }
+        .btn-add { background: #475569; color: white; }
+        .btn-calc { background: var(--mp-blue); color: white; }
+        .btn-reset { background: #dc2626; color: white; width: 100%; }
+        .btn:hover { transform: translateY(-2px); box-shadow: 0 8px 15px rgba(0,0,0,0.1); }
+
+        /* VISUALIZER CANVAS CARD */
+        .visualizer-card {
+            background: #ffffff;
+            padding: 20px;
+            border-radius: 20px;
+            border: 2px solid var(--mp-blue);
+            margin: 25px 0;
+            text-align: center;
+            display: none;
+        }
+        .visualizer-card h4 { margin: 0 0 10px 0; color: var(--mp-blue); text-transform: uppercase; font-size: 15px; }
+        canvas { max-width: 100%; height: auto; background: #f8fafc; border-radius: 12px; border: 1px dashed #cbd5e1; }
+
+        /* RESULTS UI Layout */
+        .res-panel { background: #0f172a; color: white; padding: 25px; border-radius: 25px; margin-top: 30px; display: none; border: 2px solid var(--mp-blue); position: relative; text-align: left; }
+        .res-panel h3 { margin-top: 0; text-align: center; color: #e0f2fe; font-size: 1.4rem; margin-bottom: 20px; }
+        .result-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; }
+        .res-item { background: rgba(255,255,255,0.05); padding: 15px; border-radius: 12px; display: flex; flex-direction: column; align-items: flex-start; gap: 5px; border-left: 4px solid var(--mp-blue); }
+        .res-item span { font-size: 12px; color: #94a3b8; font-weight: bold; }
+        .res-item b { font-size: 18px; color: #38bdf8; word-break: break-all; }
+
+        /* RECENT HISTORY TABLE STYLING */
+        .history-card {
+            background: #ffffff;
+            padding: 20px;
+            border-radius: 20px;
+            border: 1px solid #cbd5e1;
+            margin: 30px 0;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+        }
+        .history-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; border-bottom: 2px solid #f1f5f9; padding-bottom: 10px; }
+        .history-header h4 { margin: 0; color: var(--dark-slate); font-size: 16px; text-transform: uppercase; }
+        .btn-clear-hist { background: #ef4444; color: white; border: none; padding: 6px 12px; border-radius: 8px; font-weight: bold; cursor: pointer; font-size: 12px; transition: 0.2s; }
+        .btn-clear-hist:hover { background: #b91c1c; }
+        .history-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+        .history-table th, .history-table td { padding: 10px; text-align: left; border-bottom: 1px solid #e2e8f0; }
+        .history-table th { background: #f8fafc; color: var(--mp-blue); }
+
+        .print-header-block, .print-footer-block { display: none; }
+
+        .util-btns { display: flex; gap: 12px; margin-top: 25px; }
+        .u-btn { flex: 1; padding: 15px; border: none; border-radius: 12px; font-weight: 800; cursor: pointer; color: white; font-size: 14px; text-align: center; transition: 0.3s; }
+
+        .image-container { text-align: center; margin: 40px 0; padding: 25px; background: #ffffff; border-radius: 20px; border: 1px dashed var(--mp-blue); }
+        .image-container img { max-width: 100%; height: auto; border-radius: 12px; }
+
+        .seo-content { 
+            background: transparent !important; 
+            padding: 20px 0; 
+            margin-top: 50px; 
+            line-height: 1.8; 
+            border: none !important;
+            color: #334155 !important;
+            text-align: left;
+        }
+        .seo-content h2 { color: var(--mp-blue) !important; font-size: 26px !important; margin-bottom: 10px !important; border-left: 6px solid #0369a1; padding-left: 15px; margin-top: 40px; }
+        .seo-content h3 { color: var(--mp-blue) !important; margin-top: 30px; font-size: 20px; }
+        .seo-content p { color: #334155 !important; font-size: 16px; text-align: justify; }
+        .content-image { width: 100%; max-height: 340px; object-fit: cover; border-radius: 16px; margin: 25px 0; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
+
+        .seo-content table { width: 100%; border-collapse: collapse; margin: 25px 0; background: #ffffff; display: table; overflow-x: visible; }
+        .seo-content th, .seo-content td { border: 1px solid #e2e8f0; padding: 15px; text-align: left; color: #334155 !important; }
+        .seo-content th { background-color: #e0f2fe; color: var(--mp-blue) !important; }
+
+        .sst-dashboard-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; margin: 40px 0; width: 100%; box-sizing: border-box; }
+        .sst-dash-btn { display: flex; align-items: center; gap: 15px; background: #ffffff; padding: 18px 20px; border-radius: 16px; text-decoration: none; color: var(--mp-blue) !important; font-weight: 700; font-size: 15px; border: 1px solid #e2e8f0; transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1); box-sizing: border-box; }
+        .sst-dash-icon { display: flex; align-items: center; justify-content: center; width: 42px; height: 42px; background: #e0f2fe; border-radius: 12px; font-size: 20px; border: 1px solid #bae6fd; transition: transform 0.3s ease; }
+        .sst-dash-title { flex: 1; line-height: 1.3; text-align: left; }
+        .sst-dash-btn:hover { border-color: var(--mp-blue); transform: translateY(-4px); box-shadow: 0 12px 20px rgba(2, 132, 199, 0.1); background: linear-gradient(135deg, #ffffff, #e0f2fe); }
+        .sst-dash-btn:hover .sst-dash-icon { transform: scale(1.1) rotate(5deg); background: var(--mp-blue); color: #fff; }
+
+        @media (max-width: 600px) {
+            .input-row { grid-template-columns: 1fr; gap: 10px; }
+            header h1 { font-size: 22px; }
+            .result-grid { grid-template-columns: 1fr; }
+            .seo-content { padding: 10px 0; }
+            .seo-content h2 { font-size: 20px !important; }
+            .sst-dashboard-grid { grid-template-columns: 1fr; gap: 12px; }
+            .sst-dash-btn { padding: 15px 18px; }
+            .config-card { flex-direction: column; align-items: flex-start; }
+            .config-select { width: 100%; }
+            .btn-row { flex-direction: column; }
+        }
+
+        @media print {
+            * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; color-adjust: exact !important; }
+            @page { margin: 15mm 15mm; size: A4 portrait; }
+            body { background: #ffffff !important; color: #000000 !important; padding: 0; margin: 0; }
+            
+            .main-wrapper > header, .lang-toggle, .config-card, .triangle-card, .controls, .util-btns, #resHead, .seo-content, .back-btn, .image-container, .visualizer-card, .history-card { display: none !important; }
+            
+            .res-panel { 
+                display: block !important; 
+                background: #ffffff !important; 
+                color: #000000 !important; 
+                padding: 45px 35px !important; 
+                margin: 0 !important; 
+                width: 100% !important; 
+                box-sizing: border-box; 
+                border: 6px double var(--mp-blue) !important; 
+                border-radius: 0px !important; 
+                position: relative;
+                page-break-inside: avoid;
+            }
+            
+            .print-header-block { display: block !important; text-align: center; border-bottom: 2px solid var(--mp-blue) !important; padding-bottom: 18px; margin-bottom: 35px; }
+            .print-header-block img { display: inline-block !important; }
+
+            .result-grid { display: block !important; margin-top: 25px; }
+            .res-item { background: transparent !important; border: none !important; border-bottom: 1px solid #cbd5e1 !important; padding: 22px 6px !important; display: flex !important; flex-direction: row !important; justify-content: space-between !important; align-items: center !important; border-radius: 0px !important; }
+            .res-item span { color: #1e293b !important; font-size: 14px !important; font-weight: 600 !important; text-transform: uppercase; }
+            .res-item b { color: var(--mp-blue) !important; font-size: 17px !important; font-weight: 700 !important; }
+
+            .print-footer-block { 
+                display: block !important; 
+                margin-top: 60px; 
+                border-top: 1px dashed #cbd5e1 !important; 
+                padding-top: 25px;
+            }
+            .print-footer-container { display: table !important; width: 100% !important; }
+            .print-footer-left { display: table-cell !important; width: 60% !important; vertical-align: top !important; text-align: right !important; padding-right: 20px; }
+            .print-footer-right { display: table-cell !important; width: 40% !important; vertical-align: top !important; text-align: right !important; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="main-wrapper">
+    <header>
+        <h1 id="mainTitle">Madhya Pradesh Advanced Polygon Land Calculator</h1>
+        <p id="subText">Calculate complex irregular shapes by dividing them into triangles.</p>
+    </header>
+
+    <div class="lang-toggle">
+        <button class="lang-btn active" id="enBtn" onclick="setLang('en')">English</button>
+        <button class="lang-btn" id="hiBtn" onclick="setLang('hi')">हिंदी</button>
+    </div>
+
+    <div class="config-card">
+        <span class="config-label" id="configLabel">Select MP Land Standard (क्षेत्रीय पैमाना):</span>
+        <select id="bighaStandard" class="config-select" onchange="calculateTotalArea(true)">
+            <option value="pakka_bigha" selected>Standard MP Pakka Bigha (27,225 Sq.Ft / Bigha)</option>
+            <option value="kachha_bigha">Regional Kachha Bigha Belt (13,612.5 Sq.Ft / Bigha)</option>
+            <option value="malwa_variant">Malwa / Nimar Bigha Standard (12,100 Sq.Ft / Bigha)</option>
+        </select>
+    </div>
+
+    <div id="triangleArea">
+        <div class="triangle-card">
+            <span class="triangle-header"><span class="tHeadText" id="t1Head">Triangle #1 (प्रथम त्रिकोण)</span></span>
+            <div class="input-row">
+                <div class="input-group"><label class="lblA">Side A (Feet)</label><input type="number" class="side-a" placeholder="0"></div>
+                <div class="input-group"><label class="lblB">Side B (Feet)</label><input type="number" class="side-b" placeholder="0"></div>
+                <div class="input-group"><label class="lblC">Side C (Feet)</label><input type="number" class="side-c" placeholder="0"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="controls">
+        <div class="btn-row">
+            <button class="btn btn-add" id="btnAdd" onclick="addTriangle()">+ Add Triangle</button>
+            <button class="btn btn-calc" id="btnCalc" onclick="calculateTotalArea()">Calculate Total Area</button>
+        </div>
+        <button class="btn btn-reset" id="btnReset" onclick="resetForm()">🔄 Reset Form / डेटा रीसेट करें</button>
+    </div>
+
+    <!-- LAND SHAPE VISUALIZER CANVAS CARD -->
+    <div id="visualizerCard" class="visualizer-card">
+        <h4 id="visTitle">📐 Interactive Land Shape Preview (त्रिभुजाकार भू-नक्शा)</h4>
+        <canvas id="landCanvas" width="600" height="300"></canvas>
+    </div>
+
+    <div id="resPanel" class="res-panel">
+        
+        <div class="print-header-block">
+            <div style="display: flex; justify-content: center; align-items: center; gap: 10px; margin-bottom: 5px;">
+                <img src="favicon.png" alt="SST" style="width: 32px; height: 32px;">
+                <h2 style="font-size: 24px; color: #0284c7; margin: 0; font-weight: 900; letter-spacing: 1px;">SHAYAN SMART TOOLS</h2>
+            </div>
+            <p style="font-size: 11px; color: #0284c7; font-weight: bold; margin: 0 0 15px 0; letter-spacing: 0.5px; text-transform: uppercase;">MADHYA PRADESH REVENUE POLYGON AREA DIAGNOSTIC CERTIFICATE - 2026</p>
+            
+            <div style="background: #f0f9ff; border: 1px solid #bae6fd; padding: 12px; border-radius: 6px; display: grid; grid-template-columns: 1fr 1fr; font-size: 12px; text-align: left; gap: 8px; color: #334155;">
+                <div><strong>DOCUMENT REF:</strong> <span id="pDocRef" style="color:#0284c7; font-weight:bold;">SST-MP-POLY-0000</span></div>
+                <div style="text-align: right;"><strong>DATE:</strong> <span id="pDocDate" style="color:#0284c7; font-weight:bold;">--/--/----</span></div>
+                <div><strong>JURISDICTION:</strong> State of Madhya Pradesh (मध्य प्रदेश)</div>
+                <div style="text-align: right;"><strong>CONFIGURED MEASURE:</strong> <span id="pLaggiVal" style="color:#d97706; font-weight:bold;">Standard MP Pakka Bigha</span></div>
+            </div>
+        </div>
+
+        <h3 id="resHead" style="color: #e0f2fe; text-align: center; margin-top: 0;">Calculated Result (परिणाम)</h3>
+        
+        <div class="result-grid">
+            <div class="res-item" id="print-input-row" style="display:none;"><span style="color:#0284c7; font-weight: 800;">Initial Data Grid Input:</span> <b id="rInputVal" style="color:#0284c7; font-weight: 800;">0</b></div>
+            
+            <div class="res-item"><span id="uBigha">Bigha (बीघा)</span><b id="outBigha">0</b></div>
+            <div class="res-item"><span id="uBissa">Bissa / Biswa (बिस्सा / बिस्वा)</span><b id="outBissa">0</b></div>
+            <div class="res-item"><span id="uDhur">Dhur / Biswansi (धुर / बिस्वांसी)</span><b id="outDhur">0</b></div>
+            <div class="res-item"><span id="uAc">Acre (एकड़)</span><b id="outAc">0</b></div>
+            <div class="res-item"><span id="uHe">Hectare (हेक्टेयर)</span><b id="outHe">0</b></div>
+            <div class="res-item"><span id="uSq">Sq Feet (वर्ग फुट)</span><b id="outSq">0</b></div>
+            <div class="res-item"><span id="uMt">Sq Meter (वर्ग मीटर)</span><b id="outMt">0</b></div>
+        </div>
+
+        <div class="print-footer-block">
+            <div class="print-footer-container">
+                <div class="print-footer-left">
+                    <p style="margin: 0; font-weight: bold; color: #0284c7; text-transform: uppercase; font-size: 11px;">🔒 SECURITY DISCLAIMER & STATUTORY RECORDS NOTICE</p>
+                    <p style="margin: 6px 0 0 0; font-size: 10px; color: #475569; line-height: 1.5;">This computation ledger summary sheet is dynamically compiled via Heron's Polygon Geometric matrices matching Madhya Pradesh Land Revenue Code metrics (1 Hectare = 1,07,639 Sq.Ft, 1 Pakka Bigha = 27,225 Sq.Ft, 1 Bissa = 1,361.25 Sq.Ft). For official land mutations, Khasra-Khatoni, or Registry assignments, match parameters with the MP Land Revenue Portal (MP Bhulekh) and Tehsil Office.</p>
+                    <p style="margin: 12px 0 0 0; font-size: 11px; font-weight: bold; color: #0284c7;">🌐 OFFICIAL PORTAL: www.shayansmarttools.in</p>
+                </div>
+                <div class="print-footer-right">
+                    <div style="display: inline-block; text-align: center;">
+                        <img src="seal.png" alt="SST Official Stamp" style="width: 110px; height: auto; display: block; margin: 0 auto 5px auto;">
+                        <div style="font-size: 11px; font-weight: bold; color: #1e293b; border-top: 1px solid #cbd5e1; padding-top: 4px; width: 140px; margin-top: 8px;">Authorised Signature</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="util-btns">
+            <button class="u-btn" onclick="copyData()" style="background:#475569;">📋 Copy Details</button>
+            <button class="u-btn" onclick="shareWA()" style="background:#22c55e;">📲 WhatsApp</button>
+            <button class="u-btn" onclick="printLandReport()" style="background:#0284c7;">🖨️ Print Report</button>
+        </div>
+    </div>
+
+    <!-- RECENT CALCULATIONS HISTORY MODULE -->
+    <div class="history-card" id="historyCardSection">
+        <div class="history-header">
+            <h4 id="histTitle">🕒 Recent 5 Calculations History (हालिया गणना इतिहास)</h4>
+            <button class="btn-clear-hist" onclick="clearHistory()">🗑️ Clear History</button>
+        </div>
+        <div style="overflow-x:auto;">
+            <table class="history-table">
+                <thead>
+                    <tr>
+                        <th>Time</th>
+                        <th>Standard</th>
+                        <th>Inputs</th>
+                        <th>Result</th>
+                    </tr>
+                </thead>
+                <tbody id="historyTableBody">
+                    <tr><td colspan="4" style="text-align:center; color:#94a3b8;">No recent calculations found.</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="back-btn" style="text-align: center; margin-top: 20px;">
+        <a href="index.html" style="color: var(--mp-blue); font-weight: bold; text-decoration: none;">⬅ Back to All Tools</a>
+    </div>
+
+    <div class="image-container">
+        <h3 style="margin-top:0;" id="imgTitle">How to measure complex land? (टेढ़ी-मेढ़ी जमीन कैसे मापें?)</h3>
+        <img src="lands-diagram.png" alt="Multi Triangle Land Measurement Diagram Shayan Smart Tools MP">
+        <p id="imgDesc" style="font-size: 13px; color: #555; margin-top:10px;">Divide your land into multiple triangles and measure all sides as shown above.</p>
+    </div>
+
+    <article class="seo-content">
+        <div class="seo-header-block">
+            <h2>Madhya Pradesh Advanced Polygon Land Calculator: Complex Tedi-Medi Zameen ka Sateek Hisab</h2>
+            <p style="font-size: 18px; color: #555; margin: 5px 0 0 0;">Irregular polygon land mapping for Madhya Pradesh State Revenue Metrics. Calculate accurate conversions dynamically into Bigha, Bissa, Dhur, Acre, and Hectares.</p>
+        </div>
+        <img src="mp1.webp" class="content-image" loading="lazy" alt="Shayan Smart Tools Madhya Pradesh">
+
+        <section>
+            <h3>1. Introduction to Irregular Land Formations in Madhya Pradesh (Jamin ki Mapni Background)</h3>
+            <p>
+                Madhya Pradesh state ke andar krishi zameen (agricultural plots), commercial corridors, aur gramin abadi kshetro (jaise Indore, Bhopal, Jabalpur, Gwalior, Ujjain, Sagar, Satna, aur Rewa belt) ka structural layout aksar asymmetrical hota hai. Modern urbanization ke sath-sath purane gramin simaen, nadi-nalo se lage khet, aur tirchhe aakar wale Khasra plots ke karan yahan ki zameen perfectly rectangular ya square aakar me nahi milti. Jab kisi zameen ya khet me teen ya char se zyada aade-tirche corners hote hain, toh use geometric language me <b>Polygon (बहुकोण)</b> kaha jata hai. Aisi tedi-medi jameen ka area jab normal length &times; width formula se nikala jata hai, toh calculations galat aati hain jo baad me Tehsil Office registry, MP Bhulekh Mutation, ya Parivariv Batwara ke waqt bada vivad ban jati hain.
+            </p>
+            <p>
+                Madhya Pradesh Land Revenue Code (MPLRC 1959 / 2026 Revision) aur Revenue Department (MP Bhu-Abhilekh) ke guidelines ke mutabik, zameen ki kharid-bikri ya Jamabandi / Khasra-Khatoni verification ke waqt physical dimensions ka sateek assessment mandatory hai. Is dikkat ko door karne ke liye professional Patwari, Lekhpal aur surveyors **Multi-Triangle Polygon Geometric Mapping** system ka istemal karte hain. Shayan Smart Tools ka ye advance **Madhya Pradesh Advanced Polygon Land Calculator** isi mathematical logic par kaam karta hai taaki hamare kisan, real estate developers aur land advisors bina kisi structural error ke sateek result paa sakein.
+            </p>
+        </section>
+
+        <section>
+            <h3>2. Geometric Methodology: Multi-Triangle Method & Heron's Pure Formula</h3>
+            <p>
+                Kisi bhi aade-tirche multidimensional plot ya khet ka sateek area nikalne ka sabse vishwasniya tarika ye hai ki us pure plot ko diagonals draw karke alag-alag individual triangles me baant diya jaye. Jab aapko har ek triangle ki teeno sides (Side A, Side B, Side C) feet me pata chal jati hain, toh pure mathematics ka sabse powerful rule <b>Heron's Formula</b> apply kiya jata hai:
+            </p>
+            <p style="text-align: center; font-size: 18px; font-weight: bold; color: var(--mp-blue);">
+                s = (a + b + c) / 2
+            </p>
+            <p style="text-align: center; font-size: 18px; font-weight: bold; color: var(--mp-blue);">
+                Area = &radic;(s(s - a)(s - b)(s - c))
+            </p>
+            <p>
+                Hamara system background processing loop chalakar har ek triangle ka individually square feet area nikalta hai aur unhe aapas me merge (accumulate) kar deta hai. Uske baad automatic script processing ke jariye MP Land Revenue framework ke mutabik unhe **Bigha, Bissa, Dhur, Acre, aur Hectare** me badal diya jata hai. Madhya Pradesh me Pakka Bigha aur Bissa ka maap standard revenue rules par constant run karta hai jo legal documentation me mandatory hai. Niche diye gaye revenue chart se aap units ki internal dependency samajh sakte hain:
+            </p>
+        </section>
+
+        <h3>Madhya Pradesh Land Unit Table based on Standard Pakka Bigha (मध्य प्रदेश भूमि मापन कोष्टक)</h3>
+        <div style="overflow-x: auto;">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Unit Name (नाम)</th>
+                        <th>Sub-unit Structural Relation</th>
+                        <th>Area in Square Feet (Standard Imperial)</th>
+                        <th>Area in Square Meters (वर्ग मीटर)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><b>1 Hectare (हेक्टेयर)</b></td>
+                        <td>2.471 Acres standard metrics tracking node</td>
+                        <td>1,07,639 Sq Ft</td>
+                        <td>10,000 Sq M</td>
+                    </tr>
+                    <tr>
+                        <td><b>1 Acre (एकड़)</b></td>
+                        <td>1.6 Pakka Bigha standard metric node</td>
+                        <td>43,560 Sq Ft</td>
+                        <td>4,046.85 Sq M</td>
+                    </tr>
+                    <tr>
+                        <td><b>1 Pakka Bigha (पक्का बीघा)</b></td>
+                        <td>20 Bissa (Biswa) standard MP operational units</td>
+                        <td>27,225 Sq Ft</td>
+                        <td>2,529.28 Sq M</td>
+                    </tr>
+                    <tr>
+                        <td><b>1 Bissa / Biswa (बिस्सा)</b></td>
+                        <td>20 Dhur (Biswansi) equal part</td>
+                        <td>1,361.25 Sq Ft</td>
+                        <td>126.46 Sq M</td>
+                    </tr>
+                    <tr>
+                        <td><b>1 Dhur / Biswansi (धुर)</b></td>
+                        <td>Base unit dimension matrix in MP Revenue</td>
+                        <td>68.06 Sq Ft</td>
+                        <td>6.32 Sq M</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <img src="mp2.webp" class="content-image" loading="lazy" alt="Land measurement in Madhya Pradesh Revenue System">
+
+        <!-- ADVANCED 300+ WORDS ADDED FOR DEEP POWERFUL SEO -->
+        <section>
+            <h3>3. MP Land Revenue Code (MPLRC 2026 Guidelines) & Cadastral Mapping Rules</h3>
+            <p>
+                Madhya Pradesh me krishi aur gair-krishi (commercial/residential) zameen ke simankan aur batware ke liye Tehsil level par Revenue Officers (Tahsildar & Naib Tahsildar) aur Halka Patwari dwara Cadastral Survey maps ka sahara liya jata hai. MP Land Revenue Code (MPLRC) Section 165 aur Section 170 ke tahat zameen ki naksha-tarmim aur mutation tabhi swikar hoti hai jab bhu-naksha aur mauke ki maap (physical ground survey) me zero margin error ho.
+            </p>
+            <p>
+                Purane samay me Patwari <b>Gunter's Chain (जरीब)</b> dwara maap karte the, jisme 1 Chain = 66 Feet hoti thi. Jab kisi irregular polygon khet me tirchhi diwarein (diagonal boundaries) hoti hain, toh traditional 'औसत लंबाई × औसत चौड़ाई' (Average Length × Average Width) ka niyam fail ho jata hai aur isse area me 5% se 15% tak ki badi truti (error margin) paida ho jati hai. 
+            </p>
+            <p>
+                Is truti se bachne ke liye modern Revenue Software Multi-Triangulation Algorithm par run karte hain. Jab aap khet ko alag-alag trikono me baantte hain, toh diagonal lines A-B, B-C aur C-A geometric stability pradan karti hain. Shayan Smart Tools ka MP Calculator visual drawing canvas aur exact Heron's mathematical equation se har ek trikon ka alag-alag Kshetrafal nikal kar zero-error Bigha-Bissa result deta hai. Isse registry, bank loan valuation, parivariv batwara, aur court case vivado me ek solid diagnostic proof milta hai.
+            </p>
+        </section>
+
+        <section>
+            <h3>4. Landmark Identification Features: MP Bhulekh, Khasra, and Bhu Naksha</h3>
+            <p>
+                Madhya Pradesh me digital land tracking records inspect karte waqt niche diye gaye teen key structural variables ko samajhna behad jaroori hai:
+            </p>
+            <p>
+                <b>A. MP Bhulekh Portal (मध्यप्रदेश भू-लेख):</b> MP Government Revenue Department ka official software portal jahan har ek district, tehsil aur gaon ka Khasra, Khatoni, aur Bhu-Naksha map records secure status me host rehta hai.
+            </p>
+            <p>
+                <b>B. Khasra Number (खसरा नंबर):</b> Har ek land block ya agricultural field ko mila ek unique identification map index number jiske bina geographical identity clear nahi hoti.
+            </p>
+            <p>
+                <b>C. Bhu-Naksha Mapping (भू-नक्शा):</b> Digital map cadastre boundary layer jisme khet ke physical polygon corners aur surrounding boundaries dikhai deti hain.
+            </p>
+        </section>
+
+        <!-- TOP 15 HIGH SEARCH FAQ QUESTIONS SECTION -->
+        <section>
+            <h3>5. Frequently Asked Questions (FAQs) - Top 15 MP Land Records & Measurement Standards</h3>
+            <div style="margin-bottom: 15px; border-bottom: 1px solid #e2e8f0; padding-bottom: 10px;">
+                <p><b>Q1. Madhya Pradesh mein 1 Pakka Bigha mein kitne Square Feet hote hain?</b><br>Ans: MP State Land Revenue rules 2026 ke mutabik 1 Pakka Bigha me exact 27,225 Sq.Ft. होते हैं।</p>
+            </div>
+            <div style="margin-bottom: 15px; border-bottom: 1px solid #e2e8f0; padding-bottom: 10px;">
+                <p><b>Q2. Madhya Pradesh mein 1 Bigha mein kitne Bissa (Biswa) hote hain?</b><br>Ans: MP Revenue framework me 1 Pakka ya Kachha Bigha me exact 20 Bissa (Biswa) hote hain.</p>
+            </div>
+            <div style="margin-bottom: 15px; border-bottom: 1px solid #e2e8f0; padding-bottom: 10px;">
+                <p><b>Q3. MP me 1 Bissa mein kitne Dhur (Biswansi) hote hain?</b><br>Ans: MP me 1 Bissa me exact 20 Dhur (jise local bhasha me Biswansi bhi kaha jata hai) hote hain.</p>
+            </div>
+            <div style="margin-bottom: 15px; border-bottom: 1px solid #e2e8f0; padding-bottom: 10px;">
+                <p><b>Q4. Madhya Pradesh mein 1 Hectare mein kitne Pakka Bigha hote hain?</b><br>Ans: Standard MP Revenue matrix ke anusaar 1 Hectare (1,07,639 Sq.Ft) me lagbhag 3.95 Pakka Bigha hote hain.</p>
+            </div>
+            <div style="margin-bottom: 15px; border-bottom: 1px solid #e2e8f0; padding-bottom: 10px;">
+                <p><b>Q5. MP mein 1 Acre mein kitne Pakka Bigha hote hain?</b><br>Ans: 1 Acre (43,560 Sq.Ft) me Madhya Pradesh standard par exact 1.6 Pakka Bigha zameen hoti hai.</p>
+            </div>
+            <div style="margin-bottom: 15px; border-bottom: 1px solid #e2e8f0; padding-bottom: 10px;">
+                <p><b>Q6. Madhya Pradesh me Kachha Bigha ki kitni value hoti hai?</b><br>Ans: Regional Kachha Bigha belt me 1 Kachha Bigha = 13,612.5 Sq.Ft (Pakka Bigha ka thik aadha) hota hai.</p>
+            </div>
+            <div style="margin-bottom: 15px; border-bottom: 1px solid #e2e8f0; padding-bottom: 10px;">
+                <p><b>Q7. Malwa aur Nimar Kshetra me Bigha ka kya maap chalta hai?</b><br>Ans: Malwa aur Nimar region me local traditional bigha lagbhag 12,100 Sq.Ft ka mana jata hai.</p>
+            </div>
+            <div style="margin-bottom: 15px; border-bottom: 1px solid #e2e8f0; padding-bottom: 10px;">
+                <p><b>Q8. Asymmetrical ya irregular aade-tirche plot ki napni kaise karein?</b><br>Ans: Plot ko Multiple Triangles me baant kar Heron's Formula dwara pure area ka zero-margin calculation nikala jata hai.</p>
+            </div>
+            <div style="margin-bottom: 15px; border-bottom: 1px solid #e2e8f0; padding-bottom: 10px;">
+                <p><b>Q9. MP Bhulekh official portal par unit kisme darj rehti hai?</b><br>Ans: MP Bhulekh khasra-khatoni digital records me zameen ka area Hectare (हेक्टेयर) me darj rehta hai.</p>
+            </div>
+            <div style="margin-bottom: 15px; border-bottom: 1px solid #e2e8f0; padding-bottom: 10px;">
+                <p><b>Q10. 1 Square Meter mein kitne Square Feet hote hain?</b><br>Ans: 1 Square Meter me exact 10.7639 Square Feet hote hain.</p>
+            </div>
+            <div style="margin-bottom: 15px; border-bottom: 1px solid #e2e8f0; padding-bottom: 10px;">
+                <p><b>Q11. Khasra Mutation aur Registry me Bigha ki ganna kaise hoti hai?</b><br>Ans: Official registry Hectare ya Sq Mtr me hoti hai, jise Patwari 27,225 Sq.Ft per Bigha ke formula se badalte hain.</p>
+            </div>
+            <div style="margin-bottom: 15px; border-bottom: 1px solid #e2e8f0; padding-bottom: 10px;">
+                <p><b>Q12. Multi-Triangle Calculator me Sides kaise measure karein?</b><br>Ans: Fita (Tape) se har trikon ki teeno bhujaon (Side A, B, C) ko feet me napkar calculator inputs me bharein.</p>
+            </div>
+            <div style="margin-bottom: 15px; border-bottom: 1px solid #e2e8f0; padding-bottom: 10px;">
+                <p><b>Q13. 1 Dhur (Biswansi) mein kitne Square Feet hote hain MP me?</b><br>Ans: MP Pakka Bigha standard me 1 Dhur (Biswansi) exact 68.06 Sq.Ft ka hota hai.</p>
+            </div>
+            <div style="margin-bottom: 15px; border-bottom: 1px solid #e2e8f0; padding-bottom: 10px;">
+                <p><b>Q14. Kya ye calculator 2026 ke MP Land Revenue Code ke anusaar hai?</b><br>Ans: Haan, ye Shayan Smart Tools calculator MP Land Revenue Code 2026 standards par 100% accurate hai.</p>
+            </div>
+            <div style="margin-bottom: 15px; border-bottom: 1px solid #e2e8f0; padding-bottom: 10px;">
+                <p><b>Q15. Khet ke parivariv batware me truti se kaise bachein?</b><br>Ans: Triangulation measurement grid dwara aade-tirche khet ke har hisse ko barabar square feet me baant kar batwara karein.</p>
+            </div>
+        </section>
+        <img src="mp3.webp" class="content-image" loading="lazy" alt="MP Bhulekh Land records calculation mapping tool">
+
+        <h3>Related Tools & Internal Dashboards</h3>
+        <div class="sst-dashboard-grid">
+            <a class="sst-dash-btn" href="index.html">
+                <div class="sst-dash-icon">🏠</div>
+                <span class="sst-dash-title">Dashboard Home</span>
+            </a>
+            <a class="sst-dash-btn" href="jharkhand-land-cost-calculator.html">
+                <div class="sst-dash-icon">➕</div>
+                <span class="sst-dash-title">JH land cost & registry </span>
+            </a>
+            <a class="sst-dash-btn" href="west-bengal-land-calculator.html">
+                <div class="sst-dash-icon">📏</div>
+                <span class="sst-dash-title">west Bengal land calculator</span>
+            </a>
+            <a class="sst-dash-btn" href="chandigarh-polygon-land-calculator.html">
+                <div class="sst-dash-icon">💰</div>
+                <span class="sst-dash-title">Chandigarh Polygon Tool</span>
+            </a>
+        </div>
+
+        <div style="margin-top: 50px; padding: 25px; border: 2px dashed var(--mp-blue); background: #ffffff; border-radius: 12px; text-align: center;">
+            <h3 style="color: var(--mp-blue); margin-top: 0;">🚫 Copyright & Legal Notice Protected</h3>
+            <p style="font-size: 13px; margin-bottom: 0;">
+                <strong>Copyright © 2026 Shayan Smart Tools. All Rights Reserved.</strong><br><br>
+                Is advanced multi-triangle polygon software application core module interface layout model framework system flow lines computational algorithms source code elements configuration settings data parameters parameters rules <b>Muksidul Islam</b> ke proprietary engineering copyright tracking control security guidelines elements properties hold rules privileges context me system locks and standard security managed rules structures privileges protected status systems execute rests hain. Unauthorized digital copying, parsing scripts replication mirror deployment strictly cyber laws offense acts context trace penalties limits action operations generate criteria data limits rules tracking standard legal execution line bounds monitoring ready monitor rules clear chalta hai.
+            </p>
+        </div>
+    </article>
+</div>
+
+<script>
+    document.addEventListener('contextmenu', e => e.preventDefault());
+    document.onkeydown = function(e) {
+        if (e.ctrlKey && (e.keyCode === 67 || e.keyCode === 85 || e.keyCode === 73)) {
+            alert("Copyright Warning: Copying content from Shayan Digital Service is prohibited.");
+            return false;
+        }
+    };
+
+    let tCount = 1;
+    let currentL = 'en';
+
+    const trans = {
+        en: {
+            t: "Madhya Pradesh Advanced Polygon Land Calculator",
+            st: "Calculate complex irregular shapes by dividing them into triangles.",
+            add: "+ Add Triangle", calc: "Calculate Total Area", res: "Calculated Result (परिणाम)",
+            iN: "How to measure complex land? (टेढ़ी-मेढ़ी जमीन कैसे मापें?)",
+            iD: "Divide your land into multiple triangles and measure all sides as shown above.",
+            lA: "Side A (Feet)", lB: "Side B (Feet)", lC: "Side C (Feet)", hCard: "Triangle #",
+            cfg: "Select MP Land Standard (क्षेत्रीय पैमाना):",
+            rst: "🔄 Reset Form / डेटा रीसेट करें",
+            vis: "📐 Interactive Land Shape Preview (त्रिभुजाकार भू-नक्शा)",
+            hist: "🕒 Recent 5 Calculations History (हालिया गणना इतिहास)"
+        },
+        hi: {
+            t: "मध्य प्रदेश अद्यतन बहुकोण भूमि कैलकुलेटर",
+            st: "जमीन को त्रिकोणों में विभाजित करके अत्यंत जटिल अनियमित आकारों की गणना करें।",
+            add: "+ त्रिकोण जोड़ें", calc: "कुल क्षेत्रफल की गणना करें", res: "गणना किया गया परिणाम (परिणाम)",
+            iN: "टेढ़ी-मेढ़ी जमीन कैसे मापें?",
+            iD: "अपनी जमीन को कई त्रिकोणों में विभाजित करें और ऊपर दिखाए अनुसार सभी पक्षों को मापें।",
+            lA: "भुजा A (फुट)", lB: "भुजा B (फुट)", lC: "भुजा C (फुट)", hCard: "त्रिकोण संख्या #",
+            cfg: "मध्य प्रदेश क्षेत्रीय पैमाना चुनें:",
+            rst: "🔄 रीसेट फॉर्म / डेटा साफ करें",
+            vis: "📐 इंटरैक्टिव भू-आकृति पूर्वावलोकन (त्रिभुजाकार नक्शा)",
+            hist: "🕒 हालिया 5 गणना का इतिहास"
+        }
+    };
+
+    function setLang(l) {
+        currentL = l;
+        document.getElementById('enBtn').classList.toggle('active', l === 'en');
+        document.getElementById('hiBtn').classList.toggle('active', l === 'hi');
+        document.getElementById('mainTitle').innerText = trans[l].t;
+        document.getElementById('subText').innerText = trans[l].st;
+        document.getElementById('btnAdd').innerText = trans[l].add;
+        document.getElementById('btnCalc').innerText = trans[l].calc;
+        document.getElementById('btnReset').innerText = trans[l].rst;
+        document.getElementById('resHead').innerText = trans[l].res;
+        document.getElementById('imgTitle').innerText = trans[l].iN;
+        document.getElementById('imgDesc').innerText = trans[l].iD;
+        document.getElementById('configLabel').innerText = trans[l].cfg;
+        document.getElementById('visTitle').innerText = trans[l].vis;
+        document.getElementById('histTitle').innerText = trans[l].hist;
+        
+        let cards = document.querySelectorAll('.triangle-card');
+        cards.forEach((card, index) => {
+            let headerSpan = card.querySelector('.tHeadText');
+            if(headerSpan) {
+                headerSpan.innerText = `${trans[l].hCard}${index + 1}`;
+            }
+            card.querySelector('.lblA').innerText = trans[l].lA;
+            card.querySelector('.lblB').innerText = trans[l].lB;
+            card.querySelector('.lblC').innerText = trans[l].lC;
+        });
+
+        if(document.getElementById('resPanel').style.display === 'block') {
+            calculateTotalArea(true);
+        }
+    }
+
+    function addTriangle() {
+        tCount++;
+        const area = document.getElementById('triangleArea');
+        const div = document.createElement('div');
+        div.className = 'triangle-card';
+        
+        let labelTextA = currentL === 'en' ? trans.en.lA : trans.hi.lA;
+        let labelTextB = currentL === 'en' ? trans.en.lB : trans.hi.lB;
+        let labelTextC = currentL === 'en' ? trans.en.lC : trans.hi.lC;
+        let headerText = currentL === 'en' ? `${trans.en.hCard}${tCount}` : `${trans.hi.hCard}${tCount}`;
+
+        div.innerHTML = `<span class="triangle-header">
+            <span class="tHeadText">${headerText}</span>
+        </span>
+        <div class="input-row">
+            <div class="input-group"><label class="lblA">${labelTextA}</label><input type="number" class="side-a" placeholder="0"></div>
+            <div class="input-group"><label class="lblB">${labelTextB}</label><input type="number" class="side-b" placeholder="0"></div>
+            <div class="input-group"><label class="lblC">${labelTextC}</label><input type="number" class="side-c" placeholder="0"></div>
+        </div>`;
+        area.appendChild(div);
+    }
+
+    function calculateTotalArea(isLangSwitch = false) {
+        let totalSqFt = 0;
+        const aList = document.querySelectorAll('.side-a');
+        const bList = document.querySelectorAll('.side-b');
+        const cList = document.querySelectorAll('.side-c');
+        const resPanel = document.getElementById('resPanel');
+
+        let validTrianglesCount = 0;
+        let inputSummaryParts = [];
+        let triangleCoords = [];
+
+        for(let i=0; i<aList.length; i++) {
+            let a = parseFloat(aList[i].value) || 0;
+            let b = parseFloat(bList[i].value) || 0;
+            let c = parseFloat(cList[i].value) || 0;
+
+            if(a > 0 || b > 0 || c > 0) {
+                if ((a + b > c) && (a + c > b) && (b + c > a)) {
+                    let s = (a + b + c) / 2;
+                    let area = Math.sqrt(s * (s - a) * (s - b) * (s - c));
+                    if(!isNaN(area)) {
+                        totalSqFt += area;
+                        validTrianglesCount++;
+                        inputSummaryParts.push(`T${i+1}(${a},${b},${c})`);
+                        triangleCoords.push({a, b, c});
+                    }
+                } else {
+                    if(!isLangSwitch) {
+                        alert(currentL === 'en' ? `Triangle #${i+1} inputs are geometrically invalid! Sum of two sides must be greater than third side.` : `त्रिकोण संख्या #${i+1} का माप ज्यामितीय रूप से अमान्य है! दो भुजाओं का योग तीसरी भुजा से बड़ा होना चाहिए।`);
+                    }
+                    return;
+                }
+            }
+        }
+
+        if(totalSqFt <= 0) { 
+            if(!isLangSwitch) {
+                alert(currentL === 'en' ? "Please enter valid operational numbers for the triangle sides!" : "कृपया त्रिकोण की भुजाओं के लिए मान्य संख्याएं दर्ज करें!"); 
+            }
+            return; 
+        }
+
+        // MP Custom Revenue Metrics Core Framework (2026 Variant Mapping)
+        let standardType = document.getElementById('bighaStandard').value;
+        let oneBighaSqFt = 27225; // Standard MP Pakka Bigha
+        let displayName = "Standard MP Pakka Bigha";
+
+        if(standardType === "kachha_bigha") {
+            oneBighaSqFt = 13612.5;
+            displayName = "Regional Kachha Bigha";
+        } else if(standardType === "malwa_variant") {
+            oneBighaSqFt = 12100;
+            displayName = "Malwa / Nimar Standard";
+        }
+
+        let oneBissaSqFt = oneBighaSqFt / 20; // 1361.25 Sq Ft in Pakka Bigha
+        let oneDhurSqFt = oneBissaSqFt / 20;  // 68.0625 Sq Ft
+
+        // UI assignment
+        document.getElementById('pLaggiVal').innerText = displayName + " (" + oneBighaSqFt + " Sq.Ft/Bigha)";
+        document.getElementById('outSq').innerText = Math.round(totalSqFt).toLocaleString('en-IN') + " sq ft";
+        document.getElementById('outMt').innerText = (totalSqFt / 10.7639104).toLocaleString('en-IN', {maximumFractionDigits: 2}) + " sq m";
+        document.getElementById('outAc').innerText = (totalSqFt / 43560).toFixed(4) + " Acre"; 
+        document.getElementById('outHe').innerText = (totalSqFt / 107639.104).toFixed(4) + " Ha";
+
+        // Dynamic local structural mapping for MP (Bigha - Bissa - Dhur)
+        let bighaOut = Math.floor(totalSqFt / oneBighaSqFt);
+        let remBighaSqFt = totalSqFt % oneBighaSqFt;
+        let bissaOut = Math.floor(remBighaSqFt / oneBissaSqFt);
+        let remBissaSqFt = remBighaSqFt % oneBissaSqFt;
+        let dhurOut = (remBissaSqFt / oneDhurSqFt).toFixed(2);
+
+        document.getElementById('outBigha').innerText = bighaOut + " Bigha";
+        document.getElementById('outBissa').innerText = bissaOut + " Bissa";
+        document.getElementById('outDhur').innerText = dhurOut + " Dhur";
+
+        let options = { day: 'numeric', month: 'long', year: 'numeric' };
+        let today = new Date().toLocaleDateString('en-IN', options);
+        document.getElementById('pDocDate').innerText = today + " (INDIA STANDARD TIME)";
+        document.getElementById('rInputVal').innerText = `${validTrianglesCount} Total Sliced Triangles Computed`;
+
+        // DRAW LAND VISUALIZER CANVAS
+        drawLandShape(triangleCoords);
+
+        if(!isLangSwitch) {
+            let randID = Math.floor(1000000000 + Math.random() * 9000000000);
+            document.getElementById('pDocRef').innerText = `SST-MP-POLY-${randID}`;
+
+            // =======================================================
+            // DIRECT LOCAL STORAGE HISTORY SAVER ENGINE
+            // =======================================================
+            let history = JSON.parse(localStorage.getItem('shayan_detailed_history')) || [];
+            const now = new Date();
+            const timeStr = now.toLocaleDateString('en-US', { 
+                month: 'short', 
+                day: 'numeric', 
+                hour: '2-digit', 
+                minute: '2-digit',
+                hour12: true 
+            });
+
+            let inputsFormatted = `${validTrianglesCount} Triangles: ${inputSummaryParts.join(', ')}`;
+            let resultFormatted = `${bighaOut} Bigha ${bissaOut} Bissa ${dhurOut} Dhur`;
+
+            history.unshift({
+                id: Date.now(),
+                name: "Madhya Pradesh Polygon Land Calculator",
+                url: "mp-polygon-land-calculator.html",
+                inputs: inputsFormatted,
+                result: `${resultFormatted} (${Math.round(totalSqFt)} Sq Ft)`,
+                time: timeStr,
+                standard: displayName
+            });
+
+            if (history.length > 20) history.pop();
+            localStorage.setItem('shayan_detailed_history', JSON.stringify(history));
+            
+            // UPDATE RECENT 5 HISTORY UI TABLE
+            renderHistoryUI();
+            // =======================================================
+        }
+
+        resPanel.style.display = 'block';
+        if(!isLangSwitch) {
+            resPanel.scrollIntoView({ behavior: 'smooth' });
+        }
+    }
+
+    // DRAW LAND SHAPE VISUALIZER FUNCTION
+    function drawLandShape(triangles) {
+        const visCard = document.getElementById('visualizerCard');
+        const canvas = document.getElementById('landCanvas');
+        const ctx = canvas.getContext('2d');
+        
+        visCard.style.display = 'block';
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        if (triangles.length === 0) return;
+
+        let startX = 50;
+        let startY = 220;
+        ctx.lineWidth = 2;
+
+        triangles.forEach((t, i) => {
+            let scale = Math.min(120 / Math.max(t.a, t.b, t.c), 2.5);
+            let a = t.a * scale;
+            let b = t.b * scale;
+            let c = t.c * scale;
+
+            // Calculate angle using Law of Cosines
+            let cosC = (a * a + b * b - c * c) / (2 * a * b);
+            let angleC = Math.acos(Math.max(-1, Math.min(1, cosC)));
+
+            let x1 = startX + i * 140;
+            let y1 = startY;
+            let x2 = x1 + a;
+            let y2 = y1;
+            let x3 = x1 + b * Math.cos(angleC);
+            let y3 = y1 - b * Math.sin(angleC);
+
+            ctx.beginPath();
+            ctx.moveTo(x1, y1);
+            ctx.lineTo(x2, y2);
+            ctx.lineTo(x3, y3);
+            ctx.closePath();
+
+            ctx.fillStyle = "rgba(2, 132, 199, 0.12)";
+            ctx.fill();
+            ctx.strokeStyle = "#0284c7";
+            ctx.stroke();
+
+            ctx.fillStyle = "#0f172a";
+            ctx.font = "bold 12px Segoe UI";
+            ctx.fillText(`T#${i+1}`, (x1 + x2 + x3) / 3 - 10, (y1 + y2 + y3) / 3);
+        });
+    }
+
+    // RESET FORM FUNCTION
+    function resetForm() {
+        const area = document.getElementById('triangleArea');
+        area.innerHTML = '';
+        tCount = 0;
+        addTriangle(); // Re-add first triangle card
+        
+        document.getElementById('resPanel').style.display = 'none';
+        document.getElementById('visualizerCard').style.display = 'none';
+        document.getElementById('bighaStandard').selectedIndex = 0;
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    // RENDER RECENT 5 HISTORY UI TABLE
+    function renderHistoryUI() {
+        let history = JSON.parse(localStorage.getItem('shayan_detailed_history')) || [];
+        let tbody = document.getElementById('historyTableBody');
+        tbody.innerHTML = '';
+
+        let recentList = history.slice(0, 5);
+
+        if (recentList.length === 0) {
+            tbody.innerHTML = '<tr><td colspan="4" style="text-align:center; color:#94a3b8;">No recent calculations found.</td></tr>';
+            return;
+        }
+
+        recentList.forEach(item => {
+            let tr = document.createElement('tr');
+            tr.innerHTML = `
+                <td style="color:#64748b; font-size:11px;">${item.time}</td>
+                <td><span style="background:#e0f2fe; color:#0284c7; padding:2px 6px; border-radius:4px; font-weight:bold; font-size:11px;">${item.standard || 'Pakka Bigha'}</span></td>
+                <td style="font-size:12px; color:#334155;">${item.inputs}</td>
+                <td style="font-weight:bold; color:#0284c7; font-size:12px;">${item.result}</td>
+            `;
+            tbody.appendChild(tr);
+        });
+    }
+
+    // CLEAR ALL HISTORY FUNCTION
+    function clearHistory() {
+        if(confirm("Are you sure you want to clear all calculation history?")) {
+            localStorage.removeItem('shayan_detailed_history');
+            renderHistoryUI();
+        }
+    }
+
+    function printLandReport() {
+        const aList = document.querySelectorAll('.side-a');
+        if(aList.length === 0 || parseFloat(aList[0].value) <= 0) { 
+            alert("Calculate dimensions first before printing!"); 
+            return; 
+        }
+
+        const printRow = document.getElementById('print-input-row');
+        printRow.style.display = "flex";
+        window.print();
+        printRow.style.display = "none";
+    }
+
+    function copyData() {
+        let text = `Madhya Pradesh Polygon Land Results:\nBigha-Bissa-Dhur: ${document.getElementById('outBigha').innerText} ${document.getElementById('outBissa').innerText} ${document.getElementById('outDhur').innerText}\nAcre: ${document.getElementById('outAc').innerText}\nSq Ft: ${document.getElementById('outSq').innerText}\nCalculated via Shayan Smart Tools`;
+        navigator.clipboard.writeText(text);
+        alert("Details Copied!");
+    }
+
+    function shareWA() {
+        let urlText = encodeURIComponent(`Madhya Pradesh Irregular Land Results:\nLocal Format: ${document.getElementById('outBigha').innerText} ${document.getElementById('outBissa').innerText} ${document.getElementById('outDhur').innerText}\nAcre Format: ${document.getElementById('outAc').innerText}\nSq Ft: ${document.getElementById('outSq').innerText}\nCheck details via Shayan Smart Tools`);
+        window.open("https://wa.me/?text=" + urlText);
+    }
+
+    // Render history on page load
+    window.onload = function() {
+        renderHistoryUI();
+    };
+</script>
+</body>
+</html>
