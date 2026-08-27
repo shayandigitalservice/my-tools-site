@@ -682,36 +682,187 @@
             .setting-row { flex-direction: column; align-items: flex-start; gap: 12px; }
             .setting-row > div:last-child { width: 100%; text-align: right; }
         }
-        #rakhi-fullscreen-2 {
+        /* Background Overlay (Click anywhere to close) */
+#shayan-rakhi-popup {
   position: fixed;
-  top: 0; left: 0; width: 100vw; height: 100vh;
-  background: linear-gradient(135deg, rgba(75,0,130,0.9), rgba(255,20,147,0.85));
-  display: flex; justify-content: center; align-items: center;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(10, 5, 20, 0.75);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
   z-index: 999999;
-  animation: fadeOut 0.5s ease 2.5s forwards;
+  animation: fadeInPopup 0.4s ease-out forwards, autoCloseAnim 0.5s ease 2.5s forwards;
 }
-.confetti-box {
-  background: #ffffff; color: #222; padding: 35px 45px; border-radius: 24px;
-  text-align: center; max-width: 90%; width: 450px;
-  box-shadow: 0 20px 50px rgba(0,0,0,0.4);
-  animation: slideDown 0.5s ease-out;
+
+/* Glassmorphism Stylish Card */
+.rakhi-glass-card {
+  position: relative;
+  background: linear-gradient(145deg, rgba(255, 255, 255, 0.12), rgba(255, 255, 255, 0.03));
+  border: 1px solid rgba(255, 215, 0, 0.4);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  padding: 35px 30px;
+  border-radius: 28px;
+  text-align: center;
+  max-width: 400px;
+  width: 90%;
+  color: #fff;
+  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5), 0 0 30px rgba(255, 105, 180, 0.2);
+  animation: scaleUpCard 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
 }
-.thread-icon { font-size: 55px; animation: spin 2s ease-in-out infinite; }
-.confetti-box h2 { color: #d63384; font-size: 1.6rem; margin: 10px 0; }
-.wishes { font-size: 1rem; color: #555; line-height: 1.5; }
-.site-tag { margin-top: 15px; font-weight: 600; color: #6f42c1; font-size: 0.95rem; }
 
-@keyframes slideDown { 0% { transform: translateY(-100px); opacity: 0; } 100% { transform: translateY(0); opacity: 1; } }
-@keyframes spin { 0%, 100% { transform: rotate(-10deg); } 50% { transform: rotate(10deg); } }
-@keyframes fadeOut { 0% { opacity: 1; visibility: visible; } 100% { opacity: 0; visibility: hidden; pointer-events: none; } }
-</style>
+/* Close X Button */
+.close-btn {
+  position: absolute;
+  top: 15px;
+  right: 18px;
+  background: rgba(255, 255, 255, 0.1);
+  border: none;
+  color: #fff;
+  font-size: 22px;
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: 0.3s;
+}
 
-<script>
-setTimeout(() => { document.getElementById('rakhi-fullscreen-2')?.remove(); }, 3000);
-</script>
+.close-btn:hover {
+  background: #ff4757;
+}
+
+/* Festival Badge */
+.festival-badge {
+  display: inline-block;
+  background: linear-gradient(135deg, #ffc107, #ff5722);
+  color: #fff;
+  padding: 6px 16px;
+  font-size: 0.85rem;
+  font-weight: 700;
+  border-radius: 50px;
+  letter-spacing: 1px;
+  margin-bottom: 20px;
+  box-shadow: 0 4px 15px rgba(255, 87, 34, 0.4);
+}
+
+/* Icons Stage Animation */
+.icon-stage {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 15px;
+  margin-bottom: 20px;
+}
+
+.floating-item {
+  font-size: 42px;
+  animation: bounceIcons 1.5s infinite alternate ease-in-out;
+}
+
+.rakhi-center {
+  font-size: 55px;
+  animation: pulseGlow 1.2s infinite alternate ease-in-out;
+}
+
+/* Typography */
+.rakhi-glass-card h2 {
+  font-size: 1.5rem;
+  margin-bottom: 10px;
+  background: linear-gradient(to right, #ffd700, #ff758c, #ff7eb3);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-weight: 800;
+}
+
+.rakhi-glass-card p {
+  font-size: 0.95rem;
+  color: #e2e8f0;
+  line-height: 1.5;
+  margin-bottom: 22px;
+}
+
+/* Brand Signature */
+.brand-signature {
+  border-top: 1px solid rgba(255, 255, 255, 0.15);
+  padding-top: 15px;
+  font-size: 0.85rem;
+  color: #cbd5e1;
+}
+
+.brand-signature strong {
+  display: block;
+  font-size: 1.1rem;
+  background: linear-gradient(to right, #00f2fe, #4facfe);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin-top: 2px;
+  font-weight: 700;
+}
+
+/* Keyframe Animations */
+@keyframes fadeInPopup {
+  0% { opacity: 0; }
+  100% { opacity: 1; }
+}
+
+@keyframes scaleUpCard {
+  0% { transform: scale(0.6) translateY(20px); opacity: 0; }
+  100% { transform: scale(1) translateY(0); opacity: 1; }
+}
+
+@keyframes bounceIcons {
+  0% { transform: translateY(0); }
+  100% { transform: translateY(-8px); }
+}
+
+@keyframes pulseGlow {
+  0% { transform: scale(1); filter: drop-shadow(0 0 2px rgba(255,215,0,0.5)); }
+  100% { transform: scale(1.12); filter: drop-shadow(0 0 12px rgba(255,215,0,0.9)); }
+}
+
+@keyframes autoCloseAnim {
+  0% { opacity: 1; visibility: visible; }
+  100% { opacity: 0; visibility: hidden; pointer-events: none; }
+}
+
     </style>
 </head>
 <body>
+<!-- Stylish Raksha Bandhan Popup -->
+<div id="shayan-rakhi-popup" onclick="closeRakhiPopup()">
+  <div class="rakhi-glass-card" onclick="event.stopPropagation()">
+    <!-- Close Button -->
+    <button class="close-btn" onclick="closeRakhiPopup()">&times;</button>
+    
+    <!-- Top Decorative Festival Badge -->
+    <div class="festival-badge">✨ Shubh Raksha Bandhan ✨</div>
+
+    <!-- Sibling & Thali Icons / Animated Graphics -->
+    <div class="icon-stage">
+      <div class="floating-item thali">🪔</div>
+      <div class="floating-item rakhi-center">🧵</div>
+      <div class="floating-item siblings">👩‍❤️‍👨</div>
+    </div>
+
+    <!-- Heading & Message -->
+    <h2>Pyaar Aur Suraksha ka Prateek</h2>
+    <p>May this auspicious occasion strengthen the beautiful bond of love between siblings.</p>
+
+    <!-- Brand Sign-off -->
+    <div class="brand-signature">
+      <span>Warm Wishes From</span>
+      <strong>Shayan Smart Tools</strong>
+    </div>
+  </div>
+</div>
 
 <header>
     <a href="index.html" class="logo">
@@ -740,14 +891,7 @@ setTimeout(() => { document.getElementById('rakhi-fullscreen-2')?.remove(); }, 3
         <img src="https://images.unsplash.com/photo-1592595896551-12b371d546d5?q=80&w=1200&auto=format&fit=crop" class="slide" alt="Real Estate Plot Construction Measurement">
         <img src="https://images.unsplash.com/photo-1503387762-592deb58ef4e?q=80&w=1200&auto=format&fit=crop" class="slide" alt="Zameen Boundary Blueprint Mapping Model">
     </div>
-<!-- Paste inside <body> -->
-<div id="rakhi-fullscreen-2">
-  <div class="confetti-box">
-    <div class="thread-icon">🎀</div>
-    <h2>Celebrating The Bond of Trust & Love</h2>
-    <p class="wishes">Wishing you and your family a very Happy Raksha Bandhan!</p>
-    <div class="site-tag">— Team <b>Shayan Smart Tools</b> —</div>
-  </div>
+
 </div>
     <div class="hero-content">
         <h1>India's No.1 <span>Land Calculator</span> & Micro-Utility Portal</h1>
@@ -1992,6 +2136,21 @@ setTimeout(() => { document.getElementById('rakhi-fullscreen-2')?.remove(); }, 3
             location.reload();
         }
     }
+    // Function to close popup instantly on touch/click anywhere or close button
+function closeRakhiPopup() {
+  const popup = document.getElementById('shayan-rakhi-popup');
+  if (popup) {
+    popup.style.transition = 'opacity 0.3s ease';
+    popup.style.opacity = '0';
+    setTimeout(() => popup.remove(), 300);
+  }
+}
+
+// Auto remove fallback after exactly 3 seconds
+setTimeout(() => {
+  closeRakhiPopup();
+}, 3000);
+
 </script>
 
 </body>
