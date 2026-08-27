@@ -684,29 +684,29 @@
         }
         
 
-
-/* Background Blur Overlay */
+/* Screen Overlay */
 #shayan-rakhi-popup {
   position: fixed;
   top: 0; left: 0;
   width: 100vw; height: 100vh;
-  background: rgba(15, 2, 8, 0.85);
+  background: rgba(10, 2, 18, 0.85);
   backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
   display: flex; justify-content: center; align-items: center;
   z-index: 999999;
   animation: fadeIn 0.3s ease-out;
 }
 
-/* Royal Card Container */
+/* Main Card */
 .rakhi-royal-card {
   position: relative;
-  width: 90%; max-width: 440px;
-  background: radial-gradient(circle at center, #800020 0%, #4a0012 70%, #200007 100%);
+  width: 90%; max-width: 420px;
+  background: radial-gradient(circle at center, #590d22 0%, #2b000c 100%);
   border: 2px solid #ffd700;
   border-radius: 24px;
-  padding: 30px 20px 20px;
+  padding: 25px 20px 20px;
   text-align: center; color: #fff;
-  box-shadow: 0 0 40px rgba(255, 215, 0, 0.5), inset 0 0 15px rgba(255, 215, 0, 0.3);
+  box-shadow: 0 0 35px rgba(255, 215, 0, 0.4), inset 0 0 15px rgba(255, 215, 0, 0.2);
   overflow: hidden;
   animation: scaleIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
@@ -719,109 +719,78 @@
   border-radius: 50%; cursor: pointer; z-index: 10;
 }
 
-/* Badge */
+/* Top Badge */
 .royal-badge {
   display: inline-block;
-  background: linear-gradient(90deg, #bf953f, #fcf6ba, #b38728, #fbf5b7);
-  color: #500010; font-weight: 800; font-size: 0.85rem;
+  background: linear-gradient(90deg, #bf953f, #fcf6ba, #b38728);
+  color: #4a000e; font-weight: 800; font-size: 0.85rem;
   padding: 5px 16px; border-radius: 50px;
   box-shadow: 0 4px 10px rgba(0,0,0,0.4);
-  margin-bottom: 15px;
+  margin-bottom: 12px;
 }
 
-/* Graphic Stage Layout */
-.graphic-stage {
-  display: flex; justify-content: space-between; align-items: center;
-  margin: 10px 0 20px; position: relative; z-index: 2;
+/* Image styling & Lighting effect */
+.image-container {
+  position: relative;
+  display: flex; justify-content: center; align-items: center;
+  margin: 5px 0 15px;
 }
 
-.character-img img {
-  width: 90px; height: 90px;
-  object-fit: contain;
-  filter: drop-shadow(0 5px 8px rgba(0,0,0,0.5));
+.rakhi-main-img {
+  width: 100%; max-width: 280px; height: auto;
+  border-radius: 12px;
+  filter: drop-shadow(0 5px 15px rgba(0,0,0,0.6));
+  animation: floatImage 2.5s ease-in-out infinite alternate;
 }
 
-.sister-img { animation: gentleFloatLeft 2s ease-in-out infinite alternate; }
-.brother-img { animation: gentleFloatRight 2s ease-in-out infinite alternate; }
-
-/* Center Thali & Diya Glow */
-.center-thali-box { position: relative; }
-.diya-img {
-  width: 65px; height: 65px;
-  position: relative; z-index: 2;
-  animation: glowPulse 1.2s infinite alternate;
-}
-.rakhi-thread {
-  font-size: 30px; position: absolute; bottom: -10px; left: 50%;
+/* Glow behind diya */
+.flame-glow-effect {
+  position: absolute; bottom: 10px; left: 50%;
   transform: translateX(-50%);
-}
-.flame-glow {
-  position: absolute; top: 20%; left: 50%;
-  transform: translate(-50%, -50%);
-  width: 50px; height: 50px;
+  width: 120px; height: 40px;
   background: #ff9900; border-radius: 50%;
-  filter: blur(18px); opacity: 0.8;
-  animation: pulseLight 0.8s infinite alternate;
+  filter: blur(20px); opacity: 0.7;
+  animation: pulseGlow 1s infinite alternate;
 }
 
 /* Hindi Content */
 .wish-content h2 {
-  font-size: 1.45rem; color: #ffd700; margin-bottom: 8px;
-  font-weight: 700; text-shadow: 0 2px 5px rgba(0,0,0,0.8);
+  font-size: 1.4rem; color: #ffd700; margin-bottom: 6px;
+  font-weight: 700; text-shadow: 0 2px 4px rgba(0,0,0,0.8);
 }
 .wish-content p {
-  font-size: 0.92rem; color: #fce7f3; line-height: 1.5; margin-bottom: 15px;
+  font-size: 0.9rem; color: #fce7f3; line-height: 1.4; margin-bottom: 12px;
 }
 .brand-footer {
   border-top: 1px solid rgba(255, 215, 0, 0.3);
-  padding-top: 10px; font-size: 0.85rem; color: #ffd700;
+  padding-top: 8px; font-size: 0.85rem; color: #ffd700;
 }
 
-/* Keyframe Animations */
+/* Animations */
 @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 @keyframes scaleIn { from { transform: scale(0.7); opacity: 0; } to { transform: scale(1); opacity: 1; } }
-@keyframes gentleFloatLeft { from { transform: translateY(0); } to { transform: translateY(-5px); } }
-@keyframes gentleFloatRight { from { transform: translateY(0); } to { transform: translateY(-5px); } }
-@keyframes glowPulse { 0% { filter: drop-shadow(0 0 2px #ffd700); } 100% { filter: drop-shadow(0 0 12px #ff4500); } }
-@keyframes pulseLight { 0% { opacity: 0.5; transform: translate(-50%, -50%) scale(0.9); } 100% { opacity: 1; transform: translate(-50%, -50%) scale(1.3); } }
-
+@keyframes floatImage { from { transform: translateY(0); } to { transform: translateY(-6px); } }
+@keyframes pulseGlow { 0% { opacity: 0.4; transform: translateX(-50%) scale(0.9); } 100% { opacity: 0.8; transform: translateX(-50%) scale(1.2); } }
 
     </style>
 </head>
 <body>
-<!-- Royal Raksha Bandhan Popup -->
+<!-- Stylish Raksha Bandhan Popup -->
 <div id="shayan-rakhi-popup" onclick="closeRakhiPopup()">
   <div class="rakhi-royal-card" onclick="event.stopPropagation()">
     <!-- Close Button -->
     <button class="close-btn" onclick="closeRakhiPopup()">&times;</button>
     
-    <!-- Background Sparkle & Lights -->
-    <div class="sparkle-overlay"></div>
-
-    <!-- Top Badge -->
+    <!-- Festival Badge -->
     <div class="royal-badge">✨ Shubh Raksha Bandhan ✨</div>
 
-    <!-- Main Graphic Illustrations (Left Sister - Center Thali - Right Brother) -->
-    <div class="graphic-stage">
-      <!-- Left: Sister Illustration -->
-      <div class="character-img sister-img">
-        <img src="https://img.icons8.com/color/144/indian-woman.png" alt="Sister in Traditional Saree" />
-      </div>
-
-      <!-- Center: Glowing Pooja Thali & Rakhi -->
-      <div class="center-thali-box">
-        <div class="flame-glow"></div>
-        <img src="https://img.icons8.com/color/120/diya.png" class="diya-img" alt="Pooja Diya" />
-        <div class="rakhi-thread">🧵</div>
-      </div>
-
-      <!-- Right: Brother Illustration -->
-      <div class="character-img brother-img">
-        <img src="https://img.icons8.com/color/144/indian-man.png" alt="Brother in Kurta" />
-      </div>
+    <!-- Main Image Container -->
+    <div class="image-container">
+      <img src="https://i.ibb.co/C0601r7/rakhi-illustration.png" alt="Raksha Bandhan Celebration" class="rakhi-main-img" />
+      <div class="flame-glow-effect"></div>
     </div>
 
-    <!-- Hindi Message & Branding -->
+    <!-- Hindi Text Message & Branding -->
     <div class="wish-content">
       <h2>रक्षाबंधन की हार्दिक शुभकामनाएं</h2>
       <p>स्नेह, सुरक्षा और आत्मीयता के इस पवित्र पर्व पर आपको एवं आपके परिवार को ढेरों शुभकामनाएं।</p>
@@ -2106,7 +2075,7 @@
         }
     }
     
-// Click anywhere to instantly remove popup
+// Anywhere click to close popup instantly
 function closeRakhiPopup() {
   const popup = document.getElementById('shayan-rakhi-popup');
   if (popup) {
@@ -2116,7 +2085,7 @@ function closeRakhiPopup() {
   }
 }
 
-// Exactly 3-Second Automatic Dismiss
+// Auto close after 3 seconds
 setTimeout(() => {
   closeRakhiPopup();
 }, 3000);
