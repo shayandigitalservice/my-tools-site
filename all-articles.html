@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Land Calculators & Guides - Shayan Smart Tools</title>
+<title>Land Measurement Guides - Shayan Smart Tools</title>
 <link rel="stylesheet" href="style.css">
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
@@ -45,7 +45,7 @@ header p {
   opacity: 0.9;
 }
 
-/* Optional Search Box UI */
+/* Search Box Container */
 .search-container {
   max-width: 500px;
   margin: -22px auto 20px auto;
@@ -115,11 +115,11 @@ main {
   display: inline-flex;
 }
 
-.badge {
+.guide-tag {
   font-size: 12px;
-  font-weight: 600;
-  color: var(--primary);
-  background: #EFF6FF;
+  font-weight: 500;
+  color: var(--text-muted);
+  background: #F1F5F9;
   padding: 4px 10px;
   border-radius: 20px;
 }
@@ -133,7 +133,8 @@ main {
 
 .card-footer-text {
   font-size: 13px;
-  color: var(--text-muted);
+  color: var(--primary);
+  font-weight: 600;
   margin-top: 10px;
   display: flex;
   align-items: center;
@@ -166,6 +167,15 @@ main {
   transform: translateY(-2px);
 }
 
+.no-results {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 40px;
+  color: var(--text-muted);
+  font-size: 16px;
+  display: none;
+}
+
 @media (max-width: 600px) {
   header {
     padding: 30px 15px;
@@ -183,55 +193,85 @@ main {
 <body>
 
   <header>
-    <h1>Land Calculators & State Guides</h1>
-    <p>Accurate area conversion tools for Bigha, Katha, Decimal & more</p>
+    <h1>Land Measurement Guides</h1>
+    <p>Comprehensive property calculation guides & state-wise area units</p>
   </header>
 
   <div class="search-container">
-    <input type="text" class="search-input" placeholder="🔍 Search state calculator (e.g., Assam, Bihar)...">
+    <input type="text" id="searchInput" class="search-input" placeholder="🔍 Search state guide (e.g., Assam, West Bengal)..." onkeyup="searchGuides()">
   </div>
 
-  <main>
-    <a class="article-card" href="assam-land-calculator.html">
+  <main id="guidesGrid">
+    <!-- Assam Card -->
+    <a class="article-card" href="assam-land-calculator.html" data-title="assam land calculator bigha katha lecha">
       <div>
         <div class="card-top">
           <div class="icon">📐</div>
-          <span class="badge">Popular</span>
+          <span class="guide-tag">State Guide</span>
         </div>
-        <h3>Assam Land Calculator</h3>
-        <p style="font-size: 13px; color: var(--text-muted); margin: 0;">Convert Bigha, Katha, and Lecha accurately.</p>
+        <h3>Assam Land Measurement Guide</h3>
+        <p style="font-size: 13px; color: var(--text-muted); margin: 0;">Detailed breakdown of Bigha, Katha, and Lecha conversions.</p>
       </div>
-      <div class="card-footer-text">Calculate Now &rarr;</div>
+      <div class="card-footer-text">Read Guide &rarr;</div>
     </a>
 
-    <a class="article-card" href="west-bengal-land-calculator.html">
+    <!-- West Bengal Card -->
+    <a class="article-card" href="west-bengal-land-calculator.html" data-title="west bengal land calculator bigha cottah satak">
       <div>
         <div class="card-top">
           <div class="icon">🗺️</div>
-          <span class="badge">Active</span>
+          <span class="guide-tag">State Guide</span>
         </div>
-        <h3>West Bengal Land Calculator</h3>
-        <p style="font-size: 13px; color: var(--text-muted); margin: 0;">Calculate Bigha, Cottah, and Satak.</p>
+        <h3>West Bengal Land Guide</h3>
+        <p style="font-size: 13px; color: var(--text-muted); margin: 0;">Understand Bigha, Cottah, and Satak measurements.</p>
       </div>
-      <div class="card-footer-text">Calculate Now &rarr;</div>
+      <div class="card-footer-text">Read Guide &rarr;</div>
     </a>
 
-    <a class="article-card" href="bihar-land-calculator.html">
+    <!-- Bihar Card -->
+    <a class="article-card" href="bihar-land-calculator.html" data-title="bihar land calculator bigha kattha dhur">
       <div>
         <div class="card-top">
           <div class="icon">🌾</div>
-          <span class="badge">Active</span>
+          <span class="guide-tag">State Guide</span>
         </div>
-        <h3>Bihar Land Calculator</h3>
-        <p style="font-size: 13px; color: var(--text-muted); margin: 0;">Measure Bigha, Kattha, and Dhur units.</p>
+        <h3>Bihar Land Guide</h3>
+        <p style="font-size: 13px; color: var(--text-muted); margin: 0;">Learn how to measure Bigha, Kattha, and Dhur units.</p>
       </div>
-      <div class="card-footer-text">Calculate Now &rarr;</div>
+      <div class="card-footer-text">Read Guide &rarr;</div>
     </a>
+
+    <div id="noResults" class="no-results">No matching land guides found.</div>
   </main>
 
   <div class="footer-section">
     <a href="index.html" class="back-btn">🏠 Back to Home</a>
   </div>
+
+  <script>
+    function searchGuides() {
+      let input = document.getElementById('searchInput').value.toLowerCase();
+      let cards = document.getElementsByClassName('article-card');
+      let noResults = document.getElementById('noResults');
+      let count = 0;
+
+      for (let i = 0; i < cards.length; i++) {
+        let title = cards[i].getAttribute('data-title');
+        if (title.includes(input)) {
+          cards[i].style.display = "flex";
+          count++;
+        } else {
+          cards[i].style.display = "none";
+        }
+      }
+
+      if (count === 0) {
+        noResults.style.display = "block";
+      } else {
+        noResults.style.display = "none";
+      }
+    }
+  </script>
 
 </body>
 </html>
