@@ -91,6 +91,7 @@ button:hover, .file-btn:hover {
   align-items: center;
   box-shadow: 0 2px 4px rgba(0,0,0,0.02);
   transition: all 0.2s ease;
+  cursor: pointer;
 }
 
 .card:hover {
@@ -149,38 +150,6 @@ th {
   color: var(--text-main);
 }
 
-.analytics-box {
-  background: #f8fafc;
-  border: 1px solid var(--border-color);
-  padding: 14px;
-  border-radius: 12px;
-  margin-top: 20px;
-  margin-bottom: 16px;
-}
-
-.analytics-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 8px;
-  margin-top: 8px;
-  text-align: center;
-}
-
-.analytics-card {
-  background: #ffffff;
-  padding: 8px;
-  border-radius: 6px;
-  border: 1px solid var(--border-color);
-  font-size: 12px;
-}
-
-.analytics-card b {
-  display: block;
-  color: var(--text-muted);
-  font-size: 10px;
-  text-transform: uppercase;
-}
-
 .filter-tabs {
   display: flex;
   gap: 6px;
@@ -204,6 +173,80 @@ th {
   background: var(--primary);
   color: white;
   border-color: var(--primary);
+}
+
+/* ANALYTICS & GRAPH STYLING */
+.analytics-box {
+  background: #f8fafc;
+  border: 1px solid var(--border-color);
+  padding: 16px;
+  border-radius: 12px;
+  margin-top: 25px;
+  margin-bottom: 20px;
+}
+
+.analytics-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  margin-top: 12px;
+}
+
+.analytics-card {
+  background: #ffffff;
+  padding: 12px;
+  border-radius: 8px;
+  border: 1px solid var(--border-color);
+  text-align: center;
+}
+
+.analytics-card b {
+  display: block;
+  color: var(--text-muted);
+  font-size: 11px;
+  text-transform: uppercase;
+  margin-bottom: 6px;
+}
+
+.graph-container {
+  margin-top: 16px;
+  background: #ffffff;
+  padding: 14px;
+  border-radius: 8px;
+  border: 1px solid var(--border-color);
+}
+
+.bar-group {
+  margin-bottom: 10px;
+}
+
+.bar-label {
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
+  font-weight: 600;
+  margin-bottom: 3px;
+}
+
+.bar-track {
+  background: #e2e8f0;
+  border-radius: 4px;
+  height: 10px;
+  width: 100%;
+  overflow: hidden;
+  display: flex;
+}
+
+.bar-fill-out {
+  background: var(--danger);
+  height: 100%;
+  transition: width 0.4s ease;
+}
+
+.bar-fill-in {
+  background: var(--success);
+  height: 100%;
+  transition: width 0.4s ease;
 }
 
 .centered {
@@ -269,7 +312,7 @@ hr {
 
   <input id="search" placeholder="🔍 Search Customer..." onkeyup="showCustomers()">
   
-  <!-- QUICK FILTER BUTTONS (High, Medium, Low Udhaar) -->
+  <!-- QUICK FILTER BUTTONS -->
   <div class="filter-tabs">
     <button class="filter-tab active" onclick="setFilterCategory('all', this)">All</button>
     <button class="filter-tab" onclick="setFilterCategory('high', this)">🚨 High (&gt;₹1000)</button>
@@ -277,7 +320,15 @@ hr {
     <button class="filter-tab" onclick="setFilterCategory('low', this)">🟢 Clear (₹0)</button>
   </div>
 
-  <div style="display:flex; gap:8px;">
+  <!-- CUSTOMER PROFILE VIEW CONTAINER (Placed above list or dynamically inside) -->
+  <div id="profile"></div>
+
+  <div id="customerList"></div>
+
+  <hr>
+
+  <!-- BACKUP, RESTORE & EXPORT CONTROLS (MOVED TO BOTTOM) -->
+  <div style="display:flex; gap:8px; margin-bottom:15px;">
     <button class="smallbtn" onclick="downloadExcel()" style="background:#059669; flex:1;">📊 Export CSV</button>
     <button class="smallbtn" onclick="downloadJSON()" style="background:#7c3aed; flex:1;">💾 Backup JSON</button>
     <label class="file-btn smallbtn" style="background:#0284c7; flex:1; margin:8px 0; cursor:pointer;">
@@ -285,33 +336,59 @@ hr {
     </label>
   </div>
 
-  <div id="customerList"></div>
-
-  <!-- PERIODIC ANALYTICS DASHBOARD (Daily, Weekly, Monthly) - MOVED TO BOTTOM -->
+  <!-- PERIODIC ANALYTICS & GRAPH SECTION (MOVED TO BOTTOM) -->
   <div class="analytics-box">
-    <h4 style="margin:0 0 6px 0; font-size:14px; color:var(--primary);">📈 Periodic Transaction Summary</h4>
+    <h4 style="margin:0 0 6px 0; font-size:15px; color:var(--primary);">📈 Transaction Analytics & Graph</h4>
+    
     <div class="analytics-grid">
       <div class="analytics-card">
-        <b>Today</b>
-        <span style="color:var(--danger)">Udhar: ₹<span id="t-out">0</span></span><br>
-        <span style="color:var(--success)">Paid: ₹<span id="t-in">0</span></span>
+        <b>Today's Record</b>
+        <span style="color:var(--danger); font-size:14px;">Udhar: ₹<span id="t-out">0</span></span><br>
+        <span style="color:var(--success); font-size:14px;">Paid: ₹<span id="t-in">0</span></span>
       </div>
       <div class="analytics-card">
-        <b>This Week</b>
-        <span style="color:var(--danger)">Udhar: ₹<span id="w-out">0</span></span><br>
-        <span style="color:var(--success)">Paid: ₹<span id="w-in">0</span></span>
+        <b>This Week's Record</b>
+        <span style="color:var(--danger); font-size:14px;">Udhar: ₹<span id="w-out">0</span></span><br>
+        <span style="color:var(--success); font-size:14px;">Paid: ₹<span id="w-in">0</span></span>
       </div>
       <div class="analytics-card">
-        <b>This Month</b>
-        <span style="color:var(--danger)">Udhar: ₹<span id="m-out">0</span></span><br>
-        <span style="color:var(--success)">Paid: ₹<span id="m-in">0</span></span>
+        <b>This Month's Record</b>
+        <span style="color:var(--danger); font-size:14px;">Udhar: ₹<span id="m-out">0</span></span><br>
+        <span style="color:var(--success); font-size:14px;">Paid: ₹<span id="m-in">0</span></span>
       </div>
     </div>
+
+    <!-- VISUAL COMPARISON GRAPH -->
+    <div class="graph-container">
+      <b style="font-size:12px; color:var(--text-muted); display:block; margin-bottom:8px; text-transform:uppercase;">📊 Performance Overview (Udhaar vs Paid)</b>
+      
+      <div class="bar-group">
+        <div class="bar-label"><span>Today</span> <span id="graph-t-text">₹0 / ₹0</span></div>
+        <div class="bar-track">
+          <div id="bar-t-out" class="bar-fill-out" style="width:0%"></div>
+          <div id="bar-t-in" class="bar-fill-in" style="width:0%"></div>
+        </div>
+      </div>
+
+      <div class="bar-group">
+        <div class="bar-label"><span>This Week</span> <span id="graph-w-text">₹0 / ₹0</span></div>
+        <div class="bar-track">
+          <div id="bar-w-out" class="bar-fill-out" style="width:0%"></div>
+          <div id="bar-w-in" class="bar-fill-in" style="width:0%"></div>
+        </div>
+      </div>
+
+      <div class="bar-group" style="margin-bottom:0;">
+        <div class="bar-label"><span>This Month</span> <span id="graph-m-text">₹0 / ₹0</span></div>
+        <div class="bar-track">
+          <div id="bar-m-out" class="bar-fill-out" style="width:0%"></div>
+          <div id="bar-m-in" class="bar-fill-in" style="width:0%"></div>
+        </div>
+      </div>
+    </div>
+
   </div>
 
-  <hr>
-
-  <div id="profile"></div>
 </div>
 
 <script>
@@ -380,6 +457,28 @@ function updateDashboard(){
   document.getElementById("w-in").innerText = wIn;
   document.getElementById("m-out").innerText = mOut;
   document.getElementById("m-in").innerText = mIn;
+
+  // Update Graph Visuals
+  updateGraph(tOut, tIn, wOut, wIn, mOut, mIn);
+}
+
+function updateGraph(tOut, tIn, wOut, wIn, mOut, mIn){
+  document.getElementById("graph-t-text").innerText = `Udhar: ₹${tOut} | Paid: ₹${tIn}`;
+  document.getElementById("graph-w-text").innerText = `Udhar: ₹${wOut} | Paid: ₹${wIn}`;
+  document.getElementById("graph-m-text").innerText = `Udhar: ₹${mOut} | Paid: ₹${mIn}`;
+
+  let maxT = Math.max(tOut, tIn, 100);
+  let maxW = Math.max(wOut, wIn, 100);
+  let maxM = Math.max(mOut, mIn, 100);
+
+  document.getElementById("bar-t-out").style.width = (tOut / maxT * 50) + "%";
+  document.getElementById("bar-t-in").style.width = (tIn / maxT * 50) + "%";
+  
+  document.getElementById("bar-w-out").style.width = (wOut / maxW * 50) + "%";
+  document.getElementById("bar-w-in").style.width = (wIn / maxW * 50) + "%";
+
+  document.getElementById("bar-m-out").style.width = (mOut / maxM * 50) + "%";
+  document.getElementById("bar-m-in").style.width = (mIn / maxM * 50) + "%";
 }
 
 function addCustomer(){
@@ -407,19 +506,15 @@ function showCustomers(){
     if(currentCategory === 'medium' && (bal <= 0 || bal > 1000)) return;
     if(currentCategory === 'low' && bal !== 0) return;
 
-    let callBtnHtml = c.mobile ? `<a href="tel:${c.mobile}" onclick="event.stopPropagation()" style="background:#16a34a; color:white; padding:6px 10px; border-radius:6px; text-decoration:none; font-size:12px; margin-right:8px; display:inline-block;">📞 Call</a>` : '';
+    let callBtnHtml = c.mobile ? `<a href="tel:${c.mobile}" onclick="event.stopPropagation()" style="background:#16a34a; color:white; padding:8px 12px; border-radius:6px; text-decoration:none; font-size:13px; display:inline-block; font-weight:600;">📞 Call</a>` : '';
 
     html+=`<div class="card" onclick="openProfile(${i})">
       <div>
         <b style="font-size:16px;">${c.name}</b><br>
-        <span style="color:var(--text-muted); font-size:13px;">📞 ${c.mobile || 'No mobile'}</span>
+        <span style="font-size:13px; font-weight:700; color:${bal > 0 ? 'var(--danger)' : 'var(--success)'}">Balance: ₹${bal}</span>
       </div>
-      <div style="display:flex; align-items:center;">
+      <div>
         ${callBtnHtml}
-        <div style="text-align:right;">
-          <span style="font-size:14px; font-weight:700; color:${bal > 0 ? 'var(--danger)' : 'var(--success)'}">₹${bal}</span><br>
-          <span style="font-size:11px; color:var(--text-muted);">Balance</span>
-        </div>
       </div>
     </div>`;
   });
@@ -436,45 +531,46 @@ function openProfile(i){
   });
   let balance=total-paid;
 
-  let callButtonHtml = c.mobile ? `<a href="tel:${c.mobile}" style="text-decoration:none; flex:1; min-width:100px;"><button class="smallbtn" style="background:#16a34a; width:100%; margin:0;">📞 Call</button></a>` : '';
-
   let html=`
-    <h3>👤 ${c.name}</h3>
-    <p style="color:var(--text-muted); margin:0 0 12px 0;">Mobile: ${c.mobile || 'N/A'}</p>
-    
-    <div style="display:grid; grid-template-columns: repeat(3, 1fr); gap:8px; margin-bottom:12px; text-align:center;">
-      <div style="background:#f8fafc; padding:8px; border-radius:6px; border:1px solid var(--border-color);">
-        <small style="color:var(--text-muted)">Total</small><br><b>₹${total}</b>
+    <div style="background:#f1f5f9; padding:16px; border-radius:12px; margin-bottom:16px; border:1px solid var(--border-color);">
+      <div style="display:flex; justify-content:space-between; align-items:center;">
+        <h3 style="margin:0;">👤 ${c.name}</h3>
+        <button onclick="closeProfile()" style="background:var(--text-muted); width:auto; padding:4px 10px; font-size:12px; margin:0;">✕ Close</button>
       </div>
-      <div style="background:#f8fafc; padding:8px; border-radius:6px; border:1px solid var(--border-color);">
-        <small style="color:var(--text-muted)">Paid</small><br><b style="color:var(--success)">₹${paid}</b>
+      <p style="color:var(--text-muted); margin:4px 0 12px 0;">Mobile: ${c.mobile || 'N/A'}</p>
+      
+      <div style="display:grid; grid-template-columns: repeat(3, 1fr); gap:8px; margin-bottom:12px; text-align:center;">
+        <div style="background:#ffffff; padding:8px; border-radius:6px; border:1px solid var(--border-color);">
+          <small style="color:var(--text-muted)">Total</small><br><b>₹${total}</b>
+        </div>
+        <div style="background:#ffffff; padding:8px; border-radius:6px; border:1px solid var(--border-color);">
+          <small style="color:var(--text-muted)">Paid</small><br><b style="color:var(--success)">₹${paid}</b>
+        </div>
+        <div style="background:#ffffff; padding:8px; border-radius:6px; border:1px solid var(--border-color);">
+          <small style="color:var(--text-muted)">Unpaid</small><br><b style="color:var(--danger)">₹${balance}</b>
+        </div>
       </div>
-      <div style="background:#f8fafc; padding:8px; border-radius:6px; border:1px solid var(--border-color);">
-        <small style="color:var(--text-muted)">Unpaid</small><br><b style="color:var(--danger)">₹${balance}</b>
+
+      <input id="amt" type="number" placeholder="Enter Amount (₹)">
+      
+      <div class="centered">
+        <button class="smallbtn" style="background:var(--danger);" onclick="addUdhaar()">+ Udhaar</button>
+        <button class="smallbtn" style="background:var(--success);" onclick="addPayment()">+ Payment</button>
+        <button class="smallbtn" style="background:#0284c7;" onclick="sendReminder()">📲 WhatsApp</button>
+        <button class="smallbtn" style="background:#475569;" onclick="printData()">🖨 Print</button>
+        <button class="smallbtn btn-danger" onclick="deleteCustomer()">Delete</button>
       </div>
-    </div>
 
-    <input id="amt" type="number" placeholder="Enter Amount (₹)">
-    
-    <div class="centered">
-      <button class="smallbtn" style="background:var(--danger);" onclick="addUdhaar()">+ Udhaar</button>
-      <button class="smallbtn" style="background:var(--success);" onclick="addPayment()">+ Payment</button>
-      ${callButtonHtml}
-      <button class="smallbtn" style="background:#0284c7;" onclick="sendReminder()">📲 WhatsApp</button>
-      <button class="smallbtn" style="background:#475569;" onclick="printData()">🖨 Print</button>
-      <button class="smallbtn btn-danger" onclick="deleteCustomer()">Delete</button>
-    </div>
+      <select id="filter" onchange="openProfile(${i})" style="margin-top:12px;">
+        <option value="all">Filter: All Transactions</option>
+        <option value="today">Today</option>
+        <option value="week">Last Week</option>
+        <option value="month">Last Month</option>
+      </select>
 
-    <select id="filter" onchange="openProfile(${i})" style="margin-top:12px;">
-      <option value="all">Filter: All Transactions</option>
-      <option value="today">Today</option>
-      <option value="week">Last Week</option>
-      <option value="month">Last Month</option>
-    </select>
-
-    <h4>Transaction History</h4>
-    <table>
-      <tr><th>Date & Time</th><th>Type</th><th>Amount</th></tr>
+      <h4>Transaction History</h4>
+      <table>
+        <tr><th>Date & Time</th><th>Type</th><th>Amount</th></tr>
   `;
 
   let now=new Date();
@@ -494,8 +590,13 @@ function openProfile(i){
       </tr>`;
     }
   });
-  html+= `</table>`;
+  html+= `</table></div>`;
   document.getElementById("profile").innerHTML=html;
+}
+
+function closeProfile(){
+  current = null;
+  document.getElementById("profile").innerHTML = "";
 }
 
 function addUdhaar(){
