@@ -83,10 +83,9 @@ button:hover, .file-btn:hover {
 .card {
   background: #ffffff;
   border: 1px solid var(--border-color);
-  padding: 14px 16px;
+  padding: 12px 16px;
   margin: 10px 0;
   border-radius: 10px;
-  cursor: pointer;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -155,6 +154,7 @@ th {
   border: 1px solid var(--border-color);
   padding: 14px;
   border-radius: 12px;
+  margin-top: 20px;
   margin-bottom: 16px;
 }
 
@@ -179,6 +179,31 @@ th {
   color: var(--text-muted);
   font-size: 10px;
   text-transform: uppercase;
+}
+
+.filter-tabs {
+  display: flex;
+  gap: 6px;
+  margin: 12px 0;
+}
+
+.filter-tab {
+  flex: 1;
+  padding: 8px 6px;
+  font-size: 12px;
+  font-weight: 600;
+  border: 1px solid var(--border-color);
+  background: #f1f5f9;
+  color: var(--text-main);
+  border-radius: 6px;
+  cursor: pointer;
+  text-align: center;
+}
+
+.filter-tab.active {
+  background: var(--primary);
+  color: white;
+  border-color: var(--primary);
 }
 
 .centered {
@@ -236,7 +261,33 @@ hr {
   <!-- GRAND TOTAL DASHBOARD -->
   <div id="grandTotalBox" class="dashboard"></div>
 
-  <!-- PERIODIC ANALYTICS DASHBOARD (Daily, Weekly, Monthly) -->
+  <div class="customer-input-section">
+    <input id="cname" placeholder="Customer Name">
+    <input id="cmobile" placeholder="Mobile Number">
+    <button class="smallbtn" onclick="addCustomer()" style="width:100%;">Add New Customer</button>
+  </div>
+
+  <input id="search" placeholder="🔍 Search Customer..." onkeyup="showCustomers()">
+  
+  <!-- QUICK FILTER BUTTONS (High, Medium, Low Udhaar) -->
+  <div class="filter-tabs">
+    <button class="filter-tab active" onclick="setFilterCategory('all', this)">All</button>
+    <button class="filter-tab" onclick="setFilterCategory('high', this)">🚨 High (&gt;₹1000)</button>
+    <button class="filter-tab" onclick="setFilterCategory('medium', this)">⚠️ Medium (₹1-1000)</button>
+    <button class="filter-tab" onclick="setFilterCategory('low', this)">🟢 Clear (₹0)</button>
+  </div>
+
+  <div style="display:flex; gap:8px;">
+    <button class="smallbtn" onclick="downloadExcel()" style="background:#059669; flex:1;">📊 Export CSV</button>
+    <button class="smallbtn" onclick="downloadJSON()" style="background:#7c3aed; flex:1;">💾 Backup JSON</button>
+    <label class="file-btn smallbtn" style="background:#0284c7; flex:1; margin:8px 0; cursor:pointer;">
+      📂 Restore JSON <input type="file" id="restoreFile" accept=".json" onchange="restoreJSON(event)" style="display:none;">
+    </label>
+  </div>
+
+  <div id="customerList"></div>
+
+  <!-- PERIODIC ANALYTICS DASHBOARD (Daily, Weekly, Monthly) - MOVED TO BOTTOM -->
   <div class="analytics-box">
     <h4 style="margin:0 0 6px 0; font-size:14px; color:var(--primary);">📈 Periodic Transaction Summary</h4>
     <div class="analytics-grid">
@@ -258,24 +309,6 @@ hr {
     </div>
   </div>
 
-  <div class="customer-input-section">
-    <input id="cname" placeholder="Customer Name">
-    <input id="cmobile" placeholder="Mobile Number">
-    <button class="smallbtn" onclick="addCustomer()" style="width:100%;">Add New Customer</button>
-  </div>
-
-  <input id="search" placeholder="🔍 Search Customer..." onkeyup="showCustomers()">
-  
-  <div style="display:flex; gap:8px;">
-    <button class="smallbtn" onclick="downloadExcel()" style="background:#059669; flex:1;">📊 Export CSV</button>
-    <button class="smallbtn" onclick="downloadJSON()" style="background:#7c3aed; flex:1;">💾 Backup JSON</button>
-    <label class="file-btn smallbtn" style="background:#0284c7; flex:1; margin:8px 0; cursor:pointer;">
-      📂 Restore JSON <input type="file" id="restoreFile" accept=".json" onchange="restoreJSON(event)" style="display:none;">
-    </label>
-  </div>
-
-  <div id="customerList"></div>
-
   <hr>
 
   <div id="profile"></div>
@@ -284,6 +317,14 @@ hr {
 <script>
 let data = JSON.parse(localStorage.getItem("udhaarData")) || [];
 let current = null;
+let currentCategory = 'all';
+
+function setFilterCategory(cat, btn){
+  currentCategory = cat;
+  document.querySelectorAll('.filter-tab').forEach(t => t.classList.remove('active'));
+  btn.classList.add('active');
+  showCustomers();
+}
 
 function saveShop(){
   localStorage.setItem("shop", document.getElementById("shop").value);
@@ -361,14 +402,24 @@ function showCustomers(){
     c.history.forEach(t=>{ if(t.type=="credit") total+=t.amount; else paid+=t.amount; });
     let bal = total - paid;
     
+    // Category filter check
+    if(currentCategory === 'high' && bal <= 1000) return;
+    if(currentCategory === 'medium' && (bal <= 0 || bal > 1000)) return;
+    if(currentCategory === 'low' && bal !== 0) return;
+
+    let callBtnHtml = c.mobile ? `<a href="tel:${c.mobile}" onclick="event.stopPropagation()" style="background:#16a34a; color:white; padding:6px 10px; border-radius:6px; text-decoration:none; font-size:12px; margin-right:8px; display:inline-block;">📞 Call</a>` : '';
+
     html+=`<div class="card" onclick="openProfile(${i})">
       <div>
         <b style="font-size:16px;">${c.name}</b><br>
         <span style="color:var(--text-muted); font-size:13px;">📞 ${c.mobile || 'No mobile'}</span>
       </div>
-      <div style="text-align:right;">
-        <span style="font-size:14px; font-weight:700; color:${bal > 0 ? 'var(--danger)' : 'var(--success)'}">₹${bal}</span><br>
-        <span style="font-size:11px; color:var(--text-muted);">Balance</span>
+      <div style="display:flex; align-items:center;">
+        ${callBtnHtml}
+        <div style="text-align:right;">
+          <span style="font-size:14px; font-weight:700; color:${bal > 0 ? 'var(--danger)' : 'var(--success)'}">₹${bal}</span><br>
+          <span style="font-size:11px; color:var(--text-muted);">Balance</span>
+        </div>
       </div>
     </div>`;
   });
