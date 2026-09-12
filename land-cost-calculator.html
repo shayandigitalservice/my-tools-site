@@ -547,6 +547,7 @@ tr:hover td { background-color: var(--primary-light); }
     <button class="nav-btn" onclick="switchTab('stockTab', this)"><i class="fa-solid fa-boxes-stacked"></i> Stock</button>
     <button class="nav-btn" onclick="switchTab('historyTab', this)"><i class="fa-solid fa-clock-rotate-left"></i> History</button>
     <button class="nav-btn" onclick="switchTab('settingTab', this)"><i class="fa-solid fa-gear"></i> Setting</button>
+    <button class="nav-btn" onclick="switchTab('udhaarTab', this)"><i class="fa-solid fa-book-open"></i> Udhaar</button>
 </div>
 
 <!-- PWA Installation Banner -->
@@ -752,6 +753,98 @@ tr:hover td { background-color: var(--primary-light); }
     </div>
 </div>
 
+<!-- TAB 5: UDHAAR MANAGER -->
+<div id="udhaarTab" class="app-tab-content billing-ui-container">
+  <div class="section-title"><i class="fa-solid fa-book-open"></i> Udhaar Manager PRO</div>
+
+  <!-- GRAND TOTAL DASHBOARD -->
+  <div id="grandTotalBox" class="dashboard" style="display:grid; grid-template-columns: repeat(2, 1fr); gap:12px; background:linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%); border:1px solid #bfdbfe; padding:16px; border-radius:12px; margin-bottom:20px;"></div>
+
+  <div class="customer-input-section" style="margin-bottom:16px;">
+    <input id="cname" placeholder="Customer Name">
+    <input id="cmobile" placeholder="Mobile Number">
+    <button class="btn-blue" onclick="addCustomer()" style="width:100%;"><i class="fa-solid fa-user-plus"></i> Add New Customer</button>
+  </div>
+
+  <input id="search" placeholder="🔍 Search Customer..." onkeyup="showCustomers()">
+  
+  <!-- QUICK SORT/FILTER BUTTONS -->
+  <div class="filter-tabs" style="display:flex; gap:6px; margin:12px 0;">
+    <button class="filter-tab active" onclick="setFilterCategory('all', this)" style="flex:1; padding:8px 6px; font-size:12px; font-weight:600; border:1px solid var(--border); background:var(--bg); color:var(--text); border-radius:6px; cursor:pointer; text-align:center;">All</button>
+    <button class="filter-tab" onclick="setFilterCategory('high', this)" style="flex:1; padding:8px 6px; font-size:12px; font-weight:600; border:1px solid var(--border); background:var(--bg); color:var(--text); border-radius:6px; cursor:pointer; text-align:center;">🚨 Highest First</button>
+    <button class="filter-tab" onclick="setFilterCategory('medium', this)" style="flex:1; padding:8px 6px; font-size:12px; font-weight:600; border:1px solid var(--border); background:var(--bg); color:var(--text); border-radius:6px; cursor:pointer; text-align:center;">⚠️ Mid Balance</button>
+    <button class="filter-tab" onclick="setFilterCategory('low', this)" style="flex:1; padding:8px 6px; font-size:12px; font-weight:600; border:1px solid var(--border); background:var(--bg); color:var(--text); border-radius:6px; cursor:pointer; text-align:center;">🟢 Clear (₹0)</button>
+  </div>
+
+  <!-- CUSTOMER PROFILE VIEW CONTAINER -->
+  <div id="profile"></div>
+
+  <div id="customerList"></div>
+
+  <hr style="border:none; height:1px; background:var(--border); margin:20px 0;">
+
+  <!-- BACKUP, RESTORE & EXPORT CONTROLS -->
+  <div style="display:flex; gap:8px; margin-bottom:15px; flex-wrap:wrap;">
+    <button class="btn-blue" onclick="downloadExcel()" style="background:#059669; flex:1; width:auto;"><i class="fa-solid fa-file-csv"></i> Export CSV</button>
+    <button class="btn-blue" onclick="downloadJSON()" style="background:#7c3aed; flex:1; width:auto;"><i class="fa-solid fa-floppy-disk"></i> Backup JSON</button>
+    <label class="btn-blue" style="background:#0284c7; flex:1; margin:0; cursor:pointer; text-align:center; display:inline-flex; align-items:center; justify-content:center;">
+      <i class="fa-solid fa-folder-open"></i> Restore JSON <input type="file" id="restoreFile" accept=".json" onchange="restoreJSON(event)" style="display:none;">
+    </label>
+  </div>
+
+  <!-- PERIODIC ANALYTICS & GRAPH SECTION -->
+  <div class="analytics-box" style="background:var(--bg); border:1px solid var(--border); padding:16px; border-radius:12px; margin-top:25px; margin-bottom:20px;">
+    <h4 style="margin:0 0 6px 0; font-size:15px; color:var(--primary);">📈 Transaction Analytics & Graph</h4>
+    
+    <div class="analytics-grid" style="display:grid; grid-template-columns: repeat(3, 1fr); gap:10px; margin-top:12px;">
+      <div class="analytics-card" style="background:var(--card-bg); padding:12px; border-radius:8px; border:1px solid var(--border); text-align:center;">
+        <b>Today's Record</b>
+        <span style="color:var(--danger); font-size:14px;">Udhar: ₹<span id="t-out">0</span></span><br>
+        <span style="color:var(--success); font-size:14px;">Paid: ₹<span id="t-in">0</span></span>
+      </div>
+      <div class="analytics-card" style="background:var(--card-bg); padding:12px; border-radius:8px; border:1px solid var(--border); text-align:center;">
+        <b>This Week's Record</b>
+        <span style="color:var(--danger); font-size:14px;">Udhar: ₹<span id="w-out">0</span></span><br>
+        <span style="color:var(--success); font-size:14px;">Paid: ₹<span id="w-in">0</span></span>
+      </div>
+      <div class="analytics-card" style="background:var(--card-bg); padding:12px; border-radius:8px; border:1px solid var(--border); text-align:center;">
+        <b>This Month's Record</b>
+        <span style="color:var(--danger); font-size:14px;">Udhar: ₹<span id="m-out">0</span></span><br>
+        <span style="color:var(--success); font-size:14px;">Paid: ₹<span id="m-in">0</span></span>
+      </div>
+    </div>
+
+    <!-- VISUAL COMPARISON GRAPH -->
+    <div class="graph-container" style="margin-top:16px; background:var(--card-bg); padding:14px; border-radius:8px; border:1px solid var(--border);">
+      <b style="font-size:12px; color:var(--text-muted); display:block; margin-bottom:8px; text-transform:uppercase;">📊 Performance Overview (Udhaar vs Paid)</b>
+      
+      <div class="bar-group" style="margin-bottom:10px;">
+        <div class="bar-label" style="display:flex; justify-content:space-between; font-size:12px; font-weight:600; margin-bottom:3px;"><span>Today</span> <span id="graph-t-text">₹0 / ₹0</span></div>
+        <div class="bar-track" style="background:var(--border); border-radius:4px; height:10px; width:100%; overflow:hidden; display:flex;">
+          <div id="bar-t-out" class="bar-fill-out" style="width:0%; background:var(--danger); height:100%;"></div>
+          <div id="bar-t-in" class="bar-fill-in" style="width:0%; background:var(--success); height:100%;"></div>
+        </div>
+      </div>
+
+      <div class="bar-group" style="margin-bottom:10px;">
+        <div class="bar-label" style="display:flex; justify-content:space-between; font-size:12px; font-weight:600; margin-bottom:3px;"><span>This Week</span> <span id="graph-w-text">₹0 / ₹0</span></div>
+        <div class="bar-track" style="background:var(--border); border-radius:4px; height:10px; width:100%; overflow:hidden; display:flex;">
+          <div id="bar-w-out" class="bar-fill-out" style="width:0%; background:var(--danger); height:100%;"></div>
+          <div id="bar-w-in" class="bar-fill-in" style="width:0%; background:var(--success); height:100%;"></div>
+        </div>
+      </div>
+
+      <div class="bar-group" style="margin-bottom:0;">
+        <div class="bar-label" style="display:flex; justify-content:space-between; font-size:12px; font-weight:600; margin-bottom:3px;"><span>This Month</span> <span id="graph-m-text">₹0 / ₹0</span></div>
+        <div class="bar-track" style="background:var(--border); border-radius:4px; height:10px; width:100%; overflow:hidden; display:flex;">
+          <div id="bar-m-out" class="bar-fill-out" style="width:0%; background:var(--danger); height:100%;"></div>
+          <div id="bar-m-in" class="bar-fill-in" style="width:0%; background:var(--success); height:100%;"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
 <!-- CUSTOM DIALOGUE MODAL -->
 <div id="customModal" class="modal-overlay">
     <div class="modal-card">
@@ -879,6 +972,8 @@ document.getElementById("pwaInstallBtn")?.addEventListener("click", () => {
 document.addEventListener("DOMContentLoaded", function(){
     initBillingSystem();
     filterHistoryBills();
+    showCustomers();
+    updateDashboard();
 });
 
 function initBillingSystem() {
@@ -916,6 +1011,7 @@ function initBillingSystem() {
 
     window.renderStock = function(){
         const tbody = document.getElementById("stockTableBody");
+        if(!tbody) return;
         tbody.innerHTML = "";
         let sno = 1;
         for(let p in stock){
@@ -961,6 +1057,7 @@ function initBillingSystem() {
     const priceInput = document.getElementById("price");
 
     function renderProductDropdown(){
+        if(!productDropdown) return;
         productDropdown.innerHTML = "<option value=''>-- Select Item --</option>";
         let productList = [...new Set(Object.keys(stock))];
         productList.forEach(p => {
@@ -1644,6 +1741,373 @@ function importStockOnly(event) {
     };
     fileReader.readAsText(file);
 }
+
+/* --- UDHAAR MANAGER LOGIC EMBEDDED --- */
+let udhaarData = JSON.parse(localStorage.getItem("udhaarData")) || [];
+let currentUdhaarCustomer = null;
+let currentCategory = 'all';
+
+function setFilterCategory(cat, btn){
+  currentCategory = cat;
+  document.querySelectorAll('.filter-tab').forEach(t => t.classList.remove('active'));
+  btn.classList.add('active');
+  showCustomers();
+}
+
+function saveUdhaarState(){
+  localStorage.setItem("udhaarData", JSON.stringify(udhaarData));
+  updateDashboard();
+}
+
+function updateDashboard(){
+  let total=0, paid=0;
+  let totalCustomers = udhaarData.length;
+  let tOut=0, tIn=0, wOut=0, wIn=0, mOut=0, mIn=0;
+  let now = new Date();
+
+  udhaarData.forEach(c=>{
+    c.history.forEach(t=>{
+      let amount = t.amount;
+      let d = new Date(t.date);
+      
+      if(t.type=="credit") total+=amount;
+      else paid+=amount;
+
+      if(d.toDateString() === now.toDateString()){
+        if(t.type=="credit") tOut += amount; else tIn += amount;
+      }
+      if((now - d) <= 7 * 86400000){
+        if(t.type=="credit") wOut += amount; else wIn += amount;
+      }
+      if(d.getMonth() === now.getMonth() && d.getFullYear() === now.getFullYear()){
+        if(t.type=="credit") mOut += amount; else mIn += amount;
+      }
+    });
+  });
+
+  let balance = total - paid;
+  
+  const grandTotalBox = document.getElementById("grandTotalBox");
+  if(grandTotalBox) {
+    grandTotalBox.innerHTML = `
+      <div class="dash-item" style="background:rgba(255, 255, 255, 0.85); padding:10px 12px; border-radius:8px; font-size:14px;"><b>Total Customers</b><span>👥 ${totalCustomers}</span></div>
+      <div class="dash-item" style="background:rgba(255, 255, 255, 0.85); padding:10px 12px; border-radius:8px; font-size:14px;"><b>Total Udhaar</b><span>₹${total}</span></div>
+      <div class="dash-item" style="background:rgba(255, 255, 255, 0.85); padding:10px 12px; border-radius:8px; font-size:14px;"><b>Total Paid</b><span>₹${paid}</span></div>
+      <div class="dash-item" style="background:rgba(255, 255, 255, 0.85); padding:10px 12px; border-radius:8px; font-size:14px;"><b>Net Balance</b><span style="color:var(--danger)">₹${balance}</span></div>
+    `;
+  }
+
+  if(document.getElementById("t-out")) document.getElementById("t-out").innerText = tOut;
+  if(document.getElementById("t-in")) document.getElementById("t-in").innerText = tIn;
+  if(document.getElementById("w-out")) document.getElementById("w-out").innerText = wOut;
+  if(document.getElementById("w-in")) document.getElementById("w-in").innerText = wIn;
+  if(document.getElementById("m-out")) document.getElementById("m-out").innerText = mOut;
+  if(document.getElementById("m-in")) document.getElementById("m-in").innerText = mIn;
+
+  updateGraph(tOut, tIn, wOut, wIn, mOut, mIn);
+}
+
+function updateGraph(tOut, tIn, wOut, wIn, mOut, mIn){
+  if(!document.getElementById("graph-t-text")) return;
+  document.getElementById("graph-t-text").innerText = `Udhar: ₹${tOut} | Paid: ₹${tIn}`;
+  document.getElementById("graph-w-text").innerText = `Udhar: ₹${wOut} | Paid: ₹${wIn}`;
+  document.getElementById("graph-m-text").innerText = `Udhar: ₹${mOut} | Paid: ₹${mIn}`;
+
+  let maxT = Math.max(tOut, tIn, 100);
+  let maxW = Math.max(wOut, wIn, 100);
+  let maxM = Math.max(mOut, mIn, 100);
+
+  document.getElementById("bar-t-out").style.width = (tOut / maxT * 50) + "%";
+  document.getElementById("bar-t-in").style.width = (tIn / maxT * 50) + "%";
+  document.getElementById("bar-w-out").style.width = (wOut / maxW * 50) + "%";
+  document.getElementById("bar-w-in").style.width = (wIn / maxW * 50) + "%";
+  document.getElementById("bar-m-out").style.width = (mOut / maxM * 50) + "%";
+  document.getElementById("bar-m-in").style.width = (mIn / maxM * 50) + "%";
+}
+
+function addCustomer(){
+  let nameInput = document.getElementById("cname");
+  let mobileInput = document.getElementById("cmobile");
+  if(!nameInput.value){showAppAlert("Required", "Please enter customer name");return;}
+  udhaarData.push({name:nameInput.value, mobile:mobileInput.value, history:[]});
+  saveUdhaarState(); 
+  nameInput.value=""; 
+  mobileInput.value="";
+  showCustomers();
+}
+
+function showCustomers(){
+  let searchInput = document.getElementById("search");
+  if(!searchInput) return;
+  let s = searchInput.value.toLowerCase();
+  
+  let processedData = udhaarData.map((c, originalIndex) => {
+    let total = 0, paid = 0;
+    c.history.forEach(t => { if(t.type=="credit") total+=t.amount; else paid+=t.amount; });
+    return { customer: c, index: originalIndex, balance: total - paid };
+  });
+
+  processedData = processedData.filter(item => item.customer.name.toLowerCase().includes(s));
+
+  if(currentCategory === 'high'){
+    processedData = processedData.filter(item => item.balance > 0);
+    processedData.sort((a, b) => b.balance - a.balance);
+  } else if(currentCategory === 'medium'){
+    processedData = processedData.filter(item => item.balance > 0);
+    processedData.sort((a, b) => a.balance - b.balance);
+  } else if(currentCategory === 'low'){
+    processedData = processedData.filter(item => item.balance === 0);
+  }
+
+  let html="";
+  processedData.forEach(item => {
+    let c = item.customer;
+    let i = item.index;
+    let bal = item.balance;
+    
+    let callBtnHtml = c.mobile ? `<a href="tel:${c.mobile}" onclick="event.stopPropagation()" style="background:#16a34a; color:white; padding:8px 12px; border-radius:6px; text-decoration:none; font-size:13px; display:inline-block; font-weight:600;">📞 Call</a>` : '';
+
+    html+=`<div class="card" onclick="openProfile(${i})" style="background:var(--card-bg); border:1px solid var(--border); padding:12px 16px; margin:10px 0; border-radius:10px; display:flex; justify-content:space-between; align-items:center; cursor:pointer;">
+      <div>
+        <b style="font-size:16px;">${c.name}</b><br>
+        <span style="font-size:13px; font-weight:700; color:${bal > 0 ? 'var(--danger)' : 'var(--success)'}">Balance: ₹${bal}</span>
+      </div>
+      <div>
+        ${callBtnHtml}
+      </div>
+    </div>`;
+  });
+  document.getElementById("customerList").innerHTML = html || '<p style="text-align:center; color:var(--text-muted);">No customers found.</p>';
+}
+
+function openProfile(i){
+  currentUdhaarCustomer=i;
+  let c=udhaarData[i];
+  let total=0, paid=0;
+  c.history.forEach(t=>{
+    if(t.type=="credit") total+=t.amount;
+    else paid+=t.amount;
+  });
+  let balance=total-paid;
+
+  let html=`
+    <div style="background:var(--bg); padding:16px; border-radius:12px; margin-bottom:16px; border:1px solid var(--border);">
+      <div style="display:flex; justify-content:space-between; align-items:center;">
+        <h3 style="margin:0;">👤 ${c.name}</h3>
+        <button onclick="closeProfile()" class="btn-blue" style="background:var(--text-muted); width:auto; padding:4px 10px; font-size:12px; margin:0;">✕ Close</button>
+      </div>
+      <p style="color:var(--text-muted); margin:4px 0 12px 0;">Mobile: ${c.mobile || 'N/A'}</p>
+      
+      <div style="display:grid; grid-template-columns: repeat(3, 1fr); gap:8px; margin-bottom:12px; text-align:center;">
+        <div style="background:var(--card-bg); padding:8px; border-radius:6px; border:1px solid var(--border);">
+          <small style="color:var(--text-muted)">Total</small><br><b>₹${total}</b>
+        </div>
+        <div style="background:var(--card-bg); padding:8px; border-radius:6px; border:1px solid var(--border);">
+          <small style="color:var(--text-muted)">Paid</small><br><b style="color:var(--success)">₹${paid}</b>
+        </div>
+        <div style="background:var(--card-bg); padding:8px; border-radius:6px; border:1px solid var(--border);">
+          <small style="color:var(--text-muted)">Unpaid</small><br><b style="color:var(--danger)">₹${balance}</b>
+        </div>
+      </div>
+
+      <input id="amt" type="number" placeholder="Enter Amount (₹)">
+      
+      <div class="centered" style="display:flex; gap:8px; flex-wrap:wrap;">
+        <button class="btn-blue" style="background:var(--danger); flex:1; min-width:90px;" onclick="addUdhaar()">+ Udhaar</button>
+        <button class="btn-blue" style="background:var(--success); flex:1; min-width:90px;" onclick="addPayment()">+ Payment</button>
+        <button class="btn-blue" style="background:#0284c7; flex:1; min-width:90px;" onclick="sendReminder()">📲 WhatsApp</button>
+        <button class="btn-blue" style="background:#475569; flex:1; min-width:90px;" onclick="printUdhaarData()">🖨 Print</button>
+        <button class="btn-blue" style="background:var(--danger); flex:1; min-width:90px;" onclick="deleteCustomer()">Delete</button>
+      </div>
+
+      <select id="filter" onchange="openProfile(${i})" style="margin-top:12px;">
+        <option value="all">Filter: All Transactions</option>
+        <option value="today">Today</option>
+        <option value="week">Last Week</option>
+        <option value="month">Last Month</option>
+      </select>
+
+      <h4>Transaction History</h4>
+      <div class="table-wrapper">
+        <table>
+          <tr><th>Date & Time</th><th>Type</th><th>Amount</th></tr>
+  `;
+
+  let now=new Date();
+  c.history.forEach(t=>{
+    let d=new Date(t.date);
+    let show=true;
+    let f=document.getElementById("filter")?.value || "all";
+    if(f=="today" && d.toDateString()!=now.toDateString()) show=false;
+    if(f=="week" && (now-d)>7*86400000) show=false;
+    if(f=="month" && d.getMonth()!=now.getMonth()) show=false;
+    if(show){
+      let badgeColor = t.type=="credit" ? "var(--danger)" : "var(--success)";
+      html+=`<tr>
+        <td style="font-size:12px; color:var(--text-muted);">${t.date}</td>
+        <td><span style="color:${badgeColor}; font-weight:600; text-transform:uppercase; font-size:12px;">${t.type}</span></td>
+        <td><b>₹${t.amount}</b></td>
+      </tr>`;
+    }
+  });
+  html+= `</table></div></div>`;
+  document.getElementById("profile").innerHTML=html;
+}
+
+function closeProfile(){
+  currentUdhaarCustomer = null;
+  document.getElementById("profile").innerHTML = "";
+}
+
+function addUdhaar(){
+  let amt=+document.getElementById("amt").value;
+  if(!amt){showAppAlert("Required", "Please enter amount");return;}
+  udhaarData[currentUdhaarCustomer].history.push({type:"credit", amount:amt, date:new Date().toLocaleString()});
+  saveUdhaarState();
+  openProfile(currentUdhaarCustomer);
+  showCustomers();
+}
+
+function addPayment(){
+  let amt=+document.getElementById("amt").value;
+  if(!amt){showAppAlert("Required", "Please enter amount");return;}
+  udhaarData[currentUdhaarCustomer].history.push({type:"paid", amount:amt, date:new Date().toLocaleString()});
+  saveUdhaarState();
+  openProfile(currentUdhaarCustomer);
+  showCustomers();
+}
+
+function sendReminder(){
+  let c=udhaarData[currentUdhaarCustomer];
+  let total=0, paid=0;
+  c.history.forEach(t=>{ if(t.type=="credit") total+=t.amount; else paid+=t.amount; });
+  let bal=total-paid;
+  let shopName=localStorage.getItem("shop")||"My Shop";
+  let shopAddress=localStorage.getItem("address")||"";
+  let shopPhone=localStorage.getItem("phone")||"";
+
+  let msg=`🧾 Udhaar Reminder\n\nShop: ${shopName}\nAddress: ${shopAddress}\nPhone: ${shopPhone}\n\nName: ${c.name}\nTotal Udhaar: ₹${total}\nPaid: ₹${paid}\nBalance Due: ₹${bal}\n\nPlease clear your balance soon 🙏`;
+  let url="https://wa.me/"+(c.mobile||"")+"?text="+encodeURIComponent(msg);
+  window.open(url);
+}
+
+function printUdhaarData(){
+  let shopName = localStorage.getItem("shop") || "Shayan Smart Market";
+  let shopAddress = localStorage.getItem("address") || "";
+  let shopPhone = localStorage.getItem("phone") || "";
+  let c = udhaarData[currentUdhaarCustomer];
+  let total = 0, paid = 0;
+  c.history.forEach(t=>{ if(t.type=="credit") total+=t.amount; else paid+=t.amount; });
+  let balance = total - paid;
+
+  let win = window.open('','','width=400,height=600');
+  win.document.write(`
+    <html><head><style>
+    body{font-family:Arial;padding:15px;text-align:center;}
+    table{width:100%;border-collapse:collapse;margin-top:15px;}
+    td,th{border:1px solid #ccc;padding:8px;text-align:center;font-size:13px;}
+    th{background:#f3f4f6;}
+    </style></head><body>
+    <h2>${shopName}</h2>
+    <p style="margin:2px 0; color:#555;">${shopAddress}<br>Phone: ${shopPhone}</p>
+    <hr style="border:0; border-top:1px dashed #ccc; margin:10px 0;">
+    <h3>Udhaar Statement</h3>
+    <div style="text-align:left; margin-bottom:10px;">
+      <b>Customer:</b> ${c.name}<br>
+      <b>Mobile:</b> ${c.mobile || 'N/A'}<br>
+      <b>Date:</b> ${new Date().toLocaleString()}
+    </div>
+    <table>
+    <tr><th>Date & Time</th><th>Type</th><th>Amount</th></tr>
+  `);
+  c.history.forEach(t=>{
+    win.document.write(`<tr><td>${t.date}</td><td>${t.type.toUpperCase()}</td><td>₹${t.amount}</td></tr>`);
+  });
+  win.document.write(`
+    <tr><td colspan="2"><b>Total Udhaar</b></td><td><b>₹${total}</b></td></tr>
+    <tr><td colspan="2">Total Paid</td><td>₹${paid}</td></tr>
+    <tr><td colspan="2"><b>Net Balance Due</b></td><td><b style="color:red">₹${balance}</b></td></tr>
+    </table>
+    <br><br><p style="text-align:right; margin-top:40px;">Authorized Signature: ______</p>
+    </body></html>
+  `);
+  win.document.close();
+  win.print();
+}
+
+function deleteCustomer(){
+  showAppConfirm("Delete Customer", "Are you sure you want to delete this customer?", function(){
+    udhaarData.splice(currentUdhaarCustomer,1);
+    saveUdhaarState();
+    document.getElementById("profile").innerHTML="";
+    showCustomers();
+  });
+}
+
+function downloadExcel(){
+  let csv="Shop,Address,Phone,Customer,Type,Amount,Date\n";
+  let shopName=localStorage.getItem("shop")||"My Shop";
+  let shopAddress=localStorage.getItem("address")||"";
+  let shopPhone=localStorage.getItem("phone")||"";
+
+  udhaarData.forEach(c=>{
+    c.history.forEach(h=>{
+      csv+=`"${shopName}","${shopAddress}","${shopPhone}","${c.name}","${h.type}","${h.amount}","${h.date}"\n`;
+    });
+  });
+  let blob=new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+  let a=document.createElement("a");
+  a.href=URL.createObjectURL(blob);
+  a.download="udhaar_manager_data.csv";
+  a.click();
+}
+
+function downloadJSON(){
+  let backupData = {
+    shop: localStorage.getItem("shop") || "",
+    address: localStorage.getItem("address") || "",
+    phone: localStorage.getItem("phone") || "",
+    customers: udhaarData
+  };
+  let blob = new Blob([JSON.stringify(backupData, null, 2)], { type: 'application/json' });
+  let a = document.createElement("a");
+  a.href = URL.createObjectURL(blob);
+  a.download = "udhaar_backup_" + new Date().toISOString().slice(0,10) + ".json";
+  a.click();
+}
+
+function restoreJSON(event){
+  let file = event.target.files[0];
+  if(!file) return;
+  let reader = new FileReader();
+  reader.onload = function(e){
+    try{
+      let parsed = JSON.parse(e.target.result);
+      if(parsed.customers && Array.isArray(parsed.customers)){
+        showAppConfirm("Restore Data", "Restore data? This will overwrite existing records.", function(){
+          udhaarData = parsed.customers;
+          if(parsed.shop) localStorage.setItem("shop", parsed.shop);
+          if(parsed.address) localStorage.setItem("address", parsed.address);
+          if(parsed.phone) localStorage.setItem("phone", parsed.phone);
+          
+          if(document.getElementById("shop")) document.getElementById("shop").value = localStorage.getItem("shop") || "";
+          if(document.getElementById("address")) document.getElementById("address").value = localStorage.getItem("address") || "";
+          if(document.getElementById("phone")) document.getElementById("phone").value = localStorage.getItem("phone") || "";
+          
+          saveUdhaarState();
+          showCustomers();
+          document.getElementById("profile").innerHTML="";
+          showAppAlert("Success", "Data restored successfully!");
+        });
+      } else {
+        showAppAlert("Error", "Invalid backup file format!");
+      }
+    } catch(err){
+      showAppAlert("Error", "Error reading JSON file!");
+    }
+  };
+  reader.readAsText(file);
+}
 </script>
 </body>
-          </html>
+</html>
