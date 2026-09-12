@@ -47,7 +47,7 @@ h3, h4 {
   margin-bottom: 8px;
 }
 
-input, select, button {
+input, select, button, label {
   font-family: inherit;
   font-size: 15px;
   padding: 12px 14px;
@@ -65,21 +65,19 @@ input:focus, select:focus {
   box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
 }
 
-button {
+button, .file-btn {
   background: var(--primary);
   color: white;
   border: none;
   font-weight: 600;
   cursor: pointer;
+  text-align: center;
+  display: inline-block;
 }
 
-button:hover {
+button:hover, .file-btn:hover {
   background: var(--primary-dark);
   transform: translateY(-1px);
-}
-
-button:active {
-  transform: translateY(0);
 }
 
 .card {
@@ -132,7 +130,7 @@ th {
 }
 
 .dash-item {
-  background: rgba(255, 255, 255, 0.7);
+  background: rgba(255, 255, 255, 0.85);
   padding: 10px 12px;
   border-radius: 8px;
   font-size: 14px;
@@ -141,15 +139,46 @@ th {
 .dash-item b {
   display: block;
   color: var(--text-muted);
-  font-size: 12px;
+  font-size: 11px;
   text-transform: uppercase;
   margin-bottom: 2px;
 }
 
 .dash-item span {
-  font-size: 18px;
+  font-size: 17px;
   font-weight: 700;
   color: var(--text-main);
+}
+
+.analytics-box {
+  background: #f8fafc;
+  border: 1px solid var(--border-color);
+  padding: 14px;
+  border-radius: 12px;
+  margin-bottom: 16px;
+}
+
+.analytics-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  margin-top: 8px;
+  text-align: center;
+}
+
+.analytics-card {
+  background: #ffffff;
+  padding: 8px;
+  border-radius: 6px;
+  border: 1px solid var(--border-color);
+  font-size: 12px;
+}
+
+.analytics-card b {
+  display: block;
+  color: var(--text-muted);
+  font-size: 10px;
+  text-transform: uppercase;
 }
 
 .centered {
@@ -163,7 +192,7 @@ button.smallbtn {
   padding: 10px 14px;
   font-size: 14px;
   flex: 1;
-  min-width: 110px;
+  min-width: 100px;
   margin: 4px 0;
 }
 
@@ -183,7 +212,7 @@ hr {
 }
 
 @media(max-width: 600px) {
-  .dashboard {
+  .dashboard, .analytics-grid {
     grid-template-columns: 1fr;
   }
 }
@@ -204,7 +233,30 @@ hr {
 
   <hr>
 
+  <!-- GRAND TOTAL DASHBOARD -->
   <div id="grandTotalBox" class="dashboard"></div>
+
+  <!-- PERIODIC ANALYTICS DASHBOARD (Daily, Weekly, Monthly) -->
+  <div class="analytics-box">
+    <h4 style="margin:0 0 6px 0; font-size:14px; color:var(--primary);">📈 Periodic Transaction Summary</h4>
+    <div class="analytics-grid">
+      <div class="analytics-card">
+        <b>Today</b>
+        <span style="color:var(--danger)">Udhar: ₹<span id="t-out">0</span></span><br>
+        <span style="color:var(--success)">Paid: ₹<span id="t-in">0</span></span>
+      </div>
+      <div class="analytics-card">
+        <b>This Week</b>
+        <span style="color:var(--danger)">Udhar: ₹<span id="w-out">0</span></span><br>
+        <span style="color:var(--success)">Paid: ₹<span id="w-in">0</span></span>
+      </div>
+      <div class="analytics-card">
+        <b>This Month</b>
+        <span style="color:var(--danger)">Udhar: ₹<span id="m-out">0</span></span><br>
+        <span style="color:var(--success)">Paid: ₹<span id="m-in">0</span></span>
+      </div>
+    </div>
+  </div>
 
   <div class="customer-input-section">
     <input id="cname" placeholder="Customer Name">
@@ -213,7 +265,14 @@ hr {
   </div>
 
   <input id="search" placeholder="🔍 Search Customer..." onkeyup="showCustomers()">
-  <button class="smallbtn" onclick="downloadExcel()" style="width:100%; background:#059669;">📊 Download All Data (CSV)</button>
+  
+  <div style="display:flex; gap:8px;">
+    <button class="smallbtn" onclick="downloadExcel()" style="background:#059669; flex:1;">📊 Export CSV</button>
+    <button class="smallbtn" onclick="downloadJSON()" style="background:#7c3aed; flex:1;">💾 Backup JSON</button>
+    <label class="file-btn smallbtn" style="background:#0284c7; flex:1; margin:8px 0; cursor:pointer;">
+      📂 Restore JSON <input type="file" id="restoreFile" accept=".json" onchange="restoreJSON(event)" style="display:none;">
+    </label>
+  </div>
 
   <div id="customerList"></div>
 
@@ -241,19 +300,45 @@ function save(){
 function updateDashboard(){
   let total=0, paid=0;
   let totalCustomers = data.length;
+  let tOut=0, tIn=0, wOut=0, wIn=0, mOut=0, mIn=0;
+  let now = new Date();
+
   data.forEach(c=>{
     c.history.forEach(t=>{
-      if(t.type=="credit") total+=t.amount;
-      else paid+=t.amount;
+      let amount = t.amount;
+      let d = new Date(t.date);
+      
+      if(t.type=="credit") total+=amount;
+      else paid+=amount;
+
+      // Periodic check
+      if(d.toDateString() === now.toDateString()){
+        if(t.type=="credit") tOut += amount; else tIn += amount;
+      }
+      if((now - d) <= 7 * 86400000){
+        if(t.type=="credit") wOut += amount; else wIn += amount;
+      }
+      if(d.getMonth() === now.getMonth() && d.getFullYear() === now.getFullYear()){
+        if(t.type=="credit") mOut += amount; else mIn += amount;
+      }
     });
   });
+
   let balance = total - paid;
+  
   document.getElementById("grandTotalBox").innerHTML = `
     <div class="dash-item"><b>Total Customers</b><span>👥 ${totalCustomers}</span></div>
     <div class="dash-item"><b>Total Udhaar</b><span>₹${total}</span></div>
     <div class="dash-item"><b>Total Paid</b><span>₹${paid}</span></div>
     <div class="dash-item"><b>Net Balance</b><span style="color:var(--danger)">₹${balance}</span></div>
   `;
+
+  document.getElementById("t-out").innerText = tOut;
+  document.getElementById("t-in").innerText = tIn;
+  document.getElementById("w-out").innerText = wOut;
+  document.getElementById("w-in").innerText = wIn;
+  document.getElementById("m-out").innerText = mOut;
+  document.getElementById("m-in").innerText = mIn;
 }
 
 function addCustomer(){
@@ -300,6 +385,8 @@ function openProfile(i){
   });
   let balance=total-paid;
 
+  let callButtonHtml = c.mobile ? `<a href="tel:${c.mobile}" style="text-decoration:none; flex:1; min-width:100px;"><button class="smallbtn" style="background:#16a34a; width:100%; margin:0;">📞 Call</button></a>` : '';
+
   let html=`
     <h3>👤 ${c.name}</h3>
     <p style="color:var(--text-muted); margin:0 0 12px 0;">Mobile: ${c.mobile || 'N/A'}</p>
@@ -321,6 +408,7 @@ function openProfile(i){
     <div class="centered">
       <button class="smallbtn" style="background:var(--danger);" onclick="addUdhaar()">+ Udhaar</button>
       <button class="smallbtn" style="background:var(--success);" onclick="addPayment()">+ Payment</button>
+      ${callButtonHtml}
       <button class="smallbtn" style="background:#0284c7;" onclick="sendReminder()">📲 WhatsApp</button>
       <button class="smallbtn" style="background:#475569;" onclick="printData()">🖨 Print</button>
       <button class="smallbtn btn-danger" onclick="deleteCustomer()">Delete</button>
@@ -447,7 +535,7 @@ function deleteCustomer(){
 function downloadExcel(){
   let csv="Shop,Address,Phone,Customer,Type,Amount,Date\n";
   let shopName=localStorage.getItem("shop")||"My Shop";
-  let shopAddress=localStorage.getItem("address")||"Image";
+  let shopAddress=localStorage.getItem("address")||"";
   let shopPhone=localStorage.getItem("phone")||"";
 
   data.forEach(c=>{
@@ -460,6 +548,53 @@ function downloadExcel(){
   a.href=URL.createObjectURL(blob);
   a.download="udhaar_manager_data.csv";
   a.click();
+}
+
+function downloadJSON(){
+  let backupData = {
+    shop: localStorage.getItem("shop") || "",
+    address: localStorage.getItem("address") || "",
+    phone: localStorage.getItem("phone") || "",
+    customers: data
+  };
+  let blob = new Blob([JSON.stringify(backupData, null, 2)], { type: 'application/json' });
+  let a = document.createElement("a");
+  a.href = URL.createObjectURL(blob);
+  a.download = "udhaar_backup_" + new Date().toISOString().slice(0,10) + ".json";
+  a.click();
+}
+
+function restoreJSON(event){
+  let file = event.target.files[0];
+  if(!file) return;
+  let reader = new FileReader();
+  reader.onload = function(e){
+    try{
+      let parsed = JSON.parse(e.target.result);
+      if(parsed.customers && Array.isArray(parsed.customers)){
+        if(confirm("Restore data? This will overwrite existing records.")){
+          data = parsed.customers;
+          if(parsed.shop) localStorage.setItem("shop", parsed.shop);
+          if(parsed.address) localStorage.setItem("address", parsed.address);
+          if(parsed.phone) localStorage.setItem("phone", parsed.phone);
+          
+          document.getElementById("shop").value = localStorage.getItem("shop") || "";
+          document.getElementById("address").value = localStorage.getItem("address") || "";
+          document.getElementById("phone").value = localStorage.getItem("phone") || "";
+          
+          save();
+          showCustomers();
+          document.getElementById("profile").innerHTML="";
+          alert("Data restored successfully!");
+        }
+      } else {
+        alert("Invalid backup file format!");
+      }
+    } catch(err){
+      alert("Error reading JSON file!");
+    }
+  };
+  reader.readAsText(file);
 }
 
 window.onload = function() {
