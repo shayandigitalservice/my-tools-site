@@ -187,7 +187,7 @@ h3, h4 {
   margin-bottom: 8px;
 }
 
-/* Clean Form Elements Alignment */
+/* Step-by-Step Vertical Form Fields */
 .form-group {
   margin-bottom: 12px;
 }
@@ -251,9 +251,6 @@ button:hover, .file-btn:hover {
   box-shadow: 0 2px 4px rgba(0,0,0,0.02);
   cursor: pointer;
 }
-.card:hover, .udhaar-card-item:hover {
-  border-color: var(--primary);
-}
 
 table {
   width: 100%;
@@ -282,9 +279,7 @@ th {
   padding: 16px;
   border-radius: 12px;
   margin-bottom: 16px;
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 10px;
+  text-align: center;
 }
 [data-theme="dark"] .dashboard { background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%); border-color: #334155; }
 
@@ -295,20 +290,6 @@ th {
   font-size: 13px;
 }
 [data-theme="dark"] .dash-item { background: rgba(30, 41, 59, 0.85); }
-
-.dash-item b {
-  display: block;
-  color: var(--text-muted);
-  font-size: 10px;
-  text-transform: uppercase;
-  margin-bottom: 2px;
-}
-
-.dash-item span {
-  font-size: 16px;
-  font-weight: 700;
-  color: var(--text-main);
-}
 
 .filter-tabs {
   display: flex;
@@ -336,7 +317,6 @@ th {
   border-color: var(--primary);
 }
 
-/* ANALYTICS & GRAPH STYLING */
 .analytics-box {
   background: var(--bg-color);
   border: 1px solid var(--border-color);
@@ -361,14 +341,6 @@ th {
   text-align: center;
 }
 
-.analytics-card b {
-  display: block;
-  color: var(--text-muted);
-  font-size: 10px;
-  text-transform: uppercase;
-  margin-bottom: 4px;
-}
-
 .graph-container {
   margin-top: 14px;
   background: var(--card-bg);
@@ -378,54 +350,18 @@ th {
 }
 
 .bar-group { margin-bottom: 8px; }
-
-.bar-label {
-  display: flex;
-  justify-content: space-between;
-  font-size: 11px;
-  font-weight: 600;
-  margin-bottom: 2px;
-}
-
-.bar-track {
-  background: #e2e8f0;
-  border-radius: 4px;
-  height: 8px;
-  width: 100%;
-  overflow: hidden;
-  display: flex;
-}
+.bar-label { display: flex; justify-content: space-between; font-size: 11px; font-weight: 600; margin-bottom: 2px; }
+.bar-track { background: #e2e8f0; border-radius: 4px; height: 8px; width: 100%; overflow: hidden; display: flex; }
 [data-theme="dark"] .bar-track { background: #334155; }
-
 .bar-fill-out { background: var(--danger); height: 100%; }
 .bar-fill-in { background: var(--success); height: 100%; }
 
-.centered {
-  display: flex;
-  justify-content: center;
-  gap: 6px;
-  flex-wrap: wrap;
-}
-
-button.smallbtn {
-  padding: 8px 10px;
-  font-size: 13px;
-  flex: 1;
-  min-width: 90px;
-  margin: 2px 0;
-}
-
+.centered { display: flex; justify-content: center; gap: 6px; flex-wrap: wrap; }
+button.smallbtn { padding: 8px 10px; font-size: 13px; flex: 1; min-width: 90px; margin: 2px 0; }
 .btn-danger { background: var(--danger) !important; }
-.btn-danger:hover { background: #b91c1c !important; }
 
-hr {
-  border: none;
-  height: 1px;
-  background: var(--border-color);
-  margin: 16px 0;
-}
+hr { border: none; height: 1px; background: var(--border-color); margin: 16px 0; }
 
-/* Modals */
 .modal-overlay {
   display: none;
   position: fixed;
@@ -444,16 +380,8 @@ hr {
   box-shadow: 0 10px 25px rgba(0,0,0,0.2);
   border: 1px solid var(--border-color);
 }
-.modal-header {
-  font-size: 15px; font-weight: 700; color: var(--text-main);
-  margin-bottom: 8px; border-bottom: 1px solid var(--border-color);
-  padding-bottom: 6px;
-}
+.modal-header { font-size: 15px; font-weight: 700; margin-bottom: 8px; border-bottom: 1px solid var(--border-color); padding-bottom: 6px; }
 .modal-footer { display: flex; gap: 6px; margin-top: 14px; justify-content: flex-end; }
-
-@media(max-width: 600px) {
-  .dashboard, .analytics-grid { grid-template-columns: 1fr; }
-}
 </style>
 </head>
 
@@ -484,21 +412,35 @@ hr {
     <button id="pwaInstallBtn">Install Now</button>
 </div>
 
-<!-- TAB 1: HOME (Billing) -->
+<!-- TAB 1: HOME (Billing - Step by Step Vertical Order) -->
 <div id="homeTab" class="app-tab-content active-tab container">
     <h2>🧾 Bill Generator</h2>
 
-    <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px;" class="form-group">
-        <div><label>Customer Name</label><input id="customer" placeholder="Customer Name"></div>
-        <div><label>Search Product</label><input id="productSearch" placeholder="Search stock..."></div>
+    <div class="form-group">
+        <label>Customer Name</label>
+        <input id="customer" placeholder="Enter Customer Name">
+    </div>
+
+    <div class="form-group">
+        <label>Search Product</label>
+        <input id="productSearch" placeholder="Type to search stock...">
     </div>
     
-    <div class="form-group"><label>Select Inventory Product</label><select id="productDropdown"></select></div>
-
-    <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px;" class="form-group">
-        <div><label>Quantity</label><input id="qty" type="number" placeholder="Qty"></div>
-        <div><label>Unit Price (₹)</label><input id="price" type="number" placeholder="Price"></div>
+    <div class="form-group">
+        <label>Select Inventory Product</label>
+        <select id="productDropdown"></select>
     </div>
+
+    <div class="form-group">
+        <label>Quantity</label>
+        <input id="qty" type="number" placeholder="Enter Qty">
+    </div>
+
+    <div class="form-group">
+        <label>Unit Price (₹)</label>
+        <input id="price" type="number" placeholder="Enter Unit Price">
+    </div>
+
     <button id="addItemBtn" style="width:100%; margin-bottom:12px;"><i class="fa-solid fa-cart-plus"></i> Add Item to Invoice</button>
 
     <div style="overflow-x:auto;">
@@ -517,38 +459,45 @@ hr {
         </table>
     </div>
 
-    <div style="display:grid; grid-template-columns: 1fr 1fr 1fr; gap:10px; margin-top:12px;" class="form-group">
-        <div><label>Discount (₹)</label><input id="discFlat" type="number" placeholder="0" oninput="calculateGrandTotal()"></div>
-        <div><label>Discount (%)</label><input id="discPercent" type="number" placeholder="0%" oninput="calculateGrandTotal()"></div>
-        <div>
-            <label>GST Slab</label>
-            <select id="gstRate" onchange="calculateGrandTotal()">
-                <option value="0">GST 0%</option>
-                <option value="5">GST 5%</option>
-                <option value="12">GST 12%</option>
-                <option value="18">GST 18%</option>
-                <option value="28">GST 28%</option>
-            </select>
-        </div>
+    <div class="form-group" style="margin-top:12px;">
+        <label>Discount (Flat ₹)</label>
+        <input id="discFlat" type="number" placeholder="0" oninput="calculateGrandTotal()">
     </div>
 
-    <div class="dashboard" style="margin-top:10px; text-align:center;">
-        <div style="grid-column: span 2;">
-            <div style="font-size:12px; color:var(--text-muted);">Subtotal: ₹<span id="liveSubTotal">0.00</span> | Tax: ₹<span id="liveGstTotal">0.00</span></div>
-            <div style="font-size:20px; font-weight:800; color:var(--primary); margin-top:4px;">GRAND TOTAL: ₹<span id="liveCurrentTotal">0.00</span></div>
-        </div>
+    <div class="form-group">
+        <label>Discount (%)</label>
+        <input id="discPercent" type="number" placeholder="0%" oninput="calculateGrandTotal()">
     </div>
 
-    <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px;" class="form-group">
-        <div><label>Amount Paid</label><input id="amtPaid" type="number" placeholder="Amount received"></div>
-        <div>
-            <label>Payment Mode</label>
-            <select id="payment">
-              <option value="UPI">UPI / QR</option>
-              <option value="Cash">Cash</option>
-              <option value="Card">Card</option>
-            </select>
-        </div>
+    <div class="form-group">
+        <label>GST Slab Rate (CGST & SGST Split)</label>
+        <select id="gstRate" onchange="calculateGrandTotal()">
+            <option value="0">GST 0%</option>
+            <option value="5">GST 5% (CGST 2.5% + SGST 2.5%)</option>
+            <option value="12">GST 12% (CGST 6% + SGST 6%)</option>
+            <option value="18">GST 18% (CGST 9% + SGST 9%)</option>
+            <option value="28">GST 28% (CGST 14% + SGST 14%)</option>
+        </select>
+    </div>
+
+    <div class="dashboard" style="margin-top:10px;">
+        <div style="font-size:12px; color:var(--text-muted);">Subtotal: ₹<span id="liveSubTotal">0.00</span> | Tax: ₹<span id="liveGstTotal">0.00</span></div>
+        <div style="font-size:8px; color:var(--text-muted); margin-top:2px;">(CGST: ₹<span id="liveCgst">0.00</span> | SGST: ₹<span id="liveSgst">0.00</span>)</div>
+        <div style="font-size:20px; font-weight:800; color:var(--primary); margin-top:4px;">GRAND TOTAL: ₹<span id="liveCurrentTotal">0.00</span></div>
+    </div>
+
+    <div class="form-group">
+        <label>Amount Paid by Customer</label>
+        <input id="amtPaid" type="number" placeholder="Amount received">
+    </div>
+
+    <div class="form-group">
+        <label>Payment Mode</label>
+        <select id="payment">
+          <option value="UPI">UPI / QR</option>
+          <option value="Cash">Cash</option>
+          <option value="Card">Card</option>
+        </select>
     </div>
 
     <button id="generateBillBtn" style="width:100%; background:var(--primary); font-size:15px; padding:12px; margin-top:4px;"><i class="fa-solid fa-bolt"></i> Generate Invoice</button>
@@ -569,11 +518,10 @@ hr {
 <div id="stockTab" class="app-tab-content container">
     <h2>📦 Stock Management</h2>
 
-    <div style="display:grid; grid-template-columns: 1fr 1fr 1fr; gap:10px;" class="form-group">
-        <div><label>Product Name</label><input id="stockProduct" placeholder="Product Title"></div>
-        <div><label>Quantity</label><input id="stockQty" type="number" placeholder="Qty"></div>
-        <div><label>Price (₹)</label><input id="stockPrice" type="number" placeholder="Price"></div>
-    </div>
+    <div class="form-group"><label>Product Name</label><input id="stockProduct" placeholder="Product Title"></div>
+    <div class="form-group"><label>Quantity</label><input id="stockQty" type="number" placeholder="Qty"></div>
+    <div class="form-group"><label>Price (₹)</label><input id="stockPrice" type="number" placeholder="Price"></div>
+    
     <button id="addStockBtn" style="width:100%; background:#0d9488; margin-bottom:10px;"><i class="fa-solid fa-plus"></i> Add Item to Stock</button>
 
     <div style="overflow-x:auto;">
@@ -599,8 +547,7 @@ hr {
 <div id="udhaarTab" class="app-tab-content container">
   <h2>💰 Udhaar Manager PRO</h2>
 
-  <!-- GRAND TOTAL DASHBOARD -->
-  <div id="grandTotalBox" class="dashboard"></div>
+  <div id="grandTotalBox" class="dashboard" style="grid-template-columns: repeat(2, 1fr); display:grid; gap:8px;"></div>
 
   <div class="form-group">
     <label>Customer Name</label><input id="cname" placeholder="Customer Name">
@@ -610,7 +557,6 @@ hr {
 
   <div class="form-group"><input id="search" placeholder="🔍 Search Customer..." onkeyup="showCustomers()"></div>
   
-  <!-- QUICK SORT/FILTER BUTTONS -->
   <div class="filter-tabs">
     <button class="filter-tab active" onclick="setFilterCategory('all', this)">All</button>
     <button class="filter-tab" onclick="setFilterCategory('high', this)">🚨 Highest First</button>
@@ -618,14 +564,11 @@ hr {
     <button class="filter-tab" onclick="setFilterCategory('low', this)">🟢 Clear (₹0)</button>
   </div>
 
-  <!-- CUSTOMER PROFILE VIEW CONTAINER -->
   <div id="profile"></div>
-
   <div id="customerList"></div>
 
   <hr>
 
-  <!-- BACKUP, RESTORE & EXPORT CONTROLS -->
   <div style="display:flex; gap:8px; margin-bottom:15px; flex-wrap:wrap;">
     <button class="smallbtn" onclick="downloadExcel()" style="background:#059669; flex:1; margin:0;">📊 Export CSV</button>
     <button class="smallbtn" onclick="downloadJSON()" style="background:#7c3aed; flex:1; margin:0;">💾 Backup JSON</button>
@@ -634,7 +577,6 @@ hr {
     </label>
   </div>
 
-  <!-- PERIODIC ANALYTICS & GRAPH SECTION -->
   <div class="analytics-box">
     <h4 style="margin:0 0 6px 0; font-size:14px; color:var(--primary);">📈 Transaction Analytics & Graph</h4>
     
@@ -656,9 +598,8 @@ hr {
       </div>
     </div>
 
-    <!-- VISUAL COMPARISON GRAPH -->
     <div class="graph-container">
-      <b style="font-size:11px; color:var(--text-muted); display:block; margin-bottom:8px; text-transform:uppercase;">📊 Performance Overview (Udhaar vs Paid)</b>
+      <b style="font-size:11px; color:var(--text-muted); display:block; margin-bottom:8px; text-transform:uppercase;">📊 Performance Overview</b>
       
       <div class="bar-group">
         <div class="bar-label"><span>Today</span> <span id="graph-t-text">₹0 / ₹0</span></div>
@@ -692,9 +633,9 @@ hr {
     <h2>🕒 Sales History</h2>
 
     <div style="display:grid; grid-template-columns: repeat(3, 1fr); gap:8px; margin-bottom:14px;">
-        <div class="card" style="display:block; text-align:center; padding:10px;"><span style="font-size:10px; color:var(--text-muted);">TODAY</span><b id="saleToday" style="font-size:15px;">₹0.00</b></div>
-        <div class="card" style="display:block; text-align:center; padding:10px;"><span style="font-size:10px; color:var(--text-muted);">WEEKLY</span><b id="saleWeekly" style="font-size:15px;">₹0.00</b></div>
-        <div class="card" style="display:block; text-align:center; padding:10px;"><span style="font-size:10px; color:var(--text-muted);">MONTHLY</span><b id="saleMonthly" style="font-size:15px;">₹0.00</b></div>
+        <div class="card" style="display:block; text-align:center; padding:10px; margin:0;"><span style="font-size:10px; color:var(--text-muted);">TODAY</span><b id="saleToday" style="font-size:15px;">₹0.00</b></div>
+        <div class="card" style="display:block; text-align:center; padding:10px; margin:0;"><span style="font-size:10px; color:var(--text-muted);">WEEKLY</span><b id="saleWeekly" style="font-size:15px;">₹0.00</b></div>
+        <div class="card" style="display:block; text-align:center; padding:10px; margin:0;"><span style="font-size:10px; color:var(--text-muted);">MONTHLY</span><b id="saleMonthly" style="font-size:15px;">₹0.00</b></div>
     </div>
 
     <div class="form-group"><input id="searchInvoiceInput" placeholder="Search customer or invoice..." oninput="filterHistoryBills()"></div>
@@ -723,16 +664,12 @@ hr {
 
     <div style="background:var(--bg-color); padding:16px; border-radius:12px; border:1px solid var(--border-color); margin-bottom:16px;" class="form-group">
         <div style="font-size:14px; font-weight:700; margin-bottom:10px;"><i class="fa-solid fa-store"></i> Shop, GSTIN & UPI Setup</div>
-        <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px;">
-            <div><label>Shop Name</label><input id="shop" placeholder="Shop Name"></div>
-            <div><label>Phone Number</label><input id="phone" placeholder="Mobile"></div>
-        </div>
-        <div style="margin-top:8px;"><label>Shop Address</label><input id="address" placeholder="Address"></div>
-        <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px; margin-top:8px;">
-            <div><label>GSTIN</label><input id="gstin" placeholder="GSTIN"></div>
-            <div><label>UPI ID</label><input id="upiId" placeholder="UPI ID"></div>
-        </div>
-        <button id="saveShopBtn" style="margin-top: 12px; width:100%;"><i class="fa-solid fa-floppy-disk"></i> Save Details</button>
+        <div class="form-group"><label>Shop Name</label><input id="shop" placeholder="Shop Name"></div>
+        <div class="form-group"><label>Phone Number</label><input id="phone" placeholder="Mobile"></div>
+        <div class="form-group"><label>Shop Address</label><input id="address" placeholder="Address"></div>
+        <div class="form-group"><label>GSTIN</label><input id="gstin" placeholder="GSTIN"></div>
+        <div class="form-group"><label>UPI ID</label><input id="upiId" placeholder="UPI ID"></div>
+        <button id="saveShopBtn" style="margin-top: 8px; width:100%;"><i class="fa-solid fa-floppy-disk"></i> Save Details</button>
     </div>
 
     <div style="background:var(--bg-color); padding:16px; border-radius:12px; border:1px solid var(--border-color); margin-bottom:16px; display:flex; justify-content:space-between; align-items:center;">
@@ -745,18 +682,18 @@ hr {
 
     <div style="background:var(--bg-color); padding:16px; border-radius:12px; border:1px solid var(--border-color); margin-bottom:16px;" class="form-group">
         <div style="font-size:14px; font-weight:700; margin-bottom:6px;"><i class="fa-solid fa-file-invoice-dollar"></i> Sales History Backup & Restore</div>
-        <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px;">
-            <button style="background:#16a34a; margin:0;" onclick="exportSalesHistoryOnly()"><i class="fa-solid fa-file-export"></i> Export</button>
-            <button style="background:#0d9488; margin:0;" onclick="document.getElementById('importSalesFileInput').click()"><i class="fa-solid fa-file-import"></i> Restore</button>
+        <div style="display:flex; gap:10px;">
+            <button style="background:#16a34a; flex:1; margin:0;" onclick="exportSalesHistoryOnly()"><i class="fa-solid fa-file-export"></i> Export</button>
+            <button style="background:#0d9488; flex:1; margin:0;" onclick="document.getElementById('importSalesFileInput').click()"><i class="fa-solid fa-file-import"></i> Restore</button>
         </div>
         <input type="file" id="importSalesFileInput" accept=".json" style="display:none" onchange="importSalesHistoryOnly(event)">
     </div>
 
     <div style="background:var(--bg-color); padding:16px; border-radius:12px; border:1px solid var(--border-color);" class="form-group">
         <div style="font-size:14px; font-weight:700; margin-bottom:6px;"><i class="fa-solid fa-boxes-stacked"></i> Stock Inventory Backup & Restore</div>
-        <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px;">
-            <button style="background:#16a34a; margin:0;" onclick="exportStockOnly()"><i class="fa-solid fa-file-export"></i> Export</button>
-            <button style="background:#0d9488; margin:0;" onclick="document.getElementById('importStockFileInput').click()"><i class="fa-solid fa-file-import"></i> Restore</button>
+        <div style="display:flex; gap:10px;">
+            <button style="background:#16a34a; flex:1; margin:0;" onclick="exportStockOnly()"><i class="fa-solid fa-file-export"></i> Export</button>
+            <button style="background:#0d9488; flex:1; margin:0;" onclick="document.getElementById('importStockFileInput').click()"><i class="fa-solid fa-file-import"></i> Restore</button>
         </div>
         <input type="file" id="importStockFileInput" accept=".json" style="display:none" onchange="importStockOnly(event)">
     </div>
@@ -840,13 +777,13 @@ function showAppConfirm(title, message, onConfirm, onCancel = null) {
     cancelBtn.style.display = "block";
     confirmBtn.innerText = "Confirm";
     confirmBtn.style.background = "var(--danger)";
-    confirmBtn.onclick = function() {
-        modal.style.display = "none";
-        if(onConfirm) onConfirm();
-    };
     cancelBtn.onclick = function() {
         modal.style.display = "none";
         if(onCancel) onCancel();
+    };
+    confirmBtn.onclick = function() {
+        modal.style.display = "none";
+        if(onConfirm) onConfirm();
     };
     modal.style.display = "flex";
 }
@@ -1119,7 +1056,6 @@ function initBillingSystem() {
         let content = document.getElementById("bill").innerHTML;
         if(!content || content.trim() === "") return showAppAlert("No Invoice", "Please generate an invoice first.");
         
-        let printMode = document.getElementById("printMode").value;
         let printFrame = document.getElementById("printFrame");
         if (!printFrame) {
             printFrame = document.createElement('iframe');
@@ -1219,6 +1155,10 @@ function renderInvoiceBillHTML(data) {
     `;
     if(data.discountVal > 0){
         html += `<tr><td colspan="3">Discount</td><td>-₹${Number(data.discountVal).toFixed(2)}</td></tr>`;
+    }
+    if(data.gstRate > 0){
+        html += `<tr><td colspan="3">CGST (${data.gstRate/2}%)</td><td>₹${Number(data.cgst).toFixed(2)}</td></tr>`;
+        html += `<tr><td colspan="3">SGST (${data.gstRate/2}%)</td><td>₹${Number(data.sgst).toFixed(2)}</td></tr>`;
     }
     html += `
     <tr><td colspan="3"><b>Grand Total</b></td><td><b>₹${Number(data.grandTotal || data.total).toFixed(2)}</b></td></tr>
@@ -1376,12 +1316,17 @@ function calculateGrandTotal() {
     let totalDiscount = flatDisc + (subtotal * (percentDisc / 100));
     let taxableAmount = subtotal - totalDiscount;
     if(taxableAmount < 0) taxableAmount = 0;
+    
     let gstRate = parseFloat(document.getElementById("gstRate").value) || 0;
     let totalGst = taxableAmount * (gstRate / 100);
+    let cgst = totalGst / 2;
+    let sgst = totalGst / 2;
     let grandTotal = taxableAmount + totalGst;
 
     document.getElementById("liveSubTotal").innerText = subtotal.toFixed(2);
     document.getElementById("liveGstTotal").innerText = totalGst.toFixed(2);
+    document.getElementById("liveCgst").innerText = cgst.toFixed(2);
+    document.getElementById("liveSgst").innerText = sgst.toFixed(2);
     document.getElementById("liveCurrentTotal").innerText = grandTotal.toFixed(2);
     return grandTotal;
 }
