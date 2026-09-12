@@ -312,22 +312,22 @@ hr {
 
   <input id="search" placeholder="🔍 Search Customer..." onkeyup="showCustomers()">
   
-  <!-- QUICK FILTER BUTTONS -->
+  <!-- QUICK SORT/FILTER BUTTONS -->
   <div class="filter-tabs">
     <button class="filter-tab active" onclick="setFilterCategory('all', this)">All</button>
-    <button class="filter-tab" onclick="setFilterCategory('high', this)">🚨 High (&gt;₹1000)</button>
-    <button class="filter-tab" onclick="setFilterCategory('medium', this)">⚠️ Medium (₹1-1000)</button>
+    <button class="filter-tab" onclick="setFilterCategory('high', this)">🚨 Highest First</button>
+    <button class="filter-tab" onclick="setFilterCategory('medium', this)">⚠️ Mid Balance</button>
     <button class="filter-tab" onclick="setFilterCategory('low', this)">🟢 Clear (₹0)</button>
   </div>
 
-  <!-- CUSTOMER PROFILE VIEW CONTAINER (Placed above list or dynamically inside) -->
+  <!-- CUSTOMER PROFILE VIEW CONTAINER -->
   <div id="profile"></div>
 
   <div id="customerList"></div>
 
   <hr>
 
-  <!-- BACKUP, RESTORE & EXPORT CONTROLS (MOVED TO BOTTOM) -->
+  <!-- BACKUP, RESTORE & EXPORT CONTROLS -->
   <div style="display:flex; gap:8px; margin-bottom:15px;">
     <button class="smallbtn" onclick="downloadExcel()" style="background:#059669; flex:1;">📊 Export CSV</button>
     <button class="smallbtn" onclick="downloadJSON()" style="background:#7c3aed; flex:1;">💾 Backup JSON</button>
@@ -336,7 +336,7 @@ hr {
     </label>
   </div>
 
-  <!-- PERIODIC ANALYTICS & GRAPH SECTION (MOVED TO BOTTOM) -->
+  <!-- PERIODIC ANALYTICS & GRAPH SECTION -->
   <div class="analytics-box">
     <h4 style="margin:0 0 6px 0; font-size:15px; color:var(--primary);">📈 Transaction Analytics & Graph</h4>
     
@@ -458,7 +458,6 @@ function updateDashboard(){
   document.getElementById("m-out").innerText = mOut;
   document.getElementById("m-in").innerText = mIn;
 
-  // Update Graph Visuals
   updateGraph(tOut, tIn, wOut, wIn, mOut, mIn);
 }
 
@@ -494,18 +493,34 @@ function addCustomer(){
 
 function showCustomers(){
   let s = document.getElementById("search").value.toLowerCase();
-  let html="";
-  data.forEach((c,i)=>{
-    if(!c.name.toLowerCase().includes(s)) return;
-    let total=0, paid=0;
-    c.history.forEach(t=>{ if(t.type=="credit") total+=t.amount; else paid+=t.amount; });
-    let bal = total - paid;
-    
-    // Category filter check
-    if(currentCategory === 'high' && bal <= 1000) return;
-    if(currentCategory === 'medium' && (bal <= 0 || bal > 1000)) return;
-    if(currentCategory === 'low' && bal !== 0) return;
+  
+  // Attach calculated balance to each customer object for sorting/filtering
+  let processedData = data.map((c, originalIndex) => {
+    let total = 0, paid = 0;
+    c.history.forEach(t => { if(t.type=="credit") total+=t.amount; else paid+=t.amount; });
+    return { customer: c, index: originalIndex, balance: total - paid };
+  });
 
+  // Filter based on search query
+  processedData = processedData.filter(item => item.customer.name.toLowerCase().includes(s));
+
+  // Category filter / sorting logic
+  if(currentCategory === 'high'){
+    processedData = processedData.filter(item => item.balance > 0);
+    processedData.sort((a, b) => b.balance - a.balance); // Highest balance first
+  } else if(currentCategory === 'medium'){
+    processedData = processedData.filter(item => item.balance > 0);
+    processedData.sort((a, b) => a.balance - b.balance); // Lowest non-zero balance first
+  } else if(currentCategory === 'low'){
+    processedData = processedData.filter(item => item.balance === 0);
+  }
+
+  let html="";
+  processedData.forEach(item => {
+    let c = item.customer;
+    let i = item.index;
+    let bal = item.balance;
+    
     let callBtnHtml = c.mobile ? `<a href="tel:${c.mobile}" onclick="event.stopPropagation()" style="background:#16a34a; color:white; padding:8px 12px; border-radius:6px; text-decoration:none; font-size:13px; display:inline-block; font-weight:600;">📞 Call</a>` : '';
 
     html+=`<div class="card" onclick="openProfile(${i})">
@@ -518,7 +533,7 @@ function showCustomers(){
       </div>
     </div>`;
   });
-  document.getElementById("customerList").innerHTML=html;
+  document.getElementById("customerList").innerHTML = html || '<p style="text-align:center; color:var(--text-muted);">No customers found.</p>';
 }
 
 function openProfile(i){
