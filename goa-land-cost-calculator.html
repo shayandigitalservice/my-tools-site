@@ -1242,6 +1242,162 @@
             drawLandPreview();
             renderRecentHistoryUI();
         };
+        document.addEventListener('DOMContentLoaded', function () {
+    const stars = document.querySelectorAll('.star');
+    const ratingText = document.getElementById('ratingText');
+    const feedbackFormBox = document.getElementById('feedbackFormBox');
+    const submitBtn = document.getElementById('submitReviewBtn');
+    const reviewCard = document.querySelector('.review-card');
+    const successMsg = document.getElementById('reviewSuccessMsg');
+    const writeAnotherBtn = document.getElementById('writeAnotherBtn');
+    
+    const reviewsScrollBox = document.getElementById('reviewsScrollBox');
+    const reviewCountDisplay = document.getElementById('reviewCount');
+    const noReviewsText = document.getElementById('noReviewsText');
+
+    let selectedRating = 0;
+    const STORAGE_KEY = 'shayan_tool_reviews';
+
+    const ratingMessages = {
+        1: "😞 Bahut bura laga? Humein sudhaar ka mauka dein.",
+        2: "🙁 Thik-thak tha, aur behtar karenge.",
+        3: "😊 Achha laga, dhanyawad!",
+        4: "😃 Bahut badhiya experience!",
+        5: "😍 Lajawab! Shandar tool hai!"
+    };
+
+    // Load existing reviews on page load
+    loadReviews();
+
+    // Hover & Click Effect on Stars
+    stars.forEach((star, index) => {
+        star.addEventListener('mouseover', function () {
+            resetStars();
+            highlightStars(index + 1);
+        });
+
+        star.addEventListener('mouseout', function () {
+            resetStars();
+            if (selectedRating > 0) {
+                highlightStars(selectedRating);
+            }
+        });
+
+        star.addEventListener('click', function () {
+            selectedRating = index + 1;
+            highlightStars(selectedRating);
+            ratingText.textContent = ratingMessages[selectedRating];
+            feedbackFormBox.style.display = 'flex';
+        });
+    });
+
+    function highlightStars(count) {
+        for (let i = 0; i < count; i++) {
+            stars[i].classList.add('active');
+        }
+    }
+
+    function resetStars() {
+        stars.forEach(s => s.classList.remove('active'));
+    }
+
+    // Submit Button Action
+    submitBtn.addEventListener('click', function () {
+        const nameInput = document.getElementById('reviewerName');
+        const commentInput = document.getElementById('reviewerComment');
+        
+        const name = nameInput.value.trim() || 'Aam Naagrik (Anonymous)';
+        const comment = commentInput.value.trim();
+
+        if (!comment) {
+            alert('Kripya apna feedback ya comment zaroor likhein!');
+            commentInput.focus();
+            return;
+        }
+
+        // New Review Object
+        const newReview = {
+            name: name,
+            rating: selectedRating,
+            comment: comment,
+            date: new Date().toLocaleDateString('hi-IN', { day: 'numeric', month: 'short' })
+        };
+
+        // Get stored reviews, add new one, and slice to keep max 20
+        let reviews = JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
+        reviews.unshift(newReview); // New comment sabse upar dikhega
+        if (reviews.length > 20) {
+            reviews = reviews.slice(0, 20); // Max 20 limit
+        }
+
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(reviews));
+
+        // Reset Form inputs
+        nameInput.value = '';
+        commentInput.value = '';
+
+        // Refresh UI
+        loadReviews();
+
+        // Hide form and show success message
+        feedbackFormBox.style.display = 'none';
+        document.querySelector('.star-rating').style.display = 'none';
+        ratingText.style.display = 'none';
+        reviewCard.querySelector('h3').style.display = 'none';
+        reviewCard.querySelector('.review-subtitle').style.display = 'none';
+        successMsg.style.display = 'block';
+    });
+
+    // Reset view to write another review
+    writeAnotherBtn.addEventListener('click', function () {
+        successMsg.style.display = 'none';
+        document.querySelector('.star-rating').style.display = 'flex';
+        ratingText.style.display = 'block';
+        reviewCard.querySelector('h3').style.display = 'block';
+        reviewCard.querySelector('.review-subtitle').style.display = 'block';
+        selectedRating = 0;
+        resetStars();
+        ratingText.textContent = "Rate karne ke liye stars par click karein";
+    });
+
+    // Function to render reviews from LocalStorage
+    function loadReviews() {
+        const reviews = JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
+        reviewCountDisplay.textContent = reviews.length;
+
+        if (reviews.length === 0) {
+            noReviewsText.style.display = 'block';
+            reviewsScrollBox.innerHTML = '';
+            reviewsScrollBox.appendChild(noReviewsText);
+            return;
+        }
+
+        noReviewsText.style.display = 'none';
+        reviewsScrollBox.innerHTML = '';
+
+        reviews.forEach(rev => {
+            const starsHTML = '&#9733;'.repeat(rev.rating);
+            
+            const reviewItem = document.createElement('div');
+            reviewItem.className = 'review-item';
+            reviewItem.innerHTML = `
+                <div class="review-item-header">
+                    <span class="review-author">${escapeHTML(rev.name)}</span>
+                    <span class="review-stars-mini">${starsHTML}</span>
+                </div>
+                <p class="review-comment-text">${escapeHTML(rev.comment)}</p>
+            `;
+            reviewsScrollBox.appendChild(reviewItem);
+        });
+    }
+
+    // Security helper to prevent XSS injection
+    function escapeHTML(str) {
+        return str.replace(/[&<>'"]/g, 
+            tag => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' }[tag] || tag)
+        );
+    }
+});
     </script>
 </body>
 </html>
