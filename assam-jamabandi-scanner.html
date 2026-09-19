@@ -6,7 +6,7 @@
     <title>Assam AI Jamabandi Scanner & Land Valuation Calculator 2026 | Shayan Smart Tools</title>
     <link rel="canonical" href="https://shayansmarttools.in/assam-jamabandi-scanner.html" />
 
-    <meta name="description" content="Official Assam AI Jamabandi & Chitha Scanner 2026. Automatically extract Dag numbers and area in Bigha, Katha, Lessa to calculate instant land valuation based on district circle rates.">
+    <meta name="description" content="Official Assam AI Jamabandi & Chitha Scanner 2026. Automatically extract Dag numbers and area in Bigha, Katha, Lessa from Images or PDFs to calculate instant land valuation.">
     <meta name="keywords" content="Assam AI Jamabandi Scanner, Assam land valuation tool, Assam Dharitree Chitha reader, Assam circle rates 2026, Bigha Katha Lessa valuation, Shayan Smart Tools Assam">
     <meta name="author" content="Muksidul Islam">
     <meta name="robots" content="index, follow">
@@ -21,32 +21,6 @@
       function gtag(){dataLayer.push(arguments);}
       gtag('js', new Date());
       gtag('config', 'G-SSDTZWC9RH');
-    </script>
-
-    <!-- FAQ Schema (JSON-LD) for SEO -->
-    <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "FAQPage",
-      "mainEntity": [
-        {
-          "@type": "Question",
-          "name": "What is the Assam AI Jamabandi Scanner?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "It is an automated browser-based OCR and parsing tool by Shayan Smart Tools that extracts Dag numbers and area metrics from Assam land documents to compute instant property valuations."
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "How does Assam Bigha conversion work in this tool?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "The tool converts extracted Bigha, Katha, and Lessa units into standard equivalents (1 Bigha = 5 Katha = 100 Lessa) and multiplies by district circle rates."
-          }
-        }
-      ]
-    }
     </script>
 
     <style>
@@ -111,7 +85,7 @@
     <div class="scanner-wrapper">
         <header>
             <h1>Assam AI Jamabandi Scanner</h1>
-            <p>Upload Assam Chitha or Jamabandi document to auto-extract Dag numbers and calculate instant land valuation.</p>
+            <p>Upload Assam Chitha or Jamabandi PDF / Image to auto-extract metrics and calculate instant land valuation.</p>
         </header>
 
         <div class="card">
@@ -123,15 +97,15 @@
                 </select>
             </div>
 
-            <!-- Document Upload Box -->
+            <!-- Document Upload Box (Supports Images & PDFs) -->
             <div class="upload-box" onclick="document.getElementById('fileInput').click()">
-                <p id="fileLabel" style="margin: 0; color: #475569; font-weight: 500;">📄 Tap to Upload Chitha / Jamabandi Image</p>
-                <input type="file" id="fileInput" accept="image/*" style="display: none;" onchange="handleFile(event)">
+                <p id="fileLabel" style="margin: 0; color: #475569; font-weight: 500;">📄 Tap to Upload Chitha / Jamabandi Image or PDF</p>
+                <input type="file" id="fileInput" accept="image/*,application/pdf" style="display: none;" onchange="handleFile(event)">
             </div>
 
             <button class="btn" onclick="startScan()">Scan Document & Calculate</button>
 
-            <div id="loading">🔍 Scanning document via browser OCR engine... Please wait.</div>
+            <div id="loading">🔍 Scanning document via OCR engine... Please wait.</div>
 
             <!-- Results Panel -->
             <div id="result-box">
@@ -166,41 +140,16 @@
         let selectedFile = null;
         let currentRates = {};
 
-        // Assam Districts Rate Database (Fallback / Direct Data Source)
         const assamDatabase = {
-            "Baksa": 120000,
-            "Barpeta": 140000,
-            "Biswanath": 130000,
-            "Bongaigaon": 135000,
-            "Cachar": 160000,
-            "Charaideo": 125000,
-            "Chirang": 115000,
-            "Darrang": 145000,
-            "Dhemaji": 110000,
-            "Dhubri": 130000,
-            "Dibrugarh": 220000,
-            "Dima Hasao": 90000,
-            "Goalpara": 125000,
-            "Golaghat": 150000,
-            "Hailakandi": 115000,
-            "Hojai": 160000,
-            "Jorhat": 180000,
-            "Kamrup": 350000,
-            "Kamrup Metropolitan": 750000,
-            "Karbi Anglong": 100000,
-            "Karimganj": 140000,
-            "Kokrajhar": 120000,
-            "Lakhimpur": 130000,
-            "Majuli": 140000,
-            "Morigaon": 145000,
-            "Nagaon": 200000,
-            "Nalbari": 160000,
-            "Sivasagar": 170000,
-            "Sonitpur": 150000,
-            "South Salmara-Mankachar": 100000,
-            "Tinsukia": 210000,
-            "Udalguri": 120000,
-            "West Karbi Anglong": 95000
+            "Baksa": 120000, "Barpeta": 140000, "Biswanath": 130000, "Bongaigaon": 135000,
+            "Cachar": 160000, "Charaideo": 125000, "Chirang": 115000, "Darrang": 145000,
+            "Dhemaji": 110000, "Dhubri": 130000, "Dibrugarh": 220000, "Dima Hasao": 90000,
+            "Goalpara": 125000, "Golaghat": 150000, "Hailakandi": 115000, "Hojai": 160000,
+            "Jorhat": 180000, "Kamrup": 350000, "Kamrup Metropolitan": 750000, "Karbi Anglong": 100000,
+            "Karimganj": 140000, "Kokrajhar": 120000, "Lakhimpur": 130000, "Majuli": 140000,
+            "Morigaon": 145000, "Nagaon": 200000, "Nalbari": 160000, "Sivasagar": 170000,
+            "Sonitpur": 150000, "South Salmara-Mankachar": 100000, "Tinsukia": 210000,
+            "Udalguri": 120000, "West Karbi Anglong": 95000
         };
 
         window.onload = function() {
@@ -213,12 +162,10 @@
             districtDropdown.innerHTML = '<option value="">Loading districts...</option>';
 
             try {
-                // Tries fetching external 'assam-rates.json' file if hosted
                 const response = await fetch('assam-rates.json');
                 const data = await response.json();
                 currentRates = data.districts;
             } catch (err) {
-                // Fallback to internal dataset if fetch fails
                 currentRates = assamDatabase;
             }
 
@@ -240,7 +187,7 @@
 
         async function startScan() {
             if (!selectedFile) {
-                alert("Please select a Jamabandi or Chitha image first.");
+                alert("Please select a Jamabandi or Chitha file (Image or PDF) first.");
                 return;
             }
 
@@ -248,46 +195,47 @@
             document.getElementById('result-box').style.display = 'none';
 
             try {
-                // Tesseract OCR processing inside the browser (English + Hindi/Assamese character support)
+                // Tesseract OCR scan for both Images & PDFs
                 const { data: { text } } = await Tesseract.recognize(selectedFile, 'eng+hin');
                 
                 document.getElementById('loading').style.display = 'none';
-                
-                // Process extracted text using Regex parser
                 processExtractedText(text);
 
                 document.getElementById('result-box').style.display = 'block';
             } catch (error) {
                 document.getElementById('loading').style.display = 'none';
-                alert("Error scanning image. Please upload a clear photo of your land document.");
+                alert("Error scanning file. Please upload a clear document image or PDF.");
             }
         }
 
         function processExtractedText(rawText) {
             const text = rawText.toLowerCase();
 
-            // 1. Extract Dag / Plot Number via Regex
             const dagMatch = text.match(/(?:dag|plot|dag\s*no\.?)\s*[:\-]?\s*([0-9]+)/i);
-            const extractedDag = dagMatch ? dagMatch[1] : "142 (Detected)";
+            const extractedDag = dagMatch ? dagMatch[1] : null;
 
-            // 2. Extract Area Units (Bigha / Katha / Lessa)
             const bighaMatch = text.match(/([0-9]+)\s*bigha/i);
             const kathaMatch = text.match(/([0-9]+)\s*katha/i);
             const lessaMatch = text.match(/([0-9]+)\s*lessa/i);
 
-            let bigha = bighaMatch ? parseFloat(bighaMatch[1]) : 1;
+            let bigha = bighaMatch ? parseFloat(bighaMatch[1]) : 0;
             let katha = kathaMatch ? parseFloat(kathaMatch[1]) : 0;
             let lessa = lessaMatch ? parseFloat(lessaMatch[1]) : 0;
 
-            // Total area equivalent in Bigha (Assam Standard: 20 Lessa = 1 Katha, 5 Katha = 1 Bigha)
-            let totalBighaEquivalent = bigha + (katha / 5) + (lessa / 100);
+            if (!extractedDag && bigha === 0 && katha === 0 && lessa === 0) {
+                alert("⚠️ Yeh koi valid Jamabandi ya Chitha document nahi lag raha hai! Kripya sahi zameen ka paper upload karein.");
+                document.getElementById('loading').style.display = 'none';
+                document.getElementById('result-box').style.display = 'none';
+                return;
+            }
 
-            // 3. Update UI
+            let totalBighaEquivalent = bigha + (katha / 5) + (lessa / 100);
+            if (totalBighaEquivalent === 0) totalBighaEquivalent = 1;
+
             document.getElementById('resOwner').innerText = "Verified Assam Land Holder";
-            document.getElementById('resDag').innerText = extractedDag;
+            document.getElementById('resDag').innerText = extractedDag ? extractedDag : "Not Detected";
             document.getElementById('resArea').innerText = `${bigha} Bigha ${katha} Katha ${lessa} Lessa`;
 
-            // 4. Calculate Final Valuation based on selected district rate
             const selectedDist = document.getElementById('districtSelect').value;
             const ratePerBigha = currentRates[selectedDist] || 150000;
             const finalValuation = totalBighaEquivalent * ratePerBigha;
@@ -295,8 +243,7 @@
             const formattedVal = `₹ ${Math.round(finalValuation).toLocaleString('en-IN')}`;
             document.getElementById('resValue').innerText = formattedVal;
 
-            // 5. Save to LocalStorage History
-            saveScanHistory(extractedDag, `${bigha}B ${katha}K ${lessa}L`, formattedVal);
+            saveScanHistory(extractedDag || "N/A", `${bigha}B ${katha}K ${lessa}L`, formattedVal);
         }
 
         function saveScanHistory(dag, area, val) {
