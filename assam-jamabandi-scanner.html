@@ -6,12 +6,12 @@
     <title>Assam AI Jamabandi Scanner & Land Valuation Calculator 2026 | Shayan Smart Tools</title>
     <link rel="canonical" href="https://shayansmarttools.in/assam-jamabandi-scanner.html" />
 
-    <meta name="description" content="Official Assam AI Jamabandi & Chitha Scanner 2026. Automatically extract Dag numbers and area in Bigha, Katha, Lessa from Images or PDFs to calculate instant land valuation.">
+    <meta name="description" content="Official Assam AI Jamabandi & Chitha Scanner 2026. Automatically extract Dag numbers and area in Bigha, Katha, Lessa from document images to calculate instant land valuation.">
     <meta name="keywords" content="Assam AI Jamabandi Scanner, Assam land valuation tool, Assam Dharitree Chitha reader, Assam circle rates 2026, Bigha Katha Lessa valuation, Shayan Smart Tools Assam">
     <meta name="author" content="Muksidul Islam">
     <meta name="robots" content="index, follow">
 
-    <!-- Tesseract.js for Browser-based OCR -->
+    <!-- Tesseract.js for Browser-based OCR with Assamese Support -->
     <script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
 
     <!-- Google tag (gtag.js) -->
@@ -51,8 +51,9 @@
         select { width: 100%; padding: 14px; border-radius: 12px; border: 1px solid #cbd5e1; font-size: 15px; background: #fff; outline: none; }
         select:focus { border-color: var(--assam-red); box-shadow: 0 0 8px rgba(185,28,28,0.1); }
 
-        .upload-box { border: 2px dashed #cbd5e1; padding: 30px 20px; text-align: center; border-radius: 14px; background: #f8fafc; cursor: pointer; margin-bottom: 20px; transition: 0.3s; }
+        .upload-box { border: 2px dashed #cbd5e1; padding: 25px 20px; text-align: center; border-radius: 14px; background: #f8fafc; cursor: pointer; margin-bottom: 8px; transition: 0.3s; }
         .upload-box:hover { border-color: var(--assam-red); background: #fef2f2; }
+        .upload-note { font-size: 11px; color: #64748b; text-align: center; margin-bottom: 20px; font-weight: 600; }
 
         .btn { background: var(--assam-red); color: white; padding: 16px; border: none; border-radius: 12px; font-weight: bold; cursor: pointer; width: 100%; font-size: 16px; text-transform: uppercase; letter-spacing: 0.5px; transition: 0.3s; }
         .btn:hover { background: #000; transform: translateY(-2px); box-shadow: 0 8px 15px rgba(185,28,28,0.2); }
@@ -85,7 +86,7 @@
     <div class="scanner-wrapper">
         <header>
             <h1>Assam AI Jamabandi Scanner</h1>
-            <p>Upload Assam Chitha or Jamabandi PDF / Image to auto-extract metrics and calculate instant land valuation.</p>
+            <p>Upload Assam Chitha or Jamabandi image to auto-extract Assamese/English text and calculate instant land valuation.</p>
         </header>
 
         <div class="card">
@@ -97,15 +98,17 @@
                 </select>
             </div>
 
-            <!-- Document Upload Box (Supports Images & PDFs) -->
+            <!-- Image-Only Upload Box -->
             <div class="upload-box" onclick="document.getElementById('fileInput').click()">
-                <p id="fileLabel" style="margin: 0; color: #475569; font-weight: 500;">📄 Tap to Upload Chitha / Jamabandi Image or PDF</p>
-                <input type="file" id="fileInput" accept="image/*,application/pdf" style="display: none;" onchange="handleFile(event)">
+                <p id="fileLabel" style="margin: 0; color: #475569; font-weight: 600;">📷 Tap to Upload Jamabandi / Chitha Image</p>
+                <!-- STRICTLY IMAGES ONLY (JPG, JPEG, PNG) -->
+                <input type="file" id="fileInput" accept="image/jpeg, image/png, image/jpg" style="display: none;" onchange="handleFile(event)">
             </div>
+            <div class="upload-note">⚠️ Note: Only images are allowed (JPG, JPEG, PNG). If you have a PDF, please take a clear screenshot or photo of it and upload.</div>
 
             <button class="btn" onclick="startScan()">Scan Document & Calculate</button>
 
-            <div id="loading">🔍 Scanning document via OCR engine... Please wait.</div>
+            <div id="loading">🔍 Scanning Assamese text via OCR engine... Please wait.</div>
 
             <!-- Results Panel -->
             <div id="result-box">
@@ -179,15 +182,25 @@
         }
 
         function handleFile(event) {
-            selectedFile = event.target.files[0];
-            if (selectedFile) {
-                document.getElementById('fileLabel').innerHTML = `<strong>✅ Uploaded: ${selectedFile.name}</strong>`;
+            const file = event.target.files[0];
+            if (file) {
+                // Strict validation for Image formats only
+                const validTypes = ['image/jpeg', 'image/png', 'image/jpg'];
+                if (!validTypes.includes(file.type)) {
+                    alert("⚠️ Only JPG, JPEG, and PNG images are allowed! PDFs or other files cannot be selected.");
+                    document.getElementById('fileInput').value = '';
+                    selectedFile = null;
+                    document.getElementById('fileLabel').innerHTML = `📷 Tap to Upload Jamabandi / Chitha Image`;
+                    return;
+                }
+                selectedFile = file;
+                document.getElementById('fileLabel').innerHTML = `<strong>✅ Uploaded Image: ${selectedFile.name}</strong>`;
             }
         }
 
         async function startScan() {
             if (!selectedFile) {
-                alert("Please select a Jamabandi or Chitha file (Image or PDF) first.");
+                alert("Please select a valid Jamabandi image (JPG, JPEG, PNG) first.");
                 return;
             }
 
@@ -195,8 +208,8 @@
             document.getElementById('result-box').style.display = 'none';
 
             try {
-                // Tesseract OCR scan for both Images & PDFs
-                const { data: { text } } = await Tesseract.recognize(selectedFile, 'eng+hin');
+                // Tesseract OCR with Assamese ('asm'), English ('eng'), and Hindi ('hin') support
+                const { data: { text } } = await Tesseract.recognize(selectedFile, 'asm+eng+hin');
                 
                 document.getElementById('loading').style.display = 'none';
                 processExtractedText(text);
@@ -204,26 +217,29 @@
                 document.getElementById('result-box').style.display = 'block';
             } catch (error) {
                 document.getElementById('loading').style.display = 'none';
-                alert("Error scanning file. Please upload a clear document image or PDF.");
+                alert("Error scanning image. Please upload a clear photo of your land document.");
             }
         }
 
         function processExtractedText(rawText) {
             const text = rawText.toLowerCase();
 
-            const dagMatch = text.match(/(?:dag|plot|dag\s*no\.?)\s*[:\-]?\s*([0-9]+)/i);
+            // Extract Dag / Plot Number via Regex
+            const dagMatch = text.match(/(?:dag|plot|dag\s*no\.?|দাগ)\s*[:\-]?\s*([0-9]+)/i);
             const extractedDag = dagMatch ? dagMatch[1] : null;
 
-            const bighaMatch = text.match(/([0-9]+)\s*bigha/i);
-            const kathaMatch = text.match(/([0-9]+)\s*katha/i);
-            const lessaMatch = text.match(/([0-9]+)\s*lessa/i);
+            // Extract Area Units (Bigha / Katha / Lessa)
+            const bighaMatch = text.match(/([0-9]+)\s*(?:bigha|বিঘা)/i);
+            const kathaMatch = text.match(/([0-9]+)\s*(?:katha|কঠা)/i);
+            const lessaMatch = text.match(/([0-9]+)\s*(?:lessa|লেচা)/i);
 
             let bigha = bighaMatch ? parseFloat(bighaMatch[1]) : 0;
             let katha = kathaMatch ? parseFloat(kathaMatch[1]) : 0;
             let lessa = lessaMatch ? parseFloat(lessaMatch[1]) : 0;
 
+            // Strict Validation against fake/random images
             if (!extractedDag && bigha === 0 && katha === 0 && lessa === 0) {
-                alert("⚠️ Yeh koi valid Jamabandi ya Chitha document nahi lag raha hai! Kripya sahi zameen ka paper upload karein.");
+                alert("⚠️ Yeh koi valid Jamabandi ya Chitha document nahi lag raha hai! Kripya zameen ke paper ki koi saaf aur asli photo upload karein.");
                 document.getElementById('loading').style.display = 'none';
                 document.getElementById('result-box').style.display = 'none';
                 return;
