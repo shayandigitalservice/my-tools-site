@@ -13,7 +13,7 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
 <link rel="apple-touch-icon" href="icon-192.png">
-<meta name="theme-color" content="#4f46e5">
+<meta name="theme-color" content="#2563eb">
 
 <script>
   if ('serviceWorker' in navigator) {
@@ -27,43 +27,43 @@
 
 <style>
 /* ==========================================
-   ULTRA-PREMIUM MAX DESIGN SYSTEM (V8)
+   PURE BLUE & NO CONTAINER DESIGN SYSTEM
    ========================================== */
 :root {
-    --primary: #6366f1;
-    --primary-hover: #4f46e5;
-    --primary-light: rgba(99, 102, 241, 0.12);
-    --accent: #06b6d4;
+    --primary: #2563eb;
+    --primary-hover: #1d4ed8;
+    --primary-light: rgba(37, 99, 235, 0.08);
+    --accent: #2563eb;
     --secondary: #0f172a;
     --bg: #f8fafc;
-    --card-bg: rgba(255, 255, 255, 0.85);
+    --card-bg: #ffffff;
     --text: #0f172a;
     --text-muted: #64748b;
-    --border: rgba(226, 232, 240, 0.8);
+    --border: #e2e8f0;
     --danger: #ef4444;
     --danger-hover: #dc2626;
     --warning: #f59e0b;
     --success: #10b981;
-    --shadow-sm: 0 4px 20px rgba(0,0,0,0.04);
-    --shadow-md: 0 15px 35px -10px rgba(99, 102, 241, 0.15);
-    --shadow-lg: 0 25px 60px -15px rgba(15, 23, 42, 0.2);
-    --radius: 24px;
+    --shadow-sm: 0 4px 15px rgba(37, 99, 235, 0.05);
+    --shadow-md: 0 10px 25px -5px rgba(37, 99, 235, 0.1);
+    --shadow-lg: 0 20px 40px -10px rgba(15, 23, 42, 0.15);
+    --radius: 16px;
 }
 
 [data-theme="dark"] {
-    --primary: #818cf8;
-    --primary-hover: #6366f1;
-    --primary-light: rgba(129, 140, 248, 0.18);
-    --accent: #22d3ee;
+    --primary: #3b82f6;
+    --primary-hover: #2563eb;
+    --primary-light: rgba(59, 130, 246, 0.15);
+    --accent: #3b82f6;
     --secondary: #f8fafc;
     --bg: #030712;
-    --card-bg: rgba(15, 23, 42, 0.75);
+    --card-bg: #0f172a;
     --text: #f8fafc;
     --text-muted: #94a3b8;
-    --border: rgba(30, 41, 59, 0.8);
-    --shadow-sm: 0 4px 20px rgba(0,0,0,0.3);
-    --shadow-md: 0 15px 35px -10px rgba(0,0,0,0.6);
-    --shadow-lg: 0 25px 60px -15px rgba(0,0,0,0.9);
+    --border: #1e293b;
+    --shadow-sm: 0 4px 15px rgba(0,0,0,0.3);
+    --shadow-md: 0 10px 25px -5px rgba(0,0,0,0.5);
+    --shadow-lg: 0 20px 40px -10px rgba(0,0,0,0.8);
 }
 
 * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; scroll-behavior: smooth; }
@@ -72,74 +72,87 @@ body {
     font-family: 'Plus Jakarta Sans', sans-serif; 
     background: var(--bg); 
     color: var(--text); 
-    padding: 20px 14px 120px 14px;
-    line-height: 1.6;
-    transition: background 0.4s ease, color 0.4s ease;
+    padding: 16px 12px 110px 12px;
+    line-height: 1.5;
+    transition: background 0.3s ease, color 0.3s ease;
     min-height: 100vh;
     display: flex;
     flex-direction: column;
-    background-image: radial-gradient(circle at top right, var(--primary-light), transparent 40%),
-                      radial-gradient(circle at bottom left, rgba(6, 182, 212, 0.05), transparent 40%);
-    background-attachment: fixed;
 }
 
-/* App Header */
-.app-header {
-    text-align: center;
-    margin-bottom: 28px;
+/* Hero Section Banner with Image Slider */
+.hero-slider-container {
+    width: 100%;
+    max-width: 1000px;
+    margin: 0 auto 24px auto;
+    border-radius: 20px;
+    overflow: hidden;
     position: relative;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 10px 50px;
+    box-shadow: var(--shadow-md);
     background: var(--card-bg);
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
     border: 1px solid var(--border);
-    border-radius: var(--radius);
-    box-shadow: var(--shadow-sm);
-}
-.app-header-content { margin: 0 auto; }
-.app-header h1 {
-    font-size: 24px;
-    font-weight: 800;
-    background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    letter-spacing: -0.5px;
-}
-.app-header p {
-    font-size: 10px;
-    color: var(--text-muted);
-    font-weight: 800;
-    text-transform: uppercase;
-    letter-spacing: 1.5px;
-    margin-top: 2px;
+    height: 180px;
 }
 
-/* Settings Menu Button */
-.menu-toggle-btn {
+.hero-slide {
+    display: none;
+    width: 100%;
+    height: 100%;
     position: absolute;
-    right: 12px;
+    top: 0; left: 0;
+    animation: fadeSlide 1s ease-in-out;
+}
+
+.hero-slide.active {
+    display: block;
+}
+
+.hero-slide img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.hero-slide-content {
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    background: linear-gradient(to top, rgba(15,23,42,0.8), transparent);
+    color: #fff;
+    padding: 16px;
+    font-weight: 800;
+    font-size: 15px;
+    text-align: center;
+}
+
+@keyframes fadeSlide {
+    from { opacity: 0.4; }
+    to { opacity: 1; }
+}
+
+/* Settings Menu Button (Floating Top-Right) */
+.menu-toggle-btn {
+    position: fixed;
+    top: 16px;
+    right: 16px;
     background: var(--card-bg);
     border: 1px solid var(--border);
     color: var(--text);
-    width: 44px;
-    height: 44px;
-    border-radius: 14px;
+    width: 42px;
+    height: 42px;
+    border-radius: 12px;
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 18px;
+    font-size: 16px;
     box-shadow: var(--shadow-sm);
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    z-index: 1500;
+    transition: all 0.25s ease;
 }
 .menu-toggle-btn:hover {
-    background: var(--primary);
-    color: #fff;
+    background: var(--primary-light);
+    color: var(--primary);
     border-color: var(--primary);
-    transform: rotate(90deg) scale(1.05);
 }
 
 /* Slide Drawer Fixed Smooth Scrolling System */
@@ -147,141 +160,132 @@ body {
     display: none;
     position: fixed;
     top: 0; left: 0; width: 100%; height: 100%;
-    background: rgba(3, 7, 18, 0.65);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
+    background: rgba(3, 7, 18, 0.6);
+    backdrop-filter: blur(6px);
     z-index: 2000;
     justify-content: flex-end;
 }
 .settings-drawer {
     background: var(--card-bg);
-    backdrop-filter: blur(20px);
     width: 100%;
-    max-width: 460px;
+    max-width: 420px;
     height: 100vh;
     display: flex;
     flex-direction: column;
-    box-shadow: -25px 0 60px rgba(0,0,0,0.4);
-    animation: slideInRight 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+    box-shadow: -20px 0 40px rgba(0,0,0,0.3);
+    animation: slideInRight 0.3s cubic-bezier(0.16, 1, 0.3, 1);
     position: absolute;
     right: 0;
     top: 0;
-    border-left: 1px solid var(--border);
 }
 @keyframes slideInRight {
-    from { transform: translateX(100%); opacity: 0; }
-    to { transform: translateX(0); opacity: 1; }
+    from { transform: translateX(100%); }
+    to { transform: translateX(0); }
 }
 .drawer-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 22px 26px;
+    padding: 18px 20px;
     border-bottom: 1px solid var(--border);
+    background: var(--card-bg);
     flex-shrink: 0;
 }
 .drawer-header h3 {
-    font-size: 18px;
+    font-size: 16px;
     font-weight: 800;
     color: var(--text);
     display: flex;
     align-items: center;
-    gap: 12px;
+    gap: 8px;
+    margin: 0;
 }
 .close-drawer-btn {
     background: var(--bg);
     border: 1px solid var(--border);
-    font-size: 16px;
+    font-size: 14px;
     color: var(--text-muted);
     cursor: pointer;
-    width: 40px;
-    height: 40px;
+    width: 36px;
+    height: 36px;
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: all 0.25s;
+    transition: 0.2s;
 }
 .close-drawer-btn:hover {
     background: var(--danger);
     color: #fff;
     border-color: var(--danger);
-    transform: scale(1.1);
 }
 
-/* Scrollable Content Container inside Drawer */
 .drawer-scroll-body {
-    padding: 24px;
+    padding: 20px;
     overflow-y: auto;
     flex: 1;
-    -webkit-overflow-scrolling: touch;
     display: flex;
     flex-direction: column;
-    gap: 18px;
+    gap: 14px;
 }
 
-/* Permanent Fixed Card */
+/* No Container Box Style */
 .settings-card {
-    background: var(--bg);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    padding: 20px;
-    box-shadow: var(--shadow-sm);
+    background: transparent;
+    border: none;
+    padding: 0;
+    margin-bottom: 12px;
 }
 .settings-card-title {
-    font-size: 14px;
+    font-size: 13px;
     font-weight: 800;
     color: var(--text);
-    margin-bottom: 16px;
+    margin-bottom: 10px;
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 8px;
 }
 
 /* Floating Bottom Navbar */
 .app-navbar {
     position: fixed;
-    bottom: 20px;
+    bottom: 16px;
     left: 16px;
     right: 16px;
-    max-width: 520px;
+    max-width: 500px;
     margin: 0 auto;
     display: flex;
     justify-content: space-around;
     background: var(--card-bg);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
     padding: 8px 12px;
     box-shadow: var(--shadow-lg);
     border: 1px solid var(--border);
-    border-radius: 32px;
+    border-radius: 24px;
     z-index: 1000;
 }
 .nav-btn {
     background: transparent;
     border: none;
     color: var(--text-muted);
-    padding: 10px 14px;
+    padding: 8px 10px;
     font-size: 11px;
     font-weight: 800;
-    border-radius: 20px;
+    border-radius: 14px;
     cursor: pointer;
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 5px;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    gap: 3px;
+    transition: all 0.25s ease;
     flex: 1;
 }
-.nav-btn i { font-size: 18px; transition: transform 0.3s ease; }
+.nav-btn i { font-size: 16px; }
 .nav-btn:hover { color: var(--primary); }
 .nav-btn.active {
     color: #fff;
-    background: linear-gradient(135deg, var(--primary), var(--accent));
-    box-shadow: 0 8px 25px rgba(99, 102, 241, 0.45);
-    transform: translateY(-2px);
+    background: var(--primary);
+    box-shadow: 0 4px 15px rgba(37, 99, 235, 0.35);
 }
-.nav-btn.active i { transform: scale(1.2); }
 
 /* Tabs */
 .app-tab-content {
@@ -290,141 +294,101 @@ body {
     max-width: 1000px;
     width: 100%;
     margin: 0 auto;
-    background: var(--card-bg);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    padding: 24px;
-    box-shadow: var(--shadow-md);
 }
 .app-tab-content.active-tab {
     display: block;
-    animation: fadeIn 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    animation: fadeIn 0.3s ease;
 }
 @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(12px); }
+    from { opacity: 0; transform: translateY(6px); }
     to { opacity: 1; transform: translateY(0); }
 }
-
-/* PWA Banner */
-#pwaInstallBanner {
-    display: none;
-    background: linear-gradient(135deg, var(--primary), var(--accent));
-    color: white;
-    padding: 16px 24px;
-    border-radius: var(--radius);
-    margin: 0 auto 24px auto;
-    max-width: 1000px;
-    box-shadow: var(--shadow-md);
-    align-items: center;
-    justify-content: space-between;
-}
-#pwaInstallBanner span { font-weight: 800; font-size: 13px; }
-#pwaInstallBtn {
-    background: #ffffff;
-    color: var(--primary);
-    border: none;
-    padding: 8px 18px;
-    border-radius: 14px;
-    font-weight: 900;
-    cursor: pointer;
-    font-size: 12px;
-    box-shadow: var(--shadow-sm);
-    transition: transform 0.2s;
-}
-#pwaInstallBtn:hover { transform: scale(1.05); }
 
 label {
     display: block;
     font-size: 11px;
     font-weight: 800;
     color: var(--text-muted);
-    margin-bottom: 8px;
+    margin-bottom: 5px;
     text-transform: uppercase;
-    letter-spacing: 0.8px;
+    letter-spacing: 0.5px;
 }
 
 input, select { 
     width: 100%; 
-    padding: 14px 18px; 
-    margin-bottom: 16px; 
-    border-radius: 16px; 
+    padding: 12px 16px; 
+    margin-bottom: 12px; 
+    border-radius: 12px; 
     border: 1px solid var(--border); 
-    font-size: 14px; 
+    font-size: 13px; 
     font-family: 'Plus Jakarta Sans', sans-serif;
     outline: none; 
-    transition: all 0.3s ease;
-    background-color: var(--bg);
+    transition: all 0.25s ease;
+    background-color: var(--card-bg);
     color: var(--text);
-    box-shadow: inset 0 2px 4px rgba(0,0,0,0.02);
 }
 input:focus, select:focus {
     border-color: var(--primary);
-    background-color: var(--card-bg);
-    box-shadow: 0 0 0 4px var(--primary-light), inset 0 2px 4px rgba(0,0,0,0.02);
+    box-shadow: 0 0 0 3px var(--primary-light);
 }
 
 .section-title {
-    font-size: 22px;
+    font-size: 18px;
     font-weight: 900;
     color: var(--text);
-    margin-bottom: 24px;
+    margin-bottom: 18px;
     display: flex;
     align-items: center;
-    gap: 14px;
+    gap: 10px;
     border-bottom: 2px solid var(--border);
-    padding-bottom: 16px;
-    letter-spacing: -0.5px;
+    padding-bottom: 10px;
 }
 
-/* Premium Buttons */
+/* Pure Blue Buttons */
 .btn-blue { 
     width: 100%; 
-    padding: 16px 20px; 
-    border-radius: 16px; 
+    padding: 14px 18px; 
+    border-radius: 12px; 
     border: none; 
-    background: linear-gradient(135deg, var(--primary), var(--accent)); 
+    background: var(--primary); 
     color: white; 
-    font-size: 15px; 
+    font-size: 14px; 
     font-weight: 800; 
     cursor: pointer; 
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); 
+    transition: all 0.25s ease; 
     font-family: 'Plus Jakarta Sans', sans-serif;
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    gap: 10px;
-    box-shadow: 0 10px 30px rgba(99, 102, 241, 0.35);
+    gap: 8px;
+    box-shadow: var(--shadow-sm);
 }
-.btn-blue:hover { opacity: 0.95; transform: translateY(-3px); box-shadow: 0 15px 35px rgba(99, 102, 241, 0.5); }
-.btn-blue:active { transform: translateY(-1px); }
+.btn-blue:hover { background: var(--primary-hover); transform: translateY(-1px); box-shadow: var(--shadow-md); }
 
 /* Tables */
 .table-wrapper { 
     overflow-x: auto; 
     width: 100%; 
-    margin: 20px 0; 
-    border-radius: var(--radius); 
+    margin: 16px 0; 
+    border-radius: 12px; 
     border: 1px solid var(--border);
-    background: var(--bg);
-    box-shadow: var(--shadow-sm);
+    background: var(--card-bg);
 }
 table { width: 100%; border-collapse: collapse; white-space: nowrap; }
 th { 
-    background: var(--card-bg); 
+    background: var(--bg); 
     font-weight: 900; 
     color: var(--text-muted); 
     text-transform: uppercase; 
-    font-size: 11px; 
-    letter-spacing: 0.8px;
-    padding: 18px 16px;
+    font-size: 10px; 
+    letter-spacing: 0.5px;
+    padding: 12px;
     border-bottom: 1px solid var(--border);
     text-align: left;
 }
 td { 
-    padding: 16px; 
-    font-size: 13px; 
+    padding: 12px; 
+    font-size: 12px; 
     border-bottom: 1px solid var(--border);
     color: var(--text);
     font-weight: 600;
@@ -437,153 +401,130 @@ tr:hover td { background-color: var(--primary-light); }
 
 /* Grand Total Box */
 .current-total-box {
-    background: linear-gradient(135deg, var(--secondary) 0%, #1e293b 100%);
-    border-radius: var(--radius);
-    padding: 28px;
-    margin: 24px 0;
+    background: var(--secondary);
+    border-radius: 14px;
+    padding: 20px;
+    margin: 18px 0;
     text-align: center;
     color: #ffffff;
     box-shadow: var(--shadow-md);
-    border: 1px solid rgba(255,255,255,0.1);
-    position: relative;
-    overflow: hidden;
 }
-.current-total-box::after {
-    content: '';
-    position: absolute;
-    top: -50%; left: -50%; width: 200%; height: 200%;
-    background: radial-gradient(circle, rgba(255,255,255,0.08) 0%, transparent 60%);
-    pointer-events: none;
-}
-.current-total-box .sub-info { font-size: 12px; color: #94a3b8; margin-bottom: 8px; font-weight: 700; }
-.current-total-box .grand-total-title { font-size: 34px; font-weight: 900; color: var(--accent); letter-spacing: -1px; }
+.current-total-box .sub-info { font-size: 11px; color: #94a3b8; margin-bottom: 6px; font-weight: 700; }
+.current-total-box .grand-total-title { font-size: 26px; font-weight: 900; color: #3b82f6; }
 
-.grid-2 { display: grid; grid-template-columns: 1fr; gap: 16px; }
-.grid-3 { display: grid; grid-template-columns: 1fr; gap: 16px; }
-.tax-discount-grid { display: grid; grid-template-columns: 1fr; gap: 16px; }
-.btn-group-row { display: flex; flex-direction: column; gap: 16px; margin-top: 20px; }
+.grid-2 { display: grid; grid-template-columns: 1fr; gap: 12px; }
+.grid-3 { display: grid; grid-template-columns: 1fr; gap: 12px; }
+.tax-discount-grid { display: grid; grid-template-columns: 1fr; gap: 12px; }
+.btn-group-row { display: flex; flex-direction: column; gap: 12px; margin-top: 14px; }
 
-.sale-summary { display: grid; grid-template-columns: 1fr; gap: 16px; margin: 16px 0 28px 0; }
+.sale-summary { display: grid; grid-template-columns: 1fr; gap: 12px; margin: 12px 0 20px 0; }
 .sale-card { 
-    background: var(--bg); 
-    padding: 24px; 
-    border-radius: var(--radius); 
+    background: var(--card-bg); 
+    padding: 18px; 
+    border-radius: 12px; 
     border: 1px solid var(--border); 
     box-shadow: var(--shadow-sm);
-    transition: transform 0.3s;
 }
-.sale-card:hover { transform: translateY(-4px); border-color: var(--primary); }
-.sale-card span { display: block; font-size: 11px; color: var(--text-muted); font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px; }
-.sale-card b { font-size: 28px; color: var(--text); margin-top: 8px; display: block; font-weight: 900; letter-spacing: -0.5px; }
+.sale-card span { display: block; font-size: 10px; color: var(--text-muted); font-weight: 800; text-transform: uppercase; }
+.sale-card b { font-size: 22px; color: var(--text); margin-top: 4px; display: block; font-weight: 900; }
 
 .btn-action {
     border: none;
-    padding: 8px 12px;
-    border-radius: 12px;
+    padding: 6px 10px;
+    border-radius: 8px;
     cursor: pointer;
-    font-size: 12px;
+    font-size: 11px;
     color: white;
     margin: 2px;
-    transition: 0.25s;
-    box-shadow: var(--shadow-sm);
 }
-.btn-action:hover { transform: scale(1.1); }
 .btn-del { background: var(--danger); }
-.btn-del:hover { background: var(--danger-hover); }
 .btn-edit { background: var(--warning); }
 
 /* Invoice Slip */
 .bill { 
-    margin-top: 32px; 
-    padding: 34px; 
-    border-radius: var(--radius); 
+    margin-top: 24px; 
+    padding: 24px; 
+    border-radius: 16px; 
     background: #ffffff; 
     border: 1px solid var(--border);
-    box-shadow: var(--shadow-lg);
+    box-shadow: var(--shadow-md);
     color: #0f172a;
 }
 .invoice-card-header {
     border-bottom: 2px dashed #cbd5e1;
-    padding-bottom: 22px;
-    margin-bottom: 22px;
+    padding-bottom: 16px;
+    margin-bottom: 16px;
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
     flex-wrap: wrap;
-    gap: 16px;
+    gap: 12px;
 }
-.shop-brand h3 { margin: 0 0 6px 0; font-size: 26px; font-weight: 900; color: #0f172a; letter-spacing: -0.5px; }
-.shop-brand p { margin: 3px 0; font-size: 11px; color: #475569; font-weight: 700; }
+.shop-brand h3 { margin: 0 0 3px 0; font-size: 22px; font-weight: 900; color: #0f172a; }
+.shop-brand p { margin: 2px 0; font-size: 11px; color: #475569; font-weight: 700; }
 
 .inv-meta-badge {
     text-align: right;
     background: #f8fafc;
     border: 1px solid #e2e8f0;
-    padding: 14px 18px;
-    border-radius: 16px;
+    padding: 10px 14px;
+    border-radius: 10px;
     width: 100%;
 }
-.inv-meta-badge .inv-no-title { font-size: 9px; font-weight: 800; color: #64748b; text-transform: uppercase; letter-spacing: 1px; }
-.inv-meta-badge .inv-number { font-size: 22px; font-weight: 900; color: var(--primary); }
-.inv-meta-badge .inv-date { font-size: 10px; color: #475569; margin-top: 3px; font-weight: 700; }
+.inv-meta-badge .inv-no-title { font-size: 9px; font-weight: 800; color: #64748b; text-transform: uppercase; }
+.inv-meta-badge .inv-number { font-size: 18px; font-weight: 900; color: var(--primary); }
+.inv-meta-badge .inv-date { font-size: 10px; color: #475569; margin-top: 2px; font-weight: 700; }
 
 .customer-info-bar {
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    gap: 6px;
     background: #f1f5f9;
-    padding: 16px 20px;
-    border-radius: 16px;
-    font-size: 12px;
-    margin-bottom: 22px;
+    padding: 12px 14px;
+    border-radius: 10px;
+    font-size: 11px;
+    margin-bottom: 16px;
     font-weight: 800;
 }
-.bill-table { width: 100%; border-collapse: collapse; margin-top: 14px; }
-.bill-table th { background-color: #0f172a; color: #ffffff; font-weight: 900; font-size: 11px; padding: 14px; text-transform: uppercase; border: none; }
-.bill-table td { border-bottom: 1px solid #e2e8f0; padding: 14px; font-size: 12px; font-weight: 700; }
+.bill-table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+.bill-table th { background-color: #0f172a; color: #ffffff; font-weight: 900; font-size: 10px; padding: 10px; text-transform: uppercase; border: none; }
+.bill-table td { border-bottom: 1px solid #e2e8f0; padding: 10px; font-size: 11px; font-weight: 700; }
 .bill-table td.text-right { text-align: right; }
 .bill-table td.text-center { text-align: center; }
 
-.bill-summary-table { width: 100%; margin-top: 18px; border-collapse: collapse; }
-.bill-summary-table td { padding: 8px 10px; font-size: 12px; border: none; font-weight: 700; }
-.bill-summary-table .grand-row td { font-size: 18px; font-weight: 900; border-top: 2px solid #0f172a; border-bottom: 2px double #0f172a; padding: 12px 10px; }
+.bill-summary-table { width: 100%; margin-top: 14px; border-collapse: collapse; }
+.bill-summary-table td { padding: 6px; font-size: 11px; border: none; font-weight: 700; }
+.bill-summary-table .grand-row td { font-size: 16px; font-weight: 900; border-top: 2px solid #0f172a; border-bottom: 2px double #0f172a; padding: 8px; }
 
-.qr-container { text-align: center; margin-top: 24px; padding-top: 20px; border-top: 2px dashed #cbd5e1; }
-.qr-container p { font-size: 11px; margin: 0 0 12px 0; color: #334155; font-weight: 900; }
-.qr-container img { width: 140px; height: 140px; border-radius: 16px; border: 1px solid #cbd5e1; padding: 8px; background: #fff; box-shadow: var(--shadow-sm); }
-.bill-footer-msg { text-align: center; font-size: 11px; color: #64748b; margin-top: 20px; font-weight: 800; letter-spacing: 0.5px; }
+.qr-container { text-align: center; margin-top: 16px; padding-top: 14px; border-top: 2px dashed #cbd5e1; }
+.qr-container p { font-size: 11px; margin: 0 0 8px 0; color: #334155; font-weight: 900; }
+.qr-container img { width: 120px; height: 120px; border-radius: 10px; border: 1px solid #cbd5e1; padding: 4px; background: #fff; }
+.bill-footer-msg { text-align: center; font-size: 10px; color: #64748b; margin-top: 14px; font-weight: 800; }
 
 /* Modals */
 .modal-overlay {
     display: none;
     position: fixed;
     top: 0; left: 0; width: 100%; height: 100%;
-    background: rgba(3, 7, 18, 0.7);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
+    background: rgba(3, 7, 18, 0.6);
+    backdrop-filter: blur(6px);
     z-index: 9999;
     align-items: center; justify-content: center;
     padding: 16px;
 }
 .modal-card {
     background: var(--card-bg);
-    backdrop-filter: blur(20px);
-    width: 100%; max-width: 440px;
-    border-radius: var(--radius);
-    padding: 30px;
+    width: 100%; max-width: 400px;
+    border-radius: 16px;
+    padding: 22px;
     box-shadow: var(--shadow-lg);
     border: 1px solid var(--border);
-    animation: scaleUp 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
-@keyframes scaleUp {
-    from { transform: scale(0.9); opacity: 0; }
-    to { transform: scale(1); opacity: 1; }
-}
-.modal-header { font-size: 20px; font-weight: 900; color: var(--text); margin-bottom: 18px; border-bottom: 1px solid var(--border); padding-bottom: 16px; }
-.modal-footer { display: flex; gap: 12px; margin-top: 24px; justify-content: flex-end; }
+.modal-header { font-size: 18px; font-weight: 900; color: var(--text); margin-bottom: 14px; border-bottom: 1px solid var(--border); padding-bottom: 10px; }
+.modal-footer { display: flex; gap: 8px; margin-top: 18px; justify-content: flex-end; }
 
 @media screen and (min-width: 768px) {
-    body { padding: 40px 32px 140px 32px; }
+    body { padding: 24px 20px 120px 20px; }
     .grid-2 { grid-template-columns: 1fr 1fr; }
     .grid-3 { grid-template-columns: 1fr 1fr 1fr; }
     .tax-discount-grid { grid-template-columns: 1fr 1fr 1fr; }
@@ -603,10 +544,10 @@ tr:hover td { background-color: var(--primary-light); }
         padding: 0 !important; border: none !important;
         box-shadow: none !important; background: #fff !important;
     }
-    .app-navbar, .app-header, .settings-drawer-overlay { display: none !important; }
+    .app-navbar, .hero-slider-container, .menu-toggle-btn, .settings-drawer-overlay { display: none !important; }
 }
 
-/* Udhaar Scope (As requested: kept untouched) */
+/* Udhaar Scope (Untouched) */
 :root {
   --udhaar-primary: #2563eb;
   --udhaar-primary-dark: #1d4ed8;
@@ -615,28 +556,28 @@ tr:hover td { background-color: var(--primary-light); }
 }
 
 .udhaar-scope { font-family: 'Plus Jakarta Sans', sans-serif; max-width: 1000px; margin: auto; }
-.udhaar-scope h2 { text-align: center; color: var(--udhaar-primary); margin-bottom: 20px; font-size: 24px; font-weight: 800; }
-.udhaar-scope button, .udhaar-scope .file-btn { background: var(--udhaar-primary); color: white; border: none; font-weight: 700; cursor: pointer; text-align: center; border-radius: 12px; padding: 12px 14px; }
-.udhaar-scope .card { background: var(--card-bg); border: 1px solid var(--border); padding: 14px 16px; margin: 10px 0; border-radius: 12px; display: flex; justify-content: space-between; align-items: center; box-shadow: var(--shadow-sm); cursor: pointer; }
-.udhaar-scope .dashboard { background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%); border: 1px solid #bfdbfe; padding: 16px; border-radius: var(--radius); margin-bottom: 20px; display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
-.udhaar-scope .dash-item { background: rgba(255, 255, 255, 0.9); padding: 12px; border-radius: 10px; font-size: 14px; color: #1e293b; }
-.udhaar-scope .dash-item b { display: block; color: #64748b; font-size: 10px; text-transform: uppercase; margin-bottom: 2px; }
-.udhaar-scope .dash-item span { font-size: 18px; font-weight: 800; color: #1e293b; }
-.udhaar-scope .filter-tabs { display: flex; gap: 6px; margin: 12px 0; }
-.udhaar-scope .filter-tab { flex: 1; padding: 10px 6px; font-size: 12px; font-weight: 700; border: 1px solid var(--border); background: var(--bg); color: var(--text); border-radius: 10px; cursor: pointer; text-align: center; }
+.udhaar-scope h2 { text-align: center; color: var(--udhaar-primary); margin-bottom: 16px; font-size: 22px; font-weight: 800; }
+.udhaar-scope button, .udhaar-scope .file-btn { background: var(--udhaar-primary); color: white; border: none; font-weight: 700; cursor: pointer; text-align: center; border-radius: 10px; padding: 10px 12px; }
+.udhaar-scope .card { background: var(--card-bg); border: 1px solid var(--border); padding: 12px 14px; margin: 8px 0; border-radius: 10px; display: flex; justify-content: space-between; align-items: center; box-shadow: var(--shadow-sm); cursor: pointer; }
+.udhaar-scope .dashboard { background: #eff6ff; border: 1px solid #bfdbfe; padding: 14px; border-radius: 14px; margin-bottom: 16px; display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
+.udhaar-scope .dash-item { background: rgba(255, 255, 255, 0.9); padding: 10px; border-radius: 8px; font-size: 13px; color: #1e293b; }
+.udhaar-scope .dash-item b { display: block; color: #64748b; font-size: 9px; text-transform: uppercase; margin-bottom: 2px; }
+.udhaar-scope .dash-item span { font-size: 16px; font-weight: 800; color: #1e293b; }
+.udhaar-scope .filter-tabs { display: flex; gap: 6px; margin: 10px 0; }
+.udhaar-scope .filter-tab { flex: 1; padding: 8px 6px; font-size: 11px; font-weight: 700; border: 1px solid var(--border); background: var(--bg); color: var(--text); border-radius: 8px; cursor: pointer; text-align: center; }
 .udhaar-scope .filter-tab.active { background: var(--udhaar-primary); color: white; border-color: var(--udhaar-primary); }
-.udhaar-scope .analytics-box { background: var(--card-bg); border: 1px solid var(--border); padding: 18px; border-radius: var(--radius); margin-top: 25px; margin-bottom: 20px; }
-.udhaar-scope .analytics-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 12px; }
-.udhaar-scope .analytics-card { background: var(--bg); padding: 12px; border-radius: 10px; border: 1px solid var(--border); text-align: center; }
-.udhaar-scope .analytics-card b { display: block; color: var(--text-muted); font-size: 10px; text-transform: uppercase; margin-bottom: 6px; }
-.udhaar-scope .graph-container { margin-top: 16px; background: var(--bg); padding: 16px; border-radius: 10px; border: 1px solid var(--border); }
-.udhaar-scope .bar-group { margin-bottom: 12px; }
-.udhaar-scope .bar-label { display: flex; justify-content: space-between; font-size: 12px; font-weight: 700; margin-bottom: 4px; }
-.udhaar-scope .bar-track { background: var(--border); border-radius: 6px; height: 10px; width: 100%; overflow: hidden; display: flex; }
+.udhaar-scope .analytics-box { background: var(--card-bg); border: 1px solid var(--border); padding: 16px; border-radius: 14px; margin-top: 20px; margin-bottom: 16px; }
+.udhaar-scope .analytics-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 10px; }
+.udhaar-scope .analytics-card { background: var(--bg); padding: 10px; border-radius: 8px; border: 1px solid var(--border); text-align: center; }
+.udhaar-scope .analytics-card b { display: block; color: var(--text-muted); font-size: 9px; text-transform: uppercase; margin-bottom: 4px; }
+.udhaar-scope .graph-container { margin-top: 14px; background: var(--bg); padding: 14px; border-radius: 8px; border: 1px solid var(--border); }
+.udhaar-scope .bar-group { margin-bottom: 10px; }
+.udhaar-scope .bar-label { display: flex; justify-content: space-between; font-size: 11px; font-weight: 700; margin-bottom: 3px; }
+.udhaar-scope .bar-track { background: var(--border); border-radius: 4px; height: 8px; width: 100%; overflow: hidden; display: flex; }
 .udhaar-scope .bar-fill-out { background: var(--udhaar-danger); height: 100%; transition: width 0.4s ease; }
 .udhaar-scope .bar-fill-in { background: var(--udhaar-success); height: 100%; transition: width 0.4s ease; }
-.udhaar-scope .centered { display: flex; justify-content: center; gap: 8px; flex-wrap: wrap; }
-.udhaar-scope button.smallbtn { padding: 12px 14px; font-size: 14px; flex: 1; min-width: 100px; }
+.udhaar-scope .centered { display: flex; justify-content: center; gap: 6px; flex-wrap: wrap; }
+.udhaar-scope button.smallbtn { padding: 10px 12px; font-size: 13px; flex: 1; min-width: 90px; }
 .udhaar-scope .btn-danger { background: var(--udhaar-danger) !important; }
 
 @media(min-width: 768px) { .udhaar-scope .dashboard { grid-template-columns: repeat(4, 1fr); } }
@@ -644,23 +585,33 @@ tr:hover td { background-color: var(--primary-light); }
 
 .app-footer {
     text-align: center;
-    padding: 40px 10px 20px 10px;
+    padding: 30px 10px 15px 10px;
     margin-top: auto;
-    font-size: 12px;
+    font-size: 11px;
     color: var(--text-muted);
-    font-weight: 900;
-    letter-spacing: 1px;
+    font-weight: 800;
 }
 </style>
 </head>
 <body>
 
-<div class="app-header">
-    <div class="app-header-content">
-        <h1><i class="fa-solid fa-bolt"></i> Shayan Smart Billing</h1>
-        <p>Ultra POS & Inventory System</p>
+<!-- Floating Settings Button -->
+<button class="menu-toggle-btn" onclick="toggleSettingsDrawer(true)" title="Settings"><i class="fa-solid fa-bars"></i></button>
+
+<!-- HERO SECTION BANNER WITH 3 BILLING IMAGE SLIDER -->
+<div class="hero-slider-container">
+    <div class="hero-slide active">
+        <img src="https://images.unsplash.com/photo-1556742049-0a67d55362ec?auto=format&fit=crop&w=1000&q=80" alt="Billing 1">
+        <div class="hero-slide-content">⚡ Shayan Smart POS & Billing System</div>
     </div>
-    <button class="menu-toggle-btn" onclick="toggleSettingsDrawer(true)" title="Settings"><i class="fa-solid fa-bars"></i></button>
+    <div class="hero-slide">
+        <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=1000&q=80" alt="Billing 2">
+        <div class="hero-slide-content">📊 Fast Inventory & Stock Management</div>
+    </div>
+    <div class="hero-slide">
+        <img src="https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?auto=format&fit=crop&w=1000&q=80" alt="Billing 3">
+        <div class="hero-slide-content">💼 Easy Udhaar & Invoice Generation</div>
+    </div>
 </div>
 
 <!-- NAVIGATION BAR -->
@@ -671,7 +622,7 @@ tr:hover td { background-color: var(--primary-light); }
     <button class="nav-btn" onclick="switchTab('udhaarTab', this)"><i class="fa-solid fa-book-open"></i><span>Udhaar</span></button>
 </div>
 
-<!-- SETTINGS DRAWER FULLY EXPANDED WITHOUT ARROW & SMALL TOGGLE BUTTON -->
+<!-- SETTINGS DRAWER -->
 <div id="settingsDrawerOverlay" class="settings-drawer-overlay" onclick="handleDrawerOutsideClick(event)">
     <div class="settings-drawer">
         <div class="drawer-header">
@@ -680,7 +631,6 @@ tr:hover td { background-color: var(--primary-light); }
         </div>
 
         <div class="drawer-scroll-body">
-            <!-- Shop Setup Card -->
             <div class="settings-card">
                 <div class="settings-card-title">
                     <i class="fa-solid fa-store" style="color:var(--primary);"></i> Shop, GSTIN & UPI Setup
@@ -701,25 +651,18 @@ tr:hover td { background-color: var(--primary-light); }
                 <label>UPI ID for QR</label>
                 <input id="upiId" placeholder="e.g. name@paytm">
 
-                <button id="saveShopBtn" class="btn-blue" style="margin-top: 12px;" onclick="saveShopDetailsDirect()"><i class="fa-solid fa-floppy-disk"></i> Save Shop Details</button>
+                <button id="saveShopBtn" class="btn-blue" style="margin-top: 10px;" onclick="saveShopDetailsDirect()"><i class="fa-solid fa-floppy-disk"></i> Save Shop Details</button>
             </div>
 
-            <!-- Dark Mode Toggle -->
-            <div style="background:var(--bg); padding:16px 20px; border-radius:var(--radius); border:1px solid var(--border); display:flex; justify-content:space-between; align-items:center; margin-bottom: 20px; box-shadow:var(--shadow-sm);">
+            <div style="background:var(--bg); padding:14px; border-radius:12px; border:1px solid var(--border); display:flex; justify-content:space-between; align-items:center;">
                 <div>
-                    <div style="font-size:13px; font-weight:900; color:var(--text);"><i class="fa-solid fa-moon" style="color:var(--primary); margin-right:8px;"></i> Dark Mode Theme</div>
+                    <div style="font-size:12px; font-weight:800; color:var(--text);"><i class="fa-solid fa-moon" style="color:var(--primary); margin-right:6px;"></i> Dark Mode Theme</div>
                     <p style="font-size:10px; color:var(--text-muted); font-weight:700;">Switch light/dark interface.</p>
                 </div>
-                <button class="btn-blue" style="width:auto; padding:10px 16px; font-size:12px; border-radius:12px;" onclick="toggleDarkMode()"><i class="fa-solid fa-circle-half-stroke"></i> Toggle</button>
+                <button class="btn-blue" style="width:auto; padding:8px 12px; font-size:11px; border-radius:8px;" onclick="toggleDarkMode()"><i class="fa-solid fa-circle-half-stroke"></i> Toggle</button>
             </div>
         </div>
     </div>
-</div>
-
-<!-- PWA Banner -->
-<div id="pwaInstallBanner">
-    <span><i class="fa-solid fa-mobile-screen-button"></i> Install Shayan Smart App</span>
-    <button id="pwaInstallBtn">Install Now</button>
 </div>
 
 <!-- TAB 1: HOME -->
@@ -787,7 +730,7 @@ tr:hover td { background-color: var(--primary-light); }
         </div>
     </div>
 
-    <button id="generateBillBtn" class="btn-blue" style="font-size:16px; padding:18px; margin-top:14px;"><i class="fa-solid fa-bolt"></i> Generate Bill Invoice</button>
+    <button id="generateBillBtn" class="btn-blue" style="font-size:15px; padding:16px; margin-top:12px;"><i class="fa-solid fa-bolt"></i> Generate Bill Invoice</button>
     
     <div class="btn-group-row">
         <select id="printMode" style="flex:1; margin-bottom:0;">
@@ -795,7 +738,7 @@ tr:hover td { background-color: var(--primary-light); }
             <option value="A4">Standard Invoice Layout (A4 Sheet)</option>
         </select>
         <button id="printBillBtn" class="btn-blue" style="flex:1; background:var(--secondary);"><i class="fa-solid fa-print"></i> Print Invoice</button>
-        <button id="sendWhatsAppBtn" class="btn-blue" style="background:#25d366; flex:1;"><i class="fa-brands fa-whatsapp"></i> Send WhatsApp</button>
+        <button id="sendWhatsAppBtn" class="btn-blue" style="background:#16a34a; flex:1;"><i class="fa-brands fa-whatsapp"></i> Send WhatsApp</button>
     </div>
 
     <div id="bill" class="bill"></div>
@@ -828,7 +771,7 @@ tr:hover td { background-color: var(--primary-light); }
         </table>
     </div>
 
-    <div class="grid-2" style="margin-top:16px;">
+    <div class="grid-2" style="margin-top:14px;">
         <button id="downloadStockBtn" class="btn-blue" style="background:var(--text-muted);"><i class="fa-solid fa-file-csv"></i> Download Inventory CSV</button>
         <button class="btn-blue" style="background:#0284c7;" onclick="document.getElementById('importStockFileInput').click()"><i class="fa-solid fa-file-import"></i> Stock Backup & Restore</button>
     </div>
@@ -847,7 +790,7 @@ tr:hover td { background-color: var(--primary-light); }
 
     <div>
         <input id="searchInvoiceInput" placeholder="Type customer name or invoice number..." oninput="filterHistoryBills()">
-        <div class="table-wrapper" style="max-height: 380px; overflow-y: auto;">
+        <div class="table-wrapper" style="max-height: 350px; overflow-y: auto;">
             <table>
                 <thead>
                     <tr>
@@ -861,20 +804,20 @@ tr:hover td { background-color: var(--primary-light); }
             </table>
         </div>
         
-        <div class="grid-3" style="margin-top:20px;">
+        <div class="grid-3" style="margin-top:16px;">
             <button id="downloadHistoryBtn" class="btn-blue" style="background:var(--text-muted);"><i class="fa-solid fa-file-excel"></i> Export Sales Excel</button>
             <button class="btn-blue" style="background:#059669;" onclick="exportSalesHistoryOnly()"><i class="fa-solid fa-file-export"></i> Sales Backup JSON</button>
             <button class="btn-blue" style="background:#0284c7;" onclick="document.getElementById('importSalesFileInput').click()"><i class="fa-solid fa-file-import"></i> Restore Sales JSON</button>
         </div>
         <input type="file" id="importSalesFileInput" accept=".json" style="display:none" onchange="importSalesHistoryOnly(event)">
 
-        <div style="margin-top:16px;">
+        <div style="margin-top:14px;">
             <button id="clearAllHistoryBtn" class="btn-blue" style="background:var(--danger);"><i class="fa-solid fa-trash-can"></i> Clear All History</button>
         </div>
     </div>
 </div>
 
-<!-- TAB 4: UDHAAR MANAGER PRO (UNCHANGED AS REQUESTED) -->
+<!-- TAB 4: UDHAAR MANAGER PRO -->
 <div id="udhaarTab" class="app-tab-content">
   <div class="udhaar-scope">
     <h2>💰 Udhaar Manager PRO</h2>
@@ -899,9 +842,9 @@ tr:hover td { background-color: var(--primary-light); }
     <div id="profile"></div>
     <div id="customerList"></div>
 
-    <hr style="border:none; height:1px; background:var(--border); margin:20px 0;">
+    <hr style="border:none; height:1px; background:var(--border); margin:18px 0;">
 
-    <div style="display:flex; gap:8px; margin-bottom:15px; flex-wrap:wrap;">
+    <div style="display:flex; gap:8px; margin-bottom:14px; flex-wrap:wrap;">
       <button class="smallbtn" onclick="downloadExcel()" style="background:#059669; flex:1;">📊 Export CSV</button>
       <button class="smallbtn" onclick="downloadJSON()" style="background:#7c3aed; flex:1;">💾 Backup JSON</button>
       <label class="file-btn smallbtn" style="background:#0284c7; flex:1; margin:0; cursor:pointer; text-align:center;">
@@ -910,28 +853,28 @@ tr:hover td { background-color: var(--primary-light); }
     </div>
 
     <div class="analytics-box">
-      <h4 style="margin:0 0 6px 0; font-size:15px; color:var(--udhaar-primary);">📈 Transaction Analytics & Graph</h4>
+      <h4 style="margin:0 0 6px 0; font-size:14px; color:var(--udhaar-primary);">📈 Transaction Analytics & Graph</h4>
       
       <div class="analytics-grid">
         <div class="analytics-card">
           <b>Today's Record</b>
-          <span style="color:var(--danger); font-size:14px;">Udhar: ₹<span id="t-out">0</span></span><br>
-          <span style="color:var(--success); font-size:14px;">Paid: ₹<span id="t-in">0</span></span>
+          <span style="color:var(--danger); font-size:13px;">Udhar: ₹<span id="t-out">0</span></span><br>
+          <span style="color:var(--success); font-size:13px;">Paid: ₹<span id="t-in">0</span></span>
         </div>
         <div class="analytics-card">
           <b>This Week's Record</b>
-          <span style="color:var(--danger); font-size:14px;">Udhar: ₹<span id="w-out">0</span></span><br>
-          <span style="color:var(--success); font-size:14px;">Paid: ₹<span id="w-in">0</span></span>
+          <span style="color:var(--danger); font-size:13px;">Udhar: ₹<span id="w-out">0</span></span><br>
+          <span style="color:var(--success); font-size:13px;">Paid: ₹<span id="w-in">0</span></span>
         </div>
         <div class="analytics-card">
           <b>This Month's Record</b>
-          <span style="color:var(--danger); font-size:14px;">Udhar: ₹<span id="m-out">0</span></span><br>
-          <span style="color:var(--success); font-size:14px;">Paid: ₹<span id="m-in">0</span></span>
+          <span style="color:var(--danger); font-size:13px;">Udhar: ₹<span id="m-out">0</span></span><br>
+          <span style="color:var(--success); font-size:13px;">Paid: ₹<span id="m-in">0</span></span>
         </div>
       </div>
 
       <div class="graph-container">
-        <b style="font-size:12px; color:var(--text-muted); display:block; margin-bottom:8px; text-transform:uppercase;">📊 Performance Overview (Udhaar vs Paid)</b>
+        <b style="font-size:11px; color:var(--text-muted); display:block; margin-bottom:6px; text-transform:uppercase;">📊 Performance Overview (Udhaar vs Paid)</b>
         
         <div class="bar-group">
           <div class="bar-label"><span>Today</span> <span id="graph-t-text">₹0 / ₹0</span></div>
@@ -969,10 +912,10 @@ tr:hover td { background-color: var(--primary-light); }
 <div id="customModal" class="modal-overlay">
     <div class="modal-card">
         <div id="modalHeader" class="modal-header">Notification</div>
-        <div id="modalBody" style="font-size:14px; color:var(--text); margin: 12px 0;">Message...</div>
+        <div id="modalBody" style="font-size:13px; color:var(--text); margin: 10px 0;">Message...</div>
         <div id="modalFooter" class="modal-footer">
-            <button id="modalCancelBtn" class="btn-blue" style="background:var(--text-muted); width:auto; padding:10px 16px;">Cancel</button>
-            <button id="modalConfirmBtn" class="btn-blue" style="background:var(--primary); width:auto; padding:10px 16px;">OK</button>
+            <button id="modalCancelBtn" class="btn-blue" style="background:var(--text-muted); width:auto; padding:8px 14px;">Cancel</button>
+            <button id="modalConfirmBtn" class="btn-blue" style="background:var(--primary); width:auto; padding:8px 14px;">OK</button>
         </div>
     </div>
 </div>
@@ -987,13 +930,24 @@ tr:hover td { background-color: var(--primary-light); }
         <label>Selling Price (₹)</label>
         <input id="modalStockPrice" type="number">
         <div class="modal-footer">
-            <button class="btn-blue" style="background:var(--text-muted); width:auto; padding:10px 16px;" onclick="closeStockModal()">Cancel</button>
-            <button class="btn-blue" style="background:var(--success); width:auto; padding:10px 16px;" onclick="saveStockModal()">Save</button>
+            <button class="btn-blue" style="background:var(--text-muted); width:auto; padding:8px 14px;" onclick="closeStockModal()">Cancel</button>
+            <button class="btn-blue" style="background:var(--success); width:auto; padding:8px 14px;" onclick="saveStockModal()">Save</button>
         </div>
     </div>
 </div>
 
 <script>
+/* Hero Image Slider Script */
+let currentSlide = 0;
+const slides = document.querySelectorAll('.hero-slide');
+function showNextSlide() {
+    if(slides.length === 0) return;
+    slides[currentSlide].classList.remove('active');
+    currentSlide = (currentSlide + 1) % slides.length;
+    slides[currentSlide].classList.add('active');
+}
+setInterval(showNextSlide, 3500);
+
 let items = [];
 let editingIndex = -1;
 let deferredPrompt = null;
@@ -1084,22 +1038,6 @@ function saveShopDetailsDirect() {
 
     showAppAlert("Success!", "Shop name, GSTIN & UPI setup saved successfully!");
 }
-
-window.addEventListener('beforeinstallprompt', (e) => {
-    e.preventDefault();
-    deferredPrompt = e;
-    const banner = document.getElementById("pwaInstallBanner");
-    if(banner) banner.style.display = "flex";
-});
-document.getElementById("pwaInstallBtn")?.addEventListener("click", () => {
-    if (deferredPrompt) {
-        deferredPrompt.prompt();
-        deferredPrompt.userChoice.then(() => {
-            deferredPrompt = null;
-            document.getElementById("pwaInstallBanner").style.display = "none";
-        });
-    }
-});
 
 document.addEventListener("DOMContentLoaded", function(){
     loadShopDetails();
@@ -1359,7 +1297,7 @@ function initBillingSystem() {
                     .shop-brand p { margin: 2px 0; font-size: 11px; color: #475569; }
                     .inv-meta-badge { text-align: right; background: #f8fafc; border: 1px solid #cbd5e1; padding: 6px 10px; border-radius: 6px; }
                     .inv-meta-badge .inv-no-title { font-size: 10px; font-weight: 700; color: #64748b; }
-                    .inv-meta-badge .inv-number { font-size: 16px; font-weight: 800; color: #4f46e5; }
+                    .inv-meta-badge .inv-number { font-size: 16px; font-weight: 800; color: #2563eb; }
                     .customer-info-bar { display: flex; justify-content: space-between; background: #f1f5f9; padding: 6px 10px; border-radius: 6px; font-size: 11px; margin-bottom: 12px; }
                     .bill-table { width: 100%; border-collapse: collapse; margin-top: 8px; }
                     .bill-table th { background-color: #0f172a; color: #ffffff; font-weight: 700; font-size: 11px; padding: 6px; text-transform: uppercase; }
@@ -1969,12 +1907,12 @@ function showCustomers(){
     let c = item.customer;
     let i = item.index;
     let bal = item.balance;
-    let callBtnHtml = c.mobile ? `<a href="tel:${c.mobile}" onclick="event.stopPropagation()" style="background:#16a34a; color:white; padding:8px 12px; border-radius:8px; text-decoration:none; font-size:13px; display:inline-block; font-weight:700;">📞 Call</a>` : '';
+    let callBtnHtml = c.mobile ? `<a href="tel:${c.mobile}" onclick="event.stopPropagation()" style="background:#16a34a; color:white; padding:6px 10px; border-radius:6px; text-decoration:none; font-size:12px; display:inline-block; font-weight:700;">📞 Call</a>` : '';
 
     html+=`<div class="card" onclick="openProfile(${i})">
       <div>
-        <b style="font-size:16px;">${c.name}</b><br>
-        <span style="font-size:13px; font-weight:700; color:${bal > 0 ? 'var(--danger)' : 'var(--success)'}">Balance: ₹${bal}</span>
+        <b style="font-size:15px;">${c.name}</b><br>
+        <span style="font-size:12px; font-weight:700; color:${bal > 0 ? 'var(--danger)' : 'var(--success)'}">Balance: ₹${bal}</span>
       </div>
       <div>${callBtnHtml}</div>
     </div>`;
@@ -1991,17 +1929,17 @@ function openProfile(i){
   let balance=total-paid;
 
   let html=`
-    <div style="background:var(--card-bg); padding:16px; border-radius:var(--radius); margin-bottom:16px; border:1px solid var(--border);">
+    <div style="background:var(--card-bg); padding:14px; border-radius:12px; margin-bottom:14px; border:1px solid var(--border);">
       <div style="display:flex; justify-content:space-between; align-items:center;">
-        <h3 style="margin:0;">👤 ${c.name}</h3>
-        <button onclick="closeProfile()" style="background:var(--text-muted); width:auto; padding:4px 10px; font-size:12px; margin:0;">✕ Close</button>
+        <h3 style="margin:0; font-size:16px;">👤 ${c.name}</h3>
+        <button onclick="closeProfile()" style="background:var(--text-muted); width:auto; padding:3px 8px; font-size:11px; margin:0;">✕ Close</button>
       </div>
-      <p style="color:var(--text-muted); margin:4px 0 12px 0;">Mobile: ${c.mobile || 'N/A'}</p>
+      <p style="color:var(--text-muted); margin:4px 0 10px 0; font-size:12px;">Mobile: ${c.mobile || 'N/A'}</p>
       
-      <div style="display:grid; grid-template-columns: repeat(3, 1fr); gap:8px; margin-bottom:12px; text-align:center;">
-        <div style="background:var(--bg); padding:8px; border-radius:8px; border:1px solid var(--border);"><small style="color:var(--text-muted)">Total</small><br><b>₹${total}</b></div>
-        <div style="background:var(--bg); padding:8px; border-radius:8px; border:1px solid var(--border);"><small style="color:var(--text-muted)">Paid</small><br><b style="color:var(--success)">₹${paid}</b></div>
-        <div style="background:var(--bg); padding:8px; border-radius:8px; border:1px solid var(--border);"><small style="color:var(--text-muted)">Unpaid</small><br><b style="color:var(--danger)">₹${balance}</b></div>
+      <div style="display:grid; grid-template-columns: repeat(3, 1fr); gap:6px; margin-bottom:10px; text-align:center;">
+        <div style="background:var(--bg); padding:6px; border-radius:6px; border:1px solid var(--border);"><small style="color:var(--text-muted); font-size:9px;">Total</small><br><b>₹${total}</b></div>
+        <div style="background:var(--bg); padding:6px; border-radius:6px; border:1px solid var(--border);"><small style="color:var(--text-muted); font-size:9px;">Paid</small><br><b style="color:var(--success)">₹${paid}</b></div>
+        <div style="background:var(--bg); padding:6px; border-radius:6px; border:1px solid var(--border);"><small style="color:var(--text-muted); font-size:9px;">Unpaid</small><br><b style="color:var(--danger)">₹${balance}</b></div>
       </div>
 
       <input id="amt" type="number" placeholder="Enter Amount (₹)">
@@ -2014,14 +1952,14 @@ function openProfile(i){
         <button class="smallbtn btn-danger" onclick="deleteCustomer()">Delete</button>
       </div>
 
-      <select id="filter" onchange="openProfile(${i})" style="margin-top:12px;">
+      <select id="filter" onchange="openProfile(${i})" style="margin-top:10px;">
         <option value="all">Filter: All Transactions</option>
         <option value="today">Today</option>
         <option value="week">Last Week</option>
         <option value="month">Last Month</option>
       </select>
 
-      <h4>Transaction History</h4>
+      <h4 style="font-size:13px; margin-top:10px;">Transaction History</h4>
       <div class="table-wrapper">
         <table>
           <tr><th>Date & Time</th><th>Type</th><th>Amount</th></tr>
@@ -2038,8 +1976,8 @@ function openProfile(i){
     if(show){
       let badgeColor = t.type=="credit" ? "var(--danger)" : "var(--success)";
       html+=`<tr>
-        <td style="font-size:12px; color:var(--text-muted);">${t.date}</td>
-        <td><span style="color:${badgeColor}; font-weight:700; text-transform:uppercase; font-size:11px;">${t.type}</span></td>
+        <td style="font-size:11px; color:var(--text-muted);">${t.date}</td>
+        <td><span style="color:${badgeColor}; font-weight:700; text-transform:uppercase; font-size:10px;">${t.type}</span></td>
         <td><b>₹${t.amount}</b></td>
       </tr>`;
     }
@@ -2095,7 +2033,7 @@ function printData(){
     <html><head><style>
     body{font-family:'Plus Jakarta Sans',sans-serif;padding:15px;text-align:center;}
     table{width:100%;border-collapse:collapse;margin-top:15px;}
-    td,th{border:1px solid #ccc;padding:8px;text-align:center;font-size:13px;}
+    td,th{border:1px solid #ccc;padding:8px;text-align:center;font-size:12px;}
     th{background:#f3f4f6;}
     </style></head><body>
     <h2>${shopName}</h2>
@@ -2114,7 +2052,7 @@ function printData(){
     <tr><td colspan="2"><b>Total Udhaar</b></td><td><b>₹${total}</b></td></tr>
     <tr><td colspan="2">Total Paid</td><td>₹${paid}</td></tr>
     <tr><td colspan="2"><b>Net Balance Due</b></td><td><b style="color:red">₹${balance}</b></td></tr>
-    </table><br><br><p style="text-align:right; margin-top:40px;">Authorized Signature: ______</p>
+    </table><br><br><p style="text-align:right; margin-top:30px;">Authorized Signature: ______</p>
     </body></html>
   `);
   win.document.close();
