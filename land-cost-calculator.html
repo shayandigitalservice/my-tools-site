@@ -210,31 +210,22 @@ body {
     gap: 16px;
 }
 
-/* Collapsible Box */
-.collapsible-card {
+/* Permanent Fixed Card (Without arrow/collapse) */
+.settings-card {
     background: var(--bg);
     border: 1px solid var(--border);
     border-radius: var(--radius);
-    overflow: hidden;
-    transition: all 0.3s ease;
+    padding: 18px;
 }
-.collapsible-header {
-    padding: 16px 18px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    cursor: pointer;
+.settings-card-title {
     font-size: 14px;
     font-weight: 800;
     color: var(--text);
-    user-select: none;
+    margin-bottom: 14px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
 }
-.collapsible-header:hover { background: var(--primary-light); }
-.collapsible-body { 
-    padding: 14px 18px 18px 18px; 
-    display: block; 
-}
-.collapsible-body.collapsed { display: none; }
 
 /* Floating Bottom Navbar */
 .app-navbar {
@@ -637,7 +628,7 @@ tr:hover td { background-color: var(--primary-light); }
     <button class="nav-btn" onclick="switchTab('udhaarTab', this)"><i class="fa-solid fa-book-open"></i><span>Udhaar</span></button>
 </div>
 
-<!-- SETTINGS DRAWER CLEANED UP -->
+<!-- SETTINGS DRAWER FULLY EXPANDED WITHOUT ARROW & SMALL TOGGLE BUTTON -->
 <div id="settingsDrawerOverlay" class="settings-drawer-overlay" onclick="handleDrawerOutsideClick(event)">
     <div class="settings-drawer">
         <div class="drawer-header">
@@ -646,39 +637,37 @@ tr:hover td { background-color: var(--primary-light); }
         </div>
 
         <div class="drawer-scroll-body">
-            <!-- Shop Setup Card -->
-            <div class="collapsible-card">
-                <div class="collapsible-header" onclick="toggleCollapsible(this)">
-                    <span><i class="fa-solid fa-store" style="color:var(--primary); margin-right:8px;"></i> Shop, GSTIN & UPI Setup</span>
-                    <i class="fa-solid fa-chevron-down" style="transition: transform 0.3s;"></i>
+            <!-- Shop Setup Card (Directly Open & Full Interface) -->
+            <div class="settings-card">
+                <div class="settings-card-title">
+                    <i class="fa-solid fa-store" style="color:var(--primary);"></i> Shop, GSTIN & UPI Setup
                 </div>
-                <div class="collapsible-body">
-                    <label>Shop Name</label>
-                    <input id="shop" placeholder="e.g. Shayan Market">
 
-                    <label>Phone Number</label>
-                    <input id="phone" placeholder="e.g. 9876543210">
+                <label>Shop Name</label>
+                <input id="shop" placeholder="e.g. Shayan Market">
 
-                    <label>Shop Address</label>
-                    <input id="address" placeholder="Full shop address">
+                <label>Phone Number</label>
+                <input id="phone" placeholder="e.g. 9876543210">
 
-                    <label>GSTIN Number (Optional)</label>
-                    <input id="gstin" placeholder="GSTIN number">
+                <label>Shop Address</label>
+                <input id="address" placeholder="Full shop address">
 
-                    <label>UPI ID for QR</label>
-                    <input id="upiId" placeholder="e.g. name@paytm">
+                <label>GSTIN Number (Optional)</label>
+                <input id="gstin" placeholder="GSTIN number">
 
-                    <button id="saveShopBtn" class="btn-blue" style="margin-top: 10px;" onclick="saveShopDetailsDirect()"><i class="fa-solid fa-floppy-disk"></i> Save Shop Details</button>
-                </div>
+                <label>UPI ID for QR</label>
+                <input id="upiId" placeholder="e.g. name@paytm">
+
+                <button id="saveShopBtn" class="btn-blue" style="margin-top: 10px;" onclick="saveShopDetailsDirect()"><i class="fa-solid fa-floppy-disk"></i> Save Shop Details</button>
             </div>
 
-            <!-- Dark Mode Toggle -->
-            <div style="background:var(--bg); padding:16px; border-radius:var(--radius); border:1px solid var(--border); display:flex; justify-content:space-between; align-items:center; margin-bottom: 20px;">
+            <!-- Dark Mode Toggle (Smaller Button) -->
+            <div style="background:var(--bg); padding:14px 18px; border-radius:var(--radius); border:1px solid var(--border); display:flex; justify-content:space-between; align-items:center; margin-bottom: 20px;">
                 <div>
-                    <div style="font-size:14px; font-weight:900; color:var(--text);"><i class="fa-solid fa-moon" style="color:var(--primary); margin-right:6px;"></i> Dark Mode Theme</div>
-                    <p style="font-size:11px; color:var(--text-muted); font-weight:700;">Switch light/dark interface.</p>
+                    <div style="font-size:13px; font-weight:900; color:var(--text);"><i class="fa-solid fa-moon" style="color:var(--primary); margin-right:6px;"></i> Dark Mode Theme</div>
+                    <p style="font-size:10px; color:var(--text-muted); font-weight:700;">Switch light/dark interface.</p>
                 </div>
-                <button class="btn-blue" style="width:auto; padding:10px 18px;" onclick="toggleDarkMode()"><i class="fa-solid fa-circle-half-stroke"></i> Toggle</button>
+                <button class="btn-blue" style="width:auto; padding:8px 14px; font-size:12px; border-radius:10px;" onclick="toggleDarkMode()"><i class="fa-solid fa-circle-half-stroke"></i> Toggle</button>
             </div>
         </div>
     </div>
@@ -769,7 +758,7 @@ tr:hover td { background-color: var(--primary-light); }
     <div id="bill" class="bill"></div>
 </div>
 
-<!-- TAB 2: STOCK (Stock Backup Added Here) -->
+<!-- TAB 2: STOCK -->
 <div id="stockTab" class="app-tab-content">
     <div class="section-title"><i class="fa-solid fa-boxes-stacked"></i> Inventory & Stock Management</div>
 
@@ -803,7 +792,7 @@ tr:hover td { background-color: var(--primary-light); }
     <input type="file" id="importStockFileInput" accept=".json" style="display:none" onchange="importStockOnly(event)">
 </div>
 
-<!-- TAB 3: HISTORY (Sales Backup Added Here) -->
+<!-- TAB 3: HISTORY -->
 <div id="historyTab" class="app-tab-content">
     <div class="section-title"><i class="fa-solid fa-clock-rotate-left"></i> Sales History & Management</div>
 
@@ -829,7 +818,6 @@ tr:hover td { background-color: var(--primary-light); }
             </table>
         </div>
         
-        <!-- Sales Backup & Management Options -->
         <div class="grid-3" style="margin-top:18px;">
             <button id="downloadHistoryBtn" class="btn-blue" style="background:var(--text-muted);"><i class="fa-solid fa-file-excel"></i> Export Sales Excel</button>
             <button class="btn-blue" style="background:#059669;" onclick="exportSalesHistoryOnly()"><i class="fa-solid fa-file-export"></i> Sales Backup JSON</button>
@@ -976,13 +964,6 @@ function toggleSettingsDrawer(open) {
 function handleDrawerOutsideClick(event) {
     const overlay = document.getElementById("settingsDrawerOverlay");
     if(event.target === overlay) toggleSettingsDrawer(false);
-}
-
-function toggleCollapsible(headerElement) {
-    const body = headerElement.nextElementSibling;
-    const icon = headerElement.querySelector('.fa-chevron-down');
-    body.classList.toggle('collapsed');
-    icon.style.transform = body.classList.contains('collapsed') ? "rotate(-90deg)" : "rotate(0deg)";
 }
 
 function switchTab(tabId, btnElement) {
