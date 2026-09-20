@@ -27,13 +27,12 @@
 
 <style>
 /* ==========================================
-   ULTRA PREMIUM MARKET-LEVEL BILLING SYSTEM
+   ULTRA PROFESSIONAL MARKET-LEVEL BILLING (V10)
    ========================================== */
 :root {
     --primary: #2563eb;
     --primary-hover: #1d4ed8;
     --primary-light: rgba(37, 99, 235, 0.08);
-    --accent: #2563eb;
     --secondary: #0f172a;
     --bg: #f8fafc;
     --card-bg: #ffffff;
@@ -47,14 +46,13 @@
     --shadow-sm: 0 4px 20px rgba(37, 99, 235, 0.06);
     --shadow-md: 0 12px 30px -5px rgba(37, 99, 235, 0.12);
     --shadow-lg: 0 25px 50px -12px rgba(15, 23, 42, 0.18);
-    --radius: 18px;
+    --radius: 16px;
 }
 
 [data-theme="dark"] {
     --primary: #3b82f6;
     --primary-hover: #2563eb;
     --primary-light: rgba(59, 130, 246, 0.15);
-    --accent: #3b82f6;
     --secondary: #f8fafc;
     --bg: #030712;
     --card-bg: #0f172a;
@@ -72,7 +70,7 @@ body {
     font-family: 'Plus Jakarta Sans', sans-serif; 
     background: var(--bg); 
     color: var(--text); 
-    padding: 16px 12px 110px 12px;
+    padding: 80px 14px 120px 14px;
     line-height: 1.5;
     transition: background 0.3s ease, color 0.3s ease;
     min-height: 100vh;
@@ -80,15 +78,28 @@ body {
     flex-direction: column;
 }
 
-/* Top Bar: Normal Flow (Scrolls up) with Billing Logo & Shop Name */
+/* Sticky Top Bar: Fixed on screen during scroll */
 .app-top-bar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    background: var(--card-bg);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+    z-index: 1400;
+    padding: 10px 16px;
+    box-shadow: var(--shadow-sm);
+}
+
+.app-top-bar-inner {
     display: flex;
     align-items: center;
     justify-content: space-between;
     max-width: 1000px;
-    margin: 0 auto 16px auto;
+    margin: 0 auto;
     width: 100%;
-    padding: 6px 4px;
 }
 
 .shop-identity {
@@ -98,30 +109,35 @@ body {
 }
 
 .shop-logo {
-    width: 42px;
-    height: 42px;
+    width: 40px;
+    height: 40px;
     border-radius: 12px;
-    background: linear-gradient(135deg, var(--primary), var(--primary-hover));
-    color: #fff;
+    overflow: hidden;
+    background: var(--primary);
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 20px;
     box-shadow: var(--shadow-sm);
+}
+
+.shop-logo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
 }
 
 .shop-welcome-text {
     font-size: 16px;
-    font-weight: 900;
+    font-weight: 800;
     color: var(--text);
-    letter-spacing: -0.4px;
+    letter-spacing: -0.3px;
 }
 
-/* Hero Section Banner with Custom Image Upload & Slider */
+/* Hero Section Banner with GitHub Image Slider */
 .hero-slider-container {
     width: 100%;
     max-width: 1000px;
-    margin: 0 auto 20px auto;
+    margin: 0 auto 24px auto;
     border-radius: 20px;
     overflow: hidden;
     position: relative;
@@ -155,38 +171,19 @@ body {
     to { opacity: 1; }
 }
 
-.banner-upload-btn {
-    position: absolute;
-    bottom: 12px;
-    right: 12px;
-    background: rgba(15, 23, 42, 0.75);
-    backdrop-filter: blur(4px);
-    color: #fff;
-    border: 1px solid rgba(255,255,255,0.2);
-    padding: 6px 12px;
-    border-radius: 10px;
-    font-size: 11px;
-    font-weight: 800;
-    cursor: pointer;
-    z-index: 10;
-    transition: 0.2s;
-}
-.banner-upload-btn:hover { background: var(--primary); }
-
-/* Settings Menu Button */
+/* Settings Menu Button (3 Lines) */
 .menu-toggle-btn {
-    background: var(--card-bg);
+    background: var(--bg);
     border: 1px solid var(--border);
     color: var(--text);
-    width: 42px;
-    height: 42px;
+    width: 40px;
+    height: 40px;
     border-radius: 12px;
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
     font-size: 18px;
-    box-shadow: var(--shadow-sm);
     transition: all 0.25s ease;
 }
 .menu-toggle-btn:hover {
@@ -200,8 +197,8 @@ body {
     display: none;
     position: fixed;
     top: 0; left: 0; width: 100%; height: 100%;
-    background: rgba(3, 7, 18, 0.6);
-    backdrop-filter: blur(6px);
+    background: rgba(3, 7, 18, 0.65);
+    backdrop-filter: blur(8px);
     z-index: 2000;
     justify-content: flex-end;
 }
@@ -212,7 +209,7 @@ body {
     height: 100vh;
     display: flex;
     flex-direction: column;
-    box-shadow: -20px 0 40px rgba(0,0,0,0.3);
+    box-shadow: -25px 0 50px rgba(0,0,0,0.35);
     animation: slideInRight 0.3s cubic-bezier(0.16, 1, 0.3, 1);
     position: absolute;
     right: 0;
@@ -266,20 +263,20 @@ body {
     flex: 1;
     display: flex;
     flex-direction: column;
-    gap: 14px;
+    gap: 16px;
 }
 
 .settings-card {
-    background: transparent;
-    border: none;
-    padding: 0;
-    margin-bottom: 12px;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 16px;
 }
 .settings-card-title {
     font-size: 13px;
     font-weight: 800;
     color: var(--text);
-    margin-bottom: 10px;
+    margin-bottom: 12px;
     display: flex;
     align-items: center;
     gap: 8px;
@@ -348,16 +345,16 @@ label {
     font-size: 11px;
     font-weight: 800;
     color: var(--text-muted);
-    margin-bottom: 5px;
+    margin-bottom: 6px;
     text-transform: uppercase;
     letter-spacing: 0.5px;
 }
 
 input, select { 
     width: 100%; 
-    padding: 12px 16px; 
-    margin-bottom: 12px; 
-    border-radius: 12px; 
+    padding: 13px 16px; 
+    margin-bottom: 14px; 
+    border-radius: 14px; 
     border: 1px solid var(--border); 
     font-size: 13px; 
     font-family: 'Plus Jakarta Sans', sans-serif;
@@ -368,30 +365,30 @@ input, select {
 }
 input:focus, select:focus {
     border-color: var(--primary);
-    box-shadow: 0 0 0 3px var(--primary-light);
+    box-shadow: 0 0 0 4px var(--primary-light);
 }
 
 .section-title {
-    font-size: 18px;
+    font-size: 20px;
     font-weight: 900;
     color: var(--text);
-    margin-bottom: 18px;
+    margin-bottom: 20px;
     display: flex;
     align-items: center;
     gap: 10px;
     border-bottom: 2px solid var(--border);
-    padding-bottom: 10px;
+    padding-bottom: 12px;
 }
 
-/* Professional Buttons */
+/* High-End Professional Buttons */
 .btn-blue { 
     width: 100%; 
-    padding: 14px 18px; 
-    border-radius: 12px; 
+    padding: 15px 20px; 
+    border-radius: 14px; 
     border: none; 
     background: var(--primary); 
     color: white; 
-    font-size: 14px; 
+    font-size: 15px; 
     font-weight: 800; 
     cursor: pointer; 
     transition: all 0.25s ease; 
@@ -399,19 +396,20 @@ input:focus, select:focus {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    gap: 8px;
+    gap: 10px;
     box-shadow: var(--shadow-sm);
 }
-.btn-blue:hover { background: var(--primary-hover); transform: translateY(-1px); box-shadow: var(--shadow-md); }
+.btn-blue:hover { background: var(--primary-hover); transform: translateY(-2px); box-shadow: var(--shadow-md); }
 
 /* Tables */
 .table-wrapper { 
     overflow-x: auto; 
     width: 100%; 
-    margin: 16px 0; 
-    border-radius: 12px; 
+    margin: 18px 0; 
+    border-radius: 14px; 
     border: 1px solid var(--border);
     background: var(--card-bg);
+    box-shadow: var(--shadow-sm);
 }
 table { width: 100%; border-collapse: collapse; white-space: nowrap; }
 th { 
@@ -419,15 +417,15 @@ th {
     font-weight: 900; 
     color: var(--text-muted); 
     text-transform: uppercase; 
-    font-size: 10px; 
-    letter-spacing: 0.5px;
-    padding: 12px;
+    font-size: 11px; 
+    letter-spacing: 0.6px;
+    padding: 14px;
     border-bottom: 1px solid var(--border);
     text-align: left;
 }
 td { 
-    padding: 12px; 
-    font-size: 12px; 
+    padding: 14px; 
+    font-size: 13px; 
     border-bottom: 1px solid var(--border);
     color: var(--text);
     font-weight: 600;
@@ -440,78 +438,79 @@ tr:hover td { background-color: var(--primary-light); }
 
 /* Grand Total Box */
 .current-total-box {
-    background: var(--secondary);
-    border-radius: 14px;
-    padding: 20px;
-    margin: 18px 0;
+    background: linear-gradient(135deg, var(--secondary) 0%, #1e293b 100%);
+    border-radius: 16px;
+    padding: 22px;
+    margin: 20px 0;
     text-align: center;
     color: #ffffff;
     box-shadow: var(--shadow-md);
 }
-.current-total-box .sub-info { font-size: 11px; color: #94a3b8; margin-bottom: 6px; font-weight: 700; }
-.current-total-box .grand-total-title { font-size: 26px; font-weight: 900; color: #3b82f6; }
+.current-total-box .sub-info { font-size: 12px; color: #94a3b8; margin-bottom: 6px; font-weight: 700; }
+.current-total-box .grand-total-title { font-size: 28px; font-weight: 900; color: #3b82f6; }
 
-.grid-2 { display: grid; grid-template-columns: 1fr; gap: 12px; }
-.grid-3 { display: grid; grid-template-columns: 1fr; gap: 12px; }
-.tax-discount-grid { display: grid; grid-template-columns: 1fr; gap: 12px; }
-.btn-group-row { display: flex; flex-direction: column; gap: 12px; margin-top: 14px; }
+.grid-2 { display: grid; grid-template-columns: 1fr; gap: 14px; }
+.grid-3 { display: grid; grid-template-columns: 1fr; gap: 14px; }
+.tax-discount-grid { display: grid; grid-template-columns: 1fr; gap: 14px; }
+.btn-group-row { display: flex; flex-direction: column; gap: 14px; margin-top: 16px; }
 
-.sale-summary { display: grid; grid-template-columns: 1fr; gap: 12px; margin: 12px 0 20px 0; }
+.sale-summary { display: grid; grid-template-columns: 1fr; gap: 14px; margin: 14px 0 22px 0; }
 .sale-card { 
     background: var(--card-bg); 
-    padding: 18px; 
-    border-radius: 12px; 
+    padding: 20px; 
+    border-radius: 16px; 
     border: 1px solid var(--border); 
     box-shadow: var(--shadow-sm);
 }
-.sale-card span { display: block; font-size: 10px; color: var(--text-muted); font-weight: 800; text-transform: uppercase; }
-.sale-card b { font-size: 22px; color: var(--text); margin-top: 4px; display: block; font-weight: 900; }
+.sale-card span { display: block; font-size: 11px; color: var(--text-muted); font-weight: 800; text-transform: uppercase; }
+.sale-card b { font-size: 24px; color: var(--text); margin-top: 6px; display: block; font-weight: 900; }
 
 .btn-action {
     border: none;
-    padding: 6px 10px;
-    border-radius: 8px;
+    padding: 7px 12px;
+    border-radius: 10px;
     cursor: pointer;
-    font-size: 11px;
+    font-size: 12px;
     color: white;
     margin: 2px;
+    box-shadow: var(--shadow-sm);
 }
 .btn-del { background: var(--danger); }
 .btn-edit { background: var(--warning); }
 
 /* Invoice Slip */
 .bill { 
-    margin-top: 24px; 
-    padding: 24px; 
-    border-radius: 16px; 
+    margin-top: 28px; 
+    padding: 28px; 
+    border-radius: 18px; 
     background: #ffffff; 
     border: 1px solid var(--border);
-    box-shadow: var(--shadow-md);
+    box-shadow: var(--shadow-lg);
     color: #0f172a;
 }
 .invoice-card-header {
     border-bottom: 2px dashed #cbd5e1;
-    padding-bottom: 16px;
-    margin-bottom: 16px;
+    padding-bottom: 18px;
+    margin-bottom: 18px;
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
     flex-wrap: wrap;
-    gap: 12px;
+    gap: 14px;
 }
-.shop-brand h3 { margin: 0 0 3px 0; font-size: 22px; font-weight: 900; color: #0f172a; }
+.shop-brand h3 { margin: 0 0 4px 0; font-size: 24px; font-weight: 900; color: #0f172a; }
 .shop-brand p { margin: 2px 0; font-size: 11px; color: #475569; font-weight: 700; }
 
 .inv-meta-badge {
     text-align: right;
     background: #f8fafc;
     border: 1px solid #e2e8f0;
-    padding: 10px 14px;
-    border-radius: 10px;
+    padding: 12px 16px;
+    border-radius: 12px;
     width: 100%;
 }
 .inv-meta-badge .inv-no-title { font-size: 9px; font-weight: 800; color: #64748b; text-transform: uppercase; }
-.inv-meta-badge .inv-number { font-size: 18px; font-weight: 900; color: var(--primary); }
+.inv-meta-badge .inv-number { font-size: 20px; font-weight: 900; color: var(--primary); }
 .inv-meta-badge .inv-date { font-size: 10px; color: #475569; margin-top: 2px; font-weight: 700; }
 
 .customer-info-bar {
@@ -519,51 +518,51 @@ tr:hover td { background-color: var(--primary-light); }
     flex-direction: column;
     gap: 6px;
     background: #f1f5f9;
-    padding: 12px 14px;
-    border-radius: 10px;
-    font-size: 11px;
-    margin-bottom: 16px;
+    padding: 14px 18px;
+    border-radius: 12px;
+    font-size: 12px;
+    margin-bottom: 18px;
     font-weight: 800;
 }
-.bill-table { width: 100%; border-collapse: collapse; margin-top: 10px; }
-.bill-table th { background-color: #0f172a; color: #ffffff; font-weight: 900; font-size: 10px; padding: 10px; text-transform: uppercase; border: none; }
-.bill-table td { border-bottom: 1px solid #e2e8f0; padding: 10px; font-size: 11px; font-weight: 700; }
+.bill-table { width: 100%; border-collapse: collapse; margin-top: 12px; }
+.bill-table th { background-color: #0f172a; color: #ffffff; font-weight: 900; font-size: 11px; padding: 12px; text-transform: uppercase; border: none; }
+.bill-table td { border-bottom: 1px solid #e2e8f0; padding: 12px; font-size: 12px; font-weight: 700; }
 .bill-table td.text-right { text-align: right; }
 .bill-table td.text-center { text-align: center; }
 
-.bill-summary-table { width: 100%; margin-top: 14px; border-collapse: collapse; }
-.bill-summary-table td { padding: 6px; font-size: 11px; border: none; font-weight: 700; }
-.bill-summary-table .grand-row td { font-size: 16px; font-weight: 900; border-top: 2px solid #0f172a; border-bottom: 2px double #0f172a; padding: 8px; }
+.bill-summary-table { width: 100%; margin-top: 16px; border-collapse: collapse; }
+.bill-summary-table td { padding: 8px; font-size: 12px; border: none; font-weight: 700; }
+.bill-summary-table .grand-row td { font-size: 18px; font-weight: 900; border-top: 2px solid #0f172a; border-bottom: 2px double #0f172a; padding: 10px; }
 
-.qr-container { text-align: center; margin-top: 16px; padding-top: 14px; border-top: 2px dashed #cbd5e1; }
-.qr-container p { font-size: 11px; margin: 0 0 8px 0; color: #334155; font-weight: 900; }
-.qr-container img { width: 120px; height: 120px; border-radius: 10px; border: 1px solid #cbd5e1; padding: 4px; background: #fff; }
-.bill-footer-msg { text-align: center; font-size: 10px; color: #64748b; margin-top: 14px; font-weight: 800; }
+.qr-container { text-align: center; margin-top: 18px; padding-top: 16px; border-top: 2px dashed #cbd5e1; }
+.qr-container p { font-size: 11px; margin: 0 0 10px 0; color: #334155; font-weight: 900; }
+.qr-container img { width: 130px; height: 130px; border-radius: 12px; border: 1px solid #cbd5e1; padding: 6px; background: #fff; }
+.bill-footer-msg { text-align: center; font-size: 11px; color: #64748b; margin-top: 16px; font-weight: 800; }
 
 /* Modals */
 .modal-overlay {
     display: none;
     position: fixed;
     top: 0; left: 0; width: 100%; height: 100%;
-    background: rgba(3, 7, 18, 0.6);
-    backdrop-filter: blur(6px);
+    background: rgba(3, 7, 18, 0.65);
+    backdrop-filter: blur(8px);
     z-index: 9999;
     align-items: center; justify-content: center;
     padding: 16px;
 }
 .modal-card {
     background: var(--card-bg);
-    width: 100%; max-width: 400px;
-    border-radius: 16px;
-    padding: 22px;
+    width: 100%; max-width: 420px;
+    border-radius: 18px;
+    padding: 26px;
     box-shadow: var(--shadow-lg);
     border: 1px solid var(--border);
 }
-.modal-header { font-size: 18px; font-weight: 900; color: var(--text); margin-bottom: 14px; border-bottom: 1px solid var(--border); padding-bottom: 10px; }
-.modal-footer { display: flex; gap: 8px; margin-top: 18px; justify-content: flex-end; }
+.modal-header { font-size: 20px; font-weight: 900; color: var(--text); margin-bottom: 16px; border-bottom: 1px solid var(--border); padding-bottom: 12px; }
+.modal-footer { display: flex; gap: 10px; margin-top: 20px; justify-content: flex-end; }
 
 @media screen and (min-width: 768px) {
-    body { padding: 24px 20px 120px 20px; }
+    body { padding: 85px 28px 130px 28px; }
     .grid-2 { grid-template-columns: 1fr 1fr; }
     .grid-3 { grid-template-columns: 1fr 1fr 1fr; }
     .tax-discount-grid { grid-template-columns: 1fr 1fr 1fr; }
@@ -595,28 +594,28 @@ tr:hover td { background-color: var(--primary-light); }
 }
 
 .udhaar-scope { font-family: 'Plus Jakarta Sans', sans-serif; max-width: 1000px; margin: auto; }
-.udhaar-scope h2 { text-align: center; color: var(--udhaar-primary); margin-bottom: 16px; font-size: 22px; font-weight: 800; }
-.udhaar-scope button, .udhaar-scope .file-btn { background: var(--udhaar-primary); color: white; border: none; font-weight: 700; cursor: pointer; text-align: center; border-radius: 10px; padding: 10px 12px; }
-.udhaar-scope .card { background: var(--card-bg); border: 1px solid var(--border); padding: 12px 14px; margin: 8px 0; border-radius: 10px; display: flex; justify-content: space-between; align-items: center; box-shadow: var(--shadow-sm); cursor: pointer; }
-.udhaar-scope .dashboard { background: #eff6ff; border: 1px solid #bfdbfe; padding: 14px; border-radius: 14px; margin-bottom: 16px; display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
-.udhaar-scope .dash-item { background: rgba(255, 255, 255, 0.9); padding: 10px; border-radius: 8px; font-size: 13px; color: #1e293b; }
-.udhaar-scope .dash-item b { display: block; color: #64748b; font-size: 9px; text-transform: uppercase; margin-bottom: 2px; }
-.udhaar-scope .dash-item span { font-size: 16px; font-weight: 800; color: #1e293b; }
-.udhaar-scope .filter-tabs { display: flex; gap: 6px; margin: 10px 0; }
-.udhaar-scope .filter-tab { flex: 1; padding: 8px 6px; font-size: 11px; font-weight: 700; border: 1px solid var(--border); background: var(--bg); color: var(--text); border-radius: 8px; cursor: pointer; text-align: center; }
+.udhaar-scope h2 { text-align: center; color: var(--udhaar-primary); margin-bottom: 18px; font-size: 24px; font-weight: 800; }
+.udhaar-scope button, .udhaar-scope .file-btn { background: var(--udhaar-primary); color: white; border: none; font-weight: 700; cursor: pointer; text-align: center; border-radius: 12px; padding: 12px 14px; }
+.udhaar-scope .card { background: var(--card-bg); border: 1px solid var(--border); padding: 14px 16px; margin: 10px 0; border-radius: 12px; display: flex; justify-content: space-between; align-items: center; box-shadow: var(--shadow-sm); cursor: pointer; }
+.udhaar-scope .dashboard { background: #eff6ff; border: 1px solid #bfdbfe; padding: 16px; border-radius: 16px; margin-bottom: 20px; display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
+.udhaar-scope .dash-item { background: rgba(255, 255, 255, 0.9); padding: 12px; border-radius: 10px; font-size: 14px; color: #1e293b; }
+.udhaar-scope .dash-item b { display: block; color: #64748b; font-size: 10px; text-transform: uppercase; margin-bottom: 2px; }
+.udhaar-scope .dash-item span { font-size: 18px; font-weight: 800; color: #1e293b; }
+.udhaar-scope .filter-tabs { display: flex; gap: 6px; margin: 12px 0; }
+.udhaar-scope .filter-tab { flex: 1; padding: 10px 6px; font-size: 12px; font-weight: 700; border: 1px solid var(--border); background: var(--bg); color: var(--text); border-radius: 10px; cursor: pointer; text-align: center; }
 .udhaar-scope .filter-tab.active { background: var(--udhaar-primary); color: white; border-color: var(--udhaar-primary); }
-.udhaar-scope .analytics-box { background: var(--card-bg); border: 1px solid var(--border); padding: 16px; border-radius: 14px; margin-top: 20px; margin-bottom: 16px; }
-.udhaar-scope .analytics-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 10px; }
-.udhaar-scope .analytics-card { background: var(--bg); padding: 10px; border-radius: 8px; border: 1px solid var(--border); text-align: center; }
-.udhaar-scope .analytics-card b { display: block; color: var(--text-muted); font-size: 9px; text-transform: uppercase; margin-bottom: 4px; }
-.udhaar-scope .graph-container { margin-top: 14px; background: var(--bg); padding: 14px; border-radius: 8px; border: 1px solid var(--border); }
-.udhaar-scope .bar-group { margin-bottom: 10px; }
-.udhaar-scope .bar-label { display: flex; justify-content: space-between; font-size: 11px; font-weight: 700; margin-bottom: 3px; }
-.udhaar-scope .bar-track { background: var(--border); border-radius: 4px; height: 8px; width: 100%; overflow: hidden; display: flex; }
+.udhaar-scope .analytics-box { background: var(--card-bg); border: 1px solid var(--border); padding: 18px; border-radius: 16px; margin-top: 25px; margin-bottom: 20px; }
+.udhaar-scope .analytics-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 12px; }
+.udhaar-scope .analytics-card { background: var(--bg); padding: 12px; border-radius: 10px; border: 1px solid var(--border); text-align: center; }
+.udhaar-scope .analytics-card b { display: block; color: var(--text-muted); font-size: 10px; text-transform: uppercase; margin-bottom: 6px; }
+.udhaar-scope .graph-container { margin-top: 16px; background: var(--bg); padding: 16px; border-radius: 10px; border: 1px solid var(--border); }
+.udhaar-scope .bar-group { margin-bottom: 12px; }
+.udhaar-scope .bar-label { display: flex; justify-content: space-between; font-size: 12px; font-weight: 700; margin-bottom: 4px; }
+.udhaar-scope .bar-track { background: var(--border); border-radius: 6px; height: 10px; width: 100%; overflow: hidden; display: flex; }
 .udhaar-scope .bar-fill-out { background: var(--udhaar-danger); height: 100%; transition: width 0.4s ease; }
 .udhaar-scope .bar-fill-in { background: var(--udhaar-success); height: 100%; transition: width 0.4s ease; }
-.udhaar-scope .centered { display: flex; justify-content: center; gap: 6px; flex-wrap: wrap; }
-.udhaar-scope button.smallbtn { padding: 10px 12px; font-size: 13px; flex: 1; min-width: 90px; }
+.udhaar-scope .centered { display: flex; justify-content: center; gap: 8px; flex-wrap: wrap; }
+.udhaar-scope button.smallbtn { padding: 12px 14px; font-size: 14px; flex: 1; min-width: 100px; }
 .udhaar-scope .btn-danger { background: var(--udhaar-danger) !important; }
 
 @media(min-width: 768px) { .udhaar-scope .dashboard { grid-template-columns: repeat(4, 1fr); } }
@@ -624,9 +623,9 @@ tr:hover td { background-color: var(--primary-light); }
 
 .app-footer {
     text-align: center;
-    padding: 30px 10px 15px 10px;
+    padding: 35px 10px 15px 10px;
     margin-top: auto;
-    font-size: 11px;
+    font-size: 12px;
     color: var(--text-muted);
     font-weight: 800;
 }
@@ -634,31 +633,33 @@ tr:hover td { background-color: var(--primary-light); }
 </head>
 <body>
 
-<!-- TOP BAR: BILLING LOGO, SHOP NAME & SETTINGS BUTTON -->
+<!-- STICKY TOP BAR: FIXED DURING SCROLL WITH LOGO, SHOP NAME & 3-LINE MENU -->
 <div class="app-top-bar">
-    <div class="shop-identity">
-        <div class="shop-logo" id="shopLogoContainer">
-            <i class="fa-solid fa-receipt" id="defaultLogoIcon"></i>
-            <img id="customLogoImg" src="" alt="Logo" style="width:100%; height:100%; object-fit:cover; border-radius:12px; display:none;">
+    <div class="app-top-bar-inner">
+        <div class="shop-identity">
+            <div class="shop-logo">
+                <!-- GitHub par "logo.png" naam se image upload karein -->
+                <img src="logo.png" alt="Logo" onerror="this.style.display='none'; document.getElementById('fallbackIcon').style.display='block';">
+                <i class="fa-solid fa-file-invoice-dollar" id="fallbackIcon" style="display:none; color:#fff; font-size:18px;"></i>
+            </div>
+            <div id="shopWelcomeTitle" class="shop-welcome-text">Hii Shayan Smart Billing</div>
         </div>
-        <div id="shopWelcomeTitle" class="shop-welcome-text">Hii Shayan Smart Billing</div>
+        <button class="menu-toggle-btn" onclick="toggleSettingsDrawer(true)" title="Settings"><i class="fa-solid fa-bars"></i></button>
     </div>
-    <button class="menu-toggle-btn" onclick="toggleSettingsDrawer(true)" title="Settings"><i class="fa-solid fa-bars"></i></button>
 </div>
 
-<!-- HERO SECTION BANNER WITH 3 BILLING IMAGE SLIDER & UPLOAD -->
+<!-- HERO SECTION BANNER WITH 3 GITHUB IMAGES SLIDER -->
 <div class="hero-slider-container">
     <div class="hero-slide active">
-        <img id="slideImg0" src="https://images.unsplash.com/photo-1556742049-0a67d55362ec?auto=format&fit=crop&w=1000&q=80" alt="Billing 1">
+        <!-- GitHub par banner1.jpg, banner2.jpg, banner3.jpg upload karein -->
+        <img src="banner1.jpg" alt="Banner 1" onerror="this.src='https://images.unsplash.com/photo-1556742049-0a67d55362ec?auto=format&fit=crop&w=1000&q=80'">
     </div>
     <div class="hero-slide">
-        <img id="slideImg1" src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=1000&q=80" alt="Billing 2">
+        <img src="banner2.jpg" alt="Banner 2" onerror="this.src='https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=1000&q=80'">
     </div>
     <div class="hero-slide">
-        <img id="slideImg2" src="https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?auto=format&fit=crop&w=1000&q=80" alt="Billing 3">
+        <img src="banner3.jpg" alt="Banner 3" onerror="this.src='https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?auto=format&fit=crop&w=1000&q=80'">
     </div>
-    <button class="banner-upload-btn" onclick="document.getElementById('bannerImageInput').click()"><i class="fa-solid fa-camera"></i> Change Banner</button>
-    <input type="file" id="bannerImageInput" accept="image/*" style="display:none" onchange="handleBannerUpload(event)">
 </div>
 
 <!-- NAVIGATION BAR -->
@@ -686,9 +687,6 @@ tr:hover td { background-color: var(--primary-light); }
                 <label>Shop Name</label>
                 <input id="shop" placeholder="e.g. Shayan Market">
 
-                <label>Upload Billing Logo</label>
-                <input type="file" id="logoImageInput" accept="image/*" onchange="handleLogoUpload(event)">
-
                 <label>Phone Number</label>
                 <input id="phone" placeholder="e.g. 9876543210">
 
@@ -704,12 +702,12 @@ tr:hover td { background-color: var(--primary-light); }
                 <button id="saveShopBtn" class="btn-blue" style="margin-top: 10px;" onclick="saveShopDetailsDirect()"><i class="fa-solid fa-floppy-disk"></i> Save Shop Details</button>
             </div>
 
-            <div style="background:var(--bg); padding:14px; border-radius:12px; border:1px solid var(--border); display:flex; justify-content:space-between; align-items:center;">
+            <div style="background:var(--bg); padding:16px; border-radius:14px; border:1px solid var(--border); display:flex; justify-content:space-between; align-items:center;">
                 <div>
-                    <div style="font-size:12px; font-weight:800; color:var(--text);"><i class="fa-solid fa-moon" style="color:var(--primary); margin-right:6px;"></i> Dark Mode Theme</div>
+                    <div style="font-size:13px; font-weight:800; color:var(--text);"><i class="fa-solid fa-moon" style="color:var(--primary); margin-right:6px;"></i> Dark Mode Theme</div>
                     <p style="font-size:10px; color:var(--text-muted); font-weight:700;">Switch light/dark interface.</p>
                 </div>
-                <button class="btn-blue" style="width:auto; padding:8px 12px; font-size:11px; border-radius:8px;" onclick="toggleDarkMode()"><i class="fa-solid fa-circle-half-stroke"></i> Toggle</button>
+                <button class="btn-blue" style="width:auto; padding:8px 12px; font-size:11px; border-radius:10px;" onclick="toggleDarkMode()"><i class="fa-solid fa-circle-half-stroke"></i> Toggle</button>
             </div>
         </div>
     </div>
@@ -780,7 +778,7 @@ tr:hover td { background-color: var(--primary-light); }
         </div>
     </div>
 
-    <button id="generateBillBtn" class="btn-blue" style="font-size:15px; padding:16px; margin-top:12px;"><i class="fa-solid fa-bolt"></i> Generate Bill Invoice</button>
+    <button id="generateBillBtn" class="btn-blue" style="font-size:15px; padding:16px; margin-top:14px;"><i class="fa-solid fa-bolt"></i> Generate Bill Invoice</button>
     
     <div class="btn-group-row">
         <select id="printMode" style="flex:1; margin-bottom:0;">
@@ -821,7 +819,7 @@ tr:hover td { background-color: var(--primary-light); }
         </table>
     </div>
 
-    <div class="grid-2" style="margin-top:14px;">
+    <div class="grid-2" style="margin-top:16px;">
         <button id="downloadStockBtn" class="btn-blue" style="background:var(--text-muted);"><i class="fa-solid fa-file-csv"></i> Download Inventory CSV</button>
         <button class="btn-blue" style="background:#0284c7;" onclick="document.getElementById('importStockFileInput').click()"><i class="fa-solid fa-file-import"></i> Stock Backup & Restore</button>
     </div>
@@ -840,7 +838,7 @@ tr:hover td { background-color: var(--primary-light); }
 
     <div>
         <input id="searchInvoiceInput" placeholder="Type customer name or invoice number..." oninput="filterHistoryBills()">
-        <div class="table-wrapper" style="max-height: 350px; overflow-y: auto;">
+        <div class="table-wrapper" style="max-height: 380px; overflow-y: auto;">
             <table>
                 <thead>
                     <tr>
@@ -854,14 +852,14 @@ tr:hover td { background-color: var(--primary-light); }
             </table>
         </div>
         
-        <div class="grid-3" style="margin-top:16px;">
+        <div class="grid-3" style="margin-top:18px;">
             <button id="downloadHistoryBtn" class="btn-blue" style="background:var(--text-muted);"><i class="fa-solid fa-file-excel"></i> Export Sales Excel</button>
             <button class="btn-blue" style="background:#059669;" onclick="exportSalesHistoryOnly()"><i class="fa-solid fa-file-export"></i> Sales Backup JSON</button>
             <button class="btn-blue" style="background:#0284c7;" onclick="document.getElementById('importSalesFileInput').click()"><i class="fa-solid fa-file-import"></i> Restore Sales JSON</button>
         </div>
         <input type="file" id="importSalesFileInput" accept=".json" style="display:none" onchange="importSalesHistoryOnly(event)">
 
-        <div style="margin-top:14px;">
+        <div style="margin-top:16px;">
             <button id="clearAllHistoryBtn" class="btn-blue" style="background:var(--danger);"><i class="fa-solid fa-trash-can"></i> Clear All History</button>
         </div>
     </div>
@@ -892,9 +890,9 @@ tr:hover td { background-color: var(--primary-light); }
     <div id="profile"></div>
     <div id="customerList"></div>
 
-    <hr style="border:none; height:1px; background:var(--border); margin:18px 0;">
+    <hr style="border:none; height:1px; background:var(--border); margin:20px 0;">
 
-    <div style="display:flex; gap:8px; margin-bottom:14px; flex-wrap:wrap;">
+    <div style="display:flex; gap:8px; margin-bottom:15px; flex-wrap:wrap;">
       <button class="smallbtn" onclick="downloadExcel()" style="background:#059669; flex:1;">📊 Export CSV</button>
       <button class="smallbtn" onclick="downloadJSON()" style="background:#7c3aed; flex:1;">💾 Backup JSON</button>
       <label class="file-btn smallbtn" style="background:#0284c7; flex:1; margin:0; cursor:pointer; text-align:center;">
@@ -903,28 +901,28 @@ tr:hover td { background-color: var(--primary-light); }
     </div>
 
     <div class="analytics-box">
-      <h4 style="margin:0 0 6px 0; font-size:14px; color:var(--udhaar-primary);">📈 Transaction Analytics & Graph</h4>
+      <h4 style="margin:0 0 6px 0; font-size:15px; color:var(--udhaar-primary);">📈 Transaction Analytics & Graph</h4>
       
       <div class="analytics-grid">
         <div class="analytics-card">
           <b>Today's Record</b>
-          <span style="color:var(--danger); font-size:13px;">Udhar: ₹<span id="t-out">0</span></span><br>
-          <span style="color:var(--success); font-size:13px;">Paid: ₹<span id="t-in">0</span></span>
+          <span style="color:var(--danger); font-size:14px;">Udhar: ₹<span id="t-out">0</span></span><br>
+          <span style="color:var(--success); font-size:14px;">Paid: ₹<span id="t-in">0</span></span>
         </div>
         <div class="analytics-card">
           <b>This Week's Record</b>
-          <span style="color:var(--danger); font-size:13px;">Udhar: ₹<span id="w-out">0</span></span><br>
-          <span style="color:var(--success); font-size:13px;">Paid: ₹<span id="w-in">0</span></span>
+          <span style="color:var(--danger); font-size:14px;">Udhar: ₹<span id="w-out">0</span></span><br>
+          <span style="color:var(--success); font-size:14px;">Paid: ₹<span id="w-in">0</span></span>
         </div>
         <div class="analytics-card">
           <b>This Month's Record</b>
-          <span style="color:var(--danger); font-size:13px;">Udhar: ₹<span id="m-out">0</span></span><br>
-          <span style="color:var(--success); font-size:13px;">Paid: ₹<span id="m-in">0</span></span>
+          <span style="color:var(--danger); font-size:14px;">Udhar: ₹<span id="m-out">0</span></span><br>
+          <span style="color:var(--success); font-size:14px;">Paid: ₹<span id="m-in">0</span></span>
         </div>
       </div>
 
       <div class="graph-container">
-        <b style="font-size:11px; color:var(--text-muted); display:block; margin-bottom:6px; text-transform:uppercase;">📊 Performance Overview (Udhaar vs Paid)</b>
+        <b style="font-size:12px; color:var(--text-muted); display:block; margin-bottom:8px; text-transform:uppercase;">📊 Performance Overview (Udhaar vs Paid)</b>
         
         <div class="bar-group">
           <div class="bar-label"><span>Today</span> <span id="graph-t-text">₹0 / ₹0</span></div>
@@ -962,10 +960,10 @@ tr:hover td { background-color: var(--primary-light); }
 <div id="customModal" class="modal-overlay">
     <div class="modal-card">
         <div id="modalHeader" class="modal-header">Notification</div>
-        <div id="modalBody" style="font-size:13px; color:var(--text); margin: 10px 0;">Message...</div>
+        <div id="modalBody" style="font-size:14px; color:var(--text); margin: 12px 0;">Message...</div>
         <div id="modalFooter" class="modal-footer">
-            <button id="modalCancelBtn" class="btn-blue" style="background:var(--text-muted); width:auto; padding:8px 14px;">Cancel</button>
-            <button id="modalConfirmBtn" class="btn-blue" style="background:var(--primary); width:auto; padding:8px 14px;">OK</button>
+            <button id="modalCancelBtn" class="btn-blue" style="background:var(--text-muted); width:auto; padding:10px 16px;">Cancel</button>
+            <button id="modalConfirmBtn" class="btn-blue" style="background:var(--primary); width:auto; padding:10px 16px;">OK</button>
         </div>
     </div>
 </div>
@@ -980,8 +978,8 @@ tr:hover td { background-color: var(--primary-light); }
         <label>Selling Price (₹)</label>
         <input id="modalStockPrice" type="number">
         <div class="modal-footer">
-            <button class="btn-blue" style="background:var(--text-muted); width:auto; padding:8px 14px;" onclick="closeStockModal()">Cancel</button>
-            <button class="btn-blue" style="background:var(--success); width:auto; padding:8px 14px;" onclick="saveStockModal()">Save</button>
+            <button class="btn-blue" style="background:var(--text-muted); width:auto; padding:10px 16px;" onclick="closeStockModal()">Cancel</button>
+            <button class="btn-blue" style="background:var(--success); width:auto; padding:10px 16px;" onclick="saveStockModal()">Save</button>
         </div>
     </div>
 </div>
@@ -997,54 +995,6 @@ function showNextSlide() {
     slides[currentSlide].classList.add('active');
 }
 setInterval(showNextSlide, 3500);
-
-/* Custom Banner & Logo Upload Handlers */
-function handleBannerUpload(event) {
-    const file = event.target.files[0];
-    if(!file) return;
-    const reader = new FileReader();
-    reader.onload = function(e) {
-        let bannerImages = JSON.parse(localStorage.getItem("bannerImages")) || [];
-        bannerImages[currentSlide] = e.target.result;
-        localStorage.setItem("bannerImages", JSON.stringify(bannerImages));
-        loadCustomBanners();
-        showAppAlert("Banner Updated", "Selected banner image updated successfully!");
-    };
-    reader.readAsDataURL(file);
-}
-
-function loadCustomBanners() {
-    let bannerImages = JSON.parse(localStorage.getItem("bannerImages")) || [];
-    if(bannerImages[0]) document.getElementById("slideImg0").src = bannerImages[0];
-    if(bannerImages[1]) document.getElementById("slideImg1").src = bannerImages[1];
-    if(bannerImages[2]) document.getElementById("slideImg2").src = bannerImages[2];
-}
-
-function handleLogoUpload(event) {
-    const file = event.target.files[0];
-    if(!file) return;
-    const reader = new FileReader();
-    reader.onload = function(e) {
-        localStorage.setItem("shopLogo", e.target.result);
-        loadShopLogo();
-        showAppAlert("Logo Updated", "Billing logo updated successfully!");
-    };
-    reader.readAsDataURL(file);
-}
-
-function loadShopLogo() {
-    let savedLogo = localStorage.getItem("shopLogo");
-    const defaultIcon = document.getElementById("defaultLogoIcon");
-    const customImg = document.getElementById("customLogoImg");
-    if(savedLogo) {
-        defaultIcon.style.display = "none";
-        customImg.src = savedLogo;
-        customImg.style.display = "block";
-    } else {
-        defaultIcon.style.display = "block";
-        customImg.style.display = "none";
-    }
-}
 
 let items = [];
 let editingIndex = -1;
@@ -1122,8 +1072,6 @@ function loadShopDetails() {
     document.getElementById("upiId").value = localStorage.getItem("upiId") || "";
     
     updateShopWelcomeTitle(savedShop);
-    loadShopLogo();
-    loadCustomBanners();
 }
 
 function updateShopWelcomeTitle(shopName) {
