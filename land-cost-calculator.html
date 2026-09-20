@@ -27,7 +27,7 @@
 
 <style>
 /* ==========================================
-   ULTRA PROFESSIONAL MARKET-LEVEL BILLING (V10)
+   ULTRA PROFESSIONAL MARKET-LEVEL BILLING (V11)
    ========================================== */
 :root {
     --primary: #2563eb;
@@ -133,7 +133,7 @@ body {
     letter-spacing: -0.3px;
 }
 
-/* Hero Section Banner with GitHub Image Slider */
+/* Hero Section Banner with GitHub Image Slider (Visible only on Home Tab) */
 .hero-slider-container {
     width: 100%;
     max-width: 1000px;
@@ -401,30 +401,30 @@ input:focus, select:focus {
 }
 .btn-blue:hover { background: var(--primary-hover); transform: translateY(-2px); box-shadow: var(--shadow-md); }
 
-/* Tables */
+/* Tables (Refined Crystal Clear Design for Stock & History) */
 .table-wrapper { 
     overflow-x: auto; 
     width: 100%; 
     margin: 18px 0; 
-    border-radius: 14px; 
+    border-radius: 16px; 
     border: 1px solid var(--border);
     background: var(--card-bg);
     box-shadow: var(--shadow-sm);
 }
 table { width: 100%; border-collapse: collapse; white-space: nowrap; }
 th { 
-    background: var(--bg); 
+    background: var(--primary-light); 
     font-weight: 900; 
-    color: var(--text-muted); 
+    color: var(--primary); 
     text-transform: uppercase; 
     font-size: 11px; 
     letter-spacing: 0.6px;
-    padding: 14px;
+    padding: 16px;
     border-bottom: 1px solid var(--border);
     text-align: left;
 }
 td { 
-    padding: 14px; 
+    padding: 15px 16px; 
     font-size: 13px; 
     border-bottom: 1px solid var(--border);
     color: var(--text);
@@ -454,16 +454,18 @@ tr:hover td { background-color: var(--primary-light); }
 .tax-discount-grid { display: grid; grid-template-columns: 1fr; gap: 14px; }
 .btn-group-row { display: flex; flex-direction: column; gap: 14px; margin-top: 16px; }
 
+/* Refined Sale Summary Cards (Crystal Clear) */
 .sale-summary { display: grid; grid-template-columns: 1fr; gap: 14px; margin: 14px 0 22px 0; }
 .sale-card { 
     background: var(--card-bg); 
-    padding: 20px; 
+    padding: 22px; 
     border-radius: 16px; 
     border: 1px solid var(--border); 
     box-shadow: var(--shadow-sm);
+    border-left: 5px solid var(--primary);
 }
 .sale-card span { display: block; font-size: 11px; color: var(--text-muted); font-weight: 800; text-transform: uppercase; }
-.sale-card b { font-size: 24px; color: var(--text); margin-top: 6px; display: block; font-weight: 900; }
+.sale-card b { font-size: 24px; color: var(--primary); margin-top: 6px; display: block; font-weight: 900; }
 
 .btn-action {
     border: none;
@@ -638,7 +640,6 @@ tr:hover td { background-color: var(--primary-light); }
     <div class="app-top-bar-inner">
         <div class="shop-identity">
             <div class="shop-logo">
-                <!-- GitHub par "logo.png" naam se image upload karein -->
                 <img src="logo.png" alt="Logo" onerror="this.style.display='none'; document.getElementById('fallbackIcon').style.display='block';">
                 <i class="fa-solid fa-file-invoice-dollar" id="fallbackIcon" style="display:none; color:#fff; font-size:18px;"></i>
             </div>
@@ -648,10 +649,9 @@ tr:hover td { background-color: var(--primary-light); }
     </div>
 </div>
 
-<!-- HERO SECTION BANNER WITH 3 GITHUB IMAGES SLIDER -->
-<div class="hero-slider-container">
+<!-- HERO SECTION BANNER (VISIBLE ONLY ON HOME TAB) -->
+<div id="heroBannerWrapper" class="hero-slider-container">
     <div class="hero-slide active">
-        <!-- GitHub par banner1.jpg, banner2.jpg, banner3.jpg upload karein -->
         <img src="banner1.jpg" alt="Banner 1" onerror="this.src='https://images.unsplash.com/photo-1556742049-0a67d55362ec?auto=format&fit=crop&w=1000&q=80'">
     </div>
     <div class="hero-slide">
@@ -1016,6 +1016,13 @@ function switchTab(tabId, btnElement) {
     document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('active'));
     document.getElementById(tabId).classList.add('active-tab');
     btnElement.classList.add('active');
+    
+    // Toggle Hero Banner visibility: Only show on homeTab
+    const heroBanner = document.getElementById("heroBannerWrapper");
+    if(heroBanner) {
+        heroBanner.style.display = (tabId === 'homeTab') ? 'block' : 'none';
+    }
+
     window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
