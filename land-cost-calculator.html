@@ -27,7 +27,7 @@
 
 <style>
 /* ==========================================
-   PURE BLUE & NO CONTAINER DESIGN SYSTEM
+   ULTRA PREMIUM MARKET-LEVEL BILLING SYSTEM
    ========================================== */
 :root {
     --primary: #2563eb;
@@ -44,10 +44,10 @@
     --danger-hover: #dc2626;
     --warning: #f59e0b;
     --success: #10b981;
-    --shadow-sm: 0 4px 15px rgba(37, 99, 235, 0.05);
-    --shadow-md: 0 10px 25px -5px rgba(37, 99, 235, 0.1);
-    --shadow-lg: 0 20px 40px -10px rgba(15, 23, 42, 0.15);
-    --radius: 16px;
+    --shadow-sm: 0 4px 20px rgba(37, 99, 235, 0.06);
+    --shadow-md: 0 12px 30px -5px rgba(37, 99, 235, 0.12);
+    --shadow-lg: 0 25px 50px -12px rgba(15, 23, 42, 0.18);
+    --radius: 18px;
 }
 
 [data-theme="dark"] {
@@ -61,9 +61,9 @@
     --text: #f8fafc;
     --text-muted: #94a3b8;
     --border: #1e293b;
-    --shadow-sm: 0 4px 15px rgba(0,0,0,0.3);
-    --shadow-md: 0 10px 25px -5px rgba(0,0,0,0.5);
-    --shadow-lg: 0 20px 40px -10px rgba(0,0,0,0.8);
+    --shadow-sm: 0 4px 20px rgba(0,0,0,0.3);
+    --shadow-md: 0 12px 30px -5px rgba(0,0,0,0.5);
+    --shadow-lg: 0 25px 50px -12px rgba(0,0,0,0.8);
 }
 
 * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; scroll-behavior: smooth; }
@@ -80,55 +80,55 @@ body {
     flex-direction: column;
 }
 
-/* Top Bar: Billing Logo & Shop Name */
+/* Top Bar: Normal Flow (Scrolls up) with Billing Logo & Shop Name */
 .app-top-bar {
     display: flex;
     align-items: center;
     justify-content: space-between;
     max-width: 1000px;
-    margin: 0 auto 14px auto;
+    margin: 0 auto 16px auto;
     width: 100%;
-    padding: 0 4px;
+    padding: 6px 4px;
 }
 
 .shop-identity {
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 12px;
 }
 
 .shop-logo {
-    width: 38px;
-    height: 38px;
-    border-radius: 10px;
-    background: var(--primary);
+    width: 42px;
+    height: 42px;
+    border-radius: 12px;
+    background: linear-gradient(135deg, var(--primary), var(--primary-hover));
     color: #fff;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 18px;
+    font-size: 20px;
     box-shadow: var(--shadow-sm);
 }
 
 .shop-welcome-text {
-    font-size: 15px;
-    font-weight: 800;
+    font-size: 16px;
+    font-weight: 900;
     color: var(--text);
-    letter-spacing: -0.3px;
+    letter-spacing: -0.4px;
 }
 
-/* Hero Section Banner with Image Slider */
+/* Hero Section Banner with Custom Image Upload & Slider */
 .hero-slider-container {
     width: 100%;
     max-width: 1000px;
-    margin: 0 auto 24px auto;
+    margin: 0 auto 20px auto;
     border-radius: 20px;
     overflow: hidden;
     position: relative;
     box-shadow: var(--shadow-md);
     background: var(--card-bg);
     border: 1px solid var(--border);
-    height: 180px;
+    height: 190px;
 }
 
 .hero-slide {
@@ -151,23 +151,41 @@ body {
 }
 
 @keyframes fadeSlide {
-    from { opacity: 0.4; }
+    from { opacity: 0.3; }
     to { opacity: 1; }
 }
+
+.banner-upload-btn {
+    position: absolute;
+    bottom: 12px;
+    right: 12px;
+    background: rgba(15, 23, 42, 0.75);
+    backdrop-filter: blur(4px);
+    color: #fff;
+    border: 1px solid rgba(255,255,255,0.2);
+    padding: 6px 12px;
+    border-radius: 10px;
+    font-size: 11px;
+    font-weight: 800;
+    cursor: pointer;
+    z-index: 10;
+    transition: 0.2s;
+}
+.banner-upload-btn:hover { background: var(--primary); }
 
 /* Settings Menu Button */
 .menu-toggle-btn {
     background: var(--card-bg);
     border: 1px solid var(--border);
     color: var(--text);
-    width: 40px;
-    height: 40px;
+    width: 42px;
+    height: 42px;
     border-radius: 12px;
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 16px;
+    font-size: 18px;
     box-shadow: var(--shadow-sm);
     transition: all 0.25s ease;
 }
@@ -365,7 +383,7 @@ input:focus, select:focus {
     padding-bottom: 10px;
 }
 
-/* Pure Blue Buttons */
+/* Professional Buttons */
 .btn-blue { 
     width: 100%; 
     padding: 14px 18px; 
@@ -619,23 +637,28 @@ tr:hover td { background-color: var(--primary-light); }
 <!-- TOP BAR: BILLING LOGO, SHOP NAME & SETTINGS BUTTON -->
 <div class="app-top-bar">
     <div class="shop-identity">
-        <div class="shop-logo"><i class="fa-solid fa-file-invoice-dollar"></i></div>
-        <div id="shopWelcomeTitle" class="shop-welcome-text">Hii Shayan Smart Tools</div>
+        <div class="shop-logo" id="shopLogoContainer">
+            <i class="fa-solid fa-receipt" id="defaultLogoIcon"></i>
+            <img id="customLogoImg" src="" alt="Logo" style="width:100%; height:100%; object-fit:cover; border-radius:12px; display:none;">
+        </div>
+        <div id="shopWelcomeTitle" class="shop-welcome-text">Hii Shayan Smart Billing</div>
     </div>
     <button class="menu-toggle-btn" onclick="toggleSettingsDrawer(true)" title="Settings"><i class="fa-solid fa-bars"></i></button>
 </div>
 
-<!-- HERO SECTION BANNER WITH 3 BILLING IMAGE SLIDER -->
+<!-- HERO SECTION BANNER WITH 3 BILLING IMAGE SLIDER & UPLOAD -->
 <div class="hero-slider-container">
     <div class="hero-slide active">
-        <img src="https://images.unsplash.com/photo-1556742049-0a67d55362ec?auto=format&fit=crop&w=1000&q=80" alt="Billing 1">
+        <img id="slideImg0" src="https://images.unsplash.com/photo-1556742049-0a67d55362ec?auto=format&fit=crop&w=1000&q=80" alt="Billing 1">
     </div>
     <div class="hero-slide">
-        <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=1000&q=80" alt="Billing 2">
+        <img id="slideImg1" src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=1000&q=80" alt="Billing 2">
     </div>
     <div class="hero-slide">
-        <img src="https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?auto=format&fit=crop&w=1000&q=80" alt="Billing 3">
+        <img id="slideImg2" src="https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?auto=format&fit=crop&w=1000&q=80" alt="Billing 3">
     </div>
+    <button class="banner-upload-btn" onclick="document.getElementById('bannerImageInput').click()"><i class="fa-solid fa-camera"></i> Change Banner</button>
+    <input type="file" id="bannerImageInput" accept="image/*" style="display:none" onchange="handleBannerUpload(event)">
 </div>
 
 <!-- NAVIGATION BAR -->
@@ -662,6 +685,9 @@ tr:hover td { background-color: var(--primary-light); }
 
                 <label>Shop Name</label>
                 <input id="shop" placeholder="e.g. Shayan Market">
+
+                <label>Upload Billing Logo</label>
+                <input type="file" id="logoImageInput" accept="image/*" onchange="handleLogoUpload(event)">
 
                 <label>Phone Number</label>
                 <input id="phone" placeholder="e.g. 9876543210">
@@ -972,6 +998,54 @@ function showNextSlide() {
 }
 setInterval(showNextSlide, 3500);
 
+/* Custom Banner & Logo Upload Handlers */
+function handleBannerUpload(event) {
+    const file = event.target.files[0];
+    if(!file) return;
+    const reader = new FileReader();
+    reader.onload = function(e) {
+        let bannerImages = JSON.parse(localStorage.getItem("bannerImages")) || [];
+        bannerImages[currentSlide] = e.target.result;
+        localStorage.setItem("bannerImages", JSON.stringify(bannerImages));
+        loadCustomBanners();
+        showAppAlert("Banner Updated", "Selected banner image updated successfully!");
+    };
+    reader.readAsDataURL(file);
+}
+
+function loadCustomBanners() {
+    let bannerImages = JSON.parse(localStorage.getItem("bannerImages")) || [];
+    if(bannerImages[0]) document.getElementById("slideImg0").src = bannerImages[0];
+    if(bannerImages[1]) document.getElementById("slideImg1").src = bannerImages[1];
+    if(bannerImages[2]) document.getElementById("slideImg2").src = bannerImages[2];
+}
+
+function handleLogoUpload(event) {
+    const file = event.target.files[0];
+    if(!file) return;
+    const reader = new FileReader();
+    reader.onload = function(e) {
+        localStorage.setItem("shopLogo", e.target.result);
+        loadShopLogo();
+        showAppAlert("Logo Updated", "Billing logo updated successfully!");
+    };
+    reader.readAsDataURL(file);
+}
+
+function loadShopLogo() {
+    let savedLogo = localStorage.getItem("shopLogo");
+    const defaultIcon = document.getElementById("defaultLogoIcon");
+    const customImg = document.getElementById("customLogoImg");
+    if(savedLogo) {
+        defaultIcon.style.display = "none";
+        customImg.src = savedLogo;
+        customImg.style.display = "block";
+    } else {
+        defaultIcon.style.display = "block";
+        customImg.style.display = "none";
+    }
+}
+
 let items = [];
 let editingIndex = -1;
 let deferredPrompt = null;
@@ -1040,14 +1114,16 @@ function showAppConfirm(title, message, onConfirm, onCancel = null) {
 }
 
 function loadShopDetails() {
-    let savedShop = localStorage.getItem("shop") || "Shayan Smart Tools";
-    document.getElementById("shop").value = savedShop !== "Shayan Smart Tools" ? savedShop : "";
+    let savedShop = localStorage.getItem("shop") || "Shayan Smart Billing";
+    document.getElementById("shop").value = savedShop !== "Shayan Smart Billing" ? savedShop : "";
     document.getElementById("phone").value = localStorage.getItem("phone") || "";
     document.getElementById("address").value = localStorage.getItem("address") || "";
     document.getElementById("gstin").value = localStorage.getItem("gstin") || "";
     document.getElementById("upiId").value = localStorage.getItem("upiId") || "";
     
     updateShopWelcomeTitle(savedShop);
+    loadShopLogo();
+    loadCustomBanners();
 }
 
 function updateShopWelcomeTitle(shopName) {
@@ -1058,7 +1134,7 @@ function updateShopWelcomeTitle(shopName) {
 }
 
 function saveShopDetailsDirect() {
-    const s = document.getElementById("shop").value.trim() || "Shayan Smart Tools";
+    const s = document.getElementById("shop").value.trim() || "Shayan Smart Billing";
     const p = document.getElementById("phone").value.trim();
     const a = document.getElementById("address").value.trim();
     const g = document.getElementById("gstin").value.trim();
