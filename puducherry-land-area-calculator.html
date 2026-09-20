@@ -122,7 +122,7 @@
         }
 
         body { font-family: 'Poppins', sans-serif; background-color: var(--bg); margin: 0; padding: 10px; color: #333; }
-        .measurement-tool { max-width: 850px; margin: 0 auto; }
+        .measurement-tool { max-width: 850px; margin: 0 auto; box-sizing: border-box; }
 
         header {
             background: linear-gradient(135deg, var(--pudu-primary), var(--pudu-corporate));
@@ -157,18 +157,18 @@
         .gov-link-card { display: flex; align-items: center; justify-content: space-between; background: #ffffff; border: 1px solid #e2e8f0; padding: 14px 18px; border-radius: 12px; text-decoration: none; color: #1e293b !important; font-weight: bold; font-size: 13px; transition: 0.3s; box-shadow: 0 2px 4px rgba(0,0,0,0.02); }
         .gov-link-card:hover { border-color: var(--pudu-primary); background: #f0f9ff; transform: translateY(-2px); }
 
-        .res-panel { background: #0f172a; color: white; padding: 25px; border-radius: 25px; margin-top: 30px; display: none; border: 2px solid var(--pudu-gold); position: relative; }
+        .res-panel { background: #0f172a; color: white; padding: 25px; border-radius: 25px; margin-top: 30px; display: none; border: 2px solid var(--pudu-gold); position: relative; box-sizing: border-box; width: 100%; }
         .bkl-special { background: rgba(255,255,255,0.05); padding: 20px; border-radius: 15px; text-align: center; margin-bottom: 20px; border: 1px dashed var(--pudu-primary); }
         
         .res-grid { display: grid; grid-template-columns: repeat(1, 1fr); gap: 12px; }
-        .res-item { background: rgba(255,255,255,0.04); padding: 14px 20px; border-radius: 10px; display: flex; flex-direction: row; justify-content: space-between; align-items: center; border-left: 4px solid var(--pudu-gold); }
+        .res-item { background: rgba(255,255,255,0.04); padding: 14px 20px; border-radius: 10px; display: flex; flex-direction: row; justify-content: space-between; align-items: center; border-left: 4px solid var(--pudu-gold); box-sizing: border-box; width: 100%; }
         .res-item span { font-size: 14px; color: #94a3b8; font-weight: bold; text-align: left; }
         .res-item b { font-size: 17px; color: #fff; text-align: right; word-break: break-all; font-family: monospace; }
 
         .print-header-block, .print-footer-block, .print-verification-zone { display: none; }
 
-        .util-btns { display: flex; gap: 10px; margin-top: 25px; }
-        .u-btn { flex: 1; padding: 16px; border-radius: 12px; border: none; font-weight: 800; cursor: pointer; transition: 0.3s; color: white !important; font-size: 14px; text-align: center; text-transform: uppercase; letter-spacing: 0.5px; }
+        .util-btns { display: flex; gap: 10px; margin-top: 25px; width: 100%; box-sizing: border-box; }
+        .u-btn { flex: 1; padding: 16px; border-radius: 12px; border: none; font-weight: 800; cursor: pointer; transition: 0.3s; color: white !important; font-size: 14px; text-align: center; text-transform: uppercase; letter-spacing: 0.5px; box-sizing: border-box; }
         .u-btn.c-btn { background: #334155; } 
         .u-btn.w-btn { background: #16a34a; } 
         .u-btn.p-btn { background: #0369a1; } 
@@ -257,7 +257,7 @@
             .bkl-special { background: #f0f9ff !important; border: 1px dashed var(--pudu-primary) !important; color: #000 !important; }
             
             .res-grid { display: block !important; margin-top: 15px; }
-            .res-item { background: transparent !important; border: none !important; border-bottom: 1px solid #cbd5e1 !important; padding: 12px 4px !important; display: flex !important; justify-content: space-between !important; flex-direction: row !important; }
+            .res-item { background: transparent !important; border: none !important; border-bottom: 1px solid #cbd5e1 !important; padding: 12px 4px !important; display: flex !important; justify-content: space-between !important; flex-direction: row !important; width: 100% !important; box-sizing: border-box !important; }
             .res-item span { color: #1e293b !important; font-size: 13px !important; font-weight: 600; text-transform: uppercase; }
             .res-item b { color: var(--pudu-dark) !important; font-size: 15px !important; font-weight: bold; }
             
@@ -351,7 +351,7 @@
     <div id="resPanel" class="res-panel">
         <div class="print-header-block">
             <div style="display: flex; justify-content: center; align-items: center; gap: 10px; margin-bottom: 5px;">
-                <div style="width: 32px; height: 32px; background: #0284c7; border-radius: 8px; display: flex; align-items: center; justify-content: center; color: white; font-weight: 900; font-size: 16px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">S</div>
+                <img src="favicon.png" alt="SST" style="width: 30px; height: 30px;">
                 <h2 style="font-size: 22px; color: var(--pudu-dark); margin: 0; font-weight: 900;">SHAYAN SMART TOOLS</h2>
             </div>
             <p style="font-size: 11px; color: var(--pudu-primary); font-weight: bold; margin: 0 0 10px 0; text-transform: uppercase;">PUDUCHERRY LAND AREA SUMMARY - 2026</p>
@@ -976,6 +976,8 @@
             successMsg.style.display = 'block';
         });
 
+        const escapeHTML = (str) => str.replace(/[&<>'"]/g, tag => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' }[tag] || tag));
+
         function loadReviews() {
             const reviews = JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
             reviewCountDisplay.textContent = reviews.length;
@@ -995,18 +997,14 @@
                 const reviewItem = document.createElement('div');
                 reviewItem.className = 'review-item';
                 reviewItem.innerHTML = `
-                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
-                        <span style="font-weight:600; font-size:13px; color:#1f2937;">${escapeHTML(rev.name)}</span>
-                        <span style="color:#ffc107; font-size:12px;">${starsHTML}</span>
+                    <div class="review-item-header">
+                        <span class="review-author">${escapeHTML(rev.name)}</span>
+                        <span class="review-stars-mini">${starsHTML}</span>
                     </div>
-                    <p style="font-size:13px; color:#4b5563; margin:0;">${escapeHTML(rev.comment)}</p>
+                    <p class="review-comment-text">${escapeHTML(rev.comment)}</p>
                 `;
                 reviewsScrollBox.appendChild(reviewItem);
             });
-        }
-
-        function escapeHTML(str) {
-            return str.replace(/[&<>'"]/g, tag => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' }[tag] || tag));
         }
     });
 </script>
