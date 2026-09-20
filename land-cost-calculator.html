@@ -27,7 +27,7 @@
 
 <style>
 /* ==========================================
-   ULTRA-PREMIUM REDESIGNED APP SYSTEM (V6)
+   ULTRA-PREMIUM REDESIGNED APP SYSTEM (V7)
    ========================================== */
 :root {
     --primary: #4f46e5;
@@ -52,7 +52,7 @@
 
 [data-theme="dark"] {
     --primary: #6366f1;
-    --primary-hover: #4f46e5;
+    --primary-hover: #6366f1;
     --primary-light: rgba(99, 102, 241, 0.18);
     --accent: #22d3ee;
     --secondary: #f8fafc;
@@ -132,7 +132,7 @@ body {
     transform: scale(1.05);
 }
 
-/* Slide Drawer Fixed Scrolling & Padding */
+/* Slide Drawer Fixed Smooth Scrolling System */
 .settings-drawer-overlay {
     display: none;
     position: fixed;
@@ -147,12 +147,10 @@ body {
     width: 100%;
     max-width: 460px;
     height: 100%;
-    overflow-y: auto;
-    padding: 24px 24px 80px 24px; /* Added extra bottom padding so nothing cuts off */
-    box-shadow: -25px 0 60px rgba(0,0,0,0.35);
-    animation: slideInRight 0.3s cubic-bezier(0.16, 1, 0.3, 1);
     display: flex;
     flex-direction: column;
+    box-shadow: -25px 0 60px rgba(0,0,0,0.35);
+    animation: slideInRight 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
 @keyframes slideInRight {
     from { transform: translateX(100%); }
@@ -162,10 +160,11 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 22px;
+    padding: 20px 24px;
     border-bottom: 1px solid var(--border);
-    padding-bottom: 14px;
+    background: var(--card-bg);
     flex-shrink: 0;
+    z-index: 10;
 }
 .drawer-header h3 {
     font-size: 18px;
@@ -196,29 +195,38 @@ body {
     border-color: var(--danger);
 }
 
+/* Scrollable Content Container inside Drawer */
+.drawer-scroll-body {
+    padding: 20px 24px;
+    overflow-y: auto;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
 /* Collapsible Box */
 .collapsible-card {
     background: var(--bg);
     border: 1px solid var(--border);
     border-radius: var(--radius);
-    margin-bottom: 18px;
     overflow: hidden;
     transition: all 0.3s ease;
 }
 .collapsible-header {
-    padding: 18px 20px;
+    padding: 16px 18px;
     display: flex;
     justify-content: space-between;
     align-items: center;
     cursor: pointer;
-    font-size: 15px;
+    font-size: 14px;
     font-weight: 800;
     color: var(--text);
     user-select: none;
 }
 .collapsible-header:hover { background: var(--primary-light); }
 .collapsible-body { 
-    padding: 16px 20px 20px 20px; 
+    padding: 14px 18px 18px 18px; 
     display: block; 
 }
 .collapsible-body.collapsed { display: none; }
@@ -322,7 +330,7 @@ label {
 input, select { 
     width: 100%; 
     padding: 14px 18px; 
-    margin-bottom: 16px; 
+    margin-bottom: 14px; 
     border-radius: 16px; 
     border: 1px solid var(--border); 
     font-size: 14px; 
@@ -624,7 +632,7 @@ tr:hover td { background-color: var(--primary-light); }
     <button class="nav-btn" onclick="switchTab('udhaarTab', this)"><i class="fa-solid fa-book-open"></i><span>Udhaar</span></button>
 </div>
 
-<!-- SETTINGS DRAWER -->
+<!-- SETTINGS DRAWER WITH PROPER SCROLL BODY -->
 <div id="settingsDrawerOverlay" class="settings-drawer-overlay" onclick="handleDrawerOutsideClick(event)">
     <div class="settings-drawer">
         <div class="drawer-header">
@@ -632,69 +640,71 @@ tr:hover td { background-color: var(--primary-light); }
             <button class="close-drawer-btn" onclick="toggleSettingsDrawer(false)"><i class="fa-solid fa-xmark"></i></button>
         </div>
 
-        <!-- Shop Setup Card (Spacious single column layout ensuring UPI ID and Save button are always fully visible) -->
-        <div class="collapsible-card">
-            <div class="collapsible-header" onclick="toggleCollapsible(this)">
-                <span><i class="fa-solid fa-store" style="color:var(--primary); margin-right:8px;"></i> Shop, GSTIN & UPI Setup</span>
-                <i class="fa-solid fa-chevron-down" style="transition: transform 0.3s;"></i>
-            </div>
-            <div class="collapsible-body">
-                <label>Shop Name</label>
-                <input id="shop" placeholder="e.g. Shayan Market">
-
-                <label>Phone Number</label>
-                <input id="phone" placeholder="e.g. 9876543210">
-
-                <label>Shop Address</label>
-                <input id="address" placeholder="Full shop address">
-
-                <label>GSTIN Number (Optional)</label>
-                <input id="gstin" placeholder="GSTIN number">
-
-                <label>UPI ID for QR</label>
-                <input id="upiId" placeholder="e.g. name@paytm">
-
-                <button id="saveShopBtn" class="btn-blue" style="margin-top: 10px;" onclick="saveShopDetailsDirect()"><i class="fa-solid fa-floppy-disk"></i> Save Shop Details</button>
-            </div>
-        </div>
-
-        <!-- Sales Backup -->
-        <div class="collapsible-card">
-            <div class="collapsible-header" onclick="toggleCollapsible(this)">
-                <span><i class="fa-solid fa-file-invoice-dollar" style="color:var(--primary); margin-right:8px;"></i> Sales Backup & Restore</span>
-                <i class="fa-solid fa-chevron-down" style="transition: transform 0.3s;"></i>
-            </div>
-            <div class="collapsible-body collapsed">
-                <div class="grid-2">
-                    <button class="btn-blue" style="background:#10b981;" onclick="exportSalesHistoryOnly()"><i class="fa-solid fa-file-export"></i> Export</button>
-                    <button class="btn-blue" style="background:#0284c7;" onclick="document.getElementById('importSalesFileInput').click()"><i class="fa-solid fa-file-import"></i> Import</button>
+        <div class="drawer-scroll-body">
+            <!-- Shop Setup Card -->
+            <div class="collapsible-card">
+                <div class="collapsible-header" onclick="toggleCollapsible(this)">
+                    <span><i class="fa-solid fa-store" style="color:var(--primary); margin-right:8px;"></i> Shop, GSTIN & UPI Setup</span>
+                    <i class="fa-solid fa-chevron-down" style="transition: transform 0.3s;"></i>
                 </div>
-                <input type="file" id="importSalesFileInput" accept=".json" style="display:none" onchange="importSalesHistoryOnly(event)">
-            </div>
-        </div>
+                <div class="collapsible-body">
+                    <label>Shop Name</label>
+                    <input id="shop" placeholder="e.g. Shayan Market">
 
-        <!-- Stock Backup -->
-        <div class="collapsible-card">
-            <div class="collapsible-header" onclick="toggleCollapsible(this)">
-                <span><i class="fa-solid fa-boxes-stacked" style="color:var(--primary); margin-right:8px;"></i> Stock Backup & Restore</span>
-                <i class="fa-solid fa-chevron-down" style="transition: transform 0.3s;"></i>
-            </div>
-            <div class="collapsible-body collapsed">
-                <div class="grid-2">
-                    <button class="btn-blue" style="background:#10b981;" onclick="exportStockOnly()"><i class="fa-solid fa-file-export"></i> Export</button>
-                    <button class="btn-blue" style="background:#0284c7;" onclick="document.getElementById('importStockFileInput').click()"><i class="fa-solid fa-file-import"></i> Import</button>
+                    <label>Phone Number</label>
+                    <input id="phone" placeholder="e.g. 9876543210">
+
+                    <label>Shop Address</label>
+                    <input id="address" placeholder="Full shop address">
+
+                    <label>GSTIN Number (Optional)</label>
+                    <input id="gstin" placeholder="GSTIN number">
+
+                    <label>UPI ID for QR</label>
+                    <input id="upiId" placeholder="e.g. name@paytm">
+
+                    <button id="saveShopBtn" class="btn-blue" style="margin-top: 10px;" onclick="saveShopDetailsDirect()"><i class="fa-solid fa-floppy-disk"></i> Save Shop Details</button>
                 </div>
-                <input type="file" id="importStockFileInput" accept=".json" style="display:none" onchange="importStockOnly(event)">
             </div>
-        </div>
 
-        <!-- Dark Mode Toggle moved to the bottom of drawer -->
-        <div style="background:var(--bg); padding:18px; border-radius:var(--radius); border:1px solid var(--border); margin-top:auto; margin-bottom:10px; display:flex; justify-content:space-between; align-items:center;">
-            <div>
-                <div style="font-size:14px; font-weight:900; color:var(--text);"><i class="fa-solid fa-moon" style="color:var(--primary); margin-right:6px;"></i> Dark Mode Theme</div>
-                <p style="font-size:11px; color:var(--text-muted); font-weight:700;">Switch light/dark interface.</p>
+            <!-- Sales Backup -->
+            <div class="collapsible-card">
+                <div class="collapsible-header" onclick="toggleCollapsible(this)">
+                    <span><i class="fa-solid fa-file-invoice-dollar" style="color:var(--primary); margin-right:8px;"></i> Sales Backup & Restore</span>
+                    <i class="fa-solid fa-chevron-down" style="transition: transform 0.3s;"></i>
+                </div>
+                <div class="collapsible-body collapsed">
+                    <div class="grid-2">
+                        <button class="btn-blue" style="background:#10b981;" onclick="exportSalesHistoryOnly()"><i class="fa-solid fa-file-export"></i> Export</button>
+                        <button class="btn-blue" style="background:#0284c7;" onclick="document.getElementById('importSalesFileInput').click()"><i class="fa-solid fa-file-import"></i> Import</button>
+                    </div>
+                    <input type="file" id="importSalesFileInput" accept=".json" style="display:none" onchange="importSalesHistoryOnly(event)">
+                </div>
             </div>
-            <button class="btn-blue" style="width:auto; padding:10px 18px;" onclick="toggleDarkMode()"><i class="fa-solid fa-circle-half-stroke"></i> Toggle</button>
+
+            <!-- Stock Backup -->
+            <div class="collapsible-card">
+                <div class="collapsible-header" onclick="toggleCollapsible(this)">
+                    <span><i class="fa-solid fa-boxes-stacked" style="color:var(--primary); margin-right:8px;"></i> Stock Backup & Restore</span>
+                    <i class="fa-solid fa-chevron-down" style="transition: transform 0.3s;"></i>
+                </div>
+                <div class="collapsible-body collapsed">
+                    <div class="grid-2">
+                        <button class="btn-blue" style="background:#10b981;" onclick="exportStockOnly()"><i class="fa-solid fa-file-export"></i> Export</button>
+                        <button class="btn-blue" style="background:#0284c7;" onclick="document.getElementById('importStockFileInput').click()"><i class="fa-solid fa-file-import"></i> Import</button>
+                    </div>
+                    <input type="file" id="importStockFileInput" accept=".json" style="display:none" onchange="importStockOnly(event)">
+                </div>
+            </div>
+
+            <!-- Dark Mode Toggle -->
+            <div style="background:var(--bg); padding:16px; border-radius:var(--radius); border:1px solid var(--border); display:flex; justify-content:space-between; align-items:center; margin-bottom: 20px;">
+                <div>
+                    <div style="font-size:14px; font-weight:900; color:var(--text);"><i class="fa-solid fa-moon" style="color:var(--primary); margin-right:6px;"></i> Dark Mode Theme</div>
+                    <p style="font-size:11px; color:var(--text-muted); font-weight:700;">Switch light/dark interface.</p>
+                </div>
+                <button class="btn-blue" style="width:auto; padding:10px 18px;" onclick="toggleDarkMode()"><i class="fa-solid fa-circle-half-stroke"></i> Toggle</button>
+            </div>
         </div>
     </div>
 </div>
