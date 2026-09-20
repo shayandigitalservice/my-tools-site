@@ -637,7 +637,7 @@ tr:hover td { background-color: var(--primary-light); }
     <button class="nav-btn" onclick="switchTab('udhaarTab', this)"><i class="fa-solid fa-book-open"></i><span>Udhaar</span></button>
 </div>
 
-<!-- SETTINGS DRAWER WITH PROPER SCROLL BODY -->
+<!-- SETTINGS DRAWER CLEANED UP -->
 <div id="settingsDrawerOverlay" class="settings-drawer-overlay" onclick="handleDrawerOutsideClick(event)">
     <div class="settings-drawer">
         <div class="drawer-header">
@@ -669,36 +669,6 @@ tr:hover td { background-color: var(--primary-light); }
                     <input id="upiId" placeholder="e.g. name@paytm">
 
                     <button id="saveShopBtn" class="btn-blue" style="margin-top: 10px;" onclick="saveShopDetailsDirect()"><i class="fa-solid fa-floppy-disk"></i> Save Shop Details</button>
-                </div>
-            </div>
-
-            <!-- Sales Backup -->
-            <div class="collapsible-card">
-                <div class="collapsible-header" onclick="toggleCollapsible(this)">
-                    <span><i class="fa-solid fa-file-invoice-dollar" style="color:var(--primary); margin-right:8px;"></i> Sales Backup & Restore</span>
-                    <i class="fa-solid fa-chevron-down" style="transition: transform 0.3s;"></i>
-                </div>
-                <div class="collapsible-body collapsed">
-                    <div class="grid-2">
-                        <button class="btn-blue" style="background:#10b981;" onclick="exportSalesHistoryOnly()"><i class="fa-solid fa-file-export"></i> Export</button>
-                        <button class="btn-blue" style="background:#0284c7;" onclick="document.getElementById('importSalesFileInput').click()"><i class="fa-solid fa-file-import"></i> Import</button>
-                    </div>
-                    <input type="file" id="importSalesFileInput" accept=".json" style="display:none" onchange="importSalesHistoryOnly(event)">
-                </div>
-            </div>
-
-            <!-- Stock Backup -->
-            <div class="collapsible-card">
-                <div class="collapsible-header" onclick="toggleCollapsible(this)">
-                    <span><i class="fa-solid fa-boxes-stacked" style="color:var(--primary); margin-right:8px;"></i> Stock Backup & Restore</span>
-                    <i class="fa-solid fa-chevron-down" style="transition: transform 0.3s;"></i>
-                </div>
-                <div class="collapsible-body collapsed">
-                    <div class="grid-2">
-                        <button class="btn-blue" style="background:#10b981;" onclick="exportStockOnly()"><i class="fa-solid fa-file-export"></i> Export</button>
-                        <button class="btn-blue" style="background:#0284c7;" onclick="document.getElementById('importStockFileInput').click()"><i class="fa-solid fa-file-import"></i> Import</button>
-                    </div>
-                    <input type="file" id="importStockFileInput" accept=".json" style="display:none" onchange="importStockOnly(event)">
                 </div>
             </div>
 
@@ -799,7 +769,7 @@ tr:hover td { background-color: var(--primary-light); }
     <div id="bill" class="bill"></div>
 </div>
 
-<!-- TAB 2: STOCK -->
+<!-- TAB 2: STOCK (Stock Backup Added Here) -->
 <div id="stockTab" class="app-tab-content">
     <div class="section-title"><i class="fa-solid fa-boxes-stacked"></i> Inventory & Stock Management</div>
 
@@ -826,10 +796,14 @@ tr:hover td { background-color: var(--primary-light); }
         </table>
     </div>
 
-    <button id="downloadStockBtn" class="btn-blue" style="background:var(--text-muted);"><i class="fa-solid fa-file-csv"></i> Download Inventory CSV</button>
+    <div class="grid-2" style="margin-top:14px;">
+        <button id="downloadStockBtn" class="btn-blue" style="background:var(--text-muted);"><i class="fa-solid fa-file-csv"></i> Download Inventory CSV</button>
+        <button class="btn-blue" style="background:#0284c7;" onclick="document.getElementById('importStockFileInput').click()"><i class="fa-solid fa-file-import"></i> Stock Backup & Restore</button>
+    </div>
+    <input type="file" id="importStockFileInput" accept=".json" style="display:none" onchange="importStockOnly(event)">
 </div>
 
-<!-- TAB 3: HISTORY -->
+<!-- TAB 3: HISTORY (Sales Backup Added Here) -->
 <div id="historyTab" class="app-tab-content">
     <div class="section-title"><i class="fa-solid fa-clock-rotate-left"></i> Sales History & Management</div>
 
@@ -854,8 +828,16 @@ tr:hover td { background-color: var(--primary-light); }
                 <tbody id="historyTableBody"></tbody>
             </table>
         </div>
-        <div class="grid-2" style="margin-top:18px;">
+        
+        <!-- Sales Backup & Management Options -->
+        <div class="grid-3" style="margin-top:18px;">
             <button id="downloadHistoryBtn" class="btn-blue" style="background:var(--text-muted);"><i class="fa-solid fa-file-excel"></i> Export Sales Excel</button>
+            <button class="btn-blue" style="background:#059669;" onclick="exportSalesHistoryOnly()"><i class="fa-solid fa-file-export"></i> Sales Backup JSON</button>
+            <button class="btn-blue" style="background:#0284c7;" onclick="document.getElementById('importSalesFileInput').click()"><i class="fa-solid fa-file-import"></i> Restore Sales JSON</button>
+        </div>
+        <input type="file" id="importSalesFileInput" accept=".json" style="display:none" onchange="importSalesHistoryOnly(event)">
+
+        <div style="margin-top:14px;">
             <button id="clearAllHistoryBtn" class="btn-blue" style="background:var(--danger);"><i class="fa-solid fa-trash-can"></i> Clear All History</button>
         </div>
     </div>
