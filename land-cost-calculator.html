@@ -80,7 +80,44 @@ body {
     flex-direction: column;
 }
 
-/* Hero Section Banner with Image Slider */
+/* Top Bar: Billing Logo & Shop Name */
+.app-top-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    max-width: 1000px;
+    margin: 0 auto 14px auto;
+    width: 100%;
+    padding: 0 4px;
+}
+
+.shop-identity {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.shop-logo {
+    width: 38px;
+    height: 38px;
+    border-radius: 10px;
+    background: var(--primary);
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    box-shadow: var(--shadow-sm);
+}
+
+.shop-welcome-text {
+    font-size: 15px;
+    font-weight: 800;
+    color: var(--text);
+    letter-spacing: -0.3px;
+}
+
+/* Hero Section Banner with Image Slider (Text Removed) */
 .hero-slider-container {
     width: 100%;
     max-width: 1000px;
@@ -113,32 +150,18 @@ body {
     object-fit: cover;
 }
 
-.hero-slide-content {
-    position: absolute;
-    bottom: 0; left: 0; right: 0;
-    background: linear-gradient(to top, rgba(15,23,42,0.8), transparent);
-    color: #fff;
-    padding: 16px;
-    font-weight: 800;
-    font-size: 15px;
-    text-align: center;
-}
-
 @keyframes fadeSlide {
     from { opacity: 0.4; }
     to { opacity: 1; }
 }
 
-/* Settings Menu Button (Floating Top-Right) */
+/* Settings Menu Button */
 .menu-toggle-btn {
-    position: fixed;
-    top: 16px;
-    right: 16px;
     background: var(--card-bg);
     border: 1px solid var(--border);
     color: var(--text);
-    width: 42px;
-    height: 42px;
+    width: 40px;
+    height: 40px;
     border-radius: 12px;
     cursor: pointer;
     display: flex;
@@ -146,7 +169,6 @@ body {
     justify-content: center;
     font-size: 16px;
     box-shadow: var(--shadow-sm);
-    z-index: 1500;
     transition: all 0.25s ease;
 }
 .menu-toggle-btn:hover {
@@ -229,7 +251,6 @@ body {
     gap: 14px;
 }
 
-/* No Container Box Style */
 .settings-card {
     background: transparent;
     border: none;
@@ -544,7 +565,7 @@ tr:hover td { background-color: var(--primary-light); }
         padding: 0 !important; border: none !important;
         box-shadow: none !important; background: #fff !important;
     }
-    .app-navbar, .hero-slider-container, .menu-toggle-btn, .settings-drawer-overlay { display: none !important; }
+    .app-navbar, .hero-slider-container, .app-top-bar, .settings-drawer-overlay { display: none !important; }
 }
 
 /* Udhaar Scope (Untouched) */
@@ -595,22 +616,25 @@ tr:hover td { background-color: var(--primary-light); }
 </head>
 <body>
 
-<!-- Floating Settings Button -->
-<button class="menu-toggle-btn" onclick="toggleSettingsDrawer(true)" title="Settings"><i class="fa-solid fa-bars"></i></button>
+<!-- TOP BAR: BILLING LOGO, SHOP NAME & SETTINGS BUTTON -->
+<div class="app-top-bar">
+    <div class="shop-identity">
+        <div class="shop-logo"><i class="fa-solid fa-file-invoice-dollar"></i></div>
+        <div id="shopWelcomeTitle" class="shop-welcome-text">Hii Shayan Smart Tools</div>
+    </div>
+    <button class="menu-toggle-btn" onclick="toggleSettingsDrawer(true)" title="Settings"><i class="fa-solid fa-bars"></i></button>
+</div>
 
-<!-- HERO SECTION BANNER WITH 3 BILLING IMAGE SLIDER -->
+<!-- HERO SECTION BANNER WITH 3 BILLING IMAGE SLIDER (WORDS REMOVED) -->
 <div class="hero-slider-container">
     <div class="hero-slide active">
         <img src="https://images.unsplash.com/photo-1556742049-0a67d55362ec?auto=format&fit=crop&w=1000&q=80" alt="Billing 1">
-        <div class="hero-slide-content">⚡ Shayan Smart POS & Billing System</div>
     </div>
     <div class="hero-slide">
         <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=1000&q=80" alt="Billing 2">
-        <div class="hero-slide-content">📊 Fast Inventory & Stock Management</div>
     </div>
     <div class="hero-slide">
         <img src="https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?auto=format&fit=crop&w=1000&q=80" alt="Billing 3">
-        <div class="hero-slide-content">💼 Easy Udhaar & Invoice Generation</div>
     </div>
 </div>
 
@@ -1016,15 +1040,25 @@ function showAppConfirm(title, message, onConfirm, onCancel = null) {
 }
 
 function loadShopDetails() {
-    document.getElementById("shop").value = localStorage.getItem("shop") || "";
+    let savedShop = localStorage.getItem("shop") || "Shayan Smart Tools";
+    document.getElementById("shop").value = savedShop !== "Shayan Smart Tools" ? savedShop : "";
     document.getElementById("phone").value = localStorage.getItem("phone") || "";
     document.getElementById("address").value = localStorage.getItem("address") || "";
     document.getElementById("gstin").value = localStorage.getItem("gstin") || "";
     document.getElementById("upiId").value = localStorage.getItem("upiId") || "";
+    
+    updateShopWelcomeTitle(savedShop);
+}
+
+function updateShopWelcomeTitle(shopName) {
+    const titleEl = document.getElementById("shopWelcomeTitle");
+    if(titleEl) {
+        titleEl.innerText = `Hii ${shopName}`;
+    }
 }
 
 function saveShopDetailsDirect() {
-    const s = document.getElementById("shop").value.trim();
+    const s = document.getElementById("shop").value.trim() || "Shayan Smart Tools";
     const p = document.getElementById("phone").value.trim();
     const a = document.getElementById("address").value.trim();
     const g = document.getElementById("gstin").value.trim();
@@ -1036,6 +1070,7 @@ function saveShopDetailsDirect() {
     localStorage.setItem("gstin", g);
     localStorage.setItem("upiId", u);
 
+    updateShopWelcomeTitle(s);
     showAppAlert("Success!", "Shop name, GSTIN & UPI setup saved successfully!");
 }
 
