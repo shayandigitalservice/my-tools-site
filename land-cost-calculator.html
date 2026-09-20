@@ -64,7 +64,7 @@
     --shadow-lg: 0 20px 35px -10px rgb(0 0 0 / 0.5);
 }
 
-* { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+* { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; scroll-behavior: smooth; }
 
 body { 
     font-family: 'Plus Jakarta Sans', sans-serif; 
@@ -269,10 +269,10 @@ body {
 }
 .app-tab-content.active-tab {
     display: block;
-    animation: fadeIn 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    animation: fadeIn 0.25s cubic-bezier(0.16, 1, 0.3, 1);
 }
 @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(6px); }
+    from { opacity: 0; transform: translateY(4px); }
     to { opacity: 1; transform: translateY(0); }
 }
 
@@ -670,7 +670,7 @@ tr:hover td { background-color: var(--primary-light); }
             <button class="close-drawer-btn" onclick="toggleSettingsDrawer(false)"><i class="fa-solid fa-xmark"></i></button>
         </div>
 
-        <!-- 1) Shop Details Setting -->
+        <!-- 1) Shop Details Setting (Fixed UPI ID Input Box Included) -->
         <div class="collapsible-card">
             <div class="collapsible-header" onclick="toggleCollapsible(this)">
                 <span><i class="fa-solid fa-store" style="color:var(--primary); margin-right:6px;"></i> Shop, GSTIN & UPI Setup</span>
@@ -1324,7 +1324,6 @@ function initBillingSystem() {
         let dateISO = new Date().toISOString();
         let paymentMode = document.getElementById("payment").value;
 
-        // Guaranteed live shop details pull from localStorage
         let invoiceData = {
             invoiceNo,
             shopName: localStorage.getItem("shop") || 'Shayan Smart Market',
