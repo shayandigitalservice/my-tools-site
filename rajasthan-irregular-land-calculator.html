@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Rajasthan Irregular Land Calculator| राजस्थान टेढ़ी-मेढ़ी जमीन का क्षेत्रफल | Shayan Smart Tools</title>
+    <title>Rajasthan Irregular Land Calculator 2026 | राजस्थान टेढ़ी-मेढ़ी जमीन का क्षेत्रफल | Shayan Smart Tools</title>
     <link rel="canonical" href="https://shayansmarttools.in/rajasthan-irregular-land-calculator.html" />
 
     <meta name="description" content="Official Rajasthan Irregular Land Area Calculator by Shayan Smart Tools. Calculate tedi-medi zameen using Heron's Formula. Accuracy in Bigha, Biswa, and Biswansi for Apna Khata Rajasthan records as per 2026 revenue rules.">
@@ -55,6 +55,23 @@
         .lang-toggle { display: flex; justify-content: center; gap: 10px; margin-bottom: 25px; }
         .lang-btn { padding: 10px 25px; border-radius: 50px; border: 2px solid var(--rj-orange); background: white; cursor: pointer; font-weight: 700; transition: 0.3s; color: var(--rj-orange); }
         .lang-btn.active { background: var(--rj-orange); color: white; }
+
+        /* Configuration Panel for Rajasthan Standard */
+        .config-card {
+            background: #ffffff;
+            padding: 15px 20px;
+            border-radius: 16px;
+            margin-bottom: 20px;
+            border: 1px solid #cbd5e1;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 15px;
+            text-align: left;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+        }
+        .config-label { font-weight: bold; color: var(--rj-orange); font-size: 14px; text-transform: uppercase; }
+        .config-select { padding: 10px; border-radius: 8px; border: 1px solid #cbd5e1; font-size: 14px; font-weight: bold; color: var(--rj-corporate); background: white; outline: none; }
 
         .form-container-block {
             background: transparent !important;
@@ -179,13 +196,15 @@
             .input-grid { grid-template-columns: 1fr; gap: 10px; }
             .action-btns-group { flex-direction: column; }
             .btn-calc, .btn-reset { width: 100%; }
+            .config-card { flex-direction: column; align-items: flex-start; }
+            .config-select { width: 100%; }
         }
 
         @media print {
             html, body { background: #ffffff !important; color: #000000 !important; margin: 0 !important; padding: 0 !important; }
             .container { max-width: 100% !important; width: 100% !important; padding: 0 !important; margin: 0 !important; }
             
-            header, .lang-toggle, .form-container-block, .diag-box, .visualizer-box, .history-box, .action-btns-group, .util-btns, #resHead, .seo-section, .back-btn, footer { 
+            header, .lang-toggle, .config-card, .form-container-block, .diag-box, .visualizer-box, .history-box, .action-btns-group, .util-btns, #resHead, .seo-section, .back-btn, footer { 
                 display: none !important; 
                 opacity: 0 !important;
                 visibility: hidden !important;
@@ -272,6 +291,15 @@
     <div class="lang-toggle">
         <button class="lang-btn active" id="enBtn" onclick="setLang('en')">English</button>
         <button class="lang-btn" id="hiBtn" onclick="setLang('hi')">हिंदी</button>
+    </div>
+
+    <!-- Configuration Panel for Rajasthan Standard -->
+    <div class="config-card">
+        <span class="config-label" id="configLabel">Select Bigha Standard (बीघा मानक):</span>
+        <select id="bighaStandard" class="config-select" onchange="updateVisualizer()">
+            <option value="pakka" selected>Standard / Pakka Bigha (27,225 Sq. Ft)</option>
+            <option value="kachha">Local / Kaccha Bigha (9,075 Sq. Ft)</option>
+        </select>
     </div>
 
     <div class="form-container-block">
@@ -461,6 +489,7 @@
         en: {
             t: "Rajasthan Irregular Land Calculator",
             stitle: "Advanced boundary conversion tool for complex tedi-medi zameen maps matching parameters.",
+            configLabel: "Select Bigha Standard (बीघा मानक):",
             lA: "Side A (Feet)", lB: "Side B (Feet)", lC: "Side C (Feet)", lD: "Side D (Feet)",
             lDg: "Diagonal / Tirchi Line (Feet)", b: "Calculate Area", btnReset: "RESET",
             rT: "Total Land Result (Standard):", uB: "Bigha", uW: "Biswa", uN: "Biswansi",
@@ -476,6 +505,7 @@
         hi: {
             t: "राजस्थान टेढ़ी-मेढ़ी जमीन कैलकुलेटर",
             stitle: "जटिल टेढ़े-मेढ़े भूमि मानचित्रों के सटीक मापन और मिलान मापदंडों के लिए उन्नत त्रिकोणीय साधन।",
+            configLabel: "बीघा मानक चुनें (Bigha Standard):",
             lA: "पहली भुजा (Side A) फुट में", lB: "दूसरी भुजा (Side B) फुट में", lC: "तीसरी भुजा (Side C) फुट में", lD: "चौथी भुजा (Side D) फुट में",
             lDg: "विकर्ण / तिरछी लाइन (Diagonal) फुट में", b: "क्षेत्रफल निकालें", btnReset: "रीसेट",
             rT: "कुल क्षेत्रफल का परिणाम विवरण:", uB: "बीघा", uW: "बिस्वा", uN: "बिस्वांसी (Biswansi)",
@@ -566,6 +596,7 @@
         
         document.getElementById('mainTitle').innerText = trans[l].t;
         document.getElementById('sTitle').innerText = trans[l].stitle;
+        document.getElementById('configLabel').innerText = trans[l].configLabel;
         document.getElementById('lblA').innerText = trans[l].lA;
         document.getElementById('lblB').innerText = trans[l].lB;
         document.getElementById('lblC').innerText = trans[l].lC;
@@ -639,6 +670,7 @@
         var c = parseFloat(document.getElementById('sideC').value) || 0;
         var d = parseFloat(document.getElementById('sideD').value) || 0;
         var diag = parseFloat(document.getElementById('diagonal').value) || 0;
+        var standardType = document.getElementById('bighaStandard').value;
         var resPanel = document.getElementById('resultBox');
 
         if(a <= 0 || b <= 0 || c <= 0 || d <= 0 || diag <= 0) { 
@@ -662,12 +694,16 @@
         var totalAcre = totalSqFt / 43560;
         var totalHec = totalSqFt / 107639.104;
 
+        var oneBighaSqFt = (standardType === 'pakka') ? 27225 : 9075;
+        var oneBiswaSqFt = oneBighaSqFt / 20;
+        var oneBiswansiSqFt = oneBiswaSqFt / 20;
+
         var rem = totalSqFt;
-        var bigha = Math.floor(rem / 27225);
-        rem %= 27225;
-        var biswa = Math.floor(rem / 1361.25);
-        rem %= 1361.25;
-        var biswansi = (rem / 68.06).toFixed(2);
+        var bigha = Math.floor(rem / oneBighaSqFt);
+        rem %= oneBighaSqFt;
+        var biswa = Math.floor(rem / oneBiswaSqFt);
+        rem %= oneBiswaSqFt;
+        var biswansi = (rem / oneBiswansiSqFt).toFixed(2);
 
         document.getElementById('outB').innerText = bigha;
         document.getElementById('outW').innerText = biswa;
@@ -706,7 +742,7 @@
             id: Date.now(),
             name: "Rajasthan Irregular Land Calculator",
             url: "rajasthan-irregular-land-calculator.html",
-            inputs: `A:${a}, B:${b}, C:${c}, D:${d}, E:${diag}`,
+            inputs: `A:${a}, B:${b}, C:${c}, D:${d}, E:${diag} (${standardType})`,
             result: `${resultFormat} (${Math.round(totalSqFt)} Sq Ft)`,
             time: timeStr
         });
