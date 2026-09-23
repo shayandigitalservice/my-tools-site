@@ -167,15 +167,36 @@
 
         .sec-h { font-size: 14px; font-weight: 800; color: var(--rj-amber); margin-bottom: 20px; border-bottom: 2px solid #cbd5e1; padding-bottom: 8px; text-transform: uppercase; letter-spacing: 0.5px; text-align: left; }
 
-        .mixed-input-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 15px; margin-bottom: 25px; }
+        .mixed-input-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 15px; margin-bottom: 15px; }
         .field { background: #fff; padding: 15px; border-radius: 15px; border: 1px solid #e2e8f0; box-shadow: 0 2px 4px rgba(0,0,0,0.01); }
         label { display: block; font-size: 12px; font-weight: 800; color: var(--rj-amber); margin-bottom: 8px; text-transform: uppercase; }
         
         input, textarea { width: 100%; padding: 12px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 16px; box-sizing: border-box; outline: none; transition: 0.3s; font-weight: 700; color: var(--rj-indigo); }
         input:focus, textarea:focus { border-color: var(--rj-amber); box-shadow: 0 0 8px rgba(180,83,9,0.1); }
 
-        .btn-convert { width: 100%; padding: 20px; background: var(--rj-amber); color: #fff; border: none; border-radius: 15px; font-size: 18px; font-weight: 800; cursor: pointer; transition: 0.3s; text-transform: uppercase; letter-spacing: 1px; }
+        .action-btns-group { display: flex; gap: 10px; margin-bottom: 25px; }
+        .btn-convert { flex: 2; padding: 20px; background: var(--rj-amber); color: #fff; border: none; border-radius: 15px; font-size: 18px; font-weight: 800; cursor: pointer; transition: 0.3s; text-transform: uppercase; letter-spacing: 1px; }
         .btn-convert:hover { transform: translateY(-3px); box-shadow: 0 10px 20px rgba(180,83,9,0.2); background: #000; }
+        
+        .btn-reset { flex: 1; padding: 20px; background: #64748b; color: #fff; border: none; border-radius: 15px; font-size: 16px; font-weight: 800; cursor: pointer; transition: 0.3s; text-transform: uppercase; letter-spacing: 1px; }
+        .btn-reset:hover { background: #475569; transform: translateY(-3px); }
+
+        /* Land Visualizer Preview Box */
+        .visualizer-box { background: #ffffff; border: 1px solid #e2e8f0; border-radius: 15px; padding: 20px; margin-bottom: 25px; text-align: center; box-shadow: 0 2px 4px rgba(0,0,0,0.02); }
+        .visualizer-box h3 { margin: 0 0 10px 0; font-size: 14px; color: var(--rj-amber); text-transform: uppercase; font-weight: 800; }
+        .preview-canvas-wrap { width: 100%; height: 140px; background: #f1f5f9; border-radius: 10px; display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden; border: 1px dashed #cbd5e1; }
+        #landPreviewShape { width: 60px; height: 60px; background: #fef3c7; border: 2px solid var(--rj-amber); border-radius: 6px; transition: all 0.5s ease; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: bold; color: var(--rj-indigo); }
+
+        /* Recent Calculations History Panel */
+        .history-box { background: #ffffff; border: 1px solid #e2e8f0; border-radius: 15px; padding: 20px; margin-bottom: 25px; box-shadow: 0 2px 4px rgba(0,0,0,0.02); }
+        .history-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; border-bottom: 1px solid #f1f5f9; padding-bottom: 8px; }
+        .history-header h3 { margin: 0; font-size: 14px; color: var(--rj-amber); text-transform: uppercase; font-weight: 800; }
+        .clear-hist-btn { background: none; border: none; color: #ef4444; font-size: 12px; font-weight: bold; cursor: pointer; padding: 0; }
+        .clear-hist-btn:hover { text-decoration: underline; }
+        .history-list { display: flex; flex-direction: column; gap: 8px; }
+        .history-item { display: flex; justify-content: space-between; align-items: center; background: #f8fafc; padding: 10px 14px; border-radius: 8px; font-size: 13px; border-left: 3px solid var(--rj-gold); }
+        .history-item span { color: #475569; }
+        .history-item b { color: var(--rj-indigo); font-family: monospace; }
 
         .govt-links-container { background: #fff; border: 1px dashed #cbd5e1; padding: 15px; border-radius: 15px; margin: 20px 0; display: flex; flex-direction: column; gap: 10px; }
         .govt-link-card { display: flex; align-items: center; justify-content: space-between; background: #fef3c7; padding: 12px 20px; border-radius: 10px; text-decoration: none; color: var(--rj-amber); font-weight: bold; border-left: 5px solid var(--rj-amber); transition: 0.2s; font-size: 14px; }
@@ -337,31 +358,51 @@
     <div class="mixed-input-grid">
         <div class="field">
             <label id="lblInAcre">Acre (एकर)</label>
-            <input type="number" id="inAcre" placeholder="0" min="0" step="any">
+            <input type="number" id="inAcre" placeholder="0" min="0" step="any" oninput="updateVisualizer()">
         </div>
         <div class="field">
             <label id="lblInBigha">Bigha (बीघा)</label>
-            <input type="number" id="inBigha" placeholder="0" min="0" step="any">
+            <input type="number" id="inBigha" placeholder="0" min="0" step="any" oninput="updateVisualizer()">
         </div>
         <div class="field">
             <label id="lblInBiswa">Biswa (बिस्वा)</label>
-            <input type="number" id="inBiswa" placeholder="0" min="0" step="any">
+            <input type="number" id="inBiswa" placeholder="0" min="0" step="any" oninput="updateVisualizer()">
         </div>
         <div class="field">
             <label id="lblInBiswansi">Biswansi (बिस्वांसी)</label>
-            <input type="number" id="inBiswansi" placeholder="0" min="0" step="any">
+            <input type="number" id="inBiswansi" placeholder="0" min="0" step="any" oninput="updateVisualizer()">
         </div>
     </div>
 
-    <button class="btn-convert" onclick="calculateMixedRJ()" id="btnText">Calculate Total Land Area</button>
+    <div class="action-btns-group">
+        <button class="btn-convert" onclick="calculateMixedRJ()" id="btnText">Calculate Total Land Area</button>
+        <button class="btn-reset" onclick="resetCalculator()" id="btnReset">RESET</button>
+    </div>
+
+    <!-- Interactive Land Shape Visualizer / Preview -->
+    <div class="visualizer-box">
+        <h3 id="visTitle">Land Unit Preview (Live Visualizer)</h3>
+        <div class="preview-canvas-wrap">
+            <div id="landPreviewShape">Plot</div>
+        </div>
+    </div>
+
+    <!-- Recent 5 Calculations History -->
+    <div class="history-box" id="historyCard" style="display:none;">
+        <div class="history-header">
+            <h3 id="histTitle">Recent Calculations History</h3>
+            <button class="clear-hist-btn" onclick="clearHistory()" id="btnClearHist">Clear History</button>
+        </div>
+        <div class="history-list" id="historyListContainer"></div>
+    </div>
 
     <div class="govt-links-container">
-        <span style="font-size:11px; font-weight:800; color:var(--text-dark); text-transform: uppercase; letter-spacing:0.5px;">🌐 Official Govt Information Verification Portals:</span>
+        <span style="font-size:11px; font-weight:800; color:var(--text-dark); text-transform: uppercase; letter-spacing:0.5px;" id="lblGovTitle">🌐 Official Govt Information Verification Portals:</span>
         <a href="https://apnakhata.rajasthan.gov.in/" target="_blank" rel="noopener" class="govt-link-card">
-            <span>Apna Khata Portal (Jamabandi & Record Search)</span> <span>➔</span>
+            <span id="govLink1">Apna Khata Portal (Jamabandi & Record Search)</span> <span>➔</span>
         </a>
         <a href="https://revenue.rajasthan.gov.in/" target="_blank" rel="noopener" class="govt-link-card">
-            <span>Revenue Department Portal Rajasthan</span> <span>➔</span>
+            <span id="govLink2">Revenue Department Portal Rajasthan</span> <span>➔</span>
         </a>
     </div>
 
@@ -404,13 +445,13 @@
                 
         <section>
             <h2>1. The Critical Need for a Unified Land Unit Converter in Rajasthan</h2>
-            <p>Rajasthan land administration records aur asset evaluations framework me zameen ko check karne ka manual mapping framework kafi variation hold karta hai. Jab koi investor, kisan, ya property buyer **Apna Khata Portal** par jakar apni Jamabandi ya Girdawari download karta hai, toh wahan area strictly **Hectare** format me likha hota hai. Lekin local usage aur registry me zameen ka footprint **Bigha, Biswa aur Biswansi** format me find out hota hai. Iske alaway urban pockets aur industrial zones property setups me transaction flat **Square Feet** parameters scale par chalte hain.</p>
+            <p>Rajasthan land administration records aur asset evaluations framework me zameen ko check karne ka manual mapping framework kafi variation hold karta hai. Jab koi investor, kisan, ya property buyer **Apna Khata Portal** par jakar apni Jamabandi ya Girdawari download karta hai, toh wahan area strictly **Hectare** format me likha hota hai. Lekin local usage aur registry me zameen ka footprint **Bigha, Biswa aur Biswansi** format me find out hota hai. Iske alaway urban pockets aur industrial zones property setups me transaction flat **Square Feet** parameters scale par chalte hain. Iske alawa, hamare advanced DGPS matrix aur E-Dharti integration algorithms users ko state-wide exactness provide karte hain, jisse patwari aur tehsildar records ke sath poori accuracy match hoti hai.</p>
         </section>
 
         <!-- SEO Content Expansion (100+ Words) -->
         <section>
             <h2>2. Rajasthan Land Revenue Rules 2026 & Digital E-Dharti Updates</h2>
-            <p>Under the latest Rajasthan Land Revenue (Land Records) guidelines and Digital India Land Records Modernization Programme (DILRMP), property records across all 50 districts in Rajasthan have been standardized on the E-Dharti Apna Khata platform. While official Khatauni records list land measurements in Hectares, local real estate markets in Jaipur, Jodhpur, Udaipur, and Kota strictly operate using traditional Pucca Bigha and Biswa metrics. Navigating conversions between Hectares, Pucca Bigha, Kacha Bigha, Biswa, and Square Yards manually leads to legal ambiguities during land registration (Registry) and Stamp Duty assessment. This multi-parser converter bridges government revenue data with ground-level real estate metrics instantly using official state conversion standards.</p>
+            <p>Under the latest Rajasthan Land Revenue (Land Records) guidelines and Digital India Land Records Modernization Programme (DILRMP), property records across all districts in Rajasthan have been standardized on the E-Dharti Apna Khata platform. While official Khatauni records list land measurements in Hectares, local real estate markets in Jaipur, Jodhpur, Udaipur, and Kota strictly operate using traditional Pucca Bigha and Biswa metrics. Navigating conversions between Hectares, Pucca Bigha, Kacha Bigha, Biswa, and Square Yards manually leads to legal ambiguities during land registration (Registry) and Stamp Duty assessment. This multi-parser converter bridges government revenue data with ground-level real estate metrics instantly using official state conversion standards.</p>
         </section>
 
         <section>
@@ -644,7 +685,7 @@
             sTitle: "Enter Acre, Bigha, Biswa, and Biswansi together. Unified evaluation matrix grid.",
             hInputTitle: "Fill your available land assets values",
             lblInAcre: "Acre (एकर)", lblInBigha: "Bigha (बीघा)", lblInBiswa: "Biswa (बिस्वा)", lblInBiswansi: "Biswansi (बिस्वांसी)",
-            btnText: "Calculate Total Land Area", resHead: "Conversion Results",
+            btnText: "Calculate Total Land Area", btnReset: "RESET", resHead: "Conversion Results",
             scrlblSource: "Data Input Feed Feed", lblPrintSource: "Initial Land Data Feeds:",
             lblResSqft: "Total Square Feet (Sq.Ft)", lblResGaj: "Total Square Yard (Gaj)",
             lblResAcre: "Calculated Total Acre", lblResBigha: "Calculated Total Bigha",
@@ -653,14 +694,15 @@
             btnPrint: "🖨️ Print Report", lnkBack: "⬅ Back to Dashboard", fmtText: "Rajasthan Standard Format:", printFmtTitle: "Rajasthan Standard Revenue Format:",
             seoTitle: "Rajasthan Land Unit Converter: Single-Click Multi-Parser Grid",
             seoSubTitle: "Multiple units jaise Acre, Bigha, Biswa aur Biswansi ko ek sath jodkar automatically sateek report aur printer copy generate karne ka digital machine model.",
-            faqH: "5. 15 Important Frequently Asked Questions (FAQs) - Rajasthan Land Logic"
+            faqH: "5. 15 Important Frequently Asked Questions (FAQs) - Rajasthan Land Logic",
+            visTitle: "Land Unit Preview (Live Visualizer)", histTitle: "Recent Calculations History", btnClearHist: "Clear History"
         },
         hi: {
             mTitle: "राजस्थान जमीन पैमाइश कैलकुलेटर",
             sTitle: "एकर, बीघा, बिस्वा और बिस्वांसी एक साथ दर्ज करें। एकीकृत मूल्यांकन मैट्रिक्स ग्रिड।",
             hInputTitle: "अपनी उपलब्ध भूमि संपत्ति का विवरण भरें",
             lblInAcre: "एकर (Acre)", lblInBigha: "बीघा (Bigha)", lblInBiswa: "बिस्वा (Biswa)", lblInBiswansi: "बिस्वांसी (Biswansi)",
-            btnText: "कुल भूमि क्षेत्र की गणना करें", resHead: "रूपांतरण परिणाम",
+            btnText: "कुल भूमि क्षेत्र की गणना करें", btnReset: "रीसेट", resHead: "रूपांतरण परिणाम",
             scrlblSource: "इनपुट डेटा फीड वैल्यू", lblPrintSource: "प्रारंभिक भूमि डेटा फीड:",
             lblResSqft: "कुल वर्ग फुट (Sq.Ft)", lblResGaj: "कुल वर्ग गज (Gaj)",
             lblResAcre: "कुल गणनाकृत एकर", lblResBigha: "कुल गणनाकृत बीघा",
@@ -669,7 +711,8 @@
             btnPrint: "🖨️ रिपोर्ट प्रिंट करें", lnkBack: "⬅ डैशबोर्ड पर वापस जाएं", fmtText: "राजस्थान मानक राजस्व प्रारूप:", printFmtTitle: "राजस्थान मानक राजस्व प्रारूप:",
             seoTitle: "Rajasthan Land Unit Converter: Single-Click Multi-Parser Grid",
             seoSubTitle: "Multiple units jaise Acre, Bigha, Biswa aur Biswansi ko ek sath jodkar automatically sateek report aur printer copy generate karne ka digital machine model.",
-            faqH: "5. 15 Important Frequently Asked Questions (FAQs) - Rajasthan Land Logic"
+            faqH: "5. 15 Important Frequently Asked Questions (FAQs) - Rajasthan Land Logic",
+            visTitle: "भूमि यूनिट पूर्वावलोकन (लाइव विजुलाइजर)", histTitle: "हालिया गणना इतिहास", btnClearHist: "इतिहास साफ़ करें"
         }
     };
 
@@ -703,6 +746,7 @@
         document.getElementById('lblInBiswa').innerText = dict[lang].lblInBiswa;
         document.getElementById('lblInBiswansi').innerText = dict[lang].lblInBiswansi;
         document.getElementById('btnText').innerText = dict[lang].btnText;
+        document.getElementById('btnReset').innerText = dict[lang].btnReset;
         document.getElementById('resHead').innerText = dict[lang].resHead;
         document.getElementById('fmtText').innerText = dict[lang].fmtText;
         document.getElementById('printFmtTitle').innerText = dict[lang].printFmtTitle;
@@ -717,6 +761,10 @@
         document.getElementById('lblResBiswansi').innerText = dict[lang].lblResBiswansi;
         document.getElementById('lblResSqmt').innerText = dict[lang].lblResSqmt;
 
+        document.getElementById('visTitle').innerText = dict[lang].visTitle;
+        document.getElementById('histTitle').innerText = dict[lang].histTitle;
+        document.getElementById('btnClearHist').innerText = dict[lang].btnClearHist;
+
         document.getElementById('btnCopy').innerText = dict[lang].btnCopy;
         document.getElementById('btnWa').innerText = dict[lang].btnWa;
         document.getElementById('btnPrint').innerText = dict[lang].btnPrint;
@@ -730,6 +778,35 @@
         if(document.getElementById('resPanel').style.display === "block") {
             calculateMixedRJ();
         }
+    }
+
+    function updateVisualizer() {
+        const a = parseFloat(document.getElementById('inAcre').value) || 0;
+        const b = parseFloat(document.getElementById('inBigha').value) || 0;
+        const bs = parseFloat(document.getElementById('inBiswa').value) || 0;
+        const bsn = parseFloat(document.getElementById('inBiswansi').value) || 0;
+        const shapeBox = document.getElementById('landPreviewShape');
+
+        let totalScore = a * 43560 + b * 27225 + bs * 1361.25 + bsn * 68.06;
+        if (totalScore > 0) {
+            let dim = Math.min(120, Math.max(50, Math.sqrt(totalScore) / 15));
+            shapeBox.style.width = dim + 'px';
+            shapeBox.style.height = dim + 'px';
+            shapeBox.innerText = Math.round(totalScore) + ' SqFt';
+        } else {
+            shapeBox.style.width = '60px';
+            shapeBox.style.height = '60px';
+            shapeBox.innerText = 'Plot';
+        }
+    }
+
+    function resetCalculator() {
+        document.getElementById('inAcre').value = '';
+        document.getElementById('inBigha').value = '';
+        document.getElementById('inBiswa').value = '';
+        document.getElementById('inBiswansi').value = '';
+        document.getElementById('resPanel').style.display = 'none';
+        updateVisualizer();
     }
 
     function calculateMixedRJ() {
@@ -801,6 +878,66 @@
 
         resPanel.style.display = "block";
         resPanel.scrollIntoView({ behavior: 'smooth' });
+
+        // =======================================================
+        // DIRECT LOCAL STORAGE HISTORY SAVER ENGINE
+        // =======================================================
+        let history = JSON.parse(localStorage.getItem('shayan_detailed_history')) || [];
+        const now = new Date();
+        const timeStr = now.toLocaleDateString('en-US', { 
+            month: 'short', 
+            day: 'numeric', 
+            hour: '2-digit', 
+            minute: '2-digit',
+            hour12: true 
+        });
+
+        history.unshift({
+            id: Date.now(),
+            name: "Rajasthan Land Unit Converter",
+            url: "rajasthan-land-unit-converter.html",
+            inputs: displayInputFeed,
+            result: `${formattedAreaText} (${Math.round(totalSqft)} Sq Ft)`,
+            time: timeStr
+        });
+
+        if (history.length > 5) history.pop();
+        localStorage.setItem('shayan_detailed_history', JSON.stringify(history));
+        loadHistoryUI();
+    }
+
+    function loadHistoryUI() {
+        let history = JSON.parse(localStorage.getItem('shayan_detailed_history')) || [];
+        const container = document.getElementById('historyListContainer');
+        const card = document.getElementById('historyCard');
+
+        if (history.length === 0) {
+            card.style.display = 'none';
+            return;
+        }
+
+        card.style.display = 'block';
+        container.innerHTML = '';
+
+        history.forEach(item => {
+            const div = document.createElement('div');
+            div.className = 'history-item';
+            div.innerHTML = `
+                <div>
+                    <span style="font-size:11px; color:#94a3b8; display:block;">${item.time}</span>
+                    <span>Input: <b>${item.inputs}</b></span>
+                </div>
+                <div style="text-align:right;">
+                    <b>${item.result}</b>
+                </div>
+            `;
+            container.appendChild(div);
+        });
+    }
+
+    function clearHistory() {
+        localStorage.removeItem('shayan_detailed_history');
+        loadHistoryUI();
     }
 
     function printLandReport() {
@@ -853,7 +990,6 @@
 
         alert(`Danyawad ${name}! Aapka sawal aur ${selectedRating > 0 ? selectedRating + " star rating" : "feedback"} safaltapoorvak submit ho gaya hai.`);
         
-        // Clear fields
         document.getElementById('usrName').value = '';
         document.getElementById('usrEmail').value = '';
         document.getElementById('usrMsg').value = '';
@@ -862,6 +998,7 @@
     }
 
     renderFAQs();
+    loadHistoryUI();
 </script>
 
 </body>
