@@ -48,6 +48,23 @@
         .l-btn { padding: 10px 25px; border-radius: 50px; border: 2px solid var(--rj-crimson); background: white; cursor: pointer; font-weight: 700; transition: 0.3s; color: var(--rj-crimson); }
         .l-btn.active { background: var(--rj-crimson); color: white; }
 
+        /* Configuration Panel for Rajasthan Standard */
+        .config-card {
+            background: #ffffff;
+            padding: 15px 20px;
+            border-radius: 16px;
+            margin-bottom: 20px;
+            border: 1px solid #cbd5e1;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 15px;
+            text-align: left;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+        }
+        .config-label { font-weight: bold; color: var(--rj-crimson); font-size: 14px; text-transform: uppercase; }
+        .config-select { padding: 10px; border-radius: 8px; border: 1px solid #cbd5e1; font-size: 14px; font-weight: bold; color: var(--rj-corporate); background: white; outline: none; }
+
         /* Input Grid */
         .input-section { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 15px; margin-bottom: 15px; }
         label { display: block; font-size: 12px; font-weight: 800; color: var(--rj-crimson); margin-bottom: 8px; text-transform: uppercase; }
@@ -68,7 +85,7 @@
         #landPreviewShape { width: 60px; height: 60px; background: #fee2e2; border: 2px solid var(--rj-crimson); border-radius: 6px; transition: all 0.5s ease; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: bold; color: var(--rj-dark); }
 
         /* Recent Calculations History Panel */
-        .history-box { background: #ffffff; border: 1px solid #e2e8f0; border-radius: 15px; padding: 20px; margin-bottom: 25px; box-shadow: 0 2px 4px rgba(0,0,0,0.02); }
+        .history-box { background: #ffffff; border: 1px solid #e2e8f0; border-radius: 15px; padding: 20px; margin-bottom: 25px; box-shadow: 0 2px 4px rgba(0,0,0,0.02); text-align: left; }
         .history-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; border-bottom: 1px solid #f1f5f9; padding-bottom: 8px; }
         .history-header h3 { margin: 0; font-size: 14px; color: var(--rj-crimson); text-transform: uppercase; font-weight: 800; }
         .clear-hist-btn { background: none; border: none; color: #ef4444; font-size: 12px; font-weight: bold; cursor: pointer; padding: 0; }
@@ -158,6 +175,8 @@
             .res-item { padding: 12px 14px; }
             .seo-content h2 { font-size: 20px !important; }
             .sst-dashboard-grid { grid-template-columns: 1fr; gap: 10px; }
+            .config-card { flex-direction: column; align-items: flex-start; }
+            .config-select { width: 100%; }
         }
 
         /* PRINT STYLING */
@@ -165,7 +184,7 @@
             * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
             @page { margin: 15mm; size: A4 portrait; }
             body { background: #ffffff !important; color: #000000 !important; padding: 0; margin: 0; }
-            .measurement-tool > header, .lang-switch, .gov-links-title, .gov-links-grid, .input-section, .action-btns-group, .visualizer-box, .history-box, .how-to-use-box, .util-btns, #resHead, .seo-content, .back-btn, .interactive-section { display: none !important; }
+            .measurement-tool > header, .lang-switch, .config-card, .gov-links-title, .gov-links-grid, .input-section, .action-btns-group, .visualizer-box, .history-box, .how-to-use-box, .util-btns, #resHead, .seo-content, .back-btn, .interactive-section { display: none !important; }
             
             .res-panel { 
                 display: block !important; 
@@ -197,18 +216,6 @@
 
             .print-footer-block { display: block !important; text-align: center; margin-top: 20px; border-top: 1px solid #cbd5e1 !important; padding-top: 15px; }
         }
-
-        /* Layout & Container Styling */
-        .interactive-section {
-            max-width: 850px;
-            margin: 0 auto;
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-        }
-
-        
-                    
     </style>
 </head>
 <body>
@@ -222,6 +229,15 @@
     <div class="lang-switch">
         <button class="l-btn active" id="enBtn" onclick="setLang('en')">English</button>
         <button class="l-btn" id="bnBtn" onclick="setLang('bn')">हिंदी</button>
+    </div>
+
+    <!-- Configuration Panel for Rajasthan Standard -->
+    <div class="config-card">
+        <span class="config-label" id="configLabel">Select Bigha Standard (बीघा मानक):</span>
+        <select id="bighaStandard" class="config-select" onchange="updateVisualizer()">
+            <option value="pakka" selected>Standard / Pakka Bigha (27,225 Sq. Ft)</option>
+            <option value="kachha">Local / Kaccha Bigha (9,075 Sq. Ft)</option>
+        </select>
     </div>
 
     <div class="input-section">
@@ -294,7 +310,7 @@
 
         <div class="bkl-special">
             <span id="fmtText" style="display:block; font-size: 14px; color: #94a3b8; font-weight: bold; margin-bottom: 5px;">Rajasthan Standard Format:</span>
-            <strong id="bklText" style="font-size: 24px; color: var(--rj-gold);">0 Pacca Bigha, 0 Biswa</strong>
+            <strong id="bklText" style="font-size: 24px; color: var(--rj-gold);">0 Bigha, 0 Biswa</strong>
         </div>
 
         <h3 id="resHead" style="color: var(--rj-gold); margin-top: 0; text-align: center;">Conversion Results</h3>
@@ -304,6 +320,7 @@
             <div class="res-item"><span id="lblResSqft">Total Square Feet (Sq.Ft)</span> <b id="resSqft">0</b></div>
             <div class="res-item"><span id="lblResSqgaj">Total Square Yards / Gaj</span> <b id="resSqgaj">0</b></div>
             <div class="res-item"><span id="lblResSqmt">Total Square Meter (Sq.Mt)</span> <b id="resSqmt">0</b></div>
+            <div class="res-item" id="rowPrimaryBigha"><span id="lblResPrimaryBigha">Calculated Bigha</span> <b id="resPrimaryBigha">0</b></div>
             <div class="res-item"><span id="lblResPBigha">Calculated Pacca Bigha</span> <b id="resPBigha">0</b></div>
             <div class="res-item"><span id="lblResKBigha">Calculated Kaccha Bigha</span> <b id="resKBigha">0</b></div>
             <div class="res-item"><span id="lblResBiswa">Calculated Total Biswa</span> <b id="resBiswa">0</b></div>
@@ -349,7 +366,7 @@
     <article class="seo-content">
         <div class="seo-header-block">
             <h2 id="seoTitle">Rajasthan Land Area Calculator: Professional Bigha, Biswa & Hectare Converter 2026</h2>
-            <p style="font-size: 16px; color: #555; text-align: center; margin: 0;" id="seoSubTitle">Apna Khata Rajasthan portal aur Rajasthan revenue department 2026 guidelines ke anusaار land naap-jokh ka manual setup.</p>
+            <p style="font-size: 16px; color: #555; text-align: center; margin: 0;" id="seoSubTitle">Apna Khata Rajasthan portal aur Rajasthan revenue department 2026 guidelines ke anusaar land naap-jokh ka manual setup.</p>
         </div>
 
         <section>
@@ -515,10 +532,12 @@
         en: {
             mTitle: "Land Measurement Calculator (Rajasthan)",
             sTitle: "Accurate Pacca Bigha, Kaccha Bigha, Biswa, and Acre converter for Apna Khata Rajasthan Records.",
+            configLabel: "Select Bigha Standard (बीघा मानक):",
             lblSource: "Initial Data Input Feed",
             lblResSqft: "Total Square Feet (Sq.Ft)",
             lblResSqgaj: "Total Square Yards / Gaj",
             lblResSqmt: "Total Square Meter (Sq.Mt)",
+            lblResPrimaryBigha: "Calculated Bigha (Selected Standard)",
             lblResPBigha: "Calculated Pacca Bigha",
             lblResKBigha: "Calculated Kaccha Bigha",
             lblResBiswa: "Calculated Total Biswa",
@@ -538,10 +557,12 @@
         bn: {
             mTitle: "भूमि मापन कैलकुलेटर (राजस्थान)",
             sTitle: "अपना खाता राजस्थान राजस्व रिकॉर्ड के लिए सटीक पक्का बीघा, कच्चा बीघा, बिस्वा और एकड़ कनवर्टर",
+            configLabel: "बीघा मानक चुनें (Bigha Standard):",
             lblSource: "इनपुट डेटा सोर्स मूल्य",
             lblResSqft: "कुल वर्ग फीट क्षेत्रफल (Sq Ft)",
             lblResSqgaj: "कुल वर्ग गज क्षेत्रफल (Gaj)",
             lblResSqmt: "कुल वर्ग मीटर क्षेत्रफल (Sq Mt)",
+            lblResPrimaryBigha: "गणना किया गया बीघा (चयनित मानक)",
             lblResPBigha: "कुल गणना किया गया पक्का बीघा",
             lblResKBigha: "कुल गणना किया गया कच्चा बीघा",
             lblResBiswa: "कुल गणना किया गया राजस्थान बिस्वा",
@@ -601,6 +622,7 @@
         
         document.getElementById('mTitle').innerText = dict[lang].mTitle;
         document.getElementById('sTitle').innerText = dict[lang].sTitle;
+        document.getElementById('configLabel').innerText = dict[lang].configLabel;
         document.getElementById('lLen').innerText = dict[lang].ll;
         document.getElementById('lWid').innerText = dict[lang].lw;
         document.getElementById('lUni').innerText = dict[lang].lu;
@@ -613,6 +635,7 @@
         document.getElementById('lblResSqft').innerText = dict[lang].lblResSqft;
         document.getElementById('lblResSqgaj').innerText = dict[lang].lblResSqgaj;
         document.getElementById('lblResSqmt').innerText = dict[lang].lblResSqmt;
+        document.getElementById('lblResPrimaryBigha').innerText = dict[lang].lblResPrimaryBigha;
         document.getElementById('lblResPBigha').innerText = dict[lang].lblResPBigha;
         document.getElementById('lblResKBigha').innerText = dict[lang].lblResKBigha;
         document.getElementById('lblResBiswa').innerText = dict[lang].lblResBiswa;
@@ -680,6 +703,7 @@
         const length = parseFloat(document.getElementById('length').value);
         const width = parseFloat(document.getElementById('width').value);
         const unit = document.getElementById('unitType').value;
+        const standardType = document.getElementById('bighaStandard').value;
         const resPanel = document.getElementById('resPanel');
 
         if (isNaN(length) || length <= 0 || isNaN(width) || width <= 0) {
@@ -701,30 +725,30 @@
 
         const PACCA_BIGHA_SQFT = 27225;
         const KACCHA_BIGHA_SQFT = 9075;
-        const BISWA_SQFT = 1361.25;
+        const SELECTED_BIGHA_SQFT = (standardType === 'pakka') ? PACCA_BIGHA_SQFT : KACCHA_BIGHA_SQFT;
+        const BISWA_SQFT = SELECTED_BIGHA_SQFT / 20;
         const ACRE_SQFT = 43560;
         const HECTARE_SQFT = 107639.104;
 
-        let pbigha_floor = Math.floor(sqft / PACCA_BIGHA_SQFT);
-        let remSqftForBiswa = sqft % PACCA_BIGHA_SQFT;
+        let bigha_floor = Math.floor(sqft / SELECTED_BIGHA_SQFT);
+        let remSqftForBiswa = sqft % SELECTED_BIGHA_SQFT;
         let biswa_val = (remSqftForBiswa / BISWA_SQFT).toFixed(1);
 
         if (parseFloat(biswa_val) >= 20) {
-            pbigha_floor += 1;
+            bigha_floor += 1;
             biswa_val = 0;
         }
 
-        let resultFormat = "";
-        if (currentLang === 'en') {
-            resultFormat = pbigha_floor + " Pacca Bigha, " + biswa_val + " Biswa";
-        } else {
-            resultFormat = pbigha_floor + " पक्का बीघा, " + biswa_val + " बिस्वा";
-        }
+        let standardLabel = (standardType === 'pakka') ? (currentLang === 'en' ? 'Pacca Bigha' : 'पक्का बीघा') : (currentLang === 'en' ? 'Kaccha Bigha' : 'कच्चा बीघा');
+        let resultFormat = `${bigha_floor} ${standardLabel}, ${biswa_val} Biswa`;
         document.getElementById('bklText').innerText = resultFormat;
 
         document.getElementById('resSqft').innerText = Math.round(sqft).toLocaleString('en-IN') + " Sq Ft";
         document.getElementById('resSqgaj').innerText = Math.round(gaj).toLocaleString('en-IN') + " Sq Yard (Gaj)";
         document.getElementById('resSqmt').innerText = Math.round(sqmt).toLocaleString('en-IN') + " Sq M";
+        
+        document.getElementById('lblResPrimaryBigha').innerText = (currentLang === 'en' ? `Calculated ${standardLabel}` : `गणना किया गया ${standardLabel}`);
+        document.getElementById('resPrimaryBigha').innerText = (sqft / SELECTED_BIGHA_SQFT).toFixed(4) + " Bigha";
         document.getElementById('resPBigha').innerText = (sqft / PACCA_BIGHA_SQFT).toFixed(4) + " PB";
         document.getElementById('resKBigha').innerText = (sqft / KACCHA_BIGHA_SQFT).toFixed(4) + " KB";
         document.getElementById('resBiswa').innerText = (sqft / BISWA_SQFT).toFixed(2) + " Biswa";
@@ -735,7 +759,7 @@
         let today = new Date().toLocaleDateString('en-IN', options);
         document.getElementById('pDocDate').innerText = today + " (IST)";
         
-        document.getElementById('rInputVal').innerText = length + " x " + width + " (" + unit + ")";
+        document.getElementById('rInputVal').innerText = length + " x " + width + " (" + unit + ", " + standardType + ")";
         
         let randID = Math.floor(1000000000 + Math.random() * 9000000000);
         document.getElementById('pDocRef').innerText = "SST-RJ-" + randID;
@@ -760,7 +784,7 @@
             id: Date.now(),
             name: "Rajasthan Land Calculator",
             url: "rajasthan-land.html",
-            inputs: `${length} x ${width} ${unit}`,
+            inputs: `${length} x ${width} ${unit} (${standardType})`,
             result: `${resultFormat} (${Math.round(sqft)} Sq Ft)`,
             time: timeStr
         });
