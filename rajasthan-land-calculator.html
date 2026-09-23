@@ -3,14 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Rajasthan Land Unit Converter 2026 | राजस्थान जमीन पैमाइश कैलकुलेटर</title>
+    <title>Rajasthan Land Unit Converter  | राजस्थान जमीन पैमाइश कैलकुलेटर</title>
     <link rel="canonical" href="https://shayansmarttools.in/rajasthan-land-unit-converter.html" />
 
     <meta name="description" content="Official Rajasthan Land Unit Converter 2026. Convert Acre, Bigha, Biswa, Biswansi, and Sq Ft instantly. Accurate Apna Khata land metrics by Shayan Smart Tools.">
     <meta name="keywords" content="Rajasthan Land Unit Converter, राजस्थान जमीन कैलकुलेटर, Bigha Biswa Biswansi converter, Apna Khata unit calculator, Shayan Smart Tools">
     <meta name="author" content="Muksidul Islam">
     <meta name="robots" content="index, follow">
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-SSDTZWC9RH"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
 
+      gtag('config', 'G-SSDTZWC9RH');
+    </script>
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -165,6 +173,23 @@
         .l-btn { padding: 10px 25px; border-radius: 50px; border: 2px solid var(--rj-amber); background: white; cursor: pointer; font-weight: 700; transition: 0.3s; color: var(--rj-amber); }
         .l-btn.active { background: var(--rj-amber); color: white; }
 
+        /* Configuration Panel for Rajasthan Standard */
+        .config-card {
+            background: #ffffff;
+            padding: 15px 20px;
+            border-radius: 16px;
+            margin-bottom: 20px;
+            border: 1px solid #cbd5e1;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 15px;
+            text-align: left;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+        }
+        .config-label { font-weight: bold; color: var(--rj-amber); font-size: 14px; text-transform: uppercase; }
+        .config-select { padding: 10px; border-radius: 8px; border: 1px solid #cbd5e1; font-size: 14px; font-weight: bold; color: var(--rj-indigo); background: white; outline: none; }
+
         .sec-h { font-size: 14px; font-weight: 800; color: var(--rj-amber); margin-bottom: 20px; border-bottom: 2px solid #cbd5e1; padding-bottom: 8px; text-transform: uppercase; letter-spacing: 0.5px; text-align: left; }
 
         .mixed-input-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 15px; margin-bottom: 15px; }
@@ -258,6 +283,8 @@
             .seo-content h2 { font-size: 20px !important; }
             .govt-links-container { gap: 8px; }
             .govt-link-card { font-size: 12px; padding: 10px 15px; }
+            .config-card { flex-direction: column; align-items: flex-start; }
+            .config-select { width: 100%; }
         }
 
         @media print {
@@ -351,6 +378,15 @@
     <div class="lang-switch">
         <button class="l-btn active" id="enBtn" onclick="setLang('en')">English</button>
         <button class="l-btn" id="hiBtn" onclick="setLang('hi')">हिंदी</button>
+    </div>
+
+    <!-- Configuration Panel for Rajasthan Standard -->
+    <div class="config-card">
+        <span class="config-label" id="configLabel">Select Bigha Standard (बीघा मानक):</span>
+        <select id="bighaStandard" class="config-select" onchange="updateVisualizer()">
+            <option value="pakka" selected>Standard / Pakka Bigha (27,225 Sq. Ft)</option>
+            <option value="kachha">Local / Kaccha Bigha (9,075 Sq. Ft)</option>
+        </select>
     </div>
 
     <div class="sec-h" id="hInputTitle">Fill your available land assets values</div>
@@ -683,6 +719,7 @@
         en: {
             mTitle: "Rajasthan Land Unit Converter",
             sTitle: "Enter Acre, Bigha, Biswa, and Biswansi together. Unified evaluation matrix grid.",
+            configLabel: "Select Bigha Standard (बीघा मानक):",
             hInputTitle: "Fill your available land assets values",
             lblInAcre: "Acre (एकर)", lblInBigha: "Bigha (बीघा)", lblInBiswa: "Biswa (बिस्वा)", lblInBiswansi: "Biswansi (बिस्वांसी)",
             btnText: "Calculate Total Land Area", btnReset: "RESET", resHead: "Conversion Results",
@@ -700,6 +737,7 @@
         hi: {
             mTitle: "राजस्थान जमीन पैमाइश कैलकुलेटर",
             sTitle: "एकर, बीघा, बिस्वा और बिस्वांसी एक साथ दर्ज करें। एकीकृत मूल्यांकन मैट्रिक्स ग्रिड।",
+            configLabel: "बीघा मानक चुनें (Bigha Standard):",
             hInputTitle: "अपनी उपलब्ध भूमि संपत्ति का विवरण भरें",
             lblInAcre: "एकर (Acre)", lblInBigha: "बीघा (Bigha)", lblInBiswa: "बिस्वा (Biswa)", lblInBiswansi: "बिस्वांसी (Biswansi)",
             btnText: "कुल भूमि क्षेत्र की गणना करें", btnReset: "रीसेट", resHead: "रूपांतरण परिणाम",
@@ -740,6 +778,7 @@
         
         document.getElementById('mTitle').innerText = dict[lang].mTitle;
         document.getElementById('sTitle').innerText = dict[lang].sTitle;
+        document.getElementById('configLabel').innerText = dict[lang].configLabel;
         document.getElementById('hInputTitle').innerText = dict[lang].hInputTitle;
         document.getElementById('lblInAcre').innerText = dict[lang].lblInAcre;
         document.getElementById('lblInBigha').innerText = dict[lang].lblInBigha;
@@ -785,9 +824,11 @@
         const b = parseFloat(document.getElementById('inBigha').value) || 0;
         const bs = parseFloat(document.getElementById('inBiswa').value) || 0;
         const bsn = parseFloat(document.getElementById('inBiswansi').value) || 0;
+        const standardType = document.getElementById('bighaStandard').value;
+        const bighaBaseSqft = (standardType === 'pakka') ? 27225 : 9075;
         const shapeBox = document.getElementById('landPreviewShape');
 
-        let totalScore = a * 43560 + b * 27225 + bs * 1361.25 + bsn * 68.06;
+        let totalScore = a * 43560 + b * bighaBaseSqft + bs * (bighaBaseSqft / 20) + bsn * (bighaBaseSqft / 400);
         if (totalScore > 0) {
             let dim = Math.min(120, Math.max(50, Math.sqrt(totalScore) / 15));
             shapeBox.style.width = dim + 'px';
@@ -814,6 +855,7 @@
         const bighaVal = parseFloat(document.getElementById('inBigha').value) || 0;
         const biswaVal = parseFloat(document.getElementById('inBiswa').value) || 0;
         const biswansiVal = parseFloat(document.getElementById('inBiswansi').value) || 0;
+        const standardType = document.getElementById('bighaStandard').value;
         const resPanel = document.getElementById('resPanel');
 
         if (acreVal < 0 || bighaVal < 0 || biswaVal < 0 || biswansiVal < 0) {
@@ -826,9 +868,9 @@
         }
 
         const ACRE_SQFT = 43560;
-        const BIGHA_SQFT = 27225; // Standard Rajasthan Pucca Bigha
-        const BISWA_SQFT = 1361.25;
-        const BISWANSI_SQFT = 68.0625;
+        const BIGHA_SQFT = (standardType === 'pakka') ? 27225 : 9075;
+        const BISWA_SQFT = BIGHA_SQFT / 20;
+        const BISWANSI_SQFT = BISWA_SQFT / 20;
 
         const totalSqft = (acreVal * ACRE_SQFT) + (bighaVal * BIGHA_SQFT) + (biswaVal * BISWA_SQFT) + (biswansiVal * BISWANSI_SQFT);
         const totalSqmt = totalSqft / 10.7639104;
@@ -845,11 +887,12 @@
         const remSqftForBiswansi = remSqftForBiswa % BISWA_SQFT;
         const finalBiswansis = (remSqftForBiswansi / BISWANSI_SQFT).toFixed(2);
 
-        const formattedAreaText = currentLang === 'en' ? `${finalBighas} Bigha, ${finalBiswas} Biswa, ${finalBiswansis} Biswansi` : `${finalBighas} बीघा, ${finalBiswas} बिस्वा, ${finalBiswansis} बिस्वांसी`;
+        let standardLabel = (standardType === 'pakka') ? (currentLang === 'en' ? 'Bigha' : 'बीघा') : (currentLang === 'en' ? 'Kaccha Bigha' : 'कच्चा बीघा');
+        const formattedAreaText = currentLang === 'en' ? `${finalBighas} ${standardLabel}, ${finalBiswas} Biswa, ${finalBiswansis} Biswansi` : `${finalBighas} ${standardLabel}, ${finalBiswas} बिस्वा, ${finalBiswansis} बिस्वांसी`;
         document.getElementById('bklText').innerText = formattedAreaText;
         document.getElementById('printBklText').innerText = formattedAreaText;
 
-        const displayInputFeed = `${acreVal} Acr + ${bighaVal} Bgh + ${biswaVal} Bsw + ${biswansiVal} Bsn`;
+        const displayInputFeed = `${acreVal} Acr + ${bighaVal} Bgh + ${biswaVal} Bsw + ${biswansiVal} Bsn (${standardType})`;
         document.getElementById('scrInputVal').innerText = displayInputFeed;
         document.getElementById('printInputVal').innerText = displayInputFeed;
 
@@ -866,7 +909,7 @@
         document.getElementById('printGaj').innerText = Math.round(totalGaj).toLocaleString('en-IN') + " Gaj";
         document.getElementById('printBiswansi').innerText = totalBiswansi.toFixed(4) + " Biswansi";
         document.getElementById('printBiswa').innerText = totalBiswa.toFixed(4) + " Biswa";
-        document.getElementById('printBigha').innerText = totalBigha.toFixed(4) + " Bigha";
+        document.getElementById('printBigha').innerText = totalBigha.toFixed(4) + ` ${standardLabel}`;
         document.getElementById('printAcre').innerText = totalAcre.toFixed(4) + " Acre";
 
         let options = { day: 'numeric', month: 'long', year: 'numeric' };
@@ -963,42 +1006,9 @@
         window.open("https://wa.me/?text=" + encodeURIComponent(textWA), '_blank');
     }
 
-    // Rating Logic
-    function setRating(stars) {
-        selectedRating = stars;
-        const starSpans = document.querySelectorAll('#starRating span');
-        starSpans.forEach((star, idx) => {
-            if(idx < stars) {
-                star.classList.add('active');
-            } else {
-                star.classList.remove('active');
-            }
-        });
-        document.getElementById('ratingStatus').innerText = `Aapne ${stars} Star Rating chuni hai!`;
-    }
-
-    // Feedback Submission
-    function submitFeedback() {
-        const name = document.getElementById('usrName').value.trim();
-        const email = document.getElementById('usrEmail').value.trim();
-        const msg = document.getElementById('usrMsg').value.trim();
-
-        if(!name || !msg) {
-            alert("Kripya apna naam aur sawal/feedback zaroor bharein!");
-            return;
-        }
-
-        alert(`Danyawad ${name}! Aapka sawal aur ${selectedRating > 0 ? selectedRating + " star rating" : "feedback"} safaltapoorvak submit ho gaya hai.`);
-        
-        document.getElementById('usrName').value = '';
-        document.getElementById('usrEmail').value = '';
-        document.getElementById('usrMsg').value = '';
-        setRating(0);
-        document.getElementById('ratingStatus').innerText = '';
-    }
-
     renderFAQs();
     loadHistoryUI();
+    updateVisualizer();
 </script>
 
 </body>
