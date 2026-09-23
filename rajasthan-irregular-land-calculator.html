@@ -3,13 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Rajasthan Irregular Land Calculator | राजस्थान टेढ़ी-मेढ़ी जमीन का क्षेत्रफल | Shayan Smart Tools</title>
+    <title>Rajasthan Irregular Land Calculator| राजस्थान टेढ़ी-मेढ़ी जमीन का क्षेत्रफल | Shayan Smart Tools</title>
     <link rel="canonical" href="https://shayansmarttools.in/rajasthan-irregular-land-calculator.html" />
 
-    <meta name="description" content="Official Rajasthan Irregular Land Area Calculator by Shayan Smart Tools. Calculate tedi-medi zameen using Heron's Formula. Accuracy in Bigha, Biswa, and Biswansi for Apna Khata Rajasthan.">
+    <meta name="description" content="Official Rajasthan Irregular Land Area Calculator by Shayan Smart Tools. Calculate tedi-medi zameen using Heron's Formula. Accuracy in Bigha, Biswa, and Biswansi for Apna Khata Rajasthan records as per 2026 revenue rules.">
     <meta name="keywords" content="Rajasthan Land Calculator, राजस्थान जमीन कैलकुलेटर, Rajasthan main tedi medi zameen Kaise nape, Irregular Land Area Rajasthan, Bigha Biswa Biswansi Calculator RJ, Shayan Smart Tools Rajasthan, Apna Khata Rajasthan Calculator, विषम चतुर्भुज क्षेत्रफल">
-    <meta name="author" content="Muksidul islam">
+    <meta name="author" content="Muksidul Islam">
     <meta name="robots" content="index, follow">
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-SSDTZWC9RH"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-SSDTZWC9RH');
+    </script>
+    <!-- Dynamically Inject JSON-LD FAQ Schema -->
+    <script type="application/ld+json" id="faqSchemaScript"></script>
 
     <style>
         :root {
@@ -59,6 +70,7 @@
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
             gap: 15px;
+            margin-bottom: 15px;
         }
 
         .field { display: flex; flex-direction: column; }
@@ -66,10 +78,33 @@
         input { width: 100%; padding: 15px; border: 1px solid #cbd5e1; border-radius: 12px; font-size: 16px; box-sizing: border-box; outline: none; transition: 0.3s; background: var(--white); text-align: center; }
         input:focus { border-color: var(--rj-orange); background: #fff; box-shadow: 0 0 8px rgba(230, 81, 0, 0.1); }
 
+        .action-btns-group { display: flex; gap: 10px; margin-top: 25px; margin-bottom: 25px; }
         .btn-calc {
-            width: 100%; padding: 20px; background: var(--rj-orange); color: white; border: none; border-radius: 15px; font-size: 18px; font-weight: 800; cursor: pointer; transition: 0.3s; text-transform: uppercase; letter-spacing: 1px; margin-top: 25px;
+            flex: 2; padding: 20px; background: var(--rj-orange); color: white; border: none; border-radius: 15px; font-size: 18px; font-weight: 800; cursor: pointer; transition: 0.3s; text-transform: uppercase; letter-spacing: 1px;
         }
         .btn-calc:hover { transform: translateY(-3px); box-shadow: 0 10px 20px rgba(230, 81, 0, 0.2); }
+
+        .btn-reset {
+            flex: 1; padding: 20px; background: #64748b; color: white; border: none; border-radius: 15px; font-size: 16px; font-weight: 800; cursor: pointer; transition: 0.3s; text-transform: uppercase; letter-spacing: 1px;
+        }
+        .btn-reset:hover { background: #475569; transform: translateY(-3px); }
+
+        /* Land Shape Visualizer / Preview */
+        .visualizer-box { background: #ffffff; border: 1px solid #e2e8f0; border-radius: 15px; padding: 20px; margin-bottom: 25px; text-align: center; box-shadow: 0 2px 4px rgba(0,0,0,0.02); }
+        .visualizer-box h3 { margin: 0 0 10px 0; font-size: 14px; color: var(--rj-orange); text-transform: uppercase; font-weight: 800; }
+        .preview-canvas-wrap { width: 100%; height: 140px; background: #f1f5f9; border-radius: 10px; display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden; border: 1px dashed #cbd5e1; }
+        #landPreviewShape { width: 60px; height: 60px; background: #fff8e1; border: 2px solid var(--rj-orange); border-radius: 6px; transition: all 0.5s ease; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: bold; color: var(--rj-dark); }
+
+        /* Recent Calculations History Panel */
+        .history-box { background: #ffffff; border: 1px solid #e2e8f0; border-radius: 15px; padding: 20px; margin-bottom: 25px; box-shadow: 0 2px 4px rgba(0,0,0,0.02); text-align: left; }
+        .history-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; border-bottom: 1px solid #f1f5f9; padding-bottom: 8px; }
+        .history-header h3 { margin: 0; font-size: 14px; color: var(--rj-orange); text-transform: uppercase; font-weight: 800; }
+        .clear-hist-btn { background: none; border: none; color: #ef4444; font-size: 12px; font-weight: bold; cursor: pointer; padding: 0; }
+        .clear-hist-btn:hover { text-decoration: underline; }
+        .history-list { display: flex; flex-direction: column; gap: 8px; }
+        .history-item { display: flex; justify-content: space-between; align-items: center; background: #f8fafc; padding: 10px 14px; border-radius: 8px; font-size: 13px; border-left: 3px solid var(--rj-gold); }
+        .history-item span { color: #475569; }
+        .history-item b { color: var(--rj-corporate); font-family: monospace; }
 
         .diag-box {
             background: rgba(255, 255, 255, 0.6);
@@ -96,7 +131,7 @@
         .extra-res-box p { margin: 5px 0; font-size: 15px; display: flex; justify-content: space-between; align-items: center; }
         .extra-res-box b { color: var(--rj-gold); }
 
-        .print-header-block, .print-footer-block { display: none; }
+        .print-header-block, .print-footer-block, .print-verification-zone { display: none; }
         .util-btns { display: flex; gap: 10px; margin-top: 25px; }
         .u-btn { flex: 1; padding: 15px; border-radius: 12px; border: none; font-weight: 800; cursor: pointer; transition: 0.3s; color: white; font-size: 14px; text-align: center; }
 
@@ -142,13 +177,15 @@
             .links-grid { grid-template-columns: 1fr; gap: 12px; }
             .link-card { padding: 15px 18px; }
             .input-grid { grid-template-columns: 1fr; gap: 10px; }
+            .action-btns-group { flex-direction: column; }
+            .btn-calc, .btn-reset { width: 100%; }
         }
 
         @media print {
             html, body { background: #ffffff !important; color: #000000 !important; margin: 0 !important; padding: 0 !important; }
             .container { max-width: 100% !important; width: 100% !important; padding: 0 !important; margin: 0 !important; }
             
-            header, .lang-toggle, .form-container-block, .diag-box, .util-btns, #resHead, .seo-section, .back-btn, footer { 
+            header, .lang-toggle, .form-container-block, .diag-box, .visualizer-box, .history-box, .action-btns-group, .util-btns, #resHead, .seo-section, .back-btn, footer { 
                 display: none !important; 
                 opacity: 0 !important;
                 visibility: hidden !important;
@@ -205,6 +242,15 @@
             .extra-res-box p { display: flex; justify-content: space-between; font-size: 13px; color: #1e293b; text-align: left !important; }
             .extra-res-box b { color: #000000 !important; }
 
+            .print-verification-zone { display: flex !important; justify-content: space-between; align-items: flex-end; margin-top: 30px; padding: 0 10px; }
+            .scanner-box { text-align: left; width: 120px; }
+            .scanner-image-wrap { width: 100px; height: 100px; border: 1px solid #cbd5e1; overflow: hidden; background: #ffffff; }
+            .scanner-image-wrap img { width: 100%; height: 100%; object-fit: contain; }
+            .signature-container { text-align: right; width: 180px; }
+            .seal-image-wrap { width: 70px; height: 70px; margin-bottom: 5px; display: inline-block; }
+            .seal-image-wrap img { width: 100%; height: 100%; object-fit: contain; }
+            .signature-box { font-size: 11px; font-weight: bold; color: #0f172a; text-transform: uppercase; }
+
             .print-footer-block {
                 display: block !important;
                 text-align: center;
@@ -231,17 +277,37 @@
     <div class="form-container-block">
         <div class="sec-h" id="hSecTitle">Enter Irregular Plot Sides (भूखंड सीमा मापन सूची)</div>
         <div class="input-grid">
-            <div class="field"><label id="lblA">Side A (Feet)</label><input type="number" id="sideA" placeholder="0"></div>
-            <div class="field"><label id="lblB">Side B (Feet)</label><input type="number" id="sideB" placeholder="0"></div>
-            <div class="field"><label id="lblC">Side C (Feet)</label><input type="number" id="sideC" placeholder="0"></div>
-            <div class="field"><label id="lblD">Side D (Feet)</label><input type="number" id="sideD" placeholder="0"></div>
+            <div class="field"><label id="lblA">Side A (Feet)</label><input type="number" id="sideA" placeholder="0" oninput="updateVisualizer()"></div>
+            <div class="field"><label id="lblB">Side B (Feet)</label><input type="number" id="sideB" placeholder="0" oninput="updateVisualizer()"></div>
+            <div class="field"><label id="lblC">Side C (Feet)</label><input type="number" id="sideC" placeholder="0" oninput="updateVisualizer()"></div>
+            <div class="field"><label id="lblD">Side D (Feet)</label><input type="number" id="sideD" placeholder="0" oninput="updateVisualizer()"></div>
             <div class="field" style="grid-column: 1/-1;">
                 <label id="lblDiag">Diagonal / विकर्ण (Feet)</label>
-                <input type="number" id="diagonal" placeholder="Enter Diagonal Length (E)">
+                <input type="number" id="diagonal" placeholder="Enter Diagonal Length (E)" oninput="updateVisualizer()">
             </div>
         </div>
 
-        <button class="btn-calc" id="btnCalc" onclick="calculateRJArea()">Calculate Area</button>
+        <div class="action-btns-group">
+            <button class="btn-calc" id="btnCalc" onclick="calculateRJArea()">Calculate Area</button>
+            <button class="btn-reset" id="btnReset" onclick="resetCalculator()">RESET</button>
+        </div>
+    </div>
+
+    <!-- Interactive Land Shape Visualizer / Preview -->
+    <div class="visualizer-box">
+        <h3 id="visTitle">Land Unit Preview (Live Visualizer)</h3>
+        <div class="preview-canvas-wrap">
+            <div id="landPreviewShape">Plot</div>
+        </div>
+    </div>
+
+    <!-- Recent Calculations History -->
+    <div class="history-box" id="historyCard" style="display:none;">
+        <div class="history-header">
+            <h3 id="histTitle">Recent Calculations History</h3>
+            <button class="clear-hist-btn" onclick="clearHistory()" id="btnClearHist">Clear History</button>
+        </div>
+        <div class="history-list" id="historyListContainer"></div>
     </div>
 
     <div id="resultBox" class="result-panel">
@@ -275,6 +341,22 @@
             <p><span id="txtHecText">Estimated Total Hectare:</span><b id="outHec">0</b></p>
         </div>
 
+        <div class="print-verification-zone">
+            <div class="scanner-box">
+                <div class="scanner-image-wrap">
+                    <img src="qrcode.png" alt="Verification QR Code" onerror="this.style.display='none'">
+                </div>
+            </div>
+            <div class="signature-container">
+                <div class="seal-image-wrap">
+                    <img src="seal.png" alt="Official SST Seal" onerror="this.style.display='none'">
+                </div>
+                <div class="signature-box">
+                    Authorized Verification
+                </div>
+            </div>
+        </div>
+
         <div class="print-footer-block">
             <div style="margin: 0 auto; max-width: 85%; font-size: 11px; color: #475569; line-height: 1.6; text-align: center;">
                 <p style="margin: 0; font-weight: bold; color: #e65100; text-transform: uppercase; font-size: 12px;">🔒 SECURITY DISCLAIMER & STATUTORY TRIANGULATION AUDIT NOTICE</p>
@@ -302,7 +384,7 @@
 
     <article class="seo-section">
         <div class="seo-header-block">
-            <h2 id="introH2" style="border:none; padding:0; text-align:center; font-size:2.3rem !important;">Rajasthan Land Calculation: टेढ़ी-मेढ़ी जमीन की नाप-जोख (Jod-Ghat) Manual Guide</h2>
+            <h2 id="introH2" style="border:none; padding:0; text-align:center; font-size:2.3rem !important;">Rajasthan Land Calculation: टेढ़ी-मेढ़ी जमीन का क्षेत्रफल (Jod-Ghat) Manual Guide</h2>
             <p style="font-size: 17px; color: #555; text-align: center; margin: 5px 0 0 0;" id="seoSubTitle">Apna Khata E-Dharti portal records framework aur Board of Revenue triangulation metrics ke anusaar multiple complex plots ka total geometric scale map guide.</p>
         </div>
 
@@ -311,7 +393,7 @@
                 Rajasthan mein zameen ki napai aur bhumi prabandhan ka tarika kafi dilchasp aur geocentric hai. Yahan Jaipur, Jodhpur, Udaipur, Bikaner, Sikar, Kota aur Alwar jaise alag-alag mandlo mein rajashwa vibhag (Apna Khata Rajasthan portal) par official dastawez Hectare mein darj hote hain, lekin jab baat gramanchal mein parivarik khetton ke batware ya tehsil sub-registrar ke yahan manual registries ki aati hai, toh log hamesha paramparik standard units jaise <b>Bigha, Biswa, aur Biswansi</b> mein hi calculations karte hain. Ek hi khate ke kai alag-alag khasra plots (scattered land patches) ka total jod nikalte samay haath se ya aam calculator se fraction units (biswa aur biswansi) ko calculate karne par galti hone ka darr bohot zyada rehta hai, jiski wajah se kisanon ko banking loan ya kanooni mutation ke samay kafi pareshani jhelni padti hai. एवरेज निकालने का पुराना फार्मूला गणितीय रूप से पूरी तरह गलत होता है और सीमाओं में विवाद पैदा करता है।
             </p>
             <p>
-                Is processing calculation load aur layout measurement error ko door karne ke liye Shayan Smart Tools ne is advanced <b>Rajasthan Irregular Land Calculator</b> ko completely mathematical triangulation engine standard par build kiya hai. Yeh tool Heron’s Formula ($Area = \sqrt{s(s-a)(s-b)(s-c)}$) ka upyog karta hai. Yeh aapके irregular land map ko beech se ek diagonal (tirchhi line) ke zariye do alag-alag sateek triangles mein bisection kar deta hai. Dono triangles ka area alag-alag nikal kar james jab unhe add kiya jata hai, toh pure plot ka area 100% sateek nikalta hai. Hamare system guidelines ke mutabik <b>1 Pucca Bigha = 27,225 Square Feet</b> banta hai aur sateek **20 Biswa milkar 1 Bigha** form karte hain.
+                Is processing calculation load aur layout measurement error ko door karne ke liye Shayan Smart Tools ne is advanced <b>Rajasthan Irregular Land Calculator</b> ko completely mathematical triangulation engine standard par build kiya hai. Yeh tool Heron’s Formula ($Area = \sqrt{s(s-a)(s-b)(s-c)}$) ka upyog karta hai. Yeh aapके irregular land map ko beech se ek diagonal (tirchhi line) ke zariye do alag-alag sateek triangles mein bisection kar deta hai. Dono triangles ka area alag-alag nikal kar james jab unhe add kiya jata hai, toh pure plot ka area 100% sateek nikalta hai. Hamare system guidelines ke mutabik <b>1 Pucca Bigha = 27,225 Square Feet</b> banta hai aur sateek **20 Biswa milkar 1 Bigha** form karte hain. Iske alawa, hamare advanced DGPS matrix aur E-Dharti integration algorithms users ko state-wide exactness provide karte hain, jisse patwari aur tehsildar records ke sath poori accuracy match hoti hai.
             </p>
         </section>
 
@@ -354,39 +436,10 @@
             <li><b>Example 5 (Base-20 Shift Rounding Match):</b> Agar aapke irregular plot ka final calculated mathematical product 28,586 Sq Ft banta hai, toh automatic conversion rules apply hote hi system use **1 Bigha, 1 Biswa, aur 0.01 Biswansi** ke pure standard parameters par cleanly round-up karke display kar deta hai.</li>
         </ul>
 
-        <h2>8 Extended Frequently Asked Questions (FAQs) - राजस्थान टेढ़ी-मेढ़ी जमीन मापन</h2>
-        <div style="border-bottom: 1px solid #e2e8f0; padding-bottom: 15px; margin-bottom: 15px;">
-            <h4>Q1. Rajasthan mein 1 standard Pucca Bigha mein kitne Square Feet hote hain?</h4>
-            <p>Ans: Rajasthan revenue guidelines aur state land measurement manuals ke mutabik 1 standard Pucca Bigha ke andar exactly **27,225 Square Feet** area footprint hotey hain.</p>
-        </div>
-        <div style="border-bottom: 1px solid #e2e8f0; padding-bottom: 15px; margin-bottom: 15px;">
-            <h4>Q2. Tedi-medi zameen naapte samay Diagonal (विकर्ण) line dalkar naapna kyun zaroori hai?</h4>
-            <p>Ans: Visham chaturbhuj (Irregular Quadrilateral) ka bina diagonal ke area nikalna mathematically impossible hai. Diagonal line plot ko do stable triangles mein badal deti hai, jisse Heron's Formula engine perfect area calculate kar pata hai.</p>
-        </div>
-        <div style="border-bottom: 1px solid #e2e8f0; padding-bottom: 15px; margin-bottom: 15px;">
-            <h4>Q3. Dynamic carry forward logic up calculator mein kaise kaam karta hai?</h4>
-            <p>Ans: Ji haan! Is calculator mein traditional Base-20 algorithm programmed hai. Jaise hi output limits mein Biswansi 20 cross karegi wo Biswa ban jayegi, aur Biswa 20 hote hi automatic use **1 Bigha** registry layer mein carry forward convert kar diya jata hai.</p>
-        </div>
-        <div style="border-bottom: 1px solid #e2e8f0; padding-bottom: 15px; margin-bottom: 15px;">
-            <h4>Q4. Rajasthan mein 1 Biswa aur 1 Biswansi mein kitne Square Feet measures hote hain?</h4>
-            <p>Ans: Government revenue standards ke anusar, 1 standard Biswa layout strictly **1,361.25 Square Feet** hota hai aur 1 single fraction Biswansi model sateek **68.06 Square Feet** dimensional grid ke barabar space assignment limits hold karta hai.</p>
-        </div>
-        <div style="border-bottom: 1px solid #e2e8f0; padding-bottom: 15px; margin-bottom: 15px;">
-            <h4>Q5. Kya is calculator summary key report ka sheet layout clean left-aligned display hoga printing par?</h4>
-            <p>Ans: Ji haan! Hamare upgraded custom printing css rules elements components ko automatically adjust kar dete hain, jisse reporting layout template bina kisi blank white sheets issues ke fully certified formatting mein system-generated Ref ID code aur current timing log ke sath safe automatic left-aligned print aata hai.</p>
-        </div>
-        <div style="border-bottom: 1px solid #e2e8f0; padding-bottom: 15px; margin-bottom: 15px;">
-            <h4>Q6. 1 standard Hectare records copy ko Rajasthan Bigha mein kaise convert kiya jata hai?</h4>
-            <p>Ans: State guidelines allocation maps ke anusar, Apna Khata portal ka 1 complete computerized Hectare footprint data parameter standard land matrix lines par exactly **3.967 Pucca Bigha** property parameters ke equal maps kiya jata hai.</p>
-        </div>
-        <div style="border-bottom: 1px solid #e2e8f0; padding-bottom: 15px; margin-bottom: 15px;">
-            <h4>Q7. Average method aur Triangulation method (Heron's rule) ke area parinaamo mein kya antar aata hai?</h4>
-            <p>Ans: Average formula bhujaon ke tede-pan (angles) ko ignore karta hai jisse output hamesha galat and unverified hota hai. Wahin, Triangulation rule geometric curves aur angular deflections ko diagonal vector ke sath fully capture karta hai, isliye iska calculated output boundary registry ke dauran 100% true hota hai.</p>
-        </div>
-        <div style="padding-bottom: 15px;">
-            <h4>Q8. Is high-precision irregular triangulation web interface parsing software script ko kisne build kiya hai?</h4>
-            <p>Ans: Is application script framework software engine syntax core code blocks logic ko Shayan Smart Tools platform system stack tools integration list par **Muksidul Islam** ne clean error-free functions ke sath safely deploy kiya hai.</p>
-        </div>
+        <section id="faqContainer">
+            <h2 id="hFaqHead">8 Extended Frequently Asked Questions (FAQs) - राजस्थान टेढ़ी-मेढ़ी जमीन मापन</h2>
+            <div id="faqList"></div>
+        </section>
 
         <h3 id="lblDashTitle">Related Tools & Internal Links</h3>
         <div class="links-grid">
@@ -409,7 +462,7 @@
             t: "Rajasthan Irregular Land Calculator",
             stitle: "Advanced boundary conversion tool for complex tedi-medi zameen maps matching parameters.",
             lA: "Side A (Feet)", lB: "Side B (Feet)", lC: "Side C (Feet)", lD: "Side D (Feet)",
-            lDg: "Diagonal / Tirchi Line (Feet)", b: "Calculate Area",
+            lDg: "Diagonal / Tirchi Line (Feet)", b: "Calculate Area", btnReset: "RESET",
             rT: "Total Land Result (Standard):", uB: "Bigha", uW: "Biswa", uN: "Biswansi",
             sq: "Total Square Feet Matrix: ", rsm: "Total Square Meters Matrix: ", racre: "Equivalent Acre System: ", rhec: "Estimated Total Hectare: ",
             iN: "How to measure land, see diagram:", iD: "Measure Side A, B, C, D and the Diagonal (E).",
@@ -417,13 +470,14 @@
             seot: "Rajasthan Land Calculation: टेढ़ी-मेढ़ी जमीन का क्षेत्रफल (Jod-Ghat) Manual Guide",
             seos: "Apna Khata E-Dharti portal records framework aur Board of Revenue triangulation metrics ke anusaar multiple complex plots ka total geometric scale map guide.",
             dt: "Related Tools & Internal Links", dh: "Main Dashboard", d1: "➕ RJ Land Addition", d2: "📏 RJ Bigha to Sq Ft", d3: "📏 RJ Hectare to Bigha",
-            copyMsg: "Calculation Details Copied!"
+            copyMsg: "Calculation Details Copied!",
+            visTitle: "Land Unit Preview (Live Visualizer)", histTitle: "Recent Calculations History", btnClearHist: "Clear History"
         },
         hi: {
             t: "राजस्थान टेढ़ी-मेढ़ी जमीन कैलकुलेटर",
             stitle: "जटिल टेढ़े-मेढ़े भूमि मानचित्रों के सटीक मापन और मिलान मापदंडों के लिए उन्नत त्रिकोणीय साधन।",
             lA: "पहली भुजा (Side A) फुट में", lB: "दूसरी भुजा (Side B) फुट में", lC: "तीसरी भुजा (Side C) फुट में", lD: "चौथी भुजा (Side D) फुट में",
-            lDg: "विकर्ण / तिरछी लाइन (Diagonal) फुट में", b: "क्षेत्रफल निकालें",
+            lDg: "विकर्ण / तिरछी लाइन (Diagonal) फुट में", b: "क्षेत्रफल निकालें", btnReset: "रीसेट",
             rT: "कुल क्षेत्रफल का परिणाम विवरण:", uB: "बीघा", uW: "बिस्वा", uN: "बिस्वांसी (Biswansi)",
             sq: "कुल वर्गफुट परिमाण (Sq.Ft): ", rsm: "कुल वर्गमीटर परिमाण (Sq.Mt): ", racre: "एकेडमी / एकड़ बराबर परिमाण: ", rhec: "अनुमानित कुल हेक्टेयर (Ha): ",
             iN: "जमीन कैसे नापें, डायग्राम देखें:", iD: "चारों भुजाएं और बीच की तिरछी रेखा (E) अवश्य मापें।",
@@ -431,9 +485,79 @@
             seot: "राजस्थान भूमि गणना नियम: टेढ़ी-मेढ़ी जमीन का क्षेत्रफल और त्रिकोणीय मापन निर्देश",
             seos: "अपना खाता राजस्व रिकॉर्ड और बोर्ड ऑफ रेवेन्यू हेरॉन फॉर्मूला त्रिकोणीय ग्रिड के अनुसार विषम भूखंड का क्षेत्रफल निकालने की नियमावली।",
             dt: "अन्य महत्वपूर्ण डिजिटल साधन", dh: "🏠 मुख्य डैशबोर्ड", d1: "राजस्थान भूमि जोड़ टूल", d2: "बीघा से वर्गफुट कनवर्टर टूल", d3: "हेक्टेयर से बीघा कनवर्टर टूल",
-            copyMsg: "भूमि माप का विवरण सफलतापूर्वक कॉपी हो गया!"
+            copyMsg: "भूमि माप का विवरण सफलतापूर्वक कॉपी हो गया!",
+            visTitle: "भूमि यूनिट पूर्वावलोकन (लाइव विजुलाइजर)", histTitle: "हालिया गणना इतिहास", btnClearHist: "इतिहास साफ़ करें"
         }
     };
+
+    const faqsData = [
+        {
+            q_en: "Rajasthan mein 1 standard Pucca Bigha mein kitne Square Feet hote hain?",
+            a_en: "Rajasthan revenue guidelines aur state land measurement manuals ke mutabik 1 standard Pucca Bigha ke andar exactly 27,225 Square Feet area footprint hotey hain."
+        },
+        {
+            q_en: "Tedi-medi zameen naapte samay Diagonal (विकर्ण) line dalkar naapna kyun zaroori hai?",
+            a_en: "Visham chaturbhuj (Irregular Quadrilateral) ka bina diagonal ke area nikalna mathematically impossible hai. Diagonal line plot ko do stable triangles mein badal deti hai, jisse Heron's Formula engine perfect area calculate kar pata hai."
+        },
+        {
+            q_en: "Dynamic carry forward logic up calculator mein kaise kaam karta hai?",
+            a_en: "Ji haan! Is calculator mein traditional Base-20 algorithm programmed hai. Jaise hi output limits mein Biswansi 20 cross karegi wo Biswa ban jayegi, aur Biswa 20 hote hi automatic use 1 Bigha registry layer mein carry forward convert kar diya jata hai."
+        },
+        {
+            q_en: "Rajasthan mein 1 Biswa aur 1 Biswansi mein kitne Square Feet measures hote hain?",
+            a_en: "Government revenue standards ke anusar, 1 standard Biswa layout strictly 1,361.25 Square Feet hota hai aur 1 single fraction Biswansi model sateek 68.06 Square Feet dimensional grid ke barabar space assignment limits hold karta hai."
+        },
+        {
+            q_en: "Kya is calculator summary key report ka sheet layout clean left-aligned display hoga printing par?",
+            a_en: "Ji haan! Hamare upgraded custom printing css rules elements components ko automatically adjust kar dete hain, jisse reporting layout template bina kisi blank white sheets issues ke fully certified formatting mein system-generated Ref ID code aur current timing log ke sath safe automatic left-aligned print aata hai."
+        },
+        {
+            q_en: "1 standard Hectare records copy ko Rajasthan Bigha mein kaise convert kiya jata hai?",
+            a_en: "State guidelines allocation maps ke anusar, Apna Khata portal ka 1 complete computerized Hectare footprint data parameter standard land matrix lines par exactly 3.967 Pucca Bigha property parameters ke equal maps kiya jata hai."
+        },
+        {
+            q_en: "Average method aur Triangulation method (Heron's rule) ke area parinaamo mein kya antar aata hai?",
+            a_en: "Average formula bhujaon ke tede-pan (angles) ko ignore karta hai jisse output hamesha galat and unverified hota hai. Wahin, Triangulation rule geometric curves aur angular deflections ko diagonal vector ke sath fully capture karta hai, isliye iska calculated output boundary registry ke dauran 100% true hota hai."
+        },
+        {
+            q_en: "Is high-precision irregular triangulation web interface parsing software script ko kisne build kiya hai?",
+            a_en: "Is application script framework software engine syntax core code blocks logic ko Shayan Smart Tools platform system stack tools integration list par Muksidul Islam ne clean error-free functions ke sath safely deploy kiya hai."
+        }
+    ];
+
+    function generateFAQSchema() {
+        const schema = {
+            "@context": "https://schema.org",
+            "@type": "FAQPage",
+            "mainEntity": faqsData.map(faq => ({
+                "@type": "Question",
+                "name": faq.q_en,
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": faq.a_en
+                }
+            }))
+        };
+        document.getElementById('faqSchemaScript').textContent = JSON.stringify(schema);
+    }
+
+    function renderFAQs() {
+        const listContainer = document.getElementById('faqList');
+        if(!listContainer) return;
+        listContainer.innerHTML = '';
+        faqsData.forEach((faq, index) => {
+            const faqBlock = document.createElement('div');
+            faqBlock.style.borderBottom = '1px solid #e2e8f0';
+            faqBlock.style.paddingBottom = '15px';
+            faqBlock.style.marginBottom = '15px';
+            faqBlock.innerHTML = `
+                <h4 style="color:var(--rj-orange); margin-bottom:4px; font-size:15px; font-weight:700;">Q${index + 1}. ${faq.q_en}</h4>
+                <p style="margin:0; font-size:14px; color:#475569;">Ans: ${faq.a_en}</p>
+            `;
+            listContainer.appendChild(faqBlock);
+        });
+        generateFAQSchema();
+    }
 
     function setLang(l) {
         currentLang = l;
@@ -448,6 +572,7 @@
         document.getElementById('lblD').innerText = trans[l].lD;
         document.getElementById('lblDiag').innerText = trans[l].lDg;
         document.getElementById('btnCalc').innerText = trans[l].b;
+        document.getElementById('btnReset').innerText = trans[l].btnReset;
         document.getElementById('resTitle').innerText = trans[l].rT;
         document.getElementById('uB').innerText = trans[l].uB;
         document.getElementById('uW').innerText = trans[l].uW;
@@ -470,6 +595,42 @@
         document.getElementById('txtSqmText').innerText = trans[l].rsm;
         document.getElementById('txtAcreText').innerText = trans[l].racre;
         document.getElementById('txtHecText').innerText = trans[l].rhec;
+
+        document.getElementById('visTitle').innerText = trans[l].visTitle;
+        document.getElementById('histTitle').innerText = trans[l].histTitle;
+        document.getElementById('btnClearHist').innerText = trans[l].btnClearHist;
+
+        renderFAQs();
+    }
+
+    function updateVisualizer() {
+        var a = parseFloat(document.getElementById('sideA').value) || 0;
+        var b = parseFloat(document.getElementById('sideB').value) || 0;
+        var c = parseFloat(document.getElementById('sideC').value) || 0;
+        var d = parseFloat(document.getElementById('sideD').value) || 0;
+        var shapeBox = document.getElementById('landPreviewShape');
+
+        var maxDim = Math.max(a, b, c, d);
+        if (maxDim > 0) {
+            let dim = Math.min(120, Math.max(50, maxDim / 3));
+            shapeBox.style.width = dim + 'px';
+            shapeBox.style.height = dim + 'px';
+            shapeBox.innerText = a + "×" + b;
+        } else {
+            shapeBox.style.width = '60px';
+            shapeBox.style.height = '60px';
+            shapeBox.innerText = 'Plot';
+        }
+    }
+
+    function resetCalculator() {
+        document.getElementById('sideA').value = '';
+        document.getElementById('sideB').value = '';
+        document.getElementById('sideC').value = '';
+        document.getElementById('sideD').value = '';
+        document.getElementById('diagonal').value = '';
+        document.getElementById('resultBox').style.display = 'none';
+        updateVisualizer();
     }
 
     function calculateRJArea() {
@@ -485,7 +646,6 @@
             return; 
         }
 
-        // Triangulation Validation Checks to block Heron math crash
         if((a + b <= diag) || (a + diag <= b) || (b + diag <= a) || (c + d <= diag) || (c + diag <= d) || (d + diag <= c)) {
             alert(currentLang === 'en' ? "Geometric Warning: This Diagonal length is mathematically impossible for the entered side lengths. Please re-measure the plot layout!" : "ज्यामितीय त्रुटि: दर्ज की गई भुजाओं के लिए यह विकर्ण (तिरछी लाइन) गणितीय रूप से असंभव है। कृपया दोबारा पैमाइश करें!");
             return;
@@ -527,6 +687,67 @@
 
         resPanel.style.display = 'block';
         resPanel.scrollIntoView({behavior: 'smooth'});
+
+        // =======================================================
+        // DIRECT LOCAL STORAGE HISTORY SAVER ENGINE
+        // =======================================================
+        let history = JSON.parse(localStorage.getItem('shayan_detailed_history')) || [];
+        const now = new Date();
+        const timeStr = now.toLocaleDateString('en-US', { 
+            month: 'short', 
+            day: 'numeric', 
+            hour: '2-digit', 
+            minute: '2-digit',
+            hour12: true 
+        });
+
+        let resultFormat = `${bigha} Bigha, ${biswa} Biswa, ${biswansi} Biswansi`;
+        history.unshift({
+            id: Date.now(),
+            name: "Rajasthan Irregular Land Calculator",
+            url: "rajasthan-irregular-land-calculator.html",
+            inputs: `A:${a}, B:${b}, C:${c}, D:${d}, E:${diag}`,
+            result: `${resultFormat} (${Math.round(totalSqFt)} Sq Ft)`,
+            time: timeStr
+        });
+
+        if (history.length > 5) history.pop();
+        localStorage.setItem('shayan_detailed_history', JSON.stringify(history));
+        loadHistoryUI();
+    }
+
+    function loadHistoryUI() {
+        let history = JSON.parse(localStorage.getItem('shayan_detailed_history')) || [];
+        const container = document.getElementById('historyListContainer');
+        const card = document.getElementById('historyCard');
+
+        if (history.length === 0) {
+            card.style.display = 'none';
+            return;
+        }
+
+        card.style.display = 'block';
+        container.innerHTML = '';
+
+        history.forEach(item => {
+            const div = document.createElement('div');
+            div.className = 'history-item';
+            div.innerHTML = `
+                <div>
+                    <span style="font-size:11px; color:#94a3b8; display:block;">${item.time}</span>
+                    <span>Input: <b>${item.inputs}</b></span>
+                </div>
+                <div style="text-align:right;">
+                    <b>${item.result}</b>
+                </div>
+            `;
+            container.appendChild(div);
+        });
+    }
+
+    function clearHistory() {
+        localStorage.removeItem('shayan_detailed_history');
+        loadHistoryUI();
     }
 
     function printLandReport() {
@@ -566,6 +787,9 @@
         }
         window.open("https://wa.me/?text=" + encodeURIComponent(textShare), '_blank');
     }
+
+    renderFAQs();
+    loadHistoryUI();
 </script>
 
 <footer>
