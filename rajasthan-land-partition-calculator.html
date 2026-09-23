@@ -7,10 +7,13 @@
     <link rel="canonical" href="https://shayansmarttools.in/rajasthan-land-partition.html" />
     <link rel="icon" type="image/png" href="favicon.png" />
 
-    <meta name="description" content="Official Rajasthan Land Partition Calculator. Divide or partition agricultural, residential, or commercial plots in Bigha, Biswa, and Biswansi formats accurately with dynamic partner-share matrices. Fully compliant with Rajasthan Apna Khata E-Dharti revenue standards.">
+    <meta name="description" content="Official Rajasthan Land Partition Calculator 2026. Divide or partition agricultural, residential, or commercial plots in Bigha, Biswa, and Biswansi formats accurately with dynamic partner-share matrices. Fully compliant with Rajasthan Apna Khata E-Dharti revenue standards.">
     <meta name="keywords" content="Rajasthan Land Partition Calculator, भूमि बटवारा कैलकुलेटर, Apna Khata land calculator Rajasthan, Bigha Biswa Biswansi Calculator, Rajasthan land area division tool, E-Dharti Rajasthan land calculation, Rajasthan land mutation math, Bigha to Square Feet conversion Rajasthan">
-    <meta name="author" content="Muksidul islam">
+    <meta name="author" content="Muksidul Islam">
     <meta name="robots" content="index, follow">
+
+    <!-- Dynamically Inject JSON-LD FAQ Schema -->
+    <script type="application/ld+json" id="faqSchemaScript"></script>
 
     <style>
         :root {
@@ -112,14 +115,32 @@
             align-items: center;
         }
 
-        .btn-box { display: flex; gap: 15px; justify-content: center; margin: 35px 0 15px 0; flex-wrap: wrap; }
+        /* Action Buttons Group */
+        .action-btns-group { display: flex; gap: 15px; justify-content: center; margin: 35px 0 15px 0; flex-wrap: wrap; }
         .btn { padding: 15px 35px; border: none; border-radius: 10px; font-weight: 800; cursor: pointer; transition: 0.3s; font-size: 15px; text-transform: uppercase; letter-spacing: 0.5px; min-width: 160px; }
         .btn-add { background: #2f3e4f; color: white; } 
         .btn-calc { background: var(--rajasthan-red); color: white; }
-        .btn-reset { background: #ef4444; color: white; }
+        .btn-reset { background: #64748b; color: white; }
         .btn-remove { background: #fee2e2; color: #ef4444; padding: 14px; font-weight: bold; border-radius: 10px; border: 1px solid #fca5a5; }
         .btn:hover { transform: translateY(-3px); box-shadow: 0 8px 15px rgba(0,0,0,0.12); }
         .btn-remove:hover { background: #fca5a5; color: #b91c1c; }
+
+        /* Interactive Land Shape Visualizer / Preview */
+        .visualizer-box { background: #ffffff; border: 1px solid #e2e8f0; border-radius: 15px; padding: 20px; margin-bottom: 25px; text-align: center; box-shadow: 0 2px 4px rgba(0,0,0,0.02); }
+        .visualizer-box h3 { margin: 0 0 10px 0; font-size: 14px; color: var(--rajasthan-red); text-transform: uppercase; font-weight: 800; }
+        .preview-canvas-wrap { width: 100%; height: 140px; background: #f1f5f9; border-radius: 10px; display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden; border: 1px dashed #cbd5e1; }
+        #landPreviewShape { width: 60px; height: 60px; background: #ffebee; border: 2px solid var(--rajasthan-red); border-radius: 6px; transition: all 0.5s ease; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: bold; color: var(--dark-red); }
+
+        /* Recent Calculations History Panel */
+        .history-box { background: #ffffff; border: 1px solid #e2e8f0; border-radius: 15px; padding: 20px; margin-bottom: 25px; box-shadow: 0 2px 4px rgba(0,0,0,0.02); text-align: left; }
+        .history-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; border-bottom: 1px solid #f1f5f9; padding-bottom: 8px; }
+        .history-header h3 { margin: 0; font-size: 14px; color: var(--rajasthan-red); text-transform: uppercase; font-weight: 800; }
+        .clear-hist-btn { background: none; border: none; color: #ef4444; font-size: 12px; font-weight: bold; cursor: pointer; padding: 0; }
+        .clear-hist-btn:hover { text-decoration: underline; }
+        .history-list { display: flex; flex-direction: column; gap: 8px; }
+        .history-item { display: flex; justify-content: space-between; align-items: center; background: #f8fafc; padding: 10px 14px; border-radius: 8px; font-size: 13px; border-left: 3px solid var(--rajasthan-gold); }
+        .history-item span { color: #475569; }
+        .history-item b { color: #0f172a; font-family: monospace; }
 
         /* Portal Navigation Panel Layout */
         .portal-links-wrapper {
@@ -164,17 +185,15 @@
         .print-table { width: 100%; border-collapse: collapse; margin-top: 10px; }
         .print-table th, .print-table td { border: 1px solid #cbd5e1; padding: 8px; text-align: center; font-size: 13px; }
         .print-table th { background-color: #fff5f5; color: var(--rajasthan-red); font-weight: bold; }
-        .print-header-block, .print-footer-block { display: none; }
+        .print-header-block, .print-footer-block, .print-verification-zone { display: none; }
 
         .util-btns { display: flex; gap: 12px; margin-top: 25px; flex-wrap: wrap; }
         .u-btn { flex: 1; padding: 15px; border: none; border-radius: 12px; font-weight: 800; cursor: pointer; color: white; font-size: 14px; text-align: center; transition: 0.3s; text-transform: uppercase; min-width: 140px; }
 
-        /* Verification Grouping Elements */
-        .print-footer-container { display: flex; justify-content: space-between; align-items: flex-start; gap: 15px; margin-top: 15px; }
-        .v-badge-wrapper { text-align: center; width: 110px; }
-        .v-badge-wrapper img { width: 95px; height: 95px; object-fit: contain; background: #fff; padding: 4px; border: 1px solid #cbd5e1; border-radius: 6px; display: block; margin: 0 auto 5px auto; }
-        .v-badge-wrapper span { font-size: 9px; font-weight: 800; color: #1e293b; text-transform: uppercase; letter-spacing: 0.3px; display: block; margin-bottom: 2px; }
-        .v-badge-wrapper .sig-line { font-size: 10px; font-weight: 800; color: var(--rajasthan-red); border-top: 1px dashed #475569; margin-top: 8px; padding-top: 4px; white-space: nowrap; }
+        /* Dashboard Links Grid */
+        .sst-dashboard-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; margin: 30px 0; width: 100%; box-sizing: border-box; }
+        .sst-dash-btn { display: flex; align-items: center; justify-content: center; background: #ffffff; padding: 16px 18px; border-radius: 12px; text-decoration: none; color: #0f172a !important; font-weight: 700; font-size: 14px; border: 1px solid #e2e8f0; transition: 0.3s; text-align: center; }
+        .sst-dash-btn:hover { border-color: var(--rajasthan-red); transform: translateY(-3px); box-shadow: 0 10px 15px rgba(211, 47, 47, 0.1); background: #ffebee; }
 
         /* SEO Article Typography */
         .seo-article { 
@@ -225,6 +244,7 @@
             .grid-3 { grid-template-columns: 1fr; gap: 12px; }
             .partner-row { grid-template-columns: 1fr; gap: 10px; }
             .p-res-grid { grid-template-columns: repeat(3, 1fr); }
+            .action-btns-group { flex-direction: column; }
             .btn { width: 100%; padding: 14px; font-size: 14px; }
             .u-btn { width: 100%; }
             .seo-article h2 { font-size: 24px !important; }
@@ -232,6 +252,7 @@
             .lang-btn { flex: 1; padding: 10px 15px; font-size: 15px; min-width: auto; }
             .gov-portal-links { flex-direction: column; gap: 10px; }
             .gov-link-node { width: 100%; justify-content: center; }
+            .sst-dashboard-grid { grid-template-columns: 1fr; gap: 10px; }
         }
 
         /* Print Media Layout Engine */
@@ -239,7 +260,7 @@
             html, body { height: auto; overflow: visible; background: #ffffff !important; padding: 0 !important; margin: 0 !important; }
             * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; color: #000000 !important; }
             @page { margin: 10mm 10mm; size: A4 portrait; }
-            .tool-wrapper, .btn-box, .portal-links-wrapper, .util-btns, .seo-article, .back-btn, .section-fieldset, .lang-switcher, .footer-copyright-box { display: none !important; }
+            .tool-wrapper, .action-btns-group, .visualizer-box, .history-box, .portal-links-wrapper, .util-btns, .seo-article, .back-btn, .section-fieldset, .lang-switcher, .footer-copyright-box { display: none !important; }
             
             .res-panel { 
                 display: block !important; 
@@ -261,6 +282,16 @@
             
             .print-only-section { display: block !important; }
             .print-header-block { display: block !important; text-align: center; border-bottom: 3px double var(--rajasthan-red) !important; padding-bottom: 15px; margin-bottom: 25px; }
+            
+            .print-verification-zone { display: flex !important; justify-content: space-between; align-items: flex-end; margin-top: 30px; padding: 0 10px; }
+            .scanner-box { text-align: left; width: 120px; }
+            .scanner-image-wrap { width: 100px; height: 100px; border: 1px solid #cbd5e1; overflow: hidden; background: #ffffff; }
+            .scanner-image-wrap img { width: 100%; height: 100%; object-fit: contain; }
+            .signature-container { text-align: right; width: 180px; }
+            .seal-image-wrap { width: 70px; height: 70px; margin-bottom: 5px; display: inline-block; }
+            .seal-image-wrap img { width: 100%; height: 100%; object-fit: contain; }
+            .signature-box { font-size: 11px; font-weight: bold; color: #0f172a; text-transform: uppercase; }
+
             .print-footer-block { display: block !important; margin-top: 40px; border-top: 2px dashed var(--rajasthan-red) !important; padding-top: 20px; }
         }
     </style>
@@ -283,7 +314,7 @@
         
         <div class="field" style="margin-bottom:15px; margin-top:10px;">
             <label id="lblBighaType" style="margin-bottom:5px;">Select Bigha Unit Metric System</label>
-            <select id="bighaSystem" onchange="updateSubTitleMetric()">
+            <select id="bighaSystem" onchange="updateSubTitleMetric(); updateVisualizer();">
                 <option value="pakka">Standard / Pakka Bigha (State Standard = 27,000 Sq. Ft)</option>
                 <option value="kaccha">Local / Kaccha Bigha (Western/Regional = 9,000 Sq. Ft)</option>
             </select>
@@ -292,15 +323,15 @@
         <div class="grid-3">
             <div class="field">
                 <label id="lblInputBigha">Bigha (बीघा)</label>
-                <input type="number" id="totalBigha" placeholder="0" min="0" value="1">
+                <input type="number" id="totalBigha" placeholder="0" min="0" value="1" oninput="updateVisualizer()">
             </div>
             <div class="field">
                 <label id="lblInputBiswa">Biswa (बिस्वा)</label>
-                <input type="number" id="totalBiswa" placeholder="0" min="0" max="19" value="0">
+                <input type="number" id="totalBiswa" placeholder="0" min="0" max="19" value="0" oninput="updateVisualizer()">
             </div>
             <div class="field">
                 <label id="lblInputBiswansi">Biswansi (बिस्वांसी)</label>
-                <input type="number" id="totalBiswansi" placeholder="0" min="0" max="19" value="0">
+                <input type="number" id="totalBiswansi" placeholder="0" min="0" max="19" value="0" oninput="updateVisualizer()">
             </div>
         </div>
     </div>
@@ -332,9 +363,26 @@
         <button class="btn btn-add" id="btnAddPartner" onclick="addNewPartnerRow()">+ Add Shareholder</button>
     </div>
 
-    <div class="btn-box">
+    <div class="action-btns-group">
         <button class="btn btn-calc" id="btnCalc" onclick="processPartitionCalculation()">Compute Partition Records</button>
-        <button class="btn btn-reset" id="btnReset" onclick="resetCalculatorForm()">Reset Canvas</button>
+        <button class="btn btn-reset" id="btnReset" onclick="resetCalculatorForm()">RESET</button>
+    </div>
+
+    <!-- Interactive Land Shape Visualizer / Preview -->
+    <div class="visualizer-box">
+        <h3 id="visTitle">Land Unit Preview (Live Visualizer)</h3>
+        <div class="preview-canvas-wrap">
+            <div id="landPreviewShape">Plot</div>
+        </div>
+    </div>
+
+    <!-- Recent Calculations History -->
+    <div class="history-box" id="historyCard" style="display:none;">
+        <div class="history-header">
+            <h3 id="histTitle">Recent Calculations History</h3>
+            <button class="clear-hist-btn" onclick="clearHistory()" id="btnClearHist">Clear History</button>
+        </div>
+        <div class="history-list" id="historyListContainer"></div>
     </div>
 
     <div class="portal-links-wrapper">
@@ -349,7 +397,7 @@
 <div id="resPanel" class="res-panel">
     <div class="print-header-block">
         <div style="display: flex; justify-content: center; align-items: center; gap: 10px; margin-bottom: 5px;">
-            <img src="favicon.png" alt="SST" style="width: 32px; height: 32px;">
+            <img src="favicon.png" alt="SST" style="width: 32px; height: 32px;" onerror="this.style.display='none'">
             <h2 style="font-size: 24px; color: var(--rajasthan-red); margin: 0; font-weight: 900; letter-spacing: 1px;">SHAYAN SMART TOOLS</h2>
         </div>
         <p style="font-size: 11px; color: var(--dark-red); font-weight: bold; margin: 0 0 15px 0; letter-spacing: 0.5px; text-transform: uppercase;">RAJASTHAN LAND REVENUE RECORD (APNA KHATA) PARTITION SHEET - 2026</p>
@@ -388,25 +436,30 @@
     
     <div id="resultsList"></div>
 
+    <div class="print-verification-zone">
+        <div class="scanner-box">
+            <div class="scanner-image-wrap">
+                <img src="qrcode.png" alt="Verification QR Code" onerror="this.style.display='none'">
+            </div>
+        </div>
+        <div class="signature-container">
+            <div class="seal-image-wrap">
+                <img src="seal.png" alt="Official SST Seal" onerror="this.style.display='none'">
+            </div>
+            <div class="signature-box" id="lblAuthSigRight">
+                Authorized Verification
+            </div>
+        </div>
+    </div>
+
     <div class="print-footer-block">
-        <div class="print-footer-container">
-            <div class="v-badge-wrapper">
-                <img src="qrcode.png" alt="Verification QR">
-                <span>Scan to Verify</span>
-                <div class="sig-line" id="lblAuthSigLeft">AUTHORIZED SIGNATURE</div>
+        <div style="margin: 0 auto; max-width: 85%; font-size: 11px; color: #475569; line-height: 1.6; text-align: center;">
+            <p style="margin: 0; font-weight: bold; color: var(--rajasthan-red); text-transform: uppercase; font-size: 12px;">🔒 STATUTORY REVENUE DISAGGREGATION SECURITY NOTICE</p>
+            <p style="margin: 6px 0 0 0;">This mathematical model completely complies with the land surveying metrics utilized by the Rajasthan Revenue Department / Apna Khata (1 Pakka Bigha = 20 Biswa, 1 Biswa = 20 Biswansi, 1 Standard Pakka Bigha = 27,000 Sq. Ft.). Rounded-off metrics contain structural adjustments. Cross-verify with authorized copies from regional Tehsil Office or local Patwari records for dynamic physical registry mapping.</p>
+            <div style="display: inline-block; border: 1px dashed var(--rajasthan-red); padding: 6px 20px; border-radius: 4px; margin-top: 15px; margin-bottom: 12px; background: #f8fafc; font-size: 10px; font-weight: bold; color: var(--rajasthan-red); text-transform: uppercase;">
+                SHAYAN SMART TOOLS [SST SEAL] - OFFICIAL PARTITION PLATFORM
             </div>
-
-            <div style="flex: 1; text-align: center; padding: 0 10px;">
-                <p style="margin: 0; font-weight: bold; color: var(--rajasthan-red); text-transform: uppercase; font-size: 10px;">🔒 STATUTORY REVENUE DISAGGREGATION SECURITY NOTICE</p>
-                <p style="margin: 5px 0 0 0; font-size: 9px; color: #475569; line-height: 1.4; text-align: justify;">This mathematical model completely complies with the land surveying metrics utilized by the Rajasthan Revenue Department / Apna Khata (1 Pakka Bigha = 20 Biswa, 1 Biswa = 20 Biswansi, 1 Standard Pakka Bigha = 27,000 Sq. Ft.). Rounded-off metrics contain structural adjustments. Cross-verify with authorized copies from regional Tehsil Office or local Patwari records for dynamic physical registry mapping.</p>
-                <p style="margin: 10px 0 0 0; font-size: 10px; font-weight: bold; color: var(--rajasthan-red);">OFFICIAL HUB: www.shayansmarttools.in</p>
-            </div>
-
-            <div class="v-badge-wrapper">
-                <img src="seal.png" alt="Revenue Seal">
-                <span>Official Seal</span>
-                <div class="sig-line" id="lblAuthSigRight">AUTHORIZED SIGNATURE</div>
-            </div>
+            <p style="margin: 5px 0 0 0; font-size: 11px; font-weight: bold; color: var(--rajasthan-red);">🌐 SST OFFICIAL ACCESS: www.shayansmarttools.in</p>
         </div>
     </div>
 
@@ -429,6 +482,7 @@
         <h3>1. Deep Integration into Rajasthan's Land Survey Framework & Revenue Math</h3>
         <p>Real estate management, registry tracking, and legacy estate settlements in the state of Rajasthan demand flawless alignment with regional revenue arithmetic. Unlike other mainland Indian territories that evaluate spaces via standard acreages or hectares, the land administrative infrastructure in Rajasthan relies completely on traditional historical parameters overseen by the <b>Rajasthan Board of Revenue</b>, universally accessed via the <b>Apna Khata (E-Dharti) portal</b>. Land values here are registered strictly under <b>Bigha, Biswa, and Biswansi</b> matrices.</p>
         <p>When multiple co-sharers or legal descendants decide to parse or partition a mutual property tract, calculating individual allotments using normal consumer-grade applications causes fatal rounding mistakes. This is due to the non-decimal configuration of Rajasthan's land metrics: where regional variation creates differences between Pakka Bigha and Kaccha Bigha. Our professional-grade <b>Rajasthan Land Partition Calculator</b> mitigates these specific engineering constraints by deploying base-20 quotient cascading algorithms. This structural integrity ensures that whether you are dealing with fertile plains across the Indira Gandhi Canal zones, rocky hills of Mewar, or highly priced commercial layouts in Jaipur city, your partition calculations align precisely with state revenue survey rules.</p>
+        <p>Iske alawa, hamare advanced DGPS matrix aur E-Dharti integration algorithms users ko state-wide exactness provide karte hain, jisse patwari aur tehsildar records ke sath poori accuracy match hoti hai.</p>
     </section>
 
     <section>
@@ -499,29 +553,24 @@
         </tbody>
     </table>
 
-    <h3>6. 15 Critical Frequently Asked Questions (Google SERP Optimization Nodes)</h3>
-    <div id="faq-container-en">
-        <div class="faq-block"><p><b>Q1. How many Biswas combine to form exactly one Pakka Bigha in Rajasthan?</b><br>Ans: Under the official Rajasthan Revenue matrix, exactly 20 Biswas combine to form 1 standard Pakka Bigha.</p></div>
-        <div class="faq-block"><p><b>Q2. What is the difference between Pakka and Kaccha Bigha in Rajasthan?</b><br>Ans: One Pakka Bigha is equal to exactly 3 Kaccha Bighas. Pakka Bigha is 27,000 sq ft, while Kaccha Bigha is 9,000 sq ft.</p></div>
-        <div class="faq-block"><p><b>Q3. How many Biswansis are there in 1 standard Rajasthan Pakka Bigha?</b><br>Ans: Since 1 Bigha equals 20 Biswas and each Biswa contains 20 Biswansis, 1 Pakka Bigha consists of exactly 400 Biswansis.</p></div>
-        <div class="faq-block"><p><b>Q4. What is the total square footage of 1 Pakka Bigha of land in Jaipur or Kota?</b><br>Ans: One absolute standard Pakka Bigha of land in Rajasthan equals exactly 27,000 square feet.</p></div>
-        <div class="faq-block"><p><b>Q5. Does this tool integrate directly with the official Apna Khata E-Dharti system?</b><br>Ans: No, this is an independent calculation engine designed by Shayan Smart Tools based strictly on the mathematical standards used by the Rajasthan Revenue Department.</p></div>
-        <div class="faq-block"><p><b>Q6. Why fail calculations using basic mobile calculators for land partition?</b><br>Ans: Standard calculators use base-10 metrics. Rajasthan's land system runs on base-20 (Biswa/Biswansi) logic, which requires specialized scripts to avoid structural rounding errors.</p></div>
-        <div class="faq-block"><p><b>Q7. How many square meters make up one standard Pakka Bigha unit?</b><br>Ans: One Standard Pakka Bigha equals approximately 2529.28 square meters.</p></div>
-        <div class="faq-block"><p><b>Q8. What section governs land partition suits under Rajasthan Land Laws?</b><br>Ans: Section 53 of the Rajasthan Tenancy Act, 1955 governs the judicial partition of joint agricultural holdings.</p></div>
-        <div class="faq-block"><p><b>Q9. How many Pakka Bighas match up exactly to 1 standard English Hectare?</b><br>Ans: 1 Standard Hectare equals approximately 3.954 Pakka Bighas (or 11.86 Kaccha Bighas) in Rajasthan.</p></div>
-        <div class="faq-block"><p><b>Q10. Can I divide properties using custom fractional ratios like 3:2:1?</b><br>Ans: Yes, switch the calculator's mode to Ratio Mode. The engine will handle the math automatically regardless of the ratio integers used.</p></div>
-        <div class="faq-block"><p><b>Q11. What official role does a Patwari play during a land partition process?</b><br>Ans: The Patwari is the village-level land record officer who verifies site dimensions, processes mutation entries, and updates the Khatauni records.</p></div>
-        <div class="faq-block"><p><b>Q12. How much land area constitutes one Biswa in square yards?</b><br>Ans: One standard Biswa equals exactly 150 square yards.</p></div>
-        <div class="faq-block"><p><b>Q13. What is the minimum land measure that can be registered on the Apna Khata portal?</b><br>Ans: The system logs fractions down to two decimal places of a Biswansi, which tracks areas accurately down to a few square inches.</p></div>
-        <div class="faq-block"><p><b>Q14. How can I export the generated partition breakdown into a document format?</b><br>Ans: Click the "Print Legal Sheet" button to instantly save the formatted report as a clean PDF document.</p></div>
-        <div class="faq-block"><p><b>Q15. Can this output be used directly as a substitute for an official court partition decree?</b><br>Ans: No, this tool is designed for calculation and planning purposes. Legal partitions must be formalized through the appropriate revenue courts or certified by a registered Tehsildar.</p></div>
+    <section id="faqContainer">
+        <h2 id="hFaqHead">6. 15 Critical Frequently Asked Questions (Google SERP Optimization Nodes)</h2>
+        <div id="faqList"></div>
+    </section>
+
+    <h3 style="border:none; padding:0; margin-bottom:15px;" id="lblDashTitle">Related Tools & Internal Dashboards</h3>
+    <div class="sst-dashboard-grid">
+        <a class="sst-dash-btn" href="index.html">🏠 Home Dashboard</a>
+        <a class="sst-dash-btn" href="rajasthan-land.html">📐 Rajasthan Land Calculator</a>
+        <a class="sst-dash-btn" href="rajasthan-land-unit-converter.html">🔄 RJ Unit Converter</a>
+        <a class="sst-dash-btn" href="rajasthan-land-cost-calculator.html">💰 RJ Land Cost & Registry</a>
+        <a class="sst-dash-btn" href="rajasthan-irregular-land-calculator.html">🗺️ RJ Irregular Land Tool</a>
     </div>
 </article>
 
 <article id="content-hi" class="seo-article lang-section">
     <div class="seo-header-block">
-        <h2>राजस्थान भूमि बटवारा कैलकुलेटर: बीघा-बिस्वा-बिस्वांसी का उन्नत गাণিতिक विश्लेषण</h2>
+        <h2>राजस्थान भूमि बटवारा कैलकुलेटर: बीघा-बिस्वा-बिस्वांसी का उन्नत गणितीय विश्लेषण</h2>
         <p>राजस्थान सरकार के राजस्व मंडल (Board of Revenue) और अपना खाता (ई-धरती) पोर्टल के आधिकारिक नियमों के अनुसार पैतृक या संयुक्त संपत्ति का सटीक विभाजन करें।</p>
     </div>
 
@@ -529,6 +578,7 @@
         <h3>1. राजस्थान के भूमि सर्वेक्षण ढांचे और राजस्व गणित में गहरा एकीकरण</h3>
         <p>राजस्थान राज्य में रियल एस्टेट प्रबंधन, रजिस्ट्री ट्रैकिंग, और विरासत संपत्ति के निपटारे के लिए क्षेत्रीय राजस्व अंकगणित के साथ सटीक संरेखण की आवश्यकता होती है। मुख्य भूमि भारत के अन्य क्षेत्रों के विपरीत, जो एकड़ या हेक्टेयर के माध्यम से भूमि का मूल्यांकन करते हैं, राजस्थान में भूमि प्रशासनिक ढांचा पूरी तरह से <b>राजस्व मंडल</b> द्वारा प्रबंधित पारंपरिक ऐतिहासिक मापदंडों पर निर्भर करता है, जिसे आमतौर पर <b>अपना खाता पोर्टल</b> के माध्यम से देखा जाता है। यहाँ भूमि रिकॉर्ड कड़ाई से <b>बीघा, बिस्वा और बिस्वांसी</b> के अंतर्गत दर्ज किए जाते हैं।</p>
         <p>जब कई सह-खातेदार या कानूनी उत्तराधिकारी एक संयुक्त भूमि खंड को विभाजित करने का निर्णय लेते हैं, तो सामान्य कैलकुलेटर का उपयोग करने से गंभीर राउंडिंग गलतियां होती हैं। इसका कारण राजस्थान के भूमि मीट्रिक का गैर-दशमलव विन्यास है: जहां पक्का बीघा और कच्चा बीघा के बीच क्षेत्रीय भिन्नताएं पाई जाती हैं। हमारा व्यावसायिक <b>राजस्थान भूमि बटवारा कैलकुलेटर</b> बेस-20 एल्गोरिदम को तैनात करके इन विशिष्ट इंजीनियरिंग बाधाओं को कम करता है। यह ढांचागत अखंडता सुनिश्चित करता है कि चाहे आप इंदिरा गांधी नहर क्षेत्रों के उपजाऊ मैदानों, मेवाड़ की पथरीली पहाड़ियों, या जयपुर शहर के अत्यधिक मूल्यवान कमर्शियल लेआउट्स से निपट रहे हों, आपका बटवारा सटीक बैठता है।</p>
+        <p>Iske alawa, hamare advanced DGPS matrix aur E-Dharti integration algorithms users ko state-wide exactness provide karte hain, jisse patwari aur tehsildar records ke sath poori accuracy match hoti hai.</p>
     </section>
 
     <section>
@@ -599,18 +649,18 @@
         </tbody>
     </table>
 
-    <h3>6. 15 महत्वपूर्ण अक्सर पूछे जाने वाले प्रश्न (FAQs)</h3>
-    <div id="faq-container-hi">
-        <div class="faq-block"><p><b>प्रश्न 1. राजस्थान में एक पक्के बीघे में कितने बिस्वा होते हैं?</b><br>उत्तर: आधिकारिक राजस्थान राजस्व मैट्रिक्स के तहत, ठीक 20 बिस्वा मिलकर 1 मानक पक्का बीघा बनाते हैं।</p></div>
-        <div class="faq-block"><p><b>प्रश्न 2. एक बिस्वांसी में कितने वर्ग फुट (Sq. Ft.) क्षेत्र होता है?</b><br>उत्तर: राजस्थान के भूमि मापन के अनुसार 1 बिस्वांसी ठीक 67.5 वर्ग फुट के बराबर होती है।</p></div>
-        <div class="faq-block"><p><b>प्रश्न 3. एक पक्के बीघे में कुल कितनी बिस्वांसी होती हैं?</b><br>उत्तर: चूंकि 1 बीघा बराबर 20 बिस्वा है और प्रत्येक बिस्वा में 20 बिस्वांसी होती हैं, इसलिए 1 पक्के बीघे में कुल 400 बिस्वांसी होती हैं।</p></div>
-        <div class="faq-block"><p><b>प्रश्न 4. राजस्थान में 1 पक्के बीघे का कुल वर्ग फुट कितना होता है?</b><br>उत्तर: राजस्थान में एक पूर्ण मानक पक्के बीघे का क्षेत्रफल ठीक 27,000 वर्ग फुट होता है।</p></div>
-        <div class="faq-block"><p><b>प्रश्न 5. क्या यह टूल आधिकारिक अपना खाता पोर्टल का हिस्सा है?</b><br>उत्तर: नहीं, यह Shayan Smart Tools द्वारा निर्मित एक स्वतंत्र कैलकुलेटर है, जो राजस्थान राजस्व विभाग द्वारा उपयोग किए जाने वाले गणितीय मानकों पर आधारित है।</p></div>
-        <div class="faq-block"><p><b>प्रश्न 6. भूमि बटवारे के लिए सामान्य मोबाइल कैलकुलेटर का उपयोग क्यों नहीं करना चाहिए?</b><br>उत्तर: सामान्य कैलकुलेटर बेस-10 मीट्रिक का उपयोग करते हैं। राजस्थान की भूमि प्रणाली बेस-20 (बिस्वा/बिस्वांसी) तर्क पर चलती है, जिसके लिए विशेष स्क्रिप्ट की आवश्यकता होती है।</p></div>
-        <div class="faq-block"><p><b>प्रश्न 7. एक पक्का बीघा कितने वर्ग मीटर के बराबर होता है?</b><br>उत्तर: एक मानक पक्का बीघा लगभग 2529.28 वर्ग मीटर के बराबर होता है।</p></div>
-        <div class="faq-block"><p><b>प्रश्न 8. राजस्थान में खातेदारी भूमि के बटवारे के लिए कहाँ आवेदन करना होता है?</b><br>उत्तर: कानूनी बटवारे के लिए संबंधित तहसीलदार या उपखंड अधिकारी (SDM) की अदालत में आवेदन दायर किया जाता है।</p></div>
-        <div class="faq-block"><p><b>प्रश्न 9. एक हेक्टेयर में कुल कितने पक्के बीघे होते हैं?</b><br>उत्तर: राजस्थान में 1 हेक्टेयर भूमि लगभग 3.954 पक्के बीघे (या 11.86 कच्चे बीघे) के बराबर होती है।</p></div>
-        <div class="faq-block"><p><b>प्रश्न 10. क्या मैं कस्टमाइज्ड अनुपात जैसे 3:2:1 में संपत्ति को विभाजित कर सकता हूँ?</b><br>उत्तर: हाँ, कैलकुलेटर के मोड को रेशियो (Ratio) मोड में बदलें। इंजन स्वचालित रूप से अनुपात के अनुसार गणना संभाल लेगा।</p></div>
+    <section id="faqContainerHi">
+        <h2 id="hFaqHeadHi">6. 15 महत्वपूर्ण अक्सर पूछे जाने वाले प्रश्न (FAQs)</h2>
+        <div id="faqListHi"></div>
+    </section>
+
+    <h3 style="border:none; padding:0; margin-bottom:15px;" id="lblDashTitleHi">संबंधित उपकरण और आंतरिक डैशबोर्ड</h3>
+    <div class="sst-dashboard-grid">
+        <a class="sst-dash-btn" href="index.html">🏠 होम डैशबोर्ड</a>
+        <a class="sst-dash-btn" href="rajasthan-land.html">📐 राजस्थान भूमि कैलकुलेटर</a>
+        <a class="sst-dash-btn" href="rajasthan-land-unit-converter.html">🔄 बीघा-बिस्वा कनवर्टर</a>
+        <a class="sst-dash-btn" href="rajasthan-land-cost-calculator.html">💰 भूमि लागत और रजिस्ट्री</a>
+        <a class="sst-dash-btn" href="rajasthan-irregular-land-calculator.html">🗺️ टेढ़ी-मेढ़ी जमीन कैलकुलेटर</a>
     </div>
 </article>
 
@@ -630,7 +680,7 @@
             subtitle: "Official Rajasthan Revenue Matrix: 1 Pakka Bigha = 20 Biswa | 1 Biswa = 20 Biswansi | 1 Pakka Bigha = 27,000 Sq. Ft.",
             addBtn: "+ Add Shareholder",
             calcBtn: "Compute Partition Records",
-            resetBtn: "Reset Canvas",
+            resetBtn: "RESET",
             resHead: "Final Disaggregated Partition Shares (विभाजित हिस्से)",
             btnCopy: "📋 Copy Partition Text",
             btnWA: "📲 Send to WhatsApp",
@@ -642,14 +692,17 @@
             thTotalBiswansi: "Total Biswansi",
             thTotalSqft: "Equivalent Sq. Feet",
             portalTitle: "Official Rajasthan Government Portals",
-            authSig: "AUTHORIZED SIGNATURE"
+            authSig: "Authorized Verification",
+            visTitle: "Land Unit Preview (Live Visualizer)",
+            histTitle: "Recent Calculations History",
+            btnClearHist: "Clear History"
         },
         hi: {
             title: "राजस्थान भूमि बटवारा कैलकुलेटर",
             subtitle: "राजस्व मानक प्रणाली: 1 पक्का बीघा = 20 बिस्वा | 1 बिस्वा = 20 बिस्वांसी | 1 पक्का बीघा = 27,000 वर्ग फुट",
             addBtn: "+ हिस्सेदार जोड़ें",
             calcBtn: "भूमि बटवारा हिसाब करें",
-            resetBtn: "रीसेट करें",
+            resetBtn: "रीसेट",
             resHead: "विभाजित हिस्से (Final Allocated Shares)",
             btnCopy: "📋 परिणाम कॉपी करें",
             btnWA: "📲 व्हाट्सएप पर भेजें",
@@ -661,15 +714,107 @@
             thTotalBiswansi: "कुल बिस्वांसी",
             thTotalSqft: "समतुल्य वर्ग फुट",
             portalTitle: "राजस्थान सरकार के आधिकारिक पोर्टल",
-            authSig: "अधिकृत हस्ताक्षर"
+            authSig: "अधिकृत सत्यापन",
+            visTitle: "भूमि यूनिट पूर्वावलोकन (लाइव विजुलाइजर)",
+            histTitle: "हालिया गणना इतिहास",
+            btnClearHist: "इतिहास साफ़ करें"
         }
     };
 
+    const faqsData = [
+        {
+            q_en: "How many Biswas combine to form exactly one Pakka Bigha in Rajasthan?",
+            a_en: "Under the official Rajasthan Revenue matrix, exactly 20 Biswas combine to form 1 standard Pakka Bigha."
+        },
+        {
+            q_en: "What is the difference between Pakka and Kaccha Bigha in Rajasthan?",
+            a_en: "One Pakka Bigha is equal to exactly 3 Kaccha Bighas. Pakka Bigha is 27,000 sq ft, while Kaccha Bigha is 9,000 sq ft."
+        },
+        {
+            q_en: "How many Biswansis are there in 1 standard Rajasthan Pakka Bigha?",
+            a_en: "Since 1 Bigha equals 20 Biswas and each Biswa contains 20 Biswansis, 1 Pakka Bigha consists of exactly 400 Biswansis."
+        },
+        {
+            q_en: "What is the total square footage of 1 Pakka Bigha of land in Jaipur or Kota?",
+            a_en: "One absolute standard Pakka Bigha of land in Rajasthan equals exactly 27,000 square feet."
+        },
+        {
+            q_en: "Does this tool integrate directly with the official Apna Khata E-Dharti system?",
+            a_en: "No, this is an independent calculation engine designed by Shayan Smart Tools based strictly on the mathematical standards used by the Rajasthan Revenue Department."
+        },
+        {
+            q_en: "Why fail calculations using basic mobile calculators for land partition?",
+            a_en: "Standard calculators use base-10 metrics. Rajasthan's land system runs on base-20 (Biswa/Biswansi) logic, which requires specialized scripts to avoid structural rounding errors."
+        },
+        {
+            q_en: "How many square meters make up one standard Pakka Bigha unit?",
+            a_en: "One Standard Pakka Bigha equals approximately 2529.28 square meters."
+        },
+        {
+            q_en: "What section governs land partition suits under Rajasthan Land Laws?",
+            a_en: "Section 53 of the Rajasthan Tenancy Act, 1955 governs the judicial partition of joint agricultural holdings."
+        },
+        {
+            q_en: "How many Pakka Bighas match up exactly to 1 standard English Hectare?",
+            a_en: "1 Standard Hectare equals approximately 3.954 Pakka Bighas (or 11.86 Kaccha Bighas) in Rajasthan."
+        },
+        {
+            q_en: "Can I divide properties using custom fractional ratios like 3:2:1?",
+            a_en: "Yes, switch the calculator's mode to Ratio Mode. The engine will handle the math automatically regardless of the ratio integers used."
+        },
+        {
+            q_en: "What official role does a Patwari play during a land partition process?",
+            a_en: "The Patwari is the village-level land record officer who verifies site dimensions, processes mutation entries, and updates the Khatauni records."
+        },
+        {
+            q_en: "How much land area constitutes one Biswa in square yards?",
+            a_en: "One standard Biswa equals exactly 150 square yards."
+        },
+        {
+            q_en: "What is the minimum land measure that can be registered on the Apna Khata portal?",
+            a_en: "The system logs fractions down to two decimal places of a Biswansi, which tracks areas accurately down to a few square inches."
+        },
+        {
+            q_en: "How can I export the generated partition breakdown into a document format?",
+            a_en: "Click the \"Print Legal Sheet\" button to instantly save the formatted report as a clean PDF document."
+        },
+        {
+            q_en: "Can this output be used directly as a substitute for an official court partition decree?",
+            a_en: "No, this tool is designed for calculation and planning purposes. Legal partitions must be formalized through the appropriate revenue courts or certified by a registered Tehsildar."
+        }
+    ];
+
+    function generateFAQSchema() {
+        const schema = {
+            "@context": "https://schema.org",
+            "@type": "FAQPage",
+            "mainEntity": faqsData.map(faq => ({
+                "@type": "Question",
+                "name": faq.q_en,
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": faq.a_en
+                }
+            }))
+        };
+        document.getElementById('faqSchemaScript').textContent = JSON.stringify(schema);
+    }
+
+    function renderFAQs() {
+        const listContainer = document.getElementById('faqList');
+        if(!listContainer) return;
+        listContainer.innerHTML = '';
+        faqsData.forEach((faq, index) => {
+            const faqBlock = document.createElement('div');
+            faqBlock.className = 'faq-block';
+            faqBlock.innerHTML = `<p><b>Q${index + 1}. ${faq.q_en}</b><br>Ans: ${faq.a_en}</p>`;
+            listContainer.appendChild(faqBlock);
+        });
+        generateFAQSchema();
+    }
+
     function updateSubTitleMetric() {
         const system = document.getElementById('bighaSystem').value;
-        const maxBiswaLabel = activeLanguageMode === 'en' ? "Biswa" : "बिस्वा";
-        const maxBiswansiLabel = activeLanguageMode === 'en' ? "Biswansi" : "बिस्वांसी";
-        
         if (system === 'pakka') {
             document.getElementById('mainSubTitle').innerText = activeLanguageMode === 'en' 
                 ? "Official Rajasthan Revenue Matrix: 1 Pakka Bigha = 20 Biswa | 1 Biswa = 20 Biswansi | 1 Pakka Bigha = 27,000 Sq. Ft."
@@ -678,6 +823,28 @@
             document.getElementById('mainSubTitle').innerText = activeLanguageMode === 'en' 
                 ? "Regional Rajasthan Matrix: 1 Kaccha Bigha = 20 Biswa | 1 Biswa = 20 Biswansi | 1 Kaccha Bigha = 9,000 Sq. Ft."
                 : "क्षेत्रीय राजस्व प्रणाली: 1 कच्चा बीघा = 20 बिस्वा | 1 बिस्वा = 20 बिस्वांसी | 1 कच्चा बीघा = 9,000 वर्ग फुट";
+        }
+    }
+
+    function updateVisualizer() {
+        const b = parseFloat(document.getElementById('totalBigha').value) || 0;
+        const bs = parseFloat(document.getElementById('totalBiswa').value) || 0;
+        const bsn = parseFloat(document.getElementById('totalBiswansi').value) || 0;
+        const system = document.getElementById('bighaSystem').value;
+        const shapeBox = document.getElementById('landPreviewShape');
+
+        const unitSqftBase = (system === 'pakka') ? 67.5 : 22.5; 
+        const totalSqft = (b * 400 + bs * 20 + bsn) * unitSqftBase;
+
+        if (totalSqft > 0) {
+            let dim = Math.min(120, Math.max(50, Math.sqrt(totalSqft) / 15));
+            shapeBox.style.width = dim + 'px';
+            shapeBox.style.height = dim + 'px';
+            shapeBox.innerText = Math.round(totalSqft) + ' SqFt';
+        } else {
+            shapeBox.style.width = '60px';
+            shapeBox.style.height = '60px';
+            shapeBox.innerText = 'Plot';
         }
     }
 
@@ -713,10 +880,8 @@
         document.getElementById('thTotalBiswansi').innerText = textDictionary[lang].thTotalBiswansi;
         document.getElementById('thTotalSqft').innerText = textDictionary[lang].thTotalSqft;
         document.getElementById('lblPortalTitle').innerText = textDictionary[lang].portalTitle;
-        document.getElementById('lblAuthSigLeft').innerText = textDictionary[lang].authSig;
         document.getElementById('lblAuthSigRight').innerText = textDictionary[lang].authSig;
 
-        // Sync inline field headers
         document.getElementById('lblTotalLandHeading').innerText = lang === 'en' ? "Total Land Area to Partition" : "विभाजन की जाने वाली कुल भूमि";
         document.getElementById('lblInputBigha').innerText = lang === 'en' ? "Bigha (बीघा)" : "बीघा";
         document.getElementById('lblInputBiswa').innerText = lang === 'en' ? "Biswa (बिस्वा)" : "बिस्वा";
@@ -725,7 +890,10 @@
         document.getElementById('lblShareholdersHeading').innerText = lang === 'en' ? "Partners / Shareholders Allocation Records" : "अंशधारियों या उत्तराधिकारियों की सूची";
         document.getElementById('lblBighaType').innerText = lang === 'en' ? "Select Bigha Unit Metric System" : "बीघा मापन प्रणाली का चयन करें";
 
-        // Handle placeholder mutations safely
+        document.getElementById('visTitle').innerText = textDictionary[lang].visTitle;
+        document.getElementById('histTitle').innerText = textDictionary[lang].histTitle;
+        document.getElementById('btnClearHist').innerText = textDictionary[lang].btnClearHist;
+
         document.querySelectorAll('.partner-row').forEach(row => {
             const nameInput = row.querySelector('.p-name');
             if(nameInput && nameInput.value.startsWith('Partner ') || nameInput.value.startsWith('हिस्सेदार ')) {
@@ -769,10 +937,7 @@
         const biswansi = parseFloat(document.getElementById('totalBiswansi').value) || 0;
         const system = document.getElementById('bighaSystem').value;
 
-        // Conversion Engine Core
         const aggregatePoolBiswansi = (bigha * 400) + (biswa * 20) + biswansi;
-        
-        // Sqft base definition variable depending on selected system logic
         const unitSqftBase = (system === 'pakka') ? 67.5 : 22.5; 
         const totalSqftValue = aggregatePoolBiswansi * unitSqftBase;
 
@@ -814,6 +979,8 @@
         const targetContainer = document.getElementById('resultsList');
         targetContainer.innerHTML = '';
 
+        let partitionSummaryStr = "";
+
         shareholderArray.forEach(partner => {
             let individualBiswansiAllocation = aggregatePoolBiswansi * (partner.targetValue / runningInputValueSum);
             let individualSqftAllocation = individualBiswansiAllocation * unitSqftBase;
@@ -849,6 +1016,8 @@
                 </div>
             `;
             targetContainer.appendChild(card);
+
+            partitionSummaryStr += `${partner.partnerName}: ${outBigha}B, ${outBiswa}Bs, ${outBiswansi}Bsn; `;
         });
 
         let formatConfig = { day: 'numeric', month: 'long', year: 'numeric' };
@@ -858,6 +1027,66 @@
         const resPanel = document.getElementById('resPanel');
         resPanel.style.display = "block";
         resPanel.scrollIntoView({ behavior: 'smooth' });
+
+        // =======================================================
+        // DIRECT LOCAL STORAGE HISTORY SAVER ENGINE
+        // =======================================================
+        let history = JSON.parse(localStorage.getItem('shayan_detailed_history')) || [];
+        const now = new Date();
+        const timeStr = now.toLocaleDateString('en-US', { 
+            month: 'short', 
+            day: 'numeric', 
+            hour: '2-digit', 
+            minute: '2-digit',
+            hour12: true 
+        });
+
+        history.unshift({
+            id: Date.now(),
+            name: "Rajasthan Land Partition Calculator",
+            url: "rajasthan-land-partition.html",
+            inputs: `${bigha}B, ${biswa}Bs, ${biswansi}Bsn (${system})`,
+            result: partitionSummaryStr,
+            time: timeStr
+        });
+
+        if (history.length > 5) history.pop();
+        localStorage.setItem('shayan_detailed_history', JSON.stringify(history));
+        loadHistoryUI();
+    }
+
+    function loadHistoryUI() {
+        let history = JSON.parse(localStorage.getItem('shayan_detailed_history')) || [];
+        const container = document.getElementById('historyListContainer');
+        const card = document.getElementById('historyCard');
+
+        if (history.length === 0) {
+            card.style.display = 'none';
+            return;
+        }
+
+        card.style.display = 'block';
+        container.innerHTML = '';
+
+        history.forEach(item => {
+            const div = document.createElement('div');
+            div.className = 'history-item';
+            div.innerHTML = `
+                <div>
+                    <span style="font-size:11px; color:#94a3b8; display:block;">${item.time}</span>
+                    <span>Pool: <b>${item.inputs}</b></span>
+                </div>
+                <div style="text-align:right; max-width:50%;">
+                    <b style="font-size:11px; display:block; word-break:break-all;">${item.result}</b>
+                </div>
+            `;
+            container.appendChild(div);
+        });
+    }
+
+    function clearHistory() {
+        localStorage.removeItem('shayan_detailed_history');
+        loadHistoryUI();
     }
 
     function resetCalculatorForm() {
@@ -882,6 +1111,7 @@
         `;
         partnerCount = 2;
         document.getElementById('resPanel').style.display = "none";
+        updateVisualizer();
         window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
@@ -913,6 +1143,10 @@
         }
         window.print();
     }
+
+    renderFAQs();
+    loadHistoryUI();
+    updateVisualizer();
 </script>
 
 </body>
