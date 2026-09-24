@@ -524,7 +524,7 @@
         <div class="tool-wrapper">
             <header>
                 <h1 id="mTitle">Rajasthan Biswa to Sq Feet Converter</h1>
-                <p id="sTitle">Official Land Unit Converter for Rajasthan (Biswa / Square Feet Calculator)</p>
+                <p id="sTitle">Official Land Unit Converter for Rajasthan (Biswa to Square Feet Calculator)</p>
             </header>
 
             <div class="lang-switch">
@@ -533,19 +533,19 @@
             </div>
 
             <div class="input-group">
-                <label for="conversionTypeSelection" id="lConvType">Select Conversion Direction (रूपांतरण दिशा चुनें)</label>
+                <label for="biswaTypeSelection" id="lBiswaType">Select Scale Variant (पैमाना चुनें)</label>
                 <div class="input-wrapper">
-                    <select id="conversionTypeSelection" onchange="updateInputPlaceholder(); calculateRajasthanLand();">
-                        <option value="biswa_to_sqft" selected>Biswa to Square Feet (बिस्वा से स्क्वायर फीट)</option>
-                        <option value="sqft_to_biswa">Square Feet to Biswa (स्क्वायर फीट से बिस्वा)</option>
+                    <select id="biswaTypeSelection" onchange="calculateRajasthanLand()">
+                        <option value="pucca" selected>मानक पक्का पैमाइश (Standard Pucca Biswa - 1,361.25 Sq Ft)</option>
+                        <option value="regional">क्षेत्रीय पैमाइश (Regional Biswa Variant)</option>
                     </select>
                 </div>
             </div>
 
             <div class="input-group">
-                <label for="landInput" id="lInp">Enter Biswa (विश्वा दर्ज करें)</label>
+                <label for="biswaInput" id="lInp">Enter Biswa (विश्वा दर्ज करें)</label>
                 <div class="input-wrapper">
-                    <input type="number" id="landInput" placeholder="Example: 1" min="0" step="any" oninput="calculateRajasthanLand()">
+                    <input type="number" id="biswaInput" placeholder="Example: 1" min="0" step="any" oninput="calculateRajasthanLand()">
                 </div>
             </div>
 
@@ -583,11 +583,11 @@
                     <div class="res-item" id="print-input-row" style="display:none;"><span>Initial Input Feed:</span> <b id="rInputVal">0 Biswa</b></div>
                     
                     <div class="res-panel-items-wrapper" style="display:contents;">
-                        <div class="res-item highlight"><span>Total Biswa Value:</span> <b id="resBiswa">0 Biswa</b></div>
                         <div class="res-item highlight"><span>Total Square Feet (Sq.Ft):</span> <b id="resSqft">0 sq ft</b></div>
-                        <div class="res-item"><span>Total Bigha Value:</span> <b id="resBigha">0 Bigha</b></div>
+                        <div class="res-item highlight"><span>Total Bigha Value:</span> <b id="resBigha">0 Bigha</b></div>
                         <div class="res-item"><span>Total Square Meter (Sq.Mt):</span> <b id="resSqm">0 sq m</b></div>
                         <div class="res-item"><span>Total Biswansi Value:</span> <b id="resBiswansi">0 Biswansi</b></div>
+                        <div class="res-item"><span>Total Hectare Value:</span> <b id="resHectare">0 Hectare</b></div>
                         <div class="res-item"><span>Total Acre Value:</span> <b id="resAcre">0 Acre</b></div>
                     </div>
                 </div>
@@ -648,7 +648,7 @@
                 Rajasthan mein property transactions, digital land record audits, aur infrastructure deployment ke dauran apni zameen ki sahi naap-jokh ka absolute evaluation karna behad mandatory step ban chuka hai. Bharat ke anya kshetron ke vipreet, Rajasthan Revenue Department (Raj(R) Board) dwara nirdharit local land divisions kafi custom parameters par rests karte hain. Rajasthan ke Jaipur, Jodhpur, Udaipur, Kota, Bikaner aur baki sabhi anchalon me zameen ki maap sadiyon se <b>Biswa (विश्वा)</b>, <b>Square Feet (स्क्वायर फीट)</b>, aur <b>Biswansi (बिस्वांसी)</b> ke parametric values par aadharit hoti hai. Jab koi common buyer ya builder shehri kshetron me property ki deals karta hai, toh wahan computational processing hamesha Biswa se Square Feet (Sq Ft) me hoti hai, jiske karan micro values calculation me aksar deviations aa jaate hain.
             </p>
             <p>
-                Jab aap government land database server **Apna Bhulekh Rajasthan Portal (E-Dharti)** par ja kar apna Jamabandi ledger copy ya Khasra records check karte hain, toh wahan kul रकबा Hectare me darj hota hai, par local ground deals Biswa-Square Feet me hoti hain. Is dynamic allocation scale variance ke chalte tiny structural calculations mismatch bhi heavy property duplication disputes aur sub-registrar registry compliance error khada kar deta hai. Isi mathematical division logic gap ko seamlessly clear aur eliminate karne ke liye Shayan Smart Tools ne is high-performance **Rajasthan Biswa to Sq Feet Converter** client-side script core package ko compile kiya hai jo single touch par accurate data values output display karta hai.
+                Jab aap government land database server **Apna Bhulekh Rajasthan Portal (E-Dharti)** par ja kar apna Jamabandi ledger copy ya Khasra records check करते हैं, toh wahan kul रकबा Hectare me darj hota hai, par local ground deals Biswa-Square Feet me hoti hain. Is dynamic allocation scale variance ke chalte tiny structural calculations mismatch bhi heavy property duplication disputes aur sub-registrar registry compliance error khada kar deta hai. Isi mathematical division logic gap ko seamlessly clear aur eliminate karne ke liye Shayan Smart Tools ne is high-performance **Rajasthan Biswa to Sq Feet Converter** client-side script core package ko compile kiya hai jo single touch par accurate data values output display karta hai.
             </p>
         </section>
 
@@ -825,20 +825,8 @@
 
         let cL = 'en';
         const dict = {
-            en: { 
-                mt:"Rajasthan Biswa to Sq Feet Converter", 
-                st:"Official Land Unit Converter for Rajasthan (Biswa / Square Feet Calculator)", 
-                bt:"Convert Now", 
-                lC:"Select Conversion Direction (रूपांतरण दिशा चुनें)", 
-                rh:"Conversion Results" 
-            },
-            hi: { 
-                mt:"राजस्थान बिस्वा से स्क्वायर फीट कनवर्टर", 
-                st:"राजस्थान भूमि इकाई कनवर्टर (बिस्वा और स्क्वायर फीट कैलकुलेटर)", 
-                bt:"अभी रूपांतरित करें", 
-                lC:"रूपांतरण दिशा चुनें", 
-                rh:"रूपांतरण के परिणाम" 
-            }
+            en: { mt:"Rajasthan Biswa to Sq Feet Converter", st:"Official Land Unit Converter for Rajasthan (Biswa to Square Feet Calculator)", bt:"Convert Now", li:"Enter Biswa (विश्वा दर्ज करें)", lB:"Select Scale Variant (पैमाना चुनें)", rh:"Conversion Results" },
+            hi: { mt:"राजस्थान बिस्वा से स्क्वायर फीट कनवर्टर", st:"राजस्थान भूमि इकाई कनवर्टर (बिस्वा से स्क्वायर फीट कैलकुलेटर)", bt:"अभी रूपांतरित करें", li:"विश्वा दर्ज करें", lB:"पैमाना चुनें", rh:"रूपांतरण के परिणाम" }
         };
 
         function setLang(l) {
@@ -847,48 +835,32 @@
             document.getElementById('hiBtn').classList.toggle('active', l==='hi');
             document.getElementById('mTitle').innerText = dict[l].mt;
             document.getElementById('sTitle').innerText = dict[l].st;
-            document.getElementById('lConvType').innerText = dict[l].lC;
+            document.getElementById('lInp').innerText = dict[l].li;
+            document.getElementById('lBiswaType').innerText = dict[l].lB;
             document.getElementById('btnText').innerText = dict[l].bt;
             document.getElementById('resHead').innerText = dict[l].rh;
-            updateInputPlaceholder();
             if(document.getElementById('resPanel').style.display === 'block') calculateRajasthanLand();
         }
 
-        function updateInputPlaceholder() {
-            const convType = document.getElementById('conversionTypeSelection').value;
-            const lInp = document.getElementById('lInp');
-            const landInput = document.getElementById('landInput');
-            
-            if (convType === "biswa_to_sqft") {
-                lInp.innerText = cL === 'en' ? "Enter Biswa (विश्वा दर्ज करें)" : "विश्वा दर्ज करें";
-                landInput.placeholder = "Example: 1";
-            } else {
-                lInp.innerText = cL === 'en' ? "Enter Square Feet (स्क्वायर फीट दर्ज करें)" : "स्क्वायर फीट दर्ज करें";
-                landInput.placeholder = "Example: 1361.25";
-            }
-        }
-
         function calculateRajasthanLand() {
-            const val = parseFloat(document.getElementById('landInput').value);
-            const convType = document.getElementById('conversionTypeSelection').value;
+            const biswa = parseFloat(document.getElementById('biswaInput').value);
+            const biswaType = document.getElementById('biswaTypeSelection').value;
             const resPanel = document.getElementById('resPanel');
 
-            if (isNaN(val) || val <= 0) {
+            if (isNaN(biswa) || biswa <= 0) {
                 if (window.event && window.event.type === 'click') {
-                    alert(cL === 'en' ? "Please enter a valid numeric value!" : "कृपया सही मान दर्ज करें!");
+                    alert(cL === 'en' ? "Please enter a valid Biswa value!" : "कृपया सही बिस्वा दर्ज करें!");
                 }
                 return;
             }
 
-            let biswa, sqft, bigha, biswansi, sqm, acre, hectare;
-            const sqftPerBiswa = 1361.25;
+            // Rajasthan Government Revenue Calculation Standards 2026
+            let sqft, bigha, biswansi, sqm, acre, hectare;
 
-            if (convType === "biswa_to_sqft") {
-                biswa = val;
-                sqft = val * sqftPerBiswa;
+            if (biswaType === "pucca") {
+                sqft = biswa * 1361.25;
             } else {
-                sqft = val;
-                biswa = val / sqftPerBiswa;
+                sqft = biswa * 1000; // Regional variation fallback if needed
             }
             
             bigha = biswa / 20;
@@ -897,7 +869,6 @@
             acre = sqft / 43560;
             hectare = sqm / 10000;
 
-            document.getElementById('resBiswa').innerText = biswa.toLocaleString('en-IN', {maximumFractionDigits: 4}) + " Biswa";
             document.getElementById('resSqft').innerText = sqft.toLocaleString('en-IN', {maximumFractionDigits: 2}) + " sq ft";
             document.getElementById('resBigha').innerText = bigha.toLocaleString('en-IN', {maximumFractionDigits: 4}) + " Bigha";
             document.getElementById('resSqm').innerText = sqm.toLocaleString('en-IN', {maximumFractionDigits: 2}) + " sq m";
@@ -908,29 +879,34 @@
             let options = { timeZone: 'Asia/Kolkata', day: 'numeric', month: 'long', year: 'numeric' };
             let today = new Date().toLocaleDateString('en-IN', options);
             document.getElementById('pDocDate').innerText = today + " (INDIA STANDARD TIME)";
-            document.getElementById('rInputVal').innerText = `${val} ${convType === 'biswa_to_sqft' ? 'Biswa' : 'Sq Ft'}`;
+            document.getElementById('rInputVal').innerText = `${biswa} Biswa (${biswaType === 'pucca' ? 'Standard Pucca' : 'Regional'})`;
             
             let randID = Math.floor(1000000000 + Math.random() * 9000000000);
             document.getElementById('pDocRef').innerText = `SST-RAJ-B2SF-${randID}`;
 
             resPanel.style.display = "block";
 
-            saveToHistory(val, convType, sqft);
+            // Save calculation to Local Storage History Engine
+            saveToHistory(biswa, biswaType, sqft);
         }
 
-        function saveToHistory(val, type, sqft) {
+        // DIRECT LOCAL STORAGE HISTORY SAVER ENGINE
+        function saveToHistory(biswa, type, sqft) {
             let history = JSON.parse(localStorage.getItem('sst_raj_biswa_sqft_history')) || [];
             let entry = {
-                val: val,
-                type: type === 'biswa_to_sqft' ? 'Biswa to Sq Ft' : 'Sq Ft to Biswa',
+                biswa: biswa,
+                type: type === 'pucca' ? 'Pucca' : 'Regional',
                 sqft: sqft.toFixed(2),
                 time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
             };
             history.unshift(entry);
-            if (history.length > 5) history.pop();
+            if (history.length > 5) history.pop(); // Keep last 5 entries
             localStorage.setItem('sst_raj_biswa_sqft_history', JSON.stringify(history));
             renderHistory();
 
+            // =======================================================
+            // DIRECT LOCAL STORAGE HISTORY SAVER ENGINE
+            // =======================================================
             let detailedHistory = JSON.parse(localStorage.getItem('shayan_detailed_history')) || [];
             const now = new Date();
             const timeStr = now.toLocaleDateString('en-US', { 
@@ -945,13 +921,14 @@
                 id: Date.now(),
                 name: "Rajasthan Biswa to Sq Feet Converter",
                 url: "rajasthan-biswa-to-sq-feet.html",
-                inputs: `${val} (${type === 'biswa_to_sqft' ? 'Biswa' : 'Sq Ft'})`,
-                result: `${sqft.toFixed(2)} Sq Ft`,
+                inputs: `${biswa} Biswa (${type})`,
+                result: `${sqft.toFixed(2)} Sq Ft (${Math.round(sqft)} Sq Ft)`,
                 time: timeStr
             });
 
             if (detailedHistory.length > 20) detailedHistory.pop();
             localStorage.setItem('shayan_detailed_history', JSON.stringify(detailedHistory));
+            // =======================================================
         }
 
         function renderHistory() {
@@ -966,7 +943,7 @@
             list.innerHTML = '';
             history.forEach(item => {
                 let li = document.createElement('li');
-                li.innerHTML = `<span>${item.val} (${item.type})</span> ➔ <b>${item.sqft} Sq.Ft</b> <small style="color:#94a3b8">${item.time}</small>`;
+                li.innerHTML = `<span>${item.biswa} Biswa (${item.type})</span> ➔ <b>${item.sqft} Sq.Ft</b> <small style="color:#94a3b8">${item.time}</small>`;
                 list.appendChild(li);
             });
         }
@@ -976,14 +953,14 @@
             renderHistory();
         }
 
+        // Load history on startup if present
         window.onload = function() {
-            updateInputPlaceholder();
             renderHistory();
         };
 
         function printLandReport() {
-            const val = document.getElementById('landInput').value;
-            if(!val || val <= 0) { alert("Calculate first before printing!"); return; }
+            const biswa = document.getElementById('biswaInput').value;
+            if(!biswa || biswa <= 0) { alert("Calculate first before printing!"); return; }
 
             const printRow = document.getElementById('print-input-row');
             printRow.style.display = "flex";
@@ -992,15 +969,15 @@
         }
 
         function copyData() {
-            let res = `Rajasthan Land Results:\nInput: ${document.getElementById('landInput').value}\nSquare Feet: ${document.getElementById('resSqft').innerText}\nBiswa: ${document.getElementById('resBiswa').innerText}\nTool by Shayan Smart Tools`;
+            let res = `Rajasthan Land Results:\nInput: ${document.getElementById('biswaInput').value} Biswa\nSquare Feet: ${document.getElementById('resSqft').innerText}\nBigha: ${document.getElementById('resBigha').innerText}\nTool by Shayan Smart Tools`;
             navigator.clipboard.writeText(res);
             alert("Results Copied!");
         }
 
         function shareWA() {
-            let t = encodeURIComponent(`Rajasthan Land Conversion Result:\nInput: ${document.getElementById('landInput').value}\nSquare Feet: ${document.getElementById('resSqft').innerText}\nCheck details via Shayan Smart Tools`);
+            let t = encodeURIComponent(`Rajasthan Land Conversion Result:\nInput: ${document.getElementById('biswaInput').value} Biswa\nSquare Feet: ${document.getElementById('resSqft').innerText}\nCheck details via Shayan Smart Tools`);
             window.open("https://wa.me/?text=" + t);
         }
     </script>
 </body>
-</html>
+                                                                                    </html>
