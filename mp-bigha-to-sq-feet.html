@@ -948,7 +948,7 @@
         }
 
         function saveToHistory(val, type, sqft, bigha, inputFeedStr, resultFormatStr) {
-            // Widget History integration matching your custom engine specs
+            // Widget History integration with duplicate check
             let history = JSON.parse(localStorage.getItem('shayan_detailed_history')) || [];
             const now = new Date();
             const timeStr = now.toLocaleDateString('en-US', { 
@@ -959,19 +959,23 @@
                 hour12: true 
             });
 
-            history.unshift({
+            let newEntry = {
                 id: Date.now(),
                 name: "MP Bigha to Sq Feet Calculator",
                 url: "mp-bigha-to-sq-feet.html",
                 inputs: inputFeedStr,
                 result: `${resultFormatStr} (${Math.round(sqft)} Sq Ft)`,
                 time: timeStr
-            });
+            };
 
-            if (history.length > 20) history.pop();
-            localStorage.setItem('shayan_detailed_history', JSON.stringify(history));
+            // Prevent exact duplicate back-to-back entries
+            if (history.length === 0 || history[0].inputs !== inputFeedStr || history[0].result !== newEntry.result) {
+                history.unshift(newEntry);
+                if (history.length > 20) history.pop();
+                localStorage.setItem('shayan_detailed_history', JSON.stringify(history));
+            }
 
-            // UI Drawer Local History rendering
+            // UI Drawer Local History rendering with duplicate check
             let uiHistory = JSON.parse(localStorage.getItem('sst_mp_history')) || [];
             let entry = {
                 mode: currentMode,
@@ -981,9 +985,13 @@
                 bigha: bigha.toFixed(3),
                 time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
             };
-            uiHistory.unshift(entry);
-            if (uiHistory.length > 5) uiHistory.pop();
-            localStorage.setItem('sst_mp_history', JSON.stringify(uiHistory));
+
+            if (uiHistory.length === 0 || uiHistory[0].val !== val || uiHistory[0].type !== type || uiHistory[0].mode !== currentMode) {
+                uiHistory.unshift(entry);
+                if (uiHistory.length > 5) uiHistory.pop();
+                localStorage.setItem('sst_mp_history', JSON.stringify(uiHistory));
+            }
+            
             renderHistory();
         }
 
@@ -1010,6 +1018,7 @@
 
         function clearHistory() {
             localStorage.removeItem('sst_mp_history');
+            localStorage.removeItem('shayan_detailed_history');
             renderHistory();
         }
 
