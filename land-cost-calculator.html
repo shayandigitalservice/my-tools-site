@@ -9,26 +9,52 @@
 *{box-sizing:border-box;margin:0;padding:0}
 :root{
   --navy:#06264a;--blue:#087df5;--cyan:#10bde8;--green:#18a957;
-  --text:#082b55;--muted:#5c7189;--light:#eef8ff;--border:#d8e8f5;
+  --text:#082b55;--muted:#5c7189;--light:#eef8ff;--border:#d8e8f5;--bg:#fff;--card-bg:#fff;
 }
-body{font-family:Arial,Helvetica,sans-serif;color:var(--text);background:#fff;line-height:1.35}
+[data-theme="dark"]{
+  --navy:#021020;--blue:#10bde8;--cyan:#18a957;--green:#18a957;
+  --text:#eef8ff;--muted:#9eb3c8;--light:#041d39;--border:#113a60;--bg:#031222;--card-bg:#061e38;
+}
+body{font-family:Arial,Helvetica,sans-serif;color:var(--text);background:var(--bg);line-height:1.35;transition:background 0.3s, color 0.3s}
 a{text-decoration:none;color:inherit}
 .container{width:min(1180px,calc(100% - 32px));margin:auto}
 
 /* HEADER */
 header{background:linear-gradient(105deg,#041d39,#073d6b);color:white;position:sticky;top:0;z-index:50;box-shadow:0 3px 15px #0002}
-.nav{height:76px;display:flex;align-items:center;gap:24px}
+.nav{height:76px;display:flex;align-items:center;gap:24px;position:relative}
 .logo{display:flex;align-items:center;gap:10px;min-width:260px}
-.logo-mark{width:48px;height:48px;border-radius:10px;background:linear-gradient(145deg,#20bce8,#1260d7);display:grid;place-items:center;font-weight:900;font-size:20px;box-shadow:inset 0 0 0 2px #ffffff55}
+.logo img{width:48px;height:48px;border-radius:10px;object-fit:cover;box-shadow:inset 0 0 0 2px #ffffff55}
 .logo-text strong{font-size:22px;letter-spacing:.3px}
 .logo-text strong span{color:#11bde9}
 .logo-text small{display:block;font-size:14px;color:#fff;font-weight:600}
 .navlinks{display:flex;gap:20px;font-size:13px;white-space:nowrap}
 .navlinks a{padding:27px 0;border-bottom:3px solid transparent}
 .navlinks a.active{color:#19c5ee;border-color:#19c5ee}
-.nav-search{margin-left:auto;width:220px;height:40px;border-radius:11px;background:white;display:flex;align-items:center;padding:0 12px;color:#7b8ea3}
-.nav-search input{border:0;outline:0;width:100%;font-size:12px}
-.menu{display:none;font-size:25px}
+
+/* Theme Toggle & Mobile Menu Controls */
+.nav-controls{margin-left:auto;display:flex;align-items:center;gap:15px}
+.theme-toggle{background:transparent;border:1px solid #ffffff55;color:#fff;width:38px;height:38px;border-radius:50%;cursor:pointer;display:grid;place-items:center;font-size:18px;transition:0.2s}
+.theme-toggle:hover{background:#ffffff22}
+.menu{display:none;font-size:25px;cursor:pointer;color:#fff}
+
+/* MOBILE NAV OVERLAY */
+@media(max-width:900px){
+  .navlinks{
+    display:none;
+    flex-direction:column;
+    position:absolute;
+    top:76px;
+    left:0;
+    width:100%;
+    background:#041d39;
+    padding:15px 20px;
+    box-shadow:0 10px 15px rgba(0,0,0,0.3);
+    border-top:1px solid #ffffff22;
+  }
+  .navlinks.active{display:flex}
+  .navlinks a{padding:12px 0;border-bottom:1px solid #ffffff11}
+  .menu{display:block}
+}
 
 /* HERO */
 .hero{
@@ -63,44 +89,44 @@ section{padding:26px 0}
 .view{margin-left:auto;color:#087df5;font-size:13px;font-weight:700}
 .grid{display:grid;gap:14px}
 .countries{grid-template-columns:repeat(6,1fr)}
-.country,.tool{border:1px solid var(--border);border-radius:10px;background:#fff;text-align:center;padding:17px 10px;box-shadow:0 3px 12px #0a447c0b}
+.country,.tool{border:1px solid var(--border);border-radius:10px;background:var(--card-bg);text-align:center;padding:17px 10px;box-shadow:0 3px 12px #0a447c0b}
 .country b{display:block;font-size:42px;margin-bottom:7px}
 .country strong{font-size:17px}
 .arrow{display:grid;place-items:center;width:28px;height:28px;border-radius:50%;background:#e8f5ff;color:#087df5;margin:9px auto 0;font-weight:900}
 
 /* TOOLS */
-.tools-wrap{background:#eef9ff}
+.tools-wrap{background:var(--light)}
 .tools{grid-template-columns:repeat(8,1fr)}
 .tool{padding:14px 5px;min-height:130px}
 .tool .ico{font-size:30px;margin-bottom:8px}
 .tool strong{font-size:13px;display:block}
 
 /* INDIA */
-.india{background:#f7fff9}
+.india{background:var(--bg)}
 .state-box{display:grid;grid-template-columns:1.25fr .85fr;gap:20px;align-items:center}
-.select{border:1px solid var(--border);border-radius:11px;background:#fff;height:52px;display:flex;align-items:center;padding:0 16px;justify-content:space-between;box-shadow:0 3px 12px #00000009}
+.select{border:1px solid var(--border);border-radius:11px;background:var(--card-bg);height:52px;display:flex;align-items:center;padding:0 16px;justify-content:space-between;box-shadow:0 3px 12px #00000009}
 .state-pills{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
-.state-pills span{padding:9px 14px;border:1px solid var(--border);border-radius:9px;font-size:12px;background:white;cursor:pointer}
+.state-pills span{padding:9px 14px;border:1px solid var(--border);border-radius:9px;font-size:12px;background:var(--card-bg);cursor:pointer}
 .state-pills span.active-state{background:#087df5;color:white;border-color:#087df5}
 .assam-tools-container{margin-top:15px;display:grid;grid-template-columns:repeat(5,1fr);gap:8px}
-.assam-tool-card{background:#fff;border:1px solid var(--border);padding:10px 8px;border-radius:8px;text-align:center;font-size:11px;font-weight:600;box-shadow:0 2px 6px rgba(0,0,0,0.03)}
+.assam-tool-card{background:var(--card-bg);border:1px solid var(--border);padding:10px 8px;border-radius:8px;text-align:center;font-size:11px;font-weight:600;box-shadow:0 2px 6px rgba(0,0,0,0.03)}
 .assam-tool-card span{display:block;font-size:16px;margin-bottom:4px}
 .india-image{height:160px;border-radius:10px;background:linear-gradient(135deg,#9bd3a1,#eff7b8 55%,#5eb6e7);position:relative;overflow:hidden;display:grid;place-items:center}
 .india-image .map{font-size:85px;filter:drop-shadow(0 4px 6px rgba(0,0,0,0.2))}
 .india-image strong{position:absolute;bottom:12px;right:15px;color:#fff;text-shadow:0 2px 4px #000;font-style:italic;font-size:13px}
 
 /* INTERNATIONAL */
-.international{background:#eefaff}
+.international{background:var(--light)}
 .int-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:12px}
-.int-card{background:#fff;border:1px solid var(--border);border-radius:10px;padding:12px;display:flex;gap:10px;min-height:112px}
+.int-card{background:var(--card-bg);border:1px solid var(--border);border-radius:10px;padding:12px;display:flex;gap:10px;min-height:112px}
 .int-img{width:82px;border-radius:7px;background:linear-gradient(145deg,#8fc9ee,#e7d29a);display:grid;place-items:center;font-size:40px;flex:none}
-.int-card strong{font-size:13px}.int-card li{font-size:11px;color:#445;margin:4px 0;list-style:none}
+.int-card strong{font-size:13px}.int-card li{font-size:11px;color:var(--muted);margin:4px 0;list-style:none}
 
 /* GUIDES & HOW TO USE */
 .guides{grid-template-columns:repeat(4,1fr)}
-.guide{border:1px solid var(--border);border-radius:9px;padding:9px;display:flex;gap:10px;align-items:center;background:#fff}
+.guide{border:1px solid var(--border);border-radius:9px;padding:9px;display:flex;gap:10px;align-items:center;background:var(--card-bg)}
 .guide-img{width:70px;height:55px;border-radius:6px;background:linear-gradient(135deg,#d7b36d,#5c9fd1);display:grid;place-items:center;font-size:27px;flex:none}
-.guide strong{font-size:12px}.guide small{display:block;color:#6a7b8b;margin-top:4px;font-size:10px}
+.guide strong{font-size:12px}.guide small{display:block;color:var(--muted);margin-top:4px;font-size:10px}
 
 /* TRUST + FOOTER */
 .trust{background:#06284c;color:white;padding:18px 0}
@@ -118,8 +144,7 @@ footer{background:#031b35;color:#d7e8f5;padding:20px 0}
 /* MOBILE */
 @media(max-width:900px){
  .container{width:min(100% - 22px,600px)}
- .nav{height:65px}.logo{min-width:0}.logo-mark{width:40px;height:40px}.logo-text strong{font-size:17px}.logo-text small{font-size:11px}
- .navlinks,.nav-search{display:none}.menu{display:block;margin-left:auto}
+ .nav{height:65px}.logo{min-width:0}.logo img{width:40px;height:40px}.logo-text strong{font-size:17px}.logo-text small{font-size:11px}
  .hero{min-height:480px}.hero:after{right:0;width:100%;opacity:0.25}
  .hero-content{padding:35px 0 30px}
  .hero h1{font-size:42px;max-width:100%}.hero p{font-size:18px}
@@ -159,17 +184,18 @@ footer{background:#031b35;color:#d7e8f5;padding:20px 0}
 <header>
   <div class="container nav">
     <a class="logo" href="#">
-      <div class="logo-mark">SS</div>
+      <img src="Logo.png" alt="Shayan Smart Tools Logo">
       <div class="logo-text"><strong>SHAYAN <span>SMART TOOLS</span></strong><small>World Land Calculator</small></div>
     </a>
-    <nav class="navlinks">
+    <nav class="navlinks" id="navLinks">
       <a class="active" href="#">Home</a>
-      <a href="#favorites">⭐ Favorite Tools</a>
-      <a href="#history">🕒 History</a>
-      <a href="#settings">⚙️ Setting</a>
+      <a href="#tools">Tools</a>
+      <a href="#about">About</a>
     </nav>
-    <div class="nav-search"><span>⌕</span><input placeholder="Search country, unit..."></div>
-    <div class="menu">☰</div>
+    <div class="nav-controls">
+      <button class="theme-toggle" id="themeToggle" onclick="toggleTheme()" title="Toggle Dark/Light Mode">🌙</button>
+      <div class="menu" onclick="toggleMenu()">☰</div>
+    </div>
   </div>
 </header>
 
@@ -279,7 +305,7 @@ footer{background:#031b35;color:#d7e8f5;padding:20px 0}
  <div class="container">
   <div class="section-head"><div class="section-icon">💡</div><div><h2>How to Use Land Calculator</h2><p>Step-by-step instructions on how to measure and convert land units easily.</p></div><a class="view" href="#">View All Guides →</a></div>
   <div class="grid guides">
-   <a class="guide" href="assam-land-calculator-how-to-use.html"><div class="guide-img">💡</div><div><strong>Assam Calculator Guide</strong><small>Step-by-step instructions</small></div><div class="arrow">→</div></a>
+   <a class="guide" href="#"><div class="guide-img">💡</div><div><strong>Assam Calculator Guide</strong><small>Step-by-step instructions</small></div><div class="arrow">→</div></a>
    <a class="guide" href="#"><div class="guide-img">💡</div><div><strong>General Land Area Guide</strong><small>Length, Width & Units</small></div><div class="arrow">→</div></a>
    <a class="guide" href="#"><div class="guide-img">💡</div><div><strong>Unit Converter Guide</strong><small>Feet, Yards & Meters</small></div><div class="arrow">→</div></a>
    <a class="guide" href="#"><div class="guide-img">💡</div><div><strong>Mobile App User Guide</strong><small>Quick calculation tips</small></div><div class="arrow">→</div></a>
@@ -300,7 +326,7 @@ footer{background:#031b35;color:#d7e8f5;padding:20px 0}
 <footer>
  <div class="container footer-row">
   <div class="footer-logo">SS &nbsp; SHAYAN <span>SMART TOOLS</span><br><small>World Land Calculator</small></div>
-  <div class="footer-links"><a href="#">Home</a><a href="#favorites">Favorite Tools</a><a href="#history">History</a><a href="#settings">Setting</a><a href="#about">About</a></div>
+  <div class="footer-links"><a href="#">Home</a><a href="#tools">Tools</a><a href="#about">About</a></div>
   <div class="copyright">© 2027 Shayan Smart Tools. All rights reserved.</div>
  </div>
 </footer>
@@ -326,6 +352,25 @@ function selectState(state) {
      <a href="#" class="assam-tool-card"><span>📊</span>More Tools</a>`;
   }
 }
+
+// Mobile Menu Toggle Fix
+function toggleMenu() {
+  const navLinks = document.getElementById('navLinks');
+  navLinks.classList.toggle('active');
+}
+
+// Dark & Light Mode Toggle
+function toggleTheme() {
+  const html = document.documentElement;
+  const toggleBtn = document.getElementById('themeToggle');
+  if(html.getAttribute('data-theme') === 'dark') {
+    html.removeAttribute('data-theme');
+    toggleBtn.textContent = '🌙';
+  } else {
+    html.setAttribute('data-theme', 'dark');
+    toggleBtn.textContent = '☀️';
+  }
+}
 </script>
 </body>
-       </html>
+</html>
