@@ -770,10 +770,10 @@
                 <ul class="history-list" id="historyListElement"></ul>
             </div>
 
-            <!-- Quick Conversions Box -->
+            <!-- Quick Conversions Box with Dynamic JavaScript Switcher -->
             <div class="quick-conv-card">
                 <h4 id="quickTitle">⚡ Quick CG Land Conversions (त्वरित पैमाइश)</h4>
-                <div class="quick-conv-grid">
+                <div class="quick-conv-grid" id="quickGridContainer">
                     <button class="quick-conv-btn" onclick="setQuickVal(1)">1 Acre = 100 Decimals</button>
                     <button class="quick-conv-btn" onclick="setQuickVal(2)">2 Acres = 200 Decimals</button>
                     <button class="quick-conv-btn" onclick="setQuickVal(0.5)">0.5 Acre = 50 Decimals</button>
@@ -1214,20 +1214,34 @@
             document.getElementById('modeA2D').classList.toggle('active', mode === 'a2d');
             document.getElementById('modeD2A').classList.toggle('active', mode === 'd2a');
             updateLabels();
+            updateQuickConversions();
             document.getElementById('landInput').value = '';
             document.getElementById('resPanel').style.display = 'none';
         }
 
-        function setQuickVal(val) {
-            if(currentMode === 'd2a' && val === 1) {
-                document.getElementById('landInput').value = 100;
-            } else if(currentMode === 'd2a' && val === 2) {
-                document.getElementById('landInput').value = 200;
-            } else if(currentMode === 'd2a' && val === 0.5) {
-                document.getElementById('landInput').value = 50;
+        function updateQuickConversions() {
+            const container = document.getElementById('quickGridContainer');
+            if (currentMode === 'a2d') {
+                container.innerHTML = `
+                    <button class="quick-conv-btn" onclick="setQuickVal(1)">1 Acre = 100 Decimals</button>
+                    <button class="quick-conv-btn" onclick="setQuickVal(2)">2 Acres = 200 Decimals</button>
+                    <button class="quick-conv-btn" onclick="setQuickVal(0.5)">0.5 Acre = 50 Decimals</button>
+                    <button class="quick-conv-btn" onclick="setQuickVal(10)">10 Decimals = 0.1 Acre</button>
+                    <button class="quick-conv-btn" onclick="setQuickVal(25)">25 Decimals = 0.25 Acre</button>
+                `;
             } else {
-                document.getElementById('landInput').value = val;
+                container.innerHTML = `
+                    <button class="quick-conv-btn" onclick="setQuickVal(50)">50 Decimals = 0.5 Acre</button>
+                    <button class="quick-conv-btn" onclick="setQuickVal(100)">100 Decimals = 1 Acre</button>
+                    <button class="quick-conv-btn" onclick="setQuickVal(200)">200 Decimals = 2 Acres</button>
+                    <button class="quick-conv-btn" onclick="setQuickVal(25)">25 Decimals = 0.25 Acre</button>
+                    <button class="quick-conv-btn" onclick="setQuickVal(10)">10 Decimals = 0.1 Acre</button>
+                `;
             }
+        }
+
+        function setQuickVal(val) {
+            document.getElementById('landInput').value = val;
             calculateCGLand();
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
@@ -1389,7 +1403,7 @@
         }
 
         function copyData() {
-            let res = `Chhattisgarh Land Results:\nPrimary: ${document.getElementById('resPrimary').innerText}\nDecimals: ${document.getElementById('resDecimals').innerText}\nTool by Shayan Smart Tools`;
+            let res = `Andhra Pradesh Land Results:\nPrimary: ${document.getElementById('resPrimary').innerText}\nDecimals: ${document.getElementById('resDecimals').innerText}\nTool by Shayan Smart Tools`;
             navigator.clipboard.writeText(res);
             alert(cL === 'en' ? "Results Copied!" : "परिणाम कॉपी कर लिए गए हैं!");
         }
