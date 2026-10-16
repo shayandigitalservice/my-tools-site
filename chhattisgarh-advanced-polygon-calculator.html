@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chhattisgarh Advanced Polygon Land Calculator| बहुकोणीय भूमि मापन कैलकुलेटर | Shayan Smart Tools</title>
+    <title>Chhattisgarh Advanced Polygon Land Calculator Free 2026 | बहुकोणीय भूमि मापन कैलकुलेटर | Shayan Smart Tools</title>
     <link rel="canonical" href="https://shayansmarttools.in/chhattisgarh-advanced-polygon-calculator.html" />
     <link rel="icon" type="image/png" href="favicon.png" />
 
@@ -159,7 +159,7 @@
         .lang-btn { background: white; border: 2px solid var(--cg-green); padding: 10px 25px; cursor: pointer; border-radius: 25px; font-weight: bold; transition: 0.3s; color: var(--cg-green); font-size: 14px; }
         .lang-btn.active { background: var(--cg-green); color: white; }
 
-        /* Triangle Card Design */
+        /* Triangle Card Design with Remove Button */
         .triangle-card {
             background: var(--white);
             padding: 20px;
@@ -167,14 +167,39 @@
             margin-bottom: 20px;
             border: 1px solid #e2e8f0;
             border-left: 6px solid var(--cg-green);
+            position: relative;
         }
         .triangle-header { font-weight: 800; color: var(--cg-green); margin-bottom: 15px; display: block; border-bottom: 1px solid #e2e8f0; padding-bottom: 5px; text-transform: uppercase; font-size: 13px; }
+        
+        .remove-tri-btn {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: #fee2e2;
+            color: #dc2626;
+            border: none;
+            border-radius: 50%;
+            width: 28px;
+            height: 28px;
+            font-weight: bold;
+            font-size: 13px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: 0.2s ease;
+        }
+        .remove-tri-btn:hover {
+            background: #dc2626;
+            color: #ffffff;
+            transform: scale(1.1);
+        }
 
         /* Responsive Grid for Inputs */
         .input-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; }
         .input-group { display: flex; flex-direction: column; }
         label { font-size: 12px; font-weight: bold; margin-bottom: 5px; color: var(--cg-green); text-transform: uppercase; }
-        input { padding: 15px; border: 1px solid #cbd5e1; border-radius: 12px; text-align: center; font-size: 16px; background: var(--white); outline: none; transition: 0.3s; }
+        input { padding: 15px; border: 1px solid #cbd5e1; border-radius: 12px; text-align: center; font-size: 16px; background: var(--white); outline: none; transition: 0.3s; box-sizing: border-box; }
         input:focus { border-color: var(--cg-green); box-shadow: 0 0 8px rgba(46,125,50,0.1); }
 
         .btn-action-group { display: flex; gap: 12px; margin: 25px 0; }
@@ -273,7 +298,7 @@
             }
             .main-wrapper { max-width: 100% !important; width: 100% !important; padding: 0 !important; margin: 0 !important; }
             
-            header, .lang-toggle, .form-container-block, .btn-action-group, .visualizer-container, .diag-box, .util-btns, #resHead, .seo-content, .back-btn, footer, .ui-guide-card, .history-card { 
+            header, .lang-toggle, .form-container-block, .btn-action-group, .visualizer-container, .diag-box, .util-btns, #resHead, .seo-content, .back-btn, footer, .ui-guide-card, .history-card, .remove-tri-btn { 
                 display: none !important; 
                 height: 0 !important;
                 margin: 0 !important;
@@ -310,11 +335,11 @@
                 border: none !important;
                 border-bottom: 1px solid #cbd5e1 !important;
                 padding: 12px 6px !important; 
-                display: flex !important;
-                flex-direction: row !important;
-                justify-content: space-between !important;
-                align-items: center !important;
-                border-radius: 0px !important;
+                display: flex !important; 
+                flex-direction: row !important; 
+                justify-content: space-between !important; 
+                align-items: center !important; 
+                border-radius: 0px !important; 
             }
             .res-item span { color: #1e293b !important; font-size: 14px !important; font-weight: 600; text-transform: uppercase; }
             .res-item b { color: var(--dark-green) !important; font-size: 17px !important; font-weight: 700; }
@@ -338,6 +363,7 @@
                 padding-top: 20px !important;
                 page-break-inside: avoid !important;
             }
+            .print-footer-block p { font-size: 11px !important; line-height: 1.6 !important; }
         }
     </style>
 </head>
@@ -631,7 +657,7 @@
             t: "Chhattisgarh Advanced Polygon Land Calculator",
             st: "Calculate complex irregular shapes by dividing them into triangles.",
             add: "+ Add Triangle", calc: "Calculate Total Area", reset: "Reset", res: "Calculated Result (परिणाम)",
-            iN: "How to measure complex land? (टेढ़ी-मेढ़ी जमीन कैसे मापें?)",
+            iN: "How to measure complex land? (टेढ़ी-मेढ़ी जमीन कैसे मापें?)",
             iD: "Divide your land into multiple triangles and measure all sides as shown above.",
             lA: "Side A (Feet)", lB: "Side B (Feet)", lC: "Side C (Feet)", hCard: "Triangle #",
             visTitle: "📐 Interactive Multi-Triangle Shape Preview",
@@ -699,13 +725,27 @@
         let labelTextC = currentL === 'en' ? trans.en.lC : trans.hi.lC;
         let headerText = currentL === 'en' ? `${trans.en.hCard}${tCount}` : `${trans.hi.hCard}${tCount}`;
 
-        div.innerHTML = `<span class="triangle-header">${headerText}</span>
+        div.innerHTML = `
+            <button class="remove-tri-btn" onclick="removeTriangle(this)">×</button>
+            <span class="triangle-header">${headerText}</span>
             <div class="input-row">
                 <div class="input-group"><label class="lblA">${labelTextA}</label><input type="number" class="side-a" placeholder="0" oninput="drawVisualizer()"></div>
                 <div class="input-group"><label class="lblB">${labelTextB}</label><input type="number" class="side-b" placeholder="0" oninput="drawVisualizer()"></div>
                 <div class="input-group"><label class="lblC">${labelTextC}</label><input type="number" class="side-c" placeholder="0" oninput="drawVisualizer()"></div>
             </div>`;
         area.appendChild(div);
+        drawVisualizer();
+    }
+
+    function removeTriangle(btn) {
+        const card = btn.closest('.triangle-card');
+        card.remove();
+        // renumber remaining cards
+        const cards = document.querySelectorAll('.triangle-card');
+        cards.forEach((c, index) => {
+            c.querySelector('.triangle-header').innerText = `${currentL === 'en' ? trans.en.hCard : trans.hi.hCard}${index + 1}`;
+        });
+        tCount = cards.length;
         drawVisualizer();
     }
 
@@ -760,7 +800,7 @@
         const aList = document.querySelectorAll('.side-a');
         const bList = document.querySelectorAll('.side-b');
         const cList = document.querySelectorAll('.side-c');
-        const resPanel = document.getElementById('resPanel');
+        const resPanel = document.getElementById('resultBox');
 
         let validTrianglesCount = 0;
         let inputSummaryParts = [];
