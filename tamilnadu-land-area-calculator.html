@@ -202,10 +202,10 @@
         .l-btn { padding: 10px 25px; border-radius: 50px; border: 2px solid var(--tn-blue); background: white; cursor: pointer; font-weight: 700; transition: 0.3s; color: var(--tn-blue); }
         .l-btn.active { background: var(--tn-blue); color: white; }
 
-        /* Input Grid */
+        /* Input Grid with Dark Bold Text on Type */
         .input-section { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 15px; margin-bottom: 20px; }
         label { display: block; font-size: 12px; font-weight: 800; color: var(--tn-blue); margin-bottom: 8px; text-transform: uppercase; }
-        input, select { width: 100%; padding: 15px; border: 1px solid #cbd5e1; border-radius: 12px; font-size: 16px; box-sizing: border-box; outline: none; transition: 0.3s; }
+        input, select { width: 100%; padding: 15px; border: 1px solid #cbd5e1; border-radius: 12px; font-size: 16px; font-weight: 700; color: #0f172a; box-sizing: border-box; outline: none; transition: 0.3s; background: #fdfdfd; }
         input:focus, select:focus { border-color: var(--tn-blue); background: #fff; box-shadow: 0 0 8px rgba(15,76,129,0.1); }
 
         .btn-group { display: flex; gap: 12px; margin-bottom: 25px; }
@@ -215,7 +215,7 @@
         .btn-reset { flex: 1; padding: 18px; background: #cbd5e1; color: #1e293b; border: none; border-radius: 15px; font-size: 16px; font-weight: 800; cursor: pointer; transition: 0.3s; text-transform: uppercase; }
         .btn-reset:hover { background: #94a3b8; color: #fff; }
 
-        /* RE-ENGINEERED PREMIUM LAND SHAPE VISUALIZER PREVIEW */
+        /* LAND SHAPE VISUALIZER PREVIEW */
         .visualizer-container { 
             background: #ffffff; 
             border: 1px solid #cbd5e1; 
@@ -303,7 +303,7 @@
 
         .print-header-block, .print-footer-block, .print-verification-zone { display: none; }
 
-        /* HIGH-CONTRAST UTILITY BUTTONS (Fixed Flex wrap for mobile so Print button never overflows) */
+        /* HIGH-CONTRAST UTILITY BUTTONS (Fixed Flex-Wrap so Print button never overflows) */
         .util-btns { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 25px; box-sizing: border-box; }
         .u-btn { flex: 1 1 130px; padding: 14px 10px; border-radius: 12px; border: none; font-weight: 800; cursor: pointer; transition: 0.3s; color: white !important; font-size: 13px; text-align: center; text-transform: uppercase; letter-spacing: 0.5px; box-sizing: border-box; }
         .u-btn.c-btn { background: #334155; } 
@@ -442,10 +442,67 @@
         .seo-content th { background: #eff6ff; color: var(--tn-dark) !important; font-weight: bold; }
         .seo-content tr:nth-child(even) { background-color: #f8fafc; }
 
-        /* DASHBOARD LINKS */
-        .sst-dashboard-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; margin: 40px 0; width: 100%; box-sizing: border-box; }
-        .sst-dash-btn { display: flex; align-items: center; justify-content: center; background: #ffffff; padding: 18px 20px; border-radius: 16px; text-decoration: none; color: #0f172a !important; font-weight: 700; font-size: 15px; border: 1px solid #e2e8f0; transition: 0.3s; text-align: center; box-sizing: border-box; }
-        .sst-dash-btn:hover { border-color: var(--tn-blue); transform: translateY(-4px); box-shadow: 0 12px 20px rgba(15, 76, 129, 0.1); background: linear-gradient(135deg, #ffffff, #eff6ff); }
+        /* ULTRA PREMIUM DASHBOARD LINKS BUTTONS */
+        .sst-dashboard-grid { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); 
+            gap: 16px; 
+            margin: 40px 0; 
+            width: 100%; 
+            box-sizing: border-box; 
+        }
+        .sst-dash-btn { 
+            display: flex; 
+            align-items: center; 
+            justify-content: space-between; 
+            background: linear-gradient(135deg, #ffffff, #f8fafc); 
+            padding: 18px 22px; 
+            border-radius: 16px; 
+            text-decoration: none; 
+            color: var(--tn-corporate) !important; 
+            font-weight: 700; 
+            font-size: 15px; 
+            border: 2px solid #cbd5e1; 
+            transition: all 0.3s ease; 
+            text-align: left; 
+            box-sizing: border-box;
+            box-shadow: 0 4px 10px rgba(15, 23, 42, 0.03);
+            position: relative;
+            overflow: hidden;
+        }
+        .sst-dash-btn::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            height: 100%;
+            width: 5px;
+            background: var(--tn-blue);
+            transition: 0.3s ease;
+        }
+        .sst-dash-btn:hover { 
+            border-color: var(--tn-blue); 
+            transform: translateY(-4px); 
+            box-shadow: 0 12px 25px rgba(15, 76, 129, 0.15); 
+            background: linear-gradient(135deg, #ffffff, #eff6ff); 
+        }
+        .sst-dash-btn:hover::before {
+            width: 8px;
+            background: var(--tn-gold);
+        }
+        .sst-dash-btn span {
+            z-index: 1;
+        }
+        .sst-dash-btn::after {
+            content: "➔";
+            font-size: 14px;
+            color: var(--tn-blue);
+            font-weight: bold;
+            transition: transform 0.3s ease;
+        }
+        .sst-dash-btn:hover::after {
+            transform: translateX(4px);
+        }
 
         @media (max-width: 600px) { 
             .res-item { padding: 12px 14px; }
@@ -570,7 +627,7 @@
         </div>
     </div>
 
-    <!-- RE-ENGINEERED LAND SHAPE VISUALIZER PREVIEW (Fixed Spacing & Overlaps) -->
+    <!-- RE-ENGINEERED LAND SHAPE VISUALIZER PREVIEW -->
     <div id="visualizerBox" class="visualizer-container">
         <h4 id="vizTitle">Land Shape Preview (Plot Layout)</h4>
         <div class="shape-wrapper">
@@ -776,11 +833,11 @@
 
         <h2 style="border:none; padding:0; margin-bottom:15px;" id="lblDashTitle">Related Tools & Internal Dashboards</h2>
         <div class="sst-dashboard-grid">
-            <a class="sst-dash-btn" href="index.html" id="dshHome">Home Dashboard</a>
-            <a class="sst-dash-btn" href="tamilnadu-land-unit-converter.html" id="dshTn1">TN Unit Converter</a>
-            <a class="sst-dash-btn" href="tamilnadu-ground-to-sqft.html" id="dshTn2">TN Ground to Sq Ft</a>
-            <a class="sst-dash-btn" href="tamilnadu-land-cost-calculator.html" id="dshTn3">TN Land Cost Tool</a>
-            <a class="sst-dash-btn" href="tamilnadu-land-measurement-guide.html" id="dshTn4">TN Land Guides 2026</a>
+            <a class="sst-dash-btn" href="tamilnadu-cent-to-square-feet.html"><span>Cent to Sq Ft Converter</span></a>
+            <a class="sst-dash-btn" href="tamilnadu-ground-to-cent.html"><span>Ground to Cent Tool</span></a>
+            <a class="sst-dash-btn" href="tamilnadu-acre-to-ground.html"><span>Acre to Ground Calculator</span></a>
+            <a class="sst-dash-btn" href="tamilnadu-square-feet-to-square-meter.html"><span>Sq Ft to Sq Meter Tool</span></a>
+            <a class="sst-dash-btn" href="index.html"><span>All Land Tools Home</span></a>
         </div>
 
         <div style="margin-top: 40px; padding: 25px; border: 2px dashed #ffccd5; background-color: #ffffff; border-radius: 12px; font-size:13px; text-align: center;">
@@ -1034,7 +1091,7 @@
         document.getElementById('toc1').innerText = dict[lang].toc1;
         document.getElementById('toc2').innerText = dict[lang].toc2;
         document.getElementById('toc3').innerText = dict[lang].toc3;
-        document.getElementById('toc4').innerText, dict[lang].toc4;
+        document.getElementById('toc4').innerText = dict[lang].toc4;
         document.getElementById('toc5').innerText = dict[lang].toc5;
 
         renderFAQs();
@@ -1175,7 +1232,7 @@
 
     function renderUIHistory() {
         let uiHistory = JSON.parse(localStorage.getItem('sst_tn_land_calc_history')) || [];
-        let card =, document.getElementById('historyCardContainer');
+        let card = document.getElementById('historyCardContainer');
         let list = document.getElementById('historyListElement');
         if (uiHistory.length === 0) {
             card.style.display = 'none';
@@ -1213,6 +1270,11 @@
         let t = encodeURIComponent("Tamil Nadu Land Measurement Result:\n" + document.getElementById('bklText').innerText + "\nSq Ft: " + document.getElementById('resSqft').innerText + "\nCheck at Shayan Smart Tools");
         window.open("https://wa.me/?text=" + t);
     }
+
+    window.onload = function() {
+        renderFAQs();
+        renderUIHistory();
+    };
 </script>
 
 </body>
