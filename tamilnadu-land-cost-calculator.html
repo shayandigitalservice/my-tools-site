@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tamil Nadu Land Cost & Registry Calculator | தமிழ்நாடு நிலப்பதிவு கால்குலேட்டர் | Shayan Smart Tools</title>
+    <title>Tamil Nadu Land Cost & Registry fees Calculator | தமிழ்நாடு நிலப்பதிவு கால்குலேட்டர் | Shayan Smart Tools</title>
     <link rel="canonical" href="https://shayansmarttools.in/tamilnadu-land-cost-calculator.html" />
     <link rel="icon" type="image/png" href="favicon.png" />
 
@@ -295,6 +295,44 @@
         .history-list li span { font-weight: bold; color: var(--tn-blue); }
         .clear-hist-btn { background: none; border: none; color: #ef4444; font-size: 12px; cursor: pointer; font-weight: bold; }
 
+        /* SEAL & QR CONTAINER IN PRINT FOOTER */
+        .print-seal-qr-wrapper {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 15px;
+            padding: 10px;
+            border-top: 1px dashed #cbd5e1;
+        }
+        .sst-seal-frame { 
+            width: 100px; 
+            height: 100px; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            overflow: hidden; 
+        }
+        .sst-seal-frame img { 
+            max-width: 100%; 
+            max-height: 100%; 
+            object-fit: contain; 
+            display: block;
+        }
+        .sst-qr-frame { 
+            width: 90px; 
+            height: 90px; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            overflow: hidden; 
+        }
+        .sst-qr-frame img { 
+            max-width: 100%; 
+            max-height: 100%; 
+            object-fit: contain; 
+            display: block;
+        }
+
         /* STYLISH INTERNAL LINKS DASHBOARD GRID */
         .sst-dashboard-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 14px; margin: 30px 0; width: 100%; box-sizing: border-box; text-align: left; }
         .sst-dash-btn { display: flex; align-items: center; gap: 12px; background: #ffffff; padding: 16px 18px; border-radius: 14px; text-decoration: none; color: var(--tn-blue) !important; font-weight: 700; font-size: 14px; border: 1px solid #cbd5e1; transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1); box-sizing: border-box; }
@@ -318,10 +356,6 @@
 
         .faq-block { background: #fff; border: 1px solid #e2e8f0; padding: 20px; border-radius: 14px; margin-bottom: 15px; box-shadow: 0 2px 4px rgba(0,0,0,0.01); }
         .faq-block p strong { color: var(--tn-blue); font-size: 16px; display: block; margin-bottom: 6px; }
-
-        .sst-github-seal-wrapper { display: flex; flex-direction: column; align-items: flex-end; margin-top: 10px; }
-        .sst-seal-frame { width: 120px; height: 120px; display: flex; align-items: center; justify-content: center; overflow: hidden; }
-        .sst-seal-frame img { max-width: 100%; max-height: 100%; object-fit: contain; }
 
         .lang-section { display: none; }
         .lang-section.active-lang { display: block; }
@@ -363,7 +397,7 @@
             .res-item b { color: var(--tn-dark) !important; font-size: 15px !important; font-weight: bold; }
             .res-item b.net-tag { font-size: 16px !important; font-weight: 900; color: #0b3c5d !important; }
             
-            .print-footer-block { display: block !important; text-align: center; margin-top: 40px; border-top: 1px solid #cbd5e1 !important; padding-top: 20px; }
+            .print-footer-block { display: block !important; text-align: center; margin-top: 30px; border-top: 1px solid #cbd5e1 !important; padding-top: 15px; }
         }
     </style>
 </head>
@@ -505,9 +539,13 @@
                     <p style="margin: 0; font-weight: bold; color: var(--tn-blue); text-transform: uppercase; font-size: 12px; text-align: left;">🔒 SECURITY DISCLAIMER & VERIFICATION NOTICE</p>
                     <p style="margin: 6px 0 0 0; text-align: left; max-width: 80%;">This computation is an automated report compiled according to the registration framework of Tamil Nadu. SRO guideline rates and valuation books may change depending on layout or street-wise configurations.</p>
                     
-                    <div class="sst-github-seal-wrapper">
+                    <!-- PERFECT SEAL & QR CODE PRINT MATRIX -->
+                    <div class="print-seal-qr-wrapper">
                         <div class="sst-seal-frame">
                             <img src="seal.png" alt="Official Seal" onerror="this.style.display='none';">
+                        </div>
+                        <div class="sst-qr-frame">
+                            <img src="qr.png" alt="SST Verification QR Code" onerror="this.style.display='none';">
                         </div>
                     </div>
 
@@ -535,8 +573,9 @@
         </h4>
         <ul class="history-list" id="historyListElement"></ul>
     </div>
-<!-- TABLE OF CONTENTS (TOC) & BACK TO ALL TOOLS PLACED JUST ABOVE BACK TO ALL TOOLS NAVIGATION -->
-    <div class="toc-card" style="max-width:950px; margin:30px auto;">
+
+    <!-- TABLE OF CONTENTS (TOC) PLACED RIGHT BELOW RECENT CALCULATIONS HISTORY -->
+    <div class="toc-card" id="section-toc" style="max-width:950px; margin:25px auto;">
         <h4 id="tocTitle">📌 Table of Contents / விரைவு இணைப்புகள்</h4>
         <ul class="toc-list">
             <li><a href="#section-calc-input">📐 Registry Budget Calculator</a></li>
@@ -550,10 +589,11 @@
         </ul>
     </div>
 
-    <!-- BACK TO ALL TOOLS DASHBOARD LINK -->
-    <div class="back-btn" style="text-align:center; margin: 30px 0 10px 0;">
+    <!-- BACK TO ALL TOOLS DASHBOARD LINK PLACED RIGHT BELOW TOC CARD -->
+    <div class="back-btn" id="section-back-btn" style="text-align:center; margin: 20px 0 30px 0;">
         <a href="index.html" id="lnkBack" style="color:var(--tn-blue); font-weight:bold; text-decoration:none; font-size: 15px;">⬅ Back to All Tools Dashboard</a>
     </div>
+
     <article id="content-en" class="seo-article lang-section active-lang">
         <div class="seo-header-block">
             <h2>Tamil Nadu Land Cost & Registry Calculator: Professional Valuation Architecture 2026</h2>
@@ -688,7 +728,7 @@
             <h3>Example B: Family Settlement Deed (10 Cents in Coimbatore District)</h3>
             <ul>
                 <li><b>Input Area:</b> 10 Cents at ₹5,00,000 per Cent = ₹50,00,000 Land Value.</li>
-                <li><b>Stamp Duty (1% Concessional Rate, Capped at ₹25,000):</b> ₹25,000 (since 1% of 50 Lakhs is ₹50,000, capping applies).</li>
+                <li><b>Stamp Duty (1% Concessional Rate, Capped at ₹25,000):</b> ₹25,000 (since 1% of 50 Lakhs is ₹50,00,000, capping applies).</li>
                 <li><b>Registration Fee (1% Concessional Rate, Capped at ₹4,000):</b> ₹4,000 (capping applies).</li>
                 <li><b>Total Net Budget:</b> ₹50,00,000 + ₹25,000 + ₹4,000 = <b>₹50,29,000</b>.</li>
             </ul>
@@ -804,9 +844,9 @@
             <h3>உதாரணம் B: குடும்ப செட்டில்மென்ட் (கோவையில் 10 சென்ட் நிலம்)</h3>
             <ul>
                 <li><b>நில அளவு:</b> 10 சென்ட் - சென்ட் விலை ₹5,00,000 = ₹50,00,000 நில மதிப்பு.</li>
-                <li><b>முத்திரை வரி (1% - அதிகபட்ச வரம்பு ₹25,000):</b> ₹25,000 மட்டுமே (50 லட்சத்தில் 1% என்பது ₹50,000 என்றாலும் அதிகபட்ச வரம்பு பொருந்தும்).</li>
+                <li><b>முத்திரை வரி (1% - அதிகபட்ச வரம்பு ₹25,000):</b> ₹25,000 மட்டுமே (50 லட்சத்தில் 1% என்பது ₹50,00,000 என்றாலும் அதிகபட்ச வரம்பு பொருந்தும்).</li>
                 <li><b>பதிவுக் கட்டணம் (1% - அதிகபட்ச வரம்பு ₹4,000):</b> ₹4,000 மட்டுமே.</li>
-                <li><b>மொத்த பட்ஜெட்:</b> ₹50,00,000 + ₹25,000 + ₹4,000 = <b>₹50,29,000</b>.</li>
+                <li><b>மொத்த பட்ஜெட்:</b> ₹50,00,000 + ₹25,00,000 + ₹4,000 = <b>₹50,29,000</b>.</li>
             </ul>
         </section>
 
@@ -843,7 +883,7 @@
         </section>
     </article>
 
-    <!-- 5 INTERNAL LINKS DASHBOARD GRID PLACED JUST AFTER FAQ ANSWERS -->
+    <!-- 5 INTERNAL LINKS DASHBOARD GRID -->
     <div class="sst-dashboard-grid" style="max-width: 950px; margin: 40px auto;">
         <a class="sst-dash-btn" href="tamilnadu-land-area-calculator.html">
             <div class="sst-dash-icon">📐</div>
@@ -874,8 +914,6 @@
             This application software architecture, mathematical conversion logic schemas, cascading algorithm rules, and responsive interface layout are proprietary creations authored by <b>Muksidul Islam</b>. Unlawful code duplication, scraping, or redistribution will attract strict legal enforcement under Indian Copyright Amendment Acts.
         </p>
     </div>
-
-    
 
     <script>
         let currentLang = 'en';
