@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tamil Nadu Land Area Calculator | தமிழ்நாடு நில அளவு கால்குலேட்டர் | Shayan Smart Tools</title>
+    <title>Tamil Nadu Land Area Calculator| தமிழ்நாடு நில அளவு கால்குலேட்டர் | Shayan Smart Tools</title>
     <link rel="canonical" href="https://shayansmarttools.in/tamilnadu-land-area-calculator.html" />
     <link rel="icon" type="image/png" href="favicon.png" />
 
@@ -246,14 +246,16 @@
         .btn-reset { width: 100%; max-width: 400px; padding: 12px; background: #e2e8f0; color: #334155; border: 1px solid #cbd5e1; border-radius: 15px; font-size: 15px; font-weight: 700; cursor: pointer; transition: 0.3s; text-transform: uppercase; letter-spacing: 0.5px; }
         .btn-reset:hover { background: #cbd5e1; color: #0f172a; }
 
-        /* LIVE LAND SHAPE VISUALIZER PREVIEW BOX */
+        /* LIVE LAND SHAPE VISUALIZER PREVIEW BOX - PLACED BELOW RESET BUTTON & HIDDEN UNTIL INPUT */
         .visualizer-container {
             background: #f8fafc;
             border: 2px dashed #94a3b8;
             border-radius: 16px;
             padding: 20px;
+            margin-top: 25px;
             margin-bottom: 25px;
             text-align: center;
+            display: none; /* Initially hidden, shows when user inputs */
         }
         .visualizer-container h4 {
             margin: 0 0 12px 0;
@@ -549,17 +551,17 @@
             </div>
         </div>
 
-        <!-- Interactive Land Shape Visualizer / Preview -->
-        <div class="visualizer-container">
+        <div class="btn-container">
+            <button class="btn-convert" onclick="calculateTamilNaduLand()" id="btnText">CONVERT NOW</button>
+            <button class="btn-reset" onclick="resetForm()" id="btnResetText">Reset</button>
+        </div>
+
+        <!-- Interactive Land Shape Visualizer / Preview - PLACED BELOW RESET BUTTON & SHOWN ONLY ON INPUT -->
+        <div class="visualizer-container" id="visualizerContainer">
             <h4 id="visTitle">📐 Live Land Shape Preview</h4>
             <div class="shape-box-preview" id="previewBox">
                 <span id="previewText">Plot Area</span>
             </div>
-        </div>
-
-        <div class="btn-container">
-            <button class="btn-convert" onclick="calculateTamilNaduLand()" id="btnText">CONVERT NOW</button>
-            <button class="btn-reset" onclick="resetForm()" id="btnResetText">Reset</button>
         </div>
 
         <div class="gov-links-title" id="lblGovTitle">Official Tamil Nadu Land Portals</div>
@@ -682,7 +684,7 @@
         <section id="sec1">
             <h2>Introduction to Tamil Nadu Land Mapping System</h2>
             <p>Tamil Nadu me jab bhi aap koi property, residential plot, agricultural farmlands ya industrial layouts purchase ya sell karte hain, toh sabse pehle us zameen ka <strong>Land Area Calculator</strong> chalana sabse important framework mana jata hai. Tamil Nadu state revenue department (Anyror Patta Chitta Portal) ke custom land boundaries management rules ke mutabik yahan ka measurement layout baaki states se bilkul unique chalta hai. Tamil Nadu me traditional scale data registers mukhya roop se <strong>Ground</strong>, <strong>Cent</strong>, <strong>Kuzhi</strong>, <strong>Ankanam</strong>, <strong>Acre</strong>, aur <strong>Hectare</strong> units par compute hota hai.</p>
-            <p>Aapko records database sheets me pata hona chahiye ki Tamil Nadu standard revenue manuals ke tehat digital land registry hamesha Hectare aur Ares framework par baseline hoti hai, lekin commercial plots aur urban setups me aaj bhi <strong>Ground</strong> aur <strong>Cent</strong> ka calculation sabse bade paimane पर chal raha hai. Is specialized multi-unit algorithm calculations module ko secure architecture par built kiya gaya hai jo software developer Muksidul Islam ke proprietary standard tracking systems ko layout karta hai. <strong>Chennai</strong>, <strong>Coimbatore</strong>, <strong>Madurai</strong>, <strong>Trichy</strong>, <strong>Salem</strong> aur <strong>Tiruppur</strong> jaise high-density zones me registry, Guideline Value check verification step se pehle is automatic mathematical tool ka use karke manual parsing errors ko completely block kiya ja sakta hai.</p>
+            <p>Aapko records database sheets me pata hona chahiye ki Tamil Nadu standard revenue manuals ke tehat digital land registry hamesha Hectare aur Ares framework par baseline hoti hai, lekin commercial plots aur urban setups me aaj bhi <strong>Ground</strong> aur <strong>Cent</strong> ka calculation sabse bade paimane par chal raha hai. Is specialized multi-unit algorithm calculations module ko secure architecture par built kiya gaya hai jo software developer Muksidul Islam ke proprietary standard tracking systems ko layout karta hai. <strong>Chennai</strong>, <strong>Coimbatore</strong>, <strong>Madurai</strong>, <strong>Trichy</strong>, <strong>Salem</strong> aur <strong>Tiruppur</strong> jaise high-density zones me registry, Guideline Value check verification step se pehle is automatic mathematical tool ka use karke manual parsing errors ko completely block kiya ja sakta hai.</p>
         </section>
 
         <section id="sec2">
@@ -999,10 +1001,12 @@
         const len = parseFloat(document.getElementById('length').value) || 0;
         const wid = parseFloat(document.getElementById('width').value) || 0;
         const unit = document.getElementById('unitType').value;
+        const container = document.getElementById('visualizerContainer');
         const box = document.getElementById('previewBox');
         const text = document.getElementById('previewText');
 
         if(len > 0 && wid > 0) {
+            container.style.display = "block"; // Show only when user inputs values
             text.innerText = `${len} × ${wid} ${unit}`;
             let ratio = wid / len;
             if(ratio > 2) ratio = 2;
@@ -1010,9 +1014,7 @@
             box.style.width = Math.min(180, Math.max(80, 100 * ratio)) + 'px';
             box.style.height = Math.min(130, Math.max(60, 100 / ratio)) + 'px';
         } else {
-            text.innerText = currentLang === 'en' ? "Plot Area" : "நில பரப்பு";
-            box.style.width = '140px';
-            box.style.height = '90px';
+            container.style.display = "none"; // Hide when inputs are empty
         }
     }
 
@@ -1172,4 +1174,3 @@
 
 </body>
 </html>
-
