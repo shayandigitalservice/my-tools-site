@@ -239,15 +239,16 @@
         .u-btn.s-btn { background: #d97706; } 
         .u-btn:hover { filter: brightness(1.2); transform: translateY(-2px); }
 
-        /* TOAST NOTIFICATION POPUP STYLES */
+        /* BOTTOM-CENTER STYLISH TOAST NOTIFICATION POPUP */
         #sstToast {
             position: fixed;
             bottom: 30px;
-            right: 30px;
+            left: 50%;
+            transform: translateX(-50%) translateY(30px);
             background: #0f172a;
             color: #ffffff;
-            padding: 14px 24px;
-            border-radius: 14px;
+            padding: 14px 28px;
+            border-radius: 50px;
             font-weight: 700;
             font-size: 14px;
             border: 2px solid var(--bd-gold);
@@ -255,15 +256,15 @@
             z-index: 99999;
             opacity: 0;
             transition: opacity 0.3s ease, transform 0.3s ease;
-            transform: translateY(20px);
             pointer-events: none;
             display: flex;
             align-items: center;
             gap: 10px;
+            white-space: nowrap;
         }
         #sstToast.show {
             opacity: 1;
-            transform: translateY(0);
+            transform: translateX(-50%) translateY(0);
         }
 
         /* HISTORY DRAWER COMPONENT */
@@ -544,7 +545,7 @@
 </head>
 <body>
 
-<!-- TOAST NOTIFICATION CONTAINER -->
+<!-- BOTTOM-CENTER TOAST POPUP CONTAINER -->
 <div id="sstToast">✅ Operation Successful</div>
 
 <div class="measurement-tool">
@@ -553,7 +554,7 @@
         <p id="sTitle">ঢাকা বিভাগ এবং বাংলাদেশ ই-খতিয়ান রেকর্ডের জন্য নির্ভুল কাঠা, শতক, বিঘা এবং একর কনভার্টার।</p>
     </header>
 
-    <!-- DEFAULT BENGALI BUTTON ACTIVE -->
+    <!-- DEFAULT BENGALI BUTTON ACTIVE FIRST -->
     <div class="lang-switch">
         <button class="l-btn" id="enBtn" onclick="setLang('en')">English</button>
         <button class="l-btn active" id="bnBtn" onclick="setLang('bn')">বাংলা (Bangla)</button>
@@ -857,7 +858,7 @@
         }
     };
 
-    // TOAST POPUP NOTIFICATION SYSTEM
+    // BOTTOM-CENTER STYLISH TOAST NOTIFICATION SYSTEM
     function showToast(message) {
         let toast = document.getElementById('sstToast');
         if(!toast) {
@@ -1016,7 +1017,8 @@
             toastCalc: "✨ Land Calculation Successful!",
             toastCopy: "📋 All Results Copied to Clipboard!",
             toastLink: "🔗 Direct Shareable Link Copied!",
-            toastHistory: "🔄 Calculation Restored from History!"
+            toastHistory: "🔄 Calculation Restored from History!",
+            alertEmpty: "Please enter both valid length and width!"
         },
         bn: {
             mTitle: "ঢাকা ল্যান্ড এরিয়া ক্যালকুলেটর | জমি মাপার ক্যালকুলেটর",
@@ -1065,7 +1067,8 @@
             toastCalc: "✨ জমির সফল হিসাব সম্পন্ন হয়েছে!",
             toastCopy: "📋 সমস্ত ফলাফল ক্লিপবোর্ডে কপি করা হয়েছে!",
             toastLink: "🔗 সরাসরি শেয়ারিং লিংক কপি করা হয়েছে!",
-            toastHistory: "🔄 ইতিহাস থেকে হিসাব সফলভাবে লোড করা হয়েছে!"
+            toastHistory: "🔄 ইতিহাস থেকে হিসাব সফলভাবে লোড করা হয়েছে!",
+            alertEmpty: "⚠️ অনুগ্রহ করে সঠিক দৈর্ঘ্য এবং প্রস্থ লিখুন!"
         }
     };
 
@@ -1205,7 +1208,7 @@
         const resPanel = document.getElementById('resPanel');
 
         if (!length || length <= 0 || !width || width <= 0) {
-            alert(currentLang === 'en' ? "Please enter both valid length and width!" : "অনুগ্রহ করে সঠিক দৈর্ঘ্য এবং প্রস্থ উভয়ই লিখুন!");
+            showToast(dict[currentLang].alertEmpty);
             return;
         }
 
@@ -1263,7 +1266,6 @@
         // =======================================================
         // DIRECT LOCAL STORAGE HISTORY SAVER ENGINE (WITH PARAMS)
         // =======================================================
-        let history = JSON.parse(localStorage.getItem('shayan_detailed_history')) || [];
         const now = new Date();
         const timeStr = now.toLocaleDateString('en-US', { 
             month: 'short', 
@@ -1276,16 +1278,19 @@
         let resultFormatStr = (currentLang === 'en') ? `${bighas} Bigha, ${kathas} Katha, ${shotoks} Shotok` : `${bighas} বিঘা, ${kathas} কাঠা, ${shotoks} শতক`;
 
         let uiHistory = JSON.parse(localStorage.getItem('sst_dhaka_area_calc_history')) || [];
-        uiHistory.unshift({
-            length: length,
-            width: width,
-            unit: unit,
-            inputs: inputFeedStr,
-            result: resultFormatStr,
-            time: timeStr
-        });
-        if (uiHistory.length > 5) uiHistory.pop();
-        localStorage.setItem('sst_dhaka_area_calc_history', JSON.stringify(uiHistory));
+        // Avoid duplicate consecutive entries
+        if(uiHistory.length === 0 || uiHistory[0].inputs !== inputFeedStr) {
+            uiHistory.unshift({
+                length: length,
+                width: width,
+                unit: unit,
+                inputs: inputFeedStr,
+                result: resultFormatStr,
+                time: timeStr
+            });
+            if (uiHistory.length > 5) uiHistory.pop();
+            localStorage.setItem('sst_dhaka_area_calc_history', JSON.stringify(uiHistory));
+        }
         renderHistory();
     }
 
@@ -1329,7 +1334,7 @@
         const width = document.getElementById('width').value;
         const unit = document.getElementById('unitType').value;
         if(!length || !width) {
-            alert(currentLang === 'en' ? "Please calculate first to share link!" : "লিংক শেয়ার করার আগে হিসাব করুন!");
+            showToast(currentLang === 'en' ? "Please calculate first!" : "আগে হিসাব করুন!");
             return;
         }
         const shareUrl = `${window.location.origin}${window.location.pathname}?length=${length}&width=${width}&unit=${unit}&lang=${currentLang}`;
@@ -1355,7 +1360,7 @@
         window.open("https://wa.me/?text=" + t);
     }
 
-    // AUTO-LOAD PARAMETERS ON PAGE LOAD
+    // AUTO-LOAD PARAMETERS & DEFAULT BENGALI ON PAGE LOAD
     window.addEventListener('DOMContentLoaded', () => {
         const params = new URLSearchParams(window.location.search);
         const l = params.get('length');
@@ -1366,7 +1371,7 @@
         if(lang && (lang === 'en' || lang === 'bn')) {
             setLang(lang);
         } else {
-            setLang('bn'); // Default Bengali
+            setLang('bn'); // DEFAULT TO BENGALI AS REQUESTED
         }
 
         if(l && w) {
