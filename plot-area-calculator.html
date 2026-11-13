@@ -231,18 +231,47 @@
         .print-header-block, .print-footer-block, .print-verification-zone { display: none; }
 
         /* HIGH-CONTRAST UTILITY BUTTONS */
-        .util-btns { display: flex; gap: 10px; margin-top: 25px; }
-        .u-btn { flex: 1; padding: 16px; border-radius: 12px; border: none; font-weight: 800; cursor: pointer; transition: 0.3s; color: white !important; font-size: 14px; text-align: center; text-transform: uppercase; letter-spacing: 0.5px; }
+        .util-btns { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 10px; margin-top: 25px; }
+        .u-btn { padding: 14px 10px; border-radius: 12px; border: none; font-weight: 800; cursor: pointer; transition: 0.3s; color: white !important; font-size: 13px; text-align: center; text-transform: uppercase; letter-spacing: 0.5px; }
         .u-btn.c-btn { background: #334155; } 
         .u-btn.w-btn { background: #16a34a; } 
         .u-btn.p-btn { background: #1e40af; } 
+        .u-btn.s-btn { background: #d97706; } 
         .u-btn:hover { filter: brightness(1.2); transform: translateY(-2px); }
+
+        /* TOAST NOTIFICATION POPUP STYLES */
+        #sstToast {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: #0f172a;
+            color: #ffffff;
+            padding: 14px 24px;
+            border-radius: 14px;
+            font-weight: 700;
+            font-size: 14px;
+            border: 2px solid var(--bd-gold);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            z-index: 99999;
+            opacity: 0;
+            transition: opacity 0.3s ease, transform 0.3s ease;
+            transform: translateY(20px);
+            pointer-events: none;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        #sstToast.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
 
         /* HISTORY DRAWER COMPONENT */
         .history-card { background: #ffffff; border: 1px solid #e2e8f0; border-radius: 16px; padding: 20px; margin-top: 30px; box-shadow: 0 4px 15px rgba(0,0,0,0.02); }
         .history-card h4 { margin: 0 0 12px 0; color: var(--bd-corporate); font-size: 16px; display: flex; justify-content: space-between; align-items: center; font-weight: 800; }
         .history-list { list-style: none; padding: 0; margin: 0; max-height: 180px; overflow-y: auto; }
-        .history-list li { font-size: 13px; padding: 8px 12px; background: #f8fafc; border-bottom: 1px solid #e2e8f0; display: flex; justify-content: space-between; align-items: center; border-radius: 6px; margin-bottom: 6px; color: #334155; }
+        .history-list li { font-size: 13px; padding: 10px 14px; background: #f8fafc; border: 1px solid #e2e8f0; display: flex; justify-content: space-between; align-items: center; border-radius: 8px; margin-bottom: 8px; color: #334155; transition: 0.2s; cursor: pointer; }
+        .history-list li:hover { background: #f0fdf4; border-color: var(--bd-green); transform: translateX(3px); }
         .history-list li span { font-weight: bold; color: var(--bd-green); }
         .clear-hist-btn { background: none; border: none; color: #ef4444; font-size: 12px; cursor: pointer; font-weight: bold; }
 
@@ -426,6 +455,7 @@
             .btn-action-group { flex-direction: column; }
             .sst-toc-list { grid-template-columns: 1fr; }
             .sst-steps-grid { grid-template-columns: 1fr; }
+            .util-btns { grid-template-columns: 1fr 1fr; }
         }
 
         /* PREMIUM PRINT MATRIX */
@@ -513,6 +543,9 @@
     </style>
 </head>
 <body>
+
+<!-- TOAST NOTIFICATION CONTAINER -->
+<div id="sstToast">✅ Operation Successful</div>
 
 <div class="measurement-tool">
     <header>
@@ -637,16 +670,17 @@
         </div>
 
         <div class="util-btns">
-            <button class="u-btn c-btn" onclick="copyData()" id="btnCopy">📋 সব কপি করুন</button>
-            <button class="u-btn w-btn" onclick="shareWA()" id="btnWa">📲 হোয়াটসঅ্যাপ শেয়ার</button>
-            <button class="u-btn p-btn" onclick="printLandReport()" id="btnPrint">🖨️ রিপোর্ট প্রিন্ট করুন</button>
+            <button class="u-btn c-btn" onclick="copyData()" id="btnCopy">📋 সব কপি</button>
+            <button class="u-btn w-btn" onclick="shareWA()" id="btnWa">📲 হোয়াটসঅ্যাপ</button>
+            <button class="u-btn s-btn" onclick="copyShareLink()" id="btnShare">🔗 লিংক শেয়ার</button>
+            <button class="u-btn p-btn" onclick="printLandReport()" id="btnPrint">🖨️ প্রিন্ট</button>
         </div>
     </div>
 
     <!-- RECENT CALCULATIONS HISTORY DRAWER -->
     <div class="history-card" id="historyCardContainer" style="display:none;">
         <h4>
-            <span id="histTitle">🕒 সাম্প্রতিক গণনার ইতিহাস</span>
+            <span id="histTitle">🕒 সাম্প্রতিক গণনার ইতিহাস (ক্লিক করে পুনরায় দেখুন)</span>
             <button class="clear-hist-btn" onclick="clearHistory()" id="btnClearHist">ইতিহাস মুছুন</button>
         </h4>
         <ul class="history-list" id="historyListElement"></ul>
@@ -823,6 +857,21 @@
         }
     };
 
+    // TOAST POPUP NOTIFICATION SYSTEM
+    function showToast(message) {
+        let toast = document.getElementById('sstToast');
+        if(!toast) {
+            toast = document.createElement('div');
+            toast.id = 'sstToast';
+            document.body.appendChild(toast);
+        }
+        toast.innerHTML = `✨ ${message}`;
+        toast.classList.add('show');
+        setTimeout(() => {
+            toast.classList.remove('show');
+        }, 3000);
+    }
+
     // DEFAULT LANGUAGE SET TO BENGALI (bn)
     let currentLang = 'bn';
 
@@ -935,15 +984,16 @@
             lblResHectare: "Calculated Total Hectare",
             btnCopy: "📋 Copy All",
             btnWa: "📲 WhatsApp",
+            btnShare: "🔗 Share Link",
             btnPrint: "🖨️ Print Report",
             btnReset: "RESET",
             lnkBack: "⬅ Back to All Tools",
             seot: "Dhaka Land Area Calculator: Professional Katha, Shotok & Bigha Converter 2026",
-            seos: "इ-খতিয়ান ও বাংলাদেশ ভূমি রেকর্ড এবং জরিপ অধিদপ্তর (DLRS) এর নির্দেশিকা অনুযায়ী জমির সঠিক মাপ ও হিসাব।",
+            seos: "ই-খতিয়ান ও বাংলাদেশ ভূমি রেকর্ড এবং জরিপ অধিদপ্তর (DLRS) এর নির্দেশিকা অনুযায়ী জমির সঠিক মাপ ও হিসাব।",
             faqH: "15 Important Frequently Asked Questions (FAQs) - Dhaka Land Calculator",
             ll: "Length (দৈর্ঘ্য)", lw: "Width (প্রস্থ)", lu: "Unit (একক)", sf: "Dhaka Standard Format:", btnText: "CONVERT NOW", rh: "Conversion Results",
             gTitle: "Official Bangladesh Land Portals", gl1: "🌐 Bangladesh e-Khatian Portal", gl2: "💰 Ministry of Land Services",
-            visTitle: "📐 Interactive Land Shape Preview", histTitle: "🕒 Recent Calculation History", clearHist: "Clear History",
+            visTitle: "📐 Interactive Land Shape Preview", histTitle: "🕒 Recent Calculation History (Click to reload)", clearHist: "Clear History",
             tocHeading: "📑 Table of Contents (সূচিপত্র)",
             toc1: "1. Introduction to Dhaka Land System",
             toc2: "2. Revenue Metrics & Standards",
@@ -960,7 +1010,13 @@
             tblQuickTitle: "Quick Land Unit Conversion Reference Table",
             tblQuickSub: "Quick calculation reference table for Dhaka division standard measurements:",
             thQ1: "Local / Custom Input Unit", thQ2: "Equivalent Square Feet", thQ3: "Equivalent Shotok / Decimal",
-            lblDashTitle: "Related Tools & Internal Dashboards"
+            lblDashTitle: "Related Tools & Internal Dashboards",
+            toastLang: "🌐 Language changed to English!",
+            toastReset: "🔄 Calculator Reset Successful!",
+            toastCalc: "✨ Land Calculation Successful!",
+            toastCopy: "📋 All Results Copied to Clipboard!",
+            toastLink: "🔗 Direct Shareable Link Copied!",
+            toastHistory: "🔄 Calculation Restored from History!"
         },
         bn: {
             mTitle: "ঢাকা ল্যান্ড এরিয়া ক্যালকুলেটর | জমি মাপার ক্যালকুলেটর",
@@ -975,9 +1031,10 @@
             lblResBigha: "মোট calculated বিঘা",
             lblResAcre: "মোট calculated একর",
             lblResHectare: "মোট calculated হেক্টর",
-            btnCopy: "📋 সব কপি করুন",
-            btnWa: "📲 হোয়াটসঅ্যাপ শেয়ার",
-            btnPrint: "🖨️ রিপোর্ট প্রিন্ট করুন",
+            btnCopy: "📋 সব কপি",
+            btnWa: "📲 হোয়াটসঅ্যাপ",
+            btnShare: "🔗 লিংক শেয়ার",
+            btnPrint: "🖨️ প্রিন্ট",
             btnReset: "রিসেট",
             lnkBack: "⬅ সমস্ত টুলের ড্যাশবোর্ডে ফিরে যান",
             seot: "Dhaka Land Area Calculator: Professional Katha, Shotok & Bigha Converter 2026",
@@ -985,7 +1042,7 @@
             faqH: "১৫টি গুরুত্বপূর্ণ সাধারণ প্রশ্ন ও উত্তর (FAQs) - ঢাকা ল্যান্ড ক্যালকুলেটর",
             ll: "দৈর্ঘ্য (Length)", lw: "প্রস্থ (Width)", lu: "একক (Unit)", sf: "ঢাকা স্ট্যান্ডার্ড ফরম্যাট:", btnText: "হিসাব করুন (CONVERT)", rh: "রূপান্তর ফলাফল (Results)",
             gTitle: "বাংলাদেশের সরকারি ভূমি পোর্টাল", gl1: "🌐 বাংলাদেশ ই-খতিয়ান পোর্টাল", gl2: "💰 ভূমি মন্ত্রণালয় সেবা",
-            visTitle: "📐 ইন্টারঅ্যাক্টিভ জমির আকৃতির পূর্বরূপ (Shape Preview)", histTitle: "🕒 সাম্প্রতিক গণনার ইতিহাস", clearHist: "ইতিহাস মুছুন",
+            visTitle: "📐 ইন্টারঅ্যাক্টিভ জমির আকৃতির পূর্বরূপ (Shape Preview)", histTitle: "🕒 সাম্প্রতিক গণনার ইতিহাস (ক্লিক করে পুনরায় দেখুন)", clearHist: "ইতিহাস মুছুন",
             tocHeading: "📑 সূচিপত্র (Table of Contents)",
             toc1: "১. ঢাকা ভূমি ব্যবস্থার ভূমিকা",
             toc2: "২. রাজস্ব একক ও আদর্শ মান",
@@ -1002,7 +1059,13 @@
             tblQuickTitle: "দ্রুত রূপান্তর রেফারেন্স সারণী (Quick Conversion Table)",
             tblQuickSub: "ঢাকা বিভাগের সাধারণ মাপজোকের দ্রুত হিসাব পাওয়ার জন্য নিচের তালিকাটি দেখে নিতে পারেন:",
             thQ1: "স্থানীয় ইনপুট একক", thQ2: "সমতুল্য বর্গ ফুট (Sq Ft)", thQ3: "সমতুল্য শতক / ডেসিমেল",
-            lblDashTitle: "সম্পর্কিত টুলস ও ড্যাশবোর্ড"
+            lblDashTitle: "সম্পর্কিত টুলস ও ড্যাশবোর্ড",
+            toastLang: "🌐 ভাষা সফলভাবে বাংলায় পরিবর্তন করা হয়েছে!",
+            toastReset: "🔄 ক্যালকুলেটর সফলভাবে রিসেট করা হয়েছে!",
+            toastCalc: "✨ জমির সফল হিসাব সম্পন্ন হয়েছে!",
+            toastCopy: "📋 সমস্ত ফলাফল ক্লিপবোর্ডে কপি করা হয়েছে!",
+            toastLink: "🔗 সরাসরি শেয়ারিং লিংক কপি করা হয়েছে!",
+            toastHistory: "🔄 ইতিহাস থেকে হিসাব সফলভাবে লোড করা হয়েছে!"
         }
     };
 
@@ -1054,6 +1117,7 @@
 
         document.getElementById('btnCopy').innerText = dict[lang].btnCopy;
         document.getElementById('btnWa').innerText = dict[lang].btnWa;
+        document.getElementById('btnShare').innerText = dict[lang].btnShare;
         document.getElementById('btnPrint').innerText = dict[lang].btnPrint;
         document.getElementById('lnkBack').innerText = dict[lang].lnkBack;
 
@@ -1097,6 +1161,8 @@
         document.getElementById('lblDashTitle').innerText = dict[lang].lblDashTitle;
 
         renderFAQs();
+        showToast(dict[lang].toastLang);
+
         if(document.getElementById('resPanel').style.display === "block") {
             calculateDhakaLand();
         }
@@ -1128,6 +1194,7 @@
         document.getElementById('width').value = '';
         document.getElementById('resPanel').style.display = 'none';
         drawVisualizer();
+        showToast(dict[currentLang].toastReset);
         window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
@@ -1191,9 +1258,10 @@
 
         resPanel.style.display = "block";
         resPanel.scrollIntoView({ behavior: 'smooth' });
+        showToast(dict[currentLang].toastCalc);
 
         // =======================================================
-        // DIRECT LOCAL STORAGE HISTORY SAVER ENGINE
+        // DIRECT LOCAL STORAGE HISTORY SAVER ENGINE (WITH PARAMS)
         // =======================================================
         let history = JSON.parse(localStorage.getItem('shayan_detailed_history')) || [];
         const now = new Date();
@@ -1207,20 +1275,11 @@
 
         let resultFormatStr = (currentLang === 'en') ? `${bighas} Bigha, ${kathas} Katha, ${shotoks} Shotok` : `${bighas} বিঘা, ${kathas} কাঠা, ${shotoks} শতক`;
 
-        history.unshift({
-            id: Date.now(),
-            name: "Dhaka Land Area Calculator",
-            url: "dhaka-land-area-calculator.html",
-            inputs: inputFeedStr,
-            result: `${resultFormatStr} (${Math.round(sqft)} Sq Ft)`,
-            time: timeStr
-        });
-
-        if (history.length > 20) history.pop();
-        localStorage.setItem('shayan_detailed_history', JSON.stringify(history));
-
         let uiHistory = JSON.parse(localStorage.getItem('sst_dhaka_area_calc_history')) || [];
         uiHistory.unshift({
+            length: length,
+            width: width,
+            unit: unit,
             inputs: inputFeedStr,
             result: resultFormatStr,
             time: timeStr
@@ -1228,6 +1287,16 @@
         if (uiHistory.length > 5) uiHistory.pop();
         localStorage.setItem('sst_dhaka_area_calc_history', JSON.stringify(uiHistory));
         renderHistory();
+    }
+
+    // RELOAD HISTORY ON CLICK
+    function reloadHistory(l, u, w) {
+        document.getElementById('length').value = l;
+        document.getElementById('width').value = w;
+        document.getElementById('unitType').value = u;
+        drawVisualizer();
+        calculateDhakaLand();
+        showToast(dict[currentLang].toastHistory);
     }
 
     function renderHistory() {
@@ -1242,7 +1311,8 @@
         list.innerHTML = '';
         history.forEach(item => {
             let li = document.createElement('li');
-            li.innerHTML = `<span>${item.inputs}</span> ➔ <b>${item.result}</b> <small style="color:#94a3b8">${item.time}</small>`;
+            li.onclick = () => reloadHistory(item.length, item.unit, item.width);
+            li.innerHTML = `<span>${item.inputs}</span> ➔ <b>${item.result}</b> <small style="color:#94a3b8">${item.time} 🔄</small>`;
             list.appendChild(li);
         });
     }
@@ -1251,6 +1321,20 @@
         localStorage.removeItem('sst_dhaka_area_calc_history');
         localStorage.removeItem('shayan_detailed_history');
         renderHistory();
+        showToast(currentLang === 'en' ? "🗑️ History cleared!" : "🗑️ ইতিহাস মুছে ফেলা হয়েছে!");
+    }
+
+    function copyShareLink() {
+        const length = document.getElementById('length').value;
+        const width = document.getElementById('width').value;
+        const unit = document.getElementById('unitType').value;
+        if(!length || !width) {
+            alert(currentLang === 'en' ? "Please calculate first to share link!" : "লিংক শেয়ার করার আগে হিসাব করুন!");
+            return;
+        }
+        const shareUrl = `${window.location.origin}${window.location.pathname}?length=${length}&width=${width}&unit=${unit}&lang=${currentLang}`;
+        navigator.clipboard.writeText(shareUrl);
+        showToast(dict[currentLang].toastLink);
     }
 
     function printLandReport() {
@@ -1263,7 +1347,7 @@
     function copyData() {
         let res = "Dhaka Land Conversion Results:\nFormat: " + document.getElementById('bklText').innerText + "\nSq Ft: " + document.getElementById('resSqft').innerText + "\nShotok: " + document.getElementById('resShotok').innerText + "\nTool by Shayan Smart Tools";
         navigator.clipboard.writeText(res);
-        alert(currentLang === 'en' ? "Results Copied!" : "সমস্ত ফলাফল সফলভাবে কপি করা হয়েছে!");
+        showToast(dict[currentLang].toastCopy);
     }
 
     function shareWA() {
@@ -1271,8 +1355,30 @@
         window.open("https://wa.me/?text=" + t);
     }
 
-    renderFAQs();
-    renderHistory();
+    // AUTO-LOAD PARAMETERS ON PAGE LOAD
+    window.addEventListener('DOMContentLoaded', () => {
+        const params = new URLSearchParams(window.location.search);
+        const l = params.get('length');
+        const w = params.get('width');
+        const u = params.get('unit');
+        const lang = params.get('lang');
+
+        if(lang && (lang === 'en' || lang === 'bn')) {
+            setLang(lang);
+        } else {
+            setLang('bn'); // Default Bengali
+        }
+
+        if(l && w) {
+            document.getElementById('length').value = l;
+            document.getElementById('width').value = w;
+            if(u) document.getElementById('unitType').value = u;
+            drawVisualizer();
+            calculateDhakaLand();
+        }
+
+        renderHistory();
+    });
 </script>
 
 </body>
