@@ -1,11 +1,13 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="light">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Land Measurement Guides - Shayan Smart Tools</title>
+<title id="metaTitle">Land Measurement Guides - State Wise Area Units Calculator | Shayan Smart Tools</title>
+<meta name="description" content="Explore state-wise land measurement guides, Bigha, Biswa, Guntha, Katha, and Acre conversion rules across all Indian states with Shayan Smart Tools.">
 <link rel="stylesheet" href="style.css">
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Tiro+Devanagari+Hindi:ital@0;1&display=swap" rel="stylesheet">
 <style>
 :root {
   --primary: #2563EB;
@@ -15,6 +17,19 @@
   --text-main: #1E293B;
   --text-muted: #64748B;
   --border-color: #E2E8F0;
+  --badge-bg: #EFF6FF;
+  --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+[data-theme="dark"] {
+  --primary: #3B82F6;
+  --primary-dark: #60A5FA;
+  --bg-color: #0F172A;
+  --card-bg: #1E293B;
+  --text-main: #F8FAFC;
+  --text-muted: #94A3B8;
+  --border-color: #334155;
+  --badge-bg: #1E3A8A;
 }
 
 body {
@@ -23,20 +38,59 @@ body {
   background-color: var(--bg-color);
   color: var(--text-main);
   line-height: 1.5;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+[data-lang="hi"] body {
+  font-family: 'Tiro Devanagari Hindi', 'Poppins', sans-serif;
+}
+
+/* Top Utility Bar (Language & Theme Switcher) */
+.utility-bar {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 15px 20px 0 20px;
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  align-items: center;
+}
+
+.util-btn {
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
+  color: var(--text-main);
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.03);
+  transition: var(--transition);
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.util-btn:hover {
+  border-color: var(--primary);
+  color: var(--primary);
 }
 
 header {
   background: linear-gradient(135deg, #1E40AF 0%, #3B82F6 100%);
   color: white;
-  padding: 40px 20px;
+  padding: 30px 20px 35px 20px;
   text-align: center;
   box-shadow: 0 4px 20px rgba(37, 99, 235, 0.15);
+  margin-top: 10px;
 }
 
 header h1 {
   margin: 0 0 10px 0;
-  font-size: 28px;
+  font-size: 30px;
   font-weight: 700;
+  letter-spacing: -0.5px;
 }
 
 header p {
@@ -47,33 +101,123 @@ header p {
 
 /* Search Box Container */
 .search-container {
-  max-width: 500px;
-  margin: -22px auto 20px auto;
+  max-width: 600px;
+  margin: -24px auto 15px auto;
   padding: 0 20px;
+  position: relative;
+  z-index: 10;
 }
 
 .search-input {
   width: 100%;
-  padding: 14px 20px;
+  padding: 14px 20px 14px 48px;
   font-size: 15px;
-  font-family: 'Poppins', sans-serif;
+  font-family: inherit;
   border: 1px solid var(--border-color);
   border-radius: 30px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.08);
   outline: none;
-  background: white;
-  transition: all 0.3s ease;
+  background: var(--card-bg);
+  color: var(--text-main);
+  transition: var(--transition);
   box-sizing: border-box;
 }
 
 .search-input:focus {
   border-color: var(--primary);
-  box-shadow: 0 4px 20px rgba(37, 99, 235, 0.15);
+  box-shadow: 0 8px 28px rgba(37, 99, 235, 0.18);
+}
+
+.search-icon-pos {
+  position: absolute;
+  left: 36px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 16px;
+  pointer-events: none;
+}
+
+/* Trending / Featured States Bar (Masterstroke for UX & SEO) */
+.trending-bar {
+  max-width: 1000px;
+  margin: 0 auto 20px auto;
+  padding: 0 20px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.trending-bar::-webkit-scrollbar { display: none; }
+
+.trending-label {
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: var(--primary);
+  white-space: nowrap;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.trend-chip {
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
+  padding: 5px 12px;
+  border-radius: 16px;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--text-main);
+  text-decoration: none;
+  white-space: nowrap;
+  transition: var(--transition);
+  box-shadow: 0 2px 5px rgba(0,0,0,0.02);
+}
+
+.trend-chip:hover {
+  background: var(--primary);
+  color: white;
+  border-color: var(--primary);
+}
+
+/* Region Filter Chips */
+.filter-container {
+  max-width: 900px;
+  margin: 0 auto 25px auto;
+  padding: 0 20px;
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  justify-content: center;
+  scrollbar-width: none;
+}
+.filter-container::-webkit-scrollbar { display: none; }
+
+.filter-btn {
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
+  padding: 6px 16px;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: var(--transition);
+  white-space: nowrap;
+  font-family: inherit;
+}
+
+.filter-btn:hover, .filter-btn.active {
+  background: var(--primary);
+  color: white;
+  border-color: var(--primary);
+  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.2);
 }
 
 main {
   max-width: 1000px;
-  margin: 30px auto 50px auto;
+  margin: 10px auto 50px auto;
   padding: 0 20px;
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
@@ -86,7 +230,7 @@ main {
   border-radius: 16px;
   padding: 24px;
   box-shadow: 0 2px 8px rgba(0,0,0,0.02);
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: var(--transition);
   text-decoration: none;
   color: var(--text-main);
   display: flex;
@@ -96,7 +240,7 @@ main {
 
 .article-card:hover {
   transform: translateY(-6px);
-  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.1);
   border-color: #cbd5e1;
 }
 
@@ -108,20 +252,23 @@ main {
 }
 
 .article-card .icon {
-  font-size: 32px;
-  background: #EFF6FF;
-  padding: 10px;
+  font-size: 28px;
+  background: var(--badge-bg);
+  padding: 8px 10px;
   border-radius: 12px;
   display: inline-flex;
 }
 
 .guide-tag {
-  font-size: 12px;
-  font-weight: 500;
+  font-size: 11px;
+  font-weight: 600;
   color: var(--text-muted);
-  background: #F1F5F9;
+  background: var(--bg-color);
+  border: 1px solid var(--border-color);
   padding: 4px 10px;
   border-radius: 20px;
+  letter-spacing: 0.3px;
+  text-transform: uppercase;
 }
 
 .article-card h3 {
@@ -131,11 +278,18 @@ main {
   color: var(--text-main);
 }
 
+.article-card p {
+  font-size: 13px;
+  color: var(--text-muted);
+  margin: 0;
+  line-height: 1.5;
+}
+
 .card-footer-text {
   font-size: 13px;
   color: var(--primary);
   font-weight: 600;
-  margin-top: 10px;
+  margin-top: 14px;
   display: flex;
   align-items: center;
   gap: 6px;
@@ -158,7 +312,7 @@ main {
   font-weight: 600;
   font-size: 15px;
   box-shadow: 0 4px 14px rgba(37, 99, 235, 0.3);
-  transition: all 0.3s ease;
+  transition: var(--transition);
 }
 
 .back-btn:hover {
@@ -170,444 +324,264 @@ main {
 .no-results {
   grid-column: 1 / -1;
   text-align: center;
-  padding: 40px;
+  padding: 50px 20px;
   color: var(--text-muted);
-  font-size: 16px;
+  font-size: 15px;
   display: none;
+  background: var(--card-bg);
+  border-radius: 16px;
+  border: 1px dashed var(--border-color);
 }
 
 @media (max-width: 600px) {
-  header {
-    padding: 30px 15px;
-  }
-  header h1 {
-    font-size: 24px;
-  }
-  main {
-    grid-template-columns: 1fr;
-    gap: 16px;
-  }
+  header { padding: 25px 15px; }
+  header h1 { font-size: 22px; }
+  main { grid-template-columns: 1fr; gap: 16px; }
 }
 </style>
+
+<!-- GOOGLE MASTERSTROKE SEO: JSON-LD Breadcrumb & Directory Schema -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "CollectionPage",
+  "name": "Land Measurement Guides - Shayan Smart Tools",
+  "description": "State-wise property calculation guides and land measurement area units across India.",
+  "url": "https://shayanssmarttools.in/land-measurement-guides.html",
+  "publisher": {
+    "@type": "Organization",
+    "name": "Shayan Smart Tools"
+  }
+}
+</script>
 </head>
 <body>
 
+  <!-- Top Utility Controls (Language & Dark Mode) -->
+  <div class="utility-bar">
+    <button class="util-btn" onclick="toggleLanguage()" id="langToggleBtn">🇮🇳 हिन्दी (Hindi)</button>
+    <button class="util-btn" onclick="toggleTheme()" id="themeToggleBtn">🌙 Dark Mode</button>
+  </div>
+
   <header>
-    <h1>Land Measurement Guides</h1>
-    <p>Comprehensive property calculation guides & state-wise area units</p>
+    <h1 id="mainTitle">Land Measurement Guides</h1>
+    <p id="mainSubtitle">Comprehensive property calculation guides & state-wise area units</p>
   </header>
 
+  <!-- Search Box Container -->
   <div class="search-container">
-    <input type="text" id="searchInput" class="search-input" placeholder="🔍 Search state guide (e.g., Assam, West Bengal)..." onkeyup="searchGuides()">
+    <span class="search-icon-pos">🔍</span>
+    <input type="text" id="searchInput" class="search-input" placeholder="Search state guide (e.g., Assam, UP, Bihar)..." onkeyup="filterGuides()">
+  </div>
+
+  <!-- Trending / Most Searched States Bar (Masterstroke UX) -->
+  <div class="trending-bar">
+    <span class="trending-label" id="trendingLabel">🔥 Trending:</span>
+    <a href="up-land-measurement-guide.html" class="trend-chip">Uttar Pradesh (UP)</a>
+    <a href="bihar-land-measurement-guide.html" class="trend-chip">Bihar</a>
+    <a href="assam-land-measurement-guide.html" class="trend-chip">Assam</a>
+    <a href="west-bengal-land-measurement-guide.html" class="trend-chip">West Bengal</a>
+    <a href="punjab-land-measurement-guide.html" class="trend-chip">Punjab</a>
+    <a href="rajasthan-land-measurement-guide.html" class="trend-chip">Rajasthan</a>
+  </div>
+
+  <!-- Region Quick Filters -->
+  <div class="filter-container">
+    <button class="filter-btn active" onclick="filterByRegion('all', this)" data-en="All States" data-hi="सभी राज्य">All States</button>
+    <button class="filter-btn" onclick="filterByRegion('north', this)" data-en="North India" data-hi="उत्तर भारत">North India</button>
+    <button class="filter-btn" onclick="filterByRegion('south', this)" data-en="South India" data-hi="दक्षिण भारत">South India</button>
+    <button class="filter-btn" onclick="filterByRegion('east', this)" data-en="East & Northeast" data-hi="पूर्व और पूर्वोत्तर">East & Northeast</button>
+    <button class="filter-btn" onclick="filterByRegion('west', this)" data-en="West & Central" data-hi="पश्चिम और मध्य">West & Central</button>
   </div>
 
   <main id="guidesGrid">
     <!-- Assam Card -->
-    <a class="article-card" href="assam-land-measurement-guide.html" data-title="assam land calculator bigha katha lecha">
+    <a class="article-card" href="assam-land-measurement-guide.html" data-title="assam land calculator bigha katha lecha असम भूमि मापन बीघा कथा लेखा" data-region="east">
       <div>
-        <div class="card-top">
-          <div class="icon">📐</div>
-          <span class="guide-tag">State Guide</span>
-        </div>
-        <h3>Assam Land Measurement Guide</h3>
-        <p style="font-size: 13px; color: var(--text-muted); margin: 0;">Detailed breakdown of Bigha, Katha, and Lecha conversions.</p>
+        <div class="card-top"><div class="icon">📐</div><span class="guide-tag">Assam</span></div>
+        <h3 data-en="Assam Land Measurement Guide" data-hi="असम भूमि मापन गाइड">Assam Land Measurement Guide</h3>
+        <p data-en="Detailed breakdown of Bigha, Katha, and Lecha conversions." data-hi="बीघा, कथा और लेचा रूपांतरण की विस्तृत जानकारी।">Detailed breakdown of Bigha, Katha, and Lecha conversions.</p>
       </div>
-      <div class="card-footer-text">Read Guide &rarr;</div>
+      <div class="card-footer-text"><span class="read-txt" data-en="Read Guide &rarr;" data-hi="गाइड पढ़ें &rarr;">Read Guide &rarr;</span></div>
     </a>
 
     <!-- West Bengal Card -->
-    <a class="article-card" href="west-bengal-land-measurement-guide.html" data-title="west bengal land calculator bigha cottah satak">
+    <a class="article-card" href="west-bengal-land-measurement-guide.html" data-title="west bengal land calculator bigha cottah satak पश्चिम बंगाल भूमि मापन बीघा कट्ठा शतक" data-region="east">
       <div>
-        <div class="card-top">
-          <div class="icon">🗺️</div>
-          <span class="guide-tag">State Guide</span>
-        </div>
-        <h3>West Bengal Land Guide</h3>
-        <p style="font-size: 13px; color: var(--text-muted); margin: 0;">Understand Bigha, Cottah, and Satak measurements.</p>
+        <div class="card-top"><div class="icon">🗺️</div><span class="guide-tag">West Bengal</span></div>
+        <h3 data-en="West Bengal Land Guide" data-hi="पश्चिम बंगाल भूमि गाइड">West Bengal Land Guide</h3>
+        <p data-en="Understand Bigha, Cottah, and Satak measurements." data-hi="बीघा, cottah और शतक माप को समझें।">Understand Bigha, Cottah, and Satak measurements.</p>
       </div>
-      <div class="card-footer-text">Read Guide &rarr;</div>
+      <div class="card-footer-text"><span class="read-txt" data-en="Read Guide &rarr;" data-hi="गाइड पढ़ें &rarr;">Read Guide &rarr;</span></div>
     </a>
 
     <!-- Bihar Card -->
-    <a class="article-card" href="bihar-land-measurement-guide.html" data-title="bihar land calculator bigha kattha dhur">
+    <a class="article-card" href="bihar-land-measurement-guide.html" data-title="bihar land calculator bigha kattha dhur बिहार भूमि मापन बीघा कट्ठा धूर" data-region="east">
       <div>
-        <div class="card-top">
-          <div class="icon">🌾</div>
-          <span class="guide-tag">State Guide</span>
-        </div>
-        <h3>Bihar Land Guide</h3>
-        <p style="font-size: 13px; color: var(--text-muted); margin: 0;">Learn how to measure Bigha, Kattha, and Dhur units.</p>
+        <div class="card-top"><div class="icon">🌾</div><span class="guide-tag">Bihar</span></div>
+        <h3 data-en="Bihar Land Guide" data-hi="बिहार भूमि गाइड">Bihar Land Guide</h3>
+        <p data-en="Learn how to measure Bigha, Kattha, and Dhur units." data-hi="बीघा, कट्ठा और धूर इकाइयों को मापना सीखें।">Learn how to measure Bigha, Kattha, and Dhur units.</p>
       </div>
-      <div class="card-footer-text">Read Guide &rarr;</div>
+      <div class="card-footer-text"><span class="read-txt" data-en="Read Guide &rarr;" data-hi="गाइड पढ़ें &rarr;">Read Guide &rarr;</span></div>
     </a>
-<!-- Punjab Card -->
-<a class="article-card" href="punjab-land-measurement-guide.html" data-title="punjab land calculator killa kanal marla bigha">
-  <div>
-    <div class="card-top">
-      <div class="icon">🚜</div>
-      <span class="guide-tag">State Guide</span>
-    </div>
-    <h3>Punjab Land Guide</h3>
-    <p style="font-size: 13px; color: var(--text-muted); margin: 0;">Learn how to measure Killa, Kanal, Marla, and Bigha units.</p>
-  </div>
-  <div class="card-footer-text">Read Guide &rarr;</div>
-</a>
 
-   <!-- Andhra Pradesh Card -->
-<a class="article-card" href="andhra-pradesh-land-measurement-guide.html" data-title="andhra pradesh land calculator ankanam cent guntha gajam acre">
-  <div>
-    <div class="card-top">
-      <div class="icon">🌴</div>
-      <span class="guide-tag">State Guide</span>
-    </div>
-    <h3>Andhra Pradesh Land Guide</h3>
-    <p style="font-size: 13px; color: var(--text-muted); margin: 0;">Learn how to measure Ankanam, Cent, Guntha, and Gajam units.</p>
-  </div>
-  <div class="card-footer-text">Read Guide &rarr;</div>
-</a>
- <!-- Jharkhand Card -->
-<a class="article-card" href="jharkhand-land-measurement-guide.html" data-title="jharkhand land calculator dismil kattha bigha dhur acre">
-  <div>
-    <div class="card-top">
-      <div class="icon">⛏️</div>
-      <span class="guide-tag">State Guide</span>
-    </div>
-    <h3>Jharkhand Land Guide</h3>
-    <p style="font-size: 13px; color: var(--text-muted); margin: 0;">Learn how to measure Dismil, Kattha, Bigha, and Dhur units.</p>
-  </div>
-  <div class="card-footer-text">Read Guide &rarr;</div>
-</a>
-<!-- Haryana Card -->
-<a class="article-card" href="haryana-land-measurement-guide.html" data-title="haryana land calculator killa kanal marla bigha biswa acre">
-  <div>
-    <div class="card-top">
-      <div class="icon">🌾</div>
-      <span class="guide-tag">State Guide</span>
-    </div>
-    <h3>Haryana Land Guide</h3>
-    <p style="font-size: 13px; color: var(--text-muted); margin: 0;">Learn how to measure Killa, Kanal, Marla, and Bigha units.</p>
-  </div>
-  <div class="card-footer-text">Read Guide &rarr;</div>
-</a>
-<!-- Madhya Pradesh Card -->
-<a class="article-card" href="madhya-pradesh-land-measurement-guide.html" data-title="madhya pradesh mp land calculator bigha biswa biswansi acre hectare">
-  <div>
-    <div class="card-top">
-      <div class="icon">🏞️</div>
-      <span class="guide-tag">State Guide</span>
-    </div>
-    <h3>Madhya Pradesh Land Guide</h3>
-    <p style="font-size: 13px; color: var(--text-muted); margin: 0;">Learn how to measure Bigha, Biswa, Biswansi, and Hectare in MP.</p>
-  </div>
-  <div class="card-footer-text">Read Guide &rarr;</div>
-</a>
-<!-- Odisha Card -->
-<a class="article-card" href="odisha-land-measurement-guide.html" data-title="odisha land calculator bigha guntha biswa decimal acre hectare bhu naksha bhulekh">
-  <div>
-    <div class="card-top">
-      <div class="icon">🌾</div>
-      <span class="guide-tag">State Guide</span>
-    </div>
-    <h3>Odisha Land Guide</h3>
-    <p style="font-size: 13px; color: var(--text-muted); margin: 0;">Learn how to measure Acre, Guntha, Decimal, Biswa, and Hectare in Odisha.</p>
-  </div>
-  <div class="card-footer-text">Read Guide &rarr;</div>
-</a>
-<!-- Rajasthan Card -->
-<a class="article-card" href="rajasthan-land-measurement-guide.html" data-title="rajasthan land calculator bigha biswa biswansi acre hectare apna khata bhu naksha">
-  <div>
-    <div class="card-top">
-      <div class="icon">🏰</div>
-      <span class="guide-tag">State Guide</span>
-    </div>
-    <h3>Rajasthan Land Guide</h3>
-    <p style="font-size: 13px; color: var(--text-muted); margin: 0;">Learn how to measure Bigha, Biswa, Biswansi, Acre, and Hectare in Rajasthan.</p>
-  </div>
-  <div class="card-footer-text">Read Guide &rarr;</div>
-</a>
+    <!-- Punjab Card -->
+    <a class="article-card" href="punjab-land-measurement-guide.html" data-title="punjab land calculator killa kanal marla bigha पंजाब भूमि मापन किल्ला कनाल मरला" data-region="north">
+      <div>
+        <div class="card-top"><div class="icon">🚜</div><span class="guide-tag">Punjab</span></div>
+        <h3 data-en="Punjab Land Guide" data-hi="पंजाब भूमि गाइड">Punjab Land Guide</h3>
+        <p data-en="Learn how to measure Killa, Kanal, Marla, and Bigha units." data-hi="किल्ला, कनाल, मरला और बीघा इकाइयां मापें।">Learn how to measure Killa, Kanal, Marla, and Bigha units.</p>
+      </div>
+      <div class="card-footer-text"><span class="read-txt" data-en="Read Guide &rarr;" data-hi="गाइड पढ़ें &rarr;">Read Guide &rarr;</span></div>
+    </a>
+
+    <!-- Andhra Pradesh Card -->
+    <a class="article-card" href="andhra-pradesh-land-measurement-guide.html" data-title="andhra pradesh land calculator ankanam cent guntha gajam acre आंध्रा प्रदेश भूमि मापन अंकणम सेंट गुंठा" data-region="south">
+      <div>
+        <div class="card-top"><div class="icon">🌴</div><span class="guide-tag">Andhra Pradesh</span></div>
+        <h3 data-en="Andhra Pradesh Land Guide" data-hi="आंध्रा प्रदेश भूमि गाइड">Andhra Pradesh Land Guide</h3>
+        <p data-en="Learn how to measure Ankanam, Cent, Guntha, and Gajam units." data-hi="अंकणम, सेंट, गुंठा और गजम माप सीखें।">Learn how to measure Ankanam, Cent, Guntha, and Gajam units.</p>
+      </div>
+      <div class="card-footer-text"><span class="read-txt" data-en="Read Guide &rarr;" data-hi="गाइड पढ़ें &rarr;">Read Guide &rarr;</span></div>
+    </a>
+
+    <!-- Jharkhand Card -->
+    <a class="article-card" href="jharkhand-land-measurement-guide.html" data-title="jharkhand land calculator dismil kattha bigha dhur acre झारखंड भूमि मापन डिसमिल कट्ठा धूर" data-region="east">
+      <div>
+        <div class="card-top"><div class="icon">⛏️</div><span class="guide-tag">Jharkhand</span></div>
+        <h3 data-en="Jharkhand Land Guide" data-hi="झारखंड भूमि गाइड">Jharkhand Land Guide</h3>
+        <p data-en="Learn how to measure Dismil, Kattha, Bigha, and Dhur units." data-hi="डिसमिल, कट्ठा, बीघा और धूर इकाइयां मापें।">Learn how to measure Dismil, Kattha, Bigha, and Dhur units.</p>
+      </div>
+      <div class="card-footer-text"><span class="read-txt" data-en="Read Guide &rarr;" data-hi="गाइड पढ़ें &rarr;">Read Guide &rarr;</span></div>
+    </a>
+
+    <!-- Haryana Card -->
+    <a class="article-card" href="haryana-land-measurement-guide.html" data-title="haryana land calculator killa kanal marla bigha biswa acre हरियाणा भूमि मापन किल्ला कनाल मरला" data-region="north">
+      <div>
+        <div class="card-top"><div class="icon">🌾</div><span class="guide-tag">Haryana</span></div>
+        <h3 data-en="Haryana Land Guide" data-hi="हरियाणा भूमि गाइड">Haryana Land Guide</h3>
+        <p data-en="Learn how to measure Killa, Kanal, Marla, and Bigha units." data-hi="किल्ला, कनाल, मरला और बीघा माप सीखें।">Learn how to measure Killa, Kanal, Marla, and Bigha units.</p>
+      </div>
+      <div class="card-footer-text"><span class="read-txt" data-en="Read Guide &rarr;" data-hi="गाइड पढ़ें &rarr;">Read Guide &rarr;</span></div>
+    </a>
+
+    <!-- Madhya Pradesh Card -->
+    <a class="article-card" href="madhya-pradesh-land-measurement-guide.html" data-title="madhya pradesh mp land calculator bigha biswa biswansi acre hectare मध्य प्रदेश भूमि मापन बीघा बिसवा" data-region="west">
+      <div>
+        <div class="card-top"><div class="icon">🏞️</div><span class="guide-tag">Madhya Pradesh</span></div>
+        <h3 data-en="Madhya Pradesh Land Guide" data-hi="मध्य प्रदेश भूमि गाइड">Madhya Pradesh Land Guide</h3>
+        <p data-en="Learn how to measure Bigha, Biswa, Biswansi, and Hectare in MP." data-hi="एमपी में बीघा, बिसवा और हेक्टेयर मापें।">Learn how to measure Bigha, Biswa, Biswansi, and Hectare in MP.</p>
+      </div>
+      <div class="card-footer-text"><span class="read-txt" data-en="Read Guide &rarr;" data-hi="गाइड पढ़ें &rarr;">Read Guide &rarr;</span></div>
+    </a>
+
+    <!-- Odisha Card -->
+    <a class="article-card" href="odisha-land-measurement-guide.html" data-title="odisha land calculator bigha guntha biswa decimal acre hectare ओडिशा भूमि मापन गुंठा डेसिमल" data-region="east">
+      <div>
+        <div class="card-top"><div class="icon">🌾</div><span class="guide-tag">Odisha</span></div>
+        <h3 data-en="Odisha Land Guide" data-hi="ओडिशा भूमि गाइड">Odisha Land Guide</h3>
+        <p data-en="Learn how to measure Acre, Guntha, Decimal, Biswa, and Hectare." data-hi="एकड़, गुंठा, डेसिमल और हेक्टेयर मापें।">Learn how to measure Acre, Guntha, Decimal, Biswa, and Hectare.</p>
+      </div>
+      <div class="card-footer-text"><span class="read-txt" data-en="Read Guide &rarr;" data-hi="गाइड पढ़ें &rarr;">Read Guide &rarr;</span></div>
+    </a>
+
+    <!-- Rajasthan Card -->
+    <a class="article-card" href="rajasthan-land-measurement-guide.html" data-title="rajasthan land calculator bigha biswa biswansi acre hectare राजस्थान भूमि मापन बीघा बिसवा" data-region="north">
+      <div>
+        <div class="card-top"><div class="icon">🏰</div><span class="guide-tag">Rajasthan</span></div>
+        <h3 data-en="Rajasthan Land Guide" data-hi="राजस्थान भूमि गाइड">Rajasthan Land Guide</h3>
+        <p data-en="Learn how to measure Bigha, Biswa, Biswansi, Acre, and Hectare." data-hi="बीघा, बिसवा, एकड़ और हेक्टेयर मापें।">Learn how to measure Bigha, Biswa, Biswansi, Acre, and Hectare.</p>
+      </div>
+      <div class="card-footer-text"><span class="read-txt" data-en="Read Guide &rarr;" data-hi="गाइड पढ़ें &rarr;">Read Guide &rarr;</span></div>
+    </a>
 
     <!-- UP Card -->
-<a class="article-card" href="up-land-measurement-guide.html" data-title="uttar pradesh up land calculator bigha biswa biswansi lekhta are acre hectare bhulekh bhu naksha">
-  <div>
-    <div class="card-top">
-      <div class="icon">🏛️</div>
-      <span class="guide-tag">State Guide</span>
-    </div>
-    <h3>UP Land Guide</h3>
-    <p style="font-size: 13px; color: var(--text-muted); margin: 0;">Learn how to measure Bigha, Biswa, Biswansi, Are, and Hectare in UP.</p>
-  </div>
-  <div class="card-footer-text">Read Guide &rarr;</div>
-</a>
-<!-- Tamil Nadu Card -->
-<a class="article-card" href="tamilnadu-land-measurement-guide.html" data-title="tamil nadu land calculator ground cent kuzhi maa acre hectare patta chitta bhu naksha">
-  <div>
-    <div class="card-top">
-      <div class="icon">🏛️</div>
-      <span class="guide-tag">State Guide</span>
-    </div>
-    <h3>Tamil Nadu Land Guide</h3>
-    <p style="font-size: 13px; color: var(--text-muted); margin: 0;">Learn how to measure Ground, Cent, Kuzhi, Maa, and Hectare in Tamil Nadu.</p>
-  </div>
-  <div class="card-footer-text">Read Guide &rarr;</div>
-</a>
+    <a class="article-card" href="up-land-measurement-guide.html" data-title="uttar pradesh up land calculator bigha biswa biswansi are acre hectare उत्तर प्रदेश भूमि मापन बीघा बिसवा" data-region="north">
+      <div>
+        <div class="card-top"><div class="icon">🏛️</div><span class="guide-tag">Uttar Pradesh</span></div>
+        <h3 data-en="UP Land Guide" data-hi="उत्तर प्रदेश भूमि गाइड">UP Land Guide</h3>
+        <p data-en="Learn how to measure Bigha, Biswa, Biswansi, Are, and Hectare." data-hi="बीघा, बिसवा, बिसवांशी और हेक्टेयर मापें।">Learn how to measure Bigha, Biswa, Biswansi, Are, and Hectare.</p>
+      </div>
+      <div class="card-footer-text"><span class="read-txt" data-en="Read Guide &rarr;" data-hi="गाइड पढ़ें &rarr;">Read Guide &rarr;</span></div>
+    </a>
+
+    <!-- Tamil Nadu Card -->
+    <a class="article-card" href="tamilnadu-land-measurement-guide.html" data-title="tamil nadu land calculator ground cent kuzhi maa acre hectare तमिलनाडु भूमि मापन ग्राउंड सेंट कुझी" data-region="south">
+      <div>
+        <div class="card-top"><div class="icon">🏛️</div><span class="guide-tag">Tamil Nadu</span></div>
+        <h3 data-en="Tamil Nadu Land Guide" data-hi="तमिलनाडु भूमि गाइड">Tamil Nadu Land Guide</h3>
+        <p data-en="Learn how to measure Ground, Cent, Kuzhi, Maa, and Hectare." data-hi="ग्राउंड, सेंट, कुझी, मां और हेक्टेयर मापें।">Learn how to measure Ground, Cent, Kuzhi, Maa, and Hectare.</p>
+      </div>
+      <div class="card-footer-text"><span class="read-txt" data-en="Read Guide &rarr;" data-hi="गाइड पढ़ें &rarr;">Read Guide &rarr;</span></div>
+    </a>
 
     <!-- Gujarat Card -->
-<a class="article-card" href="gujarat-land-measurement-guide.html" data-title="gujarat land calculator bigha vasa guntha acre square yards hectare anyror e dhara bhu naksha">
-  <div>
-    <div class="card-top">
-      <div class="icon">🏛️</div>
-      <span class="guide-tag">State Guide</span>
+    <a class="article-card" href="gujarat-land-measurement-guide.html" data-title="gujarat land calculator bigha vasa guntha acre square yards गुजरात भूमि मापन बीघा वसा गुंठा" data-region="west">
+      <div>
+        <div class="card-top"><div class="icon">🏛️</div><span class="guide-tag">Gujarat</span></div>
+        <h3 data-en="Gujarat Land Guide" data-hi="गुजरात भूमि गाइड">Gujarat Land Guide</h3>
+        <p data-en="Learn how to measure Bigha, Vasa, Guntha, and Square Yards." data-hi="बीघा, वसा, गुंठा और वर्ग गज मापें।">Learn how to measure Bigha, Vasa, Guntha, and Square Yards.</p>
+      </div>
+      <div class="card-footer-text"><span class="read-txt" data-en="Read Guide &rarr;" data-hi="गाइड पढ़ें &rarr;">Read Guide &rarr;</span></div>
+    </a>
+
+    <!-- Karnataka Card -->
+    <a class="article-card" href="karnataka-land-measurement-guide.html" data-title="karnataka land calculator guntha acre cent square feet कर्नाटक भूमि मापन गुंठा एकड़ सेंट" data-region="south">
+      <div>
+        <div class="card-top"><div class="icon">🏛️</div><span class="guide-tag">Karnataka</span></div>
+        <h3 data-en="Karnataka Land Guide" data-hi="कर्नाटक भूमि गाइड">Karnataka Land Guide</h3>
+        <p data-en="Learn how to measure Guntha, Acre, Cent, and Square Feet." data-hi="गुंठा, एकड़, सेंट और वर्ग फीट मापें।">Learn how to measure Guntha, Acre, Cent, and Square Feet.</p>
+      </div>
+      <div class="card-footer-text"><span class="read-txt" data-en="Read Guide &rarr;" data-hi="गाइड पढ़ें &rarr;">Read Guide &rarr;</span></div>
+    </a>
+
+    <!-- Chhattisgarh Card -->
+    <a class="article-card" href="chhattisgarh-land-measurement-guide.html" data-title="chhattisgarh land calculator acre dismil kattha square feet छत्तीसगढ़ भूमि मापन एकड़ डिसमिल कट्ठा" data-region="west">
+      <div>
+        <div class="card-top"><div class="icon">🏛️</div><span class="guide-tag">Chhattisgarh</span></div>
+        <h3 data-en="Chhattisgarh Land Guide" data-hi="छत्तीसगढ़ भूमि गाइड">Chhattisgarh Land Guide</h3>
+        <p data-en="Learn how to measure Acre, Dismil, Kattha, and Square Feet." data-hi="एकड़, डिसमिल, कट्ठा और वर्ग फीट मापें।">Learn how to measure Acre, Dismil, Kattha, and Square Feet.</p>
+      </div>
+      <div class="card-footer-text"><span class="read-txt" data-en="Read Guide &rarr;" data-hi="गाइड पढ़ें &rarr;">Read Guide &rarr;</span></div>
+    </a>
+
+    <!-- Uttarakhand Card -->
+    <a class="article-card" href="uttarakhand-land-measurement-guide.html" data-title="uttarakhand land calculator nali bigha biswa square feet उत्तराखंड भूमि मापन नाली बीघा बिसवा" data-region="north">
+      <div>
+        <div class="card-top"><div class="icon">🏛️</div><span class="guide-tag">Uttarakhand</span></div>
+        <h3 data-en="Uttarakhand Land Guide" data-hi="उत्तराखंड भूमि गाइड">Uttarakhand Land Guide</h3>
+        <p data-en="Learn how to measure Nali, Bigha, Biswa, and Square Feet." data-hi="नाली, बीघा, बिसवा और वर्ग फीट मापें।">Learn how to measure Nali, Bigha, Biswa, and Square Feet.</p>
+      </div>
+      <div class="card-footer-text"><span class="read-txt" data-en="Read Guide &rarr;" data-hi="गाइड पढ़ें &rarr;">Read Guide &rarr;</span></div>
+    </a>
+
+    <div id="noResults" class="no-results" data-en="No matching land guides found. Try another search term." data-hi="कोई भूमि गाइड नहीं मिला। दूसरा शब्द खोजें।">
+      No matching land guides found. Try another search term.
     </div>
-    <h3>Gujarat Land Guide</h3>
-    <p style="font-size: 13px; color: var(--text-muted); margin: 0;">Learn how to measure Bigha, Vasa, Guntha, Square Yards, and Hectare in Gujarat.</p>
-  </div>
-  <div class="card-footer-text">Read Guide &rarr;</div>
-</a>
-<!-- Karnataka Card -->
-<a class="article-card" href="karnataka-land-measurement-guide.html" data-title="karnataka land calculator guntha acre cent guntas square feet hectare bhoomi bhu naksha">
-  <div>
-    <div class="card-top">
-      <div class="icon">🏛️</div>
-      <span class="guide-tag">State Guide</span>
-    </div>
-    <h3>Karnataka Land Guide</h3>
-    <p style="font-size: 13px; color: var(--text-muted); margin: 0;">Learn how to measure Guntha, Acre, Cent, Square Feet, and Hectare in Karnataka.</p>
-  </div>
-  <div class="card-footer-text">Read Guide &rarr;</div>
-</a>
-
-<!-- Chhattisgarh Card -->
-<a class="article-card" href="chhattisgarh-land-measurement-guide.html" data-title="chhattisgarh land calculator acre dismil kattha square feet hectare bhuiyan bhu naksha">
-  <div>
-    <div class="card-top">
-      <div class="icon">🏛️</div>
-      <span class="guide-tag">State Guide</span>
-    </div>
-    <h3>Chhattisgarh Land Guide</h3>
-    <p style="font-size: 13px; color: var(--text-muted); margin: 0;">Learn how to measure Acre, Dismil, Kattha, Square Feet, and Hectare in Chhattisgarh.</p>
-  </div>
-  <div class="card-footer-text">Read Guide &rarr;</div>
-</a>
-<a class="article-card" href="uttarakhand-land-measurement-guide.html" data-title="uttarakhand land calculator nali bigha biswa square feet hectare bhulekh khatauni">
-  <div>
-    <div class="card-top">
-      <div class="icon">🏛️</div>
-      <span class="guide-tag">State Guide</span>
-    </div>
-    <h3>Uttarakhand Land Guide</h3>
-    <p style="font-size: 13px; color: var(--text-muted); margin: 0;">Learn how to measure Nali, Bigha, Biswa, Square Feet, and Hectare in Uttarakhand.</p>
-  </div>
-  <div class="card-footer-text">Read Guide &rarr;</div>
-</a>
-
-<a class="article-card" href="arunachal-pradesh-land-measurement-guide.html" data-title="arunachal pradesh land calculator bigha katha lecha square feet hectare land possession certificate">
-  <div>
-    <div class="card-top">
-      <div class="icon">🏛️</div>
-      <span class="guide-tag">State Guide</span>
-    </div>
-    <h3>Arunachal Pradesh Land Guide</h3>
-    <p style="font-size: 13px; color: var(--text-muted); margin: 0;">Learn how to measure Bigha, Katha, Lecha, Square Feet, and Hectare in Arunachal Pradesh.</p>
-  </div>
-  <div class="card-footer-text">Read Guide &rarr;</div>
-</a>
-
-<a class="article-card" href="meghalaya-land-measurement-guide.html" data-title="meghalaya land calculator acre square feet hectare square meter local land measurement">
-  <div>
-    <div class="card-top">
-      <div class="icon">🏛️</div>
-      <span class="guide-tag">State Guide</span>
-    </div>
-    <h3>Meghalaya Land Guide</h3>
-    <p style="font-size: 13px; color: var(--text-muted); margin: 0;">Learn how to measure Acre, Square Feet, Square Meters, and Hectare in Meghalaya.</p>
-  </div>
-  <div class="card-footer-text">Read Guide &rarr;</div>
-</a>
-
-<a class="article-card" href="nagaland-land-measurement-guide.html" data-title="nagaland land calculator acre bigha square feet hectare tribal land record">
-  <div>
-    <div class="card-top">
-      <div class="icon">🏛️</div>
-      <span class="guide-tag">State Guide</span>
-    </div>
-    <h3>Nagaland Land Guide</h3>
-    <p style="font-size: 13px; color: var(--text-muted); margin: 0;">Learn how to measure Acre, Bigha, Square Feet, and Hectare in Nagaland.</p>
-  </div>
-  <div class="card-footer-text">Read Guide &rarr;</div>
-</a>
-
-<a class="article-card" href="manipur-land-measurement-guide.html" data-title="manipur land calculator pari lourak acre square feet hectare loucha lousang">
-  <div>
-    <div class="card-top">
-      <div class="icon">🏛️</div>
-      <span class="guide-tag">State Guide</span>
-    </div>
-    <h3>Manipur Land Guide</h3>
-    <p style="font-size: 13px; color: var(--text-muted); margin: 0;">Learn how to measure Pari, Lourak, Acre, Square Feet, and Hectare in Manipur.</p>
-  </div>
-  <div class="card-footer-text">Read Guide &rarr;</div>
-</a>
-
-<a class="article-card" href="tripura-land-measurement-guide.html" data-title="tripura land calculator kani ganda kranta kara bigha acre square feet hectare jami">
-  <div>
-    <div class="card-top">
-      <div class="icon">🏛️</div>
-      <span class="guide-tag">State Guide</span>
-    </div>
-    <h3>Tripura Land Guide</h3>
-    <p style="font-size: 13px; color: var(--text-muted); margin: 0;">Learn how to measure Kani, Ganda, Kranta, Bigha, Square Feet, and Hectare in Tripura.</p>
-  </div>
-  <div class="card-footer-text">Read Guide &rarr;</div>
-</a>
-
-<a class="article-card" href="mizoram-land-measurement-guide.html" data-title="mizoram land calculator acre bigha square feet hectare tin ram hmun">
-  <div>
-    <div class="card-top">
-      <div class="icon">🏛️</div>
-      <span class="guide-tag">State Guide</span>
-    </div>
-    <h3>Mizoram Land Guide</h3>
-    <p style="font-size: 13px; color: var(--text-muted); margin: 0;">Learn how to measure Acre, Bigha, Square Feet, and Hectare in Mizoram.</p>
-  </div>
-  <div class="card-footer-text">Read Guide &rarr;</div>
-</a>
-
-<a class="article-card" href="jammu-kashmir-land-measurement-guide.html" data-title="jammu kashmir land calculator kanal marla sarsai acre square feet hectare bhulekh jk">
-  <div>
-    <div class="card-top">
-      <div class="icon">🏛️</div>
-      <span class="guide-tag">State Guide</span>
-    </div>
-    <h3>Jammu & Kashmir Land Guide</h3>
-    <p style="font-size: 13px; color: var(--text-muted); margin: 0;">Learn how to measure Kanal, Marla, Sarsai, Square Feet, and Acre in Jammu & Kashmir.</p>
-  </div>
-  <div class="card-footer-text">Read Guide &rarr;</div>
-</a>
-
-<a class="article-card" href="ladakh-land-measurement-guide.html" data-title="ladakh land calculator kanal marla sarsai acre square feet hectare sa tse revenue">
-  <div>
-    <div class="card-top">
-      <div class="icon">🏛️</div>
-      <span class="guide-tag">State Guide</span>
-    </div>
-    <h3>Ladakh Land Guide</h3>
-    <p style="font-size: 13px; color: var(--text-muted); margin: 0;">Learn how to measure Kanal, Marla, Sarsai, Square Feet, and Acre in Ladakh.</p>
-  </div>
-  <div class="card-footer-text">Read Guide &rarr;</div>
-</a>
-
-<a class="article-card" href="himachal-pradesh-land-measurement-guide.html" data-title="himachal pradesh land calculator bigha biswa biswansi kanal marla square feet hectare himbhumi">
-  <div>
-    <div class="card-top">
-      <div class="icon">🏛️</div>
-      <span class="guide-tag">State Guide</span>
-    </div>
-    <h3>Himachal Pradesh Land Guide</h3>
-    <p style="font-size: 13px; color: var(--text-muted); margin: 0;">Learn how to measure Bigha, Biswa, Kanal, Marla, Square Feet, and Hectare in Himachal Pradesh.</p>
-  </div>
-  <div class="card-footer-text">Read Guide &rarr;</div>
-</a>
-
-<a class="article-card" href="maharashtra-land-measurement-guide.html" data-title="maharashtra land calculator guntha aana bigha acre square feet hectare mahabhulekh 7 12">
-  <div>
-    <div class="card-top">
-      <div class="icon">🏛️</div>
-      <span class="guide-tag">State Guide</span>
-    </div>
-    <h3>Maharashtra Land Guide</h3>
-    <p style="font-size: 13px; color: var(--text-muted); margin: 0;">Learn how to measure Guntha, Aana, Bigha, Acre, Square Feet, and Hectare in Maharashtra.</p>
-  </div>
-  <div class="card-footer-text">Read Guide &rarr;</div>
-</a>
-
-<a class="article-card" href="telangana-land-measurement-guide.html" data-title="telangana land calculator gunta acre gajalu square feet square yards hectare dharani">
-  <div>
-    <div class="card-top">
-      <div class="icon">🏛️</div>
-      <span class="guide-tag">State Guide</span>
-    </div>
-    <h3>Telangana Land Guide</h3>
-    <p style="font-size: 13px; color: var(--text-muted); margin: 0;">Learn how to measure Gunta, Gajalu, Acre, Square Yards, Square Feet, and Hectare in Telangana.</p>
-  </div>
-  <div class="card-footer-text">Read Guide &rarr;</div>
-</a>
-
-<a class="article-card" href="kerala-land-measurement-guide.html" data-title="kerala land calculator cent acre guntha square feet square meters hectare e renekha">
-  <div>
-    <div class="card-top">
-      <div class="icon">🏛️</div>
-      <span class="guide-tag">State Guide</span>
-    </div>
-    <h3>Kerala Land Guide</h3>
-    <p style="font-size: 13px; color: var(--text-muted); margin: 0;">Learn how to measure Cent, Acre, Square Feet, Square Meters, and Hectare in Kerala.</p>
-  </div>
-  <div class="card-footer-text">Read Guide &rarr;</div>
-</a>
-
-<a class="article-card" href="chandigarh-land-measurement-guide.html" data-title="chandigarh land calculator kanal marla square feet square yards acre hectare estate office">
-  <div>
-    <div class="card-top">
-      <div class="icon">🏛️</div>
-      <span class="guide-tag">State Guide</span>
-    </div>
-    <h3>Chandigarh Land Guide</h3>
-    <p style="font-size: 13px; color: var(--text-muted); margin: 0;">Learn how to measure Kanal, Marla, Square Feet, Square Yards, and Acre in Chandigarh.</p>
-  </div>
-  <div class="card-footer-text">Read Guide &rarr;</div>
-</a>
-<!-- Goa Card -->
-<a class="article-card" href="goa-land-measurement-guide.html" data-title="goa land calculator square meters square feet ares acre form i-xiv dsl">
-  <div>
-    <div class="card-top">
-      <div class="icon">🌊</div>
-      <span class="guide-tag">State Guide</span>
-    </div>
-    <h3>Goa Land Guide</h3>
-    <p style="font-size: 13px; color: var(--text-muted); margin: 0;">Learn how to measure Square Meters, Square Feet, Ares, and Acres in Goa.</p>
-  </div>
-  <div class="card-footer-text">Read Guide &rarr;</div>
-</a>
-
-<!-- Delhi Card -->
-<a class="article-card" href="delhi-land-measurement-guide.html" data-title="delhi land calculator bigha biswa square yards acre dda mcd lal dora delhi bhulekh">
-  <div>
-    <div class="card-top">
-      <div class="icon">🏛️</div>
-      <span class="guide-tag">State Guide</span>
-    </div>
-    <h3>Delhi Land Guide</h3>
-    <p style="font-size: 13px; color: var(--text-muted); margin: 0;">Learn how to measure Bigha, Biswa, Square Yards, and Acres in Delhi.</p>
-  </div>
-  <div class="card-footer-text">Read Guide &rarr;</div>
-</a>
-
-
-
-
-
-
-
-
-
-    
-
-    <div id="noResults" class="no-results">No matching land guides found.</div>
   </main>
 
   <div class="footer-section">
-    <a href="index.html" class="back-btn">🏠 Back to Home</a>
+    <a href="index.html" class="back-btn" data-en="🏠 Back to Home" data-hi="🏠 होम पेज पर जाएं">🏠 Back to Home</a>
   </div>
 
   <script>
-    function searchGuides() {
-      let input = document.getElementById('searchInput').value.toLowerCase();
+    let currentRegion = 'all';
+    let currentLang = 'en';
+
+    function filterGuides() {
+      let input = document.getElementById('searchInput').value.toLowerCase().trim();
       let cards = document.getElementsByClassName('article-card');
       let noResults = document.getElementById('noResults');
       let count = 0;
 
       for (let i = 0; i < cards.length; i++) {
-        let title = cards[i].getAttribute('data-title');
-        if (title.includes(input)) {
+        let title = cards[i].getAttribute('data-title').toLowerCase();
+        let region = cards[i].getAttribute('data-region');
+        
+        let matchesSearch = title.includes(input);
+        let matchesRegion = (currentRegion === 'all' || region === currentRegion);
+
+        if (matchesSearch && matchesRegion) {
           cards[i].style.display = "flex";
           count++;
         } else {
@@ -615,11 +589,54 @@ main {
         }
       }
 
-      if (count === 0) {
-        noResults.style.display = "block";
+      noResults.style.display = (count === 0) ? "block" : "none";
+    }
+
+    function filterByRegion(region, btnElement) {
+      currentRegion = region;
+      let buttons = document.getElementsByClassName('filter-btn');
+      for (let btn of buttons) { btn.classList.remove('active'); }
+      btnElement.classList.add('active');
+      filterGuides();
+    }
+
+    function toggleTheme() {
+      let html = document.documentElement;
+      let themeBtn = document.getElementById('themeToggleBtn');
+      if (html.getAttribute('data-theme') === 'light') {
+        html.setAttribute('data-theme', 'dark');
+        themeBtn.innerHTML = "☀️ Light Mode";
       } else {
-        noResults.style.display = "none";
+        html.setAttribute('data-theme', 'light');
+        themeBtn.innerHTML = "🌙 Dark Mode";
       }
+    }
+
+    function toggleLanguage() {
+      currentLang = (currentLang === 'en') ? 'hi' : 'en';
+      document.documentElement.setAttribute('data-lang', currentLang);
+      
+      let langBtn = document.getElementById('langToggleBtn');
+      if (currentLang === 'hi') {
+        langBtn.innerHTML = "🇬🇧 English";
+        document.getElementById('mainTitle').innerText = "भूमि मापन गाइड (Land Measurement Guides)";
+        document.getElementById('mainSubtitle').innerText = "सभी राज्यों की भूमि इकाइयां और कैलकुलेशन गाइड";
+        document.getElementById('searchInput').placeholder = "राज्य खोजें (उदा. असम, यूपी, बिहार)...";
+        document.getElementById('trendingLabel').innerText = "🔥 ट्रेंडिंग:";
+      } else {
+        langBtn.innerHTML = "🇮🇳 हिन्दी (Hindi)";
+        document.getElementById('mainTitle').innerText = "Land Measurement Guides";
+        document.getElementById('mainSubtitle').innerText = "Comprehensive property calculation guides & state-wise area units";
+        document.getElementById('searchInput').placeholder = "Search state guide (e.g., Assam, UP, Bihar)...";
+        document.getElementById('trendingLabel').innerText = "🔥 Trending:";
+      }
+
+      // Translate filter buttons & cards text
+      document.querySelectorAll('[data-en]').forEach(el => {
+        if (el.getAttribute(`data-${currentLang}`)) {
+          el.innerHTML = el.getAttribute(`data-${currentLang}`);
+        }
+      });
     }
   </script>
 
