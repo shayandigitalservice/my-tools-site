@@ -205,11 +205,16 @@
         .btn-reset { flex: 1; padding: 18px; background: #64748b; color: #fff; border: none; border-radius: 15px; font-size: 17px; font-weight: 800; cursor: pointer; transition: 0.3s; text-transform: uppercase; letter-spacing: 1px; }
         .btn-reset:hover { background: #475569; transform: translateY(-2px); }
 
-        /* INTERACTIVE LAND SHAPE VISUALIZER */
+        /* NEXT-LEVEL SVG VISUALIZER CONTAINER */
         .visualizer-container { background: #ffffff; border: 1px solid #e2e8f0; border-radius: 20px; padding: 25px; margin-bottom: 30px; text-align: center; box-shadow: 0 4px 15px rgba(0,0,0,0.02); }
         .visualizer-container h4 { margin: 0 0 15px 0; color: var(--bd-corporate); font-size: 16px; font-weight: 800; }
-        .canvas-box { position: relative; width: 100%; height: 180px; background: #f1f5f9; border-radius: 12px; display: flex; align-items: center; justify-content: center; overflow: hidden; border: 2px dashed #cbd5e1; }
-        .shape-preview { background: linear-gradient(135deg, rgba(4,120,87,0.15), rgba(15,23,42,0.15)); border: 3px solid var(--bd-green); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-weight: bold; color: var(--bd-dark); font-size: 13px; transition: all 0.4s ease; max-width: 80%; max-height: 80%; }
+        .canvas-box { position: relative; width: 100%; height: 220px; background: #f8fafc; border-radius: 12px; display: flex; align-items: center; justify-content: center; overflow: hidden; border: 2px dashed #cbd5e1; }
+        
+        /* EXTRA METRICS BOARD BELOW VISUALIZER */
+        .vis-metrics { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 15px; }
+        .vis-metric-card { background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 10px; padding: 10px; text-align: center; }
+        .vis-metric-card span { display: block; font-size: 11px; font-weight: bold; color: #065f46; text-transform: uppercase; }
+        .vis-metric-card b { font-size: 15px; color: var(--bd-corporate); font-family: monospace; }
 
         /* OFFICIAL LAND WEBSITES REDIRECT GRID PANELS */
         .gov-links-title { font-size: 13px; font-weight: 800; color: var(--bd-green); margin-top: 10px; text-transform: uppercase; letter-spacing: 0.5px; text-align: left; }
@@ -551,7 +556,7 @@
 <div class="measurement-tool">
     <header>
         <h1 id="mTitle">ঢাকা ল্যান্ড এরিয়া ক্যালকুলেটর | জমি মাপার ক্যালকুলেটর</h1>
-        <p id="sTitle">ঢাকা বিভাগ এবং বাংলাদেশ ই-খতিয়ান রেকর্ডের জন্য নির্ভুল কাঠা, শতক, বিঘা এবং একর কনভার্টার।</p>
+        <p id="sTitle">ঢাকা বিভাগ এবং বাংলাদেশ ই-খতিয়ান রেকর্ডের জন্য নির্ভুল কাঠা, শতক, বিঘা এবং একর কনভার্টার።</p>
     </header>
 
     <!-- DEFAULT BENGALI BUTTON ACTIVE FIRST -->
@@ -583,11 +588,24 @@
         <button class="btn-reset" onclick="resetCalculator()" id="btnReset">রিসেট</button>
     </div>
 
-    <!-- INTERACTIVE LAND SHAPE VISUALIZER -->
+    <!-- NEXT-LEVEL PROPORTIONAL SVG LAND SHAPE VISUALIZER -->
     <div class="visualizer-container">
-        <h4 id="visTitle">📐 ইন্টারঅ্যাক্টিভ জমির আকৃতির পূর্বরূপ (Shape Preview)</h4>
-        <div class="canvas-box">
-            <div id="shapeBox" class="shape-preview">মাপ লিখুন</div>
+        <h4 id="visTitle">📐 প্রফেশনাল জমি ও নকশা প্রিভিউ (Interactive SVG Visualizer)</h4>
+        <div class="canvas-box" id="canvasBox">
+            <svg id="plotSvg" width="100%" height="100%" viewBox="0 0 300 180" style="overflow:visible;">
+                <!-- Dynamic SVG rendered via JS -->
+                <text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" fill="#94a3b8" font-size="13" font-weight="bold" id="svgPlaceholder">মাপ লিখুন (Enter Dimensions)</text>
+            </svg>
+        </div>
+        <div class="vis-metrics">
+            <div class="vis-metric-card">
+                <span id="lblPerimeter">총 परिधि (Perimeter / মেড়)</span>
+                <b id="valPerimeter">--</b>
+            </div>
+            <div class="vis-metric-card">
+                <span id="lblDiagonal">विकर्ण (Diagonal / কোনা-কোনি)</span>
+                <b id="valDiagonal">--</b>
+            </div>
         </div>
     </div>
 
@@ -994,7 +1012,7 @@
             faqH: "15 Important Frequently Asked Questions (FAQs) - Dhaka Land Calculator",
             ll: "Length (দৈর্ঘ্য)", lw: "Width (প্রস্থ)", lu: "Unit (একক)", sf: "Dhaka Standard Format:", btnText: "CONVERT NOW", rh: "Conversion Results",
             gTitle: "Official Bangladesh Land Portals", gl1: "🌐 Bangladesh e-Khatian Portal", gl2: "💰 Ministry of Land Services",
-            visTitle: "📐 Interactive Land Shape Preview", histTitle: "🕒 Recent Calculation History (Click to reload)", clearHist: "Clear History",
+            visTitle: "📐 Interactive Land Shape Preview (SVG)", histTitle: "🕒 Recent Calculation History (Click to reload)", clearHist: "Clear History",
             tocHeading: "📑 Table of Contents (সূচিপত্র)",
             toc1: "1. Introduction to Dhaka Land System",
             toc2: "2. Revenue Metrics & Standards",
@@ -1018,7 +1036,9 @@
             toastCopy: "📋 All Results Copied to Clipboard!",
             toastLink: "🔗 Direct Shareable Link Copied!",
             toastHistory: "🔄 Calculation Restored from History!",
-            alertEmpty: "Please enter both valid length and width!"
+            alertEmpty: "⚠️ Please enter both valid length and width!",
+            lblPerimeter: "Perimeter (Total Wall/Med)",
+            lblDiagonal: "Diagonal (Corner to Corner)"
         },
         bn: {
             mTitle: "ঢাকা ল্যান্ড এরিয়া ক্যালকুলেটর | জমি মাপার ক্যালকুলেটর",
@@ -1044,7 +1064,7 @@
             faqH: "১৫টি গুরুত্বপূর্ণ সাধারণ প্রশ্ন ও উত্তর (FAQs) - ঢাকা ল্যান্ড ক্যালকুলেটর",
             ll: "দৈর্ঘ্য (Length)", lw: "প্রস্থ (Width)", lu: "একক (Unit)", sf: "ঢাকা স্ট্যান্ডার্ড ফরম্যাট:", btnText: "হিসাব করুন (CONVERT)", rh: "রূপান্তর ফলাফল (Results)",
             gTitle: "বাংলাদেশের সরকারি ভূমি পোর্টাল", gl1: "🌐 বাংলাদেশ ই-খতিয়ান পোর্টাল", gl2: "💰 ভূমি মন্ত্রণালয় সেবা",
-            visTitle: "📐 ইন্টারঅ্যাক্টিভ জমির আকৃতির পূর্বরূপ (Shape Preview)", histTitle: "🕒 সাম্প্রতিক গণনার ইতিহাস (ক্লিক করে পুনরায় দেখুন)", clearHist: "ইতিহাস মুছুন",
+            visTitle: "📐 প্রফেশনাল জমি ও নকশা প্রিভিউ (SVG Visualizer)", histTitle: "🕒 সাম্প্রতিক গণনার ইতিহাস (ক্লিক করে পুনরায় দেখুন)", clearHist: "ইতিহাস মুছুন",
             tocHeading: "📑 সূচিপত্র (Table of Contents)",
             toc1: "১. ঢাকা ভূমি ব্যবস্থার ভূমিকা",
             toc2: "২. রাজস্ব একক ও আদর্শ মান",
@@ -1068,7 +1088,9 @@
             toastCopy: "📋 সমস্ত ফলাফল ক্লিপবোর্ডে কপি করা হয়েছে!",
             toastLink: "🔗 সরাসরি শেয়ারিং লিংক কপি করা হয়েছে!",
             toastHistory: "🔄 ইতিহাস থেকে হিসাব সফলভাবে লোড করা হয়েছে!",
-            alertEmpty: "⚠️ অনুগ্রহ করে সঠিক দৈর্ঘ্য এবং প্রস্থ লিখুন!"
+            alertEmpty: "⚠️ অনুগ্রহ করে সঠিক দৈর্ঘ্য এবং প্রস্থ লিখুন!",
+            lblPerimeter: "মোট পরিধি (Perimeter / মেড়)",
+            lblDiagonal: "विकर्ण (Diagonal / কোনা-কোনি)"
         }
     };
 
@@ -1162,6 +1184,8 @@
         document.getElementById('thQ2').innerText = dict[lang].thQ2;
         document.getElementById('thQ3').innerText = dict[lang].thQ3;
         document.getElementById('lblDashTitle').innerText = dict[lang].lblDashTitle;
+        document.getElementById('lblPerimeter').innerText = dict[lang].lblPerimeter;
+        document.getElementById('lblDiagonal').innerText = dict[lang].lblDiagonal;
 
         renderFAQs();
         showToast(dict[lang].toastLang);
@@ -1171,25 +1195,61 @@
         }
     }
 
+    // NEXT-LEVEL PROPORTIONAL SVG VISUALIZER ENGINE
     function drawVisualizer() {
         const length = parseFloat(document.getElementById('length').value);
         const width = parseFloat(document.getElementById('width').value);
-        const shapeBox = document.getElementById('shapeBox');
+        const unit = document.getElementById('unitType').value;
+        const svg = document.getElementById('plotSvg');
+        
+        const valPerimeter = document.getElementById('valPerimeter');
+        const valDiagonal = document.getElementById('valDiagonal');
 
         if (!length || length <= 0 || !width || width <= 0) {
-            shapeBox.style.width = "70%";
-            shapeBox.style.height = "70%";
-            shapeBox.innerText = currentLang === 'en' ? "Enter Dimensions" : "মাপ লিখুন";
+            svg.innerHTML = `<text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" fill="#94a3b8" font-size="13" font-weight="bold">${currentLang === 'en' ? "Enter Dimensions" : "মাপ লিখুন"}</text>`;
+            valPerimeter.innerText = "--";
+            valDiagonal.innerText = "--";
             return;
         }
 
-        let maxDim = Math.max(length, width);
-        let wPct = (width / maxDim) * 75;
-        let hPct = (length / maxDim) * 75;
+        // Calculate Perimeter & Diagonal
+        let lenFt = unit === 'mt' ? length * 3.28084 : length;
+        let widFt = unit === 'mt' ? width * 3.28084 : width;
+        let perimeter = 2 * (lenFt + widFt);
+        let diagonal = Math.sqrt((lenFt * lenFt) + (widFt * widFt));
 
-        shapeBox.style.width = Math.max(wPct, 25) + "%";
-        shapeBox.style.height = Math.max(hPct, 25) + "%";
-        shapeBox.innerText = `${length} × ${width}`;
+        valPerimeter.innerText = perimeter.toFixed(2) + " ft";
+        valDiagonal.innerText = diagonal.toFixed(2) + " ft";
+
+        // Render proportional SVG box
+        let maxDim = Math.max(length, width);
+        let svgW = 180;
+        let svgH = 110;
+        let boxW = (width / maxDim) * svgW;
+        let boxH = (length / maxDim) * svgH;
+
+        let startX = (300 - boxW) / 2;
+        let startY = (180 - boxH) / 2;
+
+        svg.innerHTML = `
+            <!-- Plot Rectangle -->
+            <rect x="${startX}" y="${startY}" width="${boxW}" height="${boxH}" rx="6" fill="rgba(4, 120, 87, 0.1)" stroke="#047857" stroke-width="3" />
+            
+            <!-- Diagonal Line for Survey Check -->
+            <line x1="${startX}" y1="${startY}" x2="${startX + boxW}" y2="${startY + boxH}" stroke="#f59e0b" stroke-dasharray="4" stroke-width="1.5" />
+
+            <!-- Dimensions Labels -->
+            <text x="${startX + boxW / 2}" y="${startY - 8}" text-anchor="middle" fill="#0f172a" font-size="11" font-weight="bold">${width} ${unit}</text>
+            <text x="${startX - 8}" y="${startY + boxH / 2}" dominant-baseline="middle" text-anchor="end" fill="#0f172a" font-size="11" font-weight="bold">${length} ${unit}</text>
+
+            <!-- Compass Icon (Top Right Corner) -->
+            <g transform="translate(265, 25)">
+                <circle cx="0" cy="0" r="14" fill="#ffffff" stroke="#cbd5e1" stroke-width="1.5"/>
+                <polygon points="0,-10 3,2 0,6 -3,2" fill="#ef4444"/>
+                <polygon points="0,10 3,-2 0,-6 -3,-2" fill="#64748b"/>
+                <text x="0" y="-12" text-anchor="middle" fill="#ef4444" font-size="9" font-weight="900">N</text>
+            </g>
+        `;
     }
 
     function resetCalculator() {
@@ -1278,7 +1338,6 @@
         let resultFormatStr = (currentLang === 'en') ? `${bighas} Bigha, ${kathas} Katha, ${shotoks} Shotok` : `${bighas} বিঘা, ${kathas} কাঠা, ${shotoks} শতক`;
 
         let uiHistory = JSON.parse(localStorage.getItem('sst_dhaka_area_calc_history')) || [];
-        // Avoid duplicate consecutive entries
         if(uiHistory.length === 0 || uiHistory[0].inputs !== inputFeedStr) {
             uiHistory.unshift({
                 length: length,
