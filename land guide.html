@@ -204,7 +204,7 @@ body {
   box-shadow: 0 6px 16px rgba(37, 99, 235, 0.4);
 }
 
-/* Trending States Bar (Compact & Premium) */
+/* Trending States Bar */
 .trending-bar {
   max-width: 1100px;
   margin: 0 auto 20px auto;
@@ -247,7 +247,7 @@ body {
   transform: translateY(-1px);
 }
 
-/* Region Filter Chips (Compact & Sleek) */
+/* Region Filter Chips (Fixed Left-Cut Bug with proper padding & alignment) */
 .filter-container {
   max-width: 900px;
   margin: 0 auto 28px auto;
@@ -255,8 +255,13 @@ body {
   display: flex;
   gap: 6px;
   overflow-x: auto;
-  justify-content: center;
+  justify-content: flex-start; /* Fixed: allows smooth scrolling from first item without clipping */
   scrollbar-width: none;
+}
+@media (min-width: 768px) {
+  .filter-container {
+    justify-content: center; /* Center on desktop, left-align/scrollable on mobile */
+  }
 }
 .filter-container::-webkit-scrollbar { display: none; }
 
@@ -273,6 +278,7 @@ body {
   white-space: nowrap;
   font-family: Arial, sans-serif;
   box-shadow: 0 2px 6px rgba(0,0,0,0.02);
+  flex-shrink: 0; /* Prevents buttons from squishing or clipping */
 }
 
 .filter-btn:hover, .filter-btn.active {
@@ -499,7 +505,6 @@ main {
       <div>
         <div class="card-top">
           <div class="state-map-icon" title="Assam Map Outline">
-            <!-- Exact Assam Border Shape Outline -->
             <svg viewBox="0 0 24 24"><path d="M2 13c2-1 3-3 5-3s3 2 5 1 3-3 5-3 3 2 5 1v3c-2 1-3 3-5 3s-3-2-5-1-3 3-5 3-3-2-5-1z"></path></svg>
           </div>
           <span class="guide-tag">Assam</span>
@@ -515,7 +520,6 @@ main {
       <div>
         <div class="card-top">
           <div class="state-map-icon" title="West Bengal Map Outline">
-            <!-- West Bengal Border Shape Outline -->
             <svg viewBox="0 0 24 24"><path d="M6 3l12 4-3 14H8L6 3z"></path></svg>
           </div>
           <span class="guide-tag">West Bengal</span>
@@ -531,7 +535,6 @@ main {
       <div>
         <div class="card-top">
           <div class="state-map-icon" title="Bihar Map Outline">
-            <!-- Bihar Border Shape Outline -->
             <svg viewBox="0 0 24 24"><path d="M4 7l10-2 6 6-4 8-10 2-2-8z"></path></svg>
           </div>
           <span class="guide-tag">Bihar</span>
@@ -547,7 +550,6 @@ main {
       <div>
         <div class="card-top">
           <div class="state-map-icon" title="Punjab Map Outline">
-            <!-- Punjab Border Shape Outline -->
             <svg viewBox="0 0 24 24"><path d="M5 5h14v14H5z"></path></svg>
           </div>
           <span class="guide-tag">Punjab</span>
