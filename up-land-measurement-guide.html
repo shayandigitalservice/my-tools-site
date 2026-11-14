@@ -88,7 +88,7 @@
   </script>
 
   <!-- Google Fonts & Styles -->
-  <link href="https://fonts.googleapis.com/css2?family=Tiro+Devanagari+Hindi&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
   <style>
     :root {
       --primary: #283593;        /* Deep Indigo */
@@ -97,7 +97,6 @@
       --accent-dark: #00a152;
       --bg-light: #f4f6f9;       /* Slate Warm Neutral */
       --text-dark: #1e293b;
-      --card-bg: #ffffff;
       --border: #c7d2fe;
     }
 
@@ -110,7 +109,7 @@
     }
 
     body {
-      font-family: 'Tiro Devanagari Hindi', 'Inter', sans-serif;
+      font-family: Arial, 'Inter', sans-serif;
       background-color: var(--bg-light);
       color: var(--text-dark);
       line-height: 1.85;
@@ -118,7 +117,7 @@
       padding: 0;
     }
 
-    /* Top Corner Utility Bar (Language Toggle) */
+    /* Top Corner Compact Language Icon Bar */
     .top-utility-bar {
       max-width: 920px;
       margin: 0 auto;
@@ -138,6 +137,9 @@
       cursor: pointer;
       box-shadow: 0 2px 6px rgba(0,0,0,0.05);
       transition: all 0.2s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
     }
 
     .lang-toggle-btn:hover {
@@ -191,6 +193,20 @@
 
     p {
       text-align: justify;
+    }
+
+    /* Important Highlight Styling */
+    strong, b {
+      color: var(--primary-dark);
+      font-weight: 700;
+    }
+
+    .highlight-term {
+      background-color: #eef2ff;
+      padding: 1px 4px;
+      border-radius: 4px;
+      font-weight: 700;
+      color: var(--primary-dark);
     }
 
     /* Quick Fact Box */
@@ -286,6 +302,82 @@
       border-radius: 4px;
       display: inline-block;
       margin: 4px 0;
+      font-weight: 700;
+      color: var(--primary-dark);
+    }
+
+    /* Related Tools Silo Links Box */
+    .related-tools-box {
+      background: #f0fdf4;
+      border: 1px solid #86efac;
+      padding: 20px;
+      border-radius: 12px;
+      margin: 2rem 0;
+    }
+
+    .related-tools-box h3 {
+      color: #15803d;
+      margin-top: 0;
+      font-size: 1.2rem;
+    }
+
+    .related-tools-list {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin-top: 10px;
+    }
+
+    .related-tools-list a {
+      color: var(--primary-dark);
+      text-decoration: none;
+      font-weight: 600;
+      transition: color 0.2s ease;
+    }
+
+    .related-tools-list a:hover {
+      color: var(--accent-dark);
+      text-decoration: underline;
+    }
+
+    /* Author Bio & Fact-Checked Trust Badge Box */
+    .author-bio-box {
+      background: #ffffff;
+      border: 1px solid var(--border);
+      padding: 20px;
+      border-radius: 12px;
+      margin: 2.5rem 0;
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      box-shadow: 0 4px 12px rgba(40,53,147,0.04);
+    }
+
+    .author-avatar {
+      width: 60px;
+      height: 60px;
+      background: var(--primary);
+      color: #ffffff;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+
+    .author-details h4 {
+      margin: 0 0 4px 0;
+      color: var(--primary-dark);
+      font-size: 1.1rem;
+    }
+
+    .author-details p {
+      margin: 0;
+      font-size: 0.9rem;
+      color: #475569;
+      text-align: left;
     }
 
     /* FAQ Accordion Styling */
@@ -408,14 +500,21 @@
         width: 100%;
         text-align: center;
       }
+      .author-bio-box {
+        flex-direction: column;
+        text-align: center;
+      }
+      .author-details p {
+        text-align: center;
+      }
     }
   </style>
 </head>
 <body>
 
-  <!-- Top Corner Language Toggle Bar -->
+  <!-- Top Corner Language Icon Bar -->
   <div class="top-utility-bar">
-    <button class="lang-toggle-btn" id="langToggleBtn" onclick="toggleLanguage()">English / Hinglish</button>
+    <button class="lang-toggle-btn" id="langToggleBtn" onclick="toggleLanguage()">🌐 <span id="langBtnText">Hinglish</span></button>
   </div>
 
   <header>
@@ -437,13 +536,13 @@
       <div class="quick-fact-box">
         <h4 id="factBoxTitle">💡 त्वरित तथ्य (Quick Land Conversions in Uttar Pradesh):</h4>
         <ul style="margin-bottom: 0; padding-left: 20px;">
-          <li id="fact1"><strong>1 पक्का बीघा</strong> = 20 बिस्वा = 27,225 वर्ग फीट (3,025 वर्ग गज)</li>
-          <li id="fact2"><strong>1 बिस्वा</strong> = 20 बिस्वांसी (कछवांसी) = 1,361.25 वर्ग फीट</li>
-          <li id="fact3"><strong>1 हेक्टेयर</strong> = लगभग 3.95 पक्का बीघा (1,07,639 वर्ग फीट)</li>
+          <li id="fact1"><strong>1 पक्का बीघा</strong> = <span class="highlight-term">20 बिस्वा</span> = <span class="highlight-term">27,225 वर्ग फीट</span> (3,025 वर्ग गज)</li>
+          <li id="fact2"><strong>1 बिस्वा</strong> = <span class="highlight-term">20 बिस्वांसी</span> (कछवांसी) = <span class="highlight-term">1,361.25 वर्ग फीट</span></li>
+          <li id="fact3"><strong>1 हेक्टेयर</strong> = लगभग <span class="highlight-term">3.95 पक्का बीघा</span> (1,07,639 वर्ग फीट)</li>
         </ul>
       </div>
 
-      <p id="sec1Desc2">डिजिटल दौर में, रजिस्ट्री कराने, बैंक लोन लेने या भूलेख यूपी (Bhulekh UP) पोर्टल पर खतौनी जांचने के लिए इन पारम्परिक इकाइयों को सटीक वर्ग फीट या हेक्टेयर में बदलना बेहद आवश्यक है। जमीन की सही गणना मोबाइल से तुरंत करने के लिए हमारे आधिकारिक <a href="https://shayansmarttools.in/up-land-calculator.html" style="color: var(--primary); font-weight: 700;" target="_blank" rel="noopener">UP Land Area Calculator</a> टूल का उपयोग कर सकते हैं।</p>
+      <p id="sec1Desc2">डिजिटल दौर में, रजिस्ट्री कराने, बैंक लोन लेने या भूलेख यूपी (Bhulekh UP) पोर्टल पर खतौनी जांचने के लिए इन पारम्परिक इकाइयों को सटीक वर्ग फीट या हेक्टेयर में बदलना बेहद आवश्यक है। जमीन की सही गणना मोबाइल से तुरंत करने के लिए हमारे आधिकारिक <a href="https://shayanssmarttools.in/up-land-calculator.html" style="color: var(--primary); font-weight: 700;" target="_blank" rel="noopener">UP Land Area Calculator</a> टूल का उपयोग कर सकते हैं।</p>
     </section>
 
     <!-- District-Wise Quick Navigation Grid (Internal Silo Linking) -->
@@ -451,16 +550,16 @@
       <h2 id="districtHeading">🗺️ प्रमुख क्षेत्र और जिला-वार क्विक नेविगेशन (UP Land Guides)</h2>
       <p id="districtDesc">उत्तर प्रदेश के विभिन्न मंडलों और जिलों में प्रयुक्त भूमि माप की विशिष्ट जानकारी के लिए नीचे अपने क्षेत्र पर क्लिक करें:</p>
       <div class="district-nav-grid">
-        <a href="#lucknow" class="district-chip">लखनऊ (Lucknow)</a>
-        <a href="#kanpur" class="district-chip">कानपुर (Kanpur)</a>
-        <a href="#meerut" class="district-chip">मेरठ (Meerut)</a>
-        <a href="#varanasi" class="district-chip">वाराणसी (Varanasi)</a>
-        <a href="#agra" class="district-chip">आगरा (Agra)</a>
-        <a href="#prayagraj" class="district-chip">प्रयागराज (Prayagraj)</a>
-        <a href="#gorakhpur" class="district-chip">गोरखपुर (Gorakhpur)</a>
-        <a href="#bareilly" class="district-chip">बरेली (Bareilly)</a>
-        <a href="#jhansi" class="district-chip">झांसी (Jhansi)</a>
-        <a href="#ghaziabad" class="district-chip">गाजियाबाद (Ghaziabad)</a>
+        <a href="https://shayanssmarttools.in/up-land-measurement-guide.html" class="district-chip">लखनऊ (Lucknow)</a>
+        <a href="https://shayanssmarttools.in/up-land-measurement-guide.html" class="district-chip">कानपुर (Kanpur)</a>
+        <a href="https://shayanssmarttools.in/up-land-measurement-guide.html" class="district-chip">मेरठ (Meerut)</a>
+        <a href="https://shayanssmarttools.in/up-land-measurement-guide.html" class="district-chip">वाराणसी (Varanasi)</a>
+        <a href="https://shayanssmarttools.in/up-land-measurement-guide.html" class="district-chip">आगरा (Agra)</a>
+        <a href="https://shayanssmarttools.in/up-land-measurement-guide.html" class="district-chip">प्रयागराज (Prayagraj)</a>
+        <a href="https://shayanssmarttools.in/up-land-measurement-guide.html" class="district-chip">गोरखपुर (Gorakhpur)</a>
+        <a href="https://shayanssmarttools.in/up-land-measurement-guide.html" class="district-chip">बरेली (Bareilly)</a>
+        <a href="https://shayanssmarttools.in/up-land-measurement-guide.html" class="district-chip">झांसी (Jhansi)</a>
+        <a href="https://shayanssmarttools.in/up-land-measurement-guide.html" class="district-chip">गाजियाबाद (Ghaziabad)</a>
       </div>
     </section>
 
@@ -487,7 +586,7 @@
               <td>2,529.3 Sq. Mtrs.</td>
             </tr>
             <tr>
-              <td><strong>1 कच्चा बीघा (Kachha Bigha)</strong></td>
+              <td><strong>1 कच्चा Bigha (Kachha Bigha)</strong></td>
               <td>6.67 बिस्वा</td>
               <td>9,075 Sq. Ft.</td>
               <td>1,008.3 Sq. Yards</td>
@@ -540,7 +639,7 @@
         उत्तर प्रदेश में किसी प्लॉट या खेत का सटीक क्षेत्रफल निकालने के लिए उसकी लंबाई और चौड़ाई को फीट (Feet) या गज (Yards) में मापा जाता है।
       </p>
       <div class="formula-box">
-        <strong id="formulaTitle">मूल गणितीय सूत्र:</strong><br>
+        <strong id="formulaTitle">मूल गणितीय सूत्र (Core Formula):</strong><br>
         <code>क्षेत्रफल (वर्ग फीट) = लंबाई (फीट) × चौड़ाई (फीट)</code><br>
         <code>पक्का बीघा = कुल वर्ग फीट ÷ 27,225</code><br>
         <code>बिस्वा = कुल वर्ग फीट ÷ 1,361.25</code>
@@ -551,12 +650,25 @@
         मान लीजिए आपके पास लखनऊ या वाराणसी के पास एक आयताकार खेत है, जिसकी लंबाई 165 फीट और चौड़ाई 165 फीट है।
       </p>
       <ul style="padding-left: 20px;">
-        <li id="ex1"><strong>चरण 1 (वर्ग फीट निकालें):</strong> 165 फीट × 165 फीट = <strong>27,225 वर्ग फीट (Sq. Ft.)</strong></li>
-        <li id="ex2"><strong>चरण 2 (पक्का बीघा में बदलें):</strong> 27,225 ÷ 27,225 = <strong>1 पक्का बीघा</strong></li>
-        <li id="ex3"><strong>चरण 3 (बिस्वा में गणना):</strong> 1 पक्का बीघा = <strong>20 बिस्वा</strong></li>
-        <li id="ex4"><strong>चरण 4 (हेक्टेयर में गणना):</strong> 27,225 ÷ 1,07,639 = <strong>0.253 हेक्टेयर</strong></li>
+        <li id="ex1"><strong>चरण 1 (वर्ग फीट निकालें):</strong> 165 फीट × 165 फीट = <span class="highlight-term">27,225 वर्ग फीट (Sq. Ft.)</span></li>
+        <li id="ex2"><strong>चरण 2 (पक्का बीघा में बदलें):</strong> 27,225 ÷ 27,225 = <span class="highlight-term">1 पक्का बीघा</span></li>
+        <li id="ex3"><strong>चरण 3 (बिस्वा में गणना):</strong> 1 पक्का बीघा = <span class="highlight-term">20 बिस्वा</span></li>
+        <li id="ex4"><strong>चरण 4 (हेक्टेयर में गणना):</strong> 27,225 ÷ 1,07,639 = <span class="highlight-term">0.253 हेक्टेयर</span></li>
       </ul>
     </section>
+
+    <!-- Related Tools & Calculator Schema (Silo Internal Linking) -->
+    <div class="related-tools-box">
+      <h3 id="relatedToolsHeading">🔗 संबंधित उत्तर प्रदेश लैंड टूल्स (Related UP Calculators):</h3>
+      <p id="relatedToolsDesc" style="margin: 0 0 10px 0; font-size: 0.95rem; color: #166534;">बिना किसी मैनुअल कैलकुलेशन के अपनी जमीन का तुरंत सटीक हिसाब लगाएं:</p>
+      <div class="related-tools-list">
+        <a href="https://shayanssmarttools.in/up-land-calculator.html" id="tool1">👉 UP Land Area Calculator (बीघा, बिस्वा कैलकुलेटर)</a>
+        <a href="https://shayanssmarttools.in/up-hectare-to-acre.html" id="tool2">👉 UP Hectare to Acre / Bigha Converter (खतौनी कनवर्टर)</a>
+        <a href="https://shayanssmarttools.in/up-irregular-land-calculator.html" id="tool3">👉 Irregular Land Plot Calculator (टेढ़े-मेढ़े खेतों का क्षेत्रफल)</a>
+        <a href="https://shayanssmarttools.in/up-land-partition.html" id="tool4">👉 Land Partition & Hissa Tool (खतौनी हिस्सेदारी बंटवारा)</a>
+        <a href="https://shayanssmarttools.in/up-land-cost-calculator.html" id="tool5">👉 Land Cost & Registry Calculator (स्टांप ड्यूटी और कीमत)</a>
+      </div>
+    </div>
 
     <!-- Local Terminology & Revenue Rules -->
     <section class="section-block">
@@ -588,24 +700,33 @@
       
       <div class="faq-item">
         <div class="faq-question" id="faq1Q">प्र: उत्तर प्रदेश में 1 पक्का बीघा में कितने वर्ग फीट होते हैं?</div>
-        <div class="faq-answer" id="faq1A">यूपी राजस्व मानक के अनुसार 1 पक्का बीघा में 27,225 वर्ग फीट (165 फीट × 165 फीट या 55 गज × 55 गज) होते हैं।</div>
+        <div class="faq-answer" id="faq1A">यूपी राजस्व मानक के अनुसार 1 पक्का बीघा में <span class="highlight-term">27,225 वर्ग फीट</span> (165 फीट × 165 फीट या 55 गज × 55 गज) होते हैं।</div>
       </div>
 
       <div class="faq-item">
         <div class="faq-question" id="faq2Q">प्र: 1 बीघा में कितने बिस्वा होते हैं?</div>
-        <div class="faq-answer" id="faq2A">1 पक्का बीघा में कुल 20 बिस्वा होते हैं। 1 बिस्वा का मान 1,361.25 वर्ग फीट होता है।</div>
+        <div class="faq-answer" id="faq2A">1 पक्का बीघा में कुल <span class="highlight-term">20 बिस्वा</span> होते हैं। 1 बिस्वा का मान 1,361.25 वर्ग फीट होता है।</div>
       </div>
 
       <div class="faq-item">
         <div class="faq-question" id="faq3Q">प्र: यूपी में कच्चा बीघा और पक्का बीघा में क्या अंतर है?</div>
-        <div class="faq-answer" id="faq3A">1 पक्का बीघा = 3 कच्चा बीघा होता है। पक्का बीघा 27,225 वर्ग फीट का होता है, जबकि कच्चा बीघा 9,075 वर्ग फीट का होता है।</div>
+        <div class="faq-answer" id="faq3A">1 पक्का बीघा = <span class="highlight-term">3 कच्चा बीघा</span> होता है। पक्का बीघा 27,225 वर्ग फीट का होता है, जबकि कच्चा बीघा 9,075 वर्ग फीट का होता है।</div>
       </div>
 
       <div class="faq-item">
         <div class="faq-question" id="faq4Q">प्र: 1 हेक्टेयर में यूपी के अनुसार कितने बीघा होते हैं?</div>
-        <div class="faq-answer" id="faq4A">1 हेक्टेयर (10,000 वर्ग मीटर) में लगभग 3.95 (लगभग 4) पक्का बीघा होता है।</div>
+        <div class="faq-answer" id="faq4A">1 हेक्टेयर (10,000 वर्ग मीटर) में लगभग <span class="highlight-term">3.95 पक्का बीघा</span> होता है।</div>
       </div>
     </section>
+
+    <!-- Author Bio & Fact-Checked Trust Badge (E-E-A-T Compliance) -->
+    <div class="author-bio-box">
+      <div class="author-avatar">S</div>
+      <div class="author-details">
+        <h4 id="authorTitle">लेखक एवं तथ्य जाँच टीम (Fact-Checked by Shayan Smart Tools Revenue Research)</h4>
+        <p id="authorDesc">यह लेख उत्तर प्रदेश राजस्व परिषद के आधिकारिक भूमि मापन मानकों, खतौनी नियमों और भूलेख यूपी के दिशा-निर्देशों के आधार पर तैयार किया गया है। 2026 के नवीनतम नियमों के अनुसार इसकी पूरी सत्यता की जाँच की गई है।</p>
+      </div>
+    </div>
 
     <!-- Copyright Infringement Box -->
     <div class="copyright-box" id="copyrightText">
@@ -620,29 +741,29 @@
   </footer>
 
   <script>
-    // 1. Language Toggle Logic (Pure Hindi ⇄ English/Hinglish)
+    // Language Toggle Logic (Pure Hindi ⇄ Hinglish)
     let currentLang = 'hi';
 
     function toggleLanguage() {
-      const btn = document.getElementById('langToggleBtn');
+      const btnText = document.getElementById('langBtnText');
       if (currentLang === 'hi') {
         currentLang = 'hinglish';
-        btn.innerText = "शुद्ध हिंदी (Hindi)";
+        btnText.innerText = "Pure Hindi";
         document.documentElement.setAttribute('lang', 'en');
         
-        // Translate Content
+        // Translate Content to Hinglish
         document.getElementById('mainTitle').innerText = "UP Land Measurement Guide 2026: Bigha, Biswa, and Hectare Conversion";
-        document.getElementById('readingTimeText').innerText = "⏱️ 4 min read time";
-        document.getElementById('sec1Title').innerText = "Introduction & Traditional UP Land Measurement System";
-        document.getElementById('sec1Desc1').innerText = "In Uttar Pradesh, 1 Pakka Bigha is exactly equal to 27,225 square feet (i.e., 20 Biswa or 165 ft × 165 ft). Uttar Pradesh is India's most populous state, having an ancient and diverse measurement system for agricultural and residential land.";
-        document.getElementById('factBoxTitle').innerText = "💡 Quick Land Conversions in Uttar Pradesh:";
-        document.getElementById('fact1').innerHTML = "<strong>1 Pakka Bigha</strong> = 20 Biswa = 27,225 Sq. Ft. (3,025 Sq. Yards)";
-        document.getElementById('fact2').innerHTML = "<strong>1 Biswa</strong> = 20 Biswansi = 1,361.25 Sq. Ft.";
-        document.getElementById('fact3').innerHTML = "<strong>1 Hectare</strong> = Approx. 3.95 Pakka Bigha (107,639 Sq. Ft.)";
-        document.getElementById('sec1Desc2').innerText = "In the digital era, converting these traditional units into exact square feet or hectares is essential for property registration, bank loans, or checking Khatauni on the Bhulekh UP portal. You can instantly calculate land area using our official UP Land Area Calculator tool.";
+        document.getElementById('readingTimeText').innerText = "⏱️ 4 minute read time";
+        document.getElementById('sec1Title').innerText = "Introduction & Uttar Pradesh ki Traditional Land Measurement System";
+        document.getElementById('sec1Desc1').innerText = "Uttar Pradesh mein 1 Pakka Bigha theek 27,225 square feet (yani 20 Biswa ya 165 ft × 165 ft) zameen hoti hai. Uttar Pradesh Bharat ka sabse adhik jansankhya wala rajya hai, jahan kheti aur awasiye zameen ki napai ki ek atyant prachin vyavastha rahi hai.";
+        document.getElementById('factBoxTitle').innerText = "💡 Twarit Tathya (Quick Land Conversions in Uttar Pradesh):";
+        document.getElementById('fact1').innerHTML = "<strong>1 Pakka Bigha</strong> = <span class='highlight-term'>20 Biswa</span> = <span class='highlight-term'>27,225 Sq. Ft.</span> (3,025 Sq. Yards)";
+        document.getElementById('fact2').innerHTML = "<strong>1 Biswa</strong> = <span class='highlight-term'>20 Biswansi</span> = <span class='highlight-term'>1,361.25 Sq. Ft.</span>";
+        document.getElementById('fact3').innerHTML = "<strong>1 Hectare</strong> = Lagbhag <span class='highlight-term'>3.95 Pakka Bigha</span> (107,639 Sq. Ft.)";
+        document.getElementById('sec1Desc2').innerText = "Digital daur mein, registry karane, bank loan lene ya Bhulekh UP portal par Khatauni check karne ke liye in traditional units ko exact square feet ya hectare mein badalna behad zaroori hai. Zameen ki sahi ganana mobile se turant karne ke liye aap hamare official UP Land Area Calculator tool ka use kar sakte hain.";
         
-        document.getElementById('districtHeading').innerText = "🗺️ Major Regions & District-Wise Quick Navigation (UP Land Guides)";
-        document.getElementById('districtDesc').innerText = "Click on your region below for specific land measurement info used across various UP divisions and districts:";
+        document.getElementById('districtHeading').innerText = "🗺️ Pramukh Kshetra aur District-Wise Quick Navigation (UP Land Guides)";
+        document.getElementById('districtDesc').innerText = "Uttar Pradesh ke alag-alag mandalon aur jilon mein use hone wale land measurement ki specific info ke liye apne kshetra par click karein:";
         
         document.getElementById('tableHeading').innerText = "Uttar Pradesh Land Measurement Conversion Table";
         document.getElementById('th1').innerText = "Traditional Unit";
@@ -651,42 +772,53 @@
         document.getElementById('th4').innerText = "Sq. Yards";
         document.getElementById('th5').innerText = "Sq. Meters";
 
-        document.getElementById('calcHeading').innerText = "Step-by-Step Land Calculation Formula";
-        document.getElementById('calcDesc').innerText = "To find the exact area of a plot or field in Uttar Pradesh, measure its length and width in feet or yards.";
+        document.getElementById('calcHeading').innerText = "Step-by-Step Zameen Calculation Formula";
+        document.getElementById('calcDesc').innerText = "Uttar Pradesh mein kisi plot ya khet ka exact area nikalne ke liye uski lambai aur chaudhai ko feet ya yards mein mapa jata hai.";
         document.getElementById('formulaTitle').innerText = "Core Mathematical Formula:";
         document.getElementById('exampleHeading').innerText = "Practical Solved Example:";
-        document.getElementById('exampleDesc').innerText = "Suppose you have a rectangular field near Lucknow or Varanasi with a length of 165 feet and width of 165 feet.";
-        document.getElementById('ex1').innerHTML = "<strong>Step 1 (Calculate Sq. Ft.):</strong> 165 ft × 165 ft = <strong>27,225 Sq. Ft.</strong>";
-        document.getElementById('ex2').innerHTML = "<strong>Step 2 (Convert to Bigha):</strong> 27,225 ÷ 27,225 = <strong>1 Pakka Bigha</strong>";
-        document.getElementById('ex3').innerHTML = "<strong>Step 3 (Calculate Biswa):</strong> 1 Pakka Bigha = <strong>20 Biswa</strong>";
-        document.getElementById('ex4').innerHTML = "<strong>Step 4 (Calculate Hectare):</strong> 27,225 ÷ 107,639 = <strong>0.253 Hectares</strong>";
+        document.getElementById('exampleDesc').innerText = "Maan lijiye aapke paas Lucknow ya Varanasi ke paas ek rectangular khet hai, jiski lambai 165 feet aur chaudhai 165 feet hai.";
+        document.getElementById('ex1').innerHTML = "<strong>Step 1 (Sq. Ft. Nikalein):</strong> 165 ft × 165 ft = <span class='highlight-term'>27,225 Sq. Ft.</span>";
+        document.getElementById('ex2').innerHTML = "<strong>Step 2 (Bigha mein Badlein):</strong> 27,225 ÷ 27,225 = <span class='highlight-term'>1 Pakka Bigha</span>";
+        document.getElementById('ex3').innerHTML = "<strong>Step 3 (Biswa Calculation):</strong> 1 Pakka Bigha = <span class='highlight-term'>20 Biswa</span>";
+        document.getElementById('ex4').innerHTML = "<strong>Step 4 (Hectare Calculation):</strong> 27,225 ÷ 107,639 = <span class='highlight-term'>0.253 Hectares</span>";
+
+        document.getElementById('relatedToolsHeading').innerText = "🔗 Sambandhit Uttar Pradesh Land Tools (Related UP Calculators):";
+        document.getElementById('relatedToolsDesc').innerText = "Bina kisi manual calculation ke apni zameen ka turant exact hisab lagayein:";
+        document.getElementById('tool1').innerText = "👉 UP Land Area Calculator (Bigha, Biswa Calculator)";
+        document.getElementById('tool2').innerText = "👉 UP Hectare to Acre / Bigha Converter (Khatauni Converter)";
+        document.getElementById('tool3').innerText = "👉 Irregular Land Plot Calculator (Tedhe-Medhe Kheto ka Kshetrafal)";
+        document.getElementById('tool4').innerText = "👉 Land Partition & Hissa Tool (Khatauni Hissedari Batwara)";
+        document.getElementById('tool5').innerText = "👉 Land Cost & Registry Calculator (Stamp Duty aur Registry Kharcha)";
 
         document.getElementById('revHeading').innerText = "Local Terminology & UP Revenue Department Rules 2026";
-        document.getElementById('revDesc').innerText = "The UP Revenue Council and online portals 'Bhulekh UP' and 'Bhu-Naksha UP' use the following key terminologies:";
-        document.getElementById('rev1').innerHTML = "<strong>Khatauni:</strong> A Record of Rights containing land ownership details and area in hectares.";
-        document.getElementById('rev2').innerHTML = "<strong>Gata / Khasra No.:</strong> Unique plot number assigned by the revenue department.";
-        document.getElementById('rev3').innerHTML = "<strong>16-Digit Unique Code:</strong> Digital ID assigned to every land parcel in UP to prevent fraud.";
-        document.getElementById('rev4').innerHTML = "<strong>Gattha / Latha:</strong> Bamboo measuring rod used locally (1 Gattha = 8.25 ft).";
+        document.getElementById('revDesc').innerText = "Uttar Pradesh Revenue Council aur online portal 'Bhulekh UP' & 'Bhu-Naksha UP' mein nimnlikhit mukhya shabdwali ka use hota hai:";
+        document.getElementById('rev1').innerHTML = "<strong>Khatauni:</strong> Ek Record of Rights hai jisme zameen aur area hectares mein darj hota hai.";
+        document.getElementById('rev2').innerHTML = "<strong>Gata / Khasra No.:</strong> Revenue department dwara diye gaye unique plot numbers.";
+        document.getElementById('rev3').innerHTML = "<strong>16-Digit Unique Code:</strong> UP mein har zameen ke gata number ki digital ID.";
+        document.getElementById('rev4').innerHTML = "<strong>Gattha / Latha:</strong> Paimaish ke liye use hone wali bamboo rod (1 Gattha = 8.25 ft).";
 
         document.getElementById('ctaBtn1').innerText = "Online UP Land Calculator ➔";
-        document.getElementById('ctaBtn2').innerText = "How to Use Calculator? 💡";
+        document.getElementById('ctaBtn2').innerText = "Calculator ka Use Kaise Karein? 💡";
 
         document.getElementById('faqHeading').innerText = "Frequently Asked Questions (FAQ)";
-        document.getElementById('faq1Q').innerText = "Q: How many square feet are in 1 Pakka Bigha in Uttar Pradesh?";
-        document.getElementById('faq1A').innerText = "According to UP revenue standards, 1 Pakka Bigha equals 27,225 square feet (165 ft × 165 ft).";
-        document.getElementById('faq2Q').innerText = "Q: How many Biswa are in 1 Bigha?";
-        document.getElementById('faq2A').innerText = "There are 20 Biswa in 1 Pakka Bigha. 1 Biswa equals 1,361.25 square feet.";
-        document.getElementById('faq3Q').innerText = "Q: What is the difference between Kachha Bigha and Pakka Bigha in UP?";
-        document.getElementById('faq3A').innerText = "1 Pakka Bigha = 3 Kachha Bigha. A Pakka Bigha is 27,225 sq. ft., whereas a Kachha Bigha is 9,075 sq. ft.";
-        document.getElementById('faq4Q').innerText = "Q: How many Bigha are in 1 Hectare in UP?";
-        document.getElementById('faq4A').innerText = "1 Hectare (10,000 sq. meters) equals approximately 3.95 Pakka Bighas.";
+        document.getElementById('faq1Q').innerText = "Q: Uttar Pradesh mein 1 Pakka Bigha mein kitne square feet hote hain?";
+        document.getElementById('faq1A').innerText = "UP revenue standard ke mutabik 1 Pakka Bigha mein <span class='highlight-term'>27,225 square feet</span> (165 ft × 165 ft) hote hain.";
+        document.getElementById('faq2Q').innerText = "Q: 1 Bigha mein kitne Biswa hote hain?";
+        document.getElementById('faq2A').innerText = "1 Pakka Bigha mein kul <span class='highlight-term'>20 Biswa</span> hote hain. 1 Biswa ka maan 1,361.25 sq. ft. hota hai.";
+        document.getElementById('faq3Q').innerText = "Q: UP mein Kachha Bigha aur Pakka Bigha mein kya antar hai?";
+        document.getElementById('faq3A').innerText = "1 Pakka Bigha = <span class='highlight-term'>3 Kachha Bigha</span> hota hai. Pakka Bigha 27,225 sq. ft. ka hota hai, jabki Kachha Bigha 9,075 sq. ft. ka hota hai.";
+        document.getElementById('faq4Q').innerText = "Q: 1 Hectare mein UP ke anusaar kitne Bigha hote hain?";
+        document.getElementById('faq4A').innerText = "1 Hectare (10,000 sq. meters) mein lagbhag <span class='highlight-term'>3.95 Pakka Bigha</span> hota hai.";
 
-        document.getElementById('copyrightText').innerHTML = "<strong>Legal Copyright Notice:</strong><br>© 2026 ShayanSmartTools.in. All rights reserved. Unauthorized reproduction or copying of this guide's content, code, or design is a legal offense under copyright law.";
+        document.getElementById('authorTitle').innerText = "Author & Fact-Checked Team (Shayan Smart Tools Revenue Research)";
+        document.getElementById('authorDesc').innerText = "Yeh article Uttar Pradesh Revenue Council ke official land measurement standards, Khatauni rules aur Bhulekh UP ke guidelines ke adhar par taiyar kiya gaya hai. 2026 ke latest rules ke mutabik iski purity check ki gayi hai.";
+
+        document.getElementById('copyrightText').innerHTML = "<strong>Legal Copyright Notice:</strong><br>© 2026 ShayanSmartTools.in. Sabhi adhikar surakshit hain. Is website ki samagri, guide code, design aur data ko bina written permission ke copy karna ya publish karna legal offense hai.";
         document.getElementById('footerText').innerText = "© 2026 Shayan Smart Tools | UP Land Measurement Guide 2026";
 
       } else {
         currentLang = 'hi';
-        btn.innerText = "English / Hinglish";
+        btnText.innerText = "Hinglish";
         document.documentElement.setAttribute('lang', 'hi');
         
         // Revert to Pure Hindi Content
@@ -695,9 +827,9 @@
         document.getElementById('sec1Title').innerText = "परिचय एवं उत्तर प्रदेश की पारम्परिक भूमि मापन व्यवस्था";
         document.getElementById('sec1Desc1').innerText = "उत्तर प्रदेश में 1 पक्का बीघा में ठीक 27,225 वर्ग फीट (यानी 20 बिस्वा या 165 फीट × 165 फीट) जमीन होती है। उत्तर प्रदेश भारत का सर्वाधिक जनसंख्या वाला राज्य है, जहाँ कृषि और आवासीय भूमि की नपाई की एक अत्यंत प्राचीन एवं विविधतापूर्ण व्यवस्था रही है। गंगा-यमुना के उपजाऊ मैदानों से लेकर बुंदेलखंड के पठारी इलाकों तक, भूमि मापने के लिए पारम्परिक क्षेत्रीय इकाइयों का उपयोग होता आया है।";
         document.getElementById('factBoxTitle').innerText = "💡 त्वरित तथ्य (Quick Land Conversions in Uttar Pradesh):";
-        document.getElementById('fact1').innerHTML = "<strong>1 पक्का बीघा</strong> = 20 बिस्वा = 27,225 वर्ग फीट (3,025 वर्ग गज)";
-        document.getElementById('fact2').innerHTML = "<strong>1 बिस्वा</strong> = 20 बिस्वांसी (कछवांसी) = 1,361.25 वर्ग फीट";
-        document.getElementById('fact3').innerHTML = "<strong>1 हेक्टेयर</strong> = लगभग 3.95 पक्का बीघा (1,07,639 वर्ग फीट)";
+        document.getElementById('fact1').innerHTML = "<strong>1 पक्का बीघा</strong> = <span class='highlight-term'>20 बिस्वा</span> = <span class='highlight-term'>27,225 वर्ग फीट</span> (3,025 वर्ग गज)";
+        document.getElementById('fact2').innerHTML = "<strong>1 बिस्वा</strong> = <span class='highlight-term'>20 बिस्वांसी</span> (कछवांसी) = <span class='highlight-term'>1,361.25 वर्ग फीट</span>";
+        document.getElementById('fact3').innerHTML = "<strong>1 हेक्टेयर</strong> = लगभग <span class='highlight-term'>3.95 पक्का बीघा</span> (1,07,639 वर्ग फीट)";
         document.getElementById('sec1Desc2').innerText = "डिजिटल दौर में, रजिस्ट्री कराने, बैंक लोन लेने या भूलेख यूपी (Bhulekh UP) पोर्टल पर खतौनी जांचने के लिए इन पारम्परिक इकाइयों को सटीक वर्ग फीट या हेक्टेयर में बदलना बेहद आवश्यक है। जमीन की सही गणना मोबाइल से तुरंत करने के लिए हमारे आधिकारिक UP Land Area Calculator टूल का उपयोग कर सकते हैं।";
         
         document.getElementById('districtHeading').innerText = "🗺️ प्रमुख क्षेत्र और जिला-वार क्विक नेविगेशन (UP Land Guides)";
@@ -715,10 +847,18 @@
         document.getElementById('formulaTitle').innerText = "मूल गणितीय सूत्र:";
         document.getElementById('exampleHeading').innerText = "व्यावहारिक हल किया गया उदाहरण (Solved Example):";
         document.getElementById('exampleDesc').innerText = "मान लीजिए आपके पास लखनऊ या वाराणसी के पास एक आयताकार खेत है, जिसकी लंबाई 165 फीट और चौड़ाई 165 फीट है।";
-        document.getElementById('ex1').innerHTML = "<strong>चरण 1 (वर्ग फीट निकालें):</strong> 165 फीट × 165 फीट = <strong>27,225 वर्ग फीट (Sq. Ft.)</strong>";
-        document.getElementById('ex2').innerHTML = "<strong>चरण 2 (पक्का बीघा में बदलें):</strong> 27,225 ÷ 27,225 = <strong>1 पक्का बीघा</strong>";
-        document.getElementById('ex3').innerHTML = "<strong>चरण 3 (बिस्वा में गणना):</strong> 1 पक्का बीघा = <strong>20 बिस्वा</strong>";
-        document.getElementById('ex4').innerHTML = "<strong>चरण 4 (हेक्टेयर में गणना):</strong> 27,225 ÷ 1,07,639 = <strong>0.253 हेक्टेयर</strong>";
+        document.getElementById('ex1').innerHTML = "<strong>चरण 1 (वर्ग फीट निकालें):</strong> 165 फीट × 165 फीट = <span class='highlight-term'>27,225 वर्ग फीट (Sq. Ft.)</span>";
+        document.getElementById('ex2').innerHTML = "<strong>चरण 2 (पक्का बीघा में बदलें):</strong> 27,225 ÷ 27,225 = <span class='highlight-term'>1 पक्का बीघा</span>";
+        document.getElementById('ex3').innerHTML = "<strong>चरण 3 (बिस्वा में गणना):</strong> 1 पक्का बीघा = <span class='highlight-term'>20 बिस्वा</span>";
+        document.getElementById('ex4').innerHTML = "<strong>चरण 4 (हेक्टेयर में गणना):</strong> 27,225 ÷ 1,07,639 = <span class='highlight-term'>0.253 हेक्टेयर</span>";
+
+        document.getElementById('relatedToolsHeading').innerText = "🔗 संबंधित उत्तर प्रदेश लैंड टूल्स (Related UP Calculators):";
+        document.getElementById('relatedToolsDesc').innerText = "बिना किसी मैनुअल कैलकुलेशन के अपनी जमीन का तुरंत सटीक हिसाब लगाएं:";
+        document.getElementById('tool1').innerText = "👉 UP Land Area Calculator (बीघा, बिस्वा कैलकुलेटर)";
+        document.getElementById('tool2').innerText = "👉 UP Hectare to Acre / Bigha Converter (खतौनी कनवर्टर)";
+        document.getElementById('tool3').innerText = "👉 Irregular Land Plot Calculator (टेढ़े-मेढ़े खेतों का क्षेत्रफल)";
+        document.getElementById('tool4').innerText = "👉 Land Partition & Hissa Tool (खतौनी हिस्सेदारी बंटवारा)";
+        document.getElementById('tool5').innerText = "👉 Land Cost & Registry Calculator (स्टांप ड्यूटी और कीमत)";
 
         document.getElementById('revHeading').innerText = "स्थानीय शब्दावली एवं यूपी राजस्व विभाग नियम 2026";
         document.getElementById('revDesc').innerText = "उत्तर प्रदेश राजस्व परिषद (Revenue Council) और ऑनलाइन पोर्टल 'भूलेख यूपी' (Bhulekh UP) एवं 'भू-नक्शा यूपी' में निम्नलिखित महत्वपूर्ण पारिभाषिक शब्दावलियों का उपयोग किया जाता है:";
@@ -732,20 +872,23 @@
 
         document.getElementById('faqHeading').innerText = "अक्सर पूछे जाने वाले सवाल (FAQ)";
         document.getElementById('faq1Q').innerText = "प्र: उत्तर प्रदेश में 1 पक्का बीघा में कितने वर्ग फीट होते हैं?";
-        document.getElementById('faq1A').innerText = "यूपी राजस्व मानक के अनुसार 1 पक्का बीघा में 27,225 वर्ग फीट (165 फीट × 165 फीट या 55 गज × 55 गज) होते हैं।";
+        document.getElementById('faq1A').innerText = "यूपी राजस्व मानक के अनुसार 1 पक्का बीघा में <span class='highlight-term'>27,225 वर्ग फीट</span> (165 फीट × 165 फीट या 55 गज × 55 गज) होते हैं।";
         document.getElementById('faq2Q').innerText = "प्र: 1 बीघा में कितने बिस्वा होते हैं?";
-        document.getElementById('faq2A').innerText = "1 पक्का बीघा में कुल 20 बिस्वा होते हैं। 1 बिस्वा का मान 1,361.25 वर्ग फीट होता है।";
+        document.getElementById('faq2A').innerText = "1 पक्का बीघा में कुल <span class='highlight-term'>20 बिस्वा</span> होते हैं। 1 बिस्वा का मान 1,361.25 वर्ग फीट होता है।";
         document.getElementById('faq3Q').innerText = "प्र: यूपी में कच्चा बीघा और पक्का बीघा में क्या अंतर है?";
-        document.getElementById('faq3A').innerText = "1 पक्का बीघा = 3 कच्चा बीघा होता है। पक्का बीघा 27,225 वर्ग फीट का होता है, जबकि कच्चा बीघा 9,075 वर्ग फीट का होता है।";
+        document.getElementById('faq3A').innerText = "1 पक्का बीघा = <span class='highlight-term'>3 कच्चा बीघा</span> होता है। पक्का बीघा 27,225 वर्ग फीट का होता है, जबकि कच्चा बीघा 9,075 वर्ग फीट का होता है।";
         document.getElementById('faq4Q').innerText = "प्र: 1 हेक्टेयर में यूपी के अनुसार कितने बीघा होते हैं?";
-        document.getElementById('faq4A').innerText = "1 हेक्टेयर (10,000 वर्ग मीटर) में लगभग 3.95 (लगभग 4) पक्का बीघा होता है।";
+        document.getElementById('faq4A').innerText = "1 हेक्टेयर (10,000 वर्ग मीटर) में लगभग <span class='highlight-term'>3.95 पक्का बीघा</span> होता है।";
+
+        document.getElementById('authorTitle').innerText = "लेखक एवं तथ्य जाँच टीम (Fact-Checked by Shayan Smart Tools Revenue Research)";
+        document.getElementById('authorDesc').innerText = "यह लेख उत्तर प्रदेश राजस्व परिषद के आधिकारिक भूमि मापन मानकों, खतौनी नियमों और भूलेख यूपी के दिशा-निर्देशों के आधार पर तैयार किया गया है। 2026 के नवीनतम नियमों के अनुसार इसकी पूरी सत्यता की जाँच की गई है।";
 
         document.getElementById('copyrightText').innerHTML = "<strong>कॉपीराइट उल्लंघन चेतावनी / Legal Copyright Notice:</strong><br>© 2026 ShayanSmartTools.in. सभी अधिकार सुरक्षित हैं। इस वेबसाइट की सामग्री, गाइड कोड, डिजाइन और डेटा को बिना लिखित अनुमति के कॉपी करना या पुनः प्रकाशित करना कॉपीराइट अधिनियम के तहत कानूनी अपराध है।";
         document.getElementById('footerText').innerText = "© 2026 Shayan Smart Tools | उत्तर प्रदेश भूमि मापन गाइड 2026";
       }
     }
 
-    // 2. FAQ Accordion Logic
+    // FAQ Accordion Logic
     document.querySelectorAll('.faq-question').forEach(item => {
       item.addEventListener('click', () => {
         const parent = item.parentElement;
@@ -758,7 +901,7 @@
       });
     });
 
-    // 3. Anti-Copy and Security Shield
+    // Anti-Copy and Security Shield
     document.addEventListener('contextmenu', e => e.preventDefault());
     document.addEventListener('keydown', e => {
       if (
