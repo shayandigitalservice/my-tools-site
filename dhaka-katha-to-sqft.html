@@ -559,7 +559,7 @@
         <section>
             <h2 id="sec1Head">Introduction to Dhaka Katha to Sq Ft Conversion</h2>
             <p id="sec1Desc1">ঢাকা বিভাগে জমি বা ফ্ল্যাট কেনার সময় কাঠা (Katha) এবং বর্গ ফুট (Square Feet) এর হিসাব সবচেয়ে বেশি কাজে লাগে. ঢাকা, <span class="highlight-district">গাজীপুর</span>, <span class="highlight-district">নারায়ণগঞ্জ</span>, <span class="highlight-district">মুন্সিগঞ্জ</span>, <span class="highlight-district">নরসিংদী</span>, <span class="highlight-district">মানিকগঞ্জ</span>, <span class="highlight-district">টাঙ্গাইল</span>, <span class="highlight-district">কিশোরগঞ্জ</span>, <span class="highlight-district">ফরিদপুর</span>, <span class="highlight-district">গোপালগঞ্জ</span>, <span class="highlight-district">মাদারীপুর</span>, <span class="highlight-district">রাজবাড়ী</span> ও <span class="highlight-district">শরীয়তপুর</span> এলাকার রিয়েল এস্টেট বাজারে এই মানদণ্ড অত্যন্ত জনপ্রিয়.</p>
-            <p id="sec1Desc2">সঠিক রূপান্তর না জানার কারণে হিসাবে গরমিল হতে পারে. সফটওয়্যার প্ল্যাটফর্ম <b>Shayan Smart Tools</b> এর তৈরি এই বিশেষ <b>Dhaka Katha to Sq Ft Converter</b> টুলটির মাধ্যমে আপনি মুহূর্তেই যেকোনো কাঠার পরিমাণ নিখুঁত বর্গ ফুটে রূপান্তর করতে পারবেন.</p>
+            <p id="sec1Desc2">সঠিক রূপান্তর না জানার কারণে হিসাবের গরমিল হতে পারে. সফটওয়্যার প্ল্যাটফর্ম <b>Shayan Smart Tools</b> এর তৈরি এই বিশেষ <b>Dhaka Katha to Sq Ft Converter</b> টুলটির মাধ্যমে আপনি মুহূর্তেই যেকোনো কাঠার পরিমাণ নিখুঁত বর্গ ফুটে রূপান্তর করতে পারবেন.</p>
         </section>
 
         <section>
@@ -894,9 +894,12 @@
     }
 
     function setQuickVal(val) {
-        document.getElementById('inputValue').value = val;
-        drawVisualizer();
-        convertKathaToSqft();
+        const inputElem = document.getElementById('inputValue');
+        if(inputElem) {
+            inputElem.value = val;
+            drawVisualizer();
+            convertKathaToSqft();
+        }
     }
 
     function renderFAQs() {
@@ -1040,7 +1043,7 @@
         const kathaVal = parseFloat(inputElem.value);
         const district = districtElem.value;
 
-        if (!kathaVal || kathaVal <= 0) {
+        if (isNaN(kathaVal) || kathaVal <= 0) {
             showToast(dict[currentLang].alertEmpty);
             return;
         }
