@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title id="pageTitle">Dhaka Katha to Sq Ft Converter | ঢাকা কাঠা থেকে বর্গ ফুট কভার্টার</title>
+    <title id="pageTitle">Dhaka Katha to Sq Ft Converter | ঢাকা কাঠা থেকে বর্গ ফুট কভার্টার | Square Feet to Katha BD</title>
     <link rel="canonical" href="https://shayansmarttools.in/dhaka-katha-to-sqft.html" />
 
     <meta name="description" content="Accurate Dhaka Katha to Square Feet Converter with district selection for all 13 districts. Instantly convert Katha to Sq Ft, Shotok, and Bigha for Dhaka division records. Free by Shayan Smart Tools.">
@@ -223,7 +223,7 @@
         .res-item span { font-size: 13px; color: #94a3b8; font-weight: bold; text-align: left; word-break: break-word; flex: 1; padding-right: 8px; }
         .res-item b { font-size: 15px; color: #fff; text-align: right; word-break: break-all; font-family: monospace; white-space: nowrap; }
         
-        .base-rate-label { display: block; font-size: 10px; color: #34d399; font-weight: 600; margin-top: 2px; font-family: sans-serif; }
+        .base-rate-label { display: block; font-size: 10px; color: #34d399; font-weight: 600; margin-top: 2px; font-family: sans-serif; white-space: nowrap; }
 
         .print-header-block, .print-footer-block, .print-verification-zone { display: none; }
 
@@ -341,7 +341,7 @@
             .res-item { background: #f8fafc !important; border: 1px solid #e2e8f0 !important; border-left: 2px solid var(--bd-emerald) !important; padding: 4px 6px !important; display: flex !important; flex-direction: column !important; align-items: flex-start !important; gap: 1px !important; }
             .res-item span { color: #1e293b !important; font-size: 9.5px !important; font-weight: bold; }
             .res-item b { color: var(--bd-dark-emerald) !important; font-size: 10.5px !important; font-weight: bold; white-space: nowrap !important; }
-            .base-rate-label { font-size: 8px !important; color: #059669 !important; }
+            .base-rate-label { font-size: 8px !important; color: #059669 !important; white-space: nowrap !important; }
             
             .print-verification-zone { display: flex !important; justify-content: space-between; align-items: flex-end; margin-top: 12px; padding: 0 4px; }
             .scanner-box { text-align: left; width: 100px; }
@@ -783,7 +783,7 @@
 
     const dict = {
         en: {
-            mTitle: "Dhaka Katha to Sq Ft Converter | কাঠা থেকে বর্গ ফুট",
+            mTitle: "Dhaka Katha to Sq Ft Converter | Katha to Sq Ft",
             sTitle: "Accurate Katha to Square Feet converter for Dhaka Division and Bangladesh records with district options.",
             lDist: "Select District (জেলা নির্বাচন)",
             lInputValue: "Land Area Value (Katha)",
@@ -797,7 +797,7 @@
             histTitle: "🕒 Recent Conversion History", clearHist: "Clear History",
             lnkBack: "⬅ Back to All Tools",
             seot: "Dhaka Katha to Sq Ft Converter: Easy Guide 2027",
-            seos: "ই-খতিয়ান ও বাংলাদেশ ভূমি রেকর্ড অধিদপ্তর (DLRS) এর মানদণ্ড অনুযায়ী কাঠাকে বর্গ ফুটে রূপান্তর।",
+            seos: "इ-খতিয়ান ও বাংলাদেশ ভূমি রেকর্ড অধিদপ্তর (DLRS) এর মানদণ্ড অনুযায়ী কাঠাকে বর্গ ফুটে রূপান্তর।",
             faqH: "15 Important Frequently Asked Questions (FAQs) - Katha to Sq Ft Converter",
             tblQuickTitle: "Quick Unit Conversion Reference Table",
             tblQuickSub: "Quick calculation reference table for Dhaka division standard measurements:",
@@ -894,17 +894,13 @@
     }
 
     function setQuickVal(val) {
-        const inputElem = document.getElementById('inputValue');
-        if(inputElem) {
-            inputElem.value = val;
-            drawVisualizer();
-            convertKathaToSqft();
-        }
+        document.getElementById('inputValue').value = val;
+        drawVisualizer();
+        convertKathaToSqft();
     }
 
     function renderFAQs() {
         const listContainer = document.getElementById('faqList');
-        if (!listContainer) return;
         listContainer.innerHTML = '';
         faqsData.forEach((faq, index) => {
             const question = currentLang === 'en' ? faq.q_en : faq.q_bn;
@@ -920,81 +916,74 @@
 
     function setLang(lang) {
         currentLang = lang;
-        const enBtn = document.getElementById('enBtn');
-        const bnBtn = document.getElementById('bnBtn');
-        if(enBtn) enBtn.classList.toggle('active', lang === 'en');
-        if(bnBtn) bnBtn.classList.toggle('active', lang === 'bn');
+        document.getElementById('enBtn').classList.toggle('active', lang === 'en');
+        document.getElementById('bnBtn').classList.toggle('active', lang === 'bn');
         
-        const setTxt = (id, val) => { const el = document.getElementById(id); if(el) el.innerText = val; };
-
-        setTxt('mTitle', dict[lang].mTitle);
-        setTxt('sTitle', dict[lang].sTitle);
-        setTxt('lDist', dict[lang].lDist);
-        setTxt('lInputValue', dict[lang].lInputValue);
-        setTxt('btnText', dict[lang].btnText);
-        setTxt('btnReset', dict[lang].btnReset);
-        setTxt('resHead', dict[lang].resHead);
-        setTxt('fmtText', dict[lang].sf);
+        document.getElementById('mTitle').innerText = dict[lang].mTitle;
+        document.getElementById('sTitle').innerText = dict[lang].sTitle;
+        document.getElementById('lDist').innerText = dict[lang].lDist;
+        document.getElementById('lInputValue').innerText = dict[lang].lInputValue;
+        document.getElementById('btnText').innerText = dict[lang].btnText;
+        document.getElementById('btnReset').innerText = dict[lang].btnReset;
+        document.getElementById('resHead').innerText = dict[lang].resHead;
+        document.getElementById('fmtText').innerText = dict[lang].sf;
         
-        setTxt('btnCopy', dict[lang].btnCopy);
-        setTxt('btnWa', dict[lang].btnWa);
-        setTxt('btnShare', dict[lang].btnShare);
-        setTxt('btnPrint', dict[lang].btnPrint);
-        setTxt('lnkBack', dict[lang].lnkBack);
+        document.getElementById('btnCopy').innerText = dict[lang].btnCopy;
+        document.getElementById('btnWa').innerText = dict[lang].btnWa;
+        document.getElementById('btnShare').innerText = dict[lang].btnShare;
+        document.getElementById('btnPrint').innerText = dict[lang].btnPrint;
+        document.getElementById('lnkBack').innerText = dict[lang].lnkBack;
 
-        setTxt('seoTitle', dict[lang].seot);
-        setTxt('seoSubTitle', dict[lang].seos);
-        setTxt('hFaqHead', dict[lang].faqH);
+        document.getElementById('seoTitle').innerText = dict[lang].seot;
+        document.getElementById('seoSubTitle').innerText = dict[lang].seos;
+        document.getElementById('hFaqHead').innerText = dict[lang].faqH;
         
-        setTxt('lblGovTitle', dict[lang].gTitle);
-        setTxt('govLink1', dict[lang].gl1);
-        setTxt('govLink2', dict[lang].gl2);
+        document.getElementById('lblGovTitle').innerText = dict[lang].gTitle;
+        document.getElementById('govLink1').innerText = dict[lang].gl1;
+        document.getElementById('govLink2').innerText = dict[lang].gl2;
 
-        setTxt('visTitle', dict[lang].visTitle);
-        setTxt('histTitle', dict[lang].histTitle);
-        setTxt('btnClearHist', dict[lang].clearHist);
+        document.getElementById('visTitle').innerText = dict[lang].visTitle;
+        document.getElementById('histTitle').innerText = dict[lang].histTitle;
+        document.getElementById('btnClearHist').innerText = dict[lang].btnClearHist;
 
-        setTxt('tocHeading', dict[lang].tocHeading);
-        setTxt('toc1', dict[lang].toc1);
-        setTxt('toc2', dict[lang].toc2);
-        setTxt('toc3', dict[lang].toc3);
-        setTxt('toc4', dict[lang].toc4);
-        setTxt('toc5', dict[lang].toc5);
-        setTxt('toc6', dict[lang].toc6);
+        document.getElementById('tocHeading').innerText = dict[lang].tocHeading;
+        document.getElementById('toc1').innerText = dict[lang].toc1;
+        document.getElementById('toc2').innerText = dict[lang].toc2;
+        document.getElementById('toc3').innerText = dict[lang].toc3;
+        document.getElementById('toc4').innerText = dict[lang].toc4;
+        document.getElementById('toc5').innerText = dict[lang].toc5;
+        document.getElementById('toc6').innerText = dict[lang].toc6;
 
-        setTxt('guideHeading', dict[lang].guideHeading);
-        setTxt('st1Title', dict[lang].st1Title);
-        setTxt('st1Desc', dict[lang].st1Desc);
-        setTxt('st2Title', dict[lang].st2Title);
-        setTxt('st2Desc', dict[lang].st2Desc);
-        setTxt('st3Title', dict[lang].st3Title);
-        setTxt('st3Desc', dict[lang].st3Desc);
-        setTxt('st4Title', dict[lang].st4Title);
-        setTxt('st4Desc', dict[lang].st4Desc);
+        document.getElementById('guideHeading').innerText = dict[lang].guideHeading;
+        document.getElementById('st1Title').innerText = dict[lang].st1Title;
+        document.getElementById('st1Desc').innerText = dict[lang].st1Desc;
+        document.getElementById('st2Title').innerText = dict[lang].st2Title;
+        document.getElementById('st2Desc').innerText = dict[lang].st2Desc;
+        document.getElementById('st3Title').innerText = dict[lang].st3Title;
+        document.getElementById('st3Desc').innerText = dict[lang].st3Desc;
+        document.getElementById('st4Title').innerText = dict[lang].st4Title;
+        document.getElementById('st4Desc').innerText = dict[lang].st4Desc;
 
-        setTxt('tblQuickTitle', dict[lang].tblQuickTitle);
-        setTxt('tblQuickSub', dict[lang].tblQuickSub);
-        setTxt('thQ1', dict[lang].thQ1);
-        setTxt('thQ2', dict[lang].thQ2);
-        setTxt('thQ3', dict[lang].thQ3);
-        setTxt('lblDashTitle', dict[lang].lblDashTitle);
-        setTxt('lblVisInput', dict[lang].lblVisInput);
-        setTxt('lblVisSqft', dict[lang].lblVisSqft);
+        document.getElementById('tblQuickTitle').innerText = dict[lang].tblQuickTitle;
+        document.getElementById('tblQuickSub').innerText = dict[lang].tblQuickSub;
+        document.getElementById('thQ1').innerText = dict[lang].thQ1;
+        document.getElementById('thQ2').innerText = dict[lang].thQ2;
+        document.getElementById('thQ3').innerText = dict[lang].thQ3;
+        document.getElementById('lblDashTitle').innerText = dict[lang].lblDashTitle;
+        document.getElementById('lblVisInput').innerText = dict[lang].lblVisInput;
+        document.getElementById('lblVisSqft').innerText = dict[lang].lblVisSqft;
 
         renderFAQs();
         showToast(dict[lang].toastLang);
 
-        const resPanel = document.getElementById('resPanel');
-        if(resPanel && resPanel.style.display === "block") {
+        if(document.getElementById('resPanel').style.display === "block") {
             convertKathaToSqft();
         }
     }
 
     function drawVisualizer() {
-        let valInput = document.getElementById('inputValue');
-        let val = valInput ? (parseFloat(valInput.value) || 0) : 0;
-        let districtSelect = document.getElementById('districtSelect');
-        const district = districtSelect ? districtSelect.value : 'dhaka';
+        let val = parseFloat(document.getElementById('inputValue').value) || 0;
+        const district = document.getElementById('districtSelect').value;
         const svg = document.getElementById('plotSvg');
         const valVisInput = document.getElementById('valVisInput');
         const valVisSqft = document.getElementById('valVisSqft');
@@ -1002,74 +991,60 @@
         let kathaSqFt = getDistrictKathaSqFt(district);
         let sqftVal = val * kathaSqFt;
 
-        if(valVisInput) valVisInput.innerText = val > 0 ? val + " Katha" : "--";
-        if(valVisSqft) valVisSqft.innerText = val > 0 ? Math.round(sqftVal).toLocaleString('en-IN') + " Sq Ft" : "--";
+        valVisInput.innerText = val > 0 ? val + " Katha" : "--";
+        valVisSqft.innerText = val > 0 ? Math.round(sqftVal).toLocaleString('en-IN') + " Sq Ft" : "--";
 
-        if (svg) {
-            if (val <= 0) {
-                svg.innerHTML = `<text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" fill="#94a3b8" font-size="13" font-weight="bold">${currentLang === 'en' ? "Enter Katha Value" : "কাঠার মান লিখুন"}</text>`;
-                return;
-            }
-
-            svg.innerHTML = `
-                <rect x="50" y="40" width="200" height="100" rx="8" fill="rgba(5, 150, 105, 0.12)" stroke="#059669" stroke-width="3" />
-                <text x="50%" y="45%" dominant-baseline="middle" text-anchor="middle" fill="#047857" font-size="13" font-weight="bold">${val} Katha</text>
-                <text x="50%" y="65%" dominant-baseline="middle" text-anchor="middle" fill="#059669" font-size="11" font-weight="bold">≈ ${Math.round(sqftVal).toLocaleString('en-IN')} Sq Ft</text>
-            `;
+        if (val <= 0) {
+            svg.innerHTML = `<text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" fill="#94a3b8" font-size="13" font-weight="bold">${currentLang === 'en' ? "Enter Katha Value" : "কাঠার মান লিখুন"}</text>`;
+            return;
         }
+
+        svg.innerHTML = `
+            <rect x="50" y="40" width="200" height="100" rx="8" fill="rgba(5, 150, 105, 0.12)" stroke="#059669" stroke-width="3" />
+            <text x="50%" y="45%" dominant-baseline="middle" text-anchor="middle" fill="#047857" font-size="13" font-weight="bold">${val} Katha</text>
+            <text x="50%" y="65%" dominant-baseline="middle" text-anchor="middle" fill="#059669" font-size="11" font-weight="bold">≈ ${Math.round(sqftVal).toLocaleString('en-IN')} Sq Ft</text>
+        `;
     }
 
     function resetCalculator() {
-        let inputVal = document.getElementById('inputValue');
-        let distSel = document.getElementById('districtSelect');
-        let resPanel = document.getElementById('resPanel');
-
-        if(inputVal) inputVal.value = '';
-        if(distSel) distSel.selectedIndex = 0;
-        if(resPanel) resPanel.style.display = 'none';
-        
+        document.getElementById('inputValue').value = '';
+        document.getElementById('districtSelect').selectedIndex = 0;
+        document.getElementById('resPanel').style.display = 'none';
         drawVisualizer();
         showToast(dict[currentLang].toastReset);
         window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
     function convertKathaToSqft() {
-        const inputElem = document.getElementById('inputValue');
-        const districtElem = document.getElementById('districtSelect');
+        const kathaVal = parseFloat(document.getElementById('inputValue').value);
+        const district = document.getElementById('districtSelect').value;
         const resPanel = document.getElementById('resPanel');
 
-        if (!inputElem || !districtElem || !resPanel) return;
-
-        const kathaVal = parseFloat(inputElem.value);
-        const district = districtElem.value;
-
-        if (isNaN(kathaVal) || kathaVal <= 0) {
+        if (!kathaVal || kathaVal <= 0) {
             showToast(dict[currentLang].alertEmpty);
             return;
         }
 
         let kathaSqFt = getDistrictKathaSqFt(district);
-        let totalSqft = kathaVal * kathaSqFt;
+        let totalSqFt = kathaVal * kathaSqFt;
 
-        let totalSqmt = totalSqft / 10.7639104;
-        let totalDecimal = totalSqft / 435.6;
+        let totalSqmt = totalSqFt / 10.7639104;
+        let totalDecimal = totalSqFt / 435.6;
         let totalOjutangsho = totalDecimal * 100;
         let govtKatha = totalSqFt / 720;
         let govtBigha = totalSqFt / 14400;
         let totalAcre = totalSqFt / 43560;
         let totalHectare = totalSqFt / 107639.1;
 
-        // Section A Filling Safely
-        const setElText = (id, text) => { const el = document.getElementById(id); if(el) el.innerText = text; };
-
-        setElText('resSqft', Math.round(totalSqft).toLocaleString('en-IN') + " Sq Ft");
-        setElText('resSqmt', Math.round(totalSqmt).toLocaleString('en-IN') + " Sq M");
-        setElText('resShotok', totalDecimal.toFixed(2) + " Shotok");
-        setElText('resOjutangsho', Math.round(totalOjutangsho).toLocaleString('en-IN'));
-        setElText('resKatha', govtKatha.toFixed(4));
-        setElText('resBigha', govtBigha.toFixed(4));
-        setElText('resAcre', totalAcre.toFixed(4));
-        setElText('resHectare', totalHectare.toFixed(4));
+        // Section A Filling
+        document.getElementById('resSqft').innerText = Math.round(totalSqFt).toLocaleString('en-IN') + " Sq Ft";
+        document.getElementById('resSqmt').innerText = Math.round(totalSqmt).toLocaleString('en-IN') + " Sq M";
+        document.getElementById('resShotok').innerText = totalDecimal.toFixed(2) + " Shotok";
+        document.getElementById('resOjutangsho').innerText = Math.round(totalOjutangsho).toLocaleString('en-IN');
+        document.getElementById('resKatha').innerText = govtKatha.toFixed(4);
+        document.getElementById('resBigha').innerText = govtBigha.toFixed(4);
+        document.getElementById('resAcre').innerText = totalAcre.toFixed(4);
+        document.getElementById('resHectare').innerText = totalHectare.toFixed(4);
 
         // Dhaka Standard Format Special Box
         const bighas = Math.floor(totalSqFt / 14400);
@@ -1078,19 +1053,16 @@
         let remKatha = remBigha % 720;
         const shotoks = (remKatha / 435.6).toFixed(2);
 
-        let bklStr = "";
         if (currentLang === 'en') {
-            bklStr = bighas + " Bigha, " + kathas + " Katha, " + shotoks + " Shotok";
+            document.getElementById('bklText').innerText = bighas + " Bigha, " + kathas + " Katha, " + shotoks + " Shotok";
         } else {
-            bklStr = bighas + " বিঘা, " + kathas + " কাঠা, " + shotoks + " শতক";
+            document.getElementById('bklText').innerText = bighas + " বিঘা, " + kathas + " কাঠা, " + shotoks + " শতক";
         }
-        setElText('bklText', bklStr);
 
         // Section B District Specific Results
         const sectionBGrid = document.getElementById('sectionBGrid');
         const secBTitle = document.getElementById('secBTitle');
-        if (sectionBGrid) sectionBGrid.innerHTML = '';
-        
+        sectionBGrid.innerHTML = '';
         let districtCardsHTML = '';
         let secBTitleText = currentLang === 'en' ? `📍 Section B: Selected District Local Results` : `📍 Section B: নির্বাচিত জেলার স্থানীয় ফলাফল`;
 
@@ -1101,9 +1073,9 @@
                 let d_pakhi = totalSqFt / 11434.5;
                 let d_lBigha = totalSqFt / 14400;
                 districtCardsHTML = `
-                    <div class="res-item"><span>ঢাকা স্থানীয় কাঠা (Local Katha)</span><b>${d_lKatha.toFixed(4)} Katha <span class="base-rate-label">1 Katha = 720 Sq Ft (1.65 Dec)</span></b></div>
-                    <div class="res-item"><span>ঢাকা গ্রামীণ পাখি (Rural Pakhi)</span><b>${d_pakhi.toFixed(4)} Pakhi <span class="base-rate-label">1 Pakhi = 26.25 Decimal</span></b></div>
-                    <div class="res-item"><span>স্থানীয় বিঘা (Local Bigha)</span><b>${d_lBigha.toFixed(4)} Bigha <span class="base-rate-label">1 Bigha = 33 Decimal</span></b></div>
+                    <div class="res-item"><span>ঢাকা স্থানীয় কাঠা (Local Katha)</span><b>${d_lKatha.toFixed(4)} Katha <span class="base-rate-label" style="white-space: nowrap;">1 Katha = 720 Sq Ft (1.65 Dec)</span></b></div>
+                    <div class="res-item"><span>ঢাকা গ্রামীণ পাখি (Rural Pakhi)</span><b>${d_pakhi.toFixed(4)} Pakhi <span class="base-rate-label" style="white-space: nowrap;">1 Pakhi = 26.25 Decimal</span></b></div>
+                    <div class="res-item"><span>স্থানীয় বিঘা (Local Bigha)</span><b>${d_lBigha.toFixed(4)} Bigha <span class="base-rate-label" style="white-space: nowrap;">1 Bigha = 33 Decimal</span></b></div>
                 `;
                 break;
             case 'gazipur':
@@ -1111,8 +1083,8 @@
                 let g_lKatha = totalSqFt / 762.3;
                 let g_pakhi = totalSqFt / 15246;
                 districtCardsHTML = `
-                    <div class="res-item"><span>গাজীপুর স্থানীয় কাঠা (Local Katha)</span><b>${g_lKatha.toFixed(4)} Katha <span class="base-rate-label">1 Katha = 1.75 Decimal</span></b></div>
-                    <div class="res-item"><span>গাজীপুর পাখি / বিঘা (Pakhi / Bigha)</span><b>${g_pakhi.toFixed(4)} Pakhi/Bigha <span class="base-rate-label">1 Pakhi/Bigha = 35 Decimal</span></b></div>
+                    <div class="res-item"><span>গাজীপুর স্থানীয় কাঠা (Local Katha)</span><b>${g_lKatha.toFixed(4)} Katha <span class="base-rate-label" style="white-space: nowrap;">1 Katha = 1.75 Decimal</span></b></div>
+                    <div class="res-item"><span>গাজীপুর পাখি / বিঘা (Pakhi / Bigha)</span><b>${g_pakhi.toFixed(4)} Pakhi/Bigha <span class="base-rate-label" style="white-space: nowrap;">1 Pakhi/Bigha = 35 Decimal</span></b></div>
                 `;
                 break;
             case 'narayanganj':
@@ -1121,9 +1093,9 @@
                 let n_lBigha = totalSqFt / 14400;
                 let n_kani = totalSqFt / 52272;
                 districtCardsHTML = `
-                    <div class="res-item"><span>নারায়ণগঞ্জ কাঠা (Local Katha)</span><b>${n_lKatha.toFixed(4)} Katha <span class="base-rate-label">1 Katha = 1.65 Decimal</span></b></div>
-                    <div class="res-item"><span>নারায়ণগঞ্জ বিঘা (Local Bigha)</span><b>${n_lBigha.toFixed(4)} Bigha <span class="base-rate-label">1 Bigha = 33 Decimal</span></b></div>
-                    <div class="res-item"><span>স্থানীয় কানি (Local Kani)</span><b>${n_kani.toFixed(4)} Kani <span class="base-rate-label">1 Kani = 120 Decimal</span></b></div>
+                    <div class="res-item"><span>নারায়ণগঞ্জ কাঠা (Local Katha)</span><b>${n_lKatha.toFixed(4)} Katha <span class="base-rate-label" style="white-space: nowrap;">1 Katha = 1.65 Decimal</span></b></div>
+                    <div class="res-item"><span>নারায়ণগঞ্জ বিঘা (Local Bigha)</span><b>${n_lBigha.toFixed(4)} Bigha <span class="base-rate-label" style="white-space: nowrap;">1 Bigha = 33 Decimal</span></b></div>
+                    <div class="res-item"><span>স্থানীয় কানি (Local Kani)</span><b>${n_kani.toFixed(4)} Kani <span class="base-rate-label" style="white-space: nowrap;">1 Kani = 120 Decimal</span></b></div>
                 `;
                 break;
             case 'munshiganj':
@@ -1132,9 +1104,9 @@
                 let m_kani = totalSqFt / 52272;
                 let m_gonda = totalSqFt / 2613.6;
                 districtCardsHTML = `
-                    <div class="res-item"><span>মুন্সীগঞ্জ কাঠা (Local Katha)</span><b>${m_lKatha.toFixed(4)} Katha <span class="base-rate-label">1 Katha = 1.65 Decimal</span></b></div>
-                    <div class="res-item"><span>মুন্সীগঞ্জ কানি (Local Kani)</span><b>${m_kani.toFixed(4)} Kani <span class="base-rate-label">1 Kani = 120 Decimal</span></b></div>
-                    <div class="res-item"><span>স্থানীয় গণ্ডা (Local Gonda)</span><b>${m_gonda.toFixed(4)} Gonda <span class="base-rate-label">1 Gonda = 6 Decimal</span></b></div>
+                    <div class="res-item"><span>মুন্সীগঞ্জ কাঠা (Local Katha)</span><b>${m_lKatha.toFixed(4)} Katha <span class="base-rate-label" style="white-space: nowrap;">1 Katha = 1.65 Decimal</span></b></div>
+                    <div class="res-item"><span>মুন্সীগঞ্জ কানি (Local Kani)</span><b>${m_kani.toFixed(4)} Kani <span class="base-rate-label" style="white-space: nowrap;">1 Kani = 120 Decimal</span></b></div>
+                    <div class="res-item"><span>স্থানীয় গণ্ডা (Local Gonda)</span><b>${m_gonda.toFixed(4)} Gonda <span class="base-rate-label" style="white-space: nowrap;">1 Gonda = 6 Decimal</span></b></div>
                 `;
                 break;
             case 'narsingdi':
@@ -1142,8 +1114,8 @@
                 let nr_lKatha = totalSqFt / 653.4;
                 let nr_pakhi = totalSqFt / 13068;
                 districtCardsHTML = `
-                    <div class="res-item"><span>নরসিংদী কাঠা (Local Katha)</span><b>${nr_lKatha.toFixed(4)} Katha <span class="base-rate-label">1 Katha = 1.50 Decimal</span></b></div>
-                    <div class="res-item"><span>নরসিংদী পাখি / বিঘা (Pakhi / Bigha)</span><b>${nr_pakhi.toFixed(4)} Pakhi/Bigha <span class="base-rate-label">1 Pakhi/Bigha = 30 Decimal</span></b></div>
+                    <div class="res-item"><span>নরসিংদী কাঠা (Local Katha)</span><b>${nr_lKatha.toFixed(4)} Katha <span class="base-rate-label" style="white-space: nowrap;">1 Katha = 1.50 Decimal</span></b></div>
+                    <div class="res-item"><span>নরসিংদী পাখি / বিঘা (Pakhi / Bigha)</span><b>${nr_pakhi.toFixed(4)} Pakhi/Bigha <span class="base-rate-label" style="white-space: nowrap;">1 Pakhi/Bigha = 30 Decimal</span></b></div>
                 `;
                 break;
             case 'tangail':
@@ -1151,8 +1123,8 @@
                 let t_lKatha = totalSqFt / 653.4;
                 let t_pakhi = totalSqFt / 13068;
                 districtCardsHTML = `
-                    <div class="res-item"><span>টাঙ্গাইল কাঠা (Local Katha)</span><b>${t_lKatha.toFixed(4)} Katha <span class="base-rate-label">1 Katha = 1.50 Decimal</span></b></div>
-                    <div class="res-item"><span>টাঙ্গাইল পাখি (Tangail Pakhi)</span><b>${t_pakhi.toFixed(4)} Pakhi <span class="base-rate-label">1 Pakhi = 30 Decimal</span></b></div>
+                    <div class="res-item"><span>টাঙ্গাইল কাঠা (Local Katha)</span><b>${t_lKatha.toFixed(4)} Katha <span class="base-rate-label" style="white-space: nowrap;">1 Katha = 1.50 Decimal</span></b></div>
+                    <div class="res-item"><span>টাঙ্গাইল পাখি (Tangail Pakhi)</span><b>${t_pakhi.toFixed(4)} Pakhi <span class="base-rate-label" style="white-space: nowrap;">1 Pakhi = 30 Decimal</span></b></div>
                 `;
                 break;
             case 'manikganj':
@@ -1160,8 +1132,8 @@
                 let mk_lKatha = totalSqFt / 571.725;
                 let mk_pakhi = totalSqFt / 11434.5;
                 districtCardsHTML = `
-                    <div class="res-item"><span>মানিকগঞ্জ কাঠা (Local Katha)</span><b>${mk_lKatha.toFixed(4)} Katha <span class="base-rate-label">1 Katha = 1.3125 Decimal</span></b></div>
-                    <div class="res-item"><span>মানিকগঞ্জ পাখি (Manikganj Pakhi)</span><b>${mk_pakhi.toFixed(4)} Pakhi <span class="base-rate-label">1 Pakhi = 26.25 Decimal</span></b></div>
+                    <div class="res-item"><span>মানিকগঞ্জ কাঠা (Local Katha)</span><b>${mk_lKatha.toFixed(4)} Katha <span class="base-rate-label" style="white-space: nowrap;">1 Katha = 1.3125 Decimal</span></b></div>
+                    <div class="res-item"><span>মানিকগঞ্জ পাখি (Manikganj Pakhi)</span><b>${mk_pakhi.toFixed(4)} Pakhi <span class="base-rate-label" style="white-space: nowrap;">1 Pakhi = 26.25 Decimal</span></b></div>
                 `;
                 break;
             case 'kishoreganj':
@@ -1169,8 +1141,8 @@
                 let k_lKatha = totalSqFt / 2178;
                 let k_pura = totalSqFt / 43560;
                 districtCardsHTML = `
-                    <div class="res-item"><span>কিশোরগঞ্জ কাঠা (Local Katha)</span><b>${k_lKatha.toFixed(4)} Katha <span class="base-rate-label">1 Katha = 5.00 Decimal</span></b></div>
-                    <div class="res-item"><span>কিশোরগঞ্জ পুরা (Local Pura)</span><b>${k_pura.toFixed(4)} Pura <span class="base-rate-label">1 Pura = 100 Decimal (1 Acre)</span></b></div>
+                    <div class="res-item"><span>কিশোরগঞ্জ কাঠা (Local Katha)</span><b>${k_lKatha.toFixed(4)} Katha <span class="base-rate-label" style="white-space: nowrap;">1 Katha = 5.00 Decimal</span></b></div>
+                    <div class="res-item"><span>কিশোরগঞ্জ পুরা (Local Pura)</span><b>${k_pura.toFixed(4)} Pura <span class="base-rate-label" style="white-space: nowrap;">1 Pura = 100 Decimal (1 Acre)</span></b></div>
                 `;
                 break;
             case 'faridpur':
@@ -1178,8 +1150,8 @@
                 let f_lKatha = totalSqFt / 1132.56;
                 let f_bigha = totalSqFt / 22651.2;
                 districtCardsHTML = `
-                    <div class="res-item"><span>ফরিদপুর স্থানীয় কাঠা (Local Katha)</span><b>${f_lKatha.toFixed(4)} Katha <span class="base-rate-label">1 Katha = 2.60 Decimal</span></b></div>
-                    <div class="res-item"><span>ফরিদপুর বিঘা / পাখি (Local Bigha)</span><b>${f_bigha.toFixed(4)} Bigha <span class="base-rate-label">1 Bigha/Pakhi = 52 Decimal</span></b></div>
+                    <div class="res-item"><span>ফরিদপুর স্থানীয় কাঠা (Local Katha)</span><b>${f_lKatha.toFixed(4)} Katha <span class="base-rate-label" style="white-space: nowrap;">1 Katha = 2.60 Decimal</span></b></div>
+                    <div class="res-item"><span>ফরিদপুর বিঘা / পাখি (Local Bigha)</span><b>${f_bigha.toFixed(4)} Bigha <span class="base-rate-label" style="white-space: nowrap;">1 Bigha/Pakhi = 52 Decimal</span></b></div>
                 `;
                 break;
             case 'gopalganj':
@@ -1187,8 +1159,8 @@
                 let s_lKatha = totalSqFt / 1132.56;
                 let s_bigha = totalSqFt / 22651.2;
                 districtCardsHTML = `
-                    <div class="res-item"><span>গোপালগঞ্জ স্থানীয় কাঠা (Local Katha)</span><b>${s_lKatha.toFixed(4)} Katha <span class="base-rate-label">1 Katha = 2.60 Decimal</span></b></div>
-                    <div class="res-item"><span>গোপালগঞ্জ বিঘা / পাখি (Local Bigha)</span><b>${s_bigha.toFixed(4)} Bigha <span class="base-rate-label">1 Bigha/Pakhi = 52 Decimal</span></b></div>
+                    <div class="res-item"><span>গোপালগঞ্জ স্থানীয় কাঠা (Local Katha)</span><b>${s_lKatha.toFixed(4)} Katha <span class="base-rate-label" style="white-space: nowrap;">1 Katha = 2.60 Decimal</span></b></div>
+                    <div class="res-item"><span>গোপালগঞ্জ বিঘা / পাখি (Local Bigha)</span><b>${s_bigha.toFixed(4)} Bigha <span class="base-rate-label" style="white-space: nowrap;">1 Bigha/Pakhi = 52 Decimal</span></b></div>
                 `;
                 break;
             case 'rajbari':
@@ -1196,8 +1168,8 @@
                 let r_lKatha = totalSqFt / 1132.56;
                 let r_bigha = totalSqFt / 22651.2;
                 districtCardsHTML = `
-                    <div class="res-item"><span>রাজবাড়ী স্থানীয় কাঠা (Local Katha)</span><b>${r_lKatha.toFixed(4)} Katha <span class="base-rate-label">1 Katha = 2.60 Decimal</span></b></div>
-                    <div class="res-item"><span>রাজবাড়ী বিঘা / পাখি (Local Bigha)</span><b>${r_bigha.toFixed(4)} Bigha <span class="base-rate-label">1 Bigha/Pakhi = 52 Decimal</span></b></div>
+                    <div class="res-item"><span>রাজবাড়ী স্থানীয় কাঠা (Local Katha)</span><b>${r_lKatha.toFixed(4)} Katha <span class="base-rate-label" style="white-space: nowrap;">1 Katha = 2.60 Decimal</span></b></div>
+                    <div class="res-item"><span>রাজবাড়ী বিঘা / পাখি (Local Bigha)</span><b>${r_bigha.toFixed(4)} Bigha <span class="base-rate-label" style="white-space: nowrap;">1 Bigha/Pakhi = 52 Decimal</span></b></div>
                 `;
                 break;
             case 'madaripur':
@@ -1206,9 +1178,9 @@
                 let md_bigha = totalSqFt / 22651.2;
                 let md_kani = totalSqFt / 52272;
                 districtCardsHTML = `
-                    <div class="res-item"><span>মাদারীপুর কাঠা (Local Katha)</span><b>${md_lKatha.toFixed(4)} Katha <span class="base-rate-label">1 Katha = 2.60 Decimal</span></b></div>
-                    <div class="res-item"><span>মাদারীপুর বিঘা (Local Bigha)</span><b>${md_bigha.toFixed(4)} Bigha <span class="base-rate-label">1 Bigha = 52 Decimal</span></b></div>
-                    <div class="res-item"><span>মাদারীপুর কানি (Local Kani)</span><b>${md_kani.toFixed(4)} Kani <span class="base-rate-label">1 Kani = 120 Decimal</span></b></div>
+                    <div class="res-item"><span>মাদারীপুর কাঠা (Local Katha)</span><b>${md_lKatha.toFixed(4)} Katha <span class="base-rate-label" style="white-space: nowrap;">1 Katha = 2.60 Decimal</span></b></div>
+                    <div class="res-item"><span>মাদারীপুর বিঘা (Local Bigha)</span><b>${md_bigha.toFixed(4)} Bigha <span class="base-rate-label" style="white-space: nowrap;">1 Bigha = 52 Decimal</span></b></div>
+                    <div class="res-item"><span>মাদারীপুর কানি (Local Kani)</span><b>${md_kani.toFixed(4)} Kani <span class="base-rate-label" style="white-space: nowrap;">1 Kani = 120 Decimal</span></b></div>
                 `;
                 break;
             case 'shariatpur':
@@ -1217,25 +1189,25 @@
                 let sh_bigha = totalSqFt / 22651.2;
                 let sh_kani = totalSqFt / 52272;
                 districtCardsHTML = `
-                    <div class="res-item"><span>শরীয়তপুর কাঠা (Local Katha)</span><b>${sh_lKatha.toFixed(4)} Katha <span class="base-rate-label">1 Katha = 2.60 Decimal</span></b></div>
-                    <div class="res-item"><span>শরীয়তপুর বিঘা (Local Bigha)</span><b>${sh_bigha.toFixed(4)} Bigha <span class="base-rate-label">1 Bigha = 52 Decimal</span></b></div>
-                    <div class="res-item"><span>শরীয়তপুর কানি (Local Kani)</span><b>${sh_kani.toFixed(4)} Kani <span class="base-rate-label">1 Kani = 120 Decimal</span></b></div>
+                    <div class="res-item"><span>শরীয়তপুর কাঠা (Local Katha)</span><b>${sh_lKatha.toFixed(4)} Katha <span class="base-rate-label" style="white-space: nowrap;">1 Katha = 2.60 Decimal</span></b></div>
+                    <div class="res-item"><span>শরীয়তপুর বিঘা (Local Bigha)</span><b>${sh_bigha.toFixed(4)} Bigha <span class="base-rate-label" style="white-space: nowrap;">1 Bigha = 52 Decimal</span></b></div>
+                    <div class="res-item"><span>শরীয়তপুর কানি (Local Kani)</span><b>${sh_kani.toFixed(4)} Kani <span class="base-rate-label" style="white-space: nowrap;">1 Kani = 120 Decimal</span></b></div>
                 `;
                 break;
         }
 
-        if (secBTitle) secBTitle.innerText = secBTitleText;
-        if (sectionBGrid) sectionBGrid.innerHTML = districtCardsHTML;
+        secBTitle.innerText = secBTitleText;
+        sectionBGrid.innerHTML = districtCardsHTML;
 
         let options = { day: 'numeric', month: 'long', year: 'numeric' };
         let today = new Date().toLocaleDateString('en-IN', options);
-        setElText('pDocDate', today + " (BST)");
+        document.getElementById('pDocDate').innerText = today + " (BST)";
         
         let inputFeedStr = `${kathaVal} Katha [${district}]`;
-        setElText('rInputVal', inputFeedStr);
+        document.getElementById('rInputVal').innerText = inputFeedStr;
         
         let randID = Math.floor(1000000000 + Math.random() * 9000000000);
-        setElText('pDocRef', "SST-BD-K2F-" + randID);
+        document.getElementById('pDocRef').innerText = "SST-BD-K2F-" + randID;
 
         resPanel.style.display = "block";
         resPanel.scrollIntoView({ behavior: 'smooth' });
@@ -1255,10 +1227,8 @@
     }
 
     function reloadHistory(kathaVal, dName) {
-        let inputElem = document.getElementById('inputValue');
-        let distElem = document.getElementById('districtSelect');
-        if(inputElem) inputElem.value = kathaVal;
-        if(dName && distElem) distElem.value = dName;
+        document.getElementById('inputValue').value = kathaVal;
+        if(dName) document.getElementById('districtSelect').value = dName;
         drawVisualizer();
         convertKathaToSqft();
         showToast(dict[currentLang].toastHistory);
@@ -1268,8 +1238,6 @@
         let history = JSON.parse(localStorage.getItem('sst_dhaka_k2f_calc_history')) || [];
         let card = document.getElementById('historyCardContainer');
         let list = document.getElementById('historyListElement');
-        if (!card || !list) return;
-
         if (history.length === 0) {
             card.style.display = 'none';
             return;
@@ -1291,34 +1259,32 @@
     }
 
     function copyShareLink() {
-        const valElem = document.getElementById('inputValue');
-        const distElem = document.getElementById('districtSelect');
-        if(!valElem || !valElem.value) {
+        const val = document.getElementById('inputValue').value;
+        const district = document.getElementById('districtSelect').value;
+        if(!val) {
             showToast(currentLang === 'en' ? "Please calculate first!" : "আগে হিসাব করুন!");
             return;
         }
-        const shareUrl = `${window.location.origin}${window.location.pathname}?val=${valElem.value}&district=${distElem ? distElem.value : 'dhaka'}&lang=${currentLang}`;
+        const shareUrl = `${window.location.origin}${window.location.pathname}?val=${val}&district=${district}&lang=${currentLang}`;
         navigator.clipboard.writeText(shareUrl);
         showToast(dict[currentLang].toastLink);
     }
 
     function printLandReport() {
         const printRow = document.getElementById('print-input-row');
-        if(printRow) printRow.style.display = "flex";
+        printRow.style.display = "flex";
         window.print();
-        if(printRow) printRow.style.display = "none";
+        printRow.style.display = "none";
     }
 
     function copyData() {
-        const bklTextElem = document.getElementById('bklText');
-        let res = "Dhaka Katha to Sq Ft Conversion Results:\nResult: " + (bklTextElem ? bklTextElem.innerText : '') + "\nTool by Shayan Smart Tools";
+        let res = "Dhaka Katha to Sq Ft Conversion Results:\nResult: " + document.getElementById('bklText').innerText + "\nTool by Shayan Smart Tools";
         navigator.clipboard.writeText(res);
         showToast(dict[currentLang].toastCopy);
     }
 
     function shareWA() {
-        const bklTextElem = document.getElementById('bklText');
-        let t = encodeURIComponent("Dhaka Katha to Sq Ft Conversion Result:\n" + (bklTextElem ? bklTextElem.innerText : '') + "\nCheck at Shayan Smart Tools");
+        let t = encodeURIComponent("Dhaka Katha to Sq Ft Conversion Result:\n" + document.getElementById('bklText').innerText + "\nCheck at Shayan Smart Tools");
         window.open("https://wa.me/?text=" + t);
     }
 
@@ -1335,10 +1301,8 @@
         }
 
         if(valParam) {
-            const valInput = document.getElementById('inputValue');
-            const distSelect = document.getElementById('districtSelect');
-            if(valInput) valInput.value = valParam;
-            if(districtParam && distSelect) distSelect.value = districtParam;
+            document.getElementById('inputValue').value = valParam;
+            if(districtParam) document.getElementById('districtSelect').value = districtParam;
             drawVisualizer();
             convertKathaToSqft();
         }
