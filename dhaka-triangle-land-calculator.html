@@ -210,10 +210,17 @@
         .res-panel { background: #0f172a; color: white; padding: 25px; border-radius: 25px; margin-top: 30px; display: none; border: 2px solid var(--bd-gold); position: relative; }
         .bkl-special { background: rgba(255,255,255,0.05); padding: 20px; border-radius: 15px; text-align: center; margin-bottom: 20px; border: 1px dashed var(--bd-cyan); }
         
-        .res-grid { display: grid; grid-template-columns: repeat(1, 1fr); gap: 12px; }
-        .res-item { background: rgba(255,255,255,0.04); padding: 14px 20px; border-radius: 10px; display: flex; flex-direction: row; justify-content: space-between; align-items: center; border-left: 4px solid var(--bd-gold); }
-        .res-item span { font-size: 14px; color: #94a3b8; font-weight: bold; text-align: left; }
-        .res-item b { font-size: 17px; color: #fff; text-align: right; word-break: break-all; font-family: monospace; }
+        .res-section-title { font-size: 14px; font-weight: 900; color: var(--bd-gold); margin: 20px 0 10px 0; text-transform: uppercase; letter-spacing: 0.5px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 5px; }
+        
+        .res-grid { display: grid; grid-template-columns: 1fr; gap: 10px; }
+        .res-item { background: rgba(255,255,255,0.04); padding: 12px 15px; border-radius: 10px; display: flex; flex-direction: column; align-items: flex-start; gap: 4px; border-left: 4px solid var(--bd-gold); }
+        @media(min-width: 450px) {
+            .res-item { flex-direction: row; justify-content: space-between; align-items: center; }
+        }
+        .res-item span { font-size: 13px; color: #94a3b8; font-weight: bold; text-align: left; word-break: break-word; flex: 1; padding-right: 8px; }
+        .res-item b { font-size: 15px; color: #fff; text-align: right; word-break: break-all; font-family: monospace; white-space: nowrap; }
+        
+        .base-rate-label { display: block; font-size: 10px; color: #22d3ee; font-weight: 600; margin-top: 2px; font-family: sans-serif; }
 
         .print-header-block, .print-footer-block, .print-verification-zone { display: none; }
 
@@ -296,7 +303,6 @@
         .sst-dash-btn:hover { border-color: var(--bd-cyan); transform: translateY(-4px); box-shadow: 0 14px 25px rgba(8,145,178,0.12); background: linear-gradient(135deg, #ffffff, #ecfeff); color: var(--bd-cyan) !important; }
 
         @media (max-width: 600px) { 
-            .res-item { padding: 12px 14px; }
             .seo-content h2 { font-size: 22px !important; }
             .sst-dashboard-grid { grid-template-columns: 1fr; gap: 12px; }
             .btn-action-group { flex-direction: column; }
@@ -304,31 +310,45 @@
             .sst-steps-grid { grid-template-columns: 1fr; }
         }
 
-        /* PRINT MATRIX */
+        /* PREMIUM PRINT MATRIX - FORCES A4 PORTRAIT SINGLE PAGE FIT */
         @media print {
             * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
-            @page { margin: 15mm; size: A4 portrait; }
-            body { background: #ffffff !important; color: #000000 !important; padding: 0; margin: 0; }
+            @page { margin: 8mm; size: A4 portrait; }
+            body { background: #ffffff !important; color: #000000 !important; padding: 0; margin: 0; font-size: 10px !important; }
             .measurement-tool > header, .lang-switch, .gov-links-title, .gov-links-grid, .input-section, .btn-action-group, .visualizer-container, .history-card, .util-btns, #resHead, .seo-content, .back-btn { display: none !important; }
             
-            .res-panel { display: block !important; background: #ffffff !important; color: #000000 !important; padding: 30px !important; width: 100% !important; box-sizing: border-box; border: 5px double #0e7490 !important; border-radius: 0px !important; box-shadow: none !important; }
-            .print-header-block { display: block !important; text-align: center; border-bottom: 2px solid var(--bd-cyan) !important; padding-bottom: 12px; margin-bottom: 20px; }
-            .bkl-special { background: #ecfeff !important; border: 1px dashed var(--bd-cyan) !important; color: #000 !important; }
+            .res-panel { 
+                display: block !important; 
+                background: #ffffff !important; 
+                color: #000000 !important; 
+                padding: 10px !important; 
+                width: 100% !important; 
+                box-sizing: border-box; 
+                border: 4px solid #0e7490 !important; 
+                border-radius: 0px !important; 
+                box-shadow: none !important;
+                margin-top: 0 !important;
+            }
+            .print-header-block { display: block !important; text-align: center; border-bottom: 2px solid var(--bd-cyan) !important; padding-bottom: 6px; margin-bottom: 8px; }
+            .bkl-special { background: #ecfeff !important; border: 1px dashed var(--bd-cyan) !important; color: #000 !important; padding: 6px !important; margin-bottom: 8px !important; }
             
-            .res-grid { display: block !important; margin-top: 15px; }
-            .res-item { background: transparent !important; border: none !important; border-bottom: 1px solid #cbd5e1 !important; padding: 12px 4px !important; display: flex !important; justify-content: space-between !important; flex-direction: row !important; }
-            .res-item span { color: #1e293b !important; font-size: 13px !important; font-weight: 600; text-transform: uppercase; }
-            .res-item b { color: var(--bd-dark-cyan) !important; font-size: 15px !important; font-weight: bold; }
+            .res-grid { display: grid !important; grid-template-columns: 1fr 1fr !important; gap: 4px !important; margin-top: 6px; }
+            .res-section-title { grid-column: span 2; font-size: 11px !important; margin: 6px 0 2px 0 !important; color: #0e7490 !important; border-bottom: 1px solid #ccc !important; }
+            .res-item { background: #f8fafc !important; border: 1px solid #e2e8f0 !important; border-left: 2px solid var(--bd-cyan) !important; padding: 4px 6px !important; display: flex !important; flex-direction: column !important; align-items: flex-start !important; gap: 1px !important; }
+            .res-item span { color: #1e293b !important; font-size: 9.5px !important; font-weight: bold; }
+            .res-item b { color: var(--bd-dark-cyan) !important; font-size: 10.5px !important; font-weight: bold; white-space: nowrap !important; }
+            .base-rate-label { font-size: 8px !important; color: #0891b2 !important; }
             
-            .print-verification-zone { display: flex !important; justify-content: space-between; align-items: flex-end; margin-top: 40px; padding: 0 10px; }
-            .scanner-box { text-align: left; width: 160px; }
-            .scanner-image-wrap { width: 120px; height: 120px; border: 1.5px solid #cbd5e1; border-radius: 10px; overflow: hidden; background: #ffffff; }
+            .print-verification-zone { display: flex !important; justify-content: space-between; align-items: flex-end; margin-top: 12px; padding: 0 4px; }
+            .scanner-box { text-align: left; width: 100px; }
+            .scanner-image-wrap { width: 75px; height: 75px; border: 2px solid #0f172a; border-radius: 4px; overflow: hidden; background: #ffffff; }
             .scanner-image-wrap img { width: 100%; height: 100%; object-fit: contain; }
-            .signature-container { text-align: right; width: 220px; display: flex; flex-direction: column; align-items: flex-end; gap: 5px; }
-            .seal-image-wrap { width: 90px; height: 90px; margin-bottom: 5px; }
-            .seal-image-wrap img { width: 100%; height: 100%; object-fit: contain; opacity: 0.85; }
-            .signature-box { padding-top: 0px; width: 100%; font-size: 12px; font-weight: bold; color: #0f172a; text-transform: uppercase; }
-            .print-footer-block { display: block !important; text-align: center; margin-top: 30px; border-top: 1px solid #cbd5e1 !important; padding-top: 20px; }
+            .signature-container { text-align: right; width: 180px; display: flex; flex-direction: column; align-items: flex-end; gap: 2px; }
+            .seal-image-wrap { width: 70px; height: 70px; margin-bottom: 2px; }
+            .seal-image-wrap img { width: 100%; height: 100%; object-fit: contain; opacity: 0.95; }
+            .signature-box { padding-top: 0px; width: 100%; font-size: 9.5px; font-weight: 800; color: #0f172a; text-transform: uppercase; }
+
+            .print-footer-block { display: block !important; text-align: center; margin-top: 10px; border-top: 1px solid #cbd5e1 !important; padding-top: 6px; font-size: 8px !important; }
         }
     </style>
 </head>
@@ -352,19 +372,19 @@
         <div class="district-field">
             <label id="lDist">জেলা নির্বাচন করুন (Select District)</label>
             <select id="districtSelect" onchange="drawTriangleVisualizer()">
-                <option value="dhaka">ঢাকা (Dhaka District & Metro - ১ কাঠা = ৭২০ বর্গফুট)</option>
+                <option value="dhaka">ঢাকা (Dhaka District & Metro)</option>
                 <option value="gazipur">গাজীপুর (Gazipur District)</option>
-                <option value="narayanganj">নারায়ণগঞ্জ (Narayanganj District)</option>
-                <option value="munshiganj">মুন্সিগঞ্জ (Munshiganj District)</option>
+                <option value="narayanganj">নারায়ণগঞ্জ (Narayanganj District)</option>
+                <option value="munshiganj">মুন্সীগঞ্জ (Munshiganj District)</option>
                 <option value="narsingdi">নরসিংদী (Narsingdi District)</option>
-                <option value="manikganj">মানিকগঞ্জ (Manikganj District)</option>
                 <option value="tangail">টাঙ্গাইল (Tangail District)</option>
+                <option value="manikganj">মানিকগঞ্জ (Manikganj District)</option>
                 <option value="kishoreganj">কিশোরগঞ্জ (Kishoreganj District)</option>
                 <option value="faridpur">ফরিদপুর (Faridpur District)</option>
                 <option value="gopalganj">গোপালগঞ্জ (Gopalganj District)</option>
                 <option value="madaripur">মাদারীপুর (Madaripur District)</option>
-                <option value="rajbari">রাজবাড়ী (Rajbari District)</option>
-                <option value="shariatpur">শরীয়তপুর (Shariatpur District)</option>
+                <option value="rajbari">রাজবাড়ী (Rajbari District)</option>
+                <option value="shariatpur">শরীয়তপুর (Shariatpur District)</option>
             </select>
         </div>
 
@@ -451,28 +471,30 @@
 
         <h3 id="resHead" style="color: var(--bd-gold); margin-top: 0; text-align: center;">রূপান্তর ফলাফল (Results)</h3>
         
-        <div class="res-grid">
+        <!-- SECTION A: Govt & International Standard Results -->
+        <div class="res-section-title">🌐 Section A: সরকারি ও আন্তর্জাতিক স্ট্যান্ডার্ড রেজাল্ট</div>
+        <div class="res-grid" id="sectionAGrid">
             <div class="res-item" id="print-input-row" style="display:none;"><span id="lblSource">ইনপুট ডাটা সোর্স মূল্য</span> <b id="rInputVal">0</b></div>
-            <div class="res-item"><span id="lblResSqft">মোট বর্গ ফুট ক্ষেত্রফল (Sq Ft)</span> <b id="resSqft">0</b></div>
-            <div class="res-item"><span id="lblResSqmt">মোট বর্গ মিটার ক্ষেত্রফল (Sq Mt)</span> <b id="resSqmt">0</b></div>
-            <div class="res-item"><span id="lblResShotok">মোট শতক / ডেসিমেল (Decimal)</span> <b id="resShotok">0</b></div>
-            <div class="res-item"><span id="lblResOjutangsho">মোট অজুতাংশ</span> <b id="resOjutangsho">0</b></div>
-            <div class="res-item"><span id="lblResKatha">মোট calculated কাঠা</span> <b id="resKatha">0</b></div>
-            <div class="res-item"><span id="lblResBigha">মোট calculated বিঘা</span> <b id="resBigha">0</b></div>
-            <div class="res-item"><span id="lblResAcre">মোট calculated একর</span> <b id="resAcre">0</b></div>
-            <div class="res-item"><span id="lblResHectare">মোট calculated হেক্টর</span> <b id="resHectare">0</b></div>
+            <div class="res-item"><span>মোট বর্গফুট (Total Sq Ft)</span> <b id="resSqft">0</b></div>
+            <div class="res-item"><span>মোট বর্গমিটার (Total Sq Meter)</span> <b id="resSqmt">0</b></div>
+            <div class="res-item"><span>মোট শতাংশ / ডেসিমেল (Decimal / Shotok)</span> <b id="resShotok">0</b></div>
+            <div class="res-item"><span>মোট অজুতাংশ (Ojutangsho)</span> <b id="resOjutangsho">0</b></div>
+            <div class="res-item"><span>সরকারি কাঠা (Govt. Standard Katha)</span> <b id="resKatha">0</b></div>
+            <div class="res-item"><span>সরকারি বিঘা (Govt. Standard Bigha)</span> <b id="resBigha">0</b></div>
+            <div class="res-item"><span>মোট একর (Acre)</span> <b id="resAcre">0</b></div>
+            <div class="res-item"><span>মোট হেক্টর (Hectare)</span> <b id="resHectare">0</b></div>
+        </div>
+
+        <!-- SECTION B: District-Specific Local Results -->
+        <div class="res-section-title" id="secBTitle">📍 Section B: নির্বাচিত জেলার স্থানীয় ফলাফল</div>
+        <div class="res-grid" id="sectionBGrid">
+            <!-- Dynamically injected district specific local cards -->
         </div>
 
         <div class="print-verification-zone">
             <div class="scanner-box">
-                <div style="background: linear-gradient(135deg, #1e3a8a, #0f172a); color: #ffffff; padding: 5px 2px; text-align: center; font-size: 8px; font-weight: 800; letter-spacing: 0.5px; text-transform: uppercase; border-top-left-radius: 10px; border-top-right-radius: 10px; width: 120px; border: 1.5px solid #cbd5e1; border-bottom: none; box-sizing: border-box;">
-                    Scan to Open Tool
-                </div>
                 <div class="scanner-image-wrap">
                     <img src="qrcode.png" alt="Verification QR Code">
-                </div>
-                <div style="background: #f8fafc; border: 1.5px solid #cbd5e1; border-top: none; padding: 4px; text-align: center; font-size: 8px; font-family: monospace; color: #475569; font-weight: bold; border-bottom-left-radius: 10px; border-bottom-right-radius: 10px; width: 120px; box-sizing: border-box;">
-                    SHAYAN SMART TOOLS
                 </div>
             </div>
             <div class="signature-container">
@@ -480,19 +502,19 @@
                     <img src="seal.png" alt="Official SST Seal">
                 </div>
                 <div class="signature-box">
-                    Authorized Signatory
+                    AUTHORIZED SIGNATORY
                 </div>
             </div>
         </div>
         
         <div class="print-footer-block">
-            <div style="margin: 0 auto; max-width: 85%; font-size: 11px; color: #475569; line-height: 1.6; text-align: center;">
-                <p style="margin: 0; font-weight: bold; color: var(--bd-dark-cyan); text-transform: uppercase; font-size: 12px;">🔒 SECURITY DISCLAIMER & VERIFICATION NOTICE</p>
-                <p style="margin: 6px 0 0 0;">This computation is a triangle land automated metrics summary sheet, verified via Heron's Formula in Dhaka division.</p>
-                <div style="display: inline-block; border: 1px dashed var(--bd-dark-cyan); padding: 6px 20px; border-radius: 4px; margin-top: 15px; margin-bottom: 12px; background: #f8fafc; font-size: 10px; font-weight: bold; color: var(--bd-dark-cyan); text-transform: uppercase;">
+            <div style="margin: 0 auto; max-width: 85%; font-size: 10px; color: #475569; line-height: 1.5; text-align: center;">
+                <p style="margin: 0; font-weight: bold; color: var(--bd-dark-cyan); text-transform: uppercase; font-size: 10px;">🔒 SECURITY DISCLAIMER & OFFICIAL NOTICE</p>
+                <p style="margin: 3px 0 0 0;">सरकारी दस्तावेजों (দলিল ও খতিয়ান) के लिए केवल শতাংশ (Decimal) और एकर (Acre) ही आधिकारिक रूप से मान्य हैं।</p>
+                <div style="display: inline-block; border: 1px dashed var(--bd-dark-cyan); padding: 3px 12px; border-radius: 4px; margin-top: 8px; margin-bottom: 6px; background: #f8fafc; font-size: 9px; font-weight: bold; color: var(--bd-dark-cyan); text-transform: uppercase;">
                     SHAYAN SMART TOOLS [SST SEAL] - OFFICIAL UNIT PLATFORM
                 </div>
-                <p style="margin: 5px 0 0 0; font-size: 12px; font-weight: bold; color: var(--bd-cyan);">🌐 SST OFFICIAL ACCESS: www.shayansmarttools.in</p>
+                <p style="margin: 2px 0 0 0; font-size: 10px; font-weight: bold; color: var(--bd-cyan);">🌐 SST OFFICIAL ACCESS: www.shayansmarttools.in</p>
             </div>
         </div>
 
@@ -508,7 +530,7 @@
     <div class="history-card" id="historyCardContainer" style="display:none;">
         <h4>
             <span id="histTitle">🕒 সাম্প্রতিক গণনার ইতিহাস (ক্লিক করে পুনরায় দেখুন)</span>
-            <button class="clear-hist-btn" onclick="clearHistory()" id="btnClearHist">ইতিহাস মুছে ফেলা হয়েছে</button>
+            <button class="clear-hist-btn" onclick="clearHistory()" id="btnClearHist">ইতিহাস মুছুন</button>
         </h4>
         <ul class="history-list" id="historyListElement"></ul>
     </div>
@@ -775,14 +797,6 @@
             lblPerimeter: "Total Perimeter (Med)", lblSemiPerimeter: "Semi-Perimeter (s)",
             resHead: "Conversion Results",
             lblSource: "Initial Data Input Feed",
-            lblResSqft: "Total Square Feet (Sq.Ft)",
-            lblResSqmt: "Total Square Meter (Sq.Mt)",
-            lblResShotok: "Total Shotok / Decimal",
-            lblResOjutangsho: "Total Ojutangsho",
-            lblResKatha: "Calculated Total Katha",
-            lblResBigha: "Calculated Total Bigha",
-            lblResAcre: "Calculated Total Acre",
-            lblResHectare: "Calculated Total Hectare",
             btnCopy: "📋 Copy All", btnWa: "📲 WhatsApp", btnShare: "🔗 Share Link", btnPrint: "Print Report",
             histTitle: "🕒 Recent Triangle Calculations", clearHist: "Clear History",
             lnkBack: "⬅ Back to All Tools",
@@ -828,14 +842,6 @@
             lblPerimeter: "মোট পরিধি (Total Perimeter / মেড়)", lblSemiPerimeter: "অর্ধ-পরিধি (Semi-Perimeter / s)",
             resHead: "রূপান্তর ফলাফল (Results)",
             lblSource: "ইনপুট ডাটা সোর্স মূল্য",
-            lblResSqft: "মোট বর্গ ফুট ক্ষেত্রফল (Sq Ft)",
-            lblResSqmt: "মোট বর্গ মিটার ক্ষেত্রফল (Sq Mt)",
-            lblResShotok: "মোট শতক / ডেসিমেল (Decimal)",
-            lblResOjutangsho: "মোট অজুতাংশ",
-            lblResKatha: "মোট calculated কাঠা",
-            lblResBigha: "মোট calculated বিঘা",
-            lblResAcre: "মোট calculated একর",
-            lblResHectare: "মোট calculated হেক্টর",
             btnCopy: "📋 সব কপি", btnWa: "📲 হোয়াটসঅ্যাপ", btnShare: "🔗 লিংক শেয়ার", btnPrint: "🖨️ প্রিন্ট",
             histTitle: "🕒 সাম্প্রতিক গণনার ইতিহাস (ক্লিক করে পুনরায় দেখুন)", clearHist: "ইতিহাস মুছে ফেলা হয়েছে",
             lnkBack: "⬅ সমস্ত টুলের ড্যাশবোর্ডে ফিরে যান",
@@ -872,25 +878,6 @@
         }
     };
 
-    function getDistrictMultiplier() {
-        const dist = document.getElementById('districtSelect').value;
-        switch(dist) {
-            case 'gazipur': return 1.0; 
-            case 'narayanganj': return 1.0;
-            case 'munshiganj': return 1.0;
-            case 'narsingdi': return 1.0;
-            case 'manikganj': return 1.0;
-            case 'tangail': return 1.002; 
-            case 'kishoreganj': return 1.0;
-            case 'faridpur': return 1.001;
-            case 'gopalganj': return 1.0;
-            case 'madaripur': return 1.0;
-            case 'rajbari': return 1.0;
-            case 'shariatpur': return 1.0;
-            default: return 1.0; // dhaka standard
-        }
-    }
-
     function renderFAQs() {
         const listContainer = document.getElementById('faqList');
         listContainer.innerHTML = '';
@@ -920,19 +907,9 @@
         document.getElementById('lUni').innerText = dict[lang].lu;
         document.getElementById('btnText').innerText = dict[lang].btnText;
         document.getElementById('btnReset').innerText = dict[lang].btnReset;
-        document.getElementById('resHead').innerText = dict[lang].rh;
+        document.getElementById('resHead').innerText = dict[lang].resHead;
         document.getElementById('fmtText').innerText = dict[lang].sf;
         
-        document.getElementById('lblSource').innerText = dict[lang].lblSource;
-        document.getElementById('lblResSqft').innerText = dict[lang].lblResSqft;
-        document.getElementById('lblResSqmt').innerText = dict[lang].lblResSqmt;
-        document.getElementById('lblResShotok').innerText = dict[lang].lblResShotok;
-        document.getElementById('lblResOjutangsho').innerText = dict[lang].lblResOjutangsho;
-        document.getElementById('lblResKatha').innerText = dict[lang].lblResKatha;
-        document.getElementById('lblResBigha').innerText = dict[lang].lblResBigha;
-        document.getElementById('lblResAcre').innerText = dict[lang].lblResAcre;
-        document.getElementById('lblResHectare').innerText = dict[lang].lblResHectare;
-
         document.getElementById('btnCopy').innerText = dict[lang].btnCopy;
         document.getElementById('btnWa').innerText = dict[lang].btnWa;
         document.getElementById('btnShare').innerText = dict[lang].btnShare;
@@ -1050,20 +1027,32 @@
         }
 
         let s = (aFt + bFt + cFt) / 2;
-        let sqft = Math.sqrt(s * (s - aFt) * (s - bFt) * (s - cFt)) * getDistrictMultiplier();
-        let sqmt = sqft / 10.7639104;
+        let totalSqFt = Math.sqrt(s * (s - aFt) * (s - bFt) * (s - cFt));
 
-        const SHOTOK_SQFT = 435.6;
-        const KATHA_SQFT = 720.0;
-        const BIGHA_SQFT = 14400.0;
-        const ACRE_SQFT = 43560.0;
+        let totalSqmt = totalSqFt / 10.7639104;
+        let totalDecimal = totalSqFt / 435.6;
+        let totalOjutangsho = totalDecimal * 100;
+        let govtKatha = totalSqFt / 720;
+        let govtBigha = totalSqFt / 14400;
+        let totalAcre = totalSqFt / 43560;
+        let totalHectare = totalSqFt / 107639.1;
 
-        let tempSqft = sqft;
-        const bighas = Math.floor(tempSqft / BIGHA_SQFT);
-        let remAfterBigha = tempSqft % BIGHA_SQFT;
-        const kathas = Math.floor(remAfterBigha / KATHA_SQFT);
-        let remAfterKatha = remAfterBigha % KATHA_SQFT;
-        const shotoks = (remAfterKatha / SHOTOK_SQFT).toFixed(2);
+        // Section A Filling
+        document.getElementById('resSqft').innerText = Math.round(totalSqFt).toLocaleString('en-IN') + " Sq Ft";
+        document.getElementById('resSqmt').innerText = Math.round(totalSqmt).toLocaleString('en-IN') + " Sq M";
+        document.getElementById('resShotok').innerText = totalDecimal.toFixed(2) + " Shotok";
+        document.getElementById('resOjutangsho').innerText = Math.round(totalOjutangsho).toLocaleString('en-IN');
+        document.getElementById('resKatha').innerText = govtKatha.toFixed(4);
+        document.getElementById('resBigha').innerText = govtBigha.toFixed(4);
+        document.getElementById('resAcre').innerText = totalAcre.toFixed(4);
+        document.getElementById('resHectare').innerText = totalHectare.toFixed(4);
+
+        // Dhaka Standard Format Special Box
+        const bighas = Math.floor(totalSqFt / 14400);
+        let remBigha = totalSqFt % 14400;
+        const kathas = Math.floor(remBigha / 720);
+        let remKatha = remBigha % 720;
+        const shotoks = (remKatha / 435.6).toFixed(2);
 
         if (currentLang === 'en') {
             document.getElementById('bklText').innerText = bighas + " Bigha, " + kathas + " Katha, " + shotoks + " Shotok";
@@ -1071,14 +1060,145 @@
             document.getElementById('bklText').innerText = bighas + " বিঘা, " + kathas + " কাঠা, " + shotoks + " শতক";
         }
 
-        document.getElementById('resSqft').innerText = Math.round(sqft).toLocaleString('en-IN') + " Sq Ft";
-        document.getElementById('resSqmt').innerText = Math.round(sqmt).toLocaleString('en-IN') + " Sq M";
-        document.getElementById('resShotok').innerText = (sqft / SHOTOK_SQFT).toFixed(2) + " Shotok";
-        document.getElementById('resOjutangsho').innerText = Math.round(sqft / 4.356).toLocaleString('en-IN');
-        document.getElementById('resKatha').innerText = (sqft / KATHA_SQFT).toFixed(4);
-        document.getElementById('resBigha').innerText = (sqft / BIGHA_SQFT).toFixed(4);
-        document.getElementById('resAcre').innerText = (sqft / ACRE_SQFT).toFixed(4);
-        document.getElementById('resHectare').innerText = (sqft / 107639.104).toFixed(4);
+        // Section B District Specific Results
+        const sectionBGrid = document.getElementById('sectionBGrid');
+        const secBTitle = document.getElementById('secBTitle');
+        sectionBGrid.innerHTML = '';
+        let districtCardsHTML = '';
+        let secBTitleText = currentLang === 'en' ? `📍 Section B: Selected District Local Results` : `📍 Section B: নির্বাচিত জেলার স্থানীয় ফলাফল`;
+
+        switch(district) {
+            case 'dhaka':
+                secBTitleText += " (ঢাকা)";
+                let d_lKatha = totalSqFt / 720;
+                let d_pakhi = totalSqFt / 11434.5;
+                let d_lBigha = totalSqFt / 14400;
+                districtCardsHTML = `
+                    <div class="res-item"><span>ঢাকা স্থানীয় কাঠা (Local Katha)</span><b>${d_lKatha.toFixed(4)} Katha <span class="base-rate-label">1 Katha = 720 Sq Ft (1.65 Dec)</span></b></div>
+                    <div class="res-item"><span>ঢাকা গ্রামীণ পাখি (Rural Pakhi)</span><b>${d_pakhi.toFixed(4)} Pakhi <span class="base-rate-label">1 Pakhi = 26.25 Decimal</span></b></div>
+                    <div class="res-item"><span>স্থানীয় বিঘা (Local Bigha)</span><b>${d_lBigha.toFixed(4)} Bigha <span class="base-rate-label">1 Bigha = 33 Decimal</span></b></div>
+                `;
+                break;
+            case 'gazipur':
+                secBTitleText += " (গাজীপুর)";
+                let g_lKatha = totalSqFt / 762.3;
+                let g_pakhi = totalSqFt / 15246;
+                districtCardsHTML = `
+                    <div class="res-item"><span>গাজীপুর স্থানীয় কাঠা (Local Katha)</span><b>${g_lKatha.toFixed(4)} Katha <span class="base-rate-label">1 Katha = 1.75 Decimal</span></b></div>
+                    <div class="res-item"><span>গাজীপুর পাখি / বিঘা (Pakhi / Bigha)</span><b>${g_pakhi.toFixed(4)} Pakhi/Bigha <span class="base-rate-label">1 Pakhi/Bigha = 35 Decimal</span></b></div>
+                `;
+                break;
+            case 'narayanganj':
+                secBTitleText += " (নারায়ণগঞ্জ)";
+                let n_lKatha = totalSqFt / 720;
+                let n_lBigha = totalSqFt / 14400;
+                let n_kani = totalSqFt / 52272;
+                districtCardsHTML = `
+                    <div class="res-item"><span>নারায়ণগঞ্জ কাঠা (Local Katha)</span><b>${n_lKatha.toFixed(4)} Katha <span class="base-rate-label">1 Katha = 1.65 Decimal</span></b></div>
+                    <div class="res-item"><span>নারায়ণগঞ্জ বিঘা (Local Bigha)</span><b>${n_lBigha.toFixed(4)} Bigha <span class="base-rate-label">1 Bigha = 33 Decimal</span></b></div>
+                    <div class="res-item"><span>স্থানীয় কানি (Local Kani)</span><b>${n_kani.toFixed(4)} Kani <span class="base-rate-label">1 Kani = 120 Decimal</span></b></div>
+                `;
+                break;
+            case 'munshiganj':
+                secBTitleText += " (মুন্সীগঞ্জ)";
+                let m_lKatha = totalSqFt / 720;
+                let m_kani = totalSqFt / 52272;
+                let m_gonda = totalSqFt / 2613.6;
+                districtCardsHTML = `
+                    <div class="res-item"><span>মুন্সীগঞ্জ কাঠা (Local Katha)</span><b>${m_lKatha.toFixed(4)} Katha <span class="base-rate-label">1 Katha = 1.65 Decimal</span></b></div>
+                    <div class="res-item"><span>মুন্সীগঞ্জ কানি (Local Kani)</span><b>${m_kani.toFixed(4)} Kani <span class="base-rate-label">1 Kani = 120 Decimal</span></b></div>
+                    <div class="res-item"><span>স্থানীয় গণ্ডা (Local Gonda)</span><b>${m_gonda.toFixed(4)} Gonda <span class="base-rate-label">1 Gonda = 6 Decimal</span></b></div>
+                `;
+                break;
+            case 'narsingdi':
+                secBTitleText += " (নরসিংদী)";
+                let nr_lKatha = totalSqFt / 653.4;
+                let nr_pakhi = totalSqFt / 13068;
+                districtCardsHTML = `
+                    <div class="res-item"><span>নরসিংদী কাঠা (Local Katha)</span><b>${nr_lKatha.toFixed(4)} Katha <span class="base-rate-label">1 Katha = 1.50 Decimal</span></b></div>
+                    <div class="res-item"><span>নরসিংদী পাখি / বিঘা (Pakhi / Bigha)</span><b>${nr_pakhi.toFixed(4)} Pakhi/Bigha <span class="base-rate-label">1 Pakhi/Bigha = 30 Decimal</span></b></div>
+                `;
+                break;
+            case 'tangail':
+                secBTitleText += " (টাঙ্গাইল)";
+                let t_lKatha = totalSqFt / 653.4;
+                let t_pakhi = totalSqFt / 13068;
+                districtCardsHTML = `
+                    <div class="res-item"><span>টাঙ্গাইল কাঠা (Local Katha)</span><b>${t_lKatha.toFixed(4)} Katha <span class="base-rate-label">1 Katha = 1.50 Decimal</span></b></div>
+                    <div class="res-item"><span>টাঙ্গাইল পাখি (Tangail Pakhi)</span><b>${t_pakhi.toFixed(4)} Pakhi <span class="base-rate-label">1 Pakhi = 30 Decimal</span></b></div>
+                `;
+                break;
+            case 'manikganj':
+                secBTitleText += " (মানিকগঞ্জ)";
+                let mk_lKatha = totalSqFt / 571.725;
+                let mk_pakhi = totalSqFt / 11434.5;
+                districtCardsHTML = `
+                    <div class="res-item"><span>মানিকগঞ্জ কাঠা (Local Katha)</span><b>${mk_lKatha.toFixed(4)} Katha <span class="base-rate-label">1 Katha = 1.3125 Decimal</span></b></div>
+                    <div class="res-item"><span>মানিকগঞ্জ পাখি (Manikganj Pakhi)</span><b>${mk_pakhi.toFixed(4)} Pakhi <span class="base-rate-label">1 Pakhi = 26.25 Decimal</span></b></div>
+                `;
+                break;
+            case 'kishoreganj':
+                secBTitleText += " (কিশোরগঞ্জ)";
+                let k_lKatha = totalSqFt / 2178;
+                let k_pura = totalSqFt / 43560;
+                districtCardsHTML = `
+                    <div class="res-item"><span>কিশোরগঞ্জ কাঠা (Local Katha)</span><b>${k_lKatha.toFixed(4)} Katha <span class="base-rate-label">1 Katha = 5.00 Decimal</span></b></div>
+                    <div class="res-item"><span>কিশোরগঞ্জ পুরা (Local Pura)</span><b>${k_pura.toFixed(4)} Pura <span class="base-rate-label">1 Pura = 100 Decimal (1 Acre)</span></b></div>
+                `;
+                break;
+            case 'faridpur':
+                secBTitleText += " (ফরিদপুর)";
+                let f_lKatha = totalSqFt / 1132.56;
+                let f_bigha = totalSqFt / 22651.2;
+                districtCardsHTML = `
+                    <div class="res-item"><span>ফরিদপুর স্থানীয় কাঠা (Local Katha)</span><b>${f_lKatha.toFixed(4)} Katha <span class="base-rate-label">1 Katha = 2.60 Decimal</span></b></div>
+                    <div class="res-item"><span>ফরিদপুর বিঘা / পাখি (Local Bigha)</span><b>${f_bigha.toFixed(4)} Bigha <span class="base-rate-label">1 Bigha/Pakhi = 52 Decimal</span></b></div>
+                `;
+                break;
+            case 'gopalganj':
+                secBTitleText += " (গোপালগঞ্জ)";
+                let s_lKatha = totalSqFt / 1132.56;
+                let s_bigha = totalSqFt / 22651.2;
+                districtCardsHTML = `
+                    <div class="res-item"><span>গোপালগঞ্জ স্থানীয় কাঠা (Local Katha)</span><b>${s_lKatha.toFixed(4)} Katha <span class="base-rate-label">1 Katha = 2.60 Decimal</span></b></div>
+                    <div class="res-item"><span>গোপালগঞ্জ বিঘা / পাখি (Local Bigha)</span><b>${s_bigha.toFixed(4)} Bigha <span class="base-rate-label">1 Bigha/Pakhi = 52 Decimal</span></b></div>
+                `;
+                break;
+            case 'rajbari':
+                secBTitleText += " (রাজবাড়ী)";
+                let r_lKatha = totalSqFt / 1132.56;
+                let r_bigha = totalSqFt / 22651.2;
+                districtCardsHTML = `
+                    <div class="res-item"><span>রাজবাড়ী স্থানীয় কাঠা (Local Katha)</span><b>${r_lKatha.toFixed(4)} Katha <span class="base-rate-label">1 Katha = 2.60 Decimal</span></b></div>
+                    <div class="res-item"><span>রাজবাড়ী বিঘা / পাখি (Local Bigha)</span><b>${r_bigha.toFixed(4)} Bigha <span class="base-rate-label">1 Bigha/Pakhi = 52 Decimal</span></b></div>
+                `;
+                break;
+            case 'madaripur':
+                secBTitleText += " (মাদারীপুর)";
+                let md_lKatha = totalSqFt / 1132.56;
+                let md_bigha = totalSqFt / 22651.2;
+                let md_kani = totalSqFt / 52272;
+                districtCardsHTML = `
+                    <div class="res-item"><span>মাদারীপুর কাঠা (Local Katha)</span><b>${md_lKatha.toFixed(4)} Katha <span class="base-rate-label">1 Katha = 2.60 Decimal</span></b></div>
+                    <div class="res-item"><span>মাদারীপুর বিঘা (Local Bigha)</span><b>${md_bigha.toFixed(4)} Bigha <span class="base-rate-label">1 Bigha = 52 Decimal</span></b></div>
+                    <div class="res-item"><span>মাদারীপুর কানি (Local Kani)</span><b>${md_kani.toFixed(4)} Kani <span class="base-rate-label">1 Kani = 120 Decimal</span></b></div>
+                `;
+                break;
+            case 'shariatpur':
+                secBTitleText += " (শরীয়তপুর)";
+                let sh_lKatha = totalSqFt / 1132.56;
+                let sh_bigha = totalSqFt / 22651.2;
+                let sh_kani = totalSqFt / 52272;
+                districtCardsHTML = `
+                    <div class="res-item"><span>শরীয়তপুর কাঠা (Local Katha)</span><b>${sh_lKatha.toFixed(4)} Katha <span class="base-rate-label">1 Katha = 2.60 Decimal</span></b></div>
+                    <div class="res-item"><span>শরীয়তপুর বিঘা (Local Bigha)</span><b>${sh_bigha.toFixed(4)} Bigha <span class="base-rate-label">1 Bigha = 52 Decimal</span></b></div>
+                    <div class="res-item"><span>শরীয়তপুর কানি (Local Kani)</span><b>${sh_kani.toFixed(4)} Kani <span class="base-rate-label">1 Kani = 120 Decimal</span></b></div>
+                `;
+                break;
+        }
+
+        secBTitle.innerText = secBTitleText;
+        sectionBGrid.innerHTML = districtCardsHTML;
 
         let options = { day: 'numeric', month: 'long', year: 'numeric' };
         let today = new Date().toLocaleDateString('en-IN', options);
