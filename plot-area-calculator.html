@@ -113,7 +113,7 @@
             {
               "@type": "Question",
               "name": "१ वर्गमिटरमा कति वर्ग फिट हुन्छ?",
-              "acceptedAnswer": { "@type": "Answer", "text": "१ वर्गमिटर (Sq. Meter) बराबर १०.७६३९१०४ वर्ग फिट हुन्छ (sq_meter = sq_feet × 0.09290304)।" }
+              "acceptedAnswer": { "@type": "Answer", "text": "१ वर्गमिटर (Sq. Meter) बराबर १०.७६३९१०४ वर्ग फिट हुन्छ (वर्गमिटर = वर्ग फिट × ०.०९२९०३०४)।" }
             },
             {
               "@type": "Question",
@@ -189,7 +189,7 @@
         header p { color: #e0f2fe; margin: 0; font-size: 16px; }
 
         .lang-switch, .region-switch { display: flex; justify-content: center; gap: 10px; margin-bottom: 18px; flex-wrap: wrap; }
-        .l-btn, .r-btn { padding: 10px 25px; border-radius: 50px; border: 2px solid var(--bd-blue); background: white; cursor: pointer; font-weight: 700; transition: 0.3s; color: var(--bd-blue); font-size: 13px; }
+        .l-btn, .r-btn { padding: 10px 22px; border-radius: 50px; border: 2px solid var(--bd-blue); background: white; cursor: pointer; font-weight: 700; transition: 0.3s; color: var(--bd-blue); font-size: 13px; }
         .l-btn.active, .r-btn.active { background: var(--bd-blue); color: white; }
 
         /* Input Grid */
@@ -872,6 +872,7 @@
 
     const SQM_TO_SQFT = 10.7639104;
     const SQFT_TO_SQM = 0.09290304;
+    const HATH_TO_SQFT = 2.25; // 1 Hath = 1.5 ft => 1 Sq Hath = 1.5 * 1.5 = 2.25 Sq. Ft.
     const ROPANI_SQFT = 5476;
     const AANA_SQFT = 342.25;
     const PAISA_SQFT = 85.5625;
@@ -915,7 +916,7 @@
             q_en: "How many square feet are in 1 Square Meter?",
             q_ne: "१ वर्गमिटरमा कति वर्ग फिट हुन्छ?",
             a_en: "1 Sq. Meter equals 10.7639104 sq. ft. (sq_meter = sq_feet × 0.09290304).",
-            a_ne: "१ वर्गमिटर (Sq. Meter) बराबर १०.७६३९१०४ वर्ग फिट हुन्छ (sq_meter = sq_feet × 0.09290304)।"
+            a_ne: "१ वर्गमिटर (Sq. Meter) बराबर १०.७६३९१०४ वर्ग फिट हुन्छ (वर्गमिटर = वर्ग फिट × ०.०९२९०३०४)।"
         },
         {
             q_en: "How many square meters are in 1 Hectare and 1 Are?",
@@ -1162,6 +1163,7 @@
         document.getElementById('btnText').innerText = t.btnText;
         document.getElementById('btnReset').innerText = t.btnReset;
         document.getElementById('resHead').innerText = t.rh;
+        document.getElementById('fmtText').innerText = t.sf;
         document.getElementById('resLalpurjaNote').innerText = t.lalpurjaNote;
         
         document.getElementById('btnCopy').innerText = t.btnCopy;
@@ -1233,9 +1235,10 @@
         }
     }
 
-    function toFeet(val, unit) {
+    // Converts linear dimension (Feet, Meter, Hath) to Feet; area in Sq. Feet = toLinearFeet(length, unit) * toLinearFeet(width, unit)
+    function toLinearFeet(val, unit) {
         if (unit === 'mt') return val * SQM_TO_SQFT;
-        if (unit === 'hath') return val * 1.5;
+        if (unit === 'hath') return val * 1.5; // 1 Hath = 1.5 Feet (18 inches)
         return val;
     }
 
@@ -1250,31 +1253,59 @@
     function getHillyCompound(totalSqFt) {
         let rem = totalSqFt;
         const ropani = Math.floor(rem / ROPANI_SQFT);
-        rem = rem % ROPANI_SQFT;
+        rem = rem - (ropani * ROPANI_SQFT);
         const aana = Math.floor(rem / AANA_SQFT);
-        rem = rem % AANA_SQFT;
+        rem = rem - (aana * AANA_SQFT);
         const paisa = Math.floor(rem / PAISA_SQFT);
-        rem = rem % PAISA_SQFT;
-        const daam = (rem / DAAM_SQFT).toFixed(2);
+        rem = rem - (paisa * PAISA_SQFT);
+        // Handle floating-point edge case near 4.00 Daam
+        let daamNum = rem / DAAM_SQFT;
+        let finalPaisa = paisa;
+        let finalAana = aana;
+        let finalRopani = ropani;
+        if (daamNum >= 3.99995) {
+            daamNum = 0;
+            finalPaisa += 1;
+        }
+        if (finalPaisa >= 4) {
+            finalPaisa -= 4;
+            finalAana += 1;
+        }
+        if (finalAana >= 16) {
+            finalAana -= 16;
+            finalRopani += 1;
+        }
+        const daam = Math.max(0, daamNum).toFixed(2);
 
         if (currentLang === 'ne') {
-            return `${ropani} रोपनी, ${aana} आना, ${paisa} पैसा, ${daam} दाम`;
+            return `${finalRopani} रोपनी, ${finalAana} आना, ${finalPaisa} पैसा, ${daam} दाम`;
         }
-        return `${ropani} Ropani, ${aana} Aana, ${paisa} Paisa, ${daam} Daam`;
+        return `${finalRopani} Ropani, ${finalAana} Aana, ${finalPaisa} Paisa, ${daam} Daam`;
     }
 
     function getTeraiCompound(totalSqFt) {
         let rem = totalSqFt;
         const bigha = Math.floor(rem / BIGHA_SQFT);
-        rem = rem % BIGHA_SQFT;
+        rem = rem - (bigha * BIGHA_SQFT);
         const kattha = Math.floor(rem / KATTHA_SQFT);
-        rem = rem % KATTHA_SQFT;
-        const dhur = (rem / DHUR_SQFT).toFixed(2);
+        rem = rem - (kattha * KATTHA_SQFT);
+        let dhurNum = rem / DHUR_SQFT;
+        let finalKattha = kattha;
+        let finalBigha = bigha;
+        if (dhurNum >= 19.99995) {
+            dhurNum = 0;
+            finalKattha += 1;
+        }
+        if (finalKattha >= 20) {
+            finalKattha -= 20;
+            finalBigha += 1;
+        }
+        const dhur = Math.max(0, dhurNum).toFixed(2);
 
         if (currentLang === 'ne') {
-            return `${bigha} बिघा, ${kattha} कठ्ठा, ${dhur} धुर`;
+            return `${finalBigha} बिघा, ${finalKattha} कठ्ठा, ${dhur} धुर`;
         }
-        return `${bigha} Bigha, ${kattha} Kattha, ${dhur} Dhur`;
+        return `${finalBigha} Bigha, ${finalKattha} Kattha, ${dhur} Dhur`;
     }
 
     function buildHillyBlock(totalSqFt, includeCompoundBanner) {
@@ -1354,8 +1385,8 @@
             return;
         }
 
-        const lenFt = toFeet(length, unit);
-        const widFt = toFeet(width, unit);
+        const lenFt = toLinearFeet(length, unit);
+        const widFt = toLinearFeet(width, unit);
         const perimeterFt = 2 * (lenFt + widFt);
         const diagonalFt = Math.sqrt((lenFt * lenFt) + (widFt * widFt));
 
@@ -1413,8 +1444,8 @@
             return;
         }
 
-        const lenFt = toFeet(length, unit);
-        const widFt = toFeet(width, unit);
+        const lenFt = toLinearFeet(length, unit);
+        const widFt = toLinearFeet(width, unit);
         const totalSqFt = lenFt * widFt;
 
         const hillyComp = getHillyCompound(totalSqFt);
@@ -1501,8 +1532,8 @@
         list.innerHTML = '';
         history.forEach(item => {
             const dimText = `${formatUnitLabel(item.length, item.unit || 'ft')} × ${formatUnitLabel(item.width, item.unit || 'ft')}`;
-            const lenFt = toFeet(parseFloat(item.length) || 0, item.unit || 'ft');
-            const widFt = toFeet(parseFloat(item.width) || 0, item.unit || 'ft');
+            const lenFt = toLinearFeet(parseFloat(item.length) || 0, item.unit || 'ft');
+            const widFt = toLinearFeet(parseFloat(item.width) || 0, item.unit || 'ft');
             const totalSqFt = lenFt * widFt;
             const resText = totalSqFt > 0
                 ? ((item.region || currentRegion) === 'terai' ? getTeraiCompound(totalSqFt) : getHillyCompound(totalSqFt))
