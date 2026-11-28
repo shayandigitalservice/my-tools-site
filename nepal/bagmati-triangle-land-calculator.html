@@ -43,7 +43,7 @@
           "name": "Bagmati Triangle Land Calculator",
           "operatingSystem": "All",
           "applicationCategory": "UtilitiesApplication",
-          "browser": "Requires JavaScript. Enabled in all modern browsers.",
+          "browserRequirements": "Requires JavaScript. Enabled in all modern browsers.",
           "offers": { "@type": "Offer", "price": "0", "priceCurrency": "NPR" },
           "author": { "@type": "Organization", "name": "Shayan Smart Tools" }
         },
@@ -461,6 +461,28 @@
         .seo-content th { background: #e0f2fe; color: var(--bd-dark) !important; font-weight: bold; }
         .seo-content tr:nth-child(even) { background-color: #f8fafc; }
 
+        /* FAQ LIST STYLES */
+        .faq-card-item {
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-left: 4px solid var(--bd-blue);
+            border-radius: 12px;
+            padding: 16px 20px;
+            margin-bottom: 12px;
+        }
+        .faq-q-text {
+            font-weight: 800;
+            color: var(--bd-dark);
+            font-size: 15.5px;
+            margin-bottom: 6px;
+        }
+        .faq-a-text {
+            color: #475569;
+            font-size: 14.5px;
+            margin: 0;
+            line-height: 1.65;
+        }
+
         /* ULTRA PREMIUM DASHBOARD LINKS BUTTONS */
         .sst-dashboard-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px; margin: 40px 0; width: 100%; box-sizing: border-box; }
         .sst-dash-btn { 
@@ -559,16 +581,16 @@
             <div class="field" style="margin-bottom:0;">
                 <label id="lTriMethod">नाप विधि (Method)</label>
                 <select id="triMethodSelect" onchange="renderTriInputs()">
-                    <option value="sides" selected>३ भुजा (3 Sides / Heron)</option>
-                    <option value="bh">आधार र उचाइ (Base & Height)</option>
+                    <option value="sides" id="optSidesVal" selected>३ भुजा (3 Sides / Heron)</option>
+                    <option value="bh" id="optBHVal">आधार र उचाइ (Base & Height)</option>
                 </select>
             </div>
             <div class="field" style="margin-bottom:0;">
                 <label id="lUni">एकाइ (Unit)</label>
                 <select id="unitType" onchange="drawVisualizer()">
-                    <option value="ft">फिट (Feet)</option>
-                    <option value="mt">मिटर (Meter)</option>
-                    <option value="hath">हात (Hath)</option>
+                    <option value="ft" id="optUnitFt">फिट (Feet)</option>
+                    <option value="mt" id="optUnitMt">मिटर (Meter)</option>
+                    <option value="hath" id="optUnitHath">हात (Hath)</option>
                 </select>
             </div>
         </div>
@@ -591,11 +613,11 @@
         </div>
         <div class="vis-metrics">
             <div class="vis-metric-card">
-                <span id="lblPerimeter">कुल परिधि (Perimeter)</span>
+                <span id="lblPerimeter">कुल परिधि / नाप</span>
                 <b id="valPerimeter">--</b>
             </div>
             <div class="vis-metric-card">
-                <span id="lblTriType">नाप विधि / क्षेत्र (Method)</span>
+                <span id="lblTriType">गणना सूत्र</span>
                 <b id="valTriType">--</b>
             </div>
         </div>
@@ -603,10 +625,10 @@
 
     <div class="gov-links-title" id="lblGovTitle">नेपालको सरकारी भूमि पोर्टल</div>
     <div class="gov-links-grid">
-        <a href="https://molrm.gov.np/" target="_blank" class="gov-link-card">
+        <a href="https://molrm.gov.np/" target="_blank" rel="noopener" class="gov-link-card">
             <span id="govLink1">🌐 भूमि व्यवस्था मन्त्रालय (MOLRM)</span> <span>↗</span>
         </a>
-        <a href="https://dolma.gov.np/" target="_blank" class="gov-link-card">
+        <a href="https://dolma.gov.np/" target="_blank" rel="noopener" class="gov-link-card">
             <span id="govLink2">🏛️ भूमि व्यवस्थापन विभाग (DOLMA)</span> <span>↗</span>
         </a>
     </div>
@@ -673,7 +695,7 @@
         <div class="util-btns">
             <button class="u-btn c-btn" onclick="copyData()" id="btnCopy">📋 Copy Result</button>
             <button class="u-btn w-btn" onclick="shareWA()" id="btnWa">📲 Share on WhatsApp</button>
-            <button class="u-btn s-btn" onclick="copyShareLink()" id="btnShare">🔗 लिङ्क सेयर</button>
+            <button class="u-btn s-btn" onclick="copyShareLink()" id="btnShare">🔗 लिङ्क सेयर गर्नुहोस्</button>
             <button class="u-btn p-btn" onclick="printLandReport()" id="btnPrint">🖨️ Print / Save PDF</button>
         </div>
     </div>
@@ -722,9 +744,9 @@
         <section>
             <h2 id="sec2Head">Understanding Triangle Geometry & Nepal Land Metrics</h2>
             <p id="sec2Desc">नापलाई फिटमा बदलेर कुल वर्ग फिट (Total Sq. Feet) निकालेपछि तलका सूत्रअनुसार गणना गरिन्छ:</p>
-            <p><strong>१. पहाडी प्रणाली (Hilly - १६ र ४ को नियम):</strong> १ रोपनी = ५,४७६ वर्ग फिट, १ आना = ३४२.२५ वर्ग फिट, १ पैसा = ८५.५६२५ वर्ग फिट र १ दाम = २१.३९०६२५ वर्ग फिट हुन्छ।</p>
-            <p><strong>२. तराई प्रणाली (Terai - २० र २० को नियम):</strong> १ बिघा = ७२,९०० वर्ग फिट, १ कठ्ठा = ३,६४५ वर्ग फिट र १ धुर = १८२.२५ वर्ग फिट हुन्छ।</p>
-            <p><strong>३. सरकारी तथा मेट्रिक (Lalpurja):</strong> १ वर्गमिटर = १०.७६३९१०४ वर्ग फिट (वर्गमिटर = वर्ग फिट × ०.०९२९०३०४), १ हेक्टर = १०,००० वर्गमिटर, १ आर = १०० वर्गमिटर र १ एकर = ४३,५६० वर्ग फिट हुन्छ।</p>
+            <p id="sec2Formula1"><strong>१. पहाडी प्रणाली (Hilly - १६ र ४ को नियम):</strong> १ रोपनी = ५,४७६ वर्ग फिट, १ आना = ३४२.२५ वर्ग फिट, १ पैसा = ८५.५६२५ वर्ग फिट र १ दाम = २१.३९०६२५ वर्ग फिट हुन्छ।</p>
+            <p id="sec2Formula2"><strong>२. तराई प्रणाली (Terai - २० र २० को नियम):</strong> १ बिघा = ७२,९०० वर्ग फिट, १ कठ्ठा = ३,६४५ वर्ग फिट र १ धुर = १८२.२५ वर्ग फिट हुन्छ।</p>
+            <p id="sec2Formula3"><strong>३. सरकारी तथा मेट्रिक (Lalpurja):</strong> १ वर्गमिटर = १०.७६३९१०४ वर्ग फिट (वर्गमिटर = वर्ग फिट × ०.०९२९०३०४), १ हेक्टर = १०,००० वर्गमिटर, १ आर = १०० वर्गमिटर र १ एकर = ४३,५६० वर्ग फिट हुन्छ।</p>
         </section>
 
         <!-- QUICK CONVERSION REFERENCE TABLE -->
@@ -1028,6 +1050,8 @@
             thQ1: "Local / Custom Input Unit", thQ2: "Equivalent Square Feet", thQ3: "Equivalent Sq. Meter",
             lblDashTitle: "Related Tools & Internal Dashboards",
             toastLang: "🌐 Language changed to English!",
+            toastRegionHilly: "🏔️ Region set to Hilly / पहाडी (Ropani)!",
+            toastRegionTerai: "🌾 Region set to Terai / तराई (Bigha)!",
             toastReset: "🔄 Calculator Reset Successful!",
             toastCalc: "✨ Triangle Land Calculation Successful!",
             toastCopy: "📋 Result Copied to Clipboard!",
@@ -1106,6 +1130,8 @@
             thQ1: "स्थानीय / इनपुट एकाइ", thQ2: "बराबर वर्ग फिट (Sq. Ft.)", thQ3: "बराबर वर्गमिटर (Sq. M.)",
             lblDashTitle: "सम्बन्धित टूल्स र ड्याशबोर्ड",
             toastLang: "🌐 भाषा नेपालीमा परिवर्तन भयो!",
+            toastRegionHilly: "🏔️ क्षेत्र पहाडी / Hilly (Ropani) मा सेट भयो!",
+            toastRegionTerai: "🌾 क्षेत्र तराई / Terai (Bigha) मा सेट भयो!",
             toastReset: "🔄 क्यालकुलेटर सफलतापूर्वक रिसेट भयो!",
             toastCalc: "✨ त्रिभुजाकार जग्गाको गणना सफलतापूर्वक सम्पन्न भयो!",
             toastCopy: "📋 सबै नतिजा क्लिपबोर्डमा कपी भयो!",
@@ -1133,6 +1159,137 @@
             lalpurjaNote: "नेपाल सरकारको आधिकारिक लालपुर्जा (Lalpurja) को लागि वर्गमिटर (Sq. Meter) र हेक्टर मात्र आधिकारिक मानिन्छ।"
         }
     };
+
+    function renderFAQs() {
+        const faqList = document.getElementById('faqList');
+        if (!faqList) return;
+        faqList.innerHTML = faqsData.map((item, idx) => {
+            const q = currentLang === 'en' ? item.q_en : item.q_ne;
+            const a = currentLang === 'en' ? item.a_en : item.a_ne;
+            const prefix = currentLang === 'en' ? `Q${idx + 1}. ` : `प्रश्न ${idx + 1}. `;
+            const ansPrefix = currentLang === 'en' ? `Ans: ` : `उत्तर: `;
+            return `
+                <div class="faq-card-item">
+                    <div class="faq-q-text">${prefix}${q}</div>
+                    <p class="faq-a-text"><strong>${ansPrefix}</strong>${a}</p>
+                </div>
+            `;
+        }).join('');
+    }
+
+    function captureCurrentInputs() {
+        const method = document.getElementById('triMethodSelect').value;
+        if (method === 'bh') {
+            return {
+                base: document.getElementById('triBase') ? document.getElementById('triBase').value : '',
+                height: document.getElementById('triHeight') ? document.getElementById('triHeight').value : ''
+            };
+        }
+        return {
+            a: document.getElementById('triSideA') ? document.getElementById('triSideA').value : '',
+            b: document.getElementById('triSideB') ? document.getElementById('triSideB').value : '',
+            c: document.getElementById('triSideC') ? document.getElementById('triSideC').value : ''
+        };
+    }
+
+    function setLang(lang, silent = false) {
+        currentLang = (lang === 'en') ? 'en' : 'ne';
+        document.documentElement.lang = currentLang;
+
+        document.getElementById('enBtn').classList.toggle('active', currentLang === 'en');
+        document.getElementById('neBtn').classList.toggle('active', currentLang === 'ne');
+
+        const t = dict[currentLang];
+        document.title = t.mTitle;
+        document.getElementById('mTitle').innerText = t.mTitle;
+        document.getElementById('sTitle').innerText = t.sTitle;
+        document.getElementById('lTriMethod').innerText = t.lTriMethod;
+        document.getElementById('lUni').innerText = t.lUni;
+        document.getElementById('optSidesVal').innerText = t.optSides;
+        document.getElementById('optBHVal').innerText = t.optBH;
+        document.getElementById('optUnitFt').innerText = t.unitFt;
+        document.getElementById('optUnitMt').innerText = t.unitMt;
+        document.getElementById('optUnitHath').innerText = t.unitHath;
+
+        document.getElementById('fmtText').innerText = t.sf;
+        document.getElementById('btnText').innerText = t.btnText;
+        document.getElementById('btnReset').innerText = t.btnReset;
+        document.getElementById('resHead').innerText = t.rh;
+        document.getElementById('resLalpurjaNote').innerText = t.lalpurjaNote;
+
+        document.getElementById('btnCopy').innerText = t.btnCopy;
+        document.getElementById('btnWa').innerText = t.btnWa;
+        document.getElementById('btnShare').innerText = t.btnShare;
+        document.getElementById('btnPrint').innerText = t.btnPrint;
+        document.getElementById('lnkBack').innerText = t.lnkBack;
+
+        document.getElementById('seoTitle').innerText = t.seot;
+        document.getElementById('seoSubTitle').innerText = t.seos;
+        document.getElementById('hFaqHead').innerText = t.faqH;
+        document.getElementById('lblGovTitle').innerText = t.gTitle;
+        document.getElementById('govLink1').innerText = t.gl1;
+        document.getElementById('govLink2').innerText = t.gl2;
+        document.getElementById('visTitle').innerText = t.visTitle;
+        document.getElementById('lblPerimeter').innerText = t.lblPerimeter;
+        document.getElementById('lblTriType').innerText = t.lblTriType;
+        document.getElementById('histTitle').innerText = t.histTitle;
+        document.getElementById('btnClearHist').innerText = t.clearHist;
+
+        document.getElementById('tocHeading').innerText = t.tocHeading;
+        document.getElementById('toc1').innerText = t.toc1;
+        document.getElementById('toc2').innerText = t.toc2;
+        document.getElementById('toc3').innerText = t.toc3;
+        document.getElementById('toc4').innerText = t.toc4;
+        document.getElementById('toc5').innerText = t.toc5;
+        document.getElementById('toc6').innerText = t.toc6;
+        document.getElementById('toc7').innerText = t.toc7;
+
+        document.getElementById('guideHeading').innerText = t.guideHeading;
+        document.getElementById('st1Title').innerText = t.st1Title;
+        document.getElementById('st1Desc').innerText = t.st1Desc;
+        document.getElementById('st2Title').innerText = t.st2Title;
+        document.getElementById('st2Desc').innerText = t.st2Desc;
+        document.getElementById('st3Title').innerText = t.st3Title;
+        document.getElementById('st3Desc').innerText = t.st3Desc;
+        document.getElementById('st4Title').innerText = t.st4Title;
+        document.getElementById('st4Desc').innerText = t.st4Desc;
+
+        document.getElementById('tblQuickTitle').innerText = t.tblQuickTitle;
+        document.getElementById('tblQuickSub').innerText = t.tblQuickSub;
+        document.getElementById('thQ1').innerText = t.thQ1;
+        document.getElementById('thQ2').innerText = t.thQ2;
+        document.getElementById('thQ3').innerText = t.thQ3;
+        document.getElementById('lblDashTitle').innerText = t.lblDashTitle;
+
+        const savedVals = captureCurrentInputs();
+        renderTriInputs(savedVals);
+        renderFAQs();
+        renderHistory();
+
+        if (document.getElementById('resPanel').style.display === 'block') {
+            calculateBagmatiTriangle(true);
+        }
+
+        if (!silent) {
+            showToast(t.toastLang);
+        }
+    }
+
+    function setRegion(region, silent = false) {
+        currentRegion = (region === 'terai') ? 'terai' : 'hilly';
+
+        document.getElementById('hillyBtn').classList.toggle('active', currentRegion === 'hilly');
+        document.getElementById('teraiBtn').classList.toggle('active', currentRegion === 'terai');
+
+        if (document.getElementById('resPanel').style.display === 'block') {
+            calculateBagmatiTriangle(true);
+        }
+
+        if (!silent) {
+            const t = dict[currentLang];
+            showToast(currentRegion === 'terai' ? t.toastRegionTerai : t.toastRegionHilly);
+        }
+    }
 
     function renderTriInputs(presetVals = null) {
         const method = document.getElementById('triMethodSelect').value;
@@ -1332,7 +1489,6 @@
         const svg = document.getElementById('plotSvg');
         const valPerimeter = document.getElementById('valPerimeter');
         const valTriType = document.getElementById('valTriType');
-        const t = dict[currentLang];
 
         if (method === 'bh') {
             const baseRaw = parseFloat(document.getElementById('triBase') ? document.getElementById('triBase').value : 0) || 0;
@@ -1618,9 +1774,10 @@
         };
 
         setRegion(currentRegion, true);
-        setLang(currentLang);
+        setLang(currentLang, true);
         renderTriInputs(preset);
         drawVisualizer();
+        renderFAQs();
 
         const hasPreset = (document.getElementById('triMethodSelect').value === 'bh')
             ? (preset.base && preset.height)
